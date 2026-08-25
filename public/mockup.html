@@ -1,0 +1,553 @@
+<title>Najma</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ink:#0C1413; --card:#131F1D; --card2:#182823; --line:#24352F;
+    --text:#E8E4D8; --mut:#8FA39B; --gold:#C5A56A; --teal:#3E8A7E;
+    --amber:#D9A441; --green:#56B584; --wa:#1F2C25;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--ink)}
+  body{
+    background:var(--ink); color:var(--text);
+    font-family:"IBM Plex Sans",system-ui,sans-serif; font-size:15px; line-height:1.5;
+    display:flex; justify-content:center; padding:28px 12px 64px;
+  }
+  .phone{width:100%;max-width:430px;display:flex;flex-direction:column;gap:14px}
+
+  /* ---------- masthead ---------- */
+  .mast{padding:10px 4px 2px}
+  .mast .brand{
+    font-family:"Fraunces",Georgia,serif;font-weight:700;font-size:34px;line-height:1.05;
+    letter-spacing:-.01em;text-wrap:balance;
+  }
+  .mast .brand em{font-style:normal;color:var(--gold)}
+  .mast .sub{color:var(--mut);font-size:13px;margin-top:6px;max-width:38ch}
+  .stamps{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .chip{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.02em;
+    border:1px solid var(--line);border-radius:4px;padding:3px 7px;color:var(--mut);
+    background:var(--card);white-space:nowrap;
+  }
+  .chip b{color:var(--text);font-weight:500}
+  .chip.ok{border-color:#2C4A3C;color:var(--green)}
+  .chip.warn{border-color:#4A3B1E;color:var(--amber)}
+
+  /* ---------- cards ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold);margin-bottom:12px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .eyebrow .badge{
+    letter-spacing:.06em;border-radius:3px;padding:1px 6px;font-size:10px;
+  }
+  .badge.sample{background:#33270F;color:var(--amber);border:1px solid #4A3B1E}
+  .badge.fixed{background:#152A26;color:var(--teal);border:1px solid #24453E}
+
+  /* pulse grid */
+  .pulse{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .stat{background:var(--card);padding:14px 14px 12px}
+  .stat .v{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:27px;line-height:1.1;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .v small{font-size:15px;color:var(--mut);font-family:"IBM Plex Sans",sans-serif}
+  .stat .l{color:var(--mut);font-size:12px;margin-top:3px}
+  .stat.hero{grid-column:1/-1;background:var(--card2)}
+  .stat.hero .v{font-size:40px;color:var(--gold)}
+
+  /* split bar */
+  .split{margin-top:12px}
+  .split .bar{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--card2)}
+  .split .bar i{display:block;height:100%}
+  .split .lg{display:flex;justify-content:space-between;color:var(--mut);font-size:12px;margin-top:6px}
+  .split .lg b{color:var(--text);font-weight:500}
+
+  /* sparkline */
+  .spark{display:flex;align-items:flex-end;gap:5px;height:74px;margin-top:6px}
+  .spark .wk{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+  .spark .wk i{display:block;background:var(--teal);border-radius:2px 2px 0 0}
+  .spark .wk.hi i{background:var(--gold)}
+  .spark .wk.part i{background:none;border:1px dashed #3B584F;border-bottom:none}
+  .axis{display:flex;gap:5px;margin-top:5px}
+  .axis span{flex:1;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:9px;color:var(--mut)}
+  .note{color:var(--mut);font-size:12px;margin-top:8px}
+
+  /* areas */
+  .arow{display:flex;align-items:center;gap:10px;padding:6px 0}
+  .arow + .arow{border-top:1px solid var(--line)}
+  .arow .nm{flex:0 0 46%;font-size:13px}
+  .arow .tr{flex:1;height:7px;border-radius:4px;background:var(--card2);overflow:hidden}
+  .arow .tr i{display:block;height:100%;background:var(--teal)}
+  .arow .ct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--mut);min-width:44px;text-align:right}
+
+  /* meed dev cards */
+  .dev{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--card2)}
+  .dev + .dev{margin-top:10px}
+  .dev .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .dev .nm{font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:17px}
+  .dev .dvl{color:var(--mut);font-size:12px}
+  .dev .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .dev h4{
+    font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--mut);margin-bottom:5px;font-weight:500;
+  }
+  .dev .kv{font-size:12.5px;color:var(--text)}
+  .dev .kv b{font-variant-numeric:tabular-nums;font-weight:600}
+  .dev .kv .m{color:var(--mut)}
+  .dev .side{border-left:2px solid var(--teal);padding-left:9px}
+  .dev .side.dld{border-left-color:var(--gold)}
+  .dev .foot{margin-top:9px;font-size:11.5px;color:var(--mut)}
+  .dev .foot.na{color:#7C8F87;font-style:italic}
+  .prog{height:5px;border-radius:3px;background:var(--card);margin-top:7px;overflow:hidden}
+  .prog i{display:block;height:100%;background:var(--teal)}
+
+  /* rents (sample) */
+  .yrow{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:13px}
+  .yrow + .yrow{border-top:1px solid var(--line)}
+  .yrow .tr{flex:1;height:7px;border-radius:4px;background:var(--card2);overflow:hidden}
+  .yrow .tr i{display:block;height:100%;background:var(--amber);opacity:.65}
+  .yrow .nm{flex:0 0 48%}
+  .yrow .ct{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--amber)}
+  .sample-wash{position:relative}
+  .sample-wash::after{
+    content:"SAMPLE";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Mono",monospace;font-size:34px;letter-spacing:.35em;color:rgba(217,164,65,.09);
+    pointer-events:none;font-weight:500;
+  }
+
+  /* content angles */
+  .angle{border:1px solid var(--line);border-radius:8px;background:var(--card2);padding:13px}
+  .angle + .angle{margin-top:10px}
+  .angle .rank{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--gold);letter-spacing:.1em;
+  }
+  .angle h3{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:18px;line-height:1.25;
+    margin-top:4px;text-wrap:balance;
+  }
+  .angle .fig{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--mut);
+    border-left:2px solid var(--gold);padding-left:8px;margin-top:8px;line-height:1.6;
+  }
+  .angle .buyer{font-size:13px;margin-top:8px}
+  .angle .buyer b{color:var(--gold);font-weight:600}
+  .angle .not{font-size:12px;color:var(--mut);margin-top:6px}
+  .angle .not b{color:#C98A8A;font-weight:500}
+  .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .act{
+    font-size:12px;font-weight:500;border-radius:6px;padding:5px 10px;cursor:pointer;
+    border:1px solid #3B584F;color:var(--text);background:var(--card);
+  }
+  .act.pri{background:var(--gold);color:#141109;border-color:var(--gold)}
+
+  /* azimuth delivery */
+  .wa-frame{background:#0A100E;border:1px solid var(--line);border-radius:10px;padding:14px}
+  .wa-head{display:flex;align-items:center;gap:9px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .wa-av{
+    width:34px;height:34px;border-radius:50%;background:var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Fraunces",Georgia,serif;font-weight:700;color:#0A100E;font-size:16px;
+  }
+  .wa-head .who{font-weight:600;font-size:14px}
+  .wa-head .st{color:var(--mut);font-size:11px}
+  .wa-msg{
+    background:var(--wa);border-radius:2px 10px 10px 10px;padding:11px 12px;margin-top:12px;
+    font-size:13.5px;max-width:88%;
+  }
+  .wa-msg .t{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--mut);text-align:right;margin-top:6px}
+  .wa-msg p + p{margin-top:7px}
+  .wa-msg .hl{color:var(--gold);font-weight:600}
+  .wa-btns{display:flex;flex-direction:column;gap:6px;margin-top:8px;max-width:88%}
+  .wa-btn{
+    text-align:center;background:var(--wa);border:1px solid #2C4A3C;border-radius:8px;
+    padding:8px;color:var(--green);font-size:13px;font-weight:500;
+  }
+
+  /* flow + footer */
+  .flow{display:flex;align-items:center;gap:7px;justify-content:center;flex-wrap:wrap;padding:2px 0}
+  .flow .n{
+    font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.05em;
+    border:1px solid var(--line);border-radius:20px;padding:4px 11px;color:var(--mut);background:var(--card);
+  }
+  .flow .n.on{color:var(--gold);border-color:#4A3E28}
+  .flow .a{color:#3B584F;font-size:11px}
+  footer{padding:8px 6px 0;color:var(--mut);font-size:11px;line-height:1.7}
+  footer .mono{font-family:"IBM Plex Mono",monospace;font-size:10px}
+  footer b{color:var(--text);font-weight:500}
+  h2.sec{
+    font-family:"Fraunces",Georgia,serif;font-weight:600;font-size:15px;color:var(--mut);
+    text-align:center;letter-spacing:.02em;margin:6px 0 -4px;
+  }
+</style>
+
+<div class="phone">
+
+  <!-- ======================= masthead ======================= -->
+  <div class="mast">
+    <div class="brand">Najma <em>نجمة</em></div>
+    <div class="sub">The market pulse — Dubai property from the official register, read by its star. <em style="font-style:normal;color:var(--gold)">najma</em> · "star" — that which rises into view.</div>
+    <div class="stamps">
+      <span class="chip"><b>30 Jun – 25 Aug 2026</b></span>
+      <span class="chip">DLD captured <b>25 Aug</b></span>
+      <span class="chip">MEED snapshot <b>19 Aug</b></span>
+      <span class="chip">Ejari captured <b>24 Aug</b></span>
+      <span class="chip ok">7/7 sources passed gate</span>
+    </div>
+  </div>
+
+  <!-- ======================= the pulse ======================= -->
+  <div class="pulse">
+    <div class="stat hero">
+      <div class="v">AED 57.3<small> billion</small></div>
+      <div class="l">registered sales · 8 weeks · Dubai Land Department (DLD)</div>
+    </div>
+    <div class="stat">
+      <div class="v">24,049</div>
+      <div class="l">sales registered</div>
+    </div>
+    <div class="stat">
+      <div class="v">1,687<small> /sq ft</small></div>
+      <div class="l">median residential (AED)</div>
+    </div>
+    <div class="stat">
+      <div class="v">1.15<small>m</small></div>
+      <div class="l">median ticket (AED)</div>
+    </div>
+    <div class="stat">
+      <div class="v">69<small>%</small></div>
+      <div class="l">of sales are off-plan</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Off-plan vs ready</div>
+    <div class="split">
+      <div class="bar">
+        <i style="width:69%;background:var(--gold)"></i>
+        <i style="width:31%;background:var(--teal)"></i>
+      </div>
+      <div class="lg"><span><b>16,669</b> off-plan</span><span><b>7,380</b> ready</span></div>
+    </div>
+    <div class="note">7 in 10 Dubai sales settle before the building exists — the single most Dubai-specific number in the register.</div>
+  </div>
+
+  <!-- ======================= weekly trend ======================= -->
+  <div class="card">
+    <div class="eyebrow">Sales by week</div>
+    <div class="spark">
+      <div class="wk"><i style="height:57%"></i></div>
+      <div class="wk"><i style="height:80%"></i></div>
+      <div class="wk"><i style="height:92%"></i></div>
+      <div class="wk"><i style="height:87%"></i></div>
+      <div class="wk hi"><i style="height:100%"></i></div>
+      <div class="wk"><i style="height:85%"></i></div>
+      <div class="wk"><i style="height:82%"></i></div>
+      <div class="wk"><i style="height:90%"></i></div>
+      <div class="wk part"><i style="height:16%"></i></div>
+    </div>
+    <div class="axis"><span>W27</span><span>W28</span><span>W29</span><span>W30</span><span>W31</span><span>W32</span><span>W33</span><span>W34</span><span>W35*</span></div>
+    <div class="note">Peak: 3,500 sales in week 31 (AED 7.8bn). *W35 is a part-week — registration lags the deal, so the newest bar is always low.</div>
+  </div>
+
+  <!-- ======================= year so far ======================= -->
+  <div class="card">
+    <div class="eyebrow">The year so far — sales value by month</div>
+    <div class="spark">
+      <div class="wk hi"><i style="height:100%"></i></div>
+      <div class="wk"><i style="height:84%"></i></div>
+      <div class="wk"><i style="height:60%"></i></div>
+      <div class="wk"><i style="height:67%"></i></div>
+      <div class="wk"><i style="height:40%"></i></div>
+      <div class="wk"><i style="height:46%"></i></div>
+      <div class="wk"><i style="height:48%"></i></div>
+      <div class="wk part"><i style="height:31%"></i></div>
+    </div>
+    <div class="axis"><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug*</span></div>
+    <div class="note">2026 to date: <b style="color:var(--text)">AED 344bn</b> across 110,292 sales. January peaked at AED 72bn; May was the year's quietest month — the shape of the year is itself an episode.</div>
+  </div>
+
+  <!-- ======================= where ======================= -->
+  <div class="card">
+    <div class="eyebrow">Where the market is trading</div>
+    <div class="arow"><span class="nm">Madinat Al Mataar</span><span class="tr"><i style="width:100%"></i></span><span class="ct">3,948</span></div>
+    <div class="arow"><span class="nm">Jumeirah Village Circle</span><span class="tr"><i style="width:40%"></i></span><span class="ct">1,568</span></div>
+    <div class="arow"><span class="nm">City of Arabia</span><span class="tr"><i style="width:35%"></i></span><span class="ct">1,382</span></div>
+    <div class="arow"><span class="nm">Jabal Ali Industrial 2nd</span><span class="tr"><i style="width:25%"></i></span><span class="ct">996</span></div>
+    <div class="arow"><span class="nm">Downtown Jabal Ali</span><span class="tr"><i style="width:23%"></i></span><span class="ct">889</span></div>
+    <div class="arow"><span class="nm">Business Bay</span><span class="tr"><i style="width:20%"></i></span><span class="ct">773</span></div>
+  </div>
+
+  <!-- ======================= meed context ======================= -->
+  <h2 class="sec">Demand meets delivery</h2>
+  <div class="card">
+    <div class="eyebrow">Project context <span class="badge fixed">FIXED SNAPSHOT</span></div>
+    <div class="note" style="margin:0 0 12px">
+      The five developments Naj covers, from the MEED Projects register (26,119-project corpus,
+      served by Digital Abbot Cloud). The project data is a fixed reference layer — the DLD demand
+      pulse refreshes against it each week.
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">EYWA</span><span class="dvl">R.Evolution · Business Bay</span></div>
+      <div class="grid">
+        <div class="side dld">
+          <h4>Demand — DLD, 8 wks</h4>
+          <div class="kv"><b>784</b> sales · <b>AED 2.8bn</b></div>
+          <div class="kv"><b>2,094</b>/sq ft <span class="m">vs 1,687 citywide</span></div>
+          <div class="kv"><b>36%</b> off-plan <span class="m">— a ready market</span></div>
+        </div>
+        <div class="side">
+          <h4>Delivery — MEED</h4>
+          <div class="kv"><b>83%</b> built · $64m</div>
+          <div class="kv">handover <b>30 Dec 2026</b></div>
+          <div class="prog"><i style="width:83%"></i></div>
+        </div>
+      </div>
+      <div class="foot">Business Bay trades 24% above the citywide median — and EYWA hands over into that market in four months.</div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">Treppan Living</span><span class="dvl">Fakhruddin · Dubai Islands + JVT</span></div>
+      <div class="grid">
+        <div class="side dld">
+          <h4>Demand — DLD, 8 wks</h4>
+          <div class="kv"><b>593</b> sales · <b>AED 1.6bn</b></div>
+          <div class="kv"><b>2,054</b>/sq ft · <b>84%</b> off-plan</div>
+        </div>
+        <div class="side">
+          <h4>Delivery — MEED</h4>
+          <div class="kv"><b>3</b> projects · $67m</div>
+          <div class="kv">first handover <b>May 2028</b></div>
+          <div class="prog"><i style="width:17%"></i></div>
+        </div>
+      </div>
+      <div class="foot">An 84% off-plan market buying three years ahead of handover — the opposite dynamic to Business Bay.</div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">Ghaf Woods</span><span class="dvl">Majid Al Futtaim · Dubailand</span></div>
+      <div class="grid">
+        <div class="side dld">
+          <h4>Demand — DLD</h4>
+          <div class="kv"><span class="m">area mapping unconfirmed —<br>unmapped rather than guessed</span></div>
+        </div>
+        <div class="side">
+          <h4>Delivery — MEED</h4>
+          <div class="kv"><b>9</b> active · <b>$2.5bn</b> pipeline</div>
+          <div class="kv">next handover <b>Sep 2027</b></div>
+          <div class="prog"><i style="width:48%"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">Masaar</span><span class="dvl">ARADA · Sharjah</span></div>
+      <div class="grid">
+        <div class="side dld">
+          <h4>Demand — DLD</h4>
+          <div class="kv"><span class="m">Sharjah — outside the Dubai register</span></div>
+        </div>
+        <div class="side">
+          <h4>Delivery — MEED</h4>
+          <div class="kv"><b>13</b> active · <b>$7.1bn</b> pipeline</div>
+          <div class="kv">next handover <b>Oct 2026</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">SHA Residences</span><span class="dvl">Imkan · Al Jurf, Abu Dhabi</span></div>
+      <div class="grid">
+        <div class="side dld">
+          <h4>Demand — DLD</h4>
+          <div class="kv"><span class="m">Abu Dhabi — outside the Dubai register</span></div>
+        </div>
+        <div class="side">
+          <h4>Delivery — MEED</h4>
+          <div class="kv"><b>74%</b> built · $80m</div>
+          <div class="kv">handover <b>Mar 2027</b></div>
+          <div class="prog"><i style="width:74%"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:12px">
+      Project values are MEED estimates in US$; progress is editorial, not measured.
+    </div>
+  </div>
+
+  <!-- ======================= handover radar ======================= -->
+  <div class="card">
+    <div class="eyebrow">Handover radar — what's landing, when</div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">This quarter — Q3 2026</span></div>
+      <div class="foot na">Nothing hands over in the tracked developments this quarter. The register is quiet — the story is what's coming.</div>
+    </div>
+
+    <div class="dev" style="border-color:#4A3E28">
+      <div class="hd"><span class="nm" style="color:var(--gold)">Q4 2026 — the crunch</span><span class="dvl">6 packages · $591m</span></div>
+      <div class="grid">
+        <div class="side">
+          <h4>October – November</h4>
+          <div class="kv">Masaar Ph 4 <b>Azalea</b> — 3 pkgs, $334m, 90%</div>
+          <div class="kv">Masaar Ph 5 <b>Sequoia</b> — $177m, 85%</div>
+        </div>
+        <div class="side dld">
+          <h4>30 December</h4>
+          <div class="kv"><b>EYWA</b> hands over — 83% built</div>
+          <div class="kv"><span class="m">into a Business Bay trading at 2,094/sq ft</span></div>
+        </div>
+      </div>
+      <div class="foot">Four months of consecutive handovers across two developments Naj covers — a standing content calendar.</div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">2027</span><span class="dvl">4 pkgs · $468m</span></div>
+      <div class="kv" style="margin-top:8px">Q1: <b>SHA Residences</b> ($80m, 74%) · Q3–Q4: <b>Ghaf Woods</b> Serra, Cilia, Lacina ($388m)</div>
+    </div>
+
+    <div class="dev">
+      <div class="hd"><span class="nm">DLD registered pipeline</span><span class="dvl">50 projects · 15,361 units</span></div>
+      <div class="kv" style="margin-top:8px">Earliest completion <b>Q3 2027</b> · biggest wave <b>Q4 2030</b> (4,501 units)</div>
+      <div class="foot">Everything registering now completes 2027+ — today's off-plan boom is 2028's handover supply.</div>
+    </div>
+
+    <div class="note" style="margin-top:12px">MEED dates are declared programmes, not audited; DLD horizon is the developer's registered END_DATE.</div>
+  </div>
+
+  <!-- ======================= why it moved ======================= -->
+  <h2 class="sec">Why it moved</h2>
+  <div class="card">
+    <div class="eyebrow">Context ledger <span class="badge fixed">COINCIDED, NEVER CAUSED</span></div>
+    <div class="note" style="margin:0 0 12px">
+      Every rise or dip gets checked down a ladder before a word is said on camera:
+      data artifact → one-off mega-deal → mix change → season → policy → rates → world.
+      Dated events overlay the trend; Najma says <i>"coincided with"</i> — never <i>"because of."</i>
+    </div>
+
+    <div class="angle">
+      <div class="rank">W31 PEAK · 3,500 SALES</div>
+      <div class="buyer" style="margin-top:2px">Checked: no single deal above AED 675m; volume spread across 3 areas. <b>Coincided with:</b> two Dubai South launch registrations. That's a launch spike, not a market re-rating — and saying so is the credibility play.</div>
+    </div>
+    <div class="angle">
+      <div class="rank">STANDING CONTEXT · AED PEG</div>
+      <div class="buyer" style="margin-top:2px">The dirham is pegged to the dollar — <b>US rate decisions are Dubai mortgage news.</b> Every pulse carries the current rate backdrop as one line.</div>
+    </div>
+    <div class="angle">
+      <div class="rank">HANDLED WITH CARE · REGION</div>
+      <div class="buyer" style="margin-top:2px">Regional tension has historically moved capital <b>into</b> Dubai as often as out — safe-haven flows. Conflict is context for moves in <i>either</i> direction, never a one-way explanation.</div>
+    </div>
+  </div>
+
+  <!-- ======================= rents (real Ejari) ======================= -->
+  <div class="card">
+    <div class="eyebrow">Rents &amp; gross yields <span class="badge fixed">4,650 CONTRACTS · 24 AUG</span></div>
+    <div class="pulse" style="margin-bottom:12px">
+      <div class="stat">
+        <div class="v">70.6<small>k</small></div>
+        <div class="l">median annual rent (AED)</div>
+      </div>
+      <div class="stat">
+        <div class="v">81<small> /sq ft/yr</small></div>
+        <div class="l">median residential (AED)</div>
+      </div>
+    </div>
+    <div class="yrow"><span class="nm">Burj Khalifa</span><span class="tr"><i style="width:100%;background:var(--teal);opacity:1"></i></span><span class="ct" style="color:var(--text)">5.6%</span></div>
+    <div class="yrow"><span class="nm">Al Hebiah Fifth</span><span class="tr"><i style="width:98%;background:var(--teal);opacity:1"></i></span><span class="ct" style="color:var(--text)">5.5%</span></div>
+    <div class="yrow"><span class="nm">Hadaeq Mohammed Bin Rashid</span><span class="tr"><i style="width:91%;background:var(--teal);opacity:1"></i></span><span class="ct" style="color:var(--text)">5.1%</span></div>
+    <div class="yrow"><span class="nm">Business Bay</span><span class="tr"><i style="width:89%;background:var(--teal);opacity:1"></i></span><span class="ct" style="color:var(--text)">5.0%</span></div>
+    <div class="yrow"><span class="nm">Jabal Ali First</span><span class="tr"><i style="width:84%;background:var(--teal);opacity:1"></i></span><span class="ct" style="color:var(--text)">4.7%</span></div>
+    <div class="note">Gross yield = registered rent per sq ft over registered sale price per sq ft, same area, minimum 30 contracts each side. Registered contracts, not asking rates. New leases 2,467 · renewals 2,183 — renewals carry the rent cap, so the split is itself a story.</div>
+  </div>
+
+  <!-- ======================= content engine ======================= -->
+  <h2 class="sec">From figures to content</h2>
+  <div class="card">
+    <div class="eyebrow">This month's angles — sourced &amp; camera-ready</div>
+
+    <div class="angle">
+      <div class="rank">ANGLE 01 · STRONGEST</div>
+      <h3>"Dubai registered AED 57 billion in sales in eight weeks — 7 in 10 before the building exists."</h3>
+      <div class="fig">24,049 sales · AED 57.3bn · 69% off-plan<br>DLD Open Data, 30 Jun–25 Aug 2026</div>
+      <div class="buyer"><b>For a buyer:</b> these are settled registrations, not asking prices — the market as it actually closed, not as it was listed.</div>
+      <div class="not"><b>Don't claim:</b> "this week's market" — registration lags the deal. Say "the last eight weeks."</div>
+      <div class="acts">
+        <span class="act pri">→ Podcast episode</span>
+        <span class="act">→ LinkedIn post</span>
+        <span class="act">→ Instagram reel</span>
+      </div>
+    </div>
+
+    <div class="angle">
+      <div class="rank">ANGLE 02</div>
+      <h3>"Business Bay is trading 24% above the citywide median — and a wellness tower hands over into it in four months."</h3>
+      <div class="fig">Business Bay: 784 sales · AED 2,094/sq ft vs 1,687 citywide (DLD)<br>EYWA: 83% complete, handover 30 Dec 2026 (MEED Projects)</div>
+      <div class="buyer"><b>For a buyer:</b> only 36% of Business Bay sales are off-plan — it's a ready market, priced on what's standing, not what's promised.</div>
+      <div class="not"><b>Don't claim:</b> EYWA's own pricing — that's the developer's number, not the register's.</div>
+      <div class="acts">
+        <span class="act pri">→ Podcast episode</span>
+        <span class="act">→ LinkedIn post</span>
+      </div>
+    </div>
+
+    <div class="angle">
+      <div class="rank">ANGLE 03</div>
+      <h3>"One area did 3,948 sales in eight weeks — and it isn't Downtown or the Marina."</h3>
+      <div class="fig">Madinat Al Mataar (Dubai South): 3,948 sales — 2.5× the next area<br>DLD Open Data, 30 Jun–25 Aug 2026</div>
+      <div class="buyer"><b>For a buyer:</b> volume follows supply pipelines, not brand names — where developers launch is where the register fills up.</div>
+      <div class="not"><b>Don't claim:</b> volume = price growth. Count and price are different stories.</div>
+      <div class="acts">
+        <span class="act pri">→ Podcast episode</span>
+        <span class="act">→ Instagram reel</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================= delivery via azimuth ======================= -->
+  <h2 class="sec">How it reaches Naj</h2>
+  <div class="wa-frame">
+    <div class="wa-head">
+      <div class="wa-av">A</div>
+      <div>
+        <div class="who">Azimuth</div>
+        <div class="st">personal assistant · online</div>
+      </div>
+    </div>
+    <div class="wa-msg">
+      <p>🕐 <b>Najma weekly — week 34 is in.</b></p>
+      <p>Dubai registered <span class="hl">AED 7.2bn</span> across 3,138 sales last week. 69% off-plan. Median AED 1,687/sq ft. Yesterday's Ejari file: 4,650 new rental contracts.</p>
+      <p>Business Bay is running <span class="hl">24% above</span> the citywide median — your EYWA angle is ready, with the MEED handover date attached.</p>
+      <p>3 sourced angles are drafted. Which one first?</p>
+      <div class="t">09:00 ✓✓</div>
+    </div>
+    <div class="wa-btns">
+      <div class="wa-btn">📊 Open the dashboard</div>
+      <div class="wa-btn">🎙 Draft podcast script — Angle 01</div>
+      <div class="wa-btn">✍️ Draft LinkedIn post — Angle 02</div>
+    </div>
+  </div>
+
+  <!-- ======================= the loop ======================= -->
+  <div class="flow">
+    <span class="n">DLD register</span><span class="a">→</span>
+    <span class="n">sanity gate</span><span class="a">→</span>
+    <span class="n on">pulse</span><span class="a">→</span>
+    <span class="n">Azimuth update</span><span class="a">→</span>
+    <span class="n on">podcast · social</span>
+  </div>
+
+  <footer>
+    <b>Source: Dubai Land Department (DLD) Open Data. Contains information from the Government of Dubai.</b><br>
+    Project data licensed from MEED Projects (GlobalData), served via Digital Abbot Cloud —
+    corpus v55, 26,119 projects, snapshot 19 Aug 2026.<br>
+    Every source passes a fail-closed sanity gate before a figure is shown; a failing source is
+    quarantined, never averaged in. No individual is ever named from any register.<br>
+    <span class="mono">NAJMA · MARKET PULSE · POWERED BY DIGITALABBOT · DIGITALCHEMY TECH LIMITED</span>
+  </footer>
+
+</div>

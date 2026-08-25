@@ -1,0 +1,672 @@
+{
+ "generatedAt": "2026-08-25T11:48:43+00:00",
+ "dataCaptured": "2026-08-25",
+ "attribution": "Source: Dubai Land Department (DLD) Open Data. Contains information from the Government of Dubai.",
+ "transactions": {
+  "totalRows": 32855,
+  "groups": {
+   "Mortgage": 7530,
+   "Sales": 24049,
+   "Gifts": 1276
+  },
+  "periodFrom": "2026-06-30",
+  "periodTo": "2026-08-25",
+  "salesCount": 24049,
+  "salesValueAedBn": 57.3,
+  "medianTicketAed": 1151232,
+  "offPlanSplit": {
+   "Off-Plan": 16669,
+   "Ready": 7380
+  },
+  "usageSplit": {
+   "Residential": 23603,
+   "Commercial": 446
+  },
+  "medianResidentialAedSqft": 1687,
+  "topAreas": [
+   {
+    "area": "Madinat Al Mataar",
+    "sales": 3948
+   },
+   {
+    "area": "JUMEIRAH VILLAGE CIRCLE",
+    "sales": 1568
+   },
+   {
+    "area": "CITY OF ARABIA",
+    "sales": 1382
+   },
+   {
+    "area": "Jabal Ali Industrial Second",
+    "sales": 996
+   },
+   {
+    "area": "DOWN TOWN JABAL ALI",
+    "sales": 889
+   },
+   {
+    "area": "BUSINESS BAY",
+    "sales": 773
+   },
+   {
+    "area": "DUBAI LAND RESIDENCE COMPLEX",
+    "sales": 691
+   },
+   {
+    "area": "Al Hebiah Fifth",
+    "sales": 552
+   },
+   {
+    "area": "MAJAN",
+    "sales": 472
+   },
+   {
+    "area": "ARJAN",
+    "sales": 458
+   }
+  ],
+  "weekly": [
+   {
+    "week": "2026-W27",
+    "sales": 1995,
+    "valueAedBn": 6.14
+   },
+   {
+    "week": "2026-W28",
+    "sales": 2785,
+    "valueAedBn": 8.53
+   },
+   {
+    "week": "2026-W29",
+    "sales": 3205,
+    "valueAedBn": 6.58
+   },
+   {
+    "week": "2026-W30",
+    "sales": 3038,
+    "valueAedBn": 6.68
+   },
+   {
+    "week": "2026-W31",
+    "sales": 3500,
+    "valueAedBn": 7.84
+   },
+   {
+    "week": "2026-W32",
+    "sales": 2965,
+    "valueAedBn": 6.61
+   },
+   {
+    "week": "2026-W33",
+    "sales": 2864,
+    "valueAedBn": 6.17
+   },
+   {
+    "week": "2026-W34",
+    "sales": 3138,
+    "valueAedBn": 7.2
+   },
+   {
+    "week": "2026-W35",
+    "sales": 559,
+    "valueAedBn": 1.56
+   }
+  ]
+ },
+ "valuations": {
+  "count": 761,
+  "medianValueAed": 7935470,
+  "byType": {
+   "Land": 579,
+   "Unit": 150,
+   "Building": 32
+  }
+ },
+ "projects": {
+  "count": 50,
+  "activeCount": 50,
+  "unitsInPipeline": 15361,
+  "byStatus": {
+   "ACTIVE": 32,
+   "PENDING": 18
+  },
+  "topDevelopers": [
+   {
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "projects": 4
+   },
+   {
+    "developer": "Binghatti Developers FZE",
+    "projects": 4
+   },
+   {
+    "developer": "ISLAND OASIS PROPERTIES",
+    "projects": 3
+   },
+   {
+    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
+    "projects": 3
+   },
+   {
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE PERSON COMPANY L.L.C",
+    "projects": 2
+   }
+  ]
+ },
+ "brokers": {
+  "licensedBrokers": 43196,
+  "byGender": {
+   "male": 28599,
+   "\u0623\u0646\u062b\u0649": 14597
+  },
+  "brokerages": 13490
+ },
+ "rents": {
+  "registrationFrom": "2026-08-24",
+  "registrationTo": "2026-08-24",
+  "contractsCount": 4650,
+  "versionSplit": {
+   "New": 2467,
+   "Renewed": 2183
+  },
+  "residentialSingles": 3126,
+  "medianAnnualRentAed": 70559,
+  "medianRentAedSqftYr": 81.4,
+  "grossYieldPctByArea": [
+   {
+    "area": "Burj Khalifa",
+    "yieldPct": 5.6,
+    "rentSamples": 209,
+    "saleSamples": 330
+   },
+   {
+    "area": "Al Hebiah Fifth",
+    "yieldPct": 5.5,
+    "rentSamples": 32,
+    "saleSamples": 552
+   },
+   {
+    "area": "Hadaeq Sheikh Mohammed Bin Rashid",
+    "yieldPct": 5.1,
+    "rentSamples": 50,
+    "saleSamples": 95
+   },
+   {
+    "area": "Business Bay",
+    "yieldPct": 5.0,
+    "rentSamples": 126,
+    "saleSamples": 780
+   },
+   {
+    "area": "Jabal Ali First",
+    "yieldPct": 4.7,
+    "rentSamples": 118,
+    "saleSamples": 399
+   },
+   {
+    "area": "Madinat Al Mataar",
+    "yieldPct": 4.7,
+    "rentSamples": 45,
+    "saleSamples": 3948
+   },
+   {
+    "area": "Wadi Al Safa 5",
+    "yieldPct": 4.6,
+    "rentSamples": 58,
+    "saleSamples": 137
+   },
+   {
+    "area": "Al Khairan First",
+    "yieldPct": 4.3,
+    "rentSamples": 133,
+    "saleSamples": 121
+   }
+  ],
+  "excludedYields": [],
+  "yieldNote": "Gross yield = median registered rent per sq ft over median sale price per sq ft, same area, both sides >= 30 contracts. Registered contracts, not asking rates."
+ },
+ "monthly": {
+  "ytdSales": 110292,
+  "ytdValueAedBn": 344.1,
+  "series": [
+   {
+    "month": "2026-01",
+    "sales": 17413,
+    "valueAedBn": 72.2
+   },
+   {
+    "month": "2026-02",
+    "sales": 17026,
+    "valueAedBn": 60.8
+   },
+   {
+    "month": "2026-03",
+    "sales": 13511,
+    "valueAedBn": 43.6
+   },
+   {
+    "month": "2026-04",
+    "sales": 14021,
+    "valueAedBn": 48.1
+   },
+   {
+    "month": "2026-05",
+    "sales": 10273,
+    "valueAedBn": 28.9
+   },
+   {
+    "month": "2026-06",
+    "sales": 13932,
+    "valueAedBn": 33.2
+   },
+   {
+    "month": "2026-07",
+    "sales": 14144,
+    "valueAedBn": 34.9
+   },
+   {
+    "month": "2026-08",
+    "sales": 9972,
+    "valueAedBn": 22.3
+   }
+  ],
+  "note": "Current month is partial; the register also back-fills prior days."
+ },
+ "meed": {
+  "static": true,
+  "note": "MEED context is a fixed snapshot mapped against the refreshed DLD pulse \u2014 it is not updated with it.",
+  "snapshotAsAt": "2026-08-19",
+  "corpus": {
+   "projects": 26119,
+   "version": 55,
+   "lastSyncAt": "2026-08-25T11:00:02.427Z",
+   "archived": 20056,
+   "live": false,
+   "servedBy": "Digital Abbot Cloud (DigitAlchemy stored MEED corpus)"
+  },
+  "valueDisclaimer": "Project values are MEED estimates in US$; progress is editorial, not measured.",
+  "attribution": "Project data licensed from MEED Projects (GlobalData), served via Digital Abbot Cloud.",
+  "developments": [
+   {
+    "development": "EYWA",
+    "developer": "R.Evolution",
+    "location": "Business Bay, Dubai",
+    "projects": 1,
+    "activeProjects": 1,
+    "pipelineValueUsdM": 64,
+    "stages": {
+     "construction": 1
+    },
+    "nextCompletion": "2026-12-30",
+    "dldPulse": {
+     "salesCount": 784,
+     "salesValueAedM": 2815,
+     "medianTicketAed": 1691813,
+     "medianResidentialAedSqft": 2094,
+     "offPlanPct": 36
+    },
+    "mapNote": "Business Bay / Dubai Water Canal \u2014 confirmed"
+   },
+   {
+    "development": "SHA Residences",
+    "developer": "Imkan",
+    "location": "AlJurf, Dubai\u2013Abu Dhabi coast",
+    "projects": 1,
+    "activeProjects": 1,
+    "pipelineValueUsdM": 80,
+    "stages": {
+     "construction": 1
+    },
+    "nextCompletion": "2027-03-20",
+    "dldPulse": null,
+    "mapNote": "Al Jurf, Abu Dhabi \u2014 outside DLD coverage"
+   },
+   {
+    "development": "Treppan Living",
+    "developer": "Fakhruddin Properties",
+    "location": "Dubai Islands \u00b7 Jumeirah Village Triangle",
+    "projects": 3,
+    "activeProjects": 3,
+    "pipelineValueUsdM": 67,
+    "stages": {
+     "construction": 2,
+     "design": 1
+    },
+    "nextCompletion": "2028-05-30",
+    "dldPulse": {
+     "salesCount": 593,
+     "salesValueAedM": 1555,
+     "medianTicketAed": 2127873,
+     "medianResidentialAedSqft": 2054,
+     "offPlanPct": 84
+    },
+    "mapNote": "JVT confirmed; Dubai Islands registers in DLD as Palm Deira"
+   },
+   {
+    "development": "Masaar",
+    "developer": "ARADA",
+    "location": "Sharjah",
+    "projects": 20,
+    "activeProjects": 13,
+    "pipelineValueUsdM": 7077,
+    "stages": {
+     "complete": 7,
+     "construction": 10,
+     "bid-evaluation": 1,
+     "design": 2
+    },
+    "nextCompletion": "2026-10-30",
+    "dldPulse": null,
+    "mapNote": "Sharjah \u2014 outside DLD coverage"
+   },
+   {
+    "development": "Ghaf Woods",
+    "developer": "Majid Al Futtaim",
+    "location": "Dubailand, Dubai",
+    "projects": 11,
+    "activeProjects": 9,
+    "pipelineValueUsdM": 2467,
+    "stages": {
+     "construction": 7,
+     "study": 1,
+     "awarded": 1,
+     "complete": 2
+    },
+    "nextCompletion": "2027-09-30",
+    "dldPulse": null,
+    "mapNote": "Dubailand \u2014 DLD area name not yet confirmed; unmapped rather than guessed"
+   }
+  ]
+ },
+ "handover": {
+  "note": "MEED = package-level handovers across the tracked developments (fixed snapshot). DLD = registered-project pipeline horizon by END_DATE. Dates are declared, not audited.",
+  "meedByQuarter": {
+   "2026-Q4": {
+    "packages": 6,
+    "valueUsdM": 591,
+    "items": [
+     {
+      "dev": "EYWA",
+      "title": "R Evolution - Eywa at Dubai Water Canal (Plot No. 3460542)",
+      "progressPercent": 83,
+      "completionDate": "2026-12-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Phase 4 (Azalea): 324 ",
+      "progressPercent": 90,
+      "completionDate": "2026-10-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Phase 4 (Azalea): 241 ",
+      "progressPercent": 90,
+      "completionDate": "2026-10-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Phase 5 (Sequoia)",
+      "progressPercent": 85,
+      "completionDate": "2026-11-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Phase 4 (Azalea)",
+      "progressPercent": 90,
+      "completionDate": "2026-10-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Community Centre and S",
+      "progressPercent": 75,
+      "completionDate": "2026-12-31"
+     }
+    ]
+   },
+   "2027-Q1": {
+    "packages": 1,
+    "valueUsdM": 80,
+    "items": [
+     {
+      "dev": "SHA Residences",
+      "title": "Imkan - Al Jurf: SHA Residences Emirates",
+      "progressPercent": 74,
+      "completionDate": "2027-03-20"
+     }
+    ]
+   },
+   "2027-Q3": {
+    "packages": 2,
+    "valueUsdM": 311,
+    "items": [
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Serra (Phase 1)",
+      "progressPercent": 50,
+      "completionDate": "2027-09-30"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Cilia",
+      "progressPercent": 42,
+      "completionDate": "2027-09-30"
+     }
+    ]
+   },
+   "2027-Q4": {
+    "packages": 1,
+    "valueUsdM": 77,
+    "items": [
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Lacina (Phase II)",
+      "progressPercent": 45,
+      "completionDate": "2027-12-30"
+     }
+    ]
+   },
+   "2028-Q1": {
+    "packages": 1,
+    "valueUsdM": 50,
+    "items": [
+     {
+      "dev": "Masaar",
+      "title": "ARADA/Bright Capital Investment - Masaar Residential Communi",
+      "progressPercent": 19,
+      "completionDate": "2028-03-30"
+     }
+    ]
+   },
+   "2028-Q2": {
+    "packages": 2,
+    "valueUsdM": 2206,
+    "items": [
+     {
+      "dev": "Treppan Living",
+      "title": "Fakhruddin Properties - Jumeirah Village Triangle: Treppan T",
+      "progressPercent": 17,
+      "completionDate": "2028-05-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community",
+      "progressPercent": 70,
+      "completionDate": "2028-06-28"
+     }
+    ]
+   },
+   "2028-Q3": {
+    "packages": 2,
+    "valueUsdM": 228,
+    "items": [
+     {
+      "dev": "Treppan Living",
+      "title": "Fakhruddin Properties - Dubai Islands: Treppan Serenique Res",
+      "progressPercent": 1,
+      "completionDate": "2028-08-30"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Capria East",
+      "progressPercent": 4,
+      "completionDate": "2028-07-31"
+     }
+    ]
+   },
+   "2028-Q4": {
+    "packages": 6,
+    "valueUsdM": 1936,
+    "items": [
+     {
+      "dev": "Treppan Living",
+      "title": "Fakhruddin Properties - Dubai Islands: Treppan Living Prive",
+      "progressPercent": 0,
+      "completionDate": "2028-12-15"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community 2: Phase 1, 3, 4",
+      "progressPercent": 14,
+      "completionDate": "2028-12-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community 2: Phase 2",
+      "progressPercent": 9,
+      "completionDate": "2028-12-30"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community 2",
+      "progressPercent": 14,
+      "completionDate": "2028-12-31"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Ghaf Woods: Distrikt Package 12",
+      "progressPercent": 4,
+      "completionDate": "2028-12-31"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Capria West",
+      "progressPercent": 5,
+      "completionDate": "2028-10-30"
+     }
+    ]
+   },
+   "2029-Q1": {
+    "packages": 1,
+    "valueUsdM": 50,
+    "items": [
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community: Phase 5 (Sarai)",
+      "progressPercent": 0,
+      "completionDate": "2029-01-31"
+     }
+    ]
+   },
+   "2029-Q2": {
+    "packages": 1,
+    "valueUsdM": 1276,
+    "items": [
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods",
+      "progressPercent": 48,
+      "completionDate": "2029-05-30"
+     }
+    ]
+   },
+   "2029-Q4": {
+    "packages": 4,
+    "valueUsdM": 2950,
+    "items": [
+     {
+      "dev": "Masaar",
+      "title": "ARADA \u2013 Masaar Residential Community III: Layan (Phase 5)",
+      "progressPercent": 0,
+      "completionDate": "2029-12-20"
+     },
+     {
+      "dev": "Masaar",
+      "title": "ARADA - Masaar Residential Community 3",
+      "progressPercent": 0,
+      "completionDate": "2029-12-27"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Mall",
+      "progressPercent": 0,
+      "completionDate": "2029-12-25"
+     },
+     {
+      "dev": "Ghaf Woods",
+      "title": "MAF - Dubailand: Ghaf Woods: Maravelle Residences",
+      "progressPercent": 0,
+      "completionDate": "2029-10-30"
+     }
+    ]
+   }
+  },
+  "dldByQuarter": {
+   "2027-Q3": {
+    "projects": 1,
+    "units": 420
+   },
+   "2027-Q4": {
+    "projects": 2,
+    "units": 1424
+   },
+   "2028-Q1": {
+    "projects": 2,
+    "units": 121
+   },
+   "2028-Q2": {
+    "projects": 1,
+    "units": 246
+   },
+   "2028-Q3": {
+    "projects": 7,
+    "units": 1211
+   },
+   "2028-Q4": {
+    "projects": 4,
+    "units": 2092
+   },
+   "2029-Q1": {
+    "projects": 7,
+    "units": 739
+   },
+   "2029-Q2": {
+    "projects": 3,
+    "units": 413
+   },
+   "2029-Q3": {
+    "projects": 4,
+    "units": 353
+   },
+   "2029-Q4": {
+    "projects": 6,
+    "units": 887
+   },
+   "2030-Q1": {
+    "projects": 3,
+    "units": 1578
+   },
+   "2030-Q2": {
+    "projects": 4,
+    "units": 892
+   },
+   "2030-Q4": {
+    "projects": 5,
+    "units": 4501
+   },
+   "2031-Q2": {
+    "projects": 1,
+    "units": 484
+   }
+  }
+ }
+}
