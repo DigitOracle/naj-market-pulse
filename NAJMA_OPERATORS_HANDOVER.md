@@ -36,6 +36,7 @@ There is nothing to install. WhatsApp is the whole interface. The links Azimuth 
 | **market brief** | Your weekly market brief, on demand — three sourced story angles |
 | **draft podcast 1** (or 2, 3) | A 60–90 second to-camera script drafted from that angle |
 | **draft linkedin 2** (or 1, 3) | A LinkedIn post drafted from that angle |
+| **draft instagram 3** (or 1, 2 — also "draft reel") | A 30–45 second reel script plus a sourced caption with hashtags |
 | *(any task)* "call the Vespi broker tomorrow 3pm" | Filed to your plate, reminder set |
 | *(any meeting, text or voice note)* | Filed, with nudges before it starts |
 | *(a photo — flyer, invite, whiteboard)* | Read; whatever's in it offered for filing |
