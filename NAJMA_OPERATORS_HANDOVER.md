@@ -46,8 +46,17 @@ There is nothing to install. WhatsApp is the whole interface. The links Azimuth 
 | **list groups** / **watch [name]** / **stop watching [name]** | Which WhatsApp groups Azimuth listens to |
 
 Every Sunday morning (~09:00) the weekly brief arrives on its own, with three buttons:
-**🎙 Podcast — Angle 1 · ✍️ LinkedIn — Angle 2 · 📊 Dashboard**. Tap and the draft comes back
+**📸 Instagram — Angle 1 · ✍️ LinkedIn — Angle 2 · 📊 Dashboard**. Tap and the draft comes back
 in the chat.
+
+**Posting — how close to zero-manual it is:**
+- **LinkedIn:** the draft arrives with a **🚀 Post to LinkedIn** button. One tap publishes it
+  as-is (once the posting connection is switched on — DigitAlchemy handles that; until then the
+  button tells you and the draft is a 20-second copy-paste). **✖️ Not this one** discards it —
+  ask for another angle instead.
+- **Instagram:** the reel script and a ready caption arrive together. You record the 30–45
+  second video (that part is genuinely you — no system replaces it), paste the caption, post.
+  One-tap reel posting switches on later, once video upload is connected.
 
 ---
 
