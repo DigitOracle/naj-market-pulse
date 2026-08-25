@@ -51,9 +51,9 @@ in the chat.
 
 **Posting — how close to zero-manual it is:**
 - **LinkedIn:** the draft arrives with a **🚀 Post to LinkedIn** button. One tap publishes it
-  as-is (once the posting connection is switched on — DigitAlchemy handles that; until then the
-  button tells you and the draft is a 20-second copy-paste). **✖️ Not this one** discards it —
-  ask for another angle instead.
+  as-is, straight through LinkedIn's own system — no third-party service in between. The first
+  time (and about every two months after), it sends you a connect link instead: tap, sign into
+  LinkedIn once, tap Post again. **✖️ Not this one** discards a draft — ask for another angle.
 - **Instagram:** the reel script and a ready caption arrive together. You record the 30–45
   second video (that part is genuinely you — no system replaces it), paste the caption, post.
   One-tap reel posting switches on later, once video upload is connected.
