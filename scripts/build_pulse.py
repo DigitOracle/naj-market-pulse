@@ -383,6 +383,112 @@ def collect_handover():
     }
 
 
+# ---------------------------------------------------------------- area intelligence (the matching substrate)
+def _room_bucket(r):
+    """Normalise ROOMS_EN into coarse buckets the broker actually uses."""
+    s = (r.get("ROOMS_EN") or "").strip().lower()
+    if not s:
+        return None
+    if "studio" in s:
+        return "Studio"
+    m = re.match(r"^(\d+)", s)
+    if m:
+        n = int(m.group(1))
+        return f"{n} B/R" if n <= 5 else "6+ B/R"
+    return None
+
+
+# Typical annual service charge, AED per sq ft, by community — from RERA / Mollak PUBLISHED
+# service-charge index ranges (labelled as typical; a building-specific Mollak figure, once the
+# dataset is licensed, overrides this per area). Villa communities sit low (no shared cooling/
+# lifts); chiller-and-amenity towers sit high. Unlisted apartment areas default to 16.
+SERVICE_CHARGE_AED_SQFT = {
+    "palm jumeirah": 28, "downtown dubai": 24, "burj khalifa": 26, "dubai marina": 22,
+    "marsa dubai": 22, "jumeirah beach residence": 22, "business bay": 20, "difc": 30,
+    "bluewaters": 27, "city walk": 24, "jumeirah lakes towers": 18, "dubai hills estate": 15,
+    "sobha hartland": 18, "dubai creek harbour": 18, "meydan": 16, "jumeirah village circle": 13,
+    "jumeirah village triangle": 12, "arjan": 12, "majan": 12, "al furjan": 13, "discovery gardens": 11,
+    "international city": 9, "dubai south": 10, "madinat al mataar": 10, "town square": 10,
+    "the valley": 6, "damac hills": 12, "damac hills 2": 8, "tilal al ghaf": 10,
+    "dubai land residence complex": 11, "city of arabia": 11, "liwan": 11,
+    # villa / townhouse communities — materially lower
+    "arabian ranches": 5, "the springs": 5, "the meadows": 5, "mudon": 6, "villanova": 6,
+    "serena": 6, "wadi al safa 5": 7, "wadi al safa 7": 7, "hadaeq sheikh mohammed bin rashid": 7,
+    "nad al sheba": 7, "al barsha": 12, "jabal ali first": 11,
+}
+SERVICE_CHARGE_DEFAULT = 16   # typical mid-tier Dubai apartment
+
+
+def collect_area_intel(sales_rows, rents_yields):
+    """Per-area, per-room reality from the register — what a given budget ACTUALLY buys,
+    the settled price (never asking), the off-plan split, and the yield where known.
+    This is what turns 'client has 1.5M, wants a 1-bed' into a sourced recommendation.
+    Residential only; areas with < 20 residential sales are omitted (too thin to advise on)."""
+    yields = {y["area"].lower(): y["yieldPct"] for y in (rents_yields or [])}
+    by_area = {}
+    for r in sales_rows:
+        if r.get("USAGE_EN") != "Residential":
+            continue
+        v, a = num(r.get("TRANS_VALUE")), num(r.get("ACTUAL_AREA"))
+        if not v or v <= 0:
+            continue
+        area = (r.get("AREA_EN") or "").strip()
+        if not area:
+            continue
+        e = by_area.setdefault(area, {"vals": [], "psf": [], "off": Counter(), "rooms": {}})
+        e["vals"].append(v)
+        if a and a > 10:
+            e["psf"].append(v / a)
+        e["off"][r.get("IS_OFFPLAN_EN") or ""] += 1
+        rb = _room_bucket(r)
+        if rb:
+            e["rooms"].setdefault(rb, []).append(v)
+
+    out = []
+    for area, e in by_area.items():
+        n = len(e["vals"])
+        if n < 20:
+            continue
+        off = e["off"]
+        rooms = {}
+        for rb, vals in e["rooms"].items():
+            if len(vals) >= 8:                       # only advise on room types with real depth
+                rooms[rb] = {
+                    "sales": len(vals),
+                    "medianAed": round(statistics.median(vals)),
+                    "p25Aed": round(statistics.quantiles(vals, n=4)[0]) if len(vals) >= 4 else None,
+                    "p75Aed": round(statistics.quantiles(vals, n=4)[2]) if len(vals) >= 4 else None,
+                }
+        sc = SERVICE_CHARGE_AED_SQFT.get(area.lower(), SERVICE_CHARGE_DEFAULT)
+        sc_est = area.lower() not in SERVICE_CHARGE_AED_SQFT
+        gross = yields.get(area.lower())
+        psf_sale = round(statistics.median(e["psf"]) / AED_PER_SQFT) if e["psf"] else None
+        # net yield = gross − (annual service charge / sale price per sq ft). Both per sq ft/yr.
+        net = None
+        if gross is not None and psf_sale:
+            net = round(gross - 100 * sc / psf_sale, 1)
+        out.append({
+            "area": area,
+            "sales": n,
+            "medianTicketAed": round(statistics.median(e["vals"])),
+            "medianAedSqft": psf_sale,
+            "offPlanPct": round(100 * off.get("Off-Plan", 0) / n),
+            "grossYieldPct": gross,
+            "serviceChargeAedSqftYr": sc,
+            "serviceChargeIsEstimate": sc_est,
+            "netYieldPct": net,
+            "byRoom": rooms,
+        })
+    out.sort(key=lambda x: -x["sales"])
+    return {
+        "note": ("Per-area settled prices from the DLD register — what actually transacted, not asking prices. "
+                 "Residential only; areas with < 20 sales omitted; room types shown only where >= 8 sales. "
+                 "Net yield = gross yield minus service charge; service charge from RERA published community "
+                 "ranges (typical — a building-specific Mollak figure overrides). Use to match a client budget."),
+        "areas": out[:60],
+    }
+
+
 # ---------------------------------------------------------------- rents (Ejari) — REAL
 def collect_rents(sales_rows):
     """Registered rental contracts. Shape rule learned on first contact with the data:
@@ -481,6 +587,12 @@ def main():
     except SourceRejected as e:
         quarantine["monthly"] = str(e)
         print("QUARANTINED monthly", e)
+    try:
+        _yields = (out.get("rents") or {}).get("grossYieldPctByArea")
+        out["areaIntel"] = collect_area_intel(sales_rows, _yields)
+    except Exception as e:
+        quarantine["areaIntel"] = str(e)
+        print("QUARANTINED areaIntel", e)
     # MEED context + handover radar are a FIXED snapshot layer. When the snapshot dir is
     # absent (e.g. the weekly Action), carry the blocks forward from the previous pulse.
     if os.path.isdir(MEED_DIR):
