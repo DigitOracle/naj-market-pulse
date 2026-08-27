@@ -153,6 +153,38 @@ def collect_projects():
     rows = sanity_gate("projects", rows, row_shape=shape, min_rows=10, max_rows=5000)
     active = [r for r in rows if (num(r.get("PERCENT_COMPLETED")) or 0) < 100]
     units = sum(int(num(r.get("CNT_UNIT")) or 0) for r in rows)
+
+    # v43 — SUPPLY + ESCROW layer from the DLD registered-projects sample. Per-area incoming
+    # units and delivery schedule (supply pressure), plus a project lookup carrying the
+    # escrow-account and %-complete facts Launch Mode uses to verify a pitch against the register.
+    def units_of(r):
+        return int(num(r.get("CNT_UNIT")) or 0)
+    supply_area, deliver_year = {}, {}
+    lookup = []
+    for r in rows:
+        area = (r.get("AREA_EN") or "").strip()
+        u = units_of(r)
+        end = (r.get("END_DATE") or "")[:10]
+        yr = end[:4]
+        if area:
+            e = supply_area.setdefault(area, {"units": 0, "projects": 0, "nextEnd": None})
+            e["units"] += u
+            e["projects"] += 1
+            if end and (e["nextEnd"] is None or end < e["nextEnd"]):
+                e["nextEnd"] = end
+        if yr.isdigit():
+            deliver_year[yr] = deliver_year.get(yr, 0) + u
+        lookup.append({
+            "project": (r.get("PROJECT_EN") or "")[:60],
+            "developer": (r.get("DEVELOPER_EN") or "")[:50],
+            "area": area,
+            "endDate": end or None,
+            "percentComplete": num(r.get("PERCENT_COMPLETED")),
+            "status": r.get("PROJECT_STATUS") or None,
+            "units": u,
+            "escrowRegistered": bool((r.get("ESCROW_ACCOUNT_NUMBER") or "").strip()),
+        })
+
     return {
         "count": len(rows),
         "activeCount": len(active),
@@ -160,6 +192,12 @@ def collect_projects():
         "byStatus": dict(Counter(r.get("PROJECT_STATUS", "") for r in rows)),
         "topDevelopers": [{"developer": d, "projects": c} for d, c in
                           Counter(r.get("DEVELOPER_EN", "") for r in rows if r.get("DEVELOPER_EN")).most_common(5)],
+        "coverageNote": ("DLD registered-projects open sample — incoming supply and escrow/%-complete "
+                         "for the projects it contains; not the full register. Escrow 'registered' means a "
+                         "trust account number is on file, not the balance."),
+        "supplyByArea": {a: e for a, e in sorted(supply_area.items(), key=lambda x: -x[1]["units"])},
+        "deliveryByYear": {y: deliver_year[y] for y in sorted(deliver_year)},
+        "projectLookup": lookup,
     }
 
 
