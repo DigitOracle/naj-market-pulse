@@ -40,11 +40,12 @@ RENT_COLS = ["REGISTRATION_DATE", "START_DATE", "END_DATE", "VERSION_EN", "AREA_
 _session = requests.Session()
 
 
-def post(endpoint, payload, tries=5):
-    """One POST to the gateway; retries with backoff. Read-only, always."""
+def post(endpoint, payload, tries=8):
+    """One POST to the gateway; retries with backoff. Read-only, always. The gateway is slow
+    and occasionally times out on a paged window — retry generously before giving up."""
     for attempt in range(tries):
         try:
-            r = _session.post(BASE + endpoint, headers=HDR, json=payload, timeout=120)
+            r = _session.post(BASE + endpoint, headers=HDR, json=payload, timeout=150)
             if r.status_code == 200:
                 d = r.json()
                 if d.get("response") is not None:
@@ -52,7 +53,7 @@ def post(endpoint, payload, tries=5):
             print(f"  {endpoint} attempt {attempt + 1}: HTTP {r.status_code}", file=sys.stderr)
         except Exception as e:
             print(f"  {endpoint} attempt {attempt + 1}: {e}", file=sys.stderr)
-        time.sleep(4 * (attempt + 1))
+        time.sleep(min(30, 4 * (attempt + 1)))
     raise RuntimeError(f"gateway failed: {endpoint}")
 
 

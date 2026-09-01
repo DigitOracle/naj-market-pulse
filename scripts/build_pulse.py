@@ -64,7 +64,16 @@ def num(x):
 
 
 def read_csv(name):
+    # Prefer the file dated to this run's STAMP; fall back to the newest <name>-*.csv so a
+    # transactions/rents-only refresh still builds (valuations/projects/brokers/lands move slowly).
+    import glob
     path = os.path.join(DATA, f"{name}-{STAMP}.csv")
+    if not os.path.exists(path):
+        cands = sorted(glob.glob(os.path.join(DATA, f"{name}-????-??-??.csv")))
+        cands = [c for c in cands if "-ytd-" not in c]
+        if not cands:
+            raise FileNotFoundError(f"no CSV for source '{name}' in {DATA}")
+        path = cands[-1]
     with open(path, encoding="utf-8-sig", newline="") as f:
         return list(csv.DictReader(f))
 

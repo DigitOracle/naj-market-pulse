@@ -1,80 +1,80 @@
 {
- "generatedAt": "2026-08-25T11:48:43+00:00",
- "dataCaptured": "2026-08-25",
+ "generatedAt": "2026-09-01T02:49:12+00:00",
+ "dataCaptured": "2026-08-29",
  "attribution": "Source: Dubai Land Department (DLD) Open Data. Contains information from the Government of Dubai.",
  "transactions": {
-  "totalRows": 32855,
+  "totalRows": 31654,
   "groups": {
-   "Mortgage": 7530,
-   "Sales": 24049,
-   "Gifts": 1276
+   "Sales": 23703,
+   "Mortgage": 6704,
+   "Gifts": 1247
   },
-  "periodFrom": "2026-06-30",
-  "periodTo": "2026-08-25",
-  "salesCount": 24049,
-  "salesValueAedBn": 57.3,
-  "medianTicketAed": 1151232,
+  "periodFrom": "2026-07-04",
+  "periodTo": "2026-08-29",
+  "salesCount": 23703,
+  "salesValueAedBn": 56.3,
+  "medianTicketAed": 1164448,
   "offPlanSplit": {
-   "Off-Plan": 16669,
-   "Ready": 7380
+   "Off-Plan": 16283,
+   "Ready": 7420
   },
   "usageSplit": {
-   "Residential": 23603,
-   "Commercial": 446
+   "Residential": 23239,
+   "Commercial": 464
   },
-  "medianResidentialAedSqft": 1687,
+  "medianResidentialAedSqft": 1686,
   "topAreas": [
    {
     "area": "Madinat Al Mataar",
-    "sales": 3948
+    "sales": 3749
    },
    {
     "area": "JUMEIRAH VILLAGE CIRCLE",
-    "sales": 1568
+    "sales": 1585
    },
    {
     "area": "CITY OF ARABIA",
-    "sales": 1382
+    "sales": 1310
    },
    {
     "area": "Jabal Ali Industrial Second",
-    "sales": 996
+    "sales": 1021
    },
    {
     "area": "DOWN TOWN JABAL ALI",
-    "sales": 889
+    "sales": 896
    },
    {
     "area": "BUSINESS BAY",
-    "sales": 773
+    "sales": 774
    },
    {
     "area": "DUBAI LAND RESIDENCE COMPLEX",
-    "sales": 691
+    "sales": 699
    },
    {
     "area": "Al Hebiah Fifth",
     "sales": 552
    },
    {
-    "area": "MAJAN",
-    "sales": 472
+    "area": "ARJAN",
+    "sales": 454
    },
    {
-    "area": "ARJAN",
-    "sales": 458
+    "area": "MAJAN",
+    "sales": 439
    }
   ],
   "weekly": [
    {
     "week": "2026-W27",
-    "sales": 1995,
-    "valueAedBn": 6.14
+    "sales": 44,
+    "valueAedBn": 0.08
    },
    {
     "week": "2026-W28",
-    "sales": 2785,
-    "valueAedBn": 8.53
+    "sales": 2781,
+    "valueAedBn": 8.52
    },
    {
     "week": "2026-W29",
@@ -88,7 +88,7 @@
    },
    {
     "week": "2026-W31",
-    "sales": 3500,
+    "sales": 3499,
     "valueAedBn": 7.84
    },
    {
@@ -98,18 +98,18 @@
    },
    {
     "week": "2026-W33",
-    "sales": 2864,
-    "valueAedBn": 6.17
+    "sales": 2819,
+    "valueAedBn": 6.13
    },
    {
     "week": "2026-W34",
-    "sales": 3138,
+    "sales": 3137,
     "valueAedBn": 7.2
    },
    {
     "week": "2026-W35",
-    "sales": 559,
-    "valueAedBn": 1.56
+    "sales": 2215,
+    "valueAedBn": 6.69
    }
   ]
  },
@@ -151,6 +151,643 @@
     "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE PERSON COMPANY L.L.C",
     "projects": 2
    }
+  ],
+  "coverageNote": "DLD registered-projects open sample \u2014 incoming supply and escrow/%-complete for the projects it contains; not the full register. Escrow 'registered' means a trust account number is on file, not the balance.",
+  "supplyByArea": {
+   "Al Yelayiss 1": {
+    "units": 4035,
+    "projects": 3,
+    "nextEnd": "2030-12-31"
+   },
+   "Al Hebiah Fifth": {
+    "units": 1626,
+    "projects": 3,
+    "nextEnd": "2030-01-31"
+   },
+   "Nad Al Shiba First": {
+    "units": 1601,
+    "projects": 2,
+    "nextEnd": "2028-12-15"
+   },
+   "Jabal Ali Industrial Second": {
+    "units": 1538,
+    "projects": 7,
+    "nextEnd": "2027-08-04"
+   },
+   "Al Jadaf": {
+    "units": 1424,
+    "projects": 3,
+    "nextEnd": "2027-10-30"
+   },
+   "Al Barsha South Fourth": {
+    "units": 641,
+    "projects": 2,
+    "nextEnd": "2028-12-31"
+   },
+   "Saih Shuaib 2": {
+    "units": 519,
+    "projects": 3,
+    "nextEnd": "2028-07-01"
+   },
+   "Burj Khalifa": {
+    "units": 484,
+    "projects": 1,
+    "nextEnd": "2031-06-30"
+   },
+   "Me'Aisem First": {
+    "units": 448,
+    "projects": 2,
+    "nextEnd": "2028-04-01"
+   },
+   "Madinat Dubai Almelaheyah": {
+    "units": 428,
+    "projects": 1,
+    "nextEnd": "2029-12-31"
+   },
+   "Wadi Al Safa 5": {
+    "units": 373,
+    "projects": 2,
+    "nextEnd": "2028-12-31"
+   },
+   "Business Bay": {
+    "units": 338,
+    "projects": 1,
+    "nextEnd": "2030-06-30"
+   },
+   "Al Hebiah Third": {
+    "units": 288,
+    "projects": 1,
+    "nextEnd": "2030-01-31"
+   },
+   "Al Yelayiss 2": {
+    "units": 281,
+    "projects": 2,
+    "nextEnd": "2029-04-30"
+   },
+   "Al Wasl": {
+    "units": 244,
+    "projects": 1,
+    "nextEnd": "2030-12-30"
+   },
+   "Palm Jabal Ali": {
+    "units": 222,
+    "projects": 1,
+    "nextEnd": "2030-12-13"
+   },
+   "Warsan Fourth": {
+    "units": 219,
+    "projects": 3,
+    "nextEnd": "2028-01-01"
+   },
+   "Al Kifaf": {
+    "units": 218,
+    "projects": 1,
+    "nextEnd": "2030-04-28"
+   },
+   "Madinat Al Mataar": {
+    "units": 174,
+    "projects": 3,
+    "nextEnd": "2028-09-05"
+   },
+   "Al Safouh First": {
+    "units": 113,
+    "projects": 1,
+    "nextEnd": "2029-02-28"
+   },
+   "Palm Deira": {
+    "units": 109,
+    "projects": 2,
+    "nextEnd": "2028-09-01"
+   },
+   "Dubai Investment Park Second": {
+    "units": 38,
+    "projects": 1,
+    "nextEnd": "2029-03-31"
+   },
+   "Al Rowaiyah First": {
+    "units": 0,
+    "projects": 2,
+    "nextEnd": "2029-12-31"
+   },
+   "Al Barshaa South Third": {
+    "units": 0,
+    "projects": 1,
+    "nextEnd": "2028-02-15"
+   },
+   "Al Yelayiss 5": {
+    "units": 0,
+    "projects": 1,
+    "nextEnd": "2030-06-30"
+   }
+  },
+  "deliveryByYear": {
+   "2027": 1844,
+   "2028": 3670,
+   "2029": 2392,
+   "2030": 6971,
+   "2031": 484
+  },
+  "projectLookup": [
+   {
+    "project": "KYOMI RESIDENCE",
+    "developer": "ANAX DEVELOPMENTS L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2028-01-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 121,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi Abraham",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2027-08-04",
+    "percentComplete": 2.0,
+    "status": "ACTIVE",
+    "units": 420,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Christian A. Rockefeller Tower",
+    "developer": "LMD VENTURES BUYING AND SELLING OF REAL ESTATE L.L",
+    "area": "Business Bay",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 338,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Sunteck MAS",
+    "developer": "SUNTECK MAS REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Burj Khalifa",
+    "endDate": "2031-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 484,
+    "escrowRegistered": false
+   },
+   {
+    "project": "PORTSIDE SQUARE ",
+    "developer": "ELLINGTON PCFC MR DEVELOPMENT L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 428,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Azizi Noura",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2028-07-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 269,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi Gabriel",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2028-07-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 234,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Nine Collective",
+    "developer": "PARK 1 L.L.C",
+    "area": "Al Kifaf",
+    "endDate": "2030-04-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 218,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Park Residency ",
+    "developer": "PARK RESIDENCY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2029-07-20",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 98,
+    "escrowRegistered": true
+   },
+   {
+    "project": "OAKMONT",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2029-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 281,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Treppan Living Prive",
+    "developer": "FAKHRUDDIN PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-12-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 65,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC RIVERLINK",
+    "developer": "DAMAC MRY INVESTMENT L.L.C",
+    "area": "Dubai Investment Park Second",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.39,
+    "status": "ACTIVE",
+    "units": 38,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - ANTIGUA 1",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "MARQUIS HORIZON",
+    "developer": "MARQUIS HOME DEVELOPER L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-09-05",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 174,
+    "escrowRegistered": true
+   },
+   {
+    "project": "PIAZZA ROMA",
+    "developer": "ISLAND OASIS PROPERTIES",
+    "area": "Al Hebiah Fifth",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.2,
+    "status": "ACTIVE",
+    "units": 336,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SORRENTO",
+    "developer": "ISLAND OASIS PROPERTIES",
+    "area": "Al Hebiah Fifth",
+    "endDate": "2030-01-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 672,
+    "escrowRegistered": true
+   },
+   {
+    "project": "CETARA",
+    "developer": "ISLAND OASIS PROPERTIES",
+    "area": "Al Hebiah Fifth",
+    "endDate": "2030-01-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 618,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS - THE TROPICS 2 & 4 & 6",
+    "developer": "DAMAC ELITE INVESTMENT CO. L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 2130,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS - THE TROPICS 1 & 3 & 5",
+    "developer": "DAMAC ELITE INVESTMENT CO. L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 1905,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AMALI RESIDENCES",
+    "developer": "AMALI CANAL L.L.C",
+    "area": "Al Wasl",
+    "endDate": "2030-12-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 244,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi Rose",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2028-07-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 226,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Palm Central Private Residences - Frond N",
+    "developer": "THE PALM - JEBEL ALI CO. (L.L.C)",
+    "area": "Palm Jabal Ali",
+    "endDate": "2030-12-13",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 222,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Greenz By Danube",
+    "developer": "DANUBE PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Al Rowaiyah First",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The 55",
+    "developer": "NATIONAL PROPERTIES OWNED BY NATIONAL BONDS CORPOR",
+    "area": "Al Barshaa South Third",
+    "endDate": "2028-02-15",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "FALA BY KASCO",
+    "developer": "KASCO REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-07-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "MONTCLAIR",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2029-05-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Faro The Heights",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yelayiss 5",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Soma Residences",
+    "developer": "ORIGAMI DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-09-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 44,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sera Gardens by Vision",
+    "developer": "CLEAR VISION REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2028-04-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 246,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Coventry Centro",
+    "developer": "G F S REAL ESTATE L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2028-07-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 264,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Coventry Cove",
+    "developer": "G F S REAL ESTATE L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2029-07-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 255,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC HILLS - LILAC",
+    "developer": "DAMAC CRESCENT PROPERTIES",
+    "area": "Al Hebiah Third",
+    "endDate": "2030-01-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 288,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Tilal Binghatti",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Rowaiyah First",
+    "endDate": "2029-12-31",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "VERDE LEVEL 1",
+    "developer": "OBJ1 REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2029-01-19",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Binghatti Wraith",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Jadaf",
+    "endDate": "2027-12-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 881,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Starfall",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Jadaf",
+    "endDate": "2027-10-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 543,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sky Level 1",
+    "developer": "OBJECT ONE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2029-02-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 440,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AL EZZ TOWER BY ABU ALNAGA",
+    "developer": "ABUALNAGA DEVELOPMENT L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2029-12-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 202,
+    "escrowRegistered": false
+   },
+   {
+    "project": "S'VN RESIDENCES",
+    "developer": "METRICAL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 201,
+    "escrowRegistered": true
+   },
+   {
+    "project": "113 RESIDENCES",
+    "developer": "IMAN DEVELOPERS L.L.C",
+    "area": "Al Safouh First",
+    "endDate": "2029-02-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 113,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Portside by Samana Developers",
+    "developer": "SAMANA ISLANDS REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 132,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Portside 2 by Samana Developers",
+    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Samana Downtown One",
+    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 257,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Divine Haven",
+    "developer": "TAKMEEL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-01-01",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Rabdan Avenue",
+    "developer": "RABDAN AVENUE DEVELOPMENT L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2029-03-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 148,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Samana South Haven 2",
+    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "WESTON ",
+    "developer": "WADAN REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 373,
+    "escrowRegistered": true
+   },
+   {
+    "project": "LENJAWI DIAMOND",
+    "developer": "LANJAWI Real Estate Development   EST.",
+    "area": "Warsan Fourth",
+    "endDate": "2029-07-20",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Vision Iconic",
+    "developer": "Binghatti Developers FZE",
+    "area": "Nad Al Shiba First",
+    "endDate": "2028-12-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1453,
+    "escrowRegistered": true
+   },
+   {
+    "project": "MANARINA",
+    "developer": "ZENITH VENTURES REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-07-29",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   }
   ]
  },
  "brokers": {
@@ -162,64 +799,64 @@
   "brokerages": 13490
  },
  "rents": {
-  "registrationFrom": "2026-08-24",
-  "registrationTo": "2026-08-24",
-  "contractsCount": 4650,
+  "registrationFrom": "2026-01-12",
+  "registrationTo": "2026-08-29",
+  "contractsCount": 66081,
   "versionSplit": {
-   "New": 2467,
-   "Renewed": 2183
+   "Renewed": 31059,
+   "New": 35022
   },
-  "residentialSingles": 3126,
-  "medianAnnualRentAed": 70559,
-  "medianRentAedSqftYr": 81.4,
+  "residentialSingles": 52984,
+  "medianAnnualRentAed": 70478,
+  "medianRentAedSqftYr": 81.3,
   "grossYieldPctByArea": [
    {
-    "area": "Burj Khalifa",
-    "yieldPct": 5.6,
-    "rentSamples": 209,
-    "saleSamples": 330
+    "area": "Dubai Investment Park First",
+    "yieldPct": 6.3,
+    "rentSamples": 214,
+    "saleSamples": 410
    },
    {
-    "area": "Al Hebiah Fifth",
-    "yieldPct": 5.5,
-    "rentSamples": 32,
-    "saleSamples": 552
+    "area": "Al Yelayiss 2",
+    "yieldPct": 6.1,
+    "rentSamples": 776,
+    "saleSamples": 112
+   },
+   {
+    "area": "Madinat Hind 4",
+    "yieldPct": 6.0,
+    "rentSamples": 477,
+    "saleSamples": 168
+   },
+   {
+    "area": "Wadi Al Safa 7",
+    "yieldPct": 5.9,
+    "rentSamples": 335,
+    "saleSamples": 65
+   },
+   {
+    "area": "Burj Khalifa",
+    "yieldPct": 5.9,
+    "rentSamples": 2134,
+    "saleSamples": 332
+   },
+   {
+    "area": "Jabal Ali Industrial Second",
+    "yieldPct": 5.6,
+    "rentSamples": 117,
+    "saleSamples": 1021
+   },
+   {
+    "area": "Business Bay",
+    "yieldPct": 5.1,
+    "rentSamples": 2153,
+    "saleSamples": 786
    },
    {
     "area": "Hadaeq Sheikh Mohammed Bin Rashid",
     "yieldPct": 5.1,
-    "rentSamples": 50,
-    "saleSamples": 95
-   },
-   {
-    "area": "Business Bay",
-    "yieldPct": 5.0,
-    "rentSamples": 126,
-    "saleSamples": 780
-   },
-   {
-    "area": "Jabal Ali First",
-    "yieldPct": 4.7,
-    "rentSamples": 118,
-    "saleSamples": 399
-   },
-   {
-    "area": "Madinat Al Mataar",
-    "yieldPct": 4.7,
-    "rentSamples": 45,
-    "saleSamples": 3948
-   },
-   {
-    "area": "Wadi Al Safa 5",
-    "yieldPct": 4.6,
-    "rentSamples": 58,
-    "saleSamples": 137
-   },
-   {
-    "area": "Al Khairan First",
-    "yieldPct": 4.3,
-    "rentSamples": 133,
-    "saleSamples": 121
+    "rentSamples": 814,
+    "saleSamples": 100
    }
   ],
   "excludedYields": [],
@@ -272,6 +909,2051 @@
   ],
   "note": "Current month is partial; the register also back-fills prior days."
  },
+ "areaIntel": {
+  "note": "Per-area settled prices from the DLD register \u2014 what actually transacted, not asking prices. Residential only; areas with < 20 sales omitted; room types shown only where >= 8 sales. Net yield = gross yield minus service charge; service charge from RERA published community ranges (typical \u2014 a building-specific Mollak figure overrides). Use to match a client budget.",
+  "areas": [
+   {
+    "area": "Madinat Al Mataar",
+    "sales": 3749,
+    "medianTicketAed": 730000,
+    "medianAedSqft": 1717,
+    "offPlanPct": 99,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 10,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 922,
+      "medianAed": 1210300,
+      "p25Aed": 1107000,
+      "p75Aed": 1276388
+     },
+     "Studio": {
+      "sales": 2326,
+      "medianAed": 655000,
+      "p25Aed": 621830,
+      "p75Aed": 720000
+     },
+     "2 B/R": {
+      "sales": 269,
+      "medianAed": 1958888,
+      "p25Aed": 1779414,
+      "p75Aed": 2275526
+     },
+     "4 B/R": {
+      "sales": 70,
+      "medianAed": 4827500,
+      "p25Aed": 4292750,
+      "p75Aed": 4900000
+     },
+     "3 B/R": {
+      "sales": 74,
+      "medianAed": 3099732,
+      "p25Aed": 2754750,
+      "p75Aed": 3800000
+     },
+     "5 B/R": {
+      "sales": 51,
+      "medianAed": 6350000,
+      "p25Aed": 5725000,
+      "p75Aed": 6400000
+     }
+    }
+   },
+   {
+    "area": "JUMEIRAH VILLAGE CIRCLE",
+    "sales": 1581,
+    "medianTicketAed": 975000,
+    "medianAedSqft": 1404,
+    "offPlanPct": 46,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 13,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 812,
+      "medianAed": 1048622,
+      "p25Aed": 838767,
+      "p75Aed": 1184000
+     },
+     "Studio": {
+      "sales": 459,
+      "medianAed": 689010,
+      "p25Aed": 600000,
+      "p75Aed": 782724
+     },
+     "2 B/R": {
+      "sales": 199,
+      "medianAed": 1509544,
+      "p25Aed": 1300000,
+      "p75Aed": 1824550
+     },
+     "3 B/R": {
+      "sales": 52,
+      "medianAed": 2446020,
+      "p25Aed": 2100000,
+      "p75Aed": 2995604
+     },
+     "4 B/R": {
+      "sales": 11,
+      "medianAed": 2900000,
+      "p25Aed": 2525000,
+      "p75Aed": 3750000
+     }
+    }
+   },
+   {
+    "area": "CITY OF ARABIA",
+    "sales": 1310,
+    "medianTicketAed": 608290,
+    "medianAedSqft": 1707,
+    "offPlanPct": 98,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 11,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 870,
+      "medianAed": 590000,
+      "p25Aed": 582120,
+      "p75Aed": 608145
+     },
+     "1 B/R": {
+      "sales": 354,
+      "medianAed": 1108000,
+      "p25Aed": 1003988,
+      "p75Aed": 1274250
+     },
+     "2 B/R": {
+      "sales": 71,
+      "medianAed": 2283000,
+      "p25Aed": 2122000,
+      "p75Aed": 2431000
+     }
+    }
+   },
+   {
+    "area": "Jabal Ali Industrial Second",
+    "sales": 1021,
+    "medianTicketAed": 726101,
+    "medianAedSqft": 1736,
+    "offPlanPct": 100,
+    "grossYieldPct": 5.6,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": 4.7,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 279,
+      "medianAed": 1113412,
+      "p25Aed": 900000,
+      "p75Aed": 1216372
+     },
+     "Studio": {
+      "sales": 639,
+      "medianAed": 660952,
+      "p25Aed": 590000,
+      "p75Aed": 718273
+     },
+     "2 B/R": {
+      "sales": 48,
+      "medianAed": 1658591,
+      "p25Aed": 1618640,
+      "p75Aed": 1699582
+     },
+     "3 B/R": {
+      "sales": 15,
+      "medianAed": 1961938,
+      "p25Aed": 1889227,
+      "p75Aed": 1985910
+     }
+    }
+   },
+   {
+    "area": "DOWN TOWN JABAL ALI",
+    "sales": 896,
+    "medianTicketAed": 778586,
+    "medianAedSqft": 1719,
+    "offPlanPct": 98,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 458,
+      "medianAed": 649244,
+      "p25Aed": 554000,
+      "p75Aed": 703086
+     },
+     "1 B/R": {
+      "sales": 195,
+      "medianAed": 1068301,
+      "p25Aed": 908000,
+      "p75Aed": 1162343
+     },
+     "2 B/R": {
+      "sales": 48,
+      "medianAed": 1614860,
+      "p25Aed": 1550602,
+      "p75Aed": 1681301
+     },
+     "3 B/R": {
+      "sales": 11,
+      "medianAed": 1944215,
+      "p25Aed": 1120000,
+      "p75Aed": 2064000
+     }
+    }
+   },
+   {
+    "area": "BUSINESS BAY",
+    "sales": 774,
+    "medianTicketAed": 1700000,
+    "medianAedSqft": 2120,
+    "offPlanPct": 36,
+    "grossYieldPct": 5.1,
+    "serviceChargeAedSqftYr": 20,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": 4.2,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 126,
+      "medianAed": 2475000,
+      "p25Aed": 1991250,
+      "p75Aed": 3198121
+     },
+     "Studio": {
+      "sales": 145,
+      "medianAed": 940000,
+      "p25Aed": 777500,
+      "p75Aed": 1191393
+     },
+     "1 B/R": {
+      "sales": 261,
+      "medianAed": 1500000,
+      "p25Aed": 1247000,
+      "p75Aed": 2000000
+     },
+     "3 B/R": {
+      "sales": 46,
+      "medianAed": 4800000,
+      "p25Aed": 3287500,
+      "p75Aed": 14212500
+     }
+    }
+   },
+   {
+    "area": "DUBAI LAND RESIDENCE COMPLEX",
+    "sales": 695,
+    "medianTicketAed": 855000,
+    "medianAedSqft": 1386,
+    "offPlanPct": 89,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 11,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 279,
+      "medianAed": 666460,
+      "p25Aed": 564511,
+      "p75Aed": 746558
+     },
+     "1 B/R": {
+      "sales": 278,
+      "medianAed": 1050000,
+      "p25Aed": 868911,
+      "p75Aed": 1151605
+     },
+     "2 B/R": {
+      "sales": 119,
+      "medianAed": 1435340,
+      "p25Aed": 1161880,
+      "p75Aed": 1577133
+     },
+     "3 B/R": {
+      "sales": 14,
+      "medianAed": 2009800,
+      "p25Aed": 1721276,
+      "p75Aed": 2060732
+     }
+    }
+   },
+   {
+    "area": "Al Hebiah Fifth",
+    "sales": 552,
+    "medianTicketAed": 1698380,
+    "medianAedSqft": 1645,
+    "offPlanPct": 66,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 62,
+      "medianAed": 1735155,
+      "p25Aed": 1675905,
+      "p75Aed": 1836375
+     },
+     "1 B/R": {
+      "sales": 130,
+      "medianAed": 1246040,
+      "p25Aed": 1191352,
+      "p75Aed": 1286550
+     },
+     "Studio": {
+      "sales": 118,
+      "medianAed": 734000,
+      "p25Aed": 691000,
+      "p75Aed": 763098
+     },
+     "3 B/R": {
+      "sales": 37,
+      "medianAed": 2205750,
+      "p25Aed": 1677000,
+      "p75Aed": 2333250
+     }
+    }
+   },
+   {
+    "area": "ARJAN",
+    "sales": 454,
+    "medianTicketAed": 868970,
+    "medianAedSqft": 1561,
+    "offPlanPct": 59,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 12,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 207,
+      "medianAed": 685000,
+      "p25Aed": 565000,
+      "p75Aed": 812999
+     },
+     "1 B/R": {
+      "sales": 156,
+      "medianAed": 1145000,
+      "p25Aed": 958500,
+      "p75Aed": 1316749
+     },
+     "2 B/R": {
+      "sales": 69,
+      "medianAed": 1420000,
+      "p25Aed": 1290000,
+      "p75Aed": 1899612
+     },
+     "3 B/R": {
+      "sales": 10,
+      "medianAed": 2100000,
+      "p25Aed": 2008750,
+      "p75Aed": 2439194
+     }
+    }
+   },
+   {
+    "area": "MAJAN",
+    "sales": 439,
+    "medianTicketAed": 852000,
+    "medianAedSqft": 1473,
+    "offPlanPct": 85,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 12,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 55,
+      "medianAed": 1692530,
+      "p25Aed": 1455000,
+      "p75Aed": 1900000
+     },
+     "Studio": {
+      "sales": 216,
+      "medianAed": 675000,
+      "p25Aed": 580000,
+      "p75Aed": 727000
+     },
+     "3 B/R": {
+      "sales": 10,
+      "medianAed": 2245590,
+      "p25Aed": 1987322,
+      "p75Aed": 2687500
+     },
+     "1 B/R": {
+      "sales": 135,
+      "medianAed": 1112874,
+      "p25Aed": 1050000,
+      "p75Aed": 1180000
+     }
+    }
+   },
+   {
+    "area": "DUBAI PRODUCTION CITY",
+    "sales": 420,
+    "medianTicketAed": 773301,
+    "medianAedSqft": 1349,
+    "offPlanPct": 67,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 59,
+      "medianAed": 1557900,
+      "p25Aed": 1441772,
+      "p75Aed": 1641463
+     },
+     "1 B/R": {
+      "sales": 181,
+      "medianAed": 999900,
+      "p25Aed": 534280,
+      "p75Aed": 1154815
+     },
+     "Studio": {
+      "sales": 161,
+      "medianAed": 651100,
+      "p25Aed": 555000,
+      "p75Aed": 710866
+     },
+     "3 B/R": {
+      "sales": 18,
+      "medianAed": 1905804,
+      "p25Aed": 1301250,
+      "p75Aed": 2131834
+     }
+    }
+   },
+   {
+    "area": "DUBAI MARINA",
+    "sales": 411,
+    "medianTicketAed": 2000000,
+    "medianAedSqft": 1920,
+    "offPlanPct": 5,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 22,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 50,
+      "medianAed": 788500,
+      "p25Aed": 712905,
+      "p75Aed": 1067500
+     },
+     "1 B/R": {
+      "sales": 195,
+      "medianAed": 1550000,
+      "p25Aed": 995000,
+      "p75Aed": 2484548
+     },
+     "2 B/R": {
+      "sales": 108,
+      "medianAed": 2505000,
+      "p25Aed": 1830000,
+      "p75Aed": 3415000
+     },
+     "4 B/R": {
+      "sales": 12,
+      "medianAed": 5700000,
+      "p25Aed": 3687500,
+      "p75Aed": 13900000
+     },
+     "3 B/R": {
+      "sales": 36,
+      "medianAed": 4388944,
+      "p25Aed": 2775000,
+      "p75Aed": 5122161
+     }
+    }
+   },
+   {
+    "area": "Jabal Ali First",
+    "sales": 373,
+    "medianTicketAed": 1925000,
+    "medianAedSqft": 1698,
+    "offPlanPct": 96,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 11,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 139,
+      "medianAed": 1459000,
+      "p25Aed": 1141000,
+      "p75Aed": 1658000
+     },
+     "Studio": {
+      "sales": 40,
+      "medianAed": 674900,
+      "p25Aed": 636379,
+      "p75Aed": 724900
+     },
+     "2 B/R": {
+      "sales": 158,
+      "medianAed": 2168000,
+      "p25Aed": 1941500,
+      "p75Aed": 2313000
+     },
+     "3 B/R": {
+      "sales": 27,
+      "medianAed": 3118000,
+      "p25Aed": 3019000,
+      "p75Aed": 3179000
+     }
+    }
+   },
+   {
+    "area": "BURJ KHALIFA",
+    "sales": 332,
+    "medianTicketAed": 2765000,
+    "medianAedSqft": 2474,
+    "offPlanPct": 18,
+    "grossYieldPct": 5.9,
+    "serviceChargeAedSqftYr": 26,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": 4.8,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 126,
+      "medianAed": 3510000,
+      "p25Aed": 2795000,
+      "p75Aed": 4300000
+     },
+     "1 B/R": {
+      "sales": 125,
+      "medianAed": 1977000,
+      "p25Aed": 1373500,
+      "p75Aed": 2410000
+     },
+     "Studio": {
+      "sales": 24,
+      "medianAed": 1150000,
+      "p25Aed": 742500,
+      "p75Aed": 1590000
+     },
+     "3 B/R": {
+      "sales": 41,
+      "medianAed": 7100000,
+      "p25Aed": 5600000,
+      "p75Aed": 10878500
+     },
+     "4 B/R": {
+      "sales": 14,
+      "medianAed": 24690606,
+      "p25Aed": 12125000,
+      "p75Aed": 30000000
+     }
+    }
+   },
+   {
+    "area": "DUBAI SPORTS CITY",
+    "sales": 315,
+    "medianTicketAed": 850000,
+    "medianAedSqft": 1286,
+    "offPlanPct": 53,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 113,
+      "medianAed": 570000,
+      "p25Aed": 482500,
+      "p75Aed": 746275
+     },
+     "1 B/R": {
+      "sales": 103,
+      "medianAed": 935000,
+      "p25Aed": 675000,
+      "p75Aed": 1114000
+     },
+     "3 B/R": {
+      "sales": 10,
+      "medianAed": 2265074,
+      "p25Aed": 2126347,
+      "p75Aed": 2661250
+     },
+     "2 B/R": {
+      "sales": 65,
+      "medianAed": 1400000,
+      "p25Aed": 1150000,
+      "p75Aed": 1560210
+     }
+    }
+   },
+   {
+    "area": "AL FURJAN",
+    "sales": 308,
+    "medianTicketAed": 1250000,
+    "medianAedSqft": 1393,
+    "offPlanPct": 47,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 13,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 96,
+      "medianAed": 571115,
+      "p25Aed": 525472,
+      "p75Aed": 591980
+     },
+     "3 B/R": {
+      "sales": 26,
+      "medianAed": 2219639,
+      "p25Aed": 2080168,
+      "p75Aed": 2725000
+     },
+     "1 B/R": {
+      "sales": 63,
+      "medianAed": 972770,
+      "p25Aed": 850000,
+      "p75Aed": 1190000
+     },
+     "2 B/R": {
+      "sales": 91,
+      "medianAed": 1580000,
+      "p25Aed": 1465400,
+      "p75Aed": 1763387
+     },
+     "4 B/R": {
+      "sales": 8,
+      "medianAed": 3732500,
+      "p25Aed": 3487500,
+      "p75Aed": 4068750
+     }
+    }
+   },
+   {
+    "area": "DAMAC HILLS",
+    "sales": 308,
+    "medianTicketAed": 1168500,
+    "medianAedSqft": 1800,
+    "offPlanPct": 76,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 12,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 102,
+      "medianAed": 787500,
+      "p25Aed": 724568,
+      "p75Aed": 823000
+     },
+     "1 B/R": {
+      "sales": 150,
+      "medianAed": 1207665,
+      "p25Aed": 1130940,
+      "p75Aed": 1266052
+     },
+     "2 B/R": {
+      "sales": 32,
+      "medianAed": 2013490,
+      "p25Aed": 1677112,
+      "p75Aed": 2190140
+     }
+    }
+   },
+   {
+    "area": "Al Thanyah Fifth",
+    "sales": 289,
+    "medianTicketAed": 2162828,
+    "medianAedSqft": 2339,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 163,
+      "medianAed": 1929828,
+      "p25Aed": 1857828,
+      "p75Aed": 2018828
+     },
+     "3 B/R": {
+      "sales": 26,
+      "medianAed": 3887828,
+      "p25Aed": 3793328,
+      "p75Aed": 4268078
+     },
+     "2 B/R": {
+      "sales": 95,
+      "medianAed": 3068828,
+      "p25Aed": 2722828,
+      "p75Aed": 3444828
+     }
+    }
+   },
+   {
+    "area": "JUMEIRAH VILLAGE TRIANGLE",
+    "sales": 275,
+    "medianTicketAed": 1100000,
+    "medianAedSqft": 1616,
+    "offPlanPct": 69,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 12,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 28,
+      "medianAed": 1723774,
+      "p25Aed": 1580453,
+      "p75Aed": 2141818
+     },
+     "Studio": {
+      "sales": 88,
+      "medianAed": 780499,
+      "p25Aed": 662735,
+      "p75Aed": 844435
+     },
+     "1 B/R": {
+      "sales": 127,
+      "medianAed": 1151589,
+      "p25Aed": 1000000,
+      "p75Aed": 1272759
+     }
+    }
+   },
+   {
+    "area": "SILICON OASIS",
+    "sales": 269,
+    "medianTicketAed": 948830,
+    "medianAedSqft": 1138,
+    "offPlanPct": 28,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 106,
+      "medianAed": 781500,
+      "p25Aed": 669500,
+      "p75Aed": 1097400
+     },
+     "2 B/R": {
+      "sales": 83,
+      "medianAed": 1562789,
+      "p25Aed": 1389760,
+      "p75Aed": 1815828
+     },
+     "Studio": {
+      "sales": 61,
+      "medianAed": 511686,
+      "p25Aed": 426865,
+      "p75Aed": 643261
+     },
+     "3 B/R": {
+      "sales": 8,
+      "medianAed": 2320000,
+      "p25Aed": 2071500,
+      "p75Aed": 2503812
+     }
+    }
+   },
+   {
+    "area": "JUMEIRAH LAKES TOWERS",
+    "sales": 256,
+    "medianTicketAed": 1524208,
+    "medianAedSqft": 1519,
+    "offPlanPct": 27,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 18,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 40,
+      "medianAed": 707500,
+      "p25Aed": 460000,
+      "p75Aed": 1019750
+     },
+     "3 B/R": {
+      "sales": 12,
+      "medianAed": 3058560,
+      "p25Aed": 1858750,
+      "p75Aed": 4225000
+     },
+     "1 B/R": {
+      "sales": 74,
+      "medianAed": 1265000,
+      "p25Aed": 930000,
+      "p75Aed": 1637450
+     },
+     "2 B/R": {
+      "sales": 47,
+      "medianAed": 2343505,
+      "p25Aed": 1720000,
+      "p75Aed": 2730000
+     }
+    }
+   },
+   {
+    "area": "Al Yelayiss 1",
+    "sales": 253,
+    "medianTicketAed": 3043000,
+    "medianAedSqft": 1734,
+    "offPlanPct": 70,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "5 B/R": {
+      "sales": 72,
+      "medianAed": 4097000,
+      "p25Aed": 3686790,
+      "p75Aed": 5027566
+     },
+     "4 B/R": {
+      "sales": 106,
+      "medianAed": 2754480,
+      "p25Aed": 2485120,
+      "p75Aed": 2904180
+     }
+    }
+   },
+   {
+    "area": "Dubai Investment Park First",
+    "sales": 234,
+    "medianTicketAed": 628058,
+    "medianAedSqft": 950,
+    "offPlanPct": 100,
+    "grossYieldPct": 6.3,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": 4.6,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 77,
+      "medianAed": 706400,
+      "p25Aed": 553605,
+      "p75Aed": 890605
+     },
+     "Studio": {
+      "sales": 81,
+      "medianAed": 392000,
+      "p25Aed": 335817,
+      "p75Aed": 500133
+     },
+     "2 B/R": {
+      "sales": 61,
+      "medianAed": 948037,
+      "p25Aed": 679456,
+      "p75Aed": 1282067
+     },
+     "4 B/R": {
+      "sales": 8,
+      "medianAed": 1681738,
+      "p25Aed": 1289588,
+      "p75Aed": 1875413
+     }
+    }
+   },
+   {
+    "area": "MEYDAN ONE",
+    "sales": 228,
+    "medianTicketAed": 1153310,
+    "medianAedSqft": 2089,
+    "offPlanPct": 42,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 106,
+      "medianAed": 760000,
+      "p25Aed": 620000,
+      "p75Aed": 971262
+     },
+     "1 B/R": {
+      "sales": 72,
+      "medianAed": 1533925,
+      "p25Aed": 1164965,
+      "p75Aed": 1743820
+     },
+     "2 B/R": {
+      "sales": 22,
+      "medianAed": 2134894,
+      "p25Aed": 1404250,
+      "p75Aed": 3033788
+     }
+    }
+   },
+   {
+    "area": "Al Yufrah 1",
+    "sales": 226,
+    "medianTicketAed": 1619025,
+    "medianAedSqft": 1850,
+    "offPlanPct": 77,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "4 B/R": {
+      "sales": 37,
+      "medianAed": 3350000,
+      "p25Aed": 3267944,
+      "p75Aed": 4000000
+     },
+     "3 B/R": {
+      "sales": 42,
+      "medianAed": 2600000,
+      "p25Aed": 2437500,
+      "p75Aed": 2808972
+     },
+     "1 B/R": {
+      "sales": 105,
+      "medianAed": 1012556,
+      "p25Aed": 1000240,
+      "p75Aed": 1042046
+     },
+     "2 B/R": {
+      "sales": 28,
+      "medianAed": 1777850,
+      "p25Aed": 1619025,
+      "p75Aed": 1801875
+     }
+    }
+   },
+   {
+    "area": "Palm Deira",
+    "sales": 225,
+    "medianTicketAed": 2774488,
+    "medianAedSqft": 2533,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "3 B/R": {
+      "sales": 30,
+      "medianAed": 4374354,
+      "p25Aed": 3479000,
+      "p75Aed": 6588578
+     },
+     "1 B/R": {
+      "sales": 107,
+      "medianAed": 2207000,
+      "p25Aed": 2004000,
+      "p75Aed": 2574828
+     },
+     "2 B/R": {
+      "sales": 77,
+      "medianAed": 3525858,
+      "p25Aed": 2782167,
+      "p75Aed": 4334828
+     }
+    }
+   },
+   {
+    "area": "BUSINESS PARK",
+    "sales": 221,
+    "medianTicketAed": 1350000,
+    "medianAedSqft": 3548,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 141,
+      "medianAed": 1300000,
+      "p25Aed": 1300000,
+      "p75Aed": 1350000
+     },
+     "1 B/R": {
+      "sales": 44,
+      "medianAed": 2300000,
+      "p25Aed": 2250000,
+      "p75Aed": 2368750
+     },
+     "2 B/R": {
+      "sales": 24,
+      "medianAed": 3268000,
+      "p25Aed": 3173030,
+      "p75Aed": 3374112
+     }
+    }
+   },
+   {
+    "area": "Wadi Al Safa 4",
+    "sales": 219,
+    "medianTicketAed": 1090000,
+    "medianAedSqft": 1816,
+    "offPlanPct": 95,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 80,
+      "medianAed": 595500,
+      "p25Aed": 581000,
+      "p75Aed": 616690
+     },
+     "2 B/R": {
+      "sales": 46,
+      "medianAed": 2207100,
+      "p25Aed": 1913744,
+      "p75Aed": 2899750
+     },
+     "3 B/R": {
+      "sales": 13,
+      "medianAed": 4118000,
+      "p25Aed": 3862500,
+      "p75Aed": 4275000
+     },
+     "1 B/R": {
+      "sales": 71,
+      "medianAed": 1197018,
+      "p25Aed": 990000,
+      "p75Aed": 1330000
+     }
+    }
+   },
+   {
+    "area": "DUBAI HILLS",
+    "sales": 209,
+    "medianTicketAed": 2150000,
+    "medianAedSqft": 2143,
+    "offPlanPct": 14,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 69,
+      "medianAed": 2400000,
+      "p25Aed": 1650000,
+      "p75Aed": 2712875
+     },
+     "1 B/R": {
+      "sales": 77,
+      "medianAed": 1550000,
+      "p25Aed": 1265000,
+      "p75Aed": 1793944
+     },
+     "3 B/R": {
+      "sales": 25,
+      "medianAed": 4265888,
+      "p25Aed": 3618414,
+      "p75Aed": 4912500
+     },
+     "4 B/R": {
+      "sales": 9,
+      "medianAed": 5450000,
+      "p25Aed": 5250000,
+      "p75Aed": 5775000
+     }
+    }
+   },
+   {
+    "area": "HORIZON",
+    "sales": 205,
+    "medianTicketAed": 2140828,
+    "medianAedSqft": 2582,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 136,
+      "medianAed": 2000000,
+      "p25Aed": 1800775,
+      "p75Aed": 2139078
+     },
+     "2 B/R": {
+      "sales": 47,
+      "medianAed": 3099690,
+      "p25Aed": 2782828,
+      "p75Aed": 3565828
+     },
+     "3 B/R": {
+      "sales": 8,
+      "medianAed": 4405844,
+      "p25Aed": 4277578,
+      "p75Aed": 4602078
+     }
+    }
+   },
+   {
+    "area": "INTERNATIONAL CITY PH 2 & 3",
+    "sales": 203,
+    "medianTicketAed": 810311,
+    "medianAedSqft": 1243,
+    "offPlanPct": 72,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 90,
+      "medianAed": 855344,
+      "p25Aed": 760000,
+      "p75Aed": 948112
+     },
+     "Studio": {
+      "sales": 66,
+      "medianAed": 517860,
+      "p25Aed": 455462,
+      "p75Aed": 554874
+     },
+     "2 B/R": {
+      "sales": 39,
+      "medianAed": 1245018,
+      "p25Aed": 1149629,
+      "p75Aed": 1316500
+     }
+    }
+   },
+   {
+    "area": "INTERNATIONAL CITY PH 1",
+    "sales": 201,
+    "medianTicketAed": 440000,
+    "medianAedSqft": 671,
+    "offPlanPct": 15,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 16,
+      "medianAed": 725000,
+      "p25Aed": 650000,
+      "p75Aed": 890000
+     },
+     "1 B/R": {
+      "sales": 78,
+      "medianAed": 444000,
+      "p25Aed": 425000,
+      "p75Aed": 525250
+     },
+     "Studio": {
+      "sales": 72,
+      "medianAed": 330000,
+      "p25Aed": 300000,
+      "p75Aed": 362375
+     }
+    }
+   },
+   {
+    "area": "DUBAI STUDIO CITY",
+    "sales": 200,
+    "medianTicketAed": 561000,
+    "medianAedSqft": 1538,
+    "offPlanPct": 71,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 63,
+      "medianAed": 928000,
+      "p25Aed": 467025,
+      "p75Aed": 1089960
+     },
+     "Studio": {
+      "sales": 132,
+      "medianAed": 541400,
+      "p25Aed": 495050,
+      "p75Aed": 582250
+     }
+    }
+   },
+   {
+    "area": "Al Khairan First",
+    "sales": 190,
+    "medianTicketAed": 3346480,
+    "medianAedSqft": 2673,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 104,
+      "medianAed": 3430068,
+      "p25Aed": 3327471,
+      "p75Aed": 4042388
+     },
+     "1 B/R": {
+      "sales": 67,
+      "medianAed": 2074888,
+      "p25Aed": 1920690,
+      "p75Aed": 2162750
+     },
+     "3 B/R": {
+      "sales": 19,
+      "medianAed": 5550888,
+      "p25Aed": 4496888,
+      "p75Aed": 5838888
+     }
+    }
+   },
+   {
+    "area": "MOTOR CITY",
+    "sales": 182,
+    "medianTicketAed": 1400028,
+    "medianAedSqft": 1687,
+    "offPlanPct": 64,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 32,
+      "medianAed": 797977,
+      "p25Aed": 686629,
+      "p75Aed": 828414
+     },
+     "1 B/R": {
+      "sales": 60,
+      "medianAed": 1097315,
+      "p25Aed": 943296,
+      "p75Aed": 1376537
+     },
+     "2 B/R": {
+      "sales": 54,
+      "medianAed": 1787575,
+      "p25Aed": 1608580,
+      "p75Aed": 2070539
+     },
+     "3 B/R": {
+      "sales": 19,
+      "medianAed": 2894550,
+      "p25Aed": 2700000,
+      "p75Aed": 3683137
+     }
+    }
+   },
+   {
+    "area": "DUBAI SOUTH",
+    "sales": 178,
+    "medianTicketAed": 1015400,
+    "medianAedSqft": 1201,
+    "offPlanPct": 54,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 10,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 53,
+      "medianAed": 1365386,
+      "p25Aed": 1123640,
+      "p75Aed": 1646928
+     },
+     "Studio": {
+      "sales": 37,
+      "medianAed": 493141,
+      "p25Aed": 430562,
+      "p75Aed": 511080
+     },
+     "1 B/R": {
+      "sales": 72,
+      "medianAed": 925638,
+      "p25Aed": 705395,
+      "p75Aed": 1117000
+     },
+     "3 B/R": {
+      "sales": 15,
+      "medianAed": 1950000,
+      "p25Aed": 1500000,
+      "p75Aed": 2079600
+     }
+    }
+   },
+   {
+    "area": "DUBAI INVESTMENT PARK FIRST",
+    "sales": 176,
+    "medianTicketAed": 1456210,
+    "medianAedSqft": 1195,
+    "offPlanPct": 89,
+    "grossYieldPct": 6.3,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": 5.0,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 48,
+      "medianAed": 1456210,
+      "p25Aed": 968430,
+      "p75Aed": 1624258
+     },
+     "4 B/R": {
+      "sales": 82,
+      "medianAed": 1362666,
+      "p25Aed": 1308981,
+      "p75Aed": 2085250
+     },
+     "3 B/R": {
+      "sales": 38,
+      "medianAed": 1743725,
+      "p25Aed": 1249425,
+      "p75Aed": 2001875
+     }
+    }
+   },
+   {
+    "area": "Palm Jabal Ali",
+    "sales": 176,
+    "medianTicketAed": 4370000,
+    "medianAedSqft": 3542,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 58,
+      "medianAed": 4991000,
+      "p25Aed": 4386000,
+      "p75Aed": 5832500
+     },
+     "3 B/R": {
+      "sales": 29,
+      "medianAed": 7723000,
+      "p25Aed": 7654500,
+      "p75Aed": 7767500
+     },
+     "1 B/R": {
+      "sales": 78,
+      "medianAed": 2776000,
+      "p25Aed": 2707000,
+      "p75Aed": 2819250
+     },
+     "4 B/R": {
+      "sales": 10,
+      "medianAed": 13107000,
+      "p25Aed": 13006250,
+      "p75Aed": 15908000
+     }
+    }
+   },
+   {
+    "area": "SOBHA HEARTLAND",
+    "sales": 168,
+    "medianTicketAed": 1750000,
+    "medianAedSqft": 1900,
+    "offPlanPct": 2,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 46,
+      "medianAed": 2500000,
+      "p25Aed": 2155224,
+      "p75Aed": 2740000
+     },
+     "1 B/R": {
+      "sales": 73,
+      "medianAed": 1140000,
+      "p25Aed": 44710,
+      "p75Aed": 1625000
+     },
+     "3 B/R": {
+      "sales": 17,
+      "medianAed": 3200000,
+      "p25Aed": 3000000,
+      "p75Aed": 3350000
+     },
+     "Studio": {
+      "sales": 17,
+      "medianAed": 87096,
+      "p25Aed": 41461,
+      "p75Aed": 910000
+     }
+    }
+   },
+   {
+    "area": "Madinat Hind 4",
+    "sales": 168,
+    "medianTicketAed": 1620000,
+    "medianAedSqft": 1039,
+    "offPlanPct": 5,
+    "grossYieldPct": 6.0,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": 4.5,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 8,
+      "medianAed": 943260,
+      "p25Aed": 892907,
+      "p75Aed": 1192800
+     },
+     "Studio": {
+      "sales": 9,
+      "medianAed": 471625,
+      "p25Aed": 427500,
+      "p75Aed": 500720
+     }
+    }
+   },
+   {
+    "area": "DUBAI CREEK HARBOUR",
+    "sales": 161,
+    "medianTicketAed": 2400000,
+    "medianAedSqft": 2275,
+    "offPlanPct": 14,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 18,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 69,
+      "medianAed": 2600000,
+      "p25Aed": 2350000,
+      "p75Aed": 2925944
+     },
+     "3 B/R": {
+      "sales": 31,
+      "medianAed": 4000000,
+      "p25Aed": 3400000,
+      "p75Aed": 4600000
+     },
+     "1 B/R": {
+      "sales": 59,
+      "medianAed": 1700000,
+      "p25Aed": 1530000,
+      "p75Aed": 1827888
+     }
+    }
+   },
+   {
+    "area": "LIVING LEGENDS",
+    "sales": 152,
+    "medianTicketAed": 646573,
+    "medianAedSqft": 1425,
+    "offPlanPct": 84,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 107,
+      "medianAed": 606426,
+      "p25Aed": 586351,
+      "p75Aed": 656973
+     },
+     "1 B/R": {
+      "sales": 14,
+      "medianAed": 1065815,
+      "p25Aed": 1027308,
+      "p75Aed": 1133750
+     },
+     "2 B/R": {
+      "sales": 18,
+      "medianAed": 1430278,
+      "p25Aed": 1265237,
+      "p75Aed": 1694671
+     }
+    }
+   },
+   {
+    "area": "Wadi Al Safa 3",
+    "sales": 146,
+    "medianTicketAed": 1741980,
+    "medianAedSqft": 1686,
+    "offPlanPct": 78,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 40,
+      "medianAed": 1295888,
+      "p25Aed": 910077,
+      "p75Aed": 1412055
+     },
+     "2 B/R": {
+      "sales": 39,
+      "medianAed": 1037036,
+      "p25Aed": 921311,
+      "p75Aed": 2419738
+     },
+     "4 B/R": {
+      "sales": 16,
+      "medianAed": 7212181,
+      "p25Aed": 5120000,
+      "p75Aed": 10194375
+     },
+     "3 B/R": {
+      "sales": 22,
+      "medianAed": 1919944,
+      "p25Aed": 1790000,
+      "p75Aed": 2762321
+     }
+    }
+   },
+   {
+    "area": "Al Hebiah First",
+    "sales": 143,
+    "medianTicketAed": 892999,
+    "medianAedSqft": 1744,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 78,
+      "medianAed": 809999,
+      "p25Aed": 785999,
+      "p75Aed": 858999
+     },
+     "1 B/R": {
+      "sales": 60,
+      "medianAed": 1100000,
+      "p25Aed": 1100000,
+      "p75Aed": 1169500
+     }
+    }
+   },
+   {
+    "area": "Wadi Al Safa 5",
+    "sales": 138,
+    "medianTicketAed": 3018312,
+    "medianAedSqft": 1504,
+    "offPlanPct": 69,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 7,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "4 B/R": {
+      "sales": 32,
+      "medianAed": 4050000,
+      "p25Aed": 3712500,
+      "p75Aed": 4245762
+     },
+     "3 B/R": {
+      "sales": 40,
+      "medianAed": 3000000,
+      "p25Aed": 2900000,
+      "p75Aed": 3193725
+     },
+     "1 B/R": {
+      "sales": 28,
+      "medianAed": 1526646,
+      "p25Aed": 1354226,
+      "p75Aed": 1607676
+     },
+     "2 B/R": {
+      "sales": 19,
+      "medianAed": 2249971,
+      "p25Aed": 1837998,
+      "p75Aed": 2459500
+     }
+    }
+   },
+   {
+    "area": "DUBAI SCIENCE PARK",
+    "sales": 128,
+    "medianTicketAed": 834000,
+    "medianAedSqft": 1722,
+    "offPlanPct": 84,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 34,
+      "medianAed": 1315250,
+      "p25Aed": 1200000,
+      "p75Aed": 1506750
+     },
+     "Studio": {
+      "sales": 76,
+      "medianAed": 786499,
+      "p25Aed": 712499,
+      "p75Aed": 821658
+     },
+     "2 B/R": {
+      "sales": 16,
+      "medianAed": 2519415,
+      "p25Aed": 1772000,
+      "p75Aed": 2848027
+     }
+    }
+   },
+   {
+    "area": "DUBAI INDUSTRIAL CITY",
+    "sales": 126,
+    "medianTicketAed": 599000,
+    "medianAedSqft": 1390,
+    "offPlanPct": 96,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 91,
+      "medianAed": 535000,
+      "p25Aed": 476150,
+      "p75Aed": 616447
+     },
+     "1 B/R": {
+      "sales": 25,
+      "medianAed": 934000,
+      "p25Aed": 775975,
+      "p75Aed": 969000
+     }
+    }
+   },
+   {
+    "area": "DISCOVERY GARDENS",
+    "sales": 124,
+    "medianTicketAed": 757500,
+    "medianAedSqft": 900,
+    "offPlanPct": 0,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 11,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 41,
+      "medianAed": 500000,
+      "p25Aed": 487500,
+      "p75Aed": 520000
+     },
+     "2 B/R": {
+      "sales": 39,
+      "medianAed": 1200000,
+      "p25Aed": 1150000,
+      "p75Aed": 1349000
+     },
+     "1 B/R": {
+      "sales": 44,
+      "medianAed": 762500,
+      "p25Aed": 750000,
+      "p75Aed": 795000
+     }
+    }
+   },
+   {
+    "area": "PALM JUMEIRAH",
+    "sales": 116,
+    "medianTicketAed": 4450000,
+    "medianAedSqft": 2863,
+    "offPlanPct": 27,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 28,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 22,
+      "medianAed": 2365280,
+      "p25Aed": 1896939,
+      "p75Aed": 2868750
+     },
+     "2 B/R": {
+      "sales": 53,
+      "medianAed": 5500000,
+      "p25Aed": 3775000,
+      "p75Aed": 8135440
+     },
+     "Studio": {
+      "sales": 16,
+      "medianAed": 35513,
+      "p25Aed": 11312,
+      "p75Aed": 1237500
+     },
+     "3 B/R": {
+      "sales": 19,
+      "medianAed": 11447000,
+      "p25Aed": 6300000,
+      "p75Aed": 14550000
+     }
+    }
+   },
+   {
+    "area": "SAMA AL JADAF",
+    "sales": 113,
+    "medianTicketAed": 899999,
+    "medianAedSqft": 2230,
+    "offPlanPct": 100,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 58,
+      "medianAed": 824628,
+      "p25Aed": 790370,
+      "p75Aed": 856654
+     },
+     "1 B/R": {
+      "sales": 46,
+      "medianAed": 1408100,
+      "p25Aed": 1318000,
+      "p75Aed": 1470249
+     },
+     "2 B/R": {
+      "sales": 9,
+      "medianAed": 1743000,
+      "p25Aed": 1667575,
+      "p75Aed": 1977560
+     }
+    }
+   },
+   {
+    "area": "Al Yelayiss 2",
+    "sales": 112,
+    "medianTicketAed": 1540944,
+    "medianAedSqft": 1467,
+    "offPlanPct": 60,
+    "grossYieldPct": 6.1,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": 5.0,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 54,
+      "medianAed": 1565444,
+      "p25Aed": 1446250,
+      "p75Aed": 1645888
+     },
+     "1 B/R": {
+      "sales": 29,
+      "medianAed": 1083888,
+      "p25Aed": 975000,
+      "p75Aed": 1181888
+     },
+     "3 B/R": {
+      "sales": 23,
+      "medianAed": 2860000,
+      "p25Aed": 2550000,
+      "p75Aed": 3000000
+     }
+    }
+   },
+   {
+    "area": "Al Satwa",
+    "sales": 106,
+    "medianTicketAed": 1362644,
+    "medianAedSqft": 2174,
+    "offPlanPct": 79,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 42,
+      "medianAed": 1030094,
+      "p25Aed": 974830,
+      "p75Aed": 1076775
+     },
+     "2 B/R": {
+      "sales": 15,
+      "medianAed": 2182000,
+      "p25Aed": 1899000,
+      "p75Aed": 2446275
+     },
+     "1 B/R": {
+      "sales": 47,
+      "medianAed": 1552630,
+      "p25Aed": 1375288,
+      "p75Aed": 1715000
+     }
+    }
+   },
+   {
+    "area": "Hadaeq Sheikh Mohammed Bin Rashid",
+    "sales": 100,
+    "medianTicketAed": 2349444,
+    "medianAedSqft": 2378,
+    "offPlanPct": 58,
+    "grossYieldPct": 5.1,
+    "serviceChargeAedSqftYr": 7,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": 4.8,
+    "byRoom": {
+     "2 B/R": {
+      "sales": 36,
+      "medianAed": 2567500,
+      "p25Aed": 2299916,
+      "p75Aed": 2923211
+     },
+     "1 B/R": {
+      "sales": 36,
+      "medianAed": 1639786,
+      "p25Aed": 1500000,
+      "p75Aed": 1873688
+     },
+     "3 B/R": {
+      "sales": 15,
+      "medianAed": 4307412,
+      "p25Aed": 3750000,
+      "p75Aed": 4983888
+     }
+    }
+   },
+   {
+    "area": "TOWN SQUARE",
+    "sales": 96,
+    "medianTicketAed": 1257444,
+    "medianAedSqft": 1316,
+    "offPlanPct": 16,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 10,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 17,
+      "medianAed": 820000,
+      "p25Aed": 748375,
+      "p75Aed": 880000
+     },
+     "2 B/R": {
+      "sales": 43,
+      "medianAed": 1249000,
+      "p25Aed": 1130000,
+      "p75Aed": 1340000
+     },
+     "3 B/R": {
+      "sales": 27,
+      "medianAed": 2670000,
+      "p25Aed": 1950000,
+      "p75Aed": 2770000
+     }
+    }
+   },
+   {
+    "area": "DUBAI MARITIME CITY",
+    "sales": 95,
+    "medianTicketAed": 2196000,
+    "medianAedSqft": 3294,
+    "offPlanPct": 99,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 50,
+      "medianAed": 2333280,
+      "p25Aed": 2003000,
+      "p75Aed": 2924790
+     },
+     "2 B/R": {
+      "sales": 13,
+      "medianAed": 4291280,
+      "p25Aed": 3414315,
+      "p75Aed": 4988780
+     },
+     "Studio": {
+      "sales": 26,
+      "medianAed": 1399960,
+      "p25Aed": 1333000,
+      "p75Aed": 1496000
+     }
+    }
+   },
+   {
+    "area": "DUBAI HEALTHCARE CITY - PHASE 2",
+    "sales": 87,
+    "medianTicketAed": 1443200,
+    "medianAedSqft": 1606,
+    "offPlanPct": 29,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 42,
+      "medianAed": 1264136,
+      "p25Aed": 1154533,
+      "p75Aed": 1454065
+     },
+     "Studio": {
+      "sales": 13,
+      "medianAed": 715000,
+      "p25Aed": 670000,
+      "p75Aed": 924494
+     },
+     "2 B/R": {
+      "sales": 27,
+      "medianAed": 2000000,
+      "p25Aed": 1972624,
+      "p75Aed": 2119637
+     }
+    }
+   },
+   {
+    "area": "Al Wasl",
+    "sales": 78,
+    "medianTicketAed": 2716500,
+    "medianAedSqft": 3191,
+    "offPlanPct": 82,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 36,
+      "medianAed": 2417560,
+      "p25Aed": 2181750,
+      "p75Aed": 2708500
+     },
+     "3 B/R": {
+      "sales": 14,
+      "medianAed": 9771270,
+      "p25Aed": 8565522,
+      "p75Aed": 12059357
+     },
+     "Studio": {
+      "sales": 9,
+      "medianAed": 1394000,
+      "p25Aed": 1252560,
+      "p75Aed": 1454500
+     },
+     "2 B/R": {
+      "sales": 11,
+      "medianAed": 3428480,
+      "p25Aed": 3280000,
+      "p75Aed": 3545400
+     }
+    }
+   },
+   {
+    "area": "LIWAN",
+    "sales": 75,
+    "medianTicketAed": 870000,
+    "medianAedSqft": 1081,
+    "offPlanPct": 29,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 11,
+    "serviceChargeIsEstimate": false,
+    "netYieldPct": null,
+    "byRoom": {
+     "1 B/R": {
+      "sales": 39,
+      "medianAed": 670000,
+      "p25Aed": 550000,
+      "p75Aed": 1020000
+     },
+     "Studio": {
+      "sales": 12,
+      "medianAed": 560900,
+      "p25Aed": 502500,
+      "p75Aed": 697333
+     },
+     "2 B/R": {
+      "sales": 17,
+      "medianAed": 1539000,
+      "p25Aed": 1360000,
+      "p75Aed": 1970000
+     }
+    }
+   },
+   {
+    "area": "Dubai Investment Park Second",
+    "sales": 74,
+    "medianTicketAed": 2017860,
+    "medianAedSqft": 1486,
+    "offPlanPct": 88,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "4 B/R": {
+      "sales": 9,
+      "medianAed": 2654000,
+      "p25Aed": 2463000,
+      "p75Aed": 3832409
+     },
+     "1 B/R": {
+      "sales": 25,
+      "medianAed": 1064000,
+      "p25Aed": 971000,
+      "p75Aed": 1356180
+     },
+     "Studio": {
+      "sales": 8,
+      "medianAed": 791290,
+      "p25Aed": 773708,
+      "p75Aed": 803805
+     },
+     "2 B/R": {
+      "sales": 14,
+      "medianAed": 2057225,
+      "p25Aed": 2006040,
+      "p75Aed": 2160142
+     }
+    }
+   },
+   {
+    "area": "Warsan First",
+    "sales": 72,
+    "medianTicketAed": 553700,
+    "medianAedSqft": 1294,
+    "offPlanPct": 92,
+    "grossYieldPct": null,
+    "serviceChargeAedSqftYr": 16,
+    "serviceChargeIsEstimate": true,
+    "netYieldPct": null,
+    "byRoom": {
+     "Studio": {
+      "sales": 37,
+      "medianAed": 521300,
+      "p25Aed": 514450,
+      "p75Aed": 533100
+     },
+     "1 B/R": {
+      "sales": 28,
+      "medianAed": 849084,
+      "p25Aed": 762500,
+      "p75Aed": 959039
+     }
+    }
+   }
+  ]
+ },
  "meed": {
   "static": true,
   "note": "MEED context is a fixed snapshot mapped against the refreshed DLD pulse \u2014 it is not updated with it.",
@@ -279,7 +2961,7 @@
   "corpus": {
    "projects": 26119,
    "version": 55,
-   "lastSyncAt": "2026-08-25T11:00:02.427Z",
+   "lastSyncAt": "2026-09-01T02:00:25.181Z",
    "archived": 20056,
    "live": false,
    "servedBy": "Digital Abbot Cloud (DigitAlchemy stored MEED corpus)"
@@ -299,11 +2981,11 @@
     },
     "nextCompletion": "2026-12-30",
     "dldPulse": {
-     "salesCount": 784,
-     "salesValueAedM": 2815,
-     "medianTicketAed": 1691813,
-     "medianResidentialAedSqft": 2094,
-     "offPlanPct": 36
+     "salesCount": 790,
+     "salesValueAedM": 2831,
+     "medianTicketAed": 1700000,
+     "medianResidentialAedSqft": 2127,
+     "offPlanPct": 37
     },
     "mapNote": "Business Bay / Dubai Water Canal \u2014 confirmed"
    },
@@ -334,11 +3016,11 @@
     },
     "nextCompletion": "2028-05-30",
     "dldPulse": {
-     "salesCount": 593,
-     "salesValueAedM": 1555,
-     "medianTicketAed": 2127873,
-     "medianResidentialAedSqft": 2054,
-     "offPlanPct": 84
+     "salesCount": 570,
+     "salesValueAedM": 1495,
+     "medianTicketAed": 2109812,
+     "medianResidentialAedSqft": 2075,
+     "offPlanPct": 83
     },
     "mapNote": "JVT confirmed; Dubai Islands registers in DLD as Palm Deira"
    },
