@@ -1,0 +1,30 @@
+# Najma daily refresh — runs the full pipeline on this PC (the DLD gateway blocks cloud IPs,
+# so this cannot run in GitHub Actions; a Windows scheduled task drives it instead).
+# fetch fresh DLD -> build pulse.json -> ingest to Worker -> render + push heat map.
+$ErrorActionPreference = "Continue"
+Set-Location "C:\Dev\naj-market-pulse"
+$log = "C:\Dev\naj-market-pulse\daily_refresh.log"
+function Log($m) { Add-Content $log ("[{0}] {1}" -f (Get-Date -Format s), $m) }
+Log "=== refresh start ==="
+
+$env:DLD_TX_DAYS = "56"; $env:DLD_RENT_DAYS = "28"
+python scripts\fetch_dld.py  *>> $log
+python scripts\build_pulse.py *>> $log
+
+# secrets from the listener .env (INGEST_TOKEN) — never hard-coded
+$tok = (Get-Content "C:\Dev\azimuth-listener-naj\.env" | Where-Object { $_ -like "INGEST_TOKEN=*" }) -replace "INGEST_TOKEN=",""
+$tok = $tok.Trim()
+$env:AZIMUTH_URL = "https://azimuth-2.digitalchemy.workers.dev"
+$env:INGEST_TOKEN = $tok
+
+# ingest pulse.json
+try {
+  $r = Invoke-RestMethod -Method Post -Uri "$($env:AZIMUTH_URL)/ingest_market" `
+    -Headers @{ "X-Azimuth-Ingest" = $tok; "Content-Type" = "application/json"; "User-Agent" = "najma-market-pulse/1.0" } `
+    -InFile "public\pulse.json"
+  Log ("ingest ok: " + ($r | ConvertTo-Json -Compress))
+} catch { Log ("ingest FAILED: " + $_.Exception.Message) }
+
+# render + push heat map
+python scripts\push_heatmap.py *>> $log
+Log "=== refresh done ==="
