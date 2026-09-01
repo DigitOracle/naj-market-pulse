@@ -3,3 +3,5 @@ data/
 __pycache__/
 public/heatmap_story.png
 public/heatmap_square.png
+naj.duckdb
+*.log
