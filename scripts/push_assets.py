@@ -21,7 +21,8 @@ def push(name, path, ctype, url, token):
     with open(path, "rb") as f:
         raw = f.read()
     if len(raw) > 5 * 1024 * 1024:
-        sys.exit(f"{name}: {len(raw)//1024} KB exceeds the Worker's 5 MB ingest cap — compress first")
+        print(f"SKIP {name}: {len(raw)//1024} KB exceeds the 5 MB ingest cap — slim and re-push")
+        return
     body = json.dumps({"imageName": name, "image": base64.b64encode(raw).decode(),
                        "contentType": ctype}).encode()
     req = urllib.request.Request(url.rstrip("/") + "/ingest_market", data=body,
