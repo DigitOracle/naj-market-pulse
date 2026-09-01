@@ -70,6 +70,32 @@ def latest_sales(project_names):
     return out
 
 
+def track_record(project_names):
+    """Register-entity project counts — only meaningful when the entity holds >1 project."""
+    try:
+        import duckdb
+    except ImportError:
+        return {}
+    db = os.path.join(HERE, "..", "naj.duckdb")
+    if not os.path.exists(db) or not project_names:
+        return {}
+    out = {}
+    con = duckdb.connect(db, read_only=True)
+    for rn in project_names:
+        try:
+            row = con.execute(
+                "SELECT p2.DEVELOPER_EN, COUNT(*), "
+                "SUM(CASE WHEN TRY_CAST(p2.PERCENT_COMPLETED AS DOUBLE) > 0 THEN 1 ELSE 0 END) "
+                "FROM projects p JOIN projects p2 ON p.DEVELOPER_EN = p2.DEVELOPER_EN "
+                "WHERE lower(p.PROJECT_EN) = lower(?) GROUP BY 1", [rn]).fetchone()
+            if row and row[1] > 1:
+                out[rn.lower()] = f"{row[0].title()[:38]} · {row[1]} registered · {row[2]} in delivery"
+        except Exception:
+            pass
+    con.close()
+    return out
+
+
 def main():
     if "--area" not in sys.argv:
         sys.exit('usage: python scripts/build_dev_meta.py --area "business bay"')
@@ -109,11 +135,19 @@ def main():
         c = json.load(open(cur, encoding="utf-8"))
         latest = latest_sales([b.get("register_name") for b in c.get("buildings", {}).values()
                                if b.get("register_name")])
+        _track = track_record([b.get("register_name") for b in c.get("buildings", {}).values()
+                               if b.get("register_name")])
         for k, b in c.get("buildings", {}).items():
             rn = b.get("register_name")
             if rn and rn in latest:
                 b.setdefault("facts", []).append(["Latest registered transaction", latest[rn]])
                 b.setdefault("sources", []).append("DLD Open Data transactions (live pull)")
+            # developer track record: ONLY when the register entity has >1 project
+            # (Dubai SPV pattern means 1-project entities say nothing about the brand)
+            if rn and rn.lower() in _track:
+                b.setdefault("facts", []).append(["Developer (register entity)", _track[rn.lower()]])
+            if b.get("brand_note"):
+                b.setdefault("facts", []).append(["Developer brand", b["brand_note"]])
             meta["buildings"][k] = b
 
     os.makedirs(DM, exist_ok=True)

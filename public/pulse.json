@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-01T04:32:31+00:00",
+ "generatedAt": "2026-09-01T12:42:27+00:00",
  "dataCaptured": "2026-09-01",
  "attribution": "Source: Dubai Land Department (DLD) Open Data. Contains information from the Government of Dubai.",
  "transactions": {
@@ -123,189 +123,312 @@
   }
  },
  "projects": {
-  "count": 58,
-  "activeCount": 58,
-  "unitsInPipeline": 17001,
+  "count": 326,
+  "activeCount": 326,
+  "unitsInPipeline": 79970,
   "byStatus": {
-   "ACTIVE": 32,
-   "PENDING": 26
+   "ACTIVE": 243,
+   "PENDING": 81,
+   "PENDING_COMING_SOON": 1,
+   "CANCELLED": 1
   },
   "topDevelopers": [
    {
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "projects": 18
+   },
+   {
     "developer": "Binghatti Developers FZE",
-    "projects": 5
+    "projects": 16
+   },
+   {
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "projects": 10
    },
    {
     "developer": "AZIZI DEVELOPMENTS L.L.C",
-    "projects": 4
+    "projects": 9
    },
    {
-    "developer": "ISLAND OASIS PROPERTIES",
-    "projects": 3
-   },
-   {
-    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
-    "projects": 3
-   },
-   {
-    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE PERSON COMPANY L.L.C",
-    "projects": 2
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "projects": 7
    }
   ],
   "coverageNote": "DLD registered-projects open sample \u2014 incoming supply and escrow/%-complete for the projects it contains; not the full register. Escrow 'registered' means a trust account number is on file, not the balance.",
   "supplyByArea": {
-   "Al Yelayiss 1": {
-    "units": 4035,
-    "projects": 3,
-    "nextEnd": "2030-12-31"
+   "Madinat Al Mataar": {
+    "units": 7328,
+    "projects": 45,
+    "nextEnd": "2027-08-31"
+   },
+   "Nad Al Shiba First": {
+    "units": 5706,
+    "projects": 11,
+    "nextEnd": "2027-06-30"
+   },
+   "Wadi Al Safa 3": {
+    "units": 5025,
+    "projects": 19,
+    "nextEnd": "2027-06-30"
+   },
+   "Jabal Ali First": {
+    "units": 4715,
+    "projects": 9,
+    "nextEnd": "2028-03-15"
+   },
+   "Wadi Al Safa 5": {
+    "units": 4683,
+    "projects": 19,
+    "nextEnd": "2028-03-31"
    },
    "Al Jadaf": {
-    "units": 2390,
-    "projects": 4,
+    "units": 4325,
+    "projects": 12,
     "nextEnd": "2027-10-30"
+   },
+   "Madinat Dubai Almelaheyah": {
+    "units": 4255,
+    "projects": 12,
+    "nextEnd": "2028-06-30"
+   },
+   "Al Yelayiss 1": {
+    "units": 4035,
+    "projects": 12,
+    "nextEnd": "2030-06-30"
+   },
+   "Al Barsha South Fourth": {
+    "units": 3625,
+    "projects": 14,
+    "nextEnd": "2027-10-20"
+   },
+   "Jabal Ali Industrial Second": {
+    "units": 2984,
+    "projects": 11,
+    "nextEnd": "2027-08-04"
+   },
+   "Palm Deira": {
+    "units": 2820,
+    "projects": 20,
+    "nextEnd": "2027-12-01"
+   },
+   "Business Bay": {
+    "units": 2230,
+    "projects": 9,
+    "nextEnd": "2028-08-31"
+   },
+   "Al Thanyah Fifth": {
+    "units": 1998,
+    "projects": 2,
+    "nextEnd": "2029-12-31"
+   },
+   "Al Khairan First": {
+    "units": 1852,
+    "projects": 3,
+    "nextEnd": "2030-03-31"
+   },
+   "Al Barshaa South Third": {
+    "units": 1783,
+    "projects": 4,
+    "nextEnd": "2028-02-15"
+   },
+   "Wadi Al Safa 2": {
+    "units": 1644,
+    "projects": 3,
+    "nextEnd": "2028-04-14"
    },
    "Al Hebiah Fifth": {
     "units": 1626,
     "projects": 3,
     "nextEnd": "2030-01-31"
    },
-   "Nad Al Shiba First": {
-    "units": 1601,
-    "projects": 3,
-    "nextEnd": "2028-12-15"
-   },
-   "Jabal Ali Industrial Second": {
-    "units": 1538,
-    "projects": 7,
-    "nextEnd": "2027-08-04"
-   },
-   "Al Barsha South Fourth": {
-    "units": 641,
+   "Al Hebiah First": {
+    "units": 1587,
     "projects": 2,
-    "nextEnd": "2028-12-31"
+    "nextEnd": "2027-10-31"
+   },
+   "Zaabeel Second": {
+    "units": 1570,
+    "projects": 4,
+    "nextEnd": "2029-02-09"
+   },
+   "Al Hebiah Third": {
+    "units": 1485,
+    "projects": 2,
+    "nextEnd": "2029-03-30"
    },
    "Saih Shuaib 2": {
-    "units": 519,
+    "units": 1368,
+    "projects": 9,
+    "nextEnd": "2028-03-31"
+   },
+   "Me'Aisem First": {
+    "units": 1282,
+    "projects": 9,
+    "nextEnd": "2027-09-01"
+   },
+   "Al Yelayiss 2": {
+    "units": 1059,
+    "projects": 6,
+    "nextEnd": "2028-05-31"
+   },
+   "Al Safouh First": {
+    "units": 1030,
     "projects": 3,
-    "nextEnd": "2028-07-01"
+    "nextEnd": "2028-12-30"
+   },
+   "Marsa Dubai": {
+    "units": 1030,
+    "projects": 2,
+    "nextEnd": "2029-11-30"
+   },
+   "Al Barsha South Fifth": {
+    "units": 981,
+    "projects": 7,
+    "nextEnd": "2027-07-30"
+   },
+   "Warsan Fourth": {
+    "units": 979,
+    "projects": 8,
+    "nextEnd": "2028-01-01"
+   },
+   "Al Warsan First": {
+    "units": 870,
+    "projects": 4,
+    "nextEnd": "2027-08-31"
+   },
+   "Bukadra": {
+    "units": 831,
+    "projects": 5,
+    "nextEnd": "2027-11-30"
+   },
+   "Al Satwa": {
+    "units": 661,
+    "projects": 8,
+    "nextEnd": "2028-03-01"
+   },
+   "Al Wasl": {
+    "units": 609,
+    "projects": 3,
+    "nextEnd": "2030-04-25"
+   },
+   "Trade Center First": {
+    "units": 574,
+    "projects": 1,
+    "nextEnd": "2031-12-31"
    },
    "Burj Khalifa": {
     "units": 484,
     "projects": 1,
     "nextEnd": "2031-06-30"
    },
-   "Me'Aisem First": {
-    "units": 448,
-    "projects": 2,
-    "nextEnd": "2028-04-01"
-   },
-   "Madinat Dubai Almelaheyah": {
-    "units": 428,
+   "Wadi Al Safa 7": {
+    "units": 473,
     "projects": 1,
-    "nextEnd": "2029-12-31"
-   },
-   "Jabal Ali First": {
-    "units": 374,
-    "projects": 1,
-    "nextEnd": "2028-12-16"
-   },
-   "Wadi Al Safa 5": {
-    "units": 373,
-    "projects": 2,
     "nextEnd": "2028-12-31"
    },
-   "Business Bay": {
-    "units": 338,
-    "projects": 1,
-    "nextEnd": "2030-06-30"
-   },
-   "Al Hebiah Third": {
-    "units": 288,
-    "projects": 1,
-    "nextEnd": "2030-01-31"
-   },
-   "Al Yelayiss 2": {
-    "units": 281,
-    "projects": 2,
-    "nextEnd": "2029-04-30"
-   },
-   "Al Wasl": {
-    "units": 244,
-    "projects": 1,
-    "nextEnd": "2030-12-30"
-   },
-   "Madinat Al Mataar": {
-    "units": 242,
+   "Dubai Investment Park First": {
+    "units": 447,
     "projects": 4,
-    "nextEnd": "2028-05-31"
+    "nextEnd": "2029-03-31"
+   },
+   "Palm Jabal Ali": {
+    "units": 434,
+    "projects": 2,
+    "nextEnd": "2029-07-31"
+   },
+   "Jumeirah First": {
+    "units": 298,
+    "projects": 3,
+    "nextEnd": "2029-06-30"
+   },
+   "Hadaeq Sheikh Mohammed Bin Rashid": {
+    "units": 287,
+    "projects": 1,
+    "nextEnd": "2029-10-31"
    },
    "World Islands": {
     "units": 232,
-    "projects": 1,
-    "nextEnd": "2030-12-31"
-   },
-   "Palm Jabal Ali": {
-    "units": 222,
-    "projects": 1,
-    "nextEnd": "2030-12-13"
-   },
-   "Warsan Fourth": {
-    "units": 219,
-    "projects": 3,
-    "nextEnd": "2028-01-01"
+    "projects": 2,
+    "nextEnd": "2029-01-12"
    },
    "Al Kifaf": {
     "units": 218,
     "projects": 1,
     "nextEnd": "2030-04-28"
    },
-   "Al Safouh First": {
-    "units": 113,
+   "Ras Al Khor Industrial First": {
+    "units": 214,
     "projects": 1,
-    "nextEnd": "2029-02-28"
+    "nextEnd": "2029-06-30"
    },
-   "Palm Deira": {
-    "units": 109,
-    "projects": 3,
-    "nextEnd": "2028-02-20"
+   "Palm Jumeirah": {
+    "units": 153,
+    "projects": 2,
+    "nextEnd": "2028-12-25"
+   },
+   "Um Hurair Second": {
+    "units": 99,
+    "projects": 1,
+    "nextEnd": "2027-03-30"
    },
    "Dubai Investment Park Second": {
     "units": 38,
-    "projects": 1,
+    "projects": 5,
     "nextEnd": "2029-03-31"
+   },
+   "Saih Shuaib 1": {
+    "units": 24,
+    "projects": 2,
+    "nextEnd": "2027-12-12"
+   },
+   "Jumeirah Second": {
+    "units": 19,
+    "projects": 1,
+    "nextEnd": "2027-12-05"
    },
    "Al Rowaiyah First": {
     "units": 0,
     "projects": 2,
     "nextEnd": "2029-12-31"
    },
-   "Al Barshaa South Third": {
-    "units": 0,
-    "projects": 1,
-    "nextEnd": "2028-02-15"
-   },
    "Al Yelayiss 5": {
     "units": 0,
-    "projects": 1,
-    "nextEnd": "2030-06-30"
+    "projects": 4,
+    "nextEnd": "2030-03-31"
    },
-   "Palm Jumeirah": {
+   "Me'Aisem Second": {
+    "units": 0,
+    "projects": 4,
+    "nextEnd": "2029-02-28"
+   },
+   "Al Yufrah 1": {
+    "units": 0,
+    "projects": 5,
+    "nextEnd": "2029-12-31"
+   },
+   "Al Thanyah First": {
     "units": 0,
     "projects": 1,
-    "nextEnd": "2030-12-31"
+    "nextEnd": "2027-12-31"
    },
-   "Al Satwa": {
+   "Trade Center Second": {
     "units": 0,
     "projects": 1,
-    "nextEnd": "2028-08-31"
+    "nextEnd": "2031-09-30"
+   },
+   "Nadd Hessa": {
+    "units": 0,
+    "projects": 1,
+    "nextEnd": "2028-09-30"
    }
   },
   "deliveryByYear": {
-   "2027": 1844,
-   "2028": 5078,
-   "2029": 2392,
-   "2030": 7203,
-   "2031": 484
+   "2027": 13374,
+   "2028": 20244,
+   "2029": 23835,
+   "2030": 15284,
+   "2031": 5907,
+   "2032": 1326
   },
   "projectLookup": [
    {
@@ -484,7 +607,7 @@
     "area": "Al Yelayiss 1",
     "endDate": "2030-12-31",
     "percentComplete": 0.0,
-    "status": "PENDING",
+    "status": "ACTIVE",
     "units": 2130,
     "escrowRegistered": true
    },
@@ -494,7 +617,7 @@
     "area": "Al Yelayiss 1",
     "endDate": "2030-12-31",
     "percentComplete": 0.0,
-    "status": "PENDING",
+    "status": "ACTIVE",
     "units": 1905,
     "escrowRegistered": true
    },
@@ -725,7 +848,7 @@
     "endDate": "2029-12-31",
     "percentComplete": 0.0,
     "status": "PENDING",
-    "units": 0,
+    "units": 279,
     "escrowRegistered": false
    },
    {
@@ -765,7 +888,7 @@
     "endDate": "2029-03-31",
     "percentComplete": 0.0,
     "status": "PENDING",
-    "units": 0,
+    "units": 137,
     "escrowRegistered": false
    },
    {
@@ -783,7 +906,7 @@
     "developer": "LANJAWI Real Estate Development   EST.",
     "area": "Warsan Fourth",
     "endDate": "2029-07-20",
-    "percentComplete": null,
+    "percentComplete": 0.0,
     "status": "PENDING",
     "units": 0,
     "escrowRegistered": false
@@ -884,6 +1007,2686 @@
     "area": "Al Satwa",
     "endDate": "2028-08-31",
     "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Verdes by Haven 2",
+    "developer": "AURORA SPV 1 L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-06-30",
+    "percentComplete": 15.25,
+    "status": "ACTIVE",
+    "units": 59,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sea Mirror Residences",
+    "developer": "LAMAR DEVELOPMENT L.L.C",
+    "area": "Jumeirah Second",
+    "endDate": "2027-12-05",
+    "percentComplete": 10.41,
+    "status": "PENDING",
+    "units": 19,
+    "escrowRegistered": false
+   },
+   {
+    "project": "INTERSTELLAR TOWER",
+    "developer": "BOUJEE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 341,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Mayfair Nexus by Seven Mayfair",
+    "developer": "SEVEN MAYFAIR REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 7",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.64,
+    "status": "ACTIVE",
+    "units": 473,
+    "escrowRegistered": true
+   },
+   {
+    "project": "One By Preston",
+    "developer": "PRESTON PROPERTIES L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 56,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Symphony by Chaimaa",
+    "developer": "DEVAL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 71,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Confident Preston",
+    "developer": "CASA PRESTON REAL ESTATE L.L.C",
+    "area": "Wadi Al Safa 2",
+    "endDate": "2028-04-14",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 99,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Trump Tower",
+    "developer": "DAR GLOBAL LUXURY PROPERTY DEVELOPMENT L.L.C S.O.C",
+    "area": "Trade Center First",
+    "endDate": "2031-12-31",
+    "percentComplete": 2.03,
+    "status": "ACTIVE",
+    "units": 574,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Waada - Cascada 2",
+    "developer": "BT PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-17",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 249,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Akala Hotels and Residences",
+    "developer": "ARADA DEVELOPMENTS L.L.C S.O.C",
+    "area": "Zaabeel Second",
+    "endDate": "2029-10-31",
+    "percentComplete": 0.1,
+    "status": "ACTIVE",
+    "units": 546,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Olbia",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2028-05-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 156,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Weave",
+    "developer": "THE WEAVE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-09-01",
+    "percentComplete": 7.61,
+    "status": "ACTIVE",
+    "units": 130,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 2",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-05-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 3 ",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-05-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AUM 99 Residences",
+    "developer": "AUM 99 HOME REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 186,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Pinewood Estate Homes",
+    "developer": "JGE REAL ESTATE L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2028-11-17",
+    "percentComplete": 0.32,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Talea",
+    "developer": "MANAROLA REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 354,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Elevia Residences II",
+    "developer": "VALORES WBAY PROPERTY DEVELOPMENT L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2028-01-19",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Eywa The Way Of Water",
+    "developer": "REVOLUTION PALM REAL ESTATE L.L.C",
+    "area": "Business Bay",
+    "endDate": "2028-10-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 65,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Fiori",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 146,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SERA 1",
+    "developer": "MINA RASHID PROPERTIES L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2029-11-30",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 203,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SERA 2",
+    "developer": "MINA RASHID PROPERTIES L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2029-11-30",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 183,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 4 ",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-07-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Astra Residences",
+    "developer": "DUGASTA PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-08-31",
+    "percentComplete": 15.34,
+    "status": "ACTIVE",
+    "units": 108,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rise by Athlon 1",
+    "developer": "AURORA SPV 3 L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2029-12-30",
+    "percentComplete": 0.68,
+    "status": "ACTIVE",
+    "units": 650,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rise by Athlon 2",
+    "developer": "AURORA SPV 3 L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2030-01-30",
+    "percentComplete": 0.08,
+    "status": "ACTIVE",
+    "units": 407,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rise by Athlon 3",
+    "developer": "AURORA SPV 3 L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2030-01-30",
+    "percentComplete": 0.48,
+    "status": "ACTIVE",
+    "units": 120,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rise by Athlon 4",
+    "developer": "AURORA SPV 3 L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2029-12-30",
+    "percentComplete": 0.56,
+    "status": "ACTIVE",
+    "units": 66,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Kanyon By Beyond",
+    "developer": "COBIA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 412,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ALDER AT PARK FIVE",
+    "developer": "DEYAAR DEVELOPMENT (P.J.S.C)",
+    "area": "Me'Aisem First",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 75,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 5",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-07-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Helvetia Verde",
+    "developer": "D H G PROPERTY DEVELOPMENT L.L.C",
+    "area": "Bukadra",
+    "endDate": "2027-11-30",
+    "percentComplete": 0.62,
+    "status": "ACTIVE",
+    "units": 109,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Floarea Breeze",
+    "developer": "MASHRIQ ELITE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 52,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC DISTRICT",
+    "developer": "DAMAC CRESCENT PROPERTIES",
+    "area": "Al Hebiah Third",
+    "endDate": "2029-03-30",
+    "percentComplete": 0.12,
+    "status": "ACTIVE",
+    "units": 1197,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Avida Residences",
+    "developer": "SERENE MARINA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2027-12-01",
+    "percentComplete": 6.81,
+    "status": "ACTIVE",
+    "units": 50,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Grand Polo - Chevalia Estate 2",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Dubai Investment Park Second",
+    "endDate": "2029-06-30",
+    "percentComplete": 4.09,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Wedyan",
+    "developer": "WEDYAN AL GHURAIR REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Business Bay",
+    "endDate": "2029-09-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 164,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Bond Living",
+    "developer": "PEARLSHIRE DIRC REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 94,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi Wares",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2028-03-04",
+    "percentComplete": 2.0,
+    "status": "ACTIVE",
+    "units": 336,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Breez by Danube",
+    "developer": "DANUBE PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.14,
+    "status": "ACTIVE",
+    "units": 1248,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Soulever' By Beyond",
+    "developer": " BEYOND 1 REAL ESTATE DEVELOPMENT L.L.C ",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2028-12-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 517,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Waada - Altura 2",
+    "developer": "BT PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-14",
+    "percentComplete": 4.06,
+    "status": "ACTIVE",
+    "units": 365,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Solaya (1,2,3)",
+    "developer": "LA MER NORTH PROPERTY CO. L.L.C",
+    "area": "Jumeirah First",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 67,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Lumena Alta by Omniyat",
+    "developer": "AZURE HORIZON REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Business Bay",
+    "endDate": "2031-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 186,
+    "escrowRegistered": true
+   },
+   {
+    "project": "LEGACY HEIGHTS",
+    "developer": "LEGACY HOMES REAL ESTATE DEVELOPMENT DWC-LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-04-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 87,
+    "escrowRegistered": true
+   },
+   {
+    "project": "241 Waterside",
+    "developer": "LEGACY STAR REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-06-15",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 63,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi David",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-09-30",
+    "percentComplete": 2.0,
+    "status": "ACTIVE",
+    "units": 256,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Jasmine Residence",
+    "developer": "DAR COMFORT REAL ESTATE L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Sakura Gardens by HRE ",
+    "developer": "HRE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 2",
+    "endDate": "2029-06-30",
+    "percentComplete": 1.43,
+    "status": "ACTIVE",
+    "units": 1429,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Aurea",
+    "developer": "MINA RASHID PROPERTIES L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 172,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ELTIERA VIEWS ",
+    "developer": "ELLINGTON PCFC DEVELOPERS L.L.C",
+    "area": "Al Thanyah Fifth",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1185,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Crystal Tower",
+    "developer": "V H S REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Al Warsan First",
+    "endDate": "2028-12-01",
+    "percentComplete": 0.34,
+    "status": "ACTIVE",
+    "units": 110,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Taormina Village 2",
+    "developer": "M H L REAL ESTATE DEVELOPMENT (Br of MILLENNIUM HO",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2029-07-06",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Solaya (4,6)",
+    "developer": "LA MER CENTRAL PROPERTY CO. L.L.C",
+    "area": "Jumeirah First",
+    "endDate": "2029-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 176,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Solaya (5,7)",
+    "developer": "LA MER CENTRAL PROPERTY CO. L.L.C",
+    "area": "Jumeirah First",
+    "endDate": "2029-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 55,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sky Line By Peace Homes",
+    "developer": "PEACE HOMES REAL ESTATE L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2030-05-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 565,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Derby Heights",
+    "developer": "A M I S SIGNATURE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-10-31",
+    "percentComplete": 2.14,
+    "status": "ACTIVE",
+    "units": 50,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Residences at the Dubai Beach Edition",
+    "developer": "ED RESIDENCES L.L.C",
+    "area": "Marsa Dubai",
+    "endDate": "2029-11-30",
+    "percentComplete": 0.15,
+    "status": "ACTIVE",
+    "units": 169,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SOL TERRA CASA II",
+    "developer": "S O L PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-06-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sobha SkyParks",
+    "developer": "SOBHA L.L.C",
+    "area": "Business Bay",
+    "endDate": "2032-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 684,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Nionis Residences - Interiors by Karl Lagerfeld Maison",
+    "developer": "VAAM REAL ESTATE L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2029-02-01",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 50,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Azizi Lina",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2028-09-30",
+    "percentComplete": 2.0,
+    "status": "ACTIVE",
+    "units": 242,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DIVINE ELEMENTS ",
+    "developer": "TAKMEEL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 90,
+    "escrowRegistered": true
+   },
+   {
+    "project": "J188",
+    "developer": "JAD GLOBAL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 131,
+    "escrowRegistered": true
+   },
+   {
+    "project": "PEACE AVENUE BY PEACE HOMES",
+    "developer": "PEACE HOMES DEVELOPMENT L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2029-01-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 266,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SKY HARMONY BY PEACE HOMES",
+    "developer": "PEACE HOMES INTERNATIONAL DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2029-01-20",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 197,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ROSEWELL",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 217,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Evelyn on the Park",
+    "developer": "NSHAMA PROPERTIES OWNED BY NSHMI DEVELOPMENT ONE P",
+    "area": "Al Yelayiss 2",
+    "endDate": "2029-02-28",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 259,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Palm Central Private Residences - Frond M",
+    "developer": "THE PALM - JEBEL ALI CO. (L.L.C)",
+    "area": "Palm Jabal Ali",
+    "endDate": "2029-07-31",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 212,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Helvetia Marine",
+    "developer": "D H G PROPERTY DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-03-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 63,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Terra Gardens",
+    "developer": "DWTC EMAAR L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-10-31",
+    "percentComplete": 0.08,
+    "status": "ACTIVE",
+    "units": 561,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Grand Polo - Equiterra 2",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Dubai Investment Park Second",
+    "endDate": "2029-07-31",
+    "percentComplete": 1.04,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Waada - Altura 1",
+    "developer": "BT PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-04-12",
+    "percentComplete": 1.94,
+    "status": "ACTIVE",
+    "units": 381,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Shahrukhz by Danube",
+    "developer": "DANUBE PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Al Safouh First",
+    "endDate": "2029-06-30",
+    "percentComplete": 1.86,
+    "status": "ACTIVE",
+    "units": 917,
+    "escrowRegistered": true
+   },
+   {
+    "project": "VIVIDA Residences",
+    "developer": "N A M O REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-09-30",
+    "percentComplete": 0.84,
+    "status": "ACTIVE",
+    "units": 66,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Le Blanc Residence by Imtiaz",
+    "developer": "IMTIAZ COVE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-10-15",
+    "percentComplete": 3.41,
+    "status": "ACTIVE",
+    "units": 323,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Vista by Vision",
+    "developer": "CLEAR VISION REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2027-09-01",
+    "percentComplete": 3.38,
+    "status": "ACTIVE",
+    "units": 328,
+    "escrowRegistered": true
+   },
+   {
+    "project": "368 Park Ln",
+    "developer": "TABEER REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 213,
+    "escrowRegistered": true
+   },
+   {
+    "project": "THE EDIT at d3",
+    "developer": "DHRE 2 BTS L.L.C",
+    "area": "Zaabeel Second",
+    "endDate": "2030-01-31",
+    "percentComplete": 0.24,
+    "status": "ACTIVE",
+    "units": 557,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Coventry 2",
+    "developer": "G F S REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2028-12-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 372,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Route 66",
+    "developer": "DEERFIELDS REAL ESTATE DEVELOPMENT L.L.C S.O.C",
+    "area": "Saih Shuaib 1",
+    "endDate": "2027-12-12",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 24,
+    "escrowRegistered": true
+   },
+   {
+    "project": "31 Above By Beyond",
+    "developer": "BEYOND VESPERA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2028-12-30",
+    "percentComplete": 0.51,
+    "status": "ACTIVE",
+    "units": 118,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Boulevard Park 1",
+    "developer": "JAG DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2030-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 717,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Grand Polo - Equiterra ",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Dubai Investment Park Second",
+    "endDate": "2029-08-31",
+    "percentComplete": 0.83,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Grand Polo - Equestra",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Dubai Investment Park Second",
+    "endDate": "2029-08-31",
+    "percentComplete": 1.02,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Prestige One Residences",
+    "developer": "PRESTIGE LUXE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 220,
+    "escrowRegistered": true
+   },
+   {
+    "project": "LIA",
+    "developer": "AVENEW REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-05-20",
+    "percentComplete": 0.09,
+    "status": "ACTIVE",
+    "units": 82,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SUNVALE",
+    "developer": "PRYSM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2028-05-31",
+    "percentComplete": 1.32,
+    "status": "ACTIVE",
+    "units": 94,
+    "escrowRegistered": true
+   },
+   {
+    "project": "PARKGREEN RESIDENCES BY ALISHAAN",
+    "developer": "ALISHAAN DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 2",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 116,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Creek Bay",
+    "developer": "DUBAI CREEK HARBOUR L.L.C",
+    "area": "Al Khairan First",
+    "endDate": "2030-04-30",
+    "percentComplete": 0.62,
+    "status": "ACTIVE",
+    "units": 766,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Fior 2",
+    "developer": "MINA RASHID PROPERTIES L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2030-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 216,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Grove Ridge",
+    "developer": "EMAAR DUBAI SOUTH DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 193,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Vista Ridge",
+    "developer": "EMAAR DUBAI SOUTH DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 198,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Soel",
+    "developer": "LIVING QUALITY PROPERTIES L.L.C",
+    "area": "Al Barshaa South Third",
+    "endDate": "2029-05-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 841,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Blossom 40",
+    "developer": "TRANQUIL INFRA DEVELOPERS L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 66,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Oasis - Palmiera Collective",
+    "developer": "EMAAR PROPERTIES (P.J.S.C)",
+    "area": "Me'Aisem Second",
+    "endDate": "2029-02-28",
+    "percentComplete": 1.33,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hado By Beyond",
+    "developer": "SANDY SHORES REAL ESTATE L.L.C S.O.C",
+    "area": "Palm Deira",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.01,
+    "status": "ACTIVE",
+    "units": 692,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Boulevard Park 2",
+    "developer": "JAG DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2029-11-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 555,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ELARIS AXIS",
+    "developer": "OBJECT ONE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2028-11-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 171,
+    "escrowRegistered": false
+   },
+   {
+    "project": "R Home MH",
+    "developer": "BUKADRA DEVELOPMENT L.L.C",
+    "area": "Bukadra",
+    "endDate": "2029-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 190,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Lincoln Star Residence III",
+    "developer": "LINCOLN PARK REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-07-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 76,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Valley - Ovelle",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yufrah 1",
+    "endDate": "2029-12-31",
+    "percentComplete": 2.36,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Valley - Avelia",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yufrah 1",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.27,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "BARARIGATE by ADE",
+    "developer": "A D E PROPERTIES L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 282,
+    "escrowRegistered": true
+   },
+   {
+    "project": "THE TIDES BY AMIS",
+    "developer": "AMIS AURUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 83,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Creek Haven",
+    "developer": "DUBAI CREEK HARBOUR L.L.C",
+    "area": "Al Khairan First",
+    "endDate": "2030-03-31",
+    "percentComplete": 0.87,
+    "status": "ACTIVE",
+    "units": 594,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Avarra by Palace",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Business Bay",
+    "endDate": "2031-06-30",
+    "percentComplete": 0.08,
+    "status": "ACTIVE",
+    "units": 694,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Azizi Leily",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-09-30",
+    "percentComplete": 2.0,
+    "status": "ACTIVE",
+    "units": 272,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Art House Hills by Adaan and Tuscany ",
+    "developer": "ART HOUSE HILLS RESIDENCES DEVELOPMENT L.L.C",
+    "area": "Al Barshaa South Third",
+    "endDate": "2028-12-01",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 656,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ZYRA HILLS",
+    "developer": "LARAIX DEVELOPERS L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2028-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 81,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Serro The Heights",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yelayiss 5",
+    "endDate": "2030-03-31",
+    "percentComplete": 0.5,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Serro 2 The Heights",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yelayiss 5",
+    "endDate": "2030-05-31",
+    "percentComplete": 0.5,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "MIA TOWER",
+    "developer": "STAMN REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Bukadra",
+    "endDate": "2028-02-29",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 210,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Salva The Heights",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yelayiss 5",
+    "endDate": "2030-07-31",
+    "percentComplete": 0.5,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "CLOVER",
+    "developer": "R3R LUXE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-11-06",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 176,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - BAHAMAS 1",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.33,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - BAHAMAS 2",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.33,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "EMPIRE GARDENS",
+    "developer": "EMPIRE GARDENS REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 221,
+    "escrowRegistered": true
+   },
+   {
+    "project": "OMYA RESIDENCES",
+    "developer": "PANTHEON ELYSEE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 416,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Villa dell Arte",
+    "developer": "AMBERTON RESIDENCES REAL ESTATE L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2027-12-27",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 64,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Haus of Tenet",
+    "developer": "IRTH URBAN TWO DEVELOPMENT L.L.C",
+    "area": "Business Bay",
+    "endDate": "2028-08-31",
+    "percentComplete": 20.62,
+    "status": "PENDING_COMING_SOON",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Avion 100",
+    "developer": "SKY VIEW DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-05-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 100,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Nad Al Sheba Gardens Phase 11",
+    "developer": "NAS ESTATES L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2029-07-01",
+    "percentComplete": 0.06,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Verdana 10",
+    "developer": "REPORTAGE PLUS A REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Dubai Investment Park First",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "THE CAPE",
+    "developer": "BARARI THREE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.71,
+    "status": "ACTIVE",
+    "units": 288,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Artistry One Residences",
+    "developer": "SELECT GLOBAL DEVELOPMENT L.L.C",
+    "area": "Zaabeel Second",
+    "endDate": "2029-02-09",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 232,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Artistry Two Residences",
+    "developer": "SELECT GLOBAL DEVELOPMENT L.L.C",
+    "area": "Zaabeel Second",
+    "endDate": "2029-02-09",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 235,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - TAHITI 1",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.32,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - TAHITI 2",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.32,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Verdana Residence 10",
+    "developer": "REPORTAGE PLUS A REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Dubai Investment Park First",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 191,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Mareva The Oasis",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Me'Aisem Second",
+    "endDate": "2030-02-28",
+    "percentComplete": 2.05,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Mareva 2 The Oasis",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Me'Aisem Second",
+    "endDate": "2030-02-28",
+    "percentComplete": 1.32,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AYAMI RESIDENCE, BY AYAT DEVELOPMENT",
+    "developer": "AYAT REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Warsan First",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.1,
+    "status": "ACTIVE",
+    "units": 376,
+    "escrowRegistered": true
+   },
+   {
+    "project": "City Walk Crestlane 5",
+    "developer": "CITYWALK RESIDENTIAL 1 L.L.C",
+    "area": "Al Wasl",
+    "endDate": "2030-04-25",
+    "percentComplete": 0.01,
+    "status": "ACTIVE",
+    "units": 161,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Art House Private Residences By Viva",
+    "developer": "VIVA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-02-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 121,
+    "escrowRegistered": true
+   },
+   {
+    "project": "LIORA",
+    "developer": "JAIEDCO REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-01-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 56,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Valoria The Oasis",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Me'Aisem Second",
+    "endDate": "2029-12-31",
+    "percentComplete": 1.12,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Palace Residences Hillside B",
+    "developer": "DUBAI HILLS ESTATE L.L.C",
+    "area": "Hadaeq Sheikh Mohammed Bin Rashid",
+    "endDate": "2029-10-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 287,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SERENIA DISTRICT - EAST",
+    "developer": "PALMA HOMES REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Thanyah Fifth",
+    "endDate": "2030-06-30",
+    "percentComplete": 1.12,
+    "status": "ACTIVE",
+    "units": 813,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SKYON",
+    "developer": "CALGARY AVENUE SOUTH REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-04-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 52,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Reef 995",
+    "developer": "REEF LUXURY DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-11-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 347,
+    "escrowRegistered": true
+   },
+   {
+    "project": "City Walk Crestlane 4",
+    "developer": "CITYWALK RESIDENTIAL 1 L.L.C",
+    "area": "Al Wasl",
+    "endDate": "2030-04-25",
+    "percentComplete": 0.01,
+    "status": "ACTIVE",
+    "units": 204,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Fior 1",
+    "developer": "MINA RASHID PROPERTIES L.L.C",
+    "area": "Madinat Dubai Almelaheyah",
+    "endDate": "2030-07-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 184,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Nuve By Zoya",
+    "developer": "ZOYA ONE REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.79,
+    "status": "ACTIVE",
+    "units": 234,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - BERMUDA",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.22,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - CUBA",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.18,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AVENEW888-LOOM",
+    "developer": "AVENEW REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 661,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - BARBADOS 1",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.18,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - BARBADOS 2 ",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.18,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DAMAC ISLANDS 2 - MAUI",
+    "developer": "DAMAC PRIME DEVELOPMENT L.L.C",
+    "area": "Al Yelayiss 1",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.18,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Luxuria",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2027-07-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 469,
+    "escrowRegistered": true
+   },
+   {
+    "project": "WINDSOR HOUSE II",
+    "developer": "ELLINGTON PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-07-31",
+    "percentComplete": 0.6,
+    "status": "ACTIVE",
+    "units": 424,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Barari Parks By Bahat",
+    "developer": "BAHAT REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.9,
+    "status": "ACTIVE",
+    "units": 52,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Etherea",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 287,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Golf Terrace Residences By ASAK",
+    "developer": "ASAK REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2027-10-02",
+    "percentComplete": 5.07,
+    "status": "ACTIVE",
+    "units": 105,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Seacliff by Imtiaz",
+    "developer": "IMTIAZ LUXURY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-08-15",
+    "percentComplete": 4.71,
+    "status": "ACTIVE",
+    "units": 179,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Babylon Tower",
+    "developer": "HERITAGE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Thanyah First",
+    "endDate": "2027-12-31",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Nirvana Residences - I",
+    "developer": "MERAKI REAL ESTATE DEVELOPMENT L.L.C  ",
+    "area": "Me'Aisem First",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 326,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rabdan Gardens",
+    "developer": "RABDAN GARDENS REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-03-01",
+    "percentComplete": 0.02,
+    "status": "ACTIVE",
+    "units": 90,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Casa Altia",
+    "developer": "CASA MAGNUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 77,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Tura Residence",
+    "developer": "NAMAT REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2029-04-30",
+    "percentComplete": 0.66,
+    "status": "ACTIVE",
+    "units": 23,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Project Maybach",
+    "developer": "Binghatti Developers FZE",
+    "area": "Nad Al Shiba First",
+    "endDate": "2027-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 831,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Maybach Ultimate Luxury ",
+    "developer": "Binghatti Developers FZE",
+    "area": "Nad Al Shiba First",
+    "endDate": "2027-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1233,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Maybach Six",
+    "developer": "Binghatti Developers FZE",
+    "area": "Nad Al Shiba First",
+    "endDate": "2027-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1878,
+    "escrowRegistered": true
+   },
+   {
+    "project": "At 85 Residences",
+    "developer": "SCOPE PROPERTIES DUBAI BRANCH",
+    "area": "Jabal Ali First",
+    "endDate": "2028-03-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 261,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Cedarwood Estates",
+    "developer": "JGE REAL ESTATE L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2028-10-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Skyterraces",
+    "developer": "Binghatti Developers FZE",
+    "area": "Al Hebiah First",
+    "endDate": "2027-10-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1587,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Sobha Central ",
+    "developer": "SOBHA L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2031-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 2169,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Palace by the Beach",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Marsa Dubai",
+    "endDate": "2031-11-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 861,
+    "escrowRegistered": true
+   },
+   {
+    "project": "OXFORD COVE",
+    "developer": "IMAN DEVELOPERS L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2029-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 465,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Linea by Holm",
+    "developer": "HOLM AVENUE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-06-15",
+    "percentComplete": 0.69,
+    "status": "ACTIVE",
+    "units": 210,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Key",
+    "developer": "HOMEDGE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2029-01-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 54,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Axilla",
+    "developer": "HOMEDGE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-03-20",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 54,
+    "escrowRegistered": false
+   },
+   {
+    "project": "The Hudson",
+    "developer": "CRYSTAL PRIME REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2029-02-14",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 96,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ENRE RESIDENCE BY IMTIAZ",
+    "developer": "IMTIAZ SOUTH REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-08-15",
+    "percentComplete": 14.63,
+    "status": "ACTIVE",
+    "units": 170,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Serenz by Danube",
+    "developer": "DANUBE PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.08,
+    "status": "ACTIVE",
+    "units": 1227,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ZEN LAGOONS",
+    "developer": "ZENNOVA REALTY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Bukadra",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 177,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Nami Island Project",
+    "developer": "NAMI ISLAND DEVELOPMENT L.L.C",
+    "area": "World Islands",
+    "endDate": "2029-01-12",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "The Lyceum",
+    "developer": "RETHINK VIRERA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2028-10-01",
+    "percentComplete": 0.0,
+    "status": "CANCELLED",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Isla Residences by Chaimaa Holding",
+    "developer": "DEVAL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 76,
+    "escrowRegistered": false
+   },
+   {
+    "project": "THE MERIVA COLLECTION",
+    "developer": "CRESTARC DEVELOPERS L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2031-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 939,
+    "escrowRegistered": true
+   },
+   {
+    "project": "South Lofts by Premier Choice",
+    "developer": "P C I REAL ESTATE DEVELOPERS L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2029-01-30",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 149,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DELLA X",
+    "developer": "DELLA LUXURY DEVELOPER L.L.C",
+    "area": "Palm Jumeirah",
+    "endDate": "2028-12-25",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 153,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Nad Al Sheba Gardens Phase 12",
+    "developer": "NAS ESTATES L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2029-08-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "STORIES BY MIRFA",
+    "developer": "MIRFA HARMONY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 100,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Arja Vista Residences",
+    "developer": "JANUSS REAL ESTATE DEVELOPERS L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-11-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "FOREST CITY TOWER 3",
+    "developer": "AL HELAL AL ZAHABY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2032-04-01",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 642,
+    "escrowRegistered": false
+   },
+   {
+    "project": "HQA By Arista",
+    "developer": "ARISTA ONE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali First",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.04,
+    "status": "ACTIVE",
+    "units": 52,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ZURA RESIDENCES",
+    "developer": "ALYAKKA DEVELOPERS L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 321,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Tulip Oasis 11 Tower 2",
+    "developer": "A M E REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "CHAVELLE BY IMTIAZ",
+    "developer": "IMTIAZ GHD REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Bukadra",
+    "endDate": "2029-03-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 145,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Darah Residence",
+    "developer": "DARAH SOUTH REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-05-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Listone Residence",
+    "developer": "LION STONE PROPERTIES L.L.C",
+    "area": "Al Warsan First",
+    "endDate": "2027-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 312,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Terra Woods",
+    "developer": "DWTC EMAAR L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2030-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 824,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Coventry Curve",
+    "developer": "G F S REAL ESTATE L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2028-06-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 246,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Valley - Alva",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yufrah 1",
+    "endDate": "2030-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Valley - Alva 2",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yufrah 1",
+    "endDate": "2030-02-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Valley - Alva 3 ",
+    "developer": "EMAAR DEVELOPMENT P.J.S.C.",
+    "area": "Al Yufrah 1",
+    "endDate": "2030-01-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Zazen Acacia Residences",
+    "developer": "ZAZEN PROPERTY DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-11-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 48,
+    "escrowRegistered": true
+   },
+   {
+    "project": " The Wilds Residences",
+    "developer": "AURORA SPV 2 L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2030-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 747,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Gyld",
+    "developer": "HOMEDGE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-09-20",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Calla Isle",
+    "developer": "N Y X REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-03-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "MARAVELLE FAMILY COMPLEX",
+    "developer": "K M Y REAL ESTATE L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-08-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 668,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Villa del Garda Residences",
+    "developer": "RIVIERA VISTA REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-03-04",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 134,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Amis & GPD Presents Fleur De Jardin Villas",
+    "developer": "AMIS GPD DEVELOPER L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-10-09",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "SOL TERRA CASA I",
+    "developer": "S O L PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-06-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Coventry 49",
+    "developer": "GFS WONDERS DEVELOPERS L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-05-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 51,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Skyflame 1",
+    "developer": "Binghatti Developers FZE",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 1407,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Samana Business Hub",
+    "developer": "SAMANA PREMIUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Jabal Ali Industrial Second",
+    "endDate": "2029-09-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 323,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Globna by Crystal Bay Azure",
+    "developer": "CRYSTAL BAY AZURE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-02-28",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Binghatti Skyflame 2",
+    "developer": "Binghatti Developers FZE",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 801,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Nejm 1",
+    "developer": "DANF DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-06-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 55,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Rabdan Square",
+    "developer": "RABDAN SQUARE DEVELOPMENTS L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2028-03-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 36,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Jadaf Beach Oasis",
+    "developer": "AZIZI DEVELOPMENTS L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2029-02-09",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 1276,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Villea East",
+    "developer": "PALMRIDGE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 113,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Binghatti Square 1",
+    "developer": "Binghatti Developers FZE",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 160,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Al Aiham Homes",
+    "developer": "DAR AL AIHAM PROPERTIES L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2028-04-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Fay Residence",
+    "developer": "MB RESIDENCES REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-07-01",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Binghatti Square 2",
+    "developer": "Binghatti Developers FZE",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 350,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Binghatti Square 3",
+    "developer": "Binghatti Developers FZE",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2027-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 517,
+    "escrowRegistered": false
+   },
+   {
+    "project": "One Central Dubai",
+    "developer": "One Central Development FZE",
+    "area": "Trade Center Second",
+    "endDate": "2031-09-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "SHAPE",
+    "developer": "REDIX ONE REAL ESTATE L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Al Ghaf Janoub",
+    "developer": "JERSEY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-11-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 73,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Golf Fields",
+    "developer": "EMAAR DUBAI SOUTH DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2030-02-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 181,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Golf Vale",
+    "developer": "EMAAR DUBAI SOUTH DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2030-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 262,
+    "escrowRegistered": true
+   },
+   {
+    "project": "THE ATELIER ",
+    "developer": "E L P G REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Business Bay",
+    "endDate": "2031-12-31",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Kaia",
+    "developer": "DYAR AMWAJ REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Palm Deira",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 128,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Enclave Greens by Shriya",
+    "developer": "SHRIYA PROPERTIES DEVELOPMENT L.L.C S.O.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-04-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Hayat 1 ",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 6",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Hayat 7 ",
+    "developer": "DUBAI SOUTH PROPERTIES DWC LLC",
+    "area": "Madinat Al Mataar",
+    "endDate": "2029-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "ARLINGTON PARK II BY MAJID",
+    "developer": "MAJID DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-04-01",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 129,
+    "escrowRegistered": true
+   },
+   {
+    "project": "One Mansory",
+    "developer": "DIVINE AT 311 DEVELOPERS L.L.C",
+    "area": "Al Hebiah First",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "1WOOD RESIDENCE 2",
+    "developer": "OBJECT ONE REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2027-10-20",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 209,
+    "escrowRegistered": true
+   },
+   {
+    "project": "WESTIN RESIDENCES, DUBAI CREEK GARDENS",
+    "developer": "G P REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2029-12-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Longfor International Center",
+    "developer": "STAR LANG REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Warsan First",
+    "endDate": "2027-12-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 72,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Celesto Tower 2",
+    "developer": "TARRAD DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-06-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 231,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Tresora by Wadan",
+    "developer": "WADAN REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fourth",
+    "endDate": "2028-03-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 160,
+    "escrowRegistered": true
+   },
+   {
+    "project": "South Lofts 2 by Premier Choice",
+    "developer": "P C I REAL ESTATE DEVELOPERS L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2029-12-31",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Vivo Residences South By Main Realty",
+    "developer": "MAIN REALTY REAL ESTATE L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2029-03-31",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Bild Alve",
+    "developer": "I G P REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Safouh First",
+    "endDate": "2028-12-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Nanma Lotus",
+    "developer": "NANMA PROPERTIES L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-02-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 79,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Valia",
+    "developer": "DUBAI CREEK HARBOUR L.L.C",
+    "area": "Al Khairan First",
+    "endDate": "2030-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 492,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Havencia",
+    "developer": "ALA REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 286,
+    "escrowRegistered": true
+   },
+   {
+    "project": "LUNAYA",
+    "developer": "LUNAYA ZAYA REAL ESTATE DEVELOPMENT L.L.C S.O.C",
+    "area": "Saih Shuaib 1",
+    "endDate": "2029-03-31",
+    "percentComplete": 1.31,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Vista Hub by DSI Prestige One ",
+    "developer": "DRAKE AND SCULL REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 3",
+    "endDate": "2028-05-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 58,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Elanora by zoya",
+    "developer": "ZOYA ONE REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2028-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 117,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Enchante By GRID",
+    "developer": "GRID VIV REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barshaa South Third",
+    "endDate": "2028-12-15",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 286,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Greenfield 2 by Samana Developers",
+    "developer": "SAMANA PLATINUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Warsan Fourth",
+    "endDate": "2029-08-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 307,
+    "escrowRegistered": true
+   },
+   {
+    "project": "AD Residences",
+    "developer": "FOUR SEASONS REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Satwa",
+    "endDate": "2028-04-17",
+    "percentComplete": 6.38,
+    "status": "PENDING",
+    "units": 140,
+    "escrowRegistered": true
+   },
+   {
+    "project": "DISTRICT 53",
+    "developer": "MODON COMPANY FOR REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-06-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Samana South Haven",
+    "developer": "SAMANA PREMIUM REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Saih Shuaib 2",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 200,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Verdana 9",
+    "developer": "REPORTAGE PLUS A REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Dubai Investment Park First",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 0,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Verdana Residence 9",
+    "developer": "REPORTAGE PLUS A REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Dubai Investment Park First",
+    "endDate": "2029-03-31",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 256,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Best City View Tower",
+    "developer": "BEST CITY REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2030-05-30",
+    "percentComplete": 2.52,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "ELYRA RESIDENCES BY ENAAM",
+    "developer": "ENAAM PROPERTIES DEVELOPMENT L.L.C",
+    "area": "Nadd Hessa",
+    "endDate": "2028-09-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Celesto Tower 3",
+    "developer": "TARRAD DEVELOPMENT L.L.C",
+    "area": "Wadi Al Safa 5",
+    "endDate": "2028-09-28",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 216,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Bureau Lamar",
+    "developer": "LAMAR DEVELOPMENT L.L.C",
+    "area": "Business Bay",
+    "endDate": "2030-04-30",
+    "percentComplete": 0.0,
+    "status": "ACTIVE",
+    "units": 99,
+    "escrowRegistered": true
+   },
+   {
+    "project": "Lawncrest By Zimaya",
+    "developer": "ZIMAYA PROPERTIES L.L.C",
+    "area": "Me'Aisem First",
+    "endDate": "2029-06-14",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "ABU ALNAGA TOWER",
+    "developer": "ABUALNAGA DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2028-12-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "VALERIA BY ABU ALNAGA",
+    "developer": "ABUALNAGA DEVELOPMENT L.L.C",
+    "area": "Al Jadaf",
+    "endDate": "2029-12-30",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "SELA",
+    "developer": "AMWAJ ALKHALEEJ REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Nad Al Shiba First",
+    "endDate": "2028-12-31",
+    "percentComplete": null,
+    "status": "PENDING",
+    "units": 104,
+    "escrowRegistered": false
+   },
+   {
+    "project": "EVERLY PLACE",
+    "developer": "EPD BK DEVELOPERS L.L.C",
+    "area": "Ras Al Khor Industrial First",
+    "endDate": "2029-06-30",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 214,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Cresswell Views II",
+    "developer": "ADEV PROPERTIES (Br of ARADY PROPERTIES - PSC )(Du",
+    "area": "Madinat Al Mataar",
+    "endDate": "2027-10-07",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "24HC",
+    "developer": "O&F DHCC REAL ESTATE DEVELOPMENT L.L.C",
+    "area": "Um Hurair Second",
+    "endDate": "2027-03-30",
+    "percentComplete": 80.0,
+    "status": "ACTIVE",
+    "units": 99,
+    "escrowRegistered": true
+   },
+   {
+    "project": "The Lyceum",
+    "developer": "ZLON DEVELOPMENTS L.L.C",
+    "area": "Al Barsha South Fifth",
+    "endDate": "2028-10-01",
+    "percentComplete": 0.0,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Breva",
+    "developer": "A Y S PROPERTY DEVELOPMENT",
+    "area": "Palm Deira",
+    "endDate": "2028-12-31",
+    "percentComplete": 0.04,
+    "status": "PENDING",
+    "units": 0,
+    "escrowRegistered": false
+   },
+   {
+    "project": "Residence 71",
+    "developer": "AAMAL REAL ESTATE DEVELOPMENTS L.L.C",
+    "area": "Madinat Al Mataar",
+    "endDate": "2028-03-31",
+    "percentComplete": null,
     "status": "PENDING",
     "units": 0,
     "escrowRegistered": false
@@ -3061,7 +5864,7 @@
   "corpus": {
    "projects": 26119,
    "version": 55,
-   "lastSyncAt": "2026-09-01T04:00:22.429Z",
+   "lastSyncAt": "2026-09-01T12:00:29.058Z",
    "archived": 20056,
    "live": false,
    "servedBy": "Digital Abbot Cloud (DigitAlchemy stored MEED corpus)"
@@ -3393,51 +6196,63 @@
    }
   },
   "dldByQuarter": {
-   "2027-Q3": {
+   "2027-Q1": {
     "projects": 1,
-    "units": 420
+    "units": 99
+   },
+   "2027-Q2": {
+    "projects": 5,
+    "units": 1913
+   },
+   "2027-Q3": {
+    "projects": 9,
+    "units": 4885
    },
    "2027-Q4": {
-    "projects": 2,
-    "units": 1424
+    "projects": 22,
+    "units": 6477
    },
    "2028-Q1": {
-    "projects": 3,
-    "units": 121
+    "projects": 27,
+    "units": 3160
    },
    "2028-Q2": {
-    "projects": 2,
-    "units": 314
+    "projects": 35,
+    "units": 3745
    },
    "2028-Q3": {
-    "projects": 8,
-    "units": 1211
+    "projects": 28,
+    "units": 3925
    },
    "2028-Q4": {
-    "projects": 6,
-    "units": 3432
+    "projects": 38,
+    "units": 9414
    },
    "2029-Q1": {
-    "projects": 7,
-    "units": 739
+    "projects": 35,
+    "units": 7065
    },
    "2029-Q2": {
-    "projects": 3,
-    "units": 413
+    "projects": 18,
+    "units": 6489
    },
    "2029-Q3": {
-    "projects": 4,
-    "units": 353
+    "projects": 21,
+    "units": 3263
    },
    "2029-Q4": {
-    "projects": 6,
-    "units": 887
+    "projects": 24,
+    "units": 7018
    },
    "2030-Q1": {
-    "projects": 4,
-    "units": 1578
+    "projects": 17,
+    "units": 4523
    },
    "2030-Q2": {
+    "projects": 24,
+    "units": 5136
+   },
+   "2030-Q3": {
     "projects": 4,
     "units": 892
    },
@@ -3446,8 +6261,24 @@
     "units": 4733
    },
    "2031-Q2": {
+    "projects": 3,
+    "units": 1364
+   },
+   "2031-Q3": {
     "projects": 1,
-    "units": 484
+    "units": 0
+   },
+   "2031-Q4": {
+    "projects": 5,
+    "units": 4543
+   },
+   "2032-Q2": {
+    "projects": 1,
+    "units": 642
+   },
+   "2032-Q4": {
+    "projects": 1,
+    "units": 684
    }
   }
  }

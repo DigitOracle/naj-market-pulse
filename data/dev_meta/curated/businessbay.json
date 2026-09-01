@@ -29,7 +29,8 @@
    ],
    "placement": "approximate — canal frontage, Business Bay; exact plot pin pending",
    "status_key": "construction",
-   "register_name": "EYWA DUBAI"
+   "register_name": "EYWA DUBAI",
+   "brand_note": "R.Evolution — 2 Dubai projects known first-party (this tower + Eywa The Way Of Water)"
   },
   "eywa_way_of_water": {
    "title": "Eywa The Way Of Water (2nd project)",
@@ -61,7 +62,8 @@
    "placement": "approximate — canal frontage, Business Bay; exact plot pin pending",
    "note": "massing height illustrative (no floor count on file)",
    "status_key": "pipeline",
-   "register_name": "Eywa The Way Of Water"
+   "register_name": "Eywa The Way Of Water",
+   "brand_note": "R.Evolution — 2 Dubai projects known first-party (original EYWA tower + this)"
   }
  }
 }
