@@ -1,0 +1,67 @@
+{
+ "buildings": {
+  "eywa_dubai": {
+   "title": "EYWA Dubai (original tower)",
+   "developer": "R.Evolution",
+   "status": "Under construction — completion Dec 2026",
+   "facts": [
+    [
+     "Configuration",
+     "B+G+3P+19F+R — 48 apartments + 2 penthouses"
+    ],
+    [
+     "Certification",
+     "Triple Platinum (developer-published)"
+    ],
+    [
+     "Value",
+     "US$64m (MEED 413659)"
+    ],
+    [
+     "Amenities",
+     "36 numbered across two levels (developer's own count)"
+    ]
+   ],
+   "sources": [
+    "DLD Open Data transactions",
+    "R.Evolution brochures (first-party, on file)",
+    "MEED Projects 413659"
+   ],
+   "placement": "approximate — canal frontage, Business Bay; exact plot pin pending",
+   "status_key": "construction",
+   "register_name": "EYWA DUBAI"
+  },
+  "eywa_way_of_water": {
+   "title": "Eywa The Way Of Water (2nd project)",
+   "developer": "REVOLUTION PALM REAL ESTATE L.L.C",
+   "status": "Registered pipeline — 0% · 15 Feb 2026 → 15 Oct 2028",
+   "facts": [
+    [
+     "Units",
+     "65 residences (DLD project register, 27 Aug verification)"
+    ],
+    [
+     "Registered value",
+     "AED 261,283,787 (register)"
+    ],
+    [
+     "Design",
+     "Zane Tetere / OAD (press, Jan 2026)"
+    ],
+    [
+     "Plot-scale mortgage",
+     "Feb 2026 · AED 28.7m (register)"
+    ]
+   ],
+   "sources": [
+    "DLD Open Data transactions (2026-09-01 pull)",
+    "DLD project register (our copy, 1 Sep 2026 pull)",
+    "Press (Construction Week / Arabian Business, Jan 2026)"
+   ],
+   "placement": "approximate — canal frontage, Business Bay; exact plot pin pending",
+   "note": "massing height illustrative (no floor count on file)",
+   "status_key": "pipeline",
+   "register_name": "Eywa The Way Of Water"
+  }
+ }
+}

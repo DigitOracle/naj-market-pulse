@@ -1,4 +1,7 @@
-data/
+data/*
+!data/dev_meta/
+data/dev_meta/*
+!data/dev_meta/curated/
 .env
 __pycache__/
 public/heatmap_story.png
