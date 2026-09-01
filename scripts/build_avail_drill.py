@@ -1,0 +1,50 @@
+"""Per-project drill data for the availability strip -> KV drill_<slug>.
+Registered sales mix by rooms + prices, straight from DuckDB. Developer-claimed
+availability joins the same JSON when PDF extraction lands (kept separate)."""
+import base64, json, os, re, sys, urllib.request
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+slug = lambda s: re.sub(r"[^a-z0-9]", "", str(s).lower())
+
+TARGETS = [
+    ("treppantower",     "PROJECT_EN = 'TREPPAN TOWER'",                       "Treppan Tower"),
+    ("treppanserenique", "PROJECT_EN = 'TREPPAN SERENIQUE RESIDENCES'",        "Treppan Serenique"),
+    ("maimoongardens",   "PROJECT_EN = 'Maimoon Gardens'",                     "Maimoon Gardens"),
+    ("hatimiresidences", "PROJECT_EN = 'HATIMI RESIDENCES BY FAKHRUDDIN'",     "Hatimi Residences"),
+    ("imtiaz",           "lower(PROJECT_EN) LIKE '%imtiaz%'",                  "Imtiaz (all projects)"),
+]
+
+def main():
+    import duckdb
+    con = duckdb.connect(os.path.join(HERE, "..", "naj.duckdb"), read_only=True)
+    tok = next(l.split("=",1)[1].strip() for l in open(r"C:\Dev\azimuth-listener-naj\.env") if l.startswith("INGEST_TOKEN="))
+    for key, where, title in TARGETS:
+        rooms = con.execute(f"""
+            SELECT COALESCE(NULLIF(TRIM(ROOMS_EN),''),'Other') r, COUNT(*) n,
+                   MEDIAN(TRY_CAST(TRANS_VALUE AS DOUBLE)) med,
+                   MEDIAN(TRY_CAST(TRANS_VALUE AS DOUBLE)/NULLIF(TRY_CAST(ACTUAL_AREA AS DOUBLE),0)) psm
+            FROM transactions WHERE {where} AND PROCEDURE_EN LIKE 'Sell%'
+            GROUP BY 1 ORDER BY n DESC""").fetchall()
+        latest = con.execute(f"""
+            SELECT substr(INSTANCE_DATE,1,10), ROOMS_EN, TRY_CAST(ACTUAL_AREA AS DOUBLE),
+                   TRY_CAST(TRANS_VALUE AS DOUBLE), PROJECT_EN, AREA_EN
+            FROM transactions WHERE {where} AND PROCEDURE_EN LIKE 'Sell%'
+            ORDER BY INSTANCE_DATE DESC LIMIT 4""").fetchall()
+        district = latest[0][5] if latest else ""
+        d = {"title": title, "district": district, "updated": "2026-09-01",
+             "rooms": [{"r": r, "n": n, "med": round(med) if med else None,
+                        "psm": round(psm) if psm else None} for r, n, med, psm in rooms if n > 0],
+             "latest": [{"d": a, "r": b, "m2": round(c,1) if c else None, "aed": round(e) if e else None,
+                         "p": f} for a, b, c, e, f, _ in latest],
+             "sheet": {"received": "2026-09-01", "status": "sheet on file — unit availability after extraction"}}
+        raw = json.dumps(d, ensure_ascii=False).encode()
+        body = json.dumps({"imageName": "drill_" + key, "image": base64.b64encode(raw).decode(),
+                           "contentType": "application/json"}).encode()
+        req = urllib.request.Request("https://azimuth-2.digitalchemy.workers.dev/ingest_market", data=body,
+            headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json",
+                     "User-Agent": "najma-market-pulse/1.0"}, method="POST")
+        r = json.load(urllib.request.urlopen(req, timeout=60))
+        print(key, "->", r.get("ok"), f"({sum(x['n'] for x in d['rooms'])} sales, {len(d['rooms'])} room types)")
+
+if __name__ == "__main__":
+    main()
