@@ -1,5 +1,6 @@
 data/*
 !data/dev_meta/
+!data/avail/
 data/dev_meta/*
 !data/dev_meta/curated/
 .env
