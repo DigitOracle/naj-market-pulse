@@ -1,0 +1,18 @@
+/**
+ * Najma rule tree v1 — Compliance
+ * v1 = geometric height check only. NOT a code checker: it flags what geometry
+ * exceeds a supplied limit, and reports it. No UAE planning code is assumed —
+ * limits arrive as data (attrs), authored per district when we have the source.
+ */
+version "2023.0"
+
+attr maxHeight = 0        // 0 = no limit supplied -> no check, no false comfort
+
+HeightCheck(h) -->
+    case maxHeight > 0 && h > maxHeight :
+        report("compliance.height_exceeded", 1)
+        report("compliance.exceed_m", h - maxHeight)
+        NIL
+    else :
+        report("compliance.height_ok", maxHeight > 0)
+        NIL

@@ -18,6 +18,18 @@ ws = ce.toFSPath("/")
 proj = os.path.join(ws, "najma")
 os.makedirs(GLB, exist_ok=True)
 
+# stage the versioned rule tree (repo = SSOT) into the workspace project
+RULES = os.path.join(HERE, "..", "rules")
+if os.path.isdir(RULES):
+    for root, _, fns in os.walk(RULES):
+        rel = os.path.relpath(root, RULES)
+        dst = os.path.join(proj, "rules") if rel == "." else os.path.join(proj, "rules", rel)
+        os.makedirs(dst, exist_ok=True)
+        for fn in fns:
+            if fn.endswith(".cga"):
+                shutil.copy2(os.path.join(root, fn), os.path.join(dst, fn))
+    print("rule tree staged from repo/rules")
+
 areas = [d for d in sorted(os.listdir(CEDIR))
          if os.path.exists(os.path.join(CEDIR, d, "buildings.shp"))]
 print("areas with footprints:", areas)

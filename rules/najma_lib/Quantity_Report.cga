@@ -1,0 +1,23 @@
+/**
+ * Najma rule tree v1 — Quantity_Report
+ * Pure reporting: every generated mass declares its measurables. Reports surface in
+ * CE inspector, in export callbacks (model.getReports), and eventually the sidecars.
+ * Register-grounded discipline: we report what the geometry IS, not what we wish.
+ */
+version "2023.0"
+
+// call on the extruded mass, BEFORE material/split decoration
+MassReport(status, h, pct) -->
+    report("buildings." + status, 1)
+    report("height_m." + status, h)
+    report("volume_m3", geometry.volume)
+    report("pct_complete", pct)
+    NIL
+
+FootprintReport -->
+    report("lot_m2", geometry.area)
+    NIL
+
+FacadeReport -->
+    report("facade_m2", geometry.area)
+    NIL

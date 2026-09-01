@@ -1,0 +1,60 @@
+/**
+ * Najma master rule v2 — the rule tree entry point.
+ * DROP-IN for v1: same attrs (status/bHeight/pctComplete), same status palette
+ * (#39434F existing / #3E8A7E construction / #C5A56A pipeline) — the viewer
+ * classifies meshes by these exact colors; changing them breaks the tap layer.
+ * Quality defaults FAST so the nightly batch stays massing-lean; DESIGN adds
+ * floors + reports; PRESENTATION adds facade depth (render lane).
+ */
+version "2023.0"
+
+import qr : "najma_lib/Quantity_Report.cga"
+import fs : "najma_lib/Facade_System.cga"
+import cp : "najma_lib/Compliance.cga"
+
+attr status      = "existing"     // existing | construction | pipeline
+attr bHeight     = 12
+attr pctComplete = 100
+
+@Enum("FAST", "DESIGN", "PRESENTATION")
+attr Quality = "FAST"
+
+@Enum("CITYENGINE", "HOUDINI", "UNREAL")
+attr OutputTarget = "CITYENGINE"  // semantic-export switch, wired in a later pass
+
+@StartRule
+Lot -->
+    qr.FootprintReport
+    extrude(bHeight)
+    qr.MassReport(status, bHeight, pctComplete)
+    cp.HeightCheck(bHeight)
+    Mass
+
+Mass -->
+    case status == "existing" :
+        color("#39434F")
+        Articulate
+    case status == "construction" :
+        color("#3E8A7E")
+        set(material.opacity, 0.8)
+        split(y){ bHeight * pctComplete/100 : Built | ~1 : Rising }
+    else :
+        color("#C5A56A")
+        set(material.opacity, 0.4)
+        Mass.
+
+// facade articulation only where the quality tier asks for it, and only on sides
+Articulate -->
+    case Quality == "FAST" :
+        Articulate.
+    else :
+        comp(f){ side : SideFace | top : TopFace }
+
+SideFace -->
+    qr.FacadeReport
+    fs.Facade(Quality)
+
+TopFace --> TopFace.
+
+Built  --> color("#3E8A7E") Built.
+Rising --> color("#3E8A7E") set(material.opacity, 0.25) Rising.

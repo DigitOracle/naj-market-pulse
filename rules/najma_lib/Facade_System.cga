@@ -1,0 +1,34 @@
+/**
+ * Najma rule tree v1 — Facade_System
+ * Floor/bay articulation with real depth (recessed glazing) at PRESENTATION quality.
+ * FAST/DESIGN keep flat faces — massing-scale honesty, small GLBs.
+ */
+version "2023.0"
+
+attr floorHeight = 3.5
+attr bayWidth   = 3.2
+attr glassCol   = "#2A3E45"
+attr wallCol    = "#39434F"
+
+Facade(quality) -->
+    case quality == "PRESENTATION" :
+        split(y){ ~floorHeight : Floor }*
+    else :
+        Face.
+
+Floor -->
+    split(x){ ~bayWidth : Bay }*
+
+Bay -->
+    // 200mm reveal: geometry depth so shadows and ambient occlusion have work to do
+    split(x){ 0.25 : Pier | ~1 : Glazing | 0.25 : Pier }
+
+Pier --> color(wallCol) Pier.
+Glazing -->
+    t(0, 0, -0.2)
+    color(glassCol)
+    set(material.metallic, 0.1)
+    set(material.roughness, 0.25)
+    Glazing.
+
+Face --> Face.
