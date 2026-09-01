@@ -87,6 +87,13 @@ def main():
     json.dump({"type": "FeatureCollection", "features": feats},
               open(os.path.join(out, "buildings.geojson"), "w"), separators=(",", ":"))
     print(f"  buildings.geojson: {len(feats)} footprints inside the boundary")
+    # SHP for CityEngine import (ce_batch expects buildings.shp) — folded in 1 Sep 26
+    if feats:
+        import geopandas as gpd
+        gdf = gpd.GeoDataFrame.from_features(feats, crs="EPSG:4326")
+        gdf["bHeight"] = gdf["bHeight"].astype(float)
+        gdf.to_file(os.path.join(out, "buildings.shp"))
+        print("  buildings.shp written (CE-ready)")
 
     pulse = json.load(open(os.path.join(PUB, "pulse.json"), encoding="utf-8"))
     projs = [p for p in pulse.get("projects", {}).get("projectLookup", [])

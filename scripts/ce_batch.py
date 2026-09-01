@@ -23,7 +23,9 @@ areas = [d for d in sorted(os.listdir(CEDIR))
 print("areas with footprints:", areas)
 
 for a in areas:
-    print(f"=== {a}")
+    if os.path.exists(os.path.join(GLB, f"sky_{a}_0.glb")):
+        print(f"SKIP {a} (GLB exists)"); continue
+    print(f"=== {a}", flush=True)
     for f in os.listdir(os.path.join(CEDIR, a)):
         if f.startswith("buildings.") and not f.endswith(".geojson"):
             shutil.copy2(os.path.join(CEDIR, a, f), os.path.join(proj, "data", f"{a}_{f}"))
@@ -73,5 +75,6 @@ for a in areas:
 print("\nGLBs:")
 for f in sorted(os.listdir(GLB)):
     if f.endswith(".glb"):
-        print(" ", f, os.path.getsize(os.path.join(GLB, f)) // 1024, "KB")
+        sz = os.path.getsize(os.path.join(GLB, f))
+        print(" ", f, sz // 1024, "KB", "⚠️ OVER 5MB KV CAP" if sz > 5*1024*1024 else "")
 print("next: python scripts/push_assets.py --skylines")
