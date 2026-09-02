@@ -11,7 +11,9 @@ import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
-P, CX, CY, CXo, CYo, H = 20000, 7000, 11000, 8800, 12800, 3500
+P, CX, CY, CXo, CYo, H = 20000, 7000, 11000, 8800, 12800, 3500   # P = half plate WIDTH (x)
+PY = 21700          # half plate DEPTH (y): calibrated 2 Sep 2026 so N/S-band unit areas meet the Imtiaz sheet (band depth 7.2 -> 8.9 m)
+WB1 = 4500          # west-band single 3BR / duplex: top of the bay (15.5 m tall = 173 m2 per the sheet); pocket above it joins the corridor
 FR = {"1BR": [.55, .45], "MS": [.5, .5], "2BR": [.40, .32, .28], "3BR": [.34, .24, .21, .21], "4BR": [.30, .20, .17, .17, .16]}
 NM = {"1BR": ["Living/Kitchen", "Bedroom"], "MS": ["Living/Kitchen", "Master Bedroom"], "2BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2"],
       "3BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3"], "4BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3", "Bedroom 4"]}
@@ -35,15 +37,15 @@ def floor_type(fl):
 def bays_for(ft):
     b = []
     B = lambda x0, y0, x1, y1, t, back: b.append((x0, y0, x1, y1, t, back))
-    S4 = lambda: (B(7000, -P, P, -CYo, "2BR", "N"), B(0, -P, 7000, -CYo, "1BR", "N"), B(-7000, -P, 0, -CYo, "1BR", "N"), B(-P, -P, -7000, -CYo, "2BR", "N"))
+    S4 = lambda: (B(7000, -PY, P, -CYo, "2BR", "N"), B(0, -PY, 7000, -CYo, "1BR", "N"), B(-7000, -PY, 0, -CYo, "1BR", "N"), B(-P, -PY, -7000, -CYo, "2BR", "N"))
     E3 = lambda: (B(CXo, 3667, P, CY, "1BR", "W"), B(CXo, -3667, P, 3667, "1BR", "W"), B(CXo, -CY, P, -3667, "1BR", "W"))
-    if ft == "T13": B(-P, CYo, -9000, P, "MS", "S"); B(-9000, CYo, -1000, P, "1BR", "S"); B(-1000, CYo, 7000, P, "1BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, 0, "MS", "E"); B(-P, 0, -CXo, CY, "MS", "E")
-    if ft == "T11": B(-P, CYo, -1000, P, "2BR", "S"); B(-1000, CYo, 7000, P, "1BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, CY, "3BR", "E")
-    if ft == "T10": B(-P, CYo, -1000, P, "3BR", "S"); B(-1000, CYo, 7000, P, "1BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); B(7000, -P, P, -CYo, "2BR", "N"); B(-7000, -P, 7000, -CYo, "1BR", "N"); B(-P, -P, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "3BR", "E")
-    if ft == "T9": B(-P, CYo, 7000, P, "4BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); B(7000, -P, P, -CYo, "2BR", "N"); B(-7000, -P, 7000, -CYo, "1BR", "N"); B(-P, -P, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
+    if ft == "T13": B(-P, CYo, -9000, PY, "MS", "S"); B(-9000, CYo, -1000, PY, "1BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, 0, "MS", "E"); B(-P, 0, -CXo, CY, "MS", "E")
+    if ft == "T11": B(-P, CYo, -1000, PY, "2BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "3BR", "E")
+    if ft == "T10": B(-P, CYo, -1000, PY, "3BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "3BR", "E")
+    if ft == "T9": B(-P, CYo, 7000, PY, "4BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
     # T33/T34: unit 3307 = the 4BR duplex on the west wing (both levels) + the NW terrace; the deck skips 07 for the others
-    if ft == "T33": B(-2000, CYo, 7000, P, "1BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, CY, "4BR", "E")
-    if ft == "T34": B(-2000, CYo, 7000, P, "1BR", "S"); B(7000, CYo, P, P, "2BR", "S"); E3(); B(7000, -P, P, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
+    if ft == "T33": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "4BR", "E")
+    if ft == "T34": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "4BR", "E")
     return b
 
 
@@ -64,6 +66,10 @@ def build(fl):
     # core + 4 corner stubs (close the dead-end corridor legs); units tile the bands with their own boundary walls -> no collinear overlaps
     W(-CX, -CY, CX, -CY); W(CX, -CY, CX, CY); W(CX, CY, -CX, CY); W(-CX, CY, -CX, -CY)
     W(P, CY, P, CYo); W(P, -CY, P, -CYo); W(-P, CY, -P, CYo); W(-P, -CY, -P, -CYo)
+    if ft in ("T10", "T11", "T33", "T34"):
+        W(-P, WB1, -P, CY)                      # west perimeter above the shortened west-band unit (pocket = corridor/lift lobby)
+    if ft == "T34":
+        W(-P, -CYo, 7000, -CYo)                 # south edge of the corridor where the 34th has no south-band units
     units = []
     for u, (x0, y0, x1, y1, t, back) in enumerate(bays_for(ft)):
         idx = u + 1 if ft not in ("T33", "T34") else (7 if t == "4BR" else (u + 1 if u < 6 else u + 2))
@@ -111,9 +117,9 @@ def build(fl):
         units.append({"unit": unit, "type": t, "bay": [x0, y0, x1, y1], "back": back, "width_mm": Wd, "depth_mm": D})
     if ft in ("T33", "T34"):
         # NW terrace of the duplex (pool terrace on 33, planted terrace on 34): close it and the corridor dead-end, door from the corridor leg
-        W(-P, CYo, -2000, CYo); W(-P, CYo, -P, P); W(-P, P, -2000, P)
+        W(-P, CYo, -2000, CYo); W(-P, CYo, -P, PY); W(-P, PY, -2000, PY)
         opens.append((-11000, CYo, SYM["dEnt"]))
-        R(-11000, 16400, "Pool terrace" if ft == "T33" else "Planted terrace", "%d07-T" % fl, "Unit %d07 - 4BR" % fl, "balcony")
+        R(-11000, (CYo + PY) // 2, "Pool terrace" if ft == "T33" else "Planted terrace", "%d07-T" % fl, "Unit %d07 - 4BR" % fl, "balcony")
     R(0, CY + 900, "Corridor", "%02d-COR" % fl, "Circulation", "corridor")
     return ft, walls, [(round(x), round(y), s) for x, y, s in opens], rooms, units
 

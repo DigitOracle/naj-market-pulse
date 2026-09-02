@@ -88,23 +88,32 @@ for seg in SEG["segments"]:
         rec["ours"] = ours
         if ours["availability_sheets"] or ours["curated_buildings"]:
             rec["sources"].append("DigitAlchemy holdings (availability sheets / curated meta)")
-        # --- MEED (only with a key in the environment)
-        rec["meed"] = {"status": "not queried - set DAC_KEY to enable (key is never stored in the repo)"} if not dac_key else {"status": "queried"}
-        if dac_key:
-            try:
-                req = urllib.request.Request("https://www.digitalabbot.io/api/cloud/v1/meed/projects?country=United%20Arab%20Emirates&limit=200", headers={"x-dac-key": dac_key, "User-Agent": "najma-dna/1.0"})
-                data = json.load(urllib.request.urlopen(req, timeout=60))
-                hits = [p for p in data.get("items", data.get("projects", [])) if any(a in json.dumps(p).lower() for a in al)]
-                rec["meed"] = {"status": "queried", "corpus": data.get("corpus") or data.get("version"), "hits": hits[:20]}
-                rec["sources"].append("Digital Abbot Cloud MEED corpus (stored snapshot, not live)")
-            except Exception as e:
-                rec["meed"] = {"status": "error: " + str(e)[:80]}
+        # --- MEED: local cache of the UAE register harvested from the Digital Abbot Cloud read API (data/meed/uae_projects.json;
+        #     refresh with scripts/meed_harvest.py using DAC_KEY). Title arrives as "Client - Project", so match the client part + aliases.
+        meed_cache = os.path.join(ROOT, "data", "meed", "uae_projects.json")
+        if os.path.exists(meed_cache):
+            mc = json.load(open(meed_cache, encoding="utf-8"))
+            # match on the CLIENT half of "Client - Project" with word boundaries (so "iman" is not "Soliman", "zaya" not "Al Mazaya")
+            pats = [re.compile(r"\b" + re.escape(a.strip().lower()) + r"\b") for a in al]
+            hits = [it for it in mc["items"] if any(p.search((it.get("title") or "").split(" - ")[0].lower()) for p in pats)]
+            stages = {}
+            for it in hits:
+                stages[it.get("stageLabel")] = stages.get(it.get("stageLabel"), 0) + 1
+            rec["meed"] = {"status": "matched from local UAE cache (%s, %d rows)" % (mc.get("harvested"), len(mc["items"])), "projects": len(hits),
+                           "stages": stages, "value_usd_m": round(sum(it.get("netValueUsdM") or 0 for it in hits)),
+                           "active": [{"id": it["projectId"], "title": it["title"], "stage": it.get("stageLabel"), "usd_m": it.get("netValueUsdM"), "updated": it.get("lastUpdated")}
+                                      for it in hits if it.get("stageLabel") not in ("Complete", "Cancelled")][:25],
+                           "recent_complete": sorted([it["title"] for it in hits if it.get("stageLabel") == "Complete"], key=lambda t: t)[:15]}
+            if hits:
+                rec["sources"].append("MEED project register via Digital Abbot Cloud (stored corpus v55, not live)")
+        else:
+            rec["meed"] = {"status": "no local cache - run scripts/meed_harvest.py with DAC_KEY"}
         dna["developers"][dev] = rec
-        md.append("## %s  -  %s (rank %d)\n- DLD entities: %s\n- 2026 registrations: %d project(s), %s units - %s\n- 2026 transactions: %d across %d project(s), AED %s; median AED/m2 %s; areas %s\n- aliases matched %s | unmatched (seed only) %s\n- rents: %s contracts, median AED %s/yr\n- ours: %s\n- MEED: %s\n" % (
+        md.append("## %s  -  %s (rank %d)\n- DLD entities: %s\n- 2026 registrations: %d project(s), %s units - %s\n- 2026 transactions: %d across %d project(s), AED %s; median AED/m2 %s; areas %s\n- aliases matched %s | unmatched (seed only) %s\n- rents: %s contracts, median AED %s/yr\n- ours: %s\n- MEED: %s projects, stages %s, USD %s m, active: %s\n" % (
             dev, seg["label"], seg["rank"], ", ".join(rec["dld_entities"]) or "none in corpus",
             len(rec["dld_projects_2026"]), int(sum(p["units"] or 0 for p in rec["dld_projects_2026"])), "; ".join("%s (%s, %s)" % (p["project"], p["area"], p["status"]) for p in rec["dld_projects_2026"][:6]) or "-",
             rec["tx_2026"]["transactions"], len(tx_projects), format(rec["tx_2026"]["value_aed"], ","), rec["tx_2026"].get("median_aed_per_sqm_across_projects"), ", ".join(rec["tx_2026"]["areas"][:6]) or "-",
-            matched or "-", rec["tx_2026"]["aliases_unmatched"] or "-", rn[0][0], rec["rents_2026"]["median_annual_aed"], json.dumps(ours), rec["meed"]["status"]))
+            matched or "-", rec["tx_2026"]["aliases_unmatched"] or "-", rn[0][0], rec["rents_2026"]["median_annual_aed"], json.dumps(ours), rec["meed"].get("projects", 0), json.dumps(rec["meed"].get("stages", {})), rec["meed"].get("value_usd_m", 0), "; ".join("%s (%s)" % (a["title"], a["stage"]) for a in rec["meed"].get("active", [])[:5]) or "-"))
 
 out = os.path.join(ROOT, "data", "dev_meta", "developer_dna.json")
 json.dump(dna, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
