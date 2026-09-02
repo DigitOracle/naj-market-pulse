@@ -104,6 +104,36 @@ def wrap(draw, text, font, width):
     return lines
 
 
+def icon(d, kind, x, y, s=64):
+    """Vector icon drawn straight into the sheet: teal disc, gold line art. kinds: metro, school, people, coin, mall, compass."""
+    r = s // 2; cx, cy = x + r, y + r
+    d.ellipse([x, y, x + s, y + s], fill=TEAL)
+    g, w = GOLD, max(3, s // 20)
+    if kind == "metro":                                         # train front: body, window band, lights, rails
+        d.rounded_rectangle([cx - r * .48, cy - r * .55, cx + r * .48, cy + r * .40], radius=r * .18, outline=g, width=w)
+        d.rounded_rectangle([cx - r * .34, cy - r * .40, cx + r * .34, cy - r * .05], radius=r * .06, fill=g)
+        d.ellipse([cx - r * .36, cy + r * .10, cx - r * .18, cy + r * .28], fill=g); d.ellipse([cx + r * .18, cy + r * .10, cx + r * .36, cy + r * .28], fill=g)
+        d.line([cx - r * .55, cy + r * .58, cx - r * .25, cy + r * .42], fill=g, width=w); d.line([cx + r * .55, cy + r * .58, cx + r * .25, cy + r * .42], fill=g, width=w)
+    elif kind == "school":                                      # mortarboard + tassel
+        d.polygon([(cx, cy - r * .45), (cx + r * .60, cy - r * .12), (cx, cy + r * .20), (cx - r * .60, cy - r * .12)], fill=g)
+        d.line([cx - r * .34, cy + r * .02, cx - r * .34, cy + r * .32], fill=g, width=w); d.line([cx - r * .34, cy + r * .32, cx + r * .34, cy + r * .32], fill=g, width=w)
+        d.line([cx + r * .60, cy - r * .12, cx + r * .60, cy + r * .30], fill=g, width=w); d.ellipse([cx + r * .52, cy + r * .28, cx + r * .68, cy + r * .44], fill=g)
+    elif kind == "people":                                      # two figures
+        for dx, k in ((-r * .26, 1.0), (r * .26, .85)):
+            d.ellipse([cx + dx - r * .16 * k, cy - r * .48 * k, cx + dx + r * .16 * k, cy - r * .16 * k], fill=g)
+            d.rounded_rectangle([cx + dx - r * .28 * k, cy - r * .10 * k, cx + dx + r * .28 * k, cy + r * .48 * k], radius=r * .16, fill=g)
+    elif kind == "coin":                                        # coin with an upward arrow (purchasing power)
+        d.ellipse([cx - r * .48, cy - r * .48, cx + r * .48, cy + r * .48], outline=g, width=w)
+        d.line([cx, cy + r * .26, cx, cy - r * .22], fill=g, width=w + 1)
+        d.polygon([(cx, cy - r * .34), (cx - r * .18, cy - r * .10), (cx + r * .18, cy - r * .10)], fill=g)
+    elif kind == "mall":                                        # shopping bag
+        d.rounded_rectangle([cx - r * .42, cy - r * .20, cx + r * .42, cy + r * .48], radius=r * .08, outline=g, width=w)
+        d.arc([cx - r * .26, cy - r * .55, cx + r * .26, cy + r * .05], 180, 360, fill=g, width=w)
+    elif kind == "compass":
+        d.ellipse([cx - r * .5, cy - r * .5, cx + r * .5, cy + r * .5], outline=g, width=w)
+        d.polygon([(cx, cy - r * .42), (cx - r * .12, cy), (cx + r * .12, cy)], fill=g); d.polygon([(cx, cy + r * .42), (cx - r * .12, cy), (cx + r * .12, cy)], fill=(255, 255, 255))
+
+
 def unit_rooms(unit, floor):
     j = json.load(open(os.path.join(ROOT, "data", "revit", "v2_%s.json" % floor)))
     u = next(x for x in j["units"] if x["unit"] == unit)
@@ -142,20 +172,28 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
     metro = (vic.get("metro") or [])[:2]
     schools = [s for s in (vic.get("schools") or []) if "tennis" not in (s.get("name") or "").lower()][:3]
     demo = {r.get("radius_km"): r for r in (vic.get("demographics") or [])}
-    lines = []
+    malls = (vic.get("malls") or [])[:2]
+    rows = []                                                   # (icon kind, bold lead, text)
     if metro:
-        lines.append("Nearest metro: " + " - ".join("%s (%.1f km)" % (m["name"].replace(" Metro Station", ""), m["km"]) for m in metro) + " - straight-line")
+        rows.append(("metro", "Metro", " - ".join("%s %.1f km" % (m["name"].replace(" Metro Station", ""), m["km"]) for m in metro) + " (straight-line)"))
     if schools:
-        lines.append("Schools: " + " - ".join("%s (%.1f km)" % (s["name"], s["km"]) for s in schools))
+        rows.append(("school", "Schools", " - ".join("%s %.1f km" % (s["name"], s["km"]) for s in schools)))
     if 1 in demo:
         r1 = demo[1]; r3 = demo.get(3, {})
-        lines.append("Within 1 km: %s residents, %s households, purchasing-power index %s (UAE = 100)%s" % (
-            format(int(r1["pop"]), ","), format(int(r1["households"]), ","), r1["pp_index"],
-            ("; within 3 km: %s residents, index %s" % (format(int(r3["pop"]), ","), r3["pp_index"])) if r3 else ""))
-    for ln in lines:
-        for i, seg in enumerate(wrap(d, ln, SM, 1880)):
-            d.text((px + (0 if i == 0 else 30), vy), ("-  " if i == 0 else "") + seg, font=SM, fill=INK); vy += 36
-        vy += 4
+        rows.append(("people", "Who lives here", "%s residents, %s households within 1 km%s" % (
+            format(int(r1["pop"]), ","), format(int(r1["households"]), ","), ("; %s residents within 3 km" % format(int(r3["pop"]), ",")) if r3 else "")))
+        rows.append(("coin", "Purchasing power", "index %s within 1 km (UAE = 100)%s - Esri 2024" % (r1["pp_index"], ("; %s within 3 km" % r3["pp_index"]) if r3 else "")))
+    if malls:
+        rows.append(("mall", "Malls", " - ".join("%s %.1f km" % (m["name"], m["km"]) for m in malls)))
+    for kind, lead, txt in rows:
+        icon(d, kind, px, vy - 6, 60)
+        lead_w = d.textlength(lead + "  ", font=B)
+        d.text((px + 80, vy), lead, font=B, fill=TEAL)
+        segs = wrap(d, txt, SM, 1880 - 80 - lead_w)
+        d.text((px + 80 + lead_w, vy + 4), segs[0] if segs else "", font=SM, fill=INK)
+        for seg in segs[1:]:
+            vy += 34; d.text((px + 80 + lead_w, vy + 4), seg, font=SM, fill=INK)
+        vy += 66
 
     # RIGHT TOP: key facts
     x, y = 2120, 360
