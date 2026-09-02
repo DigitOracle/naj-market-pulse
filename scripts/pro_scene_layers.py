@@ -25,7 +25,11 @@ m = next(x for x in ap.listMaps() if x.mapType == "SCENE")
 have = {l.name for l in m.listLayers()}
 for name, src in WANT:
     if name in have:
-        print("kept   ", name); continue
+        cur = next(l for l in m.listLayers() if l.name == name)
+        ds = getattr(cur, "dataSource", "") or ""
+        if src.startswith("http") or os.path.normcase(ds) == os.path.normcase(src):
+            print("kept   ", name); continue
+        m.removeLayer(cur); print("swapped", name, "| was", ds)     # source moved (e.g. CE massing regenerated into another gdb)
     try:
         lyr = m.addDataFromPath(src)
         lyr.name = name
@@ -38,4 +42,4 @@ for l in m.listLayers():
         l.visible = False
 ap.save()
 print("saved", APRX)
-print("scene layers now:", [l.name for l in m.listLayers()])
+print("scene layers now:", [(l.name, getattr(l, "dataSource", "")) for l in m.listLayers()])
