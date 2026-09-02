@@ -1,22 +1,34 @@
-"""Golden Building generator v2 (Neufert gate G1-G8) - Python side.
-Computes every wall / opening / room for a floor and emits three compact C# snippets for revit-mcp send_code_to_revit
-(the plugin reads ONE 8 KB socket buffer, so each snippet stays well under that): 1 walls, 2 openings, 3 rooms (+G7 report).
-Also writes data/revit/v2_<floor>.json (the same geometry) for the cards and the Pro import.
-Usage: python scripts/revit_v2_emit.py F32            -> data/revit/sends/F32_1.cs, _2.cs, _3.cs
-       python scripts/revit_v2_emit.py F32 --print 1  -> print snippet 1 to stdout
-Plate: 40 x 40 m, core 14 x 22 centred, corridor ring 1.8 m. Per unit: hall strip 1.2 m along the corridor wall, bath
-2.2 x 2.6 m at the hall end, front rooms by fraction, window per habitable room, balcony 1.5 m on living + master.
+"""Golden Building generator v2.1 (Neufert gate G1-G8 + sanitary programme) - Python side.
+Computes every wall / opening / room / label for a floor and writes data/revit/v2_<F>.txt (loader format), v2_<F>.json
+(geometry incl. room rectangles) and v2_<F>_labels.txt (unit numbers for the plate, room dimensions for the unit plans).
+revit_v2_apply.cs builds the floor from the txt; revit_v2_cards.cs adds the labels and exports the card PDFs.
+
+Plate (calibrated 2 Sep 2026 against the Imtiaz sheet): 40 x 43.4 m, core 14 x 22 centred, corridor ring 1.8 m.
+Per unit (u along the facade from the entry end, v = depth from the corridor wall):
+  hall strip 1.2 m along the corridor wall (G2/G6) - entry door from the corridor (G1)
+  wet block at the entry end against the corridor (G8): family bathroom 2.2 x 2.6 + guest powder room 1.2 x 1.6 beside it
+  maid's room 2.0 x 2.6 with its own WC 1.2 x 1.6 at the far end of the hall (3BR / 4BR / duplex - Dubai market norm)
+  front rooms by fraction (FR) - living/kitchen first, then bedrooms; every habitable room has a facade window or glazed door (G4)
+  ensuite 2.2 x 2.0 carved into the hall side of the master (all types) and bedroom 2 (3BR / 4BR); entered from the bedroom
+  balcony 1.5 m outside living + master; door widths 1010 entry / 910 room / 810 bath (G5); room minimums checked (G7)
+Every opening is kept >= 605 mm (455 half-door + 150) from any wall join so Revit raises no warning dialog.
+Usage: python scripts/revit_v2_emit.py F32
 """
 import json, os, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 P, CX, CY, CXo, CYo, H = 20000, 7000, 11000, 8800, 12800, 3500   # P = half plate WIDTH (x)
-PY = 21700          # half plate DEPTH (y): calibrated 2 Sep 2026 so N/S-band unit areas meet the Imtiaz sheet (band depth 7.2 -> 8.9 m)
-WB1 = 4500          # west-band single 3BR / duplex: top of the bay (15.5 m tall = 173 m2 per the sheet); pocket above it joins the corridor
-FR = {"1BR": [.55, .45], "MS": [.5, .5], "2BR": [.40, .32, .28], "3BR": [.34, .24, .21, .21], "4BR": [.30, .20, .17, .17, .16]}
+PY = 21700          # half plate DEPTH (y): N/S bands 8.9 m deep (calibrated to the developer sheet)
+WB1 = 4500          # west-band single 3BR / duplex: top of the bay (15.5 m tall = 173 m2 per the sheet)
+FR = {"1BR": [.55, .45], "MS": [.5, .5], "2BR": [.40, .32, .28], "3BR": [.34, .24, .21, .21], "4BR": [.30, .20, .17, .17, .16], "DUPL": [.36, .32, .32], "DUPU": [.36, .32, .32]}
 NM = {"1BR": ["Living/Kitchen", "Bedroom"], "MS": ["Living/Kitchen", "Master Bedroom"], "2BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2"],
-      "3BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3"], "4BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3", "Bedroom 4"]}
+      "3BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3"], "4BR": ["Living/Kitchen", "Master Bedroom", "Bedroom 2", "Bedroom 3", "Bedroom 4"],
+      "DUPL": ["Living/Kitchen", "Master Bedroom", "Bedroom 2"], "DUPU": ["Family Lounge", "Bedroom 3", "Bedroom 4"]}   # duplex 3307: lower / upper level
+ENSUITE = {"1BR": [], "MS": [1], "2BR": [1], "3BR": [1, 2], "4BR": [1, 2], "DUPL": [1, 2], "DUPU": [1, 2]}      # room indices that get an ensuite
+MAID = {"1BR": False, "MS": False, "2BR": False, "3BR": True, "4BR": True, "DUPL": True, "DUPU": False}
+POWDER = {"1BR": True, "MS": True, "2BR": True, "3BR": True, "4BR": True, "DUPL": True, "DUPU": True}
+TYPE_LABEL = {"DUPL": "4BR Duplex (lower)", "DUPU": "4BR Duplex (upper)"}
 KINDS = ["living", "bedroom", "bath", "hall", "balcony", "corridor"]
 CLS = {"living": ["SL_45_10_45 : Kitchen-dining-living rooms", "11-11 11 11 Residential Spaces - Living Room", "brick:Living_Room", "space room residential"],
        "bedroom": ["SL_45_10_09 : Bedrooms", "11-11 11 14 Residential Spaces - Bedroom", "brick:Bedroom", "space room residential sleep"],
@@ -25,6 +37,9 @@ CLS = {"living": ["SL_45_10_45 : Kitchen-dining-living rooms", "11-11 11 11 Resi
        "balcony": ["SL_45 : Residential spaces (balcony)", "11-11 11 11 Residential Spaces - Living Room", "brick:Outdoor_Area", "space outdoor balcony"],
        "corridor": ["SL_90 : Circulation spaces (verify code)", "11-11 17 11 Circulation Spaces - Corridor", "brick:Hallway", "space corridor"]}
 SYM = {"dEnt": 0, "dInt": 1, "dBath": 2, "win": 3}   # 1010 / 910 / 810 doors, 1810x1210 window
+HALL, BATHW, BATHD, PWDW, PWDD, MAIDW, MAIDD, MWCW, MWCD, ENSW, ENSD, CLR = 1200, 2200, 2600, 1200, 1600, 2000, 3000, 2000, 1600, 2200, 2000, 605
+# Neufert-derived minimums (m2): living 14 (21 for 4+ rooms), master 12, bedroom 7 (9 preferred), bath 3.5, ensuite 3.5, powder 1.5, maid 5, hall 1
+MIN = {"living": 14, "living_big": 21, "master": 12, "bedroom": 7, "bath": 3.5, "ensuite": 3.5, "powder": 1.5, "maid": 5, "maidwc": 1.5, "hall": 1}
 
 
 def floor_type(fl):
@@ -44,14 +59,14 @@ def bays_for(ft):
     if ft == "T10": B(-P, CYo, -1000, PY, "3BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "3BR", "E")
     if ft == "T9": B(-P, CYo, 7000, PY, "4BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
     # T33/T34: unit 3307 = the 4BR duplex on the west wing (both levels) + the NW terrace; the deck skips 07 for the others
-    if ft == "T33": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "4BR", "E")
-    if ft == "T34": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "4BR", "E")
+    if ft == "T33": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "DUPL", "E")
+    if ft == "T34": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "DUPU", "E")
     return b
 
 
 def build(fl):
     ft = floor_type(fl)
-    walls, edges, opens, rooms = [], set(), [], []
+    walls, edges, opens, rooms, units, labels, seps = [], set(), [], [], [], [], []   # seps = room separation lines (open-plan boundaries)
 
     def W(x0, y0, x1, y1, h=H):
         key = (round(min(x0, x1)), round(min(y0, y1)), round(max(x0, x1)), round(max(y0, y1)))
@@ -60,9 +75,6 @@ def build(fl):
         edges.add(key)
         walls.append((round(x0), round(y0), round(x1), round(y1), h))
 
-    def R(x, y, name, num, dept, kind, mn=0):
-        rooms.append((round(x), round(y), name, num, dept, kind, mn))
-
     # core + 4 corner stubs (close the dead-end corridor legs); units tile the bands with their own boundary walls -> no collinear overlaps
     W(-CX, -CY, CX, -CY); W(CX, -CY, CX, CY); W(CX, CY, -CX, CY); W(-CX, CY, -CX, -CY)
     W(P, CY, P, CYo); W(P, -CY, P, -CYo); W(-P, CY, -P, CYo); W(-P, -CY, -P, -CYo)
@@ -70,10 +82,11 @@ def build(fl):
         W(-P, WB1, -P, CY)                      # west perimeter above the shortened west-band unit (pocket = corridor/lift lobby)
     if ft == "T34":
         W(-P, -CYo, 7000, -CYo)                 # south edge of the corridor where the 34th has no south-band units
-    units = []
+
     for u, (x0, y0, x1, y1, t, back) in enumerate(bays_for(ft)):
-        idx = u + 1 if ft not in ("T33", "T34") else (7 if t == "4BR" else (u + 1 if u < 6 else u + 2))
+        idx = u + 1 if ft not in ("T33", "T34") else (7 if t in ("DUPL", "DUPU") else (u + 1 if u < 6 else u + 2))
         unit = "%04d" % (fl * 100 + idx)
+        dept = "Unit %s - %s" % (unit, TYPE_LABEL.get(t, t))
         Wd = (x1 - x0) if back in "SN" else (y1 - y0)
         D = (y1 - y0) if back in "SN" else (x1 - x0)
         Wp = {"S": lambda uu, vv: (x0 + uu, y0 + vv), "N": lambda uu, vv: (x1 - uu, y1 - vv),
@@ -82,124 +95,124 @@ def build(fl):
         def LW(u0, v0, u1, v1, h=H):
             a = Wp(u0, v0); b = Wp(u1, v1); W(a[0], a[1], b[0], b[1], h)
 
+        def rect(u0, v0, u1, v1):
+            a = Wp(u0, v0); b = Wp(u1, v1)
+            return [round(min(a[0], b[0])), round(min(a[1], b[1])), round(max(a[0], b[0])), round(max(a[1], b[1]))]
+
+        def R(u, v, name, num, kind, mn, u0, v0, u1, v1, role):
+            x, y = Wp(u, v)
+            rooms.append((round(x), round(y), name, num, dept, kind, mn, rect(u0, v0, u1, v1), role))
+
+        def door(u, v, sym):
+            opens.append((*Wp(u, v), SYM[sym]))
+
+        # unit envelope + hall wall
         LW(0, 0, Wd, 0); LW(Wd, 0, Wd, D); LW(Wd, D, 0, D); LW(0, D, 0, 0)
-        hallD, bathW, bathD, CLR = 1200, 2200, 2600, 605   # CLR = half door (455) + 150 mm clear of any wall join (no Revit warning)
-        # bath block at the ENTRY end of the hall (wet room against the corridor, G8); hall runs from the bath to the far party wall
-        LW(bathW, hallD, Wd, hallD); LW(bathW, 0, bathW, bathD); LW(0, bathD, bathW, bathD)
-        fr, nm, pos, mids, spans = FR[t], NM[t], 0, [], []
+        wet_end = BATHW + (PWDW if POWDER[t] else 0)                 # entry-end wet block width along the corridor wall
+        maid_w = (MAIDW if MAID[t] else 0)                           # far-end service block
+        liv_end = FR[t][0] * Wd                                      # living/kitchen is OPEN-PLAN to the entrance zone: no hall wall in front of it
+        LW(max(wet_end, liv_end), HALL, Wd - maid_w, HALL)          # hall wall only in front of the bedrooms
+        if liv_end > wet_end:                                        # ROOM SEPARATION LINE keeps hall and open-plan living distinct rooms (opening >= 1.0 m)
+            sa = Wp(wet_end, HALL); sb = Wp(liv_end, HALL); seps.append((round(sa[0]), round(sa[1]), round(sb[0]), round(sb[1])))
+        # family bathroom + powder room (entry end, against the corridor wall)
+        LW(BATHW, 0, BATHW, BATHD); LW(0, BATHD, BATHW, BATHD)
+        R(BATHW / 2, BATHD / 2, "Bathroom", unit + "-WC", "bath", MIN["bath"], 0, 0, BATHW, BATHD, "family bath")
+        door(BATHW, 600, "dBath")                                    # from the hall
+        if POWDER[t]:
+            LW(wet_end, 0, wet_end, PWDD); LW(BATHW, PWDD, wet_end, PWDD)
+            R(BATHW + PWDW / 2, PWDD / 2, "Powder Room", unit + "-PR", "bath", MIN["powder"], BATHW, 0, wet_end, PWDD, "guest WC")
+            door(wet_end, 600, "dBath")                              # from the hall (on the powder room's far wall)
+        # maid's room + maid WC (far end, against the corridor wall)
+        if MAID[t]:
+            # maid's room 2.0 x 3.0 against the corridor wall, its WC stacked BEHIND it (2.0 x 1.6) so the room nets >= 5 m2
+            LW(Wd - maid_w, 0, Wd - maid_w, MAIDD + MWCD); LW(Wd - maid_w, MAIDD, Wd, MAIDD); LW(Wd - maid_w, MAIDD + MWCD, Wd, MAIDD + MWCD)
+            R(Wd - maid_w / 2, MAIDD / 2, "Maid's Room", unit + "-M", "bedroom", MIN["maid"], Wd - maid_w, 0, Wd, MAIDD, "maid")
+            R(Wd - maid_w / 2, MAIDD + MWCD / 2, "Maid WC", unit + "-MWC", "bath", MIN["maidwc"], Wd - maid_w, MAIDD, Wd, MAIDD + MWCD, "maid WC")
+            door(Wd - maid_w, 600, "dBath")                          # maid's room from the hall (600 clear of the corridor wall and the hall-wall join)
+            door(Wd - maid_w / 2, MAIDD, "dBath")                    # maid WC from the maid's room
+        # entry door from the corridor, clear of the wet block join
+        door(wet_end + CLR + 100, 0, "dEnt")
+        # front rooms
+        fr, nm, pos, spans = FR[t], NM[t], 0, []
         for k, f in enumerate(fr):
             w = f * Wd
             if k < len(fr) - 1:
-                LW(pos + w, hallD, pos + w, D)
-            mids.append(pos + w / 2); spans.append((pos, pos + w)); pos += w
-        opens.append((*Wp(bathW + CLR + 100, 0), SYM["dEnt"]))                     # entry from the corridor, clear of the bath block
-        for k, m in enumerate(mids):                                              # room door on the hall wall, inside the room's real hall frontage
-            lo, hi = max(spans[k][0], bathW) + CLR, spans[k][1] - CLR
-            opens.append((*Wp(min(max(m, lo), hi) if lo <= hi else (lo + hi) / 2, hallD), SYM["dInt"]))
-        opens.append((*Wp(bathW, 600), SYM["dBath"]))                             # bath door from the hall (600 clear of corridor wall and hall-wall join)
-        dept = "Unit %s - %s" % (unit, t)
-        for k, m in enumerate(mids):
-            wk = fr[k] * Wd; uk0, uk1 = m - wk / 2, m + wk / 2
+                LW(pos + w, HALL, pos + w, D)
+            spans.append((pos, pos + w)); pos += w
+        hall_lo, hall_hi = wet_end, Wd - maid_w
+        for k, (s0, s1) in enumerate(spans):
+            wk = s1 - s0; m = (s0 + s1) / 2
+            ens = k in ENSUITE[t]
+            # ensuite carved into the hall side of the bedroom, at the room's entry-side end; bedroom door beside it
+            avail = min(s1, hall_hi) - max(s0, hall_lo)              # hall frontage this room really has (wet/maid blocks removed)
+            ensw = min(ENSW, avail - (2 * CLR + 50))                 # leave >= 1.26 m of that frontage for the bedroom door
+            if ens and ensw * ENSD < MIN["ensuite"] * 1e6:
+                ens = False                                          # too narrow for a compliant ensuite -> shares the family bath
+            if ens:
+                eu0 = s0; eu1 = s0 + ensw
+                LW(eu1, HALL, eu1, HALL + ENSD); LW(eu0, HALL + ENSD, eu1, HALL + ENSD)
+                R((eu0 + eu1) / 2, HALL + ENSD / 2, "Ensuite", unit + "-E%d" % k, "bath", MIN["ensuite"], eu0, HALL, eu1, HALL + ENSD, "ensuite")
+                door(eu1, HALL + ENSD - CLR, "dBath")                # ensuite door from the bedroom, on the ensuite's side wall
+                lo, hi = max(eu1, hall_lo) + CLR, min(s1, hall_hi) - CLR
+            else:
+                lo, hi = max(s0, hall_lo) + CLR, min(s1, hall_hi) - CLR
+            if k > 0:                                                # bedrooms: door from the hall; living is open to the entrance zone
+                du = min(max(m, lo), hi) if lo <= hi else (lo + hi) / 2
+                door(du, HALL, "dInt")
+            # facade: balcony for living + master, window for the rest
             if k <= 1 and wk >= 3000:
-                LW(uk0 + 300, D, uk0 + 300, D + 1500, 1100); LW(uk0 + 300, D + 1500, uk1 - 300, D + 1500, 1100); LW(uk1 - 300, D + 1500, uk1 - 300, D, 1100)
-                # glazed balcony door (910) sits 150 mm clear of the balcony side-wall join; add a window only when both fit (>= 4.0 m room)
-                opens.append((*Wp(uk0 + 300 + 250 + 455, D), SYM["dInt"]))
+                LW(s0 + 300, D, s0 + 300, D + 1500, 1100); LW(s0 + 300, D + 1500, s1 - 300, D + 1500, 1100); LW(s1 - 300, D + 1500, s1 - 300, D, 1100)
+                door(s0 + 300 + 250 + 455, D, "dInt")
                 if wk >= 4000:
-                    opens.append((*Wp(uk1 - 300 - 250 - 905, D), SYM["win"]))
-                R(*Wp(m, D + 750), "Balcony", unit + "-B%d" % (k + 1), dept, "balcony")
+                    opens.append((*Wp(s1 - 300 - 250 - 905, D), SYM["win"]))
+                R(m, D + 750, "Balcony", unit + "-B%d" % (k + 1), "balcony", 0, s0 + 300, D, s1 - 300, D + 1500, "balcony")
             else:
                 opens.append((*Wp(m, D), SYM["win"]))
-        R(*Wp((bathW + Wd) / 2, hallD / 2), "Hall", unit + "-H", dept, "hall", 1.0)
-        R(*Wp(bathW / 2, bathD / 2), "Bathroom", unit + "-WC", dept, "bath", 3.5)
-        for k, m in enumerate(mids):
-            mn = (21 if len(fr) >= 4 else 14) if k == 0 else (12 if k == 1 else 7)
-            R(*Wp(m, D - 1800), nm[k], unit + "-%d" % (k + 1), dept, "living" if k == 0 else "bedroom", mn)
-        units.append({"unit": unit, "type": t, "bay": [x0, y0, x1, y1], "back": back, "width_mm": Wd, "depth_mm": D})
+            kind = "living" if k == 0 else "bedroom"
+            mn = (MIN["living_big"] if len(fr) >= 4 else MIN["living"]) if k == 0 else (MIN["master"] if k == 1 else MIN["bedroom"])
+            R(m, D - 1800, nm[k] + (" + entrance" if k == 0 else ""), unit + "-%d" % (k + 1), kind, mn, s0, HALL + (ENSD if ens else 0), s1, D, "master" if k == 1 else kind)
+        h0 = max(hall_lo, spans[0][1])                               # hall = the strip in front of the bedrooms (the living absorbs the entrance zone)
+        R((h0 + hall_hi) / 2, HALL / 2, "Hall", unit + "-H", "hall", MIN["hall"], h0, 0, hall_hi, HALL, "hall")
+        units.append({"unit": unit, "type": t, "bay": [x0, y0, x1, y1], "back": back, "width_mm": Wd, "depth_mm": D,
+                      "programme": {"bedrooms": len(fr) - 1, "maid": MAID[t], "bathrooms": 1 + len(ENSUITE[t]) + (1 if MAID[t] else 0), "powder": POWDER[t], "ensuites": len(ENSUITE[t])}})
+        cx, cy = Wp(Wd / 2, D / 2)
+        labels.append(("U", round(cx), round(cy), unit))
     if ft in ("T33", "T34"):
-        # NW terrace of the duplex (pool terrace on 33, planted terrace on 34): close it and the corridor dead-end, door from the corridor leg
         W(-P, CYo, -2000, CYo); W(-P, CYo, -P, PY); W(-P, PY, -2000, PY)
         opens.append((-11000, CYo, SYM["dEnt"]))
-        R(-11000, (CYo + PY) // 2, "Pool terrace" if ft == "T33" else "Planted terrace", "%d07-T" % fl, "Unit %d07 - 4BR" % fl, "balcony")
-    R(0, CY + 900, "Corridor", "%02d-COR" % fl, "Circulation", "corridor")
-    return ft, walls, [(round(x), round(y), s) for x, y, s in opens], rooms, units
+        rooms.append((-11000, (CYo + PY) // 2, "Pool terrace" if ft == "T33" else "Planted terrace", "%d07-T" % fl, "Unit %d07 - 4BR" % fl, "balcony", 0, [-P, CYo, -2000, PY], "terrace"))
+    rooms.append((0, CY + 900, "Corridor", "%02d-COR" % fl, "Circulation", "corridor", 0, [-P, -CYo, P, CYo], "corridor"))
+    return ft, walls, [(round(x), round(y), s) for x, y, s in opens], rooms, units, labels, seps
 
 
 def emit(fl):
     F = "F%02d" % fl
-    ft, walls, opens, rooms, units = build(fl)
-    head = ('var d=document;Func<double,double> ft=m=>UnitUtils.ConvertToInternalUnits(m,UnitTypeId.Millimeters);'
-            'var lv=new FilteredElementCollector(d).OfClass(typeof(Level)).Cast<Level>().First(l=>l.Name=="%s");' % F)
-    s1 = head + ('var k=new System.Collections.Generic.List<ElementId>();foreach(var b in new[]{BuiltInCategory.OST_Doors,BuiltInCategory.OST_Windows,BuiltInCategory.OST_Rooms,BuiltInCategory.OST_Walls})'
-                 'foreach(var e in new FilteredElementCollector(d).OfCategory(b).WhereElementIsNotElementType())if(e.LevelId==lv.Id)k.Add(e.Id);if(k.Count>0)d.Delete(k);'
-                 'var wt=new FilteredElementCollector(d).OfClass(typeof(WallType)).Cast<WallType>().First(w=>w.Kind==WallKind.Basic);'
-                 'int[] A={%s};int n=0;for(int i=0;i<A.Length;i+=5){Wall.Create(d,Line.CreateBound(new XYZ(ft(A[i]),ft(A[i+1]),0),new XYZ(ft(A[i+2]),ft(A[i+3]),0)),wt.Id,lv.Id,ft(A[i+4]),0,false,false);n++;}'
-                 'return "%s: deleted "+k.Count+", walls "+n;' % (",".join(",".join(str(v) for v in w) for w in walls), F))
-    s2 = head + ('var sy=new FilteredElementCollector(d).OfClass(typeof(FamilySymbol)).Cast<FamilySymbol>().ToList();'
-                 'Func<string,string,FamilySymbol> S=(f,q)=>{var s=sy.First(x=>x.FamilyName==f&&x.Name.StartsWith(q));if(!s.IsActive)s.Activate();return s;};'
-                 'var Y=new[]{S("Doors_IntSgl","1010"),S("Doors_IntSgl","910"),S("Doors_IntSgl","810"),S("Windows_Sgl_Plain","1810x1210")};'
-                 'var k=new System.Collections.Generic.List<ElementId>();foreach(var b in new[]{BuiltInCategory.OST_Doors,BuiltInCategory.OST_Windows})foreach(var e in new FilteredElementCollector(d).OfCategory(b).WhereElementIsNotElementType())if(e.LevelId==lv.Id)k.Add(e.Id);if(k.Count>0)d.Delete(k);'
-                 'var ws=new FilteredElementCollector(d).OfClass(typeof(Wall)).Cast<Wall>().Where(w=>w.LevelId==lv.Id).ToList();'
-                 'int[] O={%s};int n=0,miss=0;double tol=ft(60);for(int i=0;i<O.Length;i+=3){var p=new XYZ(ft(O[i]),ft(O[i+1]),0);'
-                 'var h=ws.FirstOrDefault(w=>{var c=(w.Location as LocationCurve).Curve;var r=c.Project(new XYZ(p.X,p.Y,c.GetEndPoint(0).Z));return r!=null&&r.Distance<tol;});if(h==null){miss++;continue;}'
-                 'var f=d.Create.NewFamilyInstance(new XYZ(p.X,p.Y,lv.Elevation),Y[O[i+2]],h,lv,Autodesk.Revit.DB.Structure.StructuralType.NonStructural);'
-                 'if(O[i+2]==3){var sp=f.get_Parameter(BuiltInParameter.INSTANCE_SILL_HEIGHT_PARAM);if(sp!=null&&!sp.IsReadOnly)sp.Set(ft(900));}n++;}'
-                 'return "%s: openings "+n+", no host "+miss+", cleared "+k.Count;' % (",".join(",".join(str(v) for v in o) for o in opens), F))
-    rows = ";".join("%d|%d|%s|%s|%s|%d|%g" % (x, y, nm, num, dept, KINDS.index(kind), mn) for x, y, nm, num, dept, kind, mn in rooms)
-    cls = ",".join('new[]{%s}' % ",".join('"%s"' % c for c in CLS[k]) for k in KINDS)
-    s3 = head + ('var C=new[]{%s};string[] pn={"DA_UniclassSl","DA_OmniClassT11","DA_BrickClasses","DA_HaystackTags"};'
-                 "var rows=\"%s\".Split(';');var chk=new System.Collections.Generic.List<object[]>();int n=0;"
-                 "foreach(var r in rows){var t=r.Split('|');var rm=d.Create.NewRoom(lv,new UV(ft(int.Parse(t[0])),ft(int.Parse(t[1]))));rm.Name=t[2];rm.Number=t[3];"
-                 'var c=C[int.Parse(t[5])];for(int i=0;i<4;i++){var p=rm.LookupParameter(pn[i]);if(p!=null&&!p.IsReadOnly)p.Set(c[i]);}'
-                 'var dp=rm.get_Parameter(BuiltInParameter.ROOM_DEPARTMENT);if(dp!=null)dp.Set(t[4]);'
-                 'var cm=rm.get_Parameter(BuiltInParameter.ALL_MODEL_INSTANCE_COMMENTS);if(cm!=null)cm.Set("v2 generator (Neufert gate) - typology template scaled from developer floor-plan deck; not surveyed");'
-                 'n++;double mn=double.Parse(t[6]);if(mn>0)chk.Add(new object[]{rm,mn,t[3]+" "+t[2]});}'
-                 'd.Regenerate();int v=0;var log=new System.Text.StringBuilder();foreach(var q in chk){var rm=(Autodesk.Revit.DB.Architecture.Room)q[0];double a=UnitUtils.ConvertFromInternalUnits(rm.Area,UnitTypeId.SquareMeters);'
-                 'if(a<(double)q[1]){v++;log.Append(q[2]+" "+Math.Round(a,1)+"<"+q[1]+"; ");}}'
-                 'return "%s: rooms "+n+" | G7 violations "+v+" | "+log.ToString();' % (cls, rows, F))
+    ft, walls, opens, rooms, units, labels, seps = build(fl)
     out = os.path.join(ROOT, "data", "revit"); os.makedirs(out, exist_ok=True)
-    # plain-text twin for the in-Revit loader (revit_v2_apply.cs reads it with File.ReadAllLines): W x0 y0 x1 y1 h / O x y sym / R x|y|name|num|dept|kind|min
     with open(os.path.join(out, "v2_%s.txt" % F), "w", encoding="utf-8") as fh:
-        for w in walls: fh.write("W %d %d %d %d %d\n" % w)
-        for o in opens: fh.write("O %d %d %d\n" % o)
-        for x, y, nm, num, dept, kind, mn in rooms: fh.write("R %d|%d|%s|%s|%s|%d|%g\n" % (x, y, nm, num, dept, KINDS.index(kind), mn))
-    json.dump({"floor": F, "ftype": ft, "walls": walls, "openings": opens, "rooms": rooms, "units": units, "kinds": KINDS, "sym": SYM},
+        for w in walls:
+            fh.write("W %d %d %d %d %d\n" % w)
+        for o in opens:
+            fh.write("O %d %d %d\n" % o)
+        for sline in seps:
+            fh.write("S %d %d %d %d\n" % sline)
+        for x, y, nm, num, dept, kind, mn, rc, role in rooms:
+            fh.write("R %d|%d|%s|%s|%s|%d|%g\n" % (x, y, nm, num, dept, KINDS.index(kind), mn))
+    # labels: U x y unit  (plate)  /  D x y text|room  (unit plan: inside dimensions of every room)
+    with open(os.path.join(out, "v2_%s_labels.txt" % F), "w", encoding="utf-8") as fh:
+        for _, x, y, unit in labels:
+            fh.write("U %d %d %s\n" % (x, y, unit))
+        for x, y, nm, num, dept, kind, mn, rc, role in rooms:
+            if kind == "corridor":
+                continue
+            w_mm, d_mm = rc[2] - rc[0], rc[3] - rc[1]
+            fh.write("D %d %d %.2f x %.2f m|%s\n" % ((rc[0] + rc[2]) // 2, rc[1] + 600, w_mm / 1000, d_mm / 1000, num))
+    json.dump({"floor": F, "ftype": ft, "walls": walls, "openings": opens, "separations": seps, "rooms": rooms, "units": units, "kinds": KINDS, "sym": SYM},
               open(os.path.join(out, "v2_%s.json" % F), "w"), indent=0)
-    sends = os.path.join(out, "sends"); os.makedirs(sends, exist_ok=True)
-    for i, s in enumerate((s1, s2, s3), 1):
-        open(os.path.join(sends, "%s_%d.cs" % (F, i)), "w", encoding="utf-8").write(s)
-    return F, ft, (s1, s2, s3), (len(walls), len(opens), len(rooms))
-
-
-def combined(floors):
-    """One C# body doing walls -> openings -> rooms for several floors (needs the patched plugin: no 8 KB limit).
-    Each phase is wrapped so a failure on one floor is reported, not fatal; returns one line per floor."""
-    parts = []
-    for fl in floors:
-        F, ft, (s1, s2, s3), counts = emit(fl)
-        body = []
-        for s in (s1, s2, s3):
-            core = s[len('var d=document;'):]            # strip the shared prologue
-            i = core.rfind('return ')                    # only the final return -> LOG.Append(...); lambdas keep theirs
-            core = core[:i] + 'LOG.Append(' + core[i + len('return '):]
-            # every snippet ends with 'return "<...>"+...;' -> becomes log.Append("...").Append("; ")
-            assert core.rstrip().endswith(';')
-            core = core.rstrip()[:-1] + ').Append(" | ");'
-            body.append('{' + core + '}')
-        parts.append('try{' + ''.join(body) + 'LOG.Append("\\n");}catch(Exception ex){LOG.Append("%s FAIL "+ex.Message+"\\n");}' % F)
-    return 'var d=document;var LOG=new System.Text.StringBuilder();' + ''.join(parts) + 'return LOG.ToString();'
+    return F, ft, (len(walls), len(opens), len(rooms))
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "--combined":
-        floors = [int(x.lstrip("Ff")) for x in sys.argv[2].split(",")]
-        code = combined(floors)
-        out = os.path.join(ROOT, "data", "revit", "sends", "combined_%s.cs" % "_".join("F%02d" % f for f in floors))
-        open(out, "w", encoding="utf-8").write(code)
-        print(out, len(code.encode()), "bytes")
-        sys.exit()
     fl = int(sys.argv[1].lstrip("Ff"))
-    F, ft, snips, counts = emit(fl)
-    if "--print" in sys.argv:
-        print(snips[int(sys.argv[sys.argv.index("--print") + 1]) - 1])
-    else:
-        print(F, ft, "walls/openings/rooms", counts, "bytes", [len(s.encode()) for s in snips])
+    F, ft, counts = emit(fl)
+    print(F, ft, "walls/openings/rooms", counts)

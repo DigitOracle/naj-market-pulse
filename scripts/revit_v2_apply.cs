@@ -18,6 +18,14 @@ foreach(var F in FLOORS){try{
  var ws=new System.Collections.Generic.List<Wall>();int nw=0,no=0,miss=0,nr=0,viol=0;var chk=new System.Collections.Generic.List<object[]>();var vlog=new System.Text.StringBuilder();
  foreach(var ln in lines){if(!ln.StartsWith("W "))continue;var a=ln.Substring(2).Split(' ').Select(double.Parse).ToArray();
   ws.Add(Wall.Create(d,Line.CreateBound(new XYZ(ft(a[0]),ft(a[1]),0),new XYZ(ft(a[2]),ft(a[3]),0)),wt.Id,lv.Id,ft(a[4]),0,false,false));nw++;}
+ // room separation lines (S x0 y0 x1 y1): hall <-> open-plan living; drawn on a plan view of this level (created if missing)
+ var pv=new FilteredElementCollector(d).OfClass(typeof(ViewPlan)).Cast<ViewPlan>().FirstOrDefault(v=>!v.IsTemplate&&v.ViewType==ViewType.FloorPlan&&v.GenLevel!=null&&v.GenLevel.Id==lv.Id);
+ if(pv==null){var vft=new FilteredElementCollector(d).OfClass(typeof(ViewFamilyType)).Cast<ViewFamilyType>().First(x=>x.ViewFamily==ViewFamily.FloorPlan);pv=ViewPlan.Create(d,vft.Id,lv.Id);pv.Name="GEN "+F+" - PLAN";}
+ // delete this level's existing separation lines by GEOMETRY (a view-scoped collector misses lines drawn in another plan view of the level -> "lines overlap" warnings)
+ foreach(var old in new FilteredElementCollector(d).OfCategory(BuiltInCategory.OST_RoomSeparationLines).WhereElementIsNotElementType().Where(e=>{var lc=e.Location as LocationCurve;return lc!=null&&Math.Abs(lc.Curve.GetEndPoint(0).Z-lv.Elevation)<ft(100);}).Select(e=>e.Id).ToList())d.Delete(old);
+ var sp0=SketchPlane.Create(d,Plane.CreateByNormalAndOrigin(XYZ.BasisZ,new XYZ(0,0,lv.Elevation)));var ca=new CurveArray();
+ foreach(var ln in lines){if(!ln.StartsWith("S "))continue;var a=ln.Substring(2).Split(' ').Select(double.Parse).ToArray();ca.Append(Line.CreateBound(new XYZ(ft(a[0]),ft(a[1]),lv.Elevation),new XYZ(ft(a[2]),ft(a[3]),lv.Elevation)));}
+ int ns=0;if(ca.Size>0){d.Create.NewRoomBoundaryLines(sp0,ca,pv);ns=ca.Size;}
  double tol=ft(60);
  foreach(var ln in lines){if(!ln.StartsWith("O "))continue;var a=ln.Substring(2).Split(' ').Select(int.Parse).ToArray();var p=new XYZ(ft(a[0]),ft(a[1]),0);
   var h=ws.FirstOrDefault(w=>{var c=(w.Location as LocationCurve).Curve;var r=c.Project(new XYZ(p.X,p.Y,c.GetEndPoint(0).Z));return r!=null&&r.Distance<tol;});if(h==null){miss++;continue;}
@@ -31,6 +39,6 @@ foreach(var F in FLOORS){try{
   nr++;double mn=double.Parse(t[6]);if(mn>0)chk.Add(new object[]{rm,mn,t[3]+" "+t[2]});}
  d.Regenerate();
  foreach(var q in chk){var rm=(Autodesk.Revit.DB.Architecture.Room)q[0];double ar=UnitUtils.ConvertFromInternalUnits(rm.Area,UnitTypeId.SquareMeters);if(ar<(double)q[1]){viol++;vlog.Append(q[2]+" "+Math.Round(ar,1)+"<"+q[1]+"; ");}}
- LOG.Append(F+": cleared "+kill.Count+", walls "+nw+", openings "+no+" (no host "+miss+"), rooms "+nr+", G7 violations "+viol+" "+vlog+"\n");
+ LOG.Append(F+": cleared "+kill.Count+", walls "+nw+", seps "+ns+", openings "+no+" (no host "+miss+"), rooms "+nr+", G7 violations "+viol+" "+vlog+"\n");
 }catch(Exception ex){LOG.Append(F+" FAIL "+ex.Message+"\n");}}
 return LOG.ToString();

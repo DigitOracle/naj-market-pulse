@@ -32,7 +32,7 @@ def F(name, size):
     return ImageFont.truetype(r"C:\Windows\Fonts\%s.ttf" % name, size)
 
 
-H1, H2, H3, B, SM, XS = F("georgia", 66), F("georgia", 40), F("georgia", 32), F("segoeui", 28), F("segoeui", 23), F("segoeui", 20)
+H1, H2, H3, B, SM, XS = F("georgia", 66), F("georgia", 40), F("georgia", 34), F("segoeui", 30), F("segoeui", 26), F("segoeui", 22)
 
 
 def latest_avail(dev="imtiaz"):
@@ -67,8 +67,8 @@ CARDS = [
     ("4BR_Duplex_lower", "4 Bedroom Duplex - lower level (33rd)", "3307", "F33", "4 B/R Duplex", "Floors 33-34 - unit 3307 - private pool terrace", "West wing + NW corner - Skyline, Lagoon & Cityscape (developer claim)"),
     ("4BR_Duplex_upper", "4 Bedroom Duplex - upper level (34th)", "3407", "F34", "4 B/R Duplex", "Floors 33-34 - unit 3307 - planted upper terrace", "West wing + NW corner - Skyline, Lagoon & Cityscape (developer claim)"),
 ]
-LEGEND = [("This unit (crimson) on the floor plate", HI), ("Living / kitchen (sand)", (232, 219, 190)), ("Bedrooms (blue-grey)", (206, 217, 226)),
-          ("Bathroom (grey)", (222, 222, 222)), ("Hall (mint)", (228, 244, 240)), ("Balcony / terrace (hatched)", (236, 220, 236))]
+LEGEND = [("This unit on the plate", HI), ("Living / kitchen", (232, 219, 190)), ("Bedrooms + maid", (206, 217, 226)),
+          ("Bath / ensuite / powder / maid WC", (222, 222, 222)), ("Hall", (228, 244, 240)), ("Balcony / terrace", (236, 220, 236))]
 
 
 def raster(pdf, dpi=300):
@@ -129,7 +129,7 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
     px, py = 120, 360
     plate = raster(os.path.join(PDF_DIR, "floor_%s.pdf" % key))
     if plate is not None:
-        plate = fit(plate, 1880, 1640)
+        plate = fit(plate, 1880, 1480)
         d.rectangle([px - 12, py - 12, px + plate.width + 12, py + plate.height + 12], outline=(215, 212, 205), width=3)
         im.paste(plate, (px, py))
         ph = plate.height
@@ -153,8 +153,9 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
             format(int(r1["pop"]), ","), format(int(r1["households"]), ","), r1["pp_index"],
             ("; within 3 km: %s residents, index %s" % (format(int(r3["pop"]), ","), r3["pp_index"])) if r3 else ""))
     for ln in lines:
-        for i, seg in enumerate(wrap(d, ln, XS, 1880)):
-            d.text((px + (0 if i == 0 else 28), vy), ("-  " if i == 0 else "") + seg, font=XS, fill=INK); vy += 28
+        for i, seg in enumerate(wrap(d, ln, SM, 1880)):
+            d.text((px + (0 if i == 0 else 30), vy), ("-  " if i == 0 else "") + seg, font=SM, fill=INK); vy += 36
+        vy += 4
 
     # RIGHT TOP: key facts
     x, y = 2120, 360
@@ -169,7 +170,9 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
         avail_line = "Developer sheet %s: none of this type listed as available" % sheet_date
     a_int = sum(areas.get(r[3], 0) for r in rl if r[5] not in ("balcony", "corridor")) if areas else None
     a_bal = sum(areas.get(r[3], 0) for r in rl if r[5] == "balcony") if areas else 0
-    bullets = [floors, view, avail_line,
+    prog = u.get("programme", {})
+    prog_line = "Programme: %d bedroom(s)%s - %d bathroom(s) incl. %d ensuite(s)%s%s" % (prog.get("bedrooms", 0), " + maid's room" if prog.get("maid") else "", prog.get("bathrooms", 0), prog.get("ensuites", 0), " + guest powder room" if prog.get("powder") else "", " - maid WC" if prog.get("maid") else "")
+    bullets = [floors, view, avail_line, prog_line,
                "Bay %.1f x %.1f m (facade x depth)%s - layout: DigitAlchemy generator v2 under the Neufert gate; indicative, not surveyed" % (
                    u["width_mm"] / 1000, u["depth_mm"] / 1000, (" - ~%d m2 interior + %d m2 balcony/terrace = ~%s sq ft" % (round(a_int), round(a_bal), format(round((a_int + a_bal) * 10.764), ","))) if a_int else ""),
                "Every room classified: Uniclass 2015 SL - OmniClass T11 - Brick - Haystack"]
@@ -177,37 +180,38 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
         for i, line in enumerate(wrap(d, btxt, SM, 1260)):
             d.text((x + (0 if i == 0 else 30), y), ("-  " if i == 0 else "") + line, font=SM, fill=INK); y += 33
         y += 6
-    # room schedule (compact, two columns)
-    y += 8
-    d.text((x, y), "Rooms", font=H3, fill=TEAL); y += 46
-    col_w, rows_per_col = 620, 6
-    for i, r in enumerate([r for r in rl if r[5] != 5]):
-        cx = x + (i // rows_per_col) * col_w; cy = y + (i % rows_per_col) * 30
-        if cx + col_w > W - 100:
+    # room schedule: inside dimensions (from the generator rectangles) + Revit areas, two columns
+    y += 6
+    d.text((x, y), "Rooms - inside dimensions and areas", font=H3, fill=TEAL); y += 48
+    sched = [r for r in rl if r[5] != "corridor"]
+    col_w, rows_per_col = 640, 7
+    for i, r in enumerate(sched):
+        cx = x + (i // rows_per_col) * col_w; cy = y + (i % rows_per_col) * 32
+        if cx + col_w > W - 80:
             break
-        a = areas.get(r[3])
-        d.text((cx, cy), r[3], font=XS, fill=MUT); d.text((cx + 120, cy), r[2] + ((" - %.0f m2" % a) if a else ""), font=XS, fill=INK)
-    y += rows_per_col * 30 + 14
+        a = areas.get(r[3]); rc = r[7]
+        dims_txt = "%.1f x %.1f m" % ((rc[2] - rc[0]) / 1000, (rc[3] - rc[1]) / 1000)
+        d.text((cx, cy), r[3], font=XS, fill=MUT); d.text((cx + 110, cy), "%s  %s%s" % (r[2].replace(" + entrance", ""), dims_txt, ("  %.0f m2" % a) if a else ""), font=XS, fill=INK)
+    y += min(len(sched), rows_per_col) * 32 + 12
 
     # RIGHT BOTTOM: unit plan from Revit (1:50, tags + dims)
     up = raster(os.path.join(PDF_DIR, "unit_%s.pdf" % key))
-    box_top = y + 10; box_h = H - 240 - box_top - 130   # leave room for the caption line and the legend strip
+    box_top = y + 6; box_h = H - 240 - box_top - 150   # unit plan takes the rest of the column (mobile: this is what gets zoomed)
     if up is not None:
-        up = fit(up, 1280, box_h)
-        ux = x + (1280 - up.width) // 2
+        up = fit(up, 1300, box_h)
+        ux = x + (1300 - up.width) // 2
         d.rectangle([ux - 10, box_top - 10, ux + up.width + 10, box_top + up.height + 10], outline=(215, 212, 205), width=3)
         im.paste(up, (ux, box_top))
         d.text((x, box_top + up.height + 18), "Unit %s - 1:50 plan from the DigitAlchemy model: room names + areas, overall dimensions (mm), door swings, balcony." % unit, font=XS, fill=MUT)
     else:
         d.text((x, box_top), "unit plan export missing", font=B, fill=HI)
-    # legend strip (small, under the unit caption)
-    ly = H - 240 - 40
-    lx = x
-    for name, col in LEGEND[:4]:
-        d.rectangle([lx, ly + 4, lx + 30, ly + 26], fill=col, outline=(120, 120, 120)); d.text((lx + 40, ly), name, font=XS, fill=INK)
-        lx += 40 + int(d.textlength(name, font=XS)) + 40
-        if lx > W - 300:
-            break
+    # legend (two rows, readable on a phone)
+    ly = H - 240 - 96; lx = x
+    for i, (name, col) in enumerate(LEGEND):
+        if i == 3:
+            ly += 44; lx = x
+        d.rectangle([lx, ly + 6, lx + 36, ly + 34], fill=col, outline=(120, 120, 120)); d.text((lx + 48, ly + 2), name, font=SM, fill=INK)
+        lx += 48 + int(d.textlength(name, font=SM)) + 44
 
     # footer
     d.rectangle([0, H - 210, W, H], fill=(240, 238, 232)); d.rectangle([0, H - 210, W, H - 204], fill=GOLD)
