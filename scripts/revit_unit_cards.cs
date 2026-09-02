@@ -7,6 +7,17 @@
 //   Client_Engagements\Imtiaz\02_Execution\04_Golden_Building_Symphony\02_Revit\unit_cards\
 // then rename to card_<Type>_plan.png / card_<Type>_3d.png (PowerShell map in the session log).
 // Views themselves are created by revit_unit_map.cs' companion view block (UT-… PLAN/3D, FLOOR …, TOWER …).
+// ---------------------------------------------------------------- PASS 0 (polish, run once per property; 2 Sep 2026)
+// Doors + windows on the seven card units and drawing graphics that match the developer plates:
+//   entry door (Doors_IntSgl 1010) on the corridor-facing wall of each living room; internal doors (910) on each
+//   room-split wall at 1/2 depth; one facade window (Windows_Sgl_Plain 1810x1210, sill 900) per exterior room.
+//   Host wall found by projecting the point onto wall location curves (tol 120 mm).
+//   Graphics: "By Room Name" colour scheme entries -> solid fill (pattern id 3) with a restrained palette
+//   (living sand / bedroom blue-grey / bath grey / kitchen gold / terrace green / corridor off-white);
+//   walls in UT views -> solid black cut poche (SetCategoryOverrides OST_Walls, cut pattern solid, weight 3).
+// Gotcha: Revit raises a warning dialog for the plain window family ("base sketch invalid", auto-resolved) —
+//   the MCP call times out until the dialog's OK is clicked; the transaction still completes.
+// (Unit rectangles come from revit_unit_map.cs bays: F11 1101/1102/1104, F24 2401, F32 3201, F33/F34 duplex.)
 // ---------------------------------------------------------------- PASS 1
 var doc = document;
 Func<double, double> ft = mm => UnitUtils.ConvertToInternalUnits(mm, UnitTypeId.Millimeters);
