@@ -21,7 +21,9 @@ var po=new PDFExportOptions();po.Combine=true;po.ColorDepth=ColorDepthType.Color
 var labelled=new System.Collections.Generic.HashSet<string>();
 foreach(var ln in System.IO.File.ReadAllLines(DIR+"cards_spec.txt")){if(ln.Trim().Length==0)continue;try{
  var t=ln.Split('|');string key=t[0],unit=t[1],F=t[2];double x0=double.Parse(t[3]),y0=double.Parse(t[4]),x1=double.Parse(t[5]),y1=double.Parse(t[6]);var hl=t[7].Split(',');
- var fp=new FilteredElementCollector(d).OfClass(typeof(ViewPlan)).Cast<ViewPlan>().First(v=>!v.IsTemplate&&v.ViewType==ViewType.FloorPlan&&v.Name.StartsWith("FLOOR "+F));
+ var fp=new FilteredElementCollector(d).OfClass(typeof(ViewPlan)).Cast<ViewPlan>().FirstOrDefault(v=>!v.IsTemplate&&v.ViewType==ViewType.FloorPlan&&(v.Name.StartsWith("FLOOR "+F)||v.Name.StartsWith("GEN "+F)));
+ if(fp==null){var lvl=new FilteredElementCollector(d).OfClass(typeof(Level)).Cast<Level>().First(l=>l.Name==F);var vft0=new FilteredElementCollector(d).OfClass(typeof(ViewFamilyType)).Cast<ViewFamilyType>().First(x=>x.ViewFamily==ViewFamily.FloorPlan);fp=ViewPlan.Create(d,vft0.Id,lvl.Id);fp.Name="GEN "+F+" - PLAN";}
+ fp.Scale=200;
  var rooms=new FilteredElementCollector(d,fp.Id).OfCategory(BuiltInCategory.OST_Rooms).WhereElementIsNotElementType().Cast<Autodesk.Revit.DB.Architecture.Room>().ToList();
  Func<Autodesk.Revit.DB.Architecture.Room,bool> mine=r=>hl.Any(h=>r.Number.StartsWith(h+"-"));
  var labels=System.IO.File.Exists(DIR+"v2_"+F+"_labels.txt")?System.IO.File.ReadAllLines(DIR+"v2_"+F+"_labels.txt"):new string[0];

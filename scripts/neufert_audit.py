@@ -69,7 +69,33 @@ for unit, v in out["units"].items():
         lines.append("- %s (%s, %s): %s" % (unit, v["type"], v["floor"], "; ".join(v["issues"]))); n += 1
 if n == 0:
     lines.append("- none")
-out["summary"] = {"checked": checked, "with_issues": fails, "by_type": {t: {k: v for k, v in b.items() if k != "areas"} for t, b in by_type.items()}}
+# --- sheet audit: every Symphony unit on the newest developer availability sheet must land on the right type and size in the model
+sheet_rows, sheet_fail = [], 0
+try:
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from build_avail_index import latest_sheets
+    path, auto = latest_sheets()["imtiaz"]
+    sh = json.load(open(path, encoding="utf-8"))
+    typemap = {"1 B/R": ("1BR", "MS"), "2 B/R": ("2BR",), "3 B/R": ("3BR",), "4 B/R": ("4BR",), "4 B/R Duplex": ("DUPL", "DUPU")}
+    for p in sh["projects"]:
+        if "symphony" not in p["p"].lower():
+            continue
+        for u in p["units"]:
+            uid = str(u[0]); m2 = u[2] / 10.764 if u[2] else None; v = out["units"].get(uid)
+            if v is None:
+                sheet_rows.append("| %s | %s | %s | not modelled (podium/offices) |" % (uid, u[1], "%.0f" % m2 if m2 else "-")); continue
+            ok_t = v["type"] in typemap.get(u[1], ()); model_m2 = v["area_m2"]
+            if v["type"] in ("DUPL", "DUPU"):
+                model_m2 = sum(x["area_m2"] for x in out["units"].values() if x["type"] in ("DUPL", "DUPU"))
+            ok_a = m2 is not None and abs(model_m2 - m2) / m2 < 0.15
+            verdict = "OK" if ok_t and ok_a else ("TYPE" if not ok_t else "") + (" AREA %+.0f%%" % ((model_m2 - m2) / m2 * 100) if m2 and not ok_a else "")
+            sheet_fail += 0 if (ok_t and ok_a) else 1
+            sheet_rows.append("| %s | %s %.0f m2 | %s %d m2 | %s |" % (uid, u[1], m2, v["type"], model_m2, verdict))
+    lines += ["", "## Developer sheet vs model (%s%s)" % (os.path.basename(path), ", auto-read" if auto else ""), "", "| Sheet unit | Sheet | Model | Verdict |", "|---|---|---|---|"] + sheet_rows
+    lines += ["", "Sheet units failing: %d. The duplex is compared as both levels together (terrace convention still to confirm with Imtiaz)." % sheet_fail]
+except Exception as e:
+    lines += ["", "Sheet audit not run: %s" % e]
+out["summary"] = {"checked": checked, "with_issues": fails, "sheet_failing": sheet_fail, "by_type": {t: {k: v for k, v in b.items() if k != "areas"} for t, b in by_type.items()}}
 open(os.path.join(ROOT, "data", "revit", "neufert_audit.md"), "w", encoding="utf-8").write("\n".join(lines) + "\n")
 json.dump(out, open(os.path.join(ROOT, "data", "revit", "neufert_audit.json"), "w"), indent=1)
 print("\n".join(lines[:12]))

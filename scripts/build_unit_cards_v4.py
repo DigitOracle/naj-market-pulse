@@ -60,9 +60,9 @@ areas = json.load(open(os.path.join(PDF_DIR, "areas.json"))) if os.path.exists(o
 # key, title, unit, floor, sheet type, floors text, view text
 CARDS = [
     ("MasterSuite_1BR", "Master Suite - 1 Bedroom", "1101", "F11", "1 B/R", "Floors 10-22 - west wing and NW corner - 3 per floor", "West and north faces - Park / Community per the developer compass"),
-    ("1BR", "1 Bedroom", "1102", "F11", "1 B/R", "Floors 10-33 - 6-7 per floor", "North and east faces - Burj Khalifa & Lagoon side on the north face"),
-    ("2BR", "2 Bedroom", "1104", "F11", "2 B/R", "Floors 10-34 - 4 per floor (corners)", "Corner units - two aspects"),
-    ("3BR", "3 Bedroom", "2401", "F24", "3 B/R", "Floors 24, 26, 28, 30 - 2 per floor", "North-west wrap - Park + Burj Khalifa & Lagoon"),
+    ("1BR", "1 Bedroom", "1907", "F19", "1 B/R", "Floors 10-33 - 5-7 per floor - unit 1907 is on the 28-Aug sheet", "East face - Community per the developer compass"),
+    ("2BR", "2 Bedroom", "2902", "F29", "2 B/R", "Floors 10-33 - 3-4 per floor - unit 2902 is on the 28-Aug sheet", "North face - Burj Khalifa & Lagoon per the developer compass"),
+    ("3BR", "3 Bedroom", "2410", "F24", "3 B/R", "Floors 24, 26, 28, 30 - 2 per floor - units 2410 and 2810 are on the 28-Aug sheet", "West wing - Park per the developer compass"),
     ("4BR", "4 Bedroom", "3201", "F32", "4 B/R", "Floor 32 - 2 units", "North-west wrap - three aspects"),
     ("4BR_Duplex_lower", "4 Bedroom Duplex - lower level (33rd)", "3307", "F33", "4 B/R Duplex", "Floors 33-34 - unit 3307 - private pool terrace", "West wing + NW corner - Skyline, Lagoon & Cityscape (developer claim)"),
     ("4BR_Duplex_upper", "4 Bedroom Duplex - upper level (34th)", "3407", "F34", "4 B/R Duplex", "Floors 33-34 - unit 3307 - planted upper terrace", "West wing + NW corner - Skyline, Lagoon & Cityscape (developer claim)"),

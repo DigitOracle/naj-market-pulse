@@ -55,12 +55,17 @@ def bays_for(ft):
     S4 = lambda: (B(7000, -PY, P, -CYo, "2BR", "N"), B(0, -PY, 7000, -CYo, "1BR", "N"), B(-7000, -PY, 0, -CYo, "1BR", "N"), B(-P, -PY, -7000, -CYo, "2BR", "N"))
     E3 = lambda: (B(CXo, 3667, P, CY, "1BR", "W"), B(CXo, -3667, P, 3667, "1BR", "W"), B(CXo, -CY, P, -3667, "1BR", "W"))
     if ft == "T13": B(-P, CYo, -9000, PY, "MS", "S"); B(-9000, CYo, -1000, PY, "1BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, 0, "MS", "E"); B(-P, 0, -CXo, CY, "MS", "E")
-    if ft == "T11": B(-P, CYo, -1000, PY, "2BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "3BR", "E")
-    if ft == "T10": B(-P, CYo, -1000, PY, "3BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "3BR", "E")
-    if ft == "T9": B(-P, CYo, 7000, PY, "4BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
+    # T11 (23, 25, 27, 29, 31 - deck p17/18, legend MS/1BR/2BR): unit 01 = the west-wrapping 3BR, 02 = large 2BR (sheet 2902 = 128 m2),
+    # 03-04 compact 1BR, 05 = NE 2BR, 06-08 = east 1BR (sheet 3107 = 82 m2 = 07), 09 SE 2BR, 10 S master suite, 11 SW 2BR - audited 2 Sep vs the sheet
+    if ft == "T11": B(-P, -CY, -CXo, WB1, "3BR", "E"); B(-P, CYo, -5600, PY, "2BR", "S"); B(-5600, CYo, 1200, PY, "1BR", "S"); B(1200, CYo, 8000, PY, "1BR", "S"); B(8000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-7000, -PY, 7000, -CYo, "MS", "N"); B(-P, -PY, -7000, -CYo, "2BR", "N")
+    # T10 (24, 26, 28, 30 - deck p19, legend MS/1BR/3BR, no 2BR): 01 NW 3BR, 02 1BR, 03 NE master suite, 04-06 east 1BR, 07-09 south master suites, 10 west 3BR (sheet 2410/2810 = 173 m2)
+    if ft == "T10": B(-P, CYo, -1000, PY, "3BR", "S"); B(-1000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "MS", "S"); E3(); B(7000, -PY, P, -CYo, "MS", "N"); B(-7000, -PY, 7000, -CYo, "MS", "N"); B(-P, -PY, -7000, -CYo, "MS", "N"); B(-P, -CY, -CXo, WB1, "3BR", "E")
+    # T9 (32 - deck p20, legend MS/1BR/4BR, no 2BR)
+    if ft == "T9": B(-P, CYo, 7000, PY, "4BR", "S"); B(7000, CYo, P, PY, "MS", "S"); E3(); B(7000, -PY, P, -CYo, "MS", "N"); B(-7000, -PY, 7000, -CYo, "1BR", "N"); B(-P, -PY, -7000, -CYo, "MS", "N"); B(-P, -CY, -CXo, CY, "4BR", "E")
     # T33/T34: unit 3307 = the 4BR duplex on the west wing (both levels) + the NW terrace; the deck skips 07 for the others
     if ft == "T33": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); S4(); B(-P, -CY, -CXo, WB1, "DUPL", "E")
-    if ft == "T34": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "2BR", "S"); E3(); B(7000, -PY, P, -CYo, "2BR", "N"); B(-P, -CY, -CXo, WB1, "DUPU", "E")
+    # T34 (deck p22, legend MS/1BR/duplex, no 2BR)
+    if ft == "T34": B(-2000, CYo, 7000, PY, "1BR", "S"); B(7000, CYo, P, PY, "MS", "S"); E3(); B(7000, -PY, P, -CYo, "MS", "N"); B(-P, -CY, -CXo, WB1, "DUPU", "E")
     return b
 
 
