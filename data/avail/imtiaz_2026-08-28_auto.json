@@ -16,70 +16,70 @@
      "1 B/R",
      842.38,
      2285744.0,
-     "CityscapeView"
+     "Cityscape"
     ],
     [
      "2410",
      "3 B/R",
      1861.19,
      4665483.0,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "2810",
      "3 B/R",
      1861.19,
      4749009.15,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "2902",
      "2 B/R",
      1372.51,
      3581343.18,
-     "Pool&BoulevardView"
+     "Pool&Boulevard"
     ],
     [
      "3107",
      "1 B/R",
      883.07,
      2571372.0,
-     "CityscapeView"
+     "Cityscape"
     ],
     [
      "3307",
      "4 B/R Duplex",
      4932.24,
      14683880.0,
-     "Skyline,Lagoon&CityscapeView"
+     "Skyline,Lagoon&Cityscape"
     ],
     [
      "OFFICE-305",
      "Office",
      1525.68,
      3489039.64,
-     "CityscapeView"
+     "Cityscape"
     ],
     [
      "OFFICE-401",
      "Office",
      1142.27,
      3879116.34,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "OFFICE-P406",
      "Office",
      1036.99,
      4482907.77,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "OFFICE-504",
      "Office",
      1627.94,
      4960333.18,
-     "Skyline,Lagoon&CityscapeView"
+     "Skyline,Lagoon&Cityscape"
     ]
    ]
   },
@@ -93,70 +93,70 @@
      "2 B/R",
      2932.42,
      3486364.96,
-     "LagoonView"
+     "Lagoon"
     ],
     [
      "408",
      "1 B/R",
      755.41,
      1923209.57,
-     "Sanctuary/CityscapeView"
+     "Sanctuary / Cityscape"
     ],
     [
      "106",
      "1 B/R",
      1561.09,
      2287023.4,
-     "Partial Lagoon/ CityscapeView"
+     "Partial Lagoon / Cityscape"
     ],
     [
      "207",
      "1 B/R",
      1832.23,
      2379328.21,
-     "Sanctuary/PoolView"
+     "Sanctuary / Pool"
     ],
     [
      "1107",
      "1 B/R",
      1024.41,
      2390839.2,
-     "Sanctuary/PoolView"
+     "Sanctuary / Pool"
     ],
     [
      "1307",
      "1 B/R",
      1014.17,
      2430694.84,
-     "Sanctuary/PoolView"
+     "Sanctuary / Pool"
     ],
     [
      "P2-05",
      "1 B/R",
      1078.76,
      2480705.76,
-     "Lagoon View"
+     "Lagoon"
     ],
     [
      "1507",
      "1 B/R",
      1036.99,
      2495123.8,
-     "Sanctuary/PoolView"
+     "Sanctuary / Pool"
     ],
     [
      "1805",
      "2 B/R",
      1315.57,
      3318577.41,
-     "Sanctuary/PoolView"
+     "Sanctuary / Pool"
     ],
     [
      "RETAIL-05",
      "Retail",
      2236.63,
      8144475.93,
-     "SanctuaryView"
+     "Sanctuary"
     ]
    ]
   },
@@ -170,70 +170,70 @@
      "1 B/R",
      1104.38,
      2215354.0,
-     "CanalView"
+     "Canal"
     ],
     [
      "203",
      "1 B/R",
      926.77,
      2224500.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "602",
      "1 B/R",
      914.39,
      2295242.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "513",
      "1 B/R",
      990.6,
      2306609.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "703",
      "1 B/R",
      928.17,
      2330001.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "812",
      "1 B/R",
      927.63,
      2349755.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "902",
      "1 B/R",
      914.39,
      2358475.0,
-     "BurjKhalifa/Pool/AmenitiesView"
+     "Burj Khalifa / Pool / Amenities"
     ],
     [
      "102",
      "2 B/R",
      2410.79,
      3454101.0,
-     "BurjKhalifa/CanalView"
+     "Burj Khalifa / Canal"
     ],
     [
      "205",
      "3 B/R",
      1592.74,
      4571213.0,
-     "CanalView"
+     "Canal"
     ],
     [
      "212",
      "3 B/R",
      1614.8,
      4576518.0,
-     "BurjKhalifa/Pool/Amenities/SeaView"
+     "Burj Khalifa / Pool / Amenities / Sea"
     ]
    ]
   },
@@ -247,56 +247,56 @@
      "2 B/R",
      1633.32,
      3376098.0,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "206",
      "2 B/R",
      1438.16,
      3317618.16,
-     "BoulevardView"
+     "Boulevard"
     ],
     [
      "701",
      "1 B/R",
      934.2,
      2467484.43,
-     "PoolView"
+     "Pool"
     ],
     [
      "905",
      "1 B/R",
      1120.52,
      2598919.2,
-     "PoolView"
+     "Pool"
     ],
     [
      "906",
      "1 B/R",
      930.54,
      2434640.0,
-     "PoolView"
+     "Pool"
     ],
     [
      "907",
      "1 B/R",
      844.53,
      2343960.0,
-     "PoolView"
+     "Pool"
     ],
     [
      "1005",
      "3 B/R Duplex",
      2616.81,
      6184137.6,
-     "CanalView"
+     "Canal"
     ],
     [
      "1011",
      "1 B/R",
      944.64,
      2494879.2,
-     "PoolView"
+     "Pool"
     ]
    ]
   },
@@ -366,28 +366,28 @@
      "3 B/R",
      1702.85,
      3998000.0,
-     "Skyline+PoolView"
+     "Skyline+Pool"
     ],
     [
      "402",
      "3 B/R",
      1694.13,
      3999000.0,
-     "Skyline+Pool View"
+     "Skyline+Pool"
     ],
     [
      "502",
      "3 B/R",
      1701.88,
      4499695.0,
-     "Skyline+Pool View"
+     "Skyline+Pool"
     ],
     [
      "602",
      "3 B/R",
      1694.67,
      4197000.0,
-     "Skyline+PoolView"
+     "Skyline+Pool"
     ]
    ]
   }

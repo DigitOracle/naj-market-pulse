@@ -172,7 +172,12 @@ def parse_row(cells):
         suite, balcony, total, price = None, None, nums[0], nums[1]
     if price is not None and price < 50000:      # sanity: AED price, not sqft
         return None
-    uid = re.sub(r"^([A-Za-z]{3,})-?(\d)", lambda m: m.group(1).upper() + "-" + m.group(2), unit.upper())
+    uid = re.sub(r"^([A-Za-z]{3,})[\s-]?(\d)", lambda m: m.group(1).upper() + "-" + m.group(2), unit.upper())
+    if view:
+        view = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", view)                       # LagoonView -> Lagoon View
+        view = re.sub(r"\s*/\s*", " / ", view)
+        view = re.sub(r"\s*view\s*$", "", view, flags=re.I).strip()          # drop the trailing 'View'
+        view = re.sub(r"\s+", " ", view)
     return [uid, norm_type(cells[ti]), total, price, view or None, suite, balcony]
 
 
@@ -269,7 +274,7 @@ def process(path, received=None, force=False):
 
 def check(auto_path, truth_path):
     a = json.load(open(auto_path, encoding="utf-8")); t = json.load(open(truth_path, encoding="utf-8"))
-    cu = lambda u: re.sub(r"^([A-Z]{3,})-?(\d)", r"-", str(u).upper().replace("*", "").strip())
+    cu = lambda u: re.sub(r"^([A-Z]{3,})[\s-]?(\d)", r"-", str(u).upper().replace("*", "").strip())
     ta = {p["p"].lower(): {cu(u[0]): u for u in p["units"]} for p in t["projects"]}
     aa = {p["p"].lower(): {cu(u[0]): u for u in p["units"]} for p in a["projects"]}
     tot_t = sum(len(v) for v in ta.values()); hit = 0; field_ok = 0; field_n = 0
