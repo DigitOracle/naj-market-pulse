@@ -1,0 +1,23 @@
+{
+ "source": "Neufert Architects' Data 4th ed. (Standards_and_Classification_Catalogue/07_Design_and_Space_References) pp.126-127 doors, pp.152-158 access & flat plans; DA extract Neufert_Room_Dimensions_Ergonomic_Reference.xlsx (Neufert 5e / DIN 18011 / DIN 18022 / NDSS). Written 2 Sep 2026 as the acceptance gate for revit_unit_map.cs v2.",
+ "typology": {
+  "point_tower": "Neufert p.155 'multiple flats per floor (point houses)': flats stacked around a common vertical core; every flat must have a door onto the common access (corridor/lobby). Corner flats get corridor frontage by extending the corridor to the corner or by an internal entrance hall from the corridor corner.",
+  "flat_plan": "Neufert p.158 central-corridor / grouped-room plans: rooms are entered from a hall or from the living space, never through another habitable room (en-suite bath from its bedroom is the only pass-through). Entrance zone (hall) sits between the common access door and the living room."
+ },
+ "generator_gate": [
+  "G1 Every unit has exactly one entry door on a wall segment that faces the common corridor/lobby (never onto another unit).",
+  "G2 Entry door opens into an entrance hall (min 1.0 m wide, ~1.2 m typical) or directly into the living space; hall connects to every bedroom and to the family bathroom.",
+  "G3 Bedrooms open off the hall/living, not off another bedroom; en-suite bathroom opens off its bedroom; family bathroom off the hall.",
+  "G4 Every habitable room (living, bedrooms, kitchen if separate) has an external wall with a window; bathrooms may be internal.",
+  "G5 Door clear widths: entry 1000 (min 900), bedrooms 900 (min 800), bathrooms 800 (min 750); door swings into the room, hinge on the wall side so the leaf opens against a wall (Neufert p.126).",
+  "G6 Corridor (common) min 1.2 m residential, 1.8 m where two people pass; internal hall min 1.0 m.",
+  "G7 Room minimums (m2 / min width m): living 1-bed 14/3.2; living 3-bed 21/3.6; master bedroom 12/2.8; single bedroom 7/2.1; open kitchen 8/2.4 (galley 5/1.8); bathroom 3.5/1.7; en-suite 2.5/1.5; WC 1.2/0.9; balcony usable depth >= 1.5.",
+  "G8 Wet rooms stacked vertically floor to floor and clustered against the core/corridor wall (services), living rooms on the facade corners where the plate allows."
+ ],
+ "symphony_v1_failures": [
+  "Corner units (NW master suite 1101, NE 2BR 1104, SW/SE 2BR) have NO corridor frontage in the bay scheme -> entry doors opened into neighbouring units (found 2 Sep).",
+  "Rooms split by fractions along the long axis without a hall: bedrooms chained through each other; bathrooms only reachable through a bedroom.",
+  "No balconies modelled although every unit on the developer plates has one on the facade."
+ ],
+ "v2_plan": "Bay -> unit rectangle; carve an entrance hall strip (1.2 m) along the corridor-facing edge; living on the facade side of the hall; bedrooms as bays off the hall along the facade; family bath + kitchen against the corridor/core side; en-suite adjacent to master; balconies as 1.5-2.0 m strips outside the facade wall; corridor ring extended into corner bays so G1 holds for every unit."
+}
