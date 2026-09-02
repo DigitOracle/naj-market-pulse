@@ -9,6 +9,9 @@ const bd = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/board_
 const key = "PREVIEW";
 const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
 fs.writeFileSync(path.join(dir, "home.html"), ctx.__x.renderHome(bd, key));
+const cmp0 = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/dev_compare.json", "utf8"));
+fs.writeFileSync(path.join(dir, "home_compare.html"), ctx.__x.renderHome(bd, key, cmp0, { mode: "compare", bed: "2", band: "all", metric: "range", sort: "" }));
+fs.writeFileSync(path.join(dir, "home_compare_sqm.html"), ctx.__x.renderHome(bd, key, cmp0, { mode: "compare", bed: "1", band: "1to2", metric: "sqm", sort: "1" }));
 for (const dv of bd.developers) fs.writeFileSync(path.join(dir, "dev_" + dv.key + ".html"), ctx.__x.renderDev(dv, bd, dv.key === "imtiaz" ? { symphony: { cards: new Array(7) } } : {}, key));
 const cmp = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/dev_compare.json", "utf8"));
 fs.writeFileSync(path.join(dir, "compare.html"), ctx.__x.renderCompare(cmp, bd, { a: "", b: "", bed: "all", band: "all", diff: false }, key));
