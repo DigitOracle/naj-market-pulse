@@ -1,0 +1,22 @@
+{
+ "buildings": {
+  "symphony": {
+   "title": "The Symphony by Imtiaz",
+   "developer": "Imtiaz Developments",
+   "status": "Under construction - launched Nov 2025, completion Jun 2029 (developer sheet)",
+   "status_key": "construction",
+   "register_name": "IMTIAZ SYMPHONY TOWER",
+   "brand_note": "Imtiaz Developments - 40 registered projects on the DLD register (Beach Walk, Cove, Pearl House, Sunset Bay, Westwood, Wynwood families)",
+   "facts": [
+    ["Design", "Zaha Hadid Architects - AED 1bn mixed-use tower, plot 4,234 m2 (developer release)"],
+    ["Stack", "B2 + B1 + G + P1-P5 podium + floors 1-8 offices + 9 clubhouse + 10-35 residential (floor-plan deck)"],
+    ["Units", "290 residences (13/floor on 10-22; 11 on 23,25,27,29,31; 10 on 24,26,28,30; 9 on 32; 10 on 33; 7 on 34) + 84 offices + 7 retail"],
+    ["Plate", "~40 x 40 m, central core, corridor ring - scaled from the deck, not surveyed"],
+    ["Views (developer compass)", "Park - Community - Community - Burj Khalifa & Lagoon, by face"],
+    ["Location", "Meydan Horizon, Bukadra - site anchor 25.168 N 55.308 E (site-level, pending Makani)"]
+   ],
+   "sources": ["Imtiaz floor-plan deck (23 pp)", "Imtiaz brochure (PropertyFinder copy)", "Gulf News / Arabian Business launch coverage", "DLD Open Data (register names)"],
+   "placement": "Golden Building - single-building lane; CityEngine massing + Revit rooms + ArcGIS Pro geodatabase"
+  }
+ }
+}

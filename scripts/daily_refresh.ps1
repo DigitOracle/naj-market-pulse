@@ -38,4 +38,6 @@ python scripts\build_avail_index.py *>> $log
 Log "--- cards: rebuild + push ---"
 python scripts\build_unit_cards.py *>> $log
 python scripts\push_cards.py *>> $log
+Log "--- knowledge graph: building meta ---"
+python scriptsuild_building_meta.py goldensymphony *>> $log
 Log "=== refresh done ==="
