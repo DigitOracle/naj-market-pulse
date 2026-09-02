@@ -175,8 +175,9 @@ def build(fl):
         R((h0 + hall_hi) / 2, HALL / 2, "Hall", unit + "-H", "hall", MIN["hall"], h0, 0, hall_hi, HALL, "hall")
         units.append({"unit": unit, "type": t, "bay": [x0, y0, x1, y1], "back": back, "width_mm": Wd, "depth_mm": D,
                       "programme": {"bedrooms": len(fr) - 1, "maid": MAID[t], "bathrooms": 1 + len(ENSUITE[t]) + (1 if MAID[t] else 0), "powder": POWDER[t], "ensuites": len(ENSUITE[t])}})
-        cx, cy = Wp(Wd / 2, D / 2)
-        labels.append(("U", round(cx), round(cy), unit))
+        # unit number sits in the middle of the living room (clear of hall / ensuite walls), not at the bay centre
+        liv = next(r for r in rooms if r[3] == unit + "-1"); lrc = liv[7]
+        labels.append(("U", (lrc[0] + lrc[2]) // 2, (lrc[1] + lrc[3]) // 2 + 600, unit))
     if ft in ("T33", "T34"):
         W(-P, CYo, -2000, CYo); W(-P, CYo, -P, PY); W(-P, PY, -2000, PY)
         opens.append((-11000, CYo, SYM["dEnt"]))
@@ -202,11 +203,18 @@ def emit(fl):
     with open(os.path.join(out, "v2_%s_labels.txt" % F), "w", encoding="utf-8") as fh:
         for _, x, y, unit in labels:
             fh.write("U %d %d %s\n" % (x, y, unit))
+        # inside dimensions only where they fit clear of the room tag: living / bedrooms (tag sits at the facade end, text at the
+        # rectangle centre) and the maid's room (tag at centre, text near the corridor wall). Small wet rooms and halls keep tag + schedule only.
         for x, y, nm, num, dept, kind, mn, rc, role in rooms:
-            if kind == "corridor":
+            if role not in ("living", "master", "bedroom", "maid"):
                 continue
             w_mm, d_mm = rc[2] - rc[0], rc[3] - rc[1]
-            fh.write("D %d %d %.2f x %.2f m|%s\n" % ((rc[0] + rc[2]) // 2, rc[1] + 600, w_mm / 1000, d_mm / 1000, num))
+            cx, cy = (rc[0] + rc[2]) // 2, (rc[1] + rc[3]) // 2
+            if role == "maid":
+                cy = rc[1] + 450 if y > cy else rc[3] - 450
+            elif abs(y - cy) < 900:                                   # tag too close to the centre -> push the text 1.1 m the other way
+                cy = cy - 1100 if y >= cy else cy + 1100
+            fh.write("D %d %d %.2f x %.2f m|%s\n" % (cx, cy, w_mm / 1000, d_mm / 1000, num))
     json.dump({"floor": F, "ftype": ft, "walls": walls, "openings": opens, "separations": seps, "rooms": rooms, "units": units, "kinds": KINDS, "sym": SYM},
               open(os.path.join(out, "v2_%s.json" % F), "w"), indent=0)
     return F, ft, (len(walls), len(opens), len(rooms))
