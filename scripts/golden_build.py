@@ -1,4 +1,4 @@
-"""Golden Building CE build: footprint SHP -> golden.cga -> generate ->
+﻿"""Golden Building CE build: footprint SHP -> golden.cga -> generate ->
 FGDB (for Pro) + GLB + snapshot. Single-building lane; CE must be running.
 
 Usage: python scripts/golden_build.py
@@ -44,13 +44,21 @@ for attr in ("bHeight", "status"):
 ce.generateModels(shapes)
 print("generated")
 
+_old = os.path.join(PRO, "najma_goldensymphony.gdb")
+GDB_NAME = "najma_goldensymphony"
+try:
+    if os.path.isdir(_old): shutil.rmtree(_old)   # CE will not overwrite an existing gdb
+except PermissionError:                        # ArcGIS Pro holds a schema lock -> version the name
+    GDB_NAME = "najma_goldensymphony_v2"
+    if os.path.isdir(os.path.join(PRO, GDB_NAME + ".gdb")): shutil.rmtree(os.path.join(PRO, GDB_NAME + ".gdb"))
+    print("gdb locked by Pro -> exporting as", GDB_NAME)
 fg = FGDBExportModelSettings()
 fg.setOutputPath(PRO)
-fg.setGeodatabaseName("najma_goldensymphony")
+fg.setGeodatabaseName(GDB_NAME)
 fg.setExportFeatures(FGDBExportModelSettings.MODELS)
 fg.setExportObjectAttributes(True)
 ce.export(shapes, fg)
-print("FGDB:", os.path.isdir(os.path.join(PRO, "najma_goldensymphony.gdb")))
+print("FGDB:", os.path.isdir(os.path.join(PRO, GDB_NAME + ".gdb")))
 
 g = GLTFExportModelSettings()
 g.setOutputPath(os.path.abspath(GLB))
