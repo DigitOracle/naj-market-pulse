@@ -1,5 +1,5 @@
 """Add the Golden Building layers to the GoldenBuilding Pro scene and save the project (run with propy.bat, Pro CLOSED).
-Layers: OSM 3D buildings (context), CityEngine massing multipatch (najma_goldensymphony_v2.gdb), BIM rooms multipatch +
+Layers: OSM 3D buildings (context), CityEngine massing multipatch (najma_goldensymphony.gdb, calibrated plate), BIM rooms multipatch +
 floor-plan polygons from BIM To Geodatabase (najma_symphony_bim.gdb/Symphony). Rooms get a level definition so the
 Pro floor filter works and popups show unit / room / classification fields (tap-a-room on the map).
 """
@@ -13,7 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PRO = os.path.abspath(os.path.join(HERE, "..", "data", "pro"))
 APRX = r"C:\Users\kwils\OneDrive\Documents\ArcGIS\Projects\GoldenBuilding\GoldenBuilding.aprx"
 BIM = os.path.join(PRO, "najma_symphony_bim.gdb", "Symphony")
-CE = os.path.join(PRO, "najma_goldensymphony_v2.gdb", "Shapesgoldensymphony_buildings_ProcedurallyGeneratedMultipatches")
+CE = os.path.join(PRO, "najma_goldensymphony.gdb", "Shapesgoldensymphony_buildings_ProcedurallyGeneratedMultipatches")   # 2 Sep 17:54 regen = calibrated 40 x 43.4 plate (v2.gdb is the old 40 x 40, still locked by Pro)
 OSM3D = "https://basemaps3d.arcgis.com/arcgis/rest/services/OpenStreetMap3D_Buildings_v1/SceneServer"
 WANT = [("OSM 3D Buildings", OSM3D), ("Symphony massing (CityEngine)", CE),
         ("Symphony rooms (Revit)", os.path.join(BIM, "Rooms_Symphony")),

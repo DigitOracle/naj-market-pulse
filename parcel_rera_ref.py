@@ -1,3 +1,12 @@
+# =============================================================================
+# REFERENCE ONLY — DO NOT RUN, DO NOT WIRE IN.
+# Owner decision 2 Sep 2026 (option A): PARCEL's dispute counts are a hand-curated
+# table of ~20 developers, ~15 months stale, unverifiable by us, and reach DLD
+# endpoints of unclear terms. They are NEVER used in Najma or Azimuth output.
+# The live "developer trust check" lives in azimuth-worker (devTrust / DLD_VERIFY):
+# sourced MEED Projects counts + the OFFICIAL DLD verification pages only.
+# Note: the URLs quoted in this file's docstring were 404 on 2 Sep 2026.
+# =============================================================================
 #!/usr/bin/env python3
 """
 PARCEL Data Ingestion Pipeline — Pipeline 2: RERA Developer Registry Scraper

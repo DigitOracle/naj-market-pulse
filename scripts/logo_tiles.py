@@ -1,6 +1,6 @@
 """Developer logo tiles for the Azimuth board (v73 /home grid).
 1. Pull inline SVGs saved from the browser probe (Iman, Meraas) and download the remaining raster logos.
-2. Rasterise every raw_<key>.* into a square 512x512 PNG tile data/board/logos/<key>.png:
+2. Rasterise every raw_<key>.* into a 512x256 PNG plate data/board/logos/<key>.png:
    transparent background, logo fitted into 80 % of the tile, white-on-transparent marks recoloured to the board ink (#0B2A3A)
    so every tile reads on the light card. SVG rasterisation via cairosvg when present, otherwise via the browser (see logo_tiles_browser.html).
 """
@@ -10,7 +10,7 @@ from PIL import Image, ImageOps
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, ".."))
 LOGOS = os.path.join(ROOT, "data", "board", "logos"); os.makedirs(LOGOS, exist_ok=True)
 INK = (11, 42, 58)
-TILE = 512
+TILE_W, TILE_H = 512, 256   # 2:1 plate: wordmarks fill the width, square marks fill the height
 
 def fetch(url, out):
     if os.path.exists(out): return out
@@ -43,8 +43,8 @@ def tile(im, out):
     im = im.convert("RGBA"); bbox = im.getbbox()
     if bbox: im = im.crop(bbox)
     if is_white_mark(im): im = recolour(im, INK)
-    box = int(TILE * 0.8); im.thumbnail((box, box), Image.LANCZOS)
-    canvas = Image.new("RGBA", (TILE, TILE), (0, 0, 0, 0)); canvas.paste(im, ((TILE - im.width) // 2, (TILE - im.height) // 2), im)
+    im.thumbnail((int(TILE_W * 0.86), int(TILE_H * 0.74)), Image.LANCZOS)
+    canvas = Image.new("RGBA", (TILE_W, TILE_H), (0, 0, 0, 0)); canvas.paste(im, ((TILE_W - im.width) // 2, (TILE_H - im.height) // 2), im)
     canvas.save(out, optimize=True); print("tile", os.path.basename(out), im.size)
 
 def svg_to_png(src, scale_px=1600):
