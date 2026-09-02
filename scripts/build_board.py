@@ -56,7 +56,7 @@ print("board_devs ->", r.get("ok"), "| developers", len(devs), "| properties", s
 # logos -> KV logo_<key> (PNG bytes through the same ingest channel push_cards uses)
 LOGOS = os.path.join(ROOT, "data", "board", "logos")
 for f in sorted(os.listdir(LOGOS)) if os.path.isdir(LOGOS) else []:
-    if not f.endswith(".png"): continue
+    if not f.endswith(".png") or f.startswith("raw_") or f.startswith("_"): continue
     k = f[:-4]; data = open(os.path.join(LOGOS, f), "rb").read()
     body = json.dumps({"imageName": "logo_" + k, "image": base64.b64encode(data).decode(), "contentType": "image/png"}).encode()   # same channel as push_cards.py
     req = urllib.request.Request(WORKER + "/ingest_market", data=body, method="POST", headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", "User-Agent": "najma-board/1.0"})
