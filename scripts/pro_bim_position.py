@@ -1,4 +1,7 @@
-"""Position the converted Revit geodatabase at the site: affine transform (translate + rotate) of every feature class in
+"""DEPRECATED (2 Sep 2026): TransformFeatures on the converted multipatches corrupted the geometry (plate width -> 329 km).
+Position the model with Revit shared coordinates instead (ActiveProjectLocation.SetProjectPosition) and re-run pro_bim_import.py.
+Kept for the record only.
+"Position the converted Revit geodatabase at the site: affine transform (translate + rotate) of every feature class in
 najma_symphony_bim.gdb/Symphony from Revit local metres (origin = plate centre, y = project north) to UTM 40N.
 BIM File To Geodatabase ignored the .wld3 sidecar, so this is the deterministic step. Run with propy.bat.
 Verifies afterwards: Rooms centre must sit within 50 m of the anchor.
@@ -41,7 +44,7 @@ if math.hypot(cx - E, cy - N) < 100:
     sys.exit("already positioned (rooms centre %.1f m from anchor)" % math.hypot(cx - E, cy - N))
 
 for f in fcs:
-    arcpy.edit.Transform(os.path.join(DS, f), links, "AFFINE")
+    arcpy.edit.TransformFeatures(os.path.join(DS, f), links, "AFFINE")
     print("  transformed", f)
 
 ext = arcpy.Describe(os.path.join(DS, "Rooms_Symphony")).extent
