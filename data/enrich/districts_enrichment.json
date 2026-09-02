@@ -1,0 +1,384 @@
+{
+ "method": "Esri GeoEnrichment REST, 1 km ring around district building-stock centre",
+ "variables": {
+  "TOTPOP": "2024 total population",
+  "TOTHH": "2024 households",
+  "AVGHHSZ": "avg household size",
+  "PPPC": "2024 purchasing power per capita",
+  "PPIDX": "purchasing power index (100 = UAE avg)",
+  "POPDENS": "pop/km2"
+ },
+ "source": "Esri Global Demographics (Michael Bauer Research, UAE)",
+ "districts": {
+  "alhebiahfifth": {
+   "lon": 55.24981,
+   "lat": 25.00408,
+   "TOTPOP": 3185,
+   "TOTHH": 405,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80099.26,
+   "PPIDX": 100.2,
+   "POPDENS": 1014.3
+  },
+  "alkhairanfirst": {
+   "lon": 55.35422,
+   "lat": 25.20214,
+   "TOTPOP": 222,
+   "TOTHH": 45,
+   "AVGHHSZ": 4.9,
+   "PPPC": 73048.04,
+   "PPIDX": 91.4,
+   "POPDENS": 70.7
+  },
+  "alsatwa": {
+   "lon": 55.27113,
+   "lat": 25.21806,
+   "TOTPOP": 33049,
+   "TOTHH": 8439,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105563.49,
+   "PPIDX": 132.1,
+   "POPDENS": 10525.2
+  },
+  "althanyahfifth": {
+   "lon": 55.15802,
+   "lat": 25.04974,
+   "TOTPOP": 11948,
+   "TOTHH": 3049,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105546.4,
+   "PPIDX": 132.1,
+   "POPDENS": 3805.1
+  },
+  "alwasl": {
+   "lon": 55.25368,
+   "lat": 25.19806,
+   "TOTPOP": 32594,
+   "TOTHH": 8322,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105561.36,
+   "PPIDX": 132.1,
+   "POPDENS": 10380.3
+  },
+  "alyelayiss1": {
+   "lon": 55.30425,
+   "lat": 25.01073,
+   "TOTPOP": 2082,
+   "TOTHH": 464,
+   "AVGHHSZ": 4.5,
+   "PPPC": 51657.93,
+   "PPIDX": 64.6,
+   "POPDENS": 663.1
+  },
+  "alyelayiss2": {
+   "lon": 55.29235,
+   "lat": 25.0029,
+   "TOTPOP": 920,
+   "TOTHH": 205,
+   "AVGHHSZ": 4.5,
+   "PPPC": 51694.54,
+   "PPIDX": 64.7,
+   "POPDENS": 293
+  },
+  "alyufrah1": {
+   "lon": 55.45207,
+   "lat": 25.01174,
+   "TOTPOP": 516,
+   "TOTHH": 114,
+   "AVGHHSZ": 4.5,
+   "PPPC": 51908.72,
+   "PPIDX": 65,
+   "POPDENS": 164.3
+  },
+  "arjan": {
+   "lon": 55.24019,
+   "lat": 25.06208,
+   "TOTPOP": 2957,
+   "TOTHH": 376,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80118.18,
+   "PPIDX": 100.3,
+   "POPDENS": 941.7
+  },
+  "burjkhalifa": {
+   "lon": 55.27568,
+   "lat": 25.19307,
+   "TOTPOP": 22452,
+   "TOTHH": 5733,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105563.9,
+   "PPIDX": 132.1,
+   "POPDENS": 7150.3
+  },
+  "businessbay": {
+   "lon": 55.26944,
+   "lat": 25.18363,
+   "TOTPOP": 11981,
+   "TOTHH": 3059,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105565.52,
+   "PPIDX": 132.1,
+   "POPDENS": 3815.6
+  },
+  "damachills": {
+   "lon": 55.25755,
+   "lat": 25.02365,
+   "TOTPOP": 3443,
+   "TOTHH": 438,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80133.44,
+   "PPIDX": 100.3,
+   "POPDENS": 1096.5
+  },
+  "dubaihills": {
+   "lon": 55.26057,
+   "lat": 25.10711,
+   "TOTPOP": 564,
+   "TOTHH": 72,
+   "AVGHHSZ": 7.8,
+   "PPPC": 80171.72,
+   "PPIDX": 100.3,
+   "POPDENS": 179.6
+  },
+  "dubaiindustrialcity": {
+   "lon": 55.06293,
+   "lat": 24.86543,
+   "TOTPOP": 9396,
+   "TOTHH": 337,
+   "AVGHHSZ": 27.9,
+   "PPPC": 81340.42,
+   "PPIDX": 101.8,
+   "POPDENS": 2992.4
+  },
+  "dubaiinvestmentparkfirst": {
+   "lon": 55.1635,
+   "lat": 24.994,
+   "TOTPOP": 22808,
+   "TOTHH": 818,
+   "AVGHHSZ": 27.9,
+   "PPPC": 81338.75,
+   "PPIDX": 101.8,
+   "POPDENS": 7263.7
+  },
+  "dubaiinvestmentparksecond": {
+   "lon": 55.19935,
+   "lat": 24.97771,
+   "TOTPOP": 3774,
+   "TOTHH": 135,
+   "AVGHHSZ": 28,
+   "PPPC": 81345.93,
+   "PPIDX": 101.8,
+   "POPDENS": 1201.9
+  },
+  "dubaimarina": {
+   "lon": 55.13687,
+   "lat": 25.08036,
+   "TOTPOP": 34170,
+   "TOTHH": 8725,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105562.37,
+   "PPIDX": 132.1,
+   "POPDENS": 10882.2
+  },
+  "dubaimaritimecity": {
+   "lon": 55.27864,
+   "lat": 25.25819,
+   "TOTPOP": 12944,
+   "TOTHH": 3305,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105558.84,
+   "PPIDX": 132.1,
+   "POPDENS": 4122.3
+  },
+  "dubaiproductioncity": {
+   "lon": 55.19646,
+   "lat": 25.02176,
+   "TOTPOP": 1908,
+   "TOTHH": 243,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80133.26,
+   "PPIDX": 100.3,
+   "POPDENS": 607.6
+  },
+  "dubaisciencepark": {
+   "lon": 55.22888,
+   "lat": 25.0724,
+   "TOTPOP": 16034,
+   "TOTHH": 2038,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80126.76,
+   "PPIDX": 100.3,
+   "POPDENS": 5106.4
+  },
+  "dubaisportscity": {
+   "lon": 55.22428,
+   "lat": 25.03107,
+   "TOTPOP": 2845,
+   "TOTHH": 362,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80140.67,
+   "PPIDX": 100.3,
+   "POPDENS": 906.1
+  },
+  "dubaistudiocity": {
+   "lon": 55.25094,
+   "lat": 25.0382,
+   "TOTPOP": 5520,
+   "TOTHH": 702,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80127.04,
+   "PPIDX": 100.3,
+   "POPDENS": 1758
+  },
+  "jabalalifirst": {
+   "lon": 55.13819,
+   "lat": 25.03077,
+   "TOTPOP": 15604,
+   "TOTHH": 560,
+   "AVGHHSZ": 27.9,
+   "PPPC": 81338.87,
+   "PPIDX": 101.8,
+   "POPDENS": 4969.4
+  },
+  "jabalaliindustrialsecond": {
+   "lon": 55.10336,
+   "lat": 24.95474,
+   "TOTPOP": 0,
+   "TOTHH": 0,
+   "AVGHHSZ": 0,
+   "PPPC": 0,
+   "PPIDX": 0,
+   "POPDENS": 0
+  },
+  "jumeirahvillagecircle": {
+   "lon": 55.20917,
+   "lat": 25.06026,
+   "TOTPOP": 13322,
+   "TOTHH": 1693,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80129.24,
+   "PPIDX": 100.3,
+   "POPDENS": 4242.7
+  },
+  "jumeirahvillagetriangle": {
+   "lon": 55.18705,
+   "lat": 25.04664,
+   "TOTPOP": 10001,
+   "TOTHH": 1536,
+   "AVGHHSZ": 6.5,
+   "PPPC": 85374.27,
+   "PPIDX": 106.8,
+   "POPDENS": 3185
+  },
+  "madinatalmataar": {
+   "lon": 55.17608,
+   "lat": 24.91801,
+   "TOTPOP": 0,
+   "TOTHH": 0,
+   "AVGHHSZ": 0,
+   "PPPC": 0,
+   "PPIDX": 0,
+   "POPDENS": 0
+  },
+  "madinathind4": {
+   "lon": 55.38106,
+   "lat": 25.00291,
+   "TOTPOP": 669,
+   "TOTHH": 149,
+   "AVGHHSZ": 4.5,
+   "PPPC": 51660.49,
+   "PPIDX": 64.6,
+   "POPDENS": 213.1
+  },
+  "majan": {
+   "lon": 55.31758,
+   "lat": 25.10635,
+   "TOTPOP": 830,
+   "TOTHH": 105,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80101.32,
+   "PPIDX": 100.2,
+   "POPDENS": 264.3
+  },
+  "meydanone": {
+   "lon": 55.3116,
+   "lat": 25.14679,
+   "TOTPOP": 2709,
+   "TOTHH": 344,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80132.59,
+   "PPIDX": 100.3,
+   "POPDENS": 862.7
+  },
+  "motorcity": {
+   "lon": 55.23807,
+   "lat": 25.04265,
+   "TOTPOP": 8434,
+   "TOTHH": 1072,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80123.55,
+   "PPIDX": 100.3,
+   "POPDENS": 2686
+  },
+  "palmjumeirah": {
+   "lon": 55.1323,
+   "lat": 25.11913,
+   "TOTPOP": 5752,
+   "TOTHH": 1469,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105570.44,
+   "PPIDX": 132.1,
+   "POPDENS": 1831.8
+  },
+  "samaaljadaf": {
+   "lon": 55.3294,
+   "lat": 25.21952,
+   "TOTPOP": 7191,
+   "TOTHH": 1836,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105564.25,
+   "PPIDX": 132.1,
+   "POPDENS": 2290.1
+  },
+  "siliconoasis": {
+   "lon": 55.39024,
+   "lat": 25.12303,
+   "TOTPOP": 9542,
+   "TOTHH": 1213,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80126.51,
+   "PPIDX": 100.3,
+   "POPDENS": 3038.9
+  },
+  "sobhaheartland": {
+   "lon": 55.28658,
+   "lat": 25.16953,
+   "TOTPOP": 2279,
+   "TOTHH": 582,
+   "AVGHHSZ": 3.9,
+   "PPPC": 105583.9,
+   "PPIDX": 132.1,
+   "POPDENS": 725.8
+  },
+  "wadialsafa4": {
+   "lon": 55.3101,
+   "lat": 25.07133,
+   "TOTPOP": 1976,
+   "TOTHH": 251,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80139.06,
+   "PPIDX": 100.3,
+   "POPDENS": 629.3
+  },
+  "wadialsafa5": {
+   "lon": 55.3606,
+   "lat": 25.07911,
+   "TOTPOP": 2032,
+   "TOTHH": 258,
+   "AVGHHSZ": 7.9,
+   "PPPC": 80146.31,
+   "PPIDX": 100.3,
+   "POPDENS": 647.1
+  }
+ }
+}

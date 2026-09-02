@@ -1,0 +1,78 @@
+{
+ "observer": "Imtiaz Symphony Tower, Meydan Horizon/Bukadra (site-level coord 25.168N 55.308E)",
+ "engine": "ArcGIS Pro 3.7 3D Analyst LineOfSight",
+ "blockers": "CE massing: sobhaheartland+burjkhalifa+meydanone",
+ "note": "no surveyed footprint yet (completion Jun 2029); flat-terrain assumption; heights OSM-real where known else 12m default",
+ "units": [
+  {
+   "unit": "1907",
+   "floor": 19,
+   "claimed": "Cityscape",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "2410",
+   "floor": 24,
+   "claimed": "Boulevard",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "2810",
+   "floor": 28,
+   "claimed": "Boulevard",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "2902",
+   "floor": 29,
+   "claimed": "Pool & Boulevard",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "3107",
+   "floor": 31,
+   "claimed": "Cityscape",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "3307",
+   "floor": 33,
+   "claimed": "Skyline, Lagoon & Cityscape",
+   "skyline": "CLEAR",
+   "lagoon": "CLEAR"
+  },
+  {
+   "unit": "OFFICE-305",
+   "floor": 3,
+   "claimed": "Cityscape",
+   "skyline": "CLEAR",
+   "lagoon": "BLOCKED"
+  },
+  {
+   "unit": "OFFICE-401",
+   "floor": 4,
+   "claimed": "Boulevard",
+   "skyline": "CLEAR",
+   "lagoon": "BLOCKED"
+  },
+  {
+   "unit": "OFFICE-P406",
+   "floor": 4,
+   "claimed": "Boulevard",
+   "skyline": "CLEAR",
+   "lagoon": "BLOCKED"
+  },
+  {
+   "unit": "OFFICE-504",
+   "floor": 5,
+   "claimed": "Skyline, Lagoon & Cityscape",
+   "skyline": "CLEAR",
+   "lagoon": "BLOCKED"
+  }
+ ]
+}
