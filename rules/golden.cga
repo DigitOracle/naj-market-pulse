@@ -9,8 +9,8 @@
  */
 version "2023.0"
 
-attr bHeight    = 130     // 34 storeys + crown
-attr podiumH    = 24      // ground + mezz + offices 3-5
+attr bHeight    = 158     // G + 5 podium + F1-F9 offices/club + F10-F35 residential + crown (floor-plan deck, 2 Sep 26)
+attr podiumH    = 22.5    // G + P1-P5 at 4.5 m
 attr floorH     = 3.5
 attr towerInset = 4
 

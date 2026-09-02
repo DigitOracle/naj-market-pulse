@@ -1,0 +1,33 @@
+{
+ "source": "The Symphony by Imtiaz — Floor Plan deck (23 pp), Scribd doc 969868549; raster pages in floorplan_pages/, labels from the viewer text layer, 2 Sep 2026",
+ "view_compass": ["Park View", "Community View", "Community View", "Burj Khalifa & Lagoon View"],
+ "level_stack": ["B2", "B1", "G", "P1", "P2", "P3", "P4", "P5", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th-35th"],
+ "pages": {
+  "2": {"level": "GROUND FLOOR", "content": "Retail R-1..R-8, residential lobby, commercial lobby"},
+  "3": {"level": "1ST PODIUM", "content": "Offices 1-4 + retail R-1, R-5"},
+  "4": {"level": "4TH PODIUM", "content": "Offices 1-6"},
+  "5": {"level": "5TH PODIUM", "content": "Offices 1-5"},
+  "6": {"level": "1ST FLOOR", "content": "Offices 1-9 + amenity terrace (kids playground, BBQ, outdoor cinema, reading corner)"},
+  "7": {"level": "2ND FLOOR", "content": "Offices 1-10"},
+  "8": {"level": "3RD FLOOR", "content": "Offices 1-9"},
+  "9": {"level": "4TH FLOOR", "content": "Offices 1-7"},
+  "10": {"level": "5TH FLOOR", "content": "Offices 1-7"},
+  "11": {"level": "6TH FLOOR", "content": "Offices 1-7"},
+  "12": {"level": "7TH FLOOR", "content": "Offices 1-7"},
+  "13": {"level": "8TH FLOOR", "content": "Offices 1-7"},
+  "14": {"level": "9TH FLOOR", "content": "Clubhouse, gym"},
+  "15": {"level": "10,12,14,16,18,20,22", "content": "13 units: master suite / 1BR / 2BR"},
+  "16": {"level": "11,13,15,17,19,21", "content": "13 units: master suite / 1BR / 2BR"},
+  "17": {"level": "23RD", "content": "11 units: master suite / 1BR / 2BR"},
+  "18": {"level": "25,27,29,31", "content": "11 units: master suite / 1BR / 2BR"},
+  "19": {"level": "24,26,28,30", "content": "10 units: master suite / 1BR / 3BR"},
+  "20": {"level": "32ND", "content": "9 units: master suite / 1BR / 4BR"},
+  "21": {"level": "33RD", "content": "10 units: master suite / 1BR / 2BR / 4-BEDROOM DUPLEX (lower)"},
+  "22": {"level": "34TH", "content": "7 units: master suite / 1BR / 4-BEDROOM DUPLEX (upper); unit 3308 labelled"},
+  "23": {"level": "35TH", "content": "MEP + 4-BEDROOM DUPLEX (top)"}
+ },
+ "unit_3307": {"floor": "33rd", "type": "4-bedroom duplex spanning 33rd-34th (35th MEP/duplex top)", "sheet_area_sqft": 4932.24, "sheet_view": "Skyline, Lagoon & Cityscape",
+  "layout_reading_p21_p22": "Square plate ~40 m with central N-S core (two lift banks + 2 stairs) and a corridor ring. Duplex = WEST wing + NW corner: lower level (33rd) living/dining along the west face, kitchen/dining block NW of the core, guest bedroom + bath at the SW end of the wing, private POOL terrace at the NW corner; upper level (34th) master suite NW, two bedrooms + family lounge along the west wing, planted upper terrace over the pool corner. Other 33rd units: 2 x 2BR north-east, 1BR stack east face, 2BR/1BR south face (pink).",
+  "revit_model": "F33/F34 in TheSymphony_by_Imtiaz_MeydanHorizon.rvt; plate 40x40 m, core 14x22 m, duplex east boundary x=-9 m, NW block to x=-2 m; dims scaled from the raster, not surveyed"},
+ "missing_page_images": [6, 15]
+}
