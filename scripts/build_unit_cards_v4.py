@@ -167,10 +167,11 @@ for key, title, unit, floor, sheet_type, floors, view in CARDS:
             format(int(max(q[2] for q in su)), ","), ", ".join(str(q[0]) for q in su[:8]) + (" ..." if len(su) > 8 else ""))
     else:
         avail_line = "Developer sheet %s: none of this type listed as available" % sheet_date
-    a_int = sum(areas.get(r[3], 0) for r in rl if r[5] not in (4,)) if areas else None
+    a_int = sum(areas.get(r[3], 0) for r in rl if r[5] not in ("balcony", "corridor")) if areas else None
+    a_bal = sum(areas.get(r[3], 0) for r in rl if r[5] == "balcony") if areas else 0
     bullets = [floors, view, avail_line,
                "Bay %.1f x %.1f m (facade x depth)%s - layout: DigitAlchemy generator v2 under the Neufert gate; indicative, not surveyed" % (
-                   u["width_mm"] / 1000, u["depth_mm"] / 1000, (" - ~%d m2 interior" % round(a_int)) if a_int else ""),
+                   u["width_mm"] / 1000, u["depth_mm"] / 1000, (" - ~%d m2 interior + %d m2 balcony/terrace = ~%s sq ft" % (round(a_int), round(a_bal), format(round((a_int + a_bal) * 10.764), ","))) if a_int else ""),
                "Every room classified: Uniclass 2015 SL - OmniClass T11 - Brick - Haystack"]
     for btxt in bullets:
         for i, line in enumerate(wrap(d, btxt, SM, 1260)):
