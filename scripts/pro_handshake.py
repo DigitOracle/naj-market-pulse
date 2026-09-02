@@ -6,7 +6,8 @@ import os, sys
 import arcpy
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-gdb = os.path.abspath(os.path.join(HERE, "..", "data", "pro", "najma_businessbay.gdb"))
+slug = sys.argv[1] if len(sys.argv) > 1 else "businessbay"
+gdb = os.path.abspath(os.path.join(HERE, "..", "data", "pro", f"najma_{slug}.gdb"))
 if not os.path.isdir(gdb):
     sys.exit("FGDB missing: " + gdb)
 

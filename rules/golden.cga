@@ -1,0 +1,47 @@
+/**
+ * Golden Building rule v1 — Imtiaz Symphony Tower (single-building lane).
+ * Podium (ground + offices 3-5) on the full plate, inset residential shaft
+ * with per-floor splits, gold crown. Palette stays viewer-compatible:
+ * #39434F slab/existing · #3E8A7E glass · #C5A56A gold — the web viewer
+ * classifies meshes by these exact colors.
+ * Massing v1: authored plate, sheet-derived storeys. Revit takes over at
+ * unit-interior fidelity; this rule stays the massing SSOT.
+ */
+version "2023.0"
+
+attr bHeight    = 130     // 34 storeys + crown
+attr podiumH    = 24      // ground + mezz + offices 3-5
+attr floorH     = 3.5
+attr towerInset = 4
+
+@StartRule
+Lot -->
+    PodiumPart
+    TowerPart
+
+PodiumPart --> extrude(podiumH) PodiumMass
+PodiumMass --> comp(f){ side : PodiumFacade | top : PodiumRoof }
+
+TowerPart -->
+    offset(-towerInset)
+    comp(f){ inside : TowerFoot | border : NIL }
+TowerFoot --> extrude(bHeight) TowerMass
+TowerMass --> comp(f){ side : TowerFacade | top : CrownRoof }
+
+PodiumFacade --> split(y){ ~4 : PodiumFloor }*
+PodiumFloor  --> split(y){ 0.5 : Slab | ~1 : GlassBand }
+
+TowerFacade -->
+    split(y){ podiumH : InnerBase | ~1 : Shaft | floorH : CrownBand }
+InnerBase  --> Slab          // concealed inside the podium wrap
+Shaft      --> split(y){ ~floorH : TowerFloor }*
+TowerFloor --> split(y){ 0.35 : Slab | ~1 : PanelRow }
+PanelRow   --> split(x){ ~1.8 : Panel }*
+Panel      --> split(x){ 0.07 : Mullion | ~1 : GlassBand | 0.07 : Mullion }
+
+GlassBand  --> color("#3E8A7E") GlassBand.
+Slab       --> color("#39434F") Slab.
+Mullion    --> color("#C5A56A") Mullion.
+CrownBand  --> color("#C5A56A") CrownBand.
+PodiumRoof --> color("#39434F") PodiumRoof.
+CrownRoof  --> color("#C5A56A") CrownRoof.
