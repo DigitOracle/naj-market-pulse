@@ -62,6 +62,18 @@ def num(x):
     except (TypeError, ValueError):
         return None
 
+def dwelling_count(r):
+    """Registered dwellings in a project row.
+
+    DLD splits the count across CNT_UNIT (apartments) and CNT_VILLA (villas/townhouses);
+    villa communities carry CNT_UNIT=0 with the whole count in CNT_VILLA. Reading CNT_UNIT
+    alone made 46 projects / 13,674 villas invisible to the supply layer (Al Yelayiss 1,
+    The Valley in Al Yufrah 1, Me'Aisem, Saih Shuaib...). Sum both - they are disjoint in
+    this file, never double-counted.
+    """
+    return int(num(r.get("CNT_UNIT")) or 0) + int(num(r.get("CNT_VILLA")) or 0)
+
+
 
 def read_csv(name):
     # Prefer the file dated to this run's STAMP; fall back to the newest <name>-*.csv so a
@@ -161,13 +173,13 @@ def collect_projects():
 
     rows = sanity_gate("projects", rows, row_shape=shape, min_rows=10, max_rows=5000)
     active = [r for r in rows if (num(r.get("PERCENT_COMPLETED")) or 0) < 100]
-    units = sum(int(num(r.get("CNT_UNIT")) or 0) for r in rows)
+    units = sum(dwelling_count(r) for r in rows)
 
     # v43 — SUPPLY + ESCROW layer from the DLD registered-projects sample. Per-area incoming
     # units and delivery schedule (supply pressure), plus a project lookup carrying the
     # escrow-account and %-complete facts Launch Mode uses to verify a pitch against the register.
     def units_of(r):
-        return int(num(r.get("CNT_UNIT")) or 0)
+        return dwelling_count(r)
     supply_area, deliver_year = {}, {}
     lookup = []
     for r in rows:
@@ -187,10 +199,13 @@ def collect_projects():
             "project": (r.get("PROJECT_EN") or "")[:60],
             "developer": (r.get("DEVELOPER_EN") or "")[:50],
             "area": area,
+            "startDate": (r.get("START_DATE") or "")[:10] or None,
             "endDate": end or None,
             "percentComplete": num(r.get("PERCENT_COMPLETED")),
             "status": r.get("PROJECT_STATUS") or None,
             "units": u,
+            "villas": int(num(r.get("CNT_VILLA")) or 0),
+            "buildings": int(num(r.get("CNT_BUILDING")) or 0),
             "escrowRegistered": bool((r.get("ESCROW_ACCOUNT_NUMBER") or "").strip()),
         })
 
@@ -420,7 +435,7 @@ def collect_handover():
             continue
         e = dld_buckets.setdefault(b, {"projects": 0, "units": 0})
         e["projects"] += 1
-        e["units"] += int(num(r.get("CNT_UNIT")) or 0)
+        e["units"] += dwelling_count(r)
 
     return {
         "note": ("MEED = package-level handovers across the tracked developments (fixed snapshot). "

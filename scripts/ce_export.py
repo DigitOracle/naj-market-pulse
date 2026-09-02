@@ -52,6 +52,22 @@ def est_height(tags):
     return 12.0                                            # sensible default podium
 
 
+def massing_height(p):
+    """Illustrative massing height for a registered project, in metres.
+
+    The original guess (units/8 * 3.4) assumed a tower and floored at 20 m. Applied to a
+    villa community it renders 800 two-storey homes as a 20 m slab - visually wrong and,
+    for anything published, factually misleading. Villa/townhouse projects are low-rise by
+    definition, so they mass at two storeys and spread instead of rising.
+    """
+    villas = p.get("villas") or 0
+    units = p.get("units") or 0
+    if villas and villas >= units - villas:          # villa/townhouse-led project
+        return 9.0                                    # 2 storeys at ~4.5 m floor-to-floor
+    floors = (units or 60) / max(1, p.get("buildings") or 1) / 8
+    return round(max(20, min(240, floors * 3.4)), 1)
+
+
 def main():
     if "--area" not in sys.argv:
         sys.exit('usage: python scripts/ce_export.py --area "business bay"')
@@ -105,7 +121,7 @@ def main():
         for p in projs:
             pc = p.get("percentComplete")
             st = "construction" if (pc is not None and 0 < pc < 100) else "pipeline"
-            est = round(max(20, min(240, (p.get("units") or 60) / 8 * 3.4)), 1)   # crude massing guess, refine in CE
+            est = massing_height(p)
             w.writerow([p.get("project"), p.get("developer"), p.get("units"), pc,
                         p.get("endDate"), "yes" if p.get("escrowRegistered") else "no", st, est])
     print(f"  pipeline.csv: {len(projs)} registered projects (manual ghost placement — see README)")
