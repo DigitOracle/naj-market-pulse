@@ -1,0 +1,17 @@
+﻿{
+ "building": "THE SYMPHONY BY IMTIAZ",
+ "location": "Meydan Horizon - Bukadra - Dubai",
+ "curated_for": "Ms. Serah Najjuko Ganyana",
+ "curated_by": "DigitAlchemy® Tech Limited",
+ "highlight_rgb": [196, 30, 58],
+ "confidentiality": "CONFIDENTIAL - prepared in good faith for the named recipient as the start of a conversation, not a contract. Not for onward distribution. Plan imagery is the developer's; the ideas, methods and technology behind this card remain DigitAlchemy®'s. Geometry indicative, not surveyed; availability and prices per the developer sheet on the stated date; views per the developer compass pending DigitAlchemy geometry verdicts.",
+ "contact": "DigitAlchemy® Tech Limited - ADGM, Abu Dhabi - contact@digitalabbot.io - +971 56 227 6093 - digitalabbot.io",
+ "bays_by_type": {
+  "T13": [[-20000,12800,-9000,20000,"MS"],[-9000,12800,-1000,20000,"1BR"],[-1000,12800,7000,20000,"1BR"],[7000,12800,20000,20000,"2BR"],[8800,4266,20000,12800,"1BR"],[8800,-4266,20000,4266,"1BR"],[8800,-12800,20000,-4266,"1BR"],[7000,-20000,20000,-12800,"2BR"],[0,-20000,7000,-12800,"1BR"],[-7000,-20000,0,-12800,"1BR"],[-20000,-20000,-7000,-12800,"2BR"],[-20000,-12800,-8800,0,"MS"],[-20000,0,-8800,12800,"MS"]],
+  "T10": [[-20000,12800,-1000,20000,"3BR"],[-1000,12800,7000,20000,"1BR"],[7000,12800,20000,20000,"2BR"],[8800,4266,20000,12800,"1BR"],[8800,-4266,20000,4266,"1BR"],[8800,-12800,20000,-4266,"1BR"],[7000,-20000,20000,-12800,"2BR"],[-7000,-20000,7000,-12800,"1BR"],[-20000,-20000,-7000,-12800,"2BR"],[-20000,-12800,-8800,12800,"3BR"]],
+  "T9":  [[-20000,12800,7000,20000,"4BR"],[7000,12800,20000,20000,"2BR"],[8800,4266,20000,12800,"1BR"],[8800,-4266,20000,4266,"1BR"],[8800,-12800,20000,-4266,"1BR"],[7000,-20000,20000,-12800,"2BR"],[0,-20000,7000,-12800,"1BR"],[-7000,-20000,0,-12800,"1BR"],[-20000,-20000,-7000,-12800,"2BR"],[-20000,-12800,-8800,12800,"4BR"]],
+  "T33": [[-20000,-8000,-2000,20000,"DUPLEX"],[-2000,12800,7000,20000,"1BR"],[7000,12800,20000,20000,"2BR"],[8800,4266,20000,12800,"1BR"],[8800,-4266,20000,4266,"1BR"],[8800,-12800,20000,-4266,"1BR"],[7000,-20000,20000,-12800,"2BR"],[-7000,-20000,7000,-12800,"2BR"],[-20000,-20000,-7000,-12800,"2BR"]],
+  "T34": [[-20000,-8000,-2000,20000,"DUPLEX"],[-2000,12800,7000,20000,"1BR"],[7000,12800,20000,20000,"2BR"],[8800,4266,20000,12800,"1BR"],[8800,-4266,20000,4266,"1BR"],[8800,-12800,20000,-4266,"1BR"]]
+ },
+ "plate_px": {"x0": 80, "y0": 100, "x1": 880, "y1": 900, "note": "pixel box of the 40x40 m plate on the 975x1005 plate crops; north up"}
+}

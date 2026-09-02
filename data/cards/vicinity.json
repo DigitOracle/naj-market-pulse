@@ -1,0 +1,111 @@
+{
+ "anchor": {
+  "lon": 55.308,
+  "lat": 25.168
+ },
+ "source": "Esri Places (Foursquare taxonomy) + Esri GeoEnrichment KeyFacts UAE 2024, via ArcGIS Pro sign-in",
+ "metro": [
+  {
+   "name": "Burj Khalifa/ Dubai Mall Metro Station",
+   "category": "Metro Station",
+   "km": 5.36,
+   "lon": 55.2695889,
+   "lat": 25.2015153
+  },
+  {
+   "name": "Business Bay Metro Station",
+   "category": "Metro Station",
+   "km": 5.44,
+   "lon": 55.2604342,
+   "lat": 25.1912342
+  },
+  {
+   "name": "Financial Centre Metro Station",
+   "category": "Metro Station",
+   "km": 5.77,
+   "lon": 55.2756028,
+   "lat": 25.2110316
+  },
+  {
+   "name": "Emirates Towers Metro Station",
+   "category": "Metro Station",
+   "km": 6.13,
+   "lon": 55.2796213,
+   "lat": 25.216999
+  },
+  {
+   "name": "Creek Metro Station",
+   "category": "Metro Station",
+   "km": 6.44,
+   "lon": 55.3390551,
+   "lat": 25.2189112
+  }
+ ],
+ "schools": [
+  {
+   "name": "Hartland International School",
+   "category": "School",
+   "km": 1.21,
+   "lon": 55.304298,
+   "lat": 25.178401
+  },
+  {
+   "name": "meydan Tennis Academy",
+   "category": "School",
+   "km": 1.79,
+   "lon": 55.299587,
+   "lat": 25.153742
+  },
+  {
+   "name": "International Concept Education",
+   "category": "School",
+   "km": 1.98,
+   "lon": 55.298199,
+   "lat": 25.152501
+  },
+  {
+   "name": "Rashid School for Boys",
+   "category": "School",
+   "km": 2.08,
+   "lon": 55.310201,
+   "lat": 25.149301
+  },
+  {
+   "name": "Babilou Nursery",
+   "category": "School",
+   "km": 2.45,
+   "lon": 55.297101,
+   "lat": 25.187799
+  },
+  {
+   "name": "Creative Kids",
+   "category": "School",
+   "km": 3.02,
+   "lon": 55.282661,
+   "lat": 25.182601
+  }
+ ],
+ "metro_error": "HTTP Error 403: Forbidden",
+ "school_error": "HTTP Error 403: Forbidden",
+ "demographics": [
+  {
+   "radius_km": 1,
+   "pop": 1493,
+   "households": 321,
+   "avg_hh": 4.7,
+   "pp_per_capita": 97636.4,
+   "pp_index": 122.2,
+   "density": 475.5
+  },
+  {
+   "radius_km": 3,
+   "pop": 24862,
+   "households": 4015,
+   "avg_hh": 6.2,
+   "pp_per_capita": 86928.98,
+   "pp_index": 108.8,
+   "density": 879.8
+  }
+ ],
+ "poi_source": "Esri World Geocoding category search (Metro Station / School), straight-line km from the site anchor"
+}
