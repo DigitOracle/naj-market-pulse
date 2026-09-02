@@ -42,6 +42,10 @@ LEGEND = [("Master suite / larger units (brown)", (176, 137, 104)), ("1 bedroom 
           ("2 bedroom (pink)", (196, 168, 172)), ("Core, lifts, stairs (grey)", (150, 150, 150)),
           ("Balconies / terraces (light grey)", (222, 222, 222)), ("Pool (blue)", (130, 190, 210))]
 
+# unit-zone boxes on the whole-floor plate images (coords on the 975x1005 plate crops)
+BOX = {"MasterSuite_1BR": (70, 90, 300, 320), "1BR": (360, 90, 600, 320), "2BR": (580, 90, 890, 320),
+       "3BR": (70, 90, 490, 700), "4BR": (70, 90, 660, 700), "4BR_Duplex_lower": (70, 40, 480, 720), "4BR_Duplex_upper": (70, 40, 480, 720)}
+
 CARDS = [
     ("MasterSuite_1BR", "Master Suite - 1 Bedroom", "1101", "11th floor plate (typical 11th-21st odd)", "Floors 10-22 - west wing and NW corner - 3 per floor", "1 B/R",
      "West and north faces - Park / Community per the developer compass"),
@@ -92,12 +96,17 @@ for key, title, unit, plate, floors, sheet_type, view in CARDS:
     d.text((120, 175), "Meydan Horizon - Bukadra - Dubai   |   Unit type card", font=B, fill=(220, 228, 226))
     d.text((W - 120 - d.textlength(title, font=H2), 120), title, font=H2, fill=GOLD)
 
-    # main image: developer plate excerpt
-    plan = fit(Image.open(dev_p).convert("RGB"), 1900, 1640)
+    # main image: whole-floor developer plate with the unit type outlined in gold
+    floor = Image.open(ctx_p).convert("RGB")
+    fd = ImageDraw.Draw(floor)
+    bx = BOX.get(key)
+    if bx:
+        fd.rectangle(bx, outline=GOLD, width=6)
+    plan = fit(floor, 1900, 1640)
     px, py = 120, 400
     d.rectangle([px - 12, py - 12, px + plan.width + 12, py + plan.height + 12], outline=(215, 212, 205), width=3)
     im.paste(plan, (px, py))
-    d.text((px, py + plan.height + 26), "Developer plate excerpt - " + plate + " - The Symphony floor-plan deck (Imtiaz). North per plate.", font=SM, fill=MUT)
+    d.text((px, py + plan.height + 26), "Developer plate - " + plate + " - The Symphony floor-plan deck (Imtiaz). Gold outline = this unit type. North per plate.", font=SM, fill=MUT)
 
     # right column
     x, y = 2140, 400
@@ -138,10 +147,10 @@ for key, title, unit, plate, floors, sheet_type, view in CARDS:
         d.text((x + 64, y), name, font=SM, fill=INK)
         y += 46
     y += 20
-    if os.path.exists(ctx_p) and y < 2000:
-        ctx = fit(Image.open(ctx_p).convert("RGB"), 1230, 2230 - y)
-        im.paste(ctx, (x, y))
-        d.text((x, y + ctx.height + 8), "Whole-floor plate for context - " + plate, font=XS, fill=MUT)
+    if os.path.exists(dev_p) and y < 2000:
+        ex = fit(Image.open(dev_p).convert("RGB"), 1230, 2230 - y)
+        im.paste(ex, (x, y))
+        d.text((x, y + ex.height + 8), "Unit excerpt at source resolution (developer PDF needed for a sharper cut)", font=XS, fill=MUT)
 
     d.rectangle([0, H - 150, W, H], fill=(240, 238, 232))
     foot = ("Plan imagery: Imtiaz developer floor-plan deck, reproduced for research/briefing at source resolution. "
