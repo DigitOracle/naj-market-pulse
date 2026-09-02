@@ -33,8 +33,20 @@ H1, H2, B, SM, XS, NUM = F("georgia", 70), F("georgia", 42), F("segoeui", 29), F
 W, H = 3508, 2480
 
 rooms = json.load(open(os.path.join(CARDS_DIR, "card_rooms.json")))
-avail_path = os.path.join(ROOT, "data", "avail", "imtiaz_2026-08-28.json")
-avail = json.load(open(avail_path))
+import glob as _glob, re as _re
+def _latest_avail(dev="imtiaz"):
+    best = None
+    for _p in _glob.glob(os.path.join(ROOT, "data", "avail", dev + "_*.json")):
+        m = _re.search(r"_(\d{4}-\d{2}-\d{2})(_auto)?\.json$", _p)
+        if not m:
+            continue
+        rank = (m.group(1), 0 if m.group(2) else 1)
+        if best is None or rank > best[0]:
+            best = (rank, _p)
+    return best[1]
+avail_path = _latest_avail()
+avail = json.load(open(avail_path, encoding="utf-8"))
+print("availability source:", os.path.basename(avail_path))
 sheet_date = avail.get("sheet_date", "")
 by_type = collections.defaultdict(list)
 for p in avail["projects"]:

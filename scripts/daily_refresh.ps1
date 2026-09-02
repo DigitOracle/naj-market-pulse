@@ -1,4 +1,4 @@
-# Najma daily refresh — runs the full pipeline on this PC (the DLD gateway blocks cloud IPs,
+﻿# Najma daily refresh â€” runs the full pipeline on this PC (the DLD gateway blocks cloud IPs,
 # so this cannot run in GitHub Actions; a Windows scheduled task drives it instead).
 # fetch fresh DLD -> build pulse.json -> ingest to Worker -> render + push heat map.
 $ErrorActionPreference = "Continue"
@@ -11,7 +11,7 @@ $env:DLD_TX_DAYS = "56"; $env:DLD_RENT_DAYS = "28"
 python scripts\fetch_dld.py  *>> $log
 python scripts\build_pulse.py *>> $log
 
-# secrets from the listener .env (INGEST_TOKEN) — never hard-coded
+# secrets from the listener .env (INGEST_TOKEN) â€” never hard-coded
 $tok = (Get-Content "C:\Dev\azimuth-listener-naj\.env" | Where-Object { $_ -like "INGEST_TOKEN=*" }) -replace "INGEST_TOKEN=",""
 $tok = $tok.Trim()
 $env:AZIMUTH_URL = "https://azimuth-2.digitalchemy.workers.dev"
@@ -27,4 +27,15 @@ try {
 
 # render + push heat map
 python scripts\push_heatmap.py *>> $log
+
+# --- developer availability lifecycle (2 Sep 2026) ---------------------------------------
+# group PDFs (listener capture + manual inbox) -> JSON -> board strip + drill claimed -> unit cards -> KV
+Log "--- availability: extract new sheets ---"
+python scripts\extract_avail.py --scan *>> $log
+Log "--- availability: drill (registered mix + claimed) + board index ---"
+python scripts\build_avail_drill.py *>> $log
+python scripts\build_avail_index.py *>> $log
+Log "--- cards: rebuild + push ---"
+python scripts\build_unit_cards.py *>> $log
+python scripts\push_cards.py *>> $log
 Log "=== refresh done ==="

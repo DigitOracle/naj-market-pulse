@@ -1,7 +1,9 @@
 """Per-project drill data for the availability strip -> KV drill_<slug>.
 Registered sales mix by rooms + prices, straight from DuckDB. Developer-claimed
 availability joins the same JSON when PDF extraction lands (kept separate)."""
-import base64, json, os, re, sys, urllib.request
+import base64, datetime as dt, json, os, re, sys, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_avail_index import claimed_for_dev   # claimed units from the newest developer sheet (extract_avail.py)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 slug = lambda s: re.sub(r"[^a-z0-9]", "", str(s).lower())
@@ -37,6 +39,11 @@ def main():
              "latest": [{"d": a, "r": b, "m2": round(c,1) if c else None, "aed": round(e) if e else None,
                          "p": f} for a, b, c, e, f, _ in latest],
              "sheet": {"received": "2026-09-01", "status": "sheet on file — unit availability after extraction"}}
+        d["updated"] = dt.date.today().isoformat()
+        cl = claimed_for_dev(key)
+        if cl:
+            d["claimed"] = cl
+            d["sheet"] = {"received": cl.get("received"), "status": "claimed units merged from %s" % cl["source"]}
         raw = json.dumps(d, ensure_ascii=False).encode()
         body = json.dumps({"imageName": "drill_" + key, "image": base64.b64encode(raw).decode(),
                            "contentType": "application/json"}).encode()

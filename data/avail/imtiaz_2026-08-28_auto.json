@@ -1,0 +1,395 @@
+{
+ "source_file": "IMTIAZ INVENTORY - 28.08.pdf",
+ "sheet_date": "2026-08-28",
+ "received": "2026-09-02",
+ "channel": "manual inbox",
+ "developer": "Imtiaz",
+ "extraction": "auto: ocr",
+ "projects": [
+  {
+   "p": "Imtiaz Symphony Tower",
+   "completion": "June 2029",
+   "plan": "60/40",
+   "units": [
+    [
+     "1907",
+     "1 B/R",
+     842.38,
+     2285744.0,
+     "CityscapeView"
+    ],
+    [
+     "2410",
+     "3 B/R",
+     1861.19,
+     4665483.0,
+     "BoulevardView"
+    ],
+    [
+     "2810",
+     "3 B/R",
+     1861.19,
+     4749009.15,
+     "BoulevardView"
+    ],
+    [
+     "2902",
+     "2 B/R",
+     1372.51,
+     3581343.18,
+     "Pool&BoulevardView"
+    ],
+    [
+     "3107",
+     "1 B/R",
+     883.07,
+     2571372.0,
+     "CityscapeView"
+    ],
+    [
+     "3307",
+     "4 B/R Duplex",
+     4932.24,
+     14683880.0,
+     "Skyline,Lagoon&CityscapeView"
+    ],
+    [
+     "OFFICE-305",
+     "Office",
+     1525.68,
+     3489039.64,
+     "CityscapeView"
+    ],
+    [
+     "OFFICE-401",
+     "Office",
+     1142.27,
+     3879116.34,
+     "BoulevardView"
+    ],
+    [
+     "OFFICE-P406",
+     "Office",
+     1036.99,
+     4482907.77,
+     "BoulevardView"
+    ],
+    [
+     "OFFICE-504",
+     "Office",
+     1627.94,
+     4960333.18,
+     "Skyline,Lagoon&CityscapeView"
+    ]
+   ]
+  },
+  {
+   "p": "Wynwood Horizon by Imtiaz",
+   "completion": "May 2028",
+   "plan": "60/40",
+   "units": [
+    [
+     "101",
+     "2 B/R",
+     2932.42,
+     3486364.96,
+     "LagoonView"
+    ],
+    [
+     "408",
+     "1 B/R",
+     755.41,
+     1923209.57,
+     "Sanctuary/CityscapeView"
+    ],
+    [
+     "106",
+     "1 B/R",
+     1561.09,
+     2287023.4,
+     "Partial Lagoon/ CityscapeView"
+    ],
+    [
+     "207",
+     "1 B/R",
+     1832.23,
+     2379328.21,
+     "Sanctuary/PoolView"
+    ],
+    [
+     "1107",
+     "1 B/R",
+     1024.41,
+     2390839.2,
+     "Sanctuary/PoolView"
+    ],
+    [
+     "1307",
+     "1 B/R",
+     1014.17,
+     2430694.84,
+     "Sanctuary/PoolView"
+    ],
+    [
+     "P2-05",
+     "1 B/R",
+     1078.76,
+     2480705.76,
+     "Lagoon View"
+    ],
+    [
+     "1507",
+     "1 B/R",
+     1036.99,
+     2495123.8,
+     "Sanctuary/PoolView"
+    ],
+    [
+     "1805",
+     "2 B/R",
+     1315.57,
+     3318577.41,
+     "Sanctuary/PoolView"
+    ],
+    [
+     "RETAIL-05",
+     "Retail",
+     2236.63,
+     8144475.93,
+     "SanctuaryView"
+    ]
+   ]
+  },
+  {
+   "p": "Seacliff by Imtiaz",
+   "completion": "Q1 2028",
+   "plan": "50/50",
+   "units": [
+    [
+     "104",
+     "1 B/R",
+     1104.38,
+     2215354.0,
+     "CanalView"
+    ],
+    [
+     "203",
+     "1 B/R",
+     926.77,
+     2224500.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "602",
+     "1 B/R",
+     914.39,
+     2295242.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "513",
+     "1 B/R",
+     990.6,
+     2306609.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "703",
+     "1 B/R",
+     928.17,
+     2330001.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "812",
+     "1 B/R",
+     927.63,
+     2349755.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "902",
+     "1 B/R",
+     914.39,
+     2358475.0,
+     "BurjKhalifa/Pool/AmenitiesView"
+    ],
+    [
+     "102",
+     "2 B/R",
+     2410.79,
+     3454101.0,
+     "BurjKhalifa/CanalView"
+    ],
+    [
+     "205",
+     "3 B/R",
+     1592.74,
+     4571213.0,
+     "CanalView"
+    ],
+    [
+     "212",
+     "3 B/R",
+     1614.8,
+     4576518.0,
+     "BurjKhalifa/Pool/Amenities/SeaView"
+    ]
+   ]
+  },
+  {
+   "p": "Sunset Bay Grand BY Imtiaz",
+   "completion": "December 2027",
+   "plan": "60/40",
+   "units": [
+    [
+     "105",
+     "2 B/R",
+     1633.32,
+     3376098.0,
+     "BoulevardView"
+    ],
+    [
+     "206",
+     "2 B/R",
+     1438.16,
+     3317618.16,
+     "BoulevardView"
+    ],
+    [
+     "701",
+     "1 B/R",
+     934.2,
+     2467484.43,
+     "PoolView"
+    ],
+    [
+     "905",
+     "1 B/R",
+     1120.52,
+     2598919.2,
+     "PoolView"
+    ],
+    [
+     "906",
+     "1 B/R",
+     930.54,
+     2434640.0,
+     "PoolView"
+    ],
+    [
+     "907",
+     "1 B/R",
+     844.53,
+     2343960.0,
+     "PoolView"
+    ],
+    [
+     "1005",
+     "3 B/R Duplex",
+     2616.81,
+     6184137.6,
+     "CanalView"
+    ],
+    [
+     "1011",
+     "1 B/R",
+     944.64,
+     2494879.2,
+     "PoolView"
+    ]
+   ]
+  },
+  {
+   "p": "Cove Edition Residence 2 By Imtiaz",
+   "completion": "October 2026",
+   "plan": "60/40",
+   "units": [
+    [
+     "102",
+     "2 B/R",
+     1270.35,
+     1881000.0,
+     null
+    ],
+    [
+     "414",
+     "1 B/R",
+     742.49,
+     1344526.0,
+     null
+    ],
+    [
+     "415",
+     "1 B/R",
+     744.65,
+     1344526.0,
+     null
+    ],
+    [
+     "1016",
+     "2 B/R",
+     1174.02,
+     1881000.0,
+     null
+    ]
+   ]
+  },
+  {
+   "p": "Cove Boulevard By Imtiaz",
+   "completion": "June 2028",
+   "plan": "60/40",
+   "units": [
+    [
+     "OFFICE-103",
+     "Office",
+     3195.86,
+     3865119.59,
+     null
+    ],
+    [
+     "OFFICE-107",
+     "Office",
+     1387.42,
+     1886667.55,
+     null
+    ]
+   ]
+  },
+  {
+   "p": "Wynwood by Imtiaz",
+   "completion": "Q3 2027",
+   "plan": "60/40",
+   "units": [
+    [
+     "302",
+     "3 B/R",
+     1702.85,
+     3998000.0,
+     "Skyline+PoolView"
+    ],
+    [
+     "402",
+     "3 B/R",
+     1694.13,
+     3999000.0,
+     "Skyline+Pool View"
+    ],
+    [
+     "502",
+     "3 B/R",
+     1701.88,
+     4499695.0,
+     "Skyline+Pool View"
+    ],
+    [
+     "602",
+     "3 B/R",
+     1694.67,
+     4197000.0,
+     "Skyline+PoolView"
+    ]
+   ]
+  }
+ ]
+}
