@@ -40,6 +40,42 @@ def num(v):
         return None
 
 
+
+PORT_KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
+            "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+ROMAN = {"ii": "2", "iii": "3", "iv": "4", "v": "5", "vi": "6", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "i": "1"}
+
+
+def norm_name(n, aliases=()):
+    """'COVE EDITION RESIDENCE 6 BY IMTIAZ' -> 'cove edition 6'; 'Cove Edition III by Imtiaz' -> 'cove edition 3'."""
+    t = (n or "").lower()
+    for a in aliases:
+        t = re.sub(r"\bby\s+" + re.escape(a) + r"\b", " ", t); t = re.sub(r"\b" + re.escape(a) + r"\b", " ", t)
+    t = re.sub(r"\b(residences?|residency|tower|the|apartments?|dubai|building)\b", " ", t)
+    t = re.sub(r"[^a-z0-9 ]", " ", t)
+    t = " ".join(ROMAN.get(w, w) for w in t.split())
+    return t.strip()
+
+
+def load_portfolio(dev):
+    f = os.path.join(ROOT, "data", "dev_meta", PORT_KEY.get(dev, "_") + "_portfolio.json")
+    if not os.path.exists(f):
+        return None
+    d = json.load(open(f, encoding="utf-8"))
+    return {"source": d.get("source"), "fetched": d.get("fetched"), "properties": d.get("properties", [])}
+
+
+def same(a, b):
+    """Exact match on the normalised, space-less form: 'seacliff' == 'sea cliff'; 'pearl house' != 'pearl house 4'; 'sunset bay' != 'sunset bay grand'."""
+    return a and b and a.replace(" ", "") == b.replace(" ", "")
+
+
+def portfolio_hit(name, port, aliases):
+    nn = norm_name(name, aliases)
+    if not nn or not port:
+        return None
+    return next((pr for pr in port["properties"] if same(norm_name(pr["name"], aliases), nn)), None)
+
 dna, md = {"updated": today, "source_note": SEG["source"], "segments": SEG["segments"], "developers": {}}, []
 avail_files = sorted(glob.glob(os.path.join(ROOT, "data", "avail", "*_20*.json")))
 curated = {os.path.basename(p)[:-5]: json.load(open(p, encoding="utf-8")) for p in glob.glob(os.path.join(ROOT, "data", "dev_meta", "curated", "*.json"))}
@@ -72,6 +108,27 @@ for seg in SEG["segments"]:
                 if r[0] and r[0] not in [t["project"] for t in tx_projects]:
                     tx_projects.append({"project": r[0].strip(), "tx": r[1], "value_aed": round(r[2] or 0), "median_aed_per_sqm": round(r[3]) if r[3] else None,
                                         "offplan_share": round(r[4], 2) if r[4] is not None else None, "last": str(r[5])[:10], "first": str(r[6])[:10], "area": r[7], "master": r[8], "matched_by": nm})
+        # --- developer-site portfolio (data/dev_meta/<key>_portfolio.json) = the authority for WHICH projects are theirs.
+        #     Alias-only matches ("cove", "symphony") must land on a portfolio name or carry the developer's name; otherwise dropped
+        #     (kills "The Cove" = Emaar, "Symphony" = Town Square, "Discovery Dunes").
+        port = load_portfolio(dev)
+        if port:
+            reg_names = {norm_name(p["project"], al) for p in rec["dld_projects_2026"]}
+            kept, dropped = [], []
+            for t in tx_projects:
+                pe = t["project"].lower()
+                hit = portfolio_hit(t["project"], port, al)
+                if hit or any(a in pe for a in al) or norm_name(t["project"], al) in reg_names:
+                    t["portfolio_slug"] = hit["slug"] if hit else None; kept.append(t)
+                else:
+                    dropped.append(t["project"])
+            tx_projects = kept
+            rec["portfolio"] = {"source": port["source"], "fetched": port["fetched"], "count": len(port["properties"]),
+                                "properties": [{"slug": pr["slug"], "name": pr["name"], "area": pr.get("area"), "url": pr["url"], "image": pr.get("image"),
+                                                **{k: pr["facts"].get(k) for k in ("location", "structure", "storeys", "units", "handover", "payment_plans", "mix")},
+                                                "downloads_gated": [d["label"] for d in pr.get("downloads", [])]} for pr in port["properties"]],
+                                "tx_dropped_as_name_noise": dropped}
+            rec["sources"].append("developer website portfolio register (%s, %s)" % (port["source"], port["fetched"]))
         rec["tx_2026"] = {"projects": sorted(tx_projects, key=lambda t: -t["tx"]), "transactions": sum(t["tx"] for t in tx_projects), "value_aed": sum(t["value_aed"] for t in tx_projects),
                           "areas": sorted({t["area"] for t in tx_projects if t["area"]}), "aliases_matched": matched, "aliases_unmatched": [n for n in pal if n not in matched]}
         if tx_projects:

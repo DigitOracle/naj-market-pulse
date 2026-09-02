@@ -3,7 +3,7 @@ Composes KV `board_devs` from developer_segments.json + developer_dna.json + DLD
 and pushes every logo in data/board/logos as KV logo_<key> (served at /img/logo_<key>). Run after build_developer_dna.py.
 Drill: /home (10 developer cards) -> /dev?d=<key> (that developer's properties) -> /cards?b=<building> (unit-type cards) or /avail?d=<dev>.
 """
-import base64, datetime as dt, json, os, re, sys, urllib.request
+import base64, datetime as dt, glob, json, os, re, sys, urllib.request
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -32,17 +32,51 @@ for seg in SEG["segments"]:
         props, seen = [], set()
         for b in OURS.get(k, []):
             props.append({"kind": "ours", "name": b["title"], "area": b["area"], "status": b["status"], "cards": b["cards"], "meta": b["meta"], "drill": b["drill"], "building": b["building"]}); seen.add(b["title"].lower())
+        # developer-site portfolio -> one card per property, enriched with DLD register/trading stats and the availability sheet
+        port = d.get("portfolio")
+        if port:
+            sys.path.insert(0, HERE); from build_developer_dna import norm_name, same  # noqa: E402  (same normaliser + exact matcher as the DNA builder)
+            al = SEG["aliases"].get(name, [name.lower()])
+            reg = {norm_name(p["project"], al): p for p in d.get("dld_projects_2026", [])}
+            trd = {norm_name(t["project"], al): t for t in tx.get("projects", [])}
+            sheet = {}
+            for f in sorted(glob.glob(os.path.join(ROOT, "data", "avail", k + "_20*.json")))[-1:]:
+                av = json.load(open(f, encoding="utf-8"))
+                for pj in av.get("projects", []):
+                    sheet[norm_name(pj["p"], al)] = {"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}), "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")}
+            def find(dct, nn):
+                return next((v for kk, v in dct.items() if same(kk, nn)), None)
+            # the modelled ("ours") cards absorb their sheet + trading stats and block a duplicate portfolio card
+            for o in props:
+                if o["kind"] != "ours": continue
+                on = norm_name(o["name"], al); sh, t = find(sheet, on), find(trd, on)
+                if sh: o["sheet"] = sh
+                if t: o["tx"], o["median_aed_per_sqm"] = t.get("tx"), t.get("median_aed_per_sqm")
+                seen.add(on.replace(" ", ""))
+            for pr in port["properties"]:
+                nn = norm_name(pr["name"], al)
+                if nn.replace(" ", "") in seen: continue
+                r, t, sh = find(reg, nn), find(trd, nn), find(sheet, nn)
+                props.append({"kind": "portfolio", "name": pr["name"], "slug": pr["slug"], "url": pr["url"], "image": pr.get("image"), "area": pr.get("area") or (r or {}).get("area") or (t or {}).get("area"),
+                              "location": pr.get("location"), "structure": pr.get("structure"), "storeys": pr.get("storeys"), "units": pr.get("units") or ((r or {}).get("units")),
+                              "handover": pr.get("handover"), "plans": pr.get("payment_plans") or [], "mix": pr.get("mix") or [],
+                              "dld": {"status": (r or {}).get("status"), "pct": (r or {}).get("pct_complete"), "value_aed": (r or {}).get("value_aed")} if r else None,
+                              "tx": (t or {}).get("tx"), "median_aed_per_sqm": (t or {}).get("median_aed_per_sqm"), "last": (t or {}).get("last"),
+                              "sheet": sh, "gated": pr.get("downloads_gated") or []})
+                seen.add(nn.replace(" ", "")); seen.add(pr["name"].lower())
+            # sort: on the availability sheet first, then trading volume, then handover
+            props[len(OURS.get(k, [])):] = sorted(props[len(OURS.get(k, [])):], key=lambda x: (0 if x.get("sheet") else 1, -(x.get("tx") or 0), x.get("handover") or "z"))
         for p in d.get("dld_projects_2026", []):
             nm = p["project"].strip()
-            if nm.lower() in seen or any(s in nm.lower() for s in seen): continue
+            if nm.lower() in seen or any(s in nm.lower() for s in seen) or (d.get("portfolio") and norm_name(nm, al).replace(" ", "") in seen): continue
             props.append({"kind": "registered", "name": nm, "area": p.get("area"), "status": (p.get("status") or "").lower(), "units": p.get("units"), "pct": p.get("pct_complete"), "value_aed": p.get("value_aed"), "start": p.get("start")}); seen.add(nm.lower())
         for t in tx.get("projects", [])[:24]:
             nm = t["project"].strip()
-            if nm.lower() in seen: continue
+            if nm.lower() in seen or (d.get("portfolio") and norm_name(nm, al).replace(" ", "") in seen): continue
             props.append({"kind": "trading", "name": nm, "area": t.get("area"), "tx": t["tx"], "median_aed_per_sqm": t.get("median_aed_per_sqm"), "offplan_share": t.get("offplan_share"), "last": t.get("last")}); seen.add(nm.lower())
         devs.append({"key": k, "name": name, "segment": seg["key"], "segment_label": seg["label"], "tier": seg["rank"], "icon": TIER_ICON.get(seg["key"], "spark"),
                      "logo": "/img/logo_" + k if os.path.exists(os.path.join(ROOT, "data", "board", "logos", k + ".png")) else None,
-                     "kpi": {"tx_2026": tx.get("transactions", 0), "value_aed": tx.get("value_aed", 0), "projects_trading": len(tx.get("projects", [])),
+                     "portfolio_count": (d.get("portfolio") or {}).get("count"), "kpi": {"tx_2026": tx.get("transactions", 0), "value_aed": tx.get("value_aed", 0), "projects_trading": len(tx.get("projects", [])),
                              "registered_2026": len(d.get("dld_projects_2026", [])), "meed_projects": meed.get("projects", 0), "meed_active": len(meed.get("active", [])),
                              "median_aed_per_sqm": tx.get("median_aed_per_sqm_across_projects")},
                      "entities": d.get("dld_entities", []), "properties": props, "ours": [b["building"] for b in OURS.get(k, [])]})
