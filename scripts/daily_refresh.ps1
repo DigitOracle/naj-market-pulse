@@ -36,7 +36,7 @@ Log "--- availability: drill (registered mix + claimed) + board index ---"
 python scripts\build_avail_drill.py *>> $log
 python scripts\build_avail_index.py *>> $log
 Log "--- cards: rebuild + push ---"
-python scripts\build_unit_cards.py *>> $log
+python scripts\build_unit_cards_v4.py *>> $log
 python scripts\push_cards.py *>> $log
 Log "--- knowledge graph: building meta ---"
 python scripts\build_building_meta.py goldensymphony *>> $log

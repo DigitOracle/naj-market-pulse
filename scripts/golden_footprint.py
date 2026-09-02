@@ -1,10 +1,10 @@
-"""Golden Building footprint: Imtiaz Symphony Tower, Meydan Horizon / Bukadra.
+﻿"""Golden Building footprint: Imtiaz Symphony Tower, Meydan Horizon / Bukadra.
 
 No OSM footprint exists (construction started Nov 2025), so the massing anchor
 is authored: a rounded-corner plate sized from the sheet's floor areas
 (~1,100 m2 plate inside the 4,234 m2 plot), rotated to face the Ras Al Khor
 lagoon, at the site-level coordinate. Replace with the surveyed footprint the
-day Dubai Pulse / Makani yields it — everything downstream re-generates.
+day Dubai Pulse / Makani yields it â€” everything downstream re-generates.
 
 Output: data/ce/goldensymphony/buildings.shp + .geojson
 """
@@ -34,7 +34,7 @@ plate = rotate(plate, -BEARING, origin=(cx, cy))
 plate_wgs = transform(lambda x, y: to_wgs.transform(x, y), plate)
 
 feat = {"type": "Feature",
-        "properties": {"status": "construction", "bHeight": 130.0,
+        "properties": {"status": "construction", "bHeight": 158.0,
                        "name": "Imtiaz Symphony Tower", "levels": "34"},
         "geometry": plate_wgs.__geo_interface__}
 json.dump({"type": "FeatureCollection", "features": [feat]},
