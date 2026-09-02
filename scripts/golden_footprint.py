@@ -21,7 +21,7 @@ OUT = os.path.join(HERE, "..", "data", "ce", "goldensymphony")
 os.makedirs(OUT, exist_ok=True)
 
 LON, LAT = 55.308, 25.168          # site-level anchor (Meydan Horizon)
-W, D, R = 40.0, 40.0, 3.0          # plate 40x40 m per the developer floor-plan deck (square plate, central core)
+W, D, R = 40.0, 43.4, 3.0          # plate 40 x 43.4 m: calibrated 2 Sep 26 to the Imtiaz sheet areas (emitter P=20000, PY=21700; N/S bands 8.9 m deep)
 BEARING = 40.0                     # long axis swung toward the lagoon (NE)
 
 to_utm = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:32640", always_xy=True)
