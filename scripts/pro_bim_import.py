@@ -78,10 +78,10 @@ for f in fcs:
 fields = [fl.name for fl in arcpy.ListFields(rooms_fc)]
 da = [f for f in fields if f.startswith("DA_")]
 print("\nRooms fields:", len(fields), "| DA_ classification fields carried:", da)
-keep = ["Number", "Name", "Level", "Department", "Area", "Comments"] + da
+keep = ["RoomNumber", "RoomName", "Level", "BldgLevel", "Department"] + da
 keep = [k for k in keep if k in fields]
 print("sample rooms:")
-with arcpy.da.SearchCursor(rooms_fc, keep, where_clause="Number LIKE '3307-%'") as cur:
+with arcpy.da.SearchCursor(rooms_fc, keep, where_clause="RoomNumber LIKE '3307-%'") as cur:
     for i, row in enumerate(cur):
         if i >= 5:
             break
