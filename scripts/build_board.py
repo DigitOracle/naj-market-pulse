@@ -43,20 +43,42 @@ for seg in SEG["segments"]:
             for f in sorted(glob.glob(os.path.join(ROOT, "data", "avail", k + "_20*.json")))[-1:]:
                 av = json.load(open(f, encoding="utf-8"))
                 for pj in av.get("projects", []):
-                    sheet[norm_name(pj["p"], al)] = {"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}), "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")}
+                    sheet[norm_name(pj["p"] + ((" " + pj["block"]) if pj.get("block") and pj["block"].lower() not in pj["p"].lower() else ""), al)] = {"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}), "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")}
             def find(dct, nn):
                 return next((v for kk, v in dct.items() if same(kk, nn)), None)
+            # Sheets name projects the way the sales desk does ("Treppan Tower", "Hado Tower A", "Passo Avita"); the portfolio names
+            # them the way the website does ("Treppan Tower Residences at JVT by Fakhruddin Properties", "Hado by Beyond", "Passo").
+            # Exact matching bound 3 of Beyond's 10 blocks and none of Fakhruddin's. So: fold accents, drop filler words, and accept a
+            # match when the shorter name's distinctive words are all inside the longer one's - then MERGE every sheet block that
+            # matches (Soulever + Soulever Tower B, Hado A/B/C) onto that one card.
+            import unicodedata
+            FILL = {"at", "by", "in", "on", "of", "and", "the", "a", "an", "properties", "property", "developments", "development",
+                    "jvt", "jvc", "islands", "island", "palm", "deira", "marina", "downtown", "bay", "business", "creek", "harbour", "hills",
+                    "tower", "towers", "residences", "residence", "living", "prive", "collection", "villas", "villa", "block", "phase"}
+            def toks(t):
+                t = unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode().lower()
+                return {w for w in re.sub(r"[^a-z0-9 ]", " ", t).split() if w not in FILL and len(w) > 1 and w not in al}
+            def find_sheet(nn, raw_name):
+                exact = find(sheet, nn)
+                want = toks(raw_name) or toks(nn)
+                hits = [v for kk, v in sheet.items() if same(kk, nn) or (want and toks(kk) and (toks(kk) <= want or want <= toks(kk)))]
+                if not hits: return exact
+                merged = {"units": sum(h["units"] for h in hits), "types": sorted({t for h in hits for t in h["types"]}),
+                          "plan": next((h.get("plan") for h in hits if h.get("plan")), None),
+                          "completion": next((h.get("completion") for h in hits if h.get("completion")), None),
+                          "sheet": max(h.get("sheet") or "" for h in hits) or None, "blocks": len(hits)}
+                return merged
             # the modelled ("ours") cards absorb their sheet + trading stats and block a duplicate portfolio card
             for o in props:
                 if o["kind"] != "ours": continue
-                on = norm_name(o["name"], al); sh, t = find(sheet, on), find(trd, on)
+                on = norm_name(o["name"], al); sh, t = find_sheet(on, o["name"]), find(trd, on)
                 if sh: o["sheet"] = sh
                 if t: o["tx"], o["median_aed_per_sqm"] = t.get("tx"), t.get("median_aed_per_sqm")
                 seen.add(on.replace(" ", ""))
             for pr in port["properties"]:
                 nn = norm_name(pr["name"], al)
                 if nn.replace(" ", "") in seen: continue
-                r, t, sh = find(reg, nn), find(trd, nn), find(sheet, nn)
+                r, t, sh = find(reg, nn), find(trd, nn), find_sheet(nn, pr["name"])
                 props.append({"kind": "portfolio", "name": pr["name"], "slug": pr["slug"], "url": pr["url"], "image": pr.get("image"), "area": pr.get("area") or (r or {}).get("area") or (t or {}).get("area"),
                               "location": pr.get("location"), "structure": pr.get("structure"), "storeys": pr.get("storeys"), "units": pr.get("units") or ((r or {}).get("units")),
                               "handover": pr.get("handover"), "plans": pr.get("payment_plans") or [], "mix": pr.get("mix") or [],

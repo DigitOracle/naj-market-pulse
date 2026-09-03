@@ -39,6 +39,11 @@ python scripts\extract_avail.py --scan *>> $log
 Log "--- availability: drill (registered mix + claimed) + board index ---"
 python scripts\build_avail_drill.py *>> $log
 python scripts\build_avail_index.py *>> $log
+Log "--- DNA chain: sheets + DLD -> developer DNA -> board cards -> project facts -> compare (added 3 Sep 2026: without it, captured sheets never reached the DNA) ---"
+python scripts\build_developer_dna.py *>> $log
+python scripts\build_board.py *>> $log
+python scripts\build_projfacts.py *>> $log
+python scripts\build_compare.py *>> $log
 Log "--- cards: rebuild + push ---"
 python scripts\build_unit_cards_v4.py *>> $log
 python scripts\push_cards.py *>> $log
