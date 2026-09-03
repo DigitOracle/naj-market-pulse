@@ -74,7 +74,9 @@ for seg in SEG["segments"]:
             for pj_name in blocks:
                 bt = toks(pj_name)
                 if not bt: continue
-                eq = [c for c, ct in card_toks.items() if ct and ct == bt]
+                nb = norm_name(pj_name, al)
+                eq = [c for c in cards if same(norm_name(c, al), nb)]                     # the DNA builder's own exact matcher first ("Seacliff" = "Sea Cliff")
+                eq = eq or [c for c, ct in card_toks.items() if ct and ct == bt]
                 if len(eq) >= 1: assign[pj_name] = eq[0]; continue
                 inside = [c for c, ct in card_toks.items() if ct and bt < ct]
                 if len(inside) == 1: assign[pj_name] = inside[0]; continue
