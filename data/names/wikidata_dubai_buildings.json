@@ -1,0 +1,2209 @@
+{
+ "source": "Wikidata SPARQL (P131* Dubai; building/skyscraper subclasses; P625 coords)",
+ "count": 196,
+ "items": [
+  {
+   "qid": "Q317871",
+   "name": "Nakheel Tower",
+   "lon": 55.131388888,
+   "lat": 25.054444444,
+   "height_m": 1400.0,
+   "floors": 228,
+   "types": [
+    "tower block"
+   ]
+  },
+  {
+   "qid": "Q17003486",
+   "name": "Paramount Tower Hotel & Residences",
+   "lon": 55.2653537,
+   "lat": 25.1933791,
+   "height_m": 886.0,
+   "floors": 68,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q12495",
+   "name": "Burj Khalifa",
+   "lon": 55.274166666,
+   "lat": 25.197222222,
+   "height_m": 828.0,
+   "floors": 163,
+   "types": [
+    "skyscraper",
+    "architectural landmark"
+   ]
+  },
+  {
+   "qid": "Q17627890",
+   "name": "Burj Azizi",
+   "lon": 55.282611111,
+   "lat": 25.224055555,
+   "height_m": 725.0,
+   "floors": 133,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q130601823",
+   "name": "Burj Binghatti Jacob & Co Residences",
+   "lon": 55.292972222,
+   "lat": 25.186777777,
+   "height_m": 595.0,
+   "floors": null,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q1898210",
+   "name": "Marina 106",
+   "lon": 55.149553,
+   "lat": 25.088508,
+   "height_m": 445.0,
+   "floors": 106,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q1165269",
+   "name": "Marina 101",
+   "lon": 55.14863,
+   "lat": 25.08898,
+   "height_m": 425.0,
+   "floors": 101,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q19492",
+   "name": "Princess Tower",
+   "lon": 55.146858333,
+   "lat": 25.088625,
+   "height_m": 414.0,
+   "floors": 101,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q1686861",
+   "name": "Lighthouse Tower",
+   "lon": 55.280944,
+   "lat": 25.212611,
+   "height_m": 402.07,
+   "floors": 64,
+   "types": [
+    "tower block",
+    "abandoned project"
+   ]
+  },
+  {
+   "qid": "Q216264",
+   "name": "23 Marina",
+   "lon": 55.150611,
+   "lat": 25.089806,
+   "height_m": 392.4,
+   "floors": 89,
+   "types": [
+    "skyscraper",
+    "residential building"
+   ]
+  },
+  {
+   "qid": "Q1330847",
+   "name": "Elite Residence",
+   "lon": 55.147889,
+   "lat": 25.089556,
+   "height_m": 381.0,
+   "floors": 87,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q838780",
+   "name": "Almas Tower",
+   "lon": 55.14113,
+   "lat": 25.06883,
+   "height_m": 363.0,
+   "floors": 68,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q113660049",
+   "name": "Il Primo Tower",
+   "lon": 55.27198,
+   "lat": 25.19637,
+   "height_m": 356.0,
+   "floors": 79,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q1244144",
+   "name": "JW Marriott Marquis Dubai",
+   "lon": 55.2566,
+   "lat": 25.1856,
+   "height_m": 355.0,
+   "floors": 76,
+   "types": [
+    "hotel",
+    "twin towers"
+   ]
+  },
+  {
+   "qid": "Q845182",
+   "name": "Emirates Office Tower",
+   "lon": 55.283333333,
+   "lat": 25.2175,
+   "height_m": 355.0,
+   "floors": 54,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q24061819",
+   "name": "JW Marriott Marquis Dubai Tower 1",
+   "lon": 55.258444444,
+   "lat": 25.186,
+   "height_m": 355.0,
+   "floors": 82,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q24061869",
+   "name": "JW Marriott Marquis Dubai Tower 2",
+   "lon": 55.257777777,
+   "lat": 25.185305555,
+   "height_m": 355.0,
+   "floors": 82,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q1808317",
+   "name": "The Marina Torch",
+   "lon": 55.14743,
+   "lat": 25.08798,
+   "height_m": 352.0,
+   "floors": 86,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q17175396",
+   "name": "Burj 2020",
+   "lon": 55.140233333,
+   "lat": 25.061833333,
+   "height_m": 340.0,
+   "floors": 115,
+   "types": [
+    "proposed building or structure",
+    "Q12771350"
+   ]
+  },
+  {
+   "qid": "Q62939",
+   "name": "Burj al-Arab",
+   "lon": 55.185277777,
+   "lat": 25.141388888,
+   "height_m": 321.0,
+   "floors": 56,
+   "types": [
+    "tower block",
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q1470076",
+   "name": "HHHR Tower",
+   "lon": 55.280833333,
+   "lat": 25.221111111,
+   "height_m": 317.0,
+   "floors": 72,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q575128",
+   "name": "Emirates Crown",
+   "lon": 55.146388888,
+   "lat": 25.088055555,
+   "height_m": 296.0,
+   "floors": 63,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q623517",
+   "name": "Millennium Tower",
+   "lon": 55.265833333,
+   "lat": 25.194722222,
+   "height_m": 285.0,
+   "floors": 60,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q766332",
+   "name": "D1",
+   "lon": 55.343691666,
+   "lat": 25.226830555,
+   "height_m": 284.0,
+   "floors": 80,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q1614219",
+   "name": "Vision Tower",
+   "lon": 55.264847,
+   "lat": 25.187986,
+   "height_m": 260.0,
+   "floors": 60,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q550379",
+   "name": "Conrad Dubai",
+   "lon": 55.28386,
+   "lat": 25.22576,
+   "height_m": 255.0,
+   "floors": 51,
+   "types": [
+    "tower block",
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q1268198",
+   "name": "Al-Marsa Tower",
+   "lon": 55.146259,
+   "lat": 25.087717,
+   "height_m": 253.5,
+   "floors": 63,
+   "types": [
+    "tower block"
+   ]
+  },
+  {
+   "qid": "Q11777538",
+   "name": "Mesk Tower",
+   "lon": 55.1503,
+   "lat": 25.084,
+   "height_m": 185.0,
+   "floors": 40,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q511504",
+   "name": "Ibn Battuta Mall",
+   "lon": 55.12194,
+   "lat": 25.04468,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "shopping center",
+    "movie theater"
+   ]
+  },
+  {
+   "qid": "Q647585",
+   "name": "Jumeirah Beach Hotel",
+   "lon": 55.190277777,
+   "lat": 25.140833333,
+   "height_m": null,
+   "floors": 26,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q22976715",
+   "name": "Hilton Dubai The Walk",
+   "lon": 55.134612,
+   "lat": 25.078389,
+   "height_m": null,
+   "floors": 35,
+   "types": [
+    "hotel",
+    "Extended Stay Hotels"
+   ]
+  },
+  {
+   "qid": "Q27981667",
+   "name": "Hilton Garden Inn Dubai, Mall Avenue",
+   "lon": 55.196388888,
+   "lat": 25.116055555,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q30147522",
+   "name": "Hilton Dubai Jumeirah",
+   "lon": 55.1341,
+   "lat": 25.07874,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel",
+    "resort"
+   ]
+  },
+  {
+   "qid": "Q34204337",
+   "name": "Waldorf Astoria Dubai Palm Jumeirah",
+   "lon": 55.150687,
+   "lat": 25.134618,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q36171928",
+   "name": "Reel Cinemas Dubai Marina Mall",
+   "lon": 55.3116667,
+   "lat": 25.2644444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "movie theater"
+   ]
+  },
+  {
+   "qid": "Q36171955",
+   "name": "Cinestar Cinemas (DCC)",
+   "lon": 55.3594396,
+   "lat": 25.2879328,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "movie theater"
+   ]
+  },
+  {
+   "qid": "Q36171981",
+   "name": "Grand Cine City",
+   "lon": 55.3116667,
+   "lat": 25.2644444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "movie theater"
+   ]
+  },
+  {
+   "qid": "Q36172005",
+   "name": "Reel Cinemas Dubai Mall",
+   "lon": 55.2890719,
+   "lat": 25.1819168,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "movie theater"
+   ]
+  },
+  {
+   "qid": "Q50308536",
+   "name": "DoubleTree by Hilton Dubai - Jumeirah Beach",
+   "lon": 55.127769,
+   "lat": 25.072685,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel",
+    "geographical feature"
+   ]
+  },
+  {
+   "qid": "Q60732352",
+   "name": "Hilton Garden Inn Dubai Al Jadaf Culture Village",
+   "lon": 55.33187,
+   "lat": 25.222378,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q66437370",
+   "name": "DoubleTree by Hilton Dubai - Business Bay",
+   "lon": 55.28011,
+   "lat": 25.18664,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q76620470",
+   "name": "Hampton by Hilton Dubai Al Barsha",
+   "lon": 55.193331,
+   "lat": 25.113776,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q96755874",
+   "name": "Al Seef Heritage Hotel Dubai, Curio Collection by Hilton",
+   "lon": 55.305083333,
+   "lat": 25.263916666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q99976218",
+   "name": "Habtoor Place Dubai, LXR Hotels & Resorts",
+   "lon": 55.254166666,
+   "lat": 25.183333333,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q110221761",
+   "name": "V Hotel Dubai, Curio Collection by Hilton",
+   "lon": 55.254305,
+   "lat": 25.184295,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150218",
+   "name": "Andaz Dubai The Palm",
+   "lon": 55.150376,
+   "lat": 25.115149,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150220",
+   "name": "Holiday Inn Express Dubai Internet City",
+   "lon": 55.166233,
+   "lat": 25.104233,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150302",
+   "name": "ME Dubai by Meliá",
+   "lon": 55.267223,
+   "lat": 25.188808,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150395",
+   "name": "Hyatt Place Dubai Jumeirah",
+   "lon": 55.2772091,
+   "lat": 25.2463632,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150433",
+   "name": "DoubleTree by Hilton Dubai M Square Hotel & Residences",
+   "lon": 55.300884,
+   "lat": 25.250293,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150434",
+   "name": "Hyatt Regency Dubai Creek Heights",
+   "lon": 55.32401,
+   "lat": 25.23388,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150450",
+   "name": "InterContinental Dubai Festival City",
+   "lon": 55.349766,
+   "lat": 25.22332,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150454",
+   "name": "Hampton by Hilton Dubai Al Seef",
+   "lon": 55.311044,
+   "lat": 25.255783,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150458",
+   "name": "Holiday Inn Dubai Festival City",
+   "lon": 55.358143,
+   "lat": 25.221899,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150459",
+   "name": "InterContinental Residence Suites Dubai Festival City",
+   "lon": 55.346954,
+   "lat": 25.231499,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150463",
+   "name": "Park Hyatt Dubai",
+   "lon": 55.33352,
+   "lat": 25.243587,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150466",
+   "name": "Jumeirah Creekside Hotel",
+   "lon": 55.3402,
+   "lat": 25.24255,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150470",
+   "name": "Hyatt Place Dubai/Baniyas Square",
+   "lon": 55.30559,
+   "lat": 25.26843,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150482",
+   "name": "Le Meridien Fairway",
+   "lon": 55.33779,
+   "lat": 25.24788,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150496",
+   "name": "The Leela Hotel",
+   "lon": 55.335543751,
+   "lat": 25.252444487,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150498",
+   "name": "Royal Continental Hotel",
+   "lon": 55.33576,
+   "lat": 25.25271,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150502",
+   "name": "Copthorne Airport Hotel",
+   "lon": 55.34317,
+   "lat": 25.24786,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150509",
+   "name": "J5 Hotels Port Saeed Dubai",
+   "lon": 55.336056,
+   "lat": 25.254007,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150511",
+   "name": "Mövenpick Grand Al Bustan Dubai",
+   "lon": 55.345400869,
+   "lat": 25.247323328,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150512",
+   "name": "Millennium Airport Hotel Dubai",
+   "lon": 55.34402,
+   "lat": 25.24846,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150523",
+   "name": "Hyatt Place Dubai Wasl District",
+   "lon": 55.315356,
+   "lat": 25.270388,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150524",
+   "name": "Grand Mercure Hotel and Residences Dubai Airport",
+   "lon": 55.343224,
+   "lat": 25.250584,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150526",
+   "name": "Ibis Styles Dubai Airport Hotel",
+   "lon": 55.344354,
+   "lat": 25.250213,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150527",
+   "name": "Le Méridien Dubai Hotel & Conference Centre",
+   "lon": 55.346344,
+   "lat": 25.248882,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150530",
+   "name": "Hyatt Place Dubai Al Rigga",
+   "lon": 55.32827,
+   "lat": 25.26257,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150532",
+   "name": "Flora Inn Hotel Dubai Airport",
+   "lon": 55.34316,
+   "lat": 25.25251,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150535",
+   "name": "Premier Inn Dubai International Airport",
+   "lon": 55.35882,
+   "lat": 25.24295,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150537",
+   "name": "Holiday Inn Express Dubai Airport",
+   "lon": 55.35968,
+   "lat": 25.24263,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111150579",
+   "name": "Time Grand Plaza Hotel, Dubai Airport",
+   "lon": 55.38039,
+   "lat": 25.27073,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111151472",
+   "name": "Ramada Downtown Dubai",
+   "lon": 55.27247,
+   "lat": 25.19282,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111856052",
+   "name": "Dubai International Terminal Hotel",
+   "lon": 55.350725231,
+   "lat": 25.249204959,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111997679",
+   "name": "Al Jawhara Gardens Hotel",
+   "lon": 55.33523,
+   "lat": 25.25489,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111997692",
+   "name": "Fortune Plaza Hotel",
+   "lon": 55.380966,
+   "lat": 25.267008,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q111997693",
+   "name": "Time Grand Plaza Hotel Dubai",
+   "lon": 55.380264,
+   "lat": 25.270752,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q130617734",
+   "name": "Hilton Dubai Creek Hotel & Residences",
+   "lon": 55.324349,
+   "lat": 25.2518,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q130736677",
+   "name": "Embassy Suites by Hilton Dubai Business Bay",
+   "lon": 55.277824056,
+   "lat": 25.180736353,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q130742287",
+   "name": "Hilton Garden Inn Dubai Business Bay",
+   "lon": 55.27801114,
+   "lat": 25.18083648,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q135919371",
+   "name": "Hotel Riu Dubai",
+   "lon": 55.3064994,
+   "lat": 25.3004087,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q135988378",
+   "name": "Tumbi Hotel Dubai The Palm, Tapestry Collection by Hilton",
+   "lon": 55.143943,
+   "lat": 25.108094,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136163135",
+   "name": "Hyatt Centric Jumeirah Dubai",
+   "lon": 55.2604235,
+   "lat": 25.2344726,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136513000",
+   "name": "Park Hyatt Dubai Creek Golf & Yatch Club",
+   "lon": 55.3336945,
+   "lat": 25.2442986,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136513117",
+   "name": "Andaz Dubai The Palm Apartments",
+   "lon": 55.1403174,
+   "lat": 25.1151666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136648373",
+   "name": "Pullman Dubai Downtown",
+   "lon": 55.271639153,
+   "lat": 25.186866873,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136651430",
+   "name": "Q136651430",
+   "lon": 55.273557563,
+   "lat": 25.185889673,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136651504",
+   "name": "Q136651504",
+   "lon": 55.273358322,
+   "lat": 25.18580427,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136652705",
+   "name": "Address Creek Harbour",
+   "lon": 55.343416754,
+   "lat": 25.208778204,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q136652752",
+   "name": "Palace Dubai Creek Harbour",
+   "lon": 55.343416754,
+   "lat": 25.208778204,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q141128546",
+   "name": "Hilton Dubai Palm Jumeirah",
+   "lon": 55.147298,
+   "lat": 25.10573,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hotel"
+   ]
+  },
+  {
+   "qid": "Q2298717",
+   "name": "Jumeirah Mosque",
+   "lon": 55.265503,
+   "lat": 25.233972,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q4703794",
+   "name": "Sharaf DG",
+   "lon": 55.297419444,
+   "lat": 25.258213888,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "underground station"
+   ]
+  },
+  {
+   "qid": "Q4998050",
+   "name": "BurJuman",
+   "lon": 55.30416667,
+   "lat": 25.25472222,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "underground station"
+   ]
+  },
+  {
+   "qid": "Q5594813",
+   "name": "Grand Mosque",
+   "lon": 55.29666667,
+   "lat": 25.26444444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q5886488",
+   "name": "Holy Trinity Church, Dubai",
+   "lon": 55.3351,
+   "lat": 25.29323,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "church building"
+   ]
+  },
+  {
+   "qid": "Q7588047",
+   "name": "St. Francis of Assisi Catholic Church, Jebel Ali",
+   "lon": 55.1135,
+   "lat": 25.02591,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "church building"
+   ]
+  },
+  {
+   "qid": "Q7887573",
+   "name": "United Christian Church of Dubai",
+   "lon": 55.1139571,
+   "lat": 25.0262133,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "church building"
+   ]
+  },
+  {
+   "qid": "Q17002729",
+   "name": "Gurdwara Guru Nanak Darbar de Dubai",
+   "lon": 55.113361111,
+   "lat": 25.02725,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "gurdwara"
+   ]
+  },
+  {
+   "qid": "Q18204928",
+   "name": "Al Farooq Omar Bin Al Khatab mosque",
+   "lon": 55.233,
+   "lat": 25.171,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q18205838",
+   "name": "Dubai City Church",
+   "lon": 55.3183,
+   "lat": 25.23788,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "church building"
+   ]
+  },
+  {
+   "qid": "Q20987838",
+   "name": "Iranian Mosque, Bur Dubai",
+   "lon": 55.29411111,
+   "lat": 25.26372222,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q30005182",
+   "name": "Dubai Airport Free Zone (Dubai Metro)",
+   "lon": 55.375058333,
+   "lat": 25.269969444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "station located on surface"
+   ]
+  },
+  {
+   "qid": "Q30006729",
+   "name": "Oud Metha (Dubai Metro)",
+   "lon": 55.316025,
+   "lat": 25.243641666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "station located on surface"
+   ]
+  },
+  {
+   "qid": "Q30006733",
+   "name": "Dubai Healthcare City (Dubai Metro)",
+   "lon": 55.322933333,
+   "lat": 25.230936111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "station located on surface"
+   ]
+  },
+  {
+   "qid": "Q86998748",
+   "name": "Airport Terminal 3",
+   "lon": 55.360198,
+   "lat": 25.2451547,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "bus station"
+   ]
+  },
+  {
+   "qid": "Q107060716",
+   "name": "Jumeirah Golf Estates",
+   "lon": 55.16335,
+   "lat": 25.01779,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "underground station"
+   ]
+  },
+  {
+   "qid": "Q108570281",
+   "name": "Guru Nanak Darbar, Dubai",
+   "lon": 55.11333,
+   "lat": 25.02725,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "gurdwara"
+   ]
+  },
+  {
+   "qid": "Q113519423",
+   "name": "Diwan Mosque in Bastakiya",
+   "lon": 55.385143,
+   "lat": 25.215542,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137154250",
+   "name": "MUSALA AL EID",
+   "lon": 55.292416666,
+   "lat": 25.243944444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque",
+    "Eidgah"
+   ]
+  },
+  {
+   "qid": "Q137161113",
+   "name": "Bur Dubai Al Kabeer",
+   "lon": 55.2968,
+   "lat": 25.264388888,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137161128",
+   "name": "Sultan Jaber Al Metaiwi",
+   "lon": 55.463703,
+   "lat": 24.932294,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137176170",
+   "name": "Eid prayer ground - Al-Baraha",
+   "lon": 55.316205555,
+   "lat": 25.277861111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque",
+    "Eidgah"
+   ]
+  },
+  {
+   "qid": "Q137176197",
+   "name": "مصلى العيد - ندالحمر",
+   "lon": 55.396861111,
+   "lat": 25.211,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque",
+    "Eidgah"
+   ]
+  },
+  {
+   "qid": "Q137176732",
+   "name": "Q137176732",
+   "lon": 55.21722,
+   "lat": 25.165,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137176965",
+   "name": "Q137176965",
+   "lon": 55.544944444,
+   "lat": 25.172777777,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137177515",
+   "name": "Thani Bin Khalaf",
+   "lon": 55.300080555,
+   "lat": 25.27025,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137178188",
+   "name": "Q137178188",
+   "lon": 55.544944,
+   "lat": 25.172789,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137191609",
+   "name": "Q137191609",
+   "lon": 56.118232,
+   "lat": 24.802146,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137191896",
+   "name": "MUSALA AL EID Al Lisaili",
+   "lon": 55.469799,
+   "lat": 24.932698,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137191954",
+   "name": "Q137191954",
+   "lon": 55.469799,
+   "lat": 24.932698,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137191955",
+   "name": "Q137191955",
+   "lon": 55.436387,
+   "lat": 25.198836,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137191956",
+   "name": "Q137191956",
+   "lon": 55.212149,
+   "lat": 25.167199,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137193523",
+   "name": "Seniors Happiness Centre",
+   "lon": 55.346625,
+   "lat": 25.298083333,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137193722",
+   "name": "Almasjid Al Awwal",
+   "lon": 55.382941666,
+   "lat": 25.126444444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137193761",
+   "name": "Al Waha 1",
+   "lon": 55.380594444,
+   "lat": 25.109027777,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137193878",
+   "name": "Al Waha 2",
+   "lon": 55.401819444,
+   "lat": 25.124305555,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137200349",
+   "name": "Dubai Electricity and Water Authority",
+   "lon": 55.500013888,
+   "lat": 25.155388888,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137200742",
+   "name": "Extra Market",
+   "lon": 55.395052777,
+   "lat": 25.118694444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137201777",
+   "name": "AL KHAIL",
+   "lon": 55.3502,
+   "lat": 24.8995,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137202657",
+   "name": "STABLE SHEIKH HAMDAN BIN RASHED ALMAKTOUM",
+   "lon": 55.261497222,
+   "lat": 25.179944444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137207672",
+   "name": "Madinat Hind 3",
+   "lon": 55.415455555,
+   "lat": 25.046527777,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137264548",
+   "name": "AL naseem",
+   "lon": 55.412947222,
+   "lat": 25.054361111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137264655",
+   "name": "women dubai college",
+   "lon": 55.416544444,
+   "lat": 25.250361111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137264692",
+   "name": "Al Tajer",
+   "lon": 55.329866666,
+   "lat": 25.277472222,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137264709",
+   "name": "MUSABEH RASHID AL-FATTAN",
+   "lon": 55.491936111,
+   "lat": 24.966444444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137264994",
+   "name": "ahmed abdullah lootah",
+   "lon": 55.300222222,
+   "lat": 25.271277777,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137265033",
+   "name": "Eid Madaiya",
+   "lon": 55.304966666,
+   "lat": 25.269166666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q137870837",
+   "name": "bu Hannad",
+   "lon": 55.299952777,
+   "lat": 25.272805555,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "mosque"
+   ]
+  },
+  {
+   "qid": "Q2913336",
+   "name": "Dubai Opera House",
+   "lon": 55.344096,
+   "lat": 25.20795,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "opera house"
+   ]
+  },
+  {
+   "qid": "Q7492956",
+   "name": "Sheikh Obaid bin Thani House",
+   "lon": 55.290567,
+   "lat": 25.268599,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q8071767",
+   "name": "Ziggurat Pyramid, Dubai",
+   "lon": -121.509468657,
+   "lat": 38.583023694,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q16251624",
+   "name": "Park Lane Tower",
+   "lon": 55.26189,
+   "lat": 25.18523,
+   "height_m": null,
+   "floors": 30,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q24192494",
+   "name": "Dubai Creek Tower",
+   "lon": 55.35519,
+   "lat": 25.19762,
+   "height_m": null,
+   "floors": 200,
+   "types": [
+    "tower",
+    "proposed building or structure"
+   ]
+  },
+  {
+   "qid": "Q116730005",
+   "name": "Atlantis The Royal, Dubai",
+   "lon": 55.127788888,
+   "lat": 25.138136111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "building"
+   ]
+  },
+  {
+   "qid": "Q4346630",
+   "name": "Deira Clocktower",
+   "lon": 55.326388888,
+   "lat": 25.258611111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "roundabout",
+    "clock tower"
+   ]
+  },
+  {
+   "qid": "Q4704111",
+   "name": "Al Jalila Children's Specialty Hospital",
+   "lon": 55.3189,
+   "lat": 25.225,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q5310555",
+   "name": "Dubai Hospital",
+   "lon": 55.321666666,
+   "lat": 25.284166666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q6496088",
+   "name": "Latifa Hospital",
+   "lon": 55.316666666,
+   "lat": 25.216666666,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q7294896",
+   "name": "Rashid Hospital",
+   "lon": 55.316666666,
+   "lat": 25.25,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q20707857",
+   "name": "Iranian Hospital, Dubai",
+   "lon": 55.26921,
+   "lat": 25.22995,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q25461650",
+   "name": "American Hospital Dubai",
+   "lon": 55.313141999,
+   "lat": 25.235446225,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital"
+   ]
+  },
+  {
+   "qid": "Q30260571",
+   "name": "Mediclinic City Hospital",
+   "lon": 55.322568,
+   "lat": 25.230707,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "hospital",
+    "medical organization"
+   ]
+  },
+  {
+   "qid": "Q124452109",
+   "name": "Jameel Arts Centre",
+   "lon": 55.34057,
+   "lat": 25.22899,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "art museum"
+   ]
+  },
+  {
+   "qid": "Q2056065",
+   "name": "The Sevens",
+   "lon": 55.463055555,
+   "lat": 24.989444444,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "stadium",
+    "cricket field",
+    "rugby union venue"
+   ]
+  },
+  {
+   "qid": "Q2525218",
+   "name": "Rashid Stadium",
+   "lon": 55.360605555,
+   "lat": 25.279655555,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "stadium",
+    "Multi-purpose stadium"
+   ]
+  },
+  {
+   "qid": "Q111594402",
+   "name": "Peru Pavilion",
+   "lon": 55.148682746,
+   "lat": 24.960471561,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "national pavillon"
+   ]
+  },
+  {
+   "qid": "Q115000748",
+   "name": "Training Sessions at Zayed University (Abu Dhabi Campus)",
+   "lon": 54.5836834,
+   "lat": 24.3948665,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "workshop",
+    "Category:Wikipedia meetups"
+   ]
+  },
+  {
+   "qid": "Q17765640",
+   "name": "Norwegian Seaman's Church",
+   "lon": 55.31607,
+   "lat": 25.238959,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "seaman's church"
+   ]
+  },
+  {
+   "qid": "Q1065223",
+   "name": "Dubai World Central – DWC",
+   "lon": 55.172222222,
+   "lat": 24.886111111,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "greenfield international airport",
+    "commercial traffic aerodrome"
+   ]
+  },
+  {
+   "qid": "Q1934988",
+   "name": "Al Minhad Air Base",
+   "lon": 55.366243,
+   "lat": 25.026818,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "airbase"
+   ]
+  },
+  {
+   "qid": "Q25066352",
+   "name": "Jebel Ali Seaplane Base",
+   "lon": 55.02388889,
+   "lat": 24.98888889,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "seaplane base",
+    "commercial traffic aerodrome"
+   ]
+  },
+  {
+   "qid": "Q4998884",
+   "name": "Burj Khalifa/Dubai Mall (Dubai Metro)",
+   "lon": 55.26944444,
+   "lat": 25.20138889,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q5001679",
+   "name": "Business Bay",
+   "lon": 55.26041,
+   "lat": 25.19127,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q5310581",
+   "name": "Sobha Realty",
+   "lon": 55.14759,
+   "lat": 25.07995,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q5513378",
+   "name": "GGICO",
+   "lon": 55.33998,
+   "lat": 25.24948,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q6960570",
+   "name": "Jabal Ali",
+   "lon": 55.12736,
+   "lat": 25.05788,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q7294949",
+   "name": "Centrepoint",
+   "lon": 55.39138889,
+   "lat": 25.23,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q16335290",
+   "name": "Emirates",
+   "lon": 55.36568,
+   "lat": 25.24105,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q16335309",
+   "name": "Emirates Towers",
+   "lon": 55.27989,
+   "lat": 25.21722,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q16335310",
+   "name": "Al Khail",
+   "lon": 55.15818,
+   "lat": 25.08892,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q22948917",
+   "name": "UAE Exchange",
+   "lon": 55.09108,
+   "lat": 24.97759,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q106848604",
+   "name": "Airport Terminal 3 (Dubai Metro)",
+   "lon": 55.3595,
+   "lat": 25.24502,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "airport railway station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q106848616",
+   "name": "Airport Terminal 1",
+   "lon": 55.35236,
+   "lat": 25.24847,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "airport railway station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q107132454",
+   "name": "World Trade Centre",
+   "lon": 55.28513,
+   "lat": 25.22483,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "metro station",
+    "elevated station"
+   ]
+  },
+  {
+   "qid": "Q124451852",
+   "name": "Saruq Al Hadid Archaeological Museum",
+   "lon": 55.289853621,
+   "lat": 25.266888863,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "archaeological museum"
+   ]
+  },
+  {
+   "qid": "Q135004753",
+   "name": "At.mosphere",
+   "lon": 55.273611111,
+   "lat": 25.197138888,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "restaurant"
+   ]
+  },
+  {
+   "qid": "Q135903184",
+   "name": "Moonrise",
+   "lon": 55.276388888,
+   "lat": 25.22,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "restaurant"
+   ]
+  },
+  {
+   "qid": "Q138411579",
+   "name": "Brown Bear Magic Shop",
+   "lon": 55.272576,
+   "lat": 25.237835,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "magic store"
+   ]
+  },
+  {
+   "qid": "Q139801933",
+   "name": "Querida Mexican & Friends",
+   "lon": 55.1989749,
+   "lat": 25.1073708,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "restaurant"
+   ]
+  },
+  {
+   "qid": "Q140577438",
+   "name": "RARE Brasserie & Bar",
+   "lon": 55.261184,
+   "lat": 25.207258,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "restaurant",
+    "bar"
+   ]
+  },
+  {
+   "qid": "Q131496799",
+   "name": "The Cake Boutique by Waldorf Astoria DIFC",
+   "lon": 55.28187,
+   "lat": 25.211285,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "cake shop"
+   ]
+  },
+  {
+   "qid": "Q2701976",
+   "name": "Za'abeel Stadium",
+   "lon": 55.317147222,
+   "lat": 25.2189,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "association football venue"
+   ]
+  },
+  {
+   "qid": "Q1133309",
+   "name": "Dubai Mall",
+   "lon": 55.279166666,
+   "lat": 25.1975,
+   "height_m": null,
+   "floors": 4,
+   "types": [
+    "shopping center"
+   ]
+  },
+  {
+   "qid": "Q3352546",
+   "name": "1 Dubai",
+   "lon": 55.4029,
+   "lat": 24.9822,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "tower block"
+   ]
+  },
+  {
+   "qid": "Q115200269",
+   "name": "City Walk",
+   "lon": 55.2625,
+   "lat": 25.20753,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "shopping center",
+    "neighborhood"
+   ]
+  },
+  {
+   "qid": "Q111938831",
+   "name": "Theatre of Digital Art",
+   "lon": 55.184614649,
+   "lat": 25.138370567,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "theatre building",
+    "art gallery"
+   ]
+  },
+  {
+   "qid": "Q1066448",
+   "name": "Mall of the Emirates",
+   "lon": 55.200555555,
+   "lat": 25.118055555,
+   "height_m": null,
+   "floors": 3,
+   "types": [
+    "shopping mall"
+   ]
+  },
+  {
+   "qid": "Q114877212",
+   "name": "Dragon Mart",
+   "lon": 55.41788,
+   "lat": 25.17391,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "shopping mall"
+   ]
+  },
+  {
+   "qid": "Q126172740",
+   "name": "Wafi Mall",
+   "lon": 55.31895,
+   "lat": 25.22979,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "shopping mall"
+   ]
+  },
+  {
+   "qid": "Q11786697",
+   "name": "Murjan Tower",
+   "lon": 55.1492,
+   "lat": 25.0856,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q21619311",
+   "name": "Q21619311",
+   "lon": 55.136394,
+   "lat": 25.079442,
+   "height_m": null,
+   "floors": 51,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q30753538",
+   "name": "Q30753538",
+   "lon": 55.14,
+   "lat": 25.114677777,
+   "height_m": null,
+   "floors": 52,
+   "types": [
+    "skyscraper"
+   ]
+  },
+  {
+   "qid": "Q509588",
+   "name": "Port of Jebel Ali",
+   "lon": 55.06116,
+   "lat": 25.01126,
+   "height_m": null,
+   "floors": null,
+   "types": [
+    "deep water port"
+   ]
+  }
+ ]
+}

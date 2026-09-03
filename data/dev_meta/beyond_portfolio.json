@@ -1,0 +1,459 @@
+{
+ "source": "https://beyonddevelopments.ae",
+ "fetched": "2026-09-03 05:32",
+ "method": "portfolio page + per-project fetch",
+ "properties": [
+  {
+   "slug": "aria",
+   "url": "https://beyonddevelopments.ae/Projects/aria",
+   "name": "Aria by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "Aria by Beyond",
+   "title": "Aria by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": null,
+    "units": "368",
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "penthouse",
+     "townhouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "yoga"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "saria",
+   "url": "https://beyonddevelopments.ae/Projects/saria",
+   "name": "Saria by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "Saria by Beyond",
+   "title": "Saria by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": null,
+    "units": "376",
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "marina",
+    "beach access"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "orise",
+   "url": "https://beyonddevelopments.ae/Projects/orise",
+   "name": "Orise by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "Orise by Beyond",
+   "title": "Orise by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": null,
+    "units": "376",
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "penthouse",
+     "duplex",
+     "chalet"
+    ]
+   },
+   "amenities": [
+    "beach access",
+    "concierge"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "sensia",
+   "url": "https://beyonddevelopments.ae/Projects/sensia",
+   "name": "Sensia by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "Sensia by Beyond",
+   "title": "Sensia by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": null,
+    "units": "276",
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "gym",
+    "spa"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "mural",
+   "url": "https://beyonddevelopments.ae/Projects/mural",
+   "name": "The Mural by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "The Mural by Beyond",
+   "title": "The Mural by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": "36",
+    "units": "265",
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "maisonette",
+     "4BR",
+     "penthouse"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "soulever",
+   "url": "https://beyonddevelopments.ae/Projects/soulever",
+   "name": "Soulever by Beyond",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "Soulever by Beyond",
+   "title": "Soulever by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": null,
+    "units": "513",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "chalet",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "gym",
+    "spa"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "31above",
+   "url": "https://beyonddevelopments.ae/Projects/31above",
+   "name": "31 Above",
+   "area": "Dubai Maritime City (The Bay District)",
+   "image": null,
+   "description": "",
+   "h1": "31 Above",
+   "title": "31 Above",
+   "facts": {
+    "location": "Dubai Maritime City (The Bay District)",
+    "structure": null,
+    "storeys": "30",
+    "units": "116",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "office"
+    ]
+   },
+   "amenities": [
+    "gym",
+    "yoga"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "forest",
+   "url": "https://beyonddevelopments.ae/Projects/forest",
+   "name": "Talea (Forest) by Beyond",
+   "area": "Dubai Maritime City (The Forest District)",
+   "image": null,
+   "description": "",
+   "h1": "Talea (Forest) by Beyond",
+   "title": "Talea (Forest) by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Forest District)",
+    "structure": null,
+    "storeys": null,
+    "units": "377",
+    "handover": "2028",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "spa"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "kanyon",
+   "url": "https://beyonddevelopments.ae/Projects/kanyon",
+   "name": "Kanyon by Beyond",
+   "area": "Dubai Maritime City (The Forest District)",
+   "image": null,
+   "description": "",
+   "h1": "Kanyon by Beyond",
+   "title": "Kanyon by Beyond",
+   "facts": {
+    "location": "Dubai Maritime City (The Forest District)",
+    "structure": null,
+    "storeys": null,
+    "units": "412",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "hado",
+   "url": "https://beyonddevelopments.ae/Projects/hado",
+   "name": "HADO by Beyond",
+   "area": "Dubai Islands (Siora)",
+   "image": null,
+   "description": "",
+   "h1": "HADO by Beyond",
+   "title": "HADO by Beyond",
+   "facts": {
+    "location": "Dubai Islands (Siora)",
+    "structure": null,
+    "storeys": "21",
+    "units": "686",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "duplex"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "spa"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "sterling",
+   "url": "https://beyonddevelopments.ae/Projects/sterling",
+   "name": "The Sterling by Beyond",
+   "area": "Business Bay (Marasi Bay)",
+   "image": null,
+   "description": "",
+   "h1": "The Sterling by Beyond",
+   "title": "The Sterling by Beyond",
+   "facts": {
+    "location": "Business Bay (Marasi Bay)",
+    "structure": null,
+    "storeys": null,
+    "units": "159",
+    "handover": "2022",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "penthouse"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "pad",
+   "url": "https://beyonddevelopments.ae/Projects/pad",
+   "name": "The Pad by Beyond",
+   "area": "Business Bay",
+   "image": null,
+   "description": "",
+   "h1": "The Pad by Beyond",
+   "title": "The Pad by Beyond",
+   "facts": {
+    "location": "Business Bay",
+    "structure": null,
+    "storeys": null,
+    "units": "257",
+    "handover": "2020",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "yoga"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "passo",
+   "url": "https://beyonddevelopments.ae/Projects/passo",
+   "name": "Passo by Beyond",
+   "area": "Palm Jumeirah",
+   "image": null,
+   "description": "",
+   "h1": "Passo by Beyond",
+   "title": "Passo by Beyond",
+   "facts": {
+    "location": "Palm Jumeirah",
+    "structure": null,
+    "storeys": null,
+    "units": "636",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "5BR",
+     "6BR",
+     "penthouse",
+     "mansion"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "beach access",
+    "spa"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "le-chateau",
+   "url": "https://beyonddevelopments.ae/Projects/le-chateau",
+   "name": "Le Chateau by Beyond",
+   "area": "Marjan Beach, Ras Al Khaimah",
+   "image": null,
+   "description": "",
+   "h1": "Le Chateau by Beyond",
+   "title": "Le Chateau by Beyond",
+   "facts": {
+    "location": "Marjan Beach, Ras Al Khaimah",
+    "structure": null,
+    "storeys": "31",
+    "units": "275",
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR"
+    ]
+   },
+   "amenities": [
+    "golf"
+   ],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  },
+  {
+   "slug": "arancia",
+   "url": "https://beyonddevelopments.ae/Projects/arancia",
+   "name": "Arancia Yards by Beyond",
+   "area": "City of Arabia (Dubailand)",
+   "image": null,
+   "description": "",
+   "h1": "Arancia Yards by Beyond",
+   "title": "Arancia Yards by Beyond",
+   "facts": {
+    "location": "City of Arabia (Dubailand)",
+    "structure": null,
+    "storeys": null,
+    "units": "272",
+    "handover": "Q4 2029",
+    "payment_plans": [],
+    "mix": [
+     "1BR",
+     "2BR",
+     "3BR"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "note": "facts read from the project page via the research fetcher (site refuses scripted reads); areas from /our-portfolio"
+  }
+ ]
+}

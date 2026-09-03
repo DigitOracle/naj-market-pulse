@@ -1,0 +1,290 @@
+{
+ "source": "https://www.arada.com",
+ "fetched": "2026-09-03 05:29",
+ "properties": [
+  {
+   "slug": "aljada",
+   "url": "https://www.arada.com/en/aljada",
+   "title": "Apartments for Sale in Sharjah | Aljada by Arada",
+   "description": "Aljada is Sharjah's new downtown by Arada, with apartments for sale minutes from Sharjah and Dubai airports. Freehold for all nationalities, flexible payment plans.",
+   "image": null,
+   "h1": "The Downtown of New Sharjah",
+   "name": "Aljada",
+   "text_chars": 7162,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "000",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "retail",
+     "office",
+     "1br",
+     "2br",
+     "3br"
+    ]
+   },
+   "amenities": [
+    "spa",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2685
+  },
+  {
+   "slug": "anantara-sharjah-residences-en",
+   "url": "https://www.arada.com/en/anantara-sharjah-residences-en",
+   "title": "Anantara Residences Sharjah | Arada, UAE",
+   "description": "Our premier residential community at Anantara Residences Sharjah offers stunning villas, lush greenery, and top-notch amenities for a life of comfort & relaxation. Visit us today to learn more.",
+   "image": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/05/anantara-sharjah-residences-thumb.jpg",
+   "h1": "Sharjah’s first luxury seaside residences",
+   "name": "Anantara Sharjah Residences",
+   "text_chars": 6881,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "1br",
+     "2br",
+     "3br",
+     "penthouse",
+     "4br"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "beach access",
+    "concierge",
+    "valet"
+   ],
+   "pdfs": [
+    "https://aradawebcontent.blob.core.windows.net/arada-com/2025/01/2024_12_12-Anantara-Brochure-.pdf"
+   ],
+   "text_chars_clean": 2402
+  },
+  {
+   "slug": "armani-beach-residences",
+   "url": "https://www.arada.com/en/armani-beach-residences",
+   "title": "Armani Beach Residences Palm Jumeirah - Luxury Apartments, Townhouses & Penthouses, | Arada, UAE",
+   "description": "Armani Beach Residences in Palm Jumeirah - the pinnacle of luxury real estate by Arada. Browse our collection of luxury apartments, townhouses, & penthouses.",
+   "image": "https://www.arada.com/wp-content/uploads/2023/12/main-bnr-1.jpg",
+   "h1": "Ultra luxury at The Palm Jumeirah",
+   "name": "Armani Beach Residences",
+   "text_chars": 7930,
+   "area": "Luxury Apartments, Townhouses & Penthouses,",
+   "facts": {
+    "location": "Palm Jumeirah",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "townhouse",
+     "penthouse",
+     "2br",
+     "3br",
+     "4br",
+     "studio",
+     "office"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3453
+  },
+  {
+   "slug": "cbd",
+   "url": "https://www.arada.com/en/cbd",
+   "title": "Central Business District (CBD) | Arada - Sharjah, UAE",
+   "description": "Arada Central Business District is a new transformative megaproject in Sharjah, UAE. With experience a vibrant lifestyle where living, working, shopping & relaxing converge. Learn more.",
+   "image": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/09/Premfors_DSCF1844-Edit-1024x425.png",
+   "h1": "Because it makes business sense",
+   "name": "Central Business District (Aljada)",
+   "text_chars": 8071,
+   "area": "Arada",
+   "facts": {
+    "location": "New Sharjah",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail",
+     "office"
+    ]
+   },
+   "amenities": [
+    "spa",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3594
+  },
+  {
+   "slug": "inaura-downtown",
+   "url": "https://www.arada.com/en/inaura-downtown",
+   "title": "Inaura by Arada | Downtown Dubai Luxury Apartments for Sale",
+   "description": "Luxury apartments in Downtown Dubai for sale at Inaura by Arada. Flexible payment plan with 10% down, 40% during construction, 50% on handover. Explore amenities and register interest.",
+   "image": "https://aradawebcontent.blob.core.windows.net/arada-com/2025/07/Arada-logo-8.png",
+   "h1": "",
+   "name": "Inaura Downtown",
+   "text_chars": 11440,
+   "area": "Downtown Dubai for sale at Inaura by",
+   "facts": {
+    "location": "Downtown Dubai for sale at Inaura by",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "5-BR",
+     "retail"
+    ]
+   },
+   "amenities": [
+    "spa",
+    "sauna"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 10959
+  },
+  {
+   "slug": "jouri-hills",
+   "url": "https://www.arada.com/en/jouri-hills",
+   "title": "Jouri Hills - Apartments, Villas & Townhouses in Dubai | Arada, UAE",
+   "description": "Our premier residential community offers stunning villas, apartments & townhouses, with lush greenery, and top-notch amenities for a life of comfort & relaxation. Visit us today to learn more.",
+   "image": null,
+   "h1": "Welcome to Jouri Hills at Jumeirah Golf Estates",
+   "name": "Jouri Hills",
+   "text_chars": 7827,
+   "area": "Apartments, Villas & Townhouses in Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "294",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "townhouse",
+     "mansion"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "spa",
+    "beach access",
+    "golf"
+   ],
+   "pdfs": [
+    "https://aradawebcontent.blob.core.windows.net/arada-com/2023/03/220228-Jouri-Hills-Brochure.pdf"
+   ],
+   "text_chars_clean": 3350
+  },
+  {
+   "slug": "masaar",
+   "url": "https://www.arada.com/en/masaar",
+   "title": "Masaar | Villas & Townhouses for Sale in Sharjah, UAE",
+   "description": "Villas & townhouses within a forested community with more than 50,000 trees. Masaar was designed for families to spend more time outdoors and provide an active, healthy lifestyle. Learn more.",
+   "image": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/06/masaar-banner.jpeg",
+   "h1": "Exclusive living by the woodland",
+   "name": "Masaar",
+   "text_chars": 7006,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "townhouse",
+     "4br",
+     "5br",
+     "6br"
+    ]
+   },
+   "amenities": [
+    "spa",
+    "padel",
+    "beach access",
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2518
+  },
+  {
+   "slug": "nasma-2",
+   "url": "https://www.arada.com/en/nasma-2",
+   "title": "Nasma Residences - Townhouse for Sale in Sharjah, UAE",
+   "description": "Nasma means breeze - the simple joy of a cool wind on a perfect summer’s day, all brought together in a community that’s built for you. Learn more.",
+   "image": null,
+   "h1": "Welcome to Nasma Residences",
+   "name": "Nasma 2",
+   "text_chars": 6020,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "townhouse"
+    ]
+   },
+   "amenities": [
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1545
+  },
+  {
+   "slug": "w-residences-dubai-harbour",
+   "url": "https://www.arada.com/en/w-residences-dubai-harbour",
+   "title": "Luxury apartments in Dubai Harbour | W Residences By Arada",
+   "description": "Explore W Residences at Dubai Harbour by Arada. Luxury off-plan apartments & penthouses from AED 4.1M with waterfront living & top amenities.",
+   "image": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/06/front-view-1-jpg.webp",
+   "h1": "Welcome to W Residences at Dubai Harbour",
+   "name": "W Residences at Dubai Harbour",
+   "text_chars": 6615,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "beach access",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2138
+  }
+ ]
+}

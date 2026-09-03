@@ -1,0 +1,566 @@
+{
+ "source": "https://www.omniyat.com",
+ "fetched": "2026-09-03 04:56",
+ "properties": [
+  {
+   "slug": "the-lana-residences",
+   "url": "https://www.omniyat.com/mixed-use/the-lana-residences",
+   "title": "LANA, Dorchester Collection | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "LANA, Dorchester Collection",
+   "text_chars": 7315,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "32",
+    "units": "2023",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail",
+     "2BR",
+     "4BR",
+     "duplex",
+     "penthouse",
+     "5BR",
+     "office",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "yoga",
+    "concierge",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c116d290c283f39ad120_The-Lana-Residences-Ebrochure-LowRes.pdf"
+   ],
+   "text_chars_clean": 5705
+  },
+  {
+   "slug": "the-opus",
+   "url": "https://www.omniyat.com/mixed-use/the-opus",
+   "title": "The Opus | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "The Opus",
+   "text_chars": 7296,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "96",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "1BR",
+     "2BR",
+     "duplex",
+     "3BR",
+     "4BR",
+     "office"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "concierge"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 6506
+  },
+  {
+   "slug": "alba",
+   "url": "https://www.omniyat.com/residential/alba",
+   "title": "The Alba | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "The Alba",
+   "text_chars": 7213,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": "Dorchester Collection's first beachfront destination",
+    "structure": null,
+    "storeys": null,
+    "units": "88",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "4BR",
+     "duplex",
+     "6BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "beach access",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 5633
+  },
+  {
+   "slug": "anwa",
+   "url": "https://www.omniyat.com/residential/anwa",
+   "title": "ANWA | Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "ANWA",
+   "text_chars": 5351,
+   "area": "Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "48",
+    "units": "229",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "penthouse",
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR",
+     "retail",
+     "duplex"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4603
+  },
+  {
+   "slug": "anwa-aria-by-omniyat",
+   "url": "https://www.omniyat.com/residential/anwa-aria-by-omniyat",
+   "title": "ANWA ARIA | Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "ANWA ARIA",
+   "text_chars": 6805,
+   "area": "Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "30",
+    "units": "175",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "townhouse",
+     "duplex",
+     "penthouse",
+     "studio",
+     "1BR",
+     "2BR",
+     "3BR",
+     "4BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 6056
+  },
+  {
+   "slug": "ava-at-palm-jumeirah",
+   "url": "https://www.omniyat.com/residential/ava-at-palm-jumeirah",
+   "title": "AVA | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "AVA",
+   "text_chars": 6411,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "16",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "4BR",
+     "duplex",
+     "5BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "cinema",
+    "spa",
+    "beach access",
+    "concierge",
+    "valet"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c1169cd309c1c014c666_AVA-at-Palm-Jumeirah-eBrochure-LowRes.pdf"
+   ],
+   "text_chars_clean": 4822
+  },
+  {
+   "slug": "one-at-palm-jumeirah",
+   "url": "https://www.omniyat.com/residential/one-at-palm-jumeirah",
+   "title": "One at Palm Jumeirah | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "One at Palm Jumeirah",
+   "text_chars": 6730,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "91",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "3BR",
+     "4BR",
+     "6BR",
+     "duplex"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "cinema",
+    "spa",
+    "sauna",
+    "beach access"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c1161ee3186b3475e8e0_2023-09-27-One-at-Palm-Ebrochure-LowRes.pdf"
+   ],
+   "text_chars_clean": 5141
+  },
+  {
+   "slug": "orla-dorchester-collection-dubai",
+   "url": "https://www.omniyat.com/residential/orla-dorchester-collection-dubai",
+   "title": "ORLA | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "ORLA",
+   "text_chars": 8913,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "89",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "mansion",
+     "2BR",
+     "3BR",
+     "duplex",
+     "4BR",
+     "5BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "cinema",
+    "spa",
+    "yoga",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 7313
+  },
+  {
+   "slug": "orla-infinity-dorchester-collection-dubai",
+   "url": "https://www.omniyat.com/residential/orla-infinity-dorchester-collection-dubai",
+   "title": "ORLA Infinity | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "ORLA Infinity",
+   "text_chars": 7185,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "4BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "kids' zone",
+    "cinema",
+    "spa",
+    "yoga",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 5622
+  },
+  {
+   "slug": "sterling",
+   "url": "https://www.omniyat.com/residential/sterling",
+   "title": "THE STERLING | Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "THE STERLING",
+   "text_chars": 5638,
+   "area": "Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "381",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "townhouse",
+     "penthouse",
+     "2BR",
+     "3BR",
+     "4BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "concierge"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6544e9ef2e76a4125ddf65da_The%20Sterling%20by%20OMNIYAT%20eBrochure.pdf"
+   ],
+   "text_chars_clean": 4868
+  },
+  {
+   "slug": "the-alba-residences-dorchester-collection-dubai",
+   "url": "https://www.omniyat.com/residential/the-alba-residences-dorchester-collection-dubai",
+   "title": "The Alba | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "The Alba",
+   "text_chars": 7213,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": "Dorchester Collection's first beachfront destination",
+    "structure": null,
+    "storeys": null,
+    "units": "88",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "4BR",
+     "duplex",
+     "6BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "beach access",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 5633
+  },
+  {
+   "slug": "the-lana-residences",
+   "url": "https://www.omniyat.com/residential/the-lana-residences",
+   "title": "LANA, Dorchester Collection | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "LANA, Dorchester Collection",
+   "text_chars": 7315,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "32",
+    "units": "2023",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail",
+     "2BR",
+     "4BR",
+     "duplex",
+     "penthouse",
+     "5BR",
+     "office",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "yoga",
+    "concierge",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c116d290c283f39ad120_The-Lana-Residences-Ebrochure-LowRes.pdf"
+   ],
+   "text_chars_clean": 5705
+  },
+  {
+   "slug": "the-opus",
+   "url": "https://www.omniyat.com/residential/the-opus",
+   "title": "The Opus | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "The Opus",
+   "text_chars": 7296,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "96",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "1BR",
+     "2BR",
+     "duplex",
+     "3BR",
+     "4BR",
+     "office"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "concierge"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 6506
+  },
+  {
+   "slug": "vela-dorchester-collection-dubai",
+   "url": "https://www.omniyat.com/residential/vela-dorchester-collection-dubai",
+   "title": "VELA | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "VELA",
+   "text_chars": 7293,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "38",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "duplex",
+     "5BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "cinema",
+    "spa",
+    "marina"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c1179416bda96b411510_20230411-VELA-eBrochure-V11.pdf"
+   ],
+   "text_chars_clean": 5703
+  },
+  {
+   "slug": "vela-viento-dorchester-collection-dubai",
+   "url": "https://www.omniyat.com/residential/vela-viento-dorchester-collection-dubai",
+   "title": "VELA VIENTO | Prestige Luxury Real Estate Dubai | OMNIYAT",
+   "description": "",
+   "image": null,
+   "h1": "Omniyat",
+   "name": "VELA VIENTO",
+   "text_chars": 12232,
+   "area": "Prestige Luxury Real Estate Dubai",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "18",
+    "units": "95",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "penthouse",
+     "3BR",
+     "4BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "cinema",
+    "spa",
+    "yoga",
+    "padel",
+    "beach access",
+    "golf",
+    "marina",
+    "jogging track"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6525c11654696509d745be42_VELA-VIENTO-F%26F-Brochure-V15-LowRes.pdf"
+   ],
+   "text_chars_clean": 10615
+  }
+ ]
+}

@@ -1,0 +1,606 @@
+{
+ "source": "https://www.imandevelopers.com",
+ "fetched": "2026-09-03 05:21",
+ "properties": [
+  {
+   "slug": "10-oxford-by-iman",
+   "url": "https://www.imandevelopers.com/iman-properties/10-oxford-by-iman",
+   "title": "10 Oxford by Iman | Smart Apartments in JVC, Dubai",
+   "description": "Live smarter at 10 Oxford, Iman's latest luxury project in JVC. Featuring intelligent design, top-tier amenities, and premium finishes in every apartment.",
+   "image": null,
+   "h1": "10 Oxford by Iman",
+   "name": "10 Oxford by Iman",
+   "text_chars": 4574,
+   "area": "Jumeirah Village Circle (JVC)",
+   "facts": {
+    "location": "Jumeirah Village Circle (JVC)",
+    "structure": null,
+    "storeys": null,
+    "units": "434",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "kids' zone",
+    "clubhouse",
+    "spa",
+    "sauna",
+    "EV charging",
+    "padel",
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3544
+  },
+  {
+   "slug": "113-residences",
+   "url": "https://www.imandevelopers.com/iman-properties/113-residences",
+   "title": "113 Residences by Iman | Luxury Residences in Al Sufouh, Dubai",
+   "description": "113 Residences by Iman Developers in Al Sufouh — refined apartments with Versace Ceramics interiors, rooftop infinity pool & wellness amenities.",
+   "image": null,
+   "h1": "113 Residences",
+   "name": "113 Residences",
+   "text_chars": 3742,
+   "area": "Al Sufouh",
+   "facts": {
+    "location": "Al Sufouh",
+    "structure": null,
+    "storeys": null,
+    "units": "113",
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "kids' zone",
+    "clubhouse",
+    "BBQ",
+    "spa",
+    "sauna",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2784
+  },
+  {
+   "slug": "15-cascade",
+   "url": "https://www.imandevelopers.com/iman-properties/15-cascade",
+   "title": "15 Cascade by Iman Developers | Luxury Living in Dubai Motor City",
+   "description": "Discover 15 Cascade by Iman Developers in Dubai Motor City, featuring luxury apartments with Versace Ceramics and premium amenities.",
+   "image": null,
+   "h1": "15 Cascade",
+   "name": "15 Cascade",
+   "text_chars": 5769,
+   "area": "Dubai Motor City",
+   "facts": {
+    "location": "Dubai Motor City",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa",
+    "sauna",
+    "yoga",
+    "EV charging",
+    "beach access",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4811
+  },
+  {
+   "slug": "gardens-2",
+   "url": "https://www.imandevelopers.com/iman-properties/gardens-2",
+   "title": "Gardens 2 by Iman | Premium Living in Arjan, Dubai",
+   "description": "Discover Gardens 2 in Arjan – modern studio, 1 & 2-bedroom apartments with resort-style amenities and elegant design. A project by Iman Developers.",
+   "image": null,
+   "h1": "Gardens 2",
+   "name": "Gardens 2",
+   "text_chars": 4511,
+   "area": "Arjan",
+   "facts": {
+    "location": "Arjan",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "spa",
+    "sauna",
+    "EV charging"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3481
+  },
+  {
+   "slug": "one-park-central",
+   "url": "https://www.imandevelopers.com/iman-properties/one-park-central",
+   "title": "One Park Central by Iman | Central Park Views in JVC",
+   "description": "One Park Central by Iman Developers – 23-storey tower overlooking Central Park in JVC, Dubai, with 60,000 sq.ft of premium amenities.",
+   "image": null,
+   "h1": "One Park Central",
+   "name": "One Park Central",
+   "text_chars": 5008,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "482",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio",
+     "2-BR",
+     "duplex",
+     "4-BR",
+     "penthouse",
+     "retail"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa",
+    "sauna",
+    "yoga",
+    "padel",
+    "golf",
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4050
+  },
+  {
+   "slug": "one-park-square",
+   "url": "https://www.imandevelopers.com/iman-properties/one-park-square",
+   "title": "One Park Square by Iman | Duplexes with Private Pools in JVC",
+   "description": "One Park Square by Iman Developers in JVC – duplexes with private pools, 24th-floor penthouses & a 40M leisure pool. A golden desert-inspired landmark.",
+   "image": null,
+   "h1": "One Park Square",
+   "name": "One Park Square",
+   "text_chars": 5336,
+   "area": "Jumeirah Village Circle",
+   "facts": {
+    "location": "Jumeirah Village Circle",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "villa",
+     "penthouse",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "spa",
+    "sauna",
+    "golf",
+    "jogging track"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4378
+  },
+  {
+   "slug": "one-sky-park",
+   "url": "https://www.imandevelopers.com/iman-properties/one-sky-park",
+   "title": "One Sky Park by Iman | Branded Skyscraper in JVC, Dubai",
+   "description": "One Sky Park by Iman Developers – JVC's first branded skyscraper, with a 45m beach-edge pool, SkyFit gym & panoramic sky deck views.",
+   "image": null,
+   "h1": "One Sky Park",
+   "name": "One Sky Park",
+   "text_chars": 5795,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "26",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "duplex",
+     "penthouse",
+     "4-BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "cinema",
+    "spa",
+    "sauna",
+    "yoga",
+    "padel",
+    "beach access",
+    "golf",
+    "marina",
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4833
+  },
+  {
+   "slug": "oxford-212",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-212",
+   "title": "Oxford 212 by Iman | Urban Apartments in JVC, Dubai",
+   "description": "Oxford 212 redefines city living with its urban design, premium finishes, and prime location in Jumeirah Village Circle. Developed by Iman.",
+   "image": null,
+   "h1": "Oxford 212",
+   "name": "Oxford 212",
+   "text_chars": 3032,
+   "area": "Jumeirah Village Circle",
+   "facts": {
+    "location": "Jumeirah Village Circle",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "cinema",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2002
+  },
+  {
+   "slug": "oxford-boulevard",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-boulevard",
+   "title": "Oxford Boulevard by Iman | Smart Homes in JVC, Dubai",
+   "description": "Oxford Boulevard blends modern architecture with vibrant community living in Dubai's JVC. Spacious units, rooftop pool, and more await.",
+   "image": null,
+   "h1": "Oxford Boulevard",
+   "name": "Oxford Boulevard",
+   "text_chars": 2486,
+   "area": "Dubai's JVC",
+   "facts": {
+    "location": "Dubai's JVC",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "BBQ",
+    "spa",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1456
+  },
+  {
+   "slug": "oxford-cove",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-cove",
+   "title": "Oxford Cove by Iman | New Launch Apartments in JVC, Dubai",
+   "description": "Oxford Cove by Iman – new launch apartments in JVC, Dubai. 40/60 payment plan, premium finishes & resort-style amenities. Register your interest.",
+   "image": null,
+   "h1": "Oxford Cove by Iman",
+   "name": "Oxford Cove by Iman",
+   "text_chars": 4659,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "kids' zone",
+    "clubhouse",
+    "BBQ",
+    "spa",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3701
+  },
+  {
+   "slug": "oxford-gardens",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-gardens",
+   "title": "Oxford Gardens by Iman | Luxury Apartments in Arjan, Dubai",
+   "description": "Step into refined elegance at Oxford Gardens in Arjan. Stylish apartments with lush green views, rooftop amenities, and seamless connectivity to the city.",
+   "image": null,
+   "h1": "Oxford Gardens",
+   "name": "Oxford Gardens",
+   "text_chars": 3765,
+   "area": "Arjan",
+   "facts": {
+    "location": "Arjan",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "cinema",
+    "spa",
+    "sauna",
+    "yoga",
+    "EV charging",
+    "padel",
+    "jogging track",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2735
+  },
+  {
+   "slug": "oxford-residence",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-residence",
+   "title": "Oxford Residence by Iman | Timeless Apartments in JVC, Dubai",
+   "description": "Oxford Residence offers timeless elegance and exceptional living in the heart of Jumeirah Village Circle. A signature development by Iman.",
+   "image": null,
+   "h1": "Oxford Residence",
+   "name": "Oxford Residence",
+   "text_chars": 2241,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "103",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1211
+  },
+  {
+   "slug": "oxford-residence-2",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-residence-2",
+   "title": "Oxford Residence 2 by Iman | Elegant Living in JVC, Dubai",
+   "description": "Live in style at Oxford Residence 2 – a luxury apartment development in Dubai's JVC with upscale finishes and wellness-inspired design.",
+   "image": null,
+   "h1": "Oxford Residence 2",
+   "name": "Oxford Residence 2",
+   "text_chars": 2018,
+   "area": "Dubai's JVC with upscale finishes and",
+   "facts": {
+    "location": "Dubai's JVC with upscale finishes and",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 988
+  },
+  {
+   "slug": "oxford-terraces",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-terraces",
+   "title": "Oxford Terraces by Iman | Residential Living in JVC, Dubai",
+   "description": "Experience Oxford Terraces, a stylish apartment project in JVC featuring smart interiors, rooftop pools, and wellness amenities by Iman Developers.",
+   "image": null,
+   "h1": "Oxford Terraces",
+   "name": "Oxford Terraces",
+   "text_chars": 3251,
+   "area": "Jumeirah Village Circle",
+   "facts": {
+    "location": "Jumeirah Village Circle",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "BBQ"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2221
+  },
+  {
+   "slug": "oxford-terraces-2",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-terraces-2",
+   "title": "Oxford Terraces 2 by Iman | Modern Apartments in JVC",
+   "description": "Explore Oxford Terraces 2 in JVC Dubai – contemporary residences designed for comfort, convenience, and community. Developed by Iman.",
+   "image": null,
+   "h1": "Oxford Terraces 2",
+   "name": "Oxford Terraces 2",
+   "text_chars": 3162,
+   "area": "JVC Dubai",
+   "facts": {
+    "location": "JVC Dubai",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2132
+  },
+  {
+   "slug": "oxford-villa",
+   "url": "https://www.imandevelopers.com/iman-properties/oxford-villa",
+   "title": "Oxford Villa by Iman | Exclusive Townhouses in JVC, Dubai",
+   "description": "Experience boutique villa living at Oxford Villa. Limited-edition residences in JVC Dubai, crafted with premium materials and smart home features.",
+   "image": null,
+   "h1": "Oxford Villa",
+   "name": "Oxford Villa",
+   "text_chars": 2484,
+   "area": "Jumeirah Village Circle",
+   "facts": {
+    "location": "Jumeirah Village Circle",
+    "structure": null,
+    "storeys": null,
+    "units": "12",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "townhouse",
+     "retail",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "BBQ",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1435
+  },
+  {
+   "slug": "sierra-by-iman",
+   "url": "https://www.imandevelopers.com/iman-properties/sierra-by-iman",
+   "title": "Sierra by Iman | Wellness Living in Motor City, Dubai",
+   "description": "Sierra by Iman Developers in Motor City – studios to 4-bed duplexes with private pools & a 75,000 sq.ft wellness deck. Discover Dubai's next landmark tower.",
+   "image": null,
+   "h1": "SIERRA by Iman",
+   "name": "SIERRA by Iman",
+   "text_chars": 4424,
+   "area": "Motor City",
+   "facts": {
+    "location": "Motor City",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "clubhouse",
+    "BBQ",
+    "spa",
+    "sauna",
+    "yoga"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3462
+  },
+  {
+   "slug": "the-grove-by-iman",
+   "url": "https://www.imandevelopers.com/iman-properties/the-grove-by-iman",
+   "title": "The Grove by Iman | Boutique Residences Near Dubai Hills",
+   "description": "The Grove offers boutique living near Dubai Hills – elegant apartments, wellness-focused design, and curated experiences by Iman Developers.",
+   "image": null,
+   "h1": "The Grove By Iman",
+   "name": "The Grove By Iman",
+   "text_chars": 3512,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "clubhouse",
+    "BBQ",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2482
+  }
+ ]
+}

@@ -1,0 +1,534 @@
+{
+ "source": "https://www.h-h.ae",
+ "fetched": "2026-09-03 04:56",
+ "properties": [
+  {
+   "slug": "aman-dubai-hotel-residences",
+   "url": "https://www.h-h.ae/development/aman-dubai-hotel-residences",
+   "title": "AMAN DUBAI HOTEL & RESIDENCES | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Aman DUBAI hotel & residences",
+   "name": "Aman DUBAI hotel & residences",
+   "text_chars": 961,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "spa",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 822
+  },
+  {
+   "slug": "baccarat-hotel-residences",
+   "url": "https://www.h-h.ae/development/baccarat-hotel-residences",
+   "title": "BACCARAT HOTEL & RESIDENCES | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "BACCARAT HOTEL & RESIDENCES",
+   "name": "BACCARAT HOTEL & RESIDENCES",
+   "text_chars": 1083,
+   "area": "Downtown Dubai",
+   "facts": {
+    "location": "Downtown Dubai",
+    "structure": null,
+    "storeys": null,
+    "units": "49",
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 944
+  },
+  {
+   "slug": "city-tower",
+   "url": "https://www.h-h.ae/development/city-tower",
+   "title": "CITY TOWER | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "CITY TOWER",
+   "name": "CITY TOWER",
+   "text_chars": 810,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "695",
+    "handover": "2026",
+    "payment_plans": [],
+    "mix": [
+     "office"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 660
+  },
+  {
+   "slug": "dubai-harbour-residences",
+   "url": "https://www.h-h.ae/development/dubai-harbour-residences",
+   "title": "DUBAI HARBOUR RESIDENCES | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "DUBAI HARBOUR RESIDENCES",
+   "name": "DUBAI HARBOUR RESIDENCES",
+   "text_chars": 852,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 713
+  },
+  {
+   "slug": "eden-hills",
+   "url": "https://www.h-h.ae/development/eden-hills",
+   "title": "Eden Hills | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Eden Hills",
+   "name": "Eden Hills",
+   "text_chars": 1269,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "301",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa"
+    ]
+   },
+   "amenities": [
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1119
+  },
+  {
+   "slug": "eden-house-al-satwa",
+   "url": "https://www.h-h.ae/development/eden-house-al-satwa",
+   "title": "Eden House Al Satwa | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "EDEN HOUSE, Al SATWA",
+   "name": "EDEN HOUSE, Al SATWA",
+   "text_chars": 709,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 570
+  },
+  {
+   "slug": "eden-house-dubai-hills",
+   "url": "https://www.h-h.ae/development/eden-house-dubai-hills",
+   "title": "Eden House Dubai Hills | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Eden House Dubai Hills",
+   "name": "Eden House Dubai Hills",
+   "text_chars": 877,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "32",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "townhouse"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 738
+  },
+  {
+   "slug": "eden-house-the-canal",
+   "url": "https://www.h-h.ae/development/eden-house-the-canal",
+   "title": "Eden House The Canal | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Eden House The Canal",
+   "name": "Eden House The Canal",
+   "text_chars": 1060,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "88",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "studio",
+     "duplex",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 921
+  },
+  {
+   "slug": "eden-house-the-park",
+   "url": "https://www.h-h.ae/development/eden-house-the-park",
+   "title": "Eden House The Park | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Eden House The PARK",
+   "name": "Eden House The PARK",
+   "text_chars": 952,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 813
+  },
+  {
+   "slug": "eden-house-zaabeel",
+   "url": "https://www.h-h.ae/development/eden-house-zaabeel",
+   "title": "Eden House Za'abeel | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Eden House Za'abeel",
+   "name": "Eden House Za'abeel",
+   "text_chars": 1291,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "2027",
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 1152
+  },
+  {
+   "slug": "four-seasons-difc",
+   "url": "https://www.h-h.ae/development/four-seasons-difc",
+   "title": "FOUR SEASONS DIFC | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Four Seasons Hotel Dubai At Difc",
+   "name": "Four Seasons Hotel Dubai At Difc",
+   "text_chars": 956,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 855
+  },
+  {
+   "slug": "four-seasons-private-residences-dubai-at-difc",
+   "url": "https://www.h-h.ae/development/four-seasons-private-residences-dubai-at-difc",
+   "title": "FOUR SEASONS PRIVATE RESIDENCES DUBAI AT DIFC | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Four Seasons Private Residences Dubai At Difc",
+   "name": "Four Seasons Private Residences Dubai At Difc",
+   "text_chars": 955,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 816
+  },
+  {
+   "slug": "four-seasons-private-residences-dubai-at-jumeirah",
+   "url": "https://www.h-h.ae/development/four-seasons-private-residences-dubai-at-jumeirah",
+   "title": "Four Seasons Private Residences Dubai at Jumeirah | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Four Seasons Private Residences Dubai at Jumeirah",
+   "name": "Four Seasons Private Residences Dubai at Jumeirah",
+   "text_chars": 1068,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "4BR",
+     "townhouse",
+     "5BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "cinema",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 929
+  },
+  {
+   "slug": "four-seasons-resort-dubai-at-jumeirah-beach",
+   "url": "https://www.h-h.ae/development/four-seasons-resort-dubai-at-jumeirah-beach",
+   "title": "Four seasons resort dubai at jumeirah beach | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Four Seasons Resort Dubai At Jumeirah Beach",
+   "name": "Four Seasons Resort Dubai At Jumeirah Beach",
+   "text_chars": 1237,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "November 2014",
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "beach access"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1136
+  },
+  {
+   "slug": "four-seasons-staff-accommodation",
+   "url": "https://www.h-h.ae/development/four-seasons-staff-accommodation",
+   "title": "Four seasons staff accommodation | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "FOUR SEASONS Staff Accommodation at Jebel Ali",
+   "name": "FOUR SEASONS Staff Accommodation at Jebel Ali",
+   "text_chars": 1169,
+   "area": "Jebel Ali",
+   "facts": {
+    "location": "Jebel Ali",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1030
+  },
+  {
+   "slug": "galleria-al-barsha",
+   "url": "https://www.h-h.ae/development/galleria-al-barsha",
+   "title": "Galleria al barsha | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Galleria Mall Al Barsha",
+   "name": "Galleria Mall Al Barsha",
+   "text_chars": 661,
+   "area": "Al Barsha Second in close proximity to Dubai’s major arterial",
+   "facts": {
+    "location": "Al Barsha Second in close proximity to Dubai’s major arterial",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 522
+  },
+  {
+   "slug": "galleria-al-wasl",
+   "url": "https://www.h-h.ae/development/galleria-al-wasl",
+   "title": "Galleria al wasl | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Galleia Mall Al Wasl",
+   "name": "Galleia Mall Al Wasl",
+   "text_chars": 1160,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "retail"
+    ]
+   },
+   "amenities": [
+    "kids' zone",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1021
+  },
+  {
+   "slug": "galleria-villas-al-wasl",
+   "url": "https://www.h-h.ae/development/galleria-villas-al-wasl",
+   "title": "Galleria villas al wasl | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "Galleria Vilaa Al Wasl",
+   "name": "Galleria Vilaa Al Wasl",
+   "text_chars": 1156,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "36",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "4BR"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1055
+  },
+  {
+   "slug": "janu-dubai-hotel-residences",
+   "url": "https://www.h-h.ae/development/janu-dubai-hotel-residences",
+   "title": "JANU DUBAI HOTEL & RESIDENCES | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "JANU DUBAI HOTEL & RESIDENCES",
+   "name": "JANU DUBAI HOTEL & RESIDENCES",
+   "text_chars": 1705,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1566
+  },
+  {
+   "slug": "jumeirah-al-naseem-madinat-jumeirah-phase-4",
+   "url": "https://www.h-h.ae/development/jumeirah-al-naseem-madinat-jumeirah-phase-4",
+   "title": "Jumeirah al naseem - Madinat jumeirah phase 4 | H&H Development",
+   "description": "",
+   "image": null,
+   "h1": "JUMEIRAH AL NASEEM MADINAT JUMEIRAH PHASE 4",
+   "name": "JUMEIRAH AL NASEEM MADINAT JUMEIRAH PHASE 4",
+   "text_chars": 1486,
+   "area": "Madinat jumeirah phase 4",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": []
+   },
+   "amenities": [
+    "pool",
+    "beach access",
+    "lagoon"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1347
+  }
+ ]
+}

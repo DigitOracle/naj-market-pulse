@@ -72,10 +72,13 @@ def amenities_from_portfolio(key):
     if not os.path.exists(f): return None
     d = json.load(open(f, encoding="utf-8")); counts = {}
     for pr in d.get("properties", []):
-        t = " ".join(x["a"] for x in pr.get("faq", []) if "amenit" in x["q"].lower() or "facilit" in x["q"].lower()).lower()
         seen = set()
-        for kw, label in AMEN_KW:
-            if kw in t and label not in seen: counts[label] = counts.get(label, 0) + 1; seen.add(label)
+        if pr.get("faq"):                                   # Imtiaz-style FAQ block: the amenities answer only
+            t = " ".join(x["a"] for x in pr.get("faq", []) if "amenit" in x["q"].lower() or "facilit" in x["q"].lower()).lower()
+            for kw, label in AMEN_KW:
+                if kw in t and label not in seen: counts[label] = counts.get(label, 0) + 1; seen.add(label)
+        for label in pr.get("amenities") or []:             # generic registers: keyword hits on the de-noised page text (dev_portfolio.py)
+            if label not in seen: counts[label] = counts.get(label, 0) + 1; seen.add(label)
     n = len(d.get("properties", []))
     return {"source": d.get("source"), "projects": n, "items": [{"label": l, "share": round(c / n, 2)} for l, c in sorted(counts.items(), key=lambda x: -x[1])]} if n else None
 

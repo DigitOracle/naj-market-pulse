@@ -43,6 +43,7 @@ def num(v):
 
 PORT_KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
             "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+STRICT_PORTFOLIO = {"Imtiaz"}
 ROMAN = {"ii": "2", "iii": "3", "iv": "4", "v": "5", "vi": "6", "one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "i": "1"}
 
 
@@ -115,19 +116,23 @@ for seg in SEG["segments"]:
         if port:
             reg_names = {norm_name(p["project"], al) for p in rec["dld_projects_2026"]}
             kept, dropped = [], []
+            strict = dev in STRICT_PORTFOLIO          # drop unmatched alias rows only where the register is known complete (Imtiaz: 41/41 pages)
             for t in tx_projects:
                 pe = t["project"].lower()
                 hit = portfolio_hit(t["project"], port, al)
+                t["portfolio_slug"] = hit["slug"] if hit else None
                 if hit or any(a in pe for a in al) or norm_name(t["project"], al) in reg_names:
-                    t["portfolio_slug"] = hit["slug"] if hit else None; kept.append(t)
-                else:
+                    kept.append(t)
+                elif strict:
                     dropped.append(t["project"])
+                else:
+                    t["portfolio_unmatched"] = True; kept.append(t)     # kept, flagged: register may simply omit older / sold-out projects
             tx_projects = kept
             rec["portfolio"] = {"source": port["source"], "fetched": port["fetched"], "count": len(port["properties"]),
                                 "properties": [{"slug": pr["slug"], "name": pr["name"], "area": pr.get("area"), "url": pr["url"], "image": pr.get("image"),
                                                 **{k: pr["facts"].get(k) for k in ("location", "structure", "storeys", "units", "handover", "payment_plans", "mix")},
                                                 "downloads_gated": [d["label"] for d in pr.get("downloads", [])]} for pr in port["properties"]],
-                                "tx_dropped_as_name_noise": dropped}
+                                "tx_dropped_as_name_noise": dropped, "tx_unmatched_kept": [t["project"] for t in tx_projects if t.get("portfolio_unmatched")]}
             rec["sources"].append("developer website portfolio register (%s, %s)" % (port["source"], port["fetched"]))
         rec["tx_2026"] = {"projects": sorted(tx_projects, key=lambda t: -t["tx"]), "transactions": sum(t["tx"] for t in tx_projects), "value_aed": sum(t["value_aed"] for t in tx_projects),
                           "areas": sorted({t["area"] for t in tx_projects if t["area"]}), "aliases_matched": matched, "aliases_unmatched": [n for n in pal if n not in matched]}

@@ -1,0 +1,998 @@
+{
+ "source": "https://www.select-group.ae",
+ "fetched": "2026-09-03 04:57",
+ "properties": [
+  {
+   "slug": "15-northside",
+   "url": "https://www.select-group.ae/developments/15-northside",
+   "title": "15 Northside - Canal Front Living in Business Bay, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "15 Northside",
+   "name": "15 Northside",
+   "text_chars": 12511,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "21",
+    "units": "349",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "marina",
+    "jogging track"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/69df802f2761ff45c09d306f_15N%20BROCHURE%2003FEB21.pdf"
+   ],
+   "text_chars_clean": 2621
+  },
+  {
+   "slug": "artistry-one-residences",
+   "url": "https://www.select-group.ae/developments/artistry-one-residences",
+   "title": "Artistry One Residences | Design-Lead Living in Dubai Design District",
+   "description": "",
+   "image": null,
+   "h1": "Artistry One Residences",
+   "name": "Artistry One Residences",
+   "text_chars": 14359,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "penthouse",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "sauna",
+    "co-working"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/6a0ad721b343d7dcefcebb65_Artistry%20One%20BROCHURE_MAY%202026%20(2)%20copy.pdf"
+   ],
+   "text_chars_clean": 4640
+  },
+  {
+   "slug": "artistry-two-residences",
+   "url": "https://www.select-group.ae/developments/artistry-two-residences",
+   "title": "Artistry Two Residences | Design-Lead Living in Dubai Design District",
+   "description": "",
+   "image": null,
+   "h1": "Artistry Two Residences",
+   "name": "Artistry Two Residences",
+   "text_chars": 14401,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "37",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "penthouse",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "sauna",
+    "padel",
+    "co-working"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/6a0ad6921209fe98c1a33e2f_Artistry%20Two%20BROCHURE_May2026.pdf"
+   ],
+   "text_chars_clean": 4680
+  },
+  {
+   "slug": "bay-central",
+   "url": "https://www.select-group.ae/developments/bay-central",
+   "title": "Bay Central - Waterfront Complex in Dubai Marina",
+   "description": "",
+   "image": null,
+   "h1": "Bay Central",
+   "name": "Bay Central",
+   "text_chars": 11268,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "86",
+    "units": "747",
+    "handover": "2012",
+    "payment_plans": [],
+    "mix": [
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "spa",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1378
+  },
+  {
+   "slug": "botanica",
+   "url": "https://www.select-group.ae/developments/botanica",
+   "title": "Botanica - Dubai Marina's Tropical Paradise Residences",
+   "description": "",
+   "image": null,
+   "h1": "Botanica",
+   "name": "Botanica",
+   "text_chars": 11274,
+   "area": "Dubai Marina overlooking mesmerising coastal and marina views",
+   "facts": {
+    "location": "Dubai Marina overlooking mesmerising coastal and marina views",
+    "structure": null,
+    "storeys": "41",
+    "units": "371",
+    "handover": "2011",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "villa",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1384
+  },
+  {
+   "slug": "jumeirah-living-business-bay",
+   "url": "https://www.select-group.ae/developments/jumeirah-living-business-bay",
+   "title": "Jumeirah Living Business Bay - Branded Waterfront Residences, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Jumeirah Living Business Bay",
+   "name": "Jumeirah Living Business Bay",
+   "text_chars": 15800,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "82",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "5BR",
+     "penthouse",
+     "duplex",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "cinema",
+    "spa",
+    "sauna",
+    "yoga",
+    "beach access",
+    "concierge",
+    "golf",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 6311
+  },
+  {
+   "slug": "jumeirah-living-marina-gate",
+   "url": "https://www.select-group.ae/developments/jumeirah-living-marina-gate",
+   "title": "Jumeirah Living Marina Gate - Branded Waterfront Residences in Duabi Marina",
+   "description": "",
+   "image": null,
+   "h1": "Jumeirah Living Marina Gate",
+   "name": "Jumeirah Living Marina Gate",
+   "text_chars": 14257,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "508",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "retail",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "spa",
+    "sauna",
+    "concierge",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/69df802e6000690c4d9ea286_JLMG%20Lifestyle%20Benefits%20Brochure%2012Nov20.pdf"
+   ],
+   "text_chars_clean": 4504
+  },
+  {
+   "slug": "mushrif-village",
+   "url": "https://www.select-group.ae/developments/mushrif-village",
+   "title": "Mushrif Village - A Freehold Ownership Villa Community in Mirdif, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Mushrif Village",
+   "name": "Mushrif Village",
+   "text_chars": 14225,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "villa",
+     "4-BR",
+     "townhouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "clubhouse",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4635
+  },
+  {
+   "slug": "nautica",
+   "url": "https://www.select-group.ae/developments/nautica",
+   "title": "Nautica; Dubai Maritime City; A development by Select Group - Off-plan, waterfront residences",
+   "description": "",
+   "image": null,
+   "h1": "Nautica",
+   "name": "Nautica",
+   "text_chars": 15189,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "2026",
+    "payment_plans": [
+     "40/60"
+    ],
+    "mix": [
+     "2-BR",
+     "retail",
+     "1-BR",
+     "office"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "yoga",
+    "padel",
+    "beach access",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 5704
+  },
+  {
+   "slug": "no-9",
+   "url": "https://www.select-group.ae/developments/no-9",
+   "title": "No.9 - Luxury Waterfront Residences in Dubai marina",
+   "description": "",
+   "image": null,
+   "h1": "No.9",
+   "name": "No.9",
+   "text_chars": 12404,
+   "area": "Dubai Marina",
+   "facts": {
+    "location": "Dubai Marina",
+    "structure": null,
+    "storeys": "37",
+    "units": "222",
+    "handover": "2018",
+    "payment_plans": [],
+    "mix": [
+     "duplex",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2484
+  },
+  {
+   "slug": "pacific",
+   "url": "https://www.select-group.ae/developments/pacific",
+   "title": "Pacific - Beachfront Living in Al Marjan, Ras Al Khaimah",
+   "description": "",
+   "image": null,
+   "h1": "Pacific",
+   "name": "Pacific",
+   "text_chars": 11306,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "400",
+    "handover": "2018",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "duplex"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "sauna",
+    "beach access",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1416
+  },
+  {
+   "slug": "peninsula-five-the-signature-collection",
+   "url": "https://www.select-group.ae/developments/peninsula-five-the-signature-collection",
+   "title": "Peninsula Five, The Signature Collection - Luxury Waterfront Living in Business Bay, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Peninsula Five, The Signature Collection",
+   "name": "Peninsula Five, The Signature Collection",
+   "text_chars": 14412,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "36",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "duplex",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "kids' zone",
+    "spa",
+    "sauna",
+    "beach access",
+    "golf",
+    "marina"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/69df802f6000690c4d9ea3ae_Peninsula%20Five%2C%20The%20Signature%20Collection%20by%20Select%20Group.pdf"
+   ],
+   "text_chars_clean": 4592
+  },
+  {
+   "slug": "peninsula-four-the-plaza",
+   "url": "https://www.select-group.ae/developments/peninsula-four-the-plaza",
+   "title": "Peninsula Four, The Plaza - Premium Property in Business Bay Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Peninsula Four, The Plaza",
+   "name": "Peninsula Four, The Plaza",
+   "text_chars": 16365,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "52",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "4BR",
+     "duplex",
+     "retail",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "spa",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 6780
+  },
+  {
+   "slug": "peninsula-one",
+   "url": "https://www.select-group.ae/developments/peninsula-one",
+   "title": "Peninsula One - Business Bay's Premium Waterfront Address",
+   "description": "",
+   "image": null,
+   "h1": "Peninsula One",
+   "name": "Peninsula One",
+   "text_chars": 14368,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "6",
+    "units": "433",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "3BR",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "spa",
+    "sauna",
+    "beach access",
+    "golf",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 4518
+  },
+  {
+   "slug": "peninsula-three",
+   "url": "https://www.select-group.ae/developments/peninsula-three",
+   "title": "Peninsula Three - Excpetional Waterfront Residences in Business Bay, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Peninsula Three",
+   "name": "Peninsula Three",
+   "text_chars": 13605,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "Q4 2025",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "2BR",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "yoga",
+    "padel",
+    "beach access",
+    "golf",
+    "marina",
+    "tennis"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3755
+  },
+  {
+   "slug": "peninsula-two",
+   "url": "https://www.select-group.ae/developments/peninsula-two",
+   "title": "Peninsula Two - Canal Front Residences, Business Bay, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Peninsula Two",
+   "name": "Peninsula Two",
+   "text_chars": 13737,
+   "area": "Business Bay",
+   "facts": {
+    "location": "Business Bay",
+    "structure": null,
+    "storeys": "36",
+    "units": "439",
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "retail",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "beach access",
+    "golf",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3917
+  },
+  {
+   "slug": "residence-110",
+   "url": "https://www.select-group.ae/developments/residence-110",
+   "title": "Residence 110 - Ready to Move Apartments in Business Bay",
+   "description": "",
+   "image": null,
+   "h1": "Residence 110",
+   "name": "Residence 110",
+   "text_chars": 13420,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "19",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "3BR",
+     "1BR",
+     "2BR",
+     "studio",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3838
+  },
+  {
+   "slug": "six-senses-residences-dubai-marina",
+   "url": "https://www.select-group.ae/developments/six-senses-residences-dubai-marina",
+   "title": "Six Senses Residences Dubai Marina- Ultra-Luxury Branded Residences, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "Six Senses Residences Dubai Marina",
+   "name": "Six Senses Residences Dubai Marina",
+   "text_chars": 18683,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "122",
+    "units": null,
+    "handover": "2029",
+    "payment_plans": [],
+    "mix": [
+     "5-BR",
+     "penthouse",
+     "duplex",
+     "skymansion",
+     "4BR",
+     "5BR",
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "cinema",
+    "spa",
+    "sauna",
+    "yoga",
+    "beach access",
+    "concierge",
+    "golf",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 9209
+  },
+  {
+   "slug": "six-senses-residences-the-palm-dubai",
+   "url": "https://www.select-group.ae/developments/six-senses-residences-the-palm-dubai",
+   "title": "Six Senses Residences The Palm, Dubai - Branded Beachfront Living on The Palm",
+   "description": "",
+   "image": null,
+   "h1": "Six Senses Residences The Palm, Dubai",
+   "name": "Six Senses Residences The Palm, Dubai",
+   "text_chars": 14745,
+   "area": "Palm Jumeirah's West Crescent",
+   "facts": {
+    "location": "Palm Jumeirah's West Crescent",
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "Q2 2026",
+    "payment_plans": [
+     "40/60"
+    ],
+    "mix": [
+     "villa",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "cinema",
+    "spa",
+    "beach access",
+    "concierge",
+    "marina",
+    "valet"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 5218
+  },
+  {
+   "slug": "studio-one",
+   "url": "https://www.select-group.ae/developments/studio-one",
+   "title": "Studio One - Premium Residences in Dubai Marina",
+   "description": "",
+   "image": null,
+   "h1": "Studio One",
+   "name": "Studio One",
+   "text_chars": 11800,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": "410",
+    "handover": "2019",
+    "payment_plans": [],
+    "mix": [
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1880
+  },
+  {
+   "slug": "the-edge",
+   "url": "https://www.select-group.ae/developments/the-edge",
+   "title": "The Edge - Off-Plan Residences in Business Bay, Dubai",
+   "description": "",
+   "image": null,
+   "h1": "The EDGE",
+   "name": "The EDGE",
+   "text_chars": 13156,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": null,
+    "payment_plans": [
+     "40/60"
+    ],
+    "mix": [
+     "2-BR",
+     "1BR",
+     "2BR",
+     "retail"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "BBQ",
+    "spa",
+    "yoga",
+    "padel",
+    "co-working"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 3617
+  },
+  {
+   "slug": "the-point",
+   "url": "https://www.select-group.ae/developments/the-point",
+   "title": "The Point - Waterfront Living in Dubai Marina",
+   "description": "",
+   "image": null,
+   "h1": "The Point",
+   "name": "The Point",
+   "text_chars": 11356,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "27",
+    "units": "193",
+    "handover": "2009",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "duplex",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "BBQ",
+    "spa",
+    "beach access",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1466
+  },
+  {
+   "slug": "the-residences-at-marina-gate-i",
+   "url": "https://www.select-group.ae/developments/the-residences-at-marina-gate-i",
+   "title": "The Residences at Marina Gate I - High-End Livng in Dubai Marina",
+   "description": "",
+   "image": null,
+   "h1": "The Residences at Marina Gate I",
+   "name": "The Residences at Marina Gate I",
+   "text_chars": 12767,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "2018",
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "studio",
+     "4-BR",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "concierge",
+    "marina",
+    "tennis"
+   ],
+   "pdfs": [
+    "https://cdn.prod.website-files.com/63b6a14f5c053488b83bcaca/69df80300a70cf3d2b1946cb_MARINA%20GATE%201.pdf"
+   ],
+   "text_chars_clean": 2847
+  },
+  {
+   "slug": "the-residences-at-marina-gate-ii",
+   "url": "https://www.select-group.ae/developments/the-residences-at-marina-gate-ii",
+   "title": "The Residences at Marina Gate II - Dubai Marina's Premium Address",
+   "description": "",
+   "image": null,
+   "h1": "The Residences at Marina Gate II",
+   "name": "The Residences at Marina Gate II",
+   "text_chars": 12565,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "2019",
+    "payment_plans": [],
+    "mix": [
+     "penthouse",
+     "3-BR",
+     "villa"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "concierge",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 2645
+  },
+  {
+   "slug": "the-royal-oceanic",
+   "url": "https://www.select-group.ae/developments/the-royal-oceanic",
+   "title": "The Royal Oceanic - Cenrtally Located Residences in Duabi Marina",
+   "description": "",
+   "image": null,
+   "h1": "The Royal Oceanic",
+   "name": "The Royal Oceanic",
+   "text_chars": 11468,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "34",
+    "units": "232",
+    "handover": "2009",
+    "payment_plans": [],
+    "mix": [
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "BBQ",
+    "spa",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1578
+  },
+  {
+   "slug": "the-torch",
+   "url": "https://www.select-group.ae/developments/the-torch",
+   "title": "The Torch - Dubai Marina's Tallest Tower of its Time",
+   "description": "",
+   "image": null,
+   "h1": "The Torch",
+   "name": "The Torch",
+   "text_chars": 11316,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "79",
+    "units": "682",
+    "handover": "2011",
+    "payment_plans": [],
+    "mix": [
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "sauna",
+    "concierge",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1426
+  },
+  {
+   "slug": "velocity-tower",
+   "url": "https://www.select-group.ae/developments/velocity-tower",
+   "title": "Velocity Tower - Modern Development in Sheffield | Premium Apartments & Homes",
+   "description": "",
+   "image": null,
+   "h1": "Velocity Tower",
+   "name": "Velocity Tower",
+   "text_chars": 14630,
+   "area": "Modern Development in Sheffield",
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "21",
+    "units": null,
+    "handover": null,
+    "payment_plans": [],
+    "mix": [
+     "studio"
+    ]
+   },
+   "amenities": [],
+   "pdfs": [],
+   "text_chars_clean": 5143
+  },
+  {
+   "slug": "west-avenue",
+   "url": "https://www.select-group.ae/developments/west-avenue",
+   "title": "West Avenue - Centrally Located Residences in Dubai Marina",
+   "description": "",
+   "image": null,
+   "h1": "West Avenue",
+   "name": "West Avenue",
+   "text_chars": 11370,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": null,
+    "units": null,
+    "handover": "2014",
+    "payment_plans": [],
+    "mix": [
+     "studio",
+     "penthouse"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "spa",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1450
+  },
+  {
+   "slug": "yacht-bay",
+   "url": "https://www.select-group.ae/developments/yacht-bay",
+   "title": "Yacht Bay - Dubai Marina's Nautical Inspired Residences",
+   "description": "",
+   "image": null,
+   "h1": "Yacht Bay",
+   "name": "Yacht Bay",
+   "text_chars": 11192,
+   "area": null,
+   "facts": {
+    "location": null,
+    "structure": null,
+    "storeys": "16",
+    "units": "175",
+    "handover": "2007",
+    "payment_plans": [],
+    "mix": [
+     "studio"
+    ]
+   },
+   "amenities": [
+    "pool",
+    "gym",
+    "kids' zone",
+    "BBQ",
+    "sauna",
+    "marina"
+   ],
+   "pdfs": [],
+   "text_chars_clean": 1302
+  }
+ ]
+}

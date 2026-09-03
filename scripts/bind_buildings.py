@@ -41,7 +41,7 @@ def main():
     from shapely.geometry import shape, Point
     import duckdb, pyproj
     area = sys.argv[sys.argv.index("--area") + 1]
-    sl = slug(area)
+    sl = sys.argv[sys.argv.index("--slug") + 1] if "--slug" in sys.argv else slug(area)   # folder slug when it differs from the DLD area name (Marsa Dubai -> dubaimarina)
     gj = json.load(open(os.path.join(CE, sl, "buildings.geojson")))
     feats = gj["features"]
     polys = [shape(f["geometry"]) for f in feats]
