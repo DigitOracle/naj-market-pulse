@@ -150,6 +150,43 @@ def mesh_map(slug, blds):
         if math.hypot(best["x"] - cx, best["z"] - cz) <= 12: out[best["i"]] = mi
     return out
 
+
+def facade_points(ring):
+    """Oriented bbox of the footprint ring (EPSG:32640 metres): returns (bearing_deg, [N,E,S,W] midpoints 1.5 m outside, as [x, z])."""
+    pts = [TO_UTM(px, py) for px, py in ring]
+    # longest edge bearing
+    best = (0.0, 0.0)
+    for i in range(len(pts) - 1):
+        (x1, y1), (x2, y2) = pts[i], pts[i + 1]; L = math.hypot(x2 - x1, y2 - y1)
+        if L > best[0]: best = (L, math.degrees(math.atan2(x2 - x1, y2 - y1)) % 180.0)
+    th = math.radians(best[1]); ux, uy = math.sin(th), math.cos(th); vx, vy = -uy, ux        # u along the long edge, v across
+    cx = sum(x for x, _ in pts) / len(pts); cy = sum(y for _, y in pts) / len(pts)
+    du = [(x - cx) * ux + (y - cy) * uy for x, y in pts]; dv = [(x - cx) * vx + (y - cy) * vy for x, y in pts]
+    hu, hv = max(du), max(dv); lu, lv = min(du), min(dv)
+    mids = {"+u": (cx + (hu + 1.5) * ux, cy + (hu + 1.5) * uy), "-u": (cx + (lu - 1.5) * ux, cy + (lu - 1.5) * uy),
+            "+v": (cx + (hv + 1.5) * vx, cy + (hv + 1.5) * vy), "-v": (cx + (lv - 1.5) * vx, cy + (lv - 1.5) * vy)}
+    # label each midpoint by the compass quadrant of its outward normal
+    out = {}
+    for k, (mx, my) in mids.items():
+        nx, ny = mx - cx, my - cy; b = math.degrees(math.atan2(nx, ny)) % 360
+        q = "N" if b < 45 or b >= 315 else "E" if b < 135 else "S" if b < 225 else "W"
+        if q not in out or math.hypot(nx, ny) < 0: out[q] = [round(mx, 1), round(-my, 1)]
+    return round(best[1], 1), [out.get(q) for q in ("N", "E", "S", "W")]
+
+LANDMARKS = [("Burj Khalifa", 55.27419, 25.19720, 828), ("Dubai Mall", 55.27960, 25.19770, 40), ("Downtown Dubai", 55.2760, 25.1930, 120),
+             ("Dubai Canal", 55.2640, 25.1880, 0), ("Dubai Canal (Safa)", 55.2470, 25.1850, 0), ("Dubai Creek", 55.3300, 25.2200, 0),
+             ("Arabian Gulf (Jumeirah)", 55.2380, 25.2070, 0), ("Arabian Gulf (Marina)", 55.1330, 25.0850, 0), ("Burj Al Arab", 55.1853, 25.1412, 321),
+             ("Palm Jumeirah", 55.1380, 25.1120, 30), ("DIFC", 55.2820, 25.2120, 200), ("Museum of the Future", 55.2810, 25.2190, 77),
+             ("Ras Al Khor Sanctuary", 55.3250, 25.1900, 0), ("Meydan Racecourse", 55.3040, 25.1560, 30), ("Dubai Hills", 55.2440, 25.1150, 20)]
+
+def write_landmarks():
+    f = os.path.join(OUT, "landmarks.json")
+    if os.path.exists(f): return
+    rows = []
+    for name, lon, lat, h in LANDMARKS:
+        e, n = TO_UTM(lon, lat); rows.append({"name": name, "lon": lon, "lat": lat, "x": round(e, 1), "z": round(-n, 1), "h": h})
+    json.dump({"crs": "EPSG:32640 (x = easting, z = -northing)", "items": rows}, open(f, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
 def build(slug):
     d = os.path.join(CE, slug); gj = os.path.join(d, "buildings.geojson")
     if not os.path.exists(gj): return None
@@ -233,7 +270,11 @@ def build(slug):
     named = [b for b in blds if b["name"]]
     hs = sorted(b["h"] for b in blds); tall_cut = hs[int(len(hs) * 0.7)] if hs else 0
     tall = [b for b in blds if b["h"] >= tall_cut and b["h"] > 12]; tall_named = [b for b in tall if b["name"]]
-    anchors = [{"id": b["id"], "i": b["i"], "mesh": b.get("mesh"), "name": b["name"], "source": b["src"], "dev": b.get("dev"), "dev_project": b.get("dev_project"), "lon": round(b["lon"], 6), "lat": round(b["lat"], 6), "x": b.get("x"), "z": b.get("z"), "h": round(b["h"], 1), "levels": b["levels"]} for b in named]
+    for b in named:
+        try: b["bear"], b["fm"] = facade_points(b["ring"])
+        except Exception: b["bear"], b["fm"] = None, None
+    write_landmarks()
+    anchors = [{"id": b["id"], "i": b["i"], "mesh": b.get("mesh"), "name": b["name"], "source": b["src"], "dev": b.get("dev"), "dev_project": b.get("dev_project"), "lon": round(b["lon"], 6), "lat": round(b["lat"], 6), "x": b.get("x"), "z": b.get("z"), "h": round(b["h"], 1), "levels": b["levels"], "bear": b.get("bear"), "fm": b.get("fm")} for b in named]
     # developer buildings are the point of the exercise: keep them even when the map had no name (the register name becomes the label)
     devmeshes = [{"i": b["i"], "mesh": b.get("mesh"), "dev": b["dev"], "name": b.get("dev_project")} for b in blds if b.get("dev") and not b["name"]]
     anchors.sort(key=lambda a: -a["h"])
