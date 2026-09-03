@@ -311,7 +311,7 @@ def parse_pdf(path):
                 sl = line.strip()
                 if re.fullmatch(r"Building [A-Z0-9]{1,2}", sl):                       # "Building B": a sub-label, not a name
                     continue
-                if re.search(r"by\s+beyond", sl, re.I) or (re.fullmatch(r"[A-Za-z][A-Za-z0-9 ']{2,40}", sl) and sl.split()[0][0].isupper() and len(sl.split()) <= 5 and not re.search(r"\d", sl) and sl.lower().split()[0] not in ("beach","ocean","sea","garden","zen","skyline","forest","botanical","evermore","marjan","dubai","cove","park","green","sunset","villa","golf","marina","community","the","bedroom","selling","total","unit","created","building","type","price","area")):
+                if re.search(r"\bby\s+beyond\b", sl, re.I) or (re.fullmatch(r"[A-Za-z][A-Za-z0-9 ']{2,40}", sl) and sl.split()[0][0].isupper() and len(sl.split()) <= 5 and not re.search(r"\d", sl) and sl.lower().split()[0] not in ("beach","ocean","sea","garden","zen","skyline","forest","botanical","evermore","marjan","dubai","cove","park","green","sunset","villa","golf","marina","community","the","bedroom","selling","total","unit","created","building","type","price","area")):
                     bey_building = re.sub(r"\s+by\s+beyond", "", sl, flags=re.I).replace("'", "").strip(); continue   # a name-only row names the building for the rows that follow
                 # a wrapped orientation ("Beach / Ocean / Zen", "Garden", "Botanical Garden /"): to the unit above if it has none, else held for the next
                 if cur and cur["units"] and not re.search(r"\d", sl) and len(sl) < 40 and not sl.lower().startswith(("created", "total", "bedroom", "type", "(sqft")):
