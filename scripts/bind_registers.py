@@ -43,6 +43,46 @@ def geocode_google(key, name, area):
     if not pl: return None
     return {"lon": pl["location"]["longitude"], "lat": pl["location"]["latitude"], "score": 90, "address": pl.get("formattedAddress", ""), "addr_type": "POI", "type": ",".join(pl.get("types", [])[:3]), "name": (pl.get("displayName") or {}).get("text"), "via": "google"}
 
+# A footprint that already carries its own name is evidence. If the register scheme we are about to pin on it shares no
+# distinctive word with that name, the geocoder has landed us on the wrong building - which is exactly how "23 Marina" ended up
+# labelled as somebody else's scheme and "Ciel Tower" as somebody else's tower. District words carry no evidence at all here:
+# every third building in Dubai Marina has "Marina" in its name. Reject the pin rather than publish a wrong owner.
+NAME_STOP = {"the", "by", "at", "a", "an", "and", "of", "for", "in", "on", "residences", "residence", "residential",
+             "tower", "towers", "building", "buildings", "apartments", "apartment", "homes", "living", "villas", "villa",
+             "dubai", "uae", "emirates", "marina", "palm", "jumeirah", "bay", "business", "downtown", "creek", "harbour",
+             "harbor", "island", "islands", "views", "view", "hills", "city", "district", "phase", "project", "plaza",
+             "heights", "park", "gardens", "garden", "square", "point", "place", "hotel", "suites", "st", "deira"}
+
+
+def name_tokens(t, short=False):
+    """Distinctive words in a name. Keeps non-Latin script rather than stripping it: an Arabic-named footprint carries a real
+    name, and letting it collapse to nothing is how an English scheme gets pinned on it. `short` keeps two-character tokens
+    so a name like "23 Marina" still says something once the district words are removed."""
+    import re as _re
+    ws = _re.sub(r"[^\w ]", " ", (t or "").lower(), flags=_re.UNICODE).split()
+    return {w for w in ws if w not in NAME_STOP and len(w) > (1 if short else 2)}
+
+
+def name_conflicts(map_name, project_name, aliases=()):
+    """True when the footprint's own name rules out this scheme.
+
+    The test is asymmetric on purpose. If the scheme has a distinctive word of its own - Inaura, Six Senses, Torch - then the
+    footprint's name has to carry that word somewhere, district words and all. If the scheme's name is nothing but generic
+    words, we fall back to asking for any word in common at all. Either way an unnamed footprint is never a conflict, because
+    it says nothing; and a footprint that carries a name we cannot reconcile is left alone rather than relabelled.
+    """
+    if not (map_name or "").strip(): return False             # unnamed footprint: nothing to contradict
+    raw = lambda t: name_tokens(t, short=True) | {w for w in __import__("re").sub(r"[^\w ]", " ", (t or "").lower()).split() if len(w) > 1}
+    mt = raw(map_name)
+    if not mt: return False
+    pd = name_tokens(project_name)
+    for al in aliases: pd |= name_tokens(al)
+    if pd: return not (mt & pd)                               # the scheme has a name of its own: the footprint must carry it
+    pr = raw(project_name)
+    for al in aliases: pr |= raw(al)
+    return bool(pr) and not (mt & pr)                         # both generic: any word in common will do
+
+
 def rings(g):
     return [g["coordinates"][0]] if g["type"] == "Polygon" else [p[0] for p in g["coordinates"]]
 
@@ -100,14 +140,19 @@ if os.path.exists(_pf):
             for al in set(rec.get("aliases", [])) | {rec.get("name", "")}: DLD_AREA[(rec["dev"], al.strip().lower())] = da
 cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
 dry = "--dry" in sys.argv
-tok = None if dry else token()
-bind = {}; unplaced = []; placed = 0; stats = {"inside": 0, "near": 0, "tall80": 0}
+# The geocode cache is permanent, so a re-run that hits it needs no key at all: fetch the token only when a lookup is
+# actually about to be paid for. That keeps a pure re-bind (new rules, same geocodes) runnable without any credentials.
+_TOK = {"v": None}
+def tok_lazy():
+    if _TOK["v"] is None: _TOK["v"] = token()
+    return _TOK["v"]
+bind = {}; unplaced = []; placed = 0; stats = {"inside": 0, "namematch": 0, "near": 0, "tall80": 0}
 for p in projects:
     q = f"{p['name']}, {p['area']}, Dubai, United Arab Emirates" if p["area"] else f"{p['name']}, Dubai, United Arab Emirates"
     ck = "reg::" + q
     if ck not in cache:
         if dry: unplaced.append({**p, "why": "not geocoded (dry run)"}); continue
-        try: cache[ck] = geocode(tok, q)
+        try: cache[ck] = geocode(tok_lazy(), q)
         except Exception as e: cache[ck] = None; print("  geocode err", p["name"][:30], str(e)[:40])
         time.sleep(0.3)
     g = cache[ck]
@@ -140,13 +185,25 @@ for p in projects:
     slug = slug0
     if not slug: unplaced.append({**p, "why": "outside the 38 districts", "geo": g}); continue
     fps = DIST[slug]["fps"]; pt = (g["lon"], g["lat"])
+    ali = p.get("aliases") or []
+    ok = lambda fp: not name_conflicts(fp.get("name"), p["name"], ali)
     hit = next((fp for fp in fps if inside(pt, fp["ring"])), None); how = "inside"
+    if hit and not ok(hit): unplaced.append({**p, "why": f"named footprint disagrees ({hit.get('name')})", "geo": g, "slug": slug}); continue
     if not hit:
         near = sorted(((metres(pt[0], pt[1], fp["lon"], fp["lat"]), fp) for fp in fps), key=lambda x: x[0])[:12]
-        tall = [x for x in near if x[0] <= 80 and x[1]["h"] >= 20]
-        if tall: hit, how = max(tall, key=lambda x: x[1]["h"])[1], "tall80"
-        elif near and near[0][0] <= 60: hit, how = near[0][1], "near"
-    if not hit: unplaced.append({**p, "why": "no footprint within 60 m", "geo": g, "slug": slug}); continue
+        named = [x for x in near if x[0] <= 120 and not name_conflicts(x[1].get("name"), p["name"], ali) and (name_tokens(x[1].get("name")) or name_tokens(x[1].get("name"), short=True))]
+        if named:                                             # a footprint whose own name agrees is the best evidence there is
+            hit, how = named[0][1], "namematch"
+        else:
+            tall = [x for x in near if x[0] <= 80 and x[1]["h"] >= 20 and ok(x[1])]
+            if tall: hit, how = max(tall, key=lambda x: x[1]["h"])[1], "tall80"
+            else:
+                cand = [x for x in near if x[0] <= 60 and ok(x[1])]
+                if cand: hit, how = cand[0][1], "near"
+    if not hit:
+        blocked = [x for x in sorted(((metres(pt[0], pt[1], fp["lon"], fp["lat"]), fp) for fp in fps), key=lambda x: x[0])[:3] if not ok(x[1])]
+        unplaced.append({**p, "why": ("every footprint nearby is named as something else" if blocked else "no footprint within 60 m"),
+                         "nearest_named": (blocked[0][1].get("name") if blocked else None), "geo": g, "slug": slug}); continue
     d = metres(pt[0], pt[1], hit["lon"], hit["lat"]); stats[how] += 1
     b = bind.setdefault(slug, {}); k = str(hit["i"])
     if k in b and b[k]["source"] == "site" and p["source"] != "site": continue          # site register beats a DLD name on the same footprint

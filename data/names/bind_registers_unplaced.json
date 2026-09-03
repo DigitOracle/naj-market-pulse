@@ -39,6 +39,7 @@
   "area": "Luxury Apartments, Townhouses & Penthouses,",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.146562499999995,
    "lat": 25.138312499999998,
@@ -70,10 +71,64 @@
  },
  {
   "dev": "arada",
+  "name": "Inaura Downtown",
+  "area": "Downtown Dubai for sale at Inaura by",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "W Downtown The Residences",
+  "geo": {
+   "lon": 55.2806818,
+   "lat": 25.189375,
+   "score": 90,
+   "address": "57QJ+G48 - Burj Khalifa - Downtown Dubai - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,service,point_of_interest",
+   "name": "Inaura Hotels & Residences By Arada",
+   "via": "google"
+  },
+  "slug": "burjkhalifa"
+ },
+ {
+  "dev": "arada",
+  "name": "Masaar",
+  "area": "",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaiproductioncity)",
+  "geo": {
+   "lon": 55.187401,
+   "lat": 25.031799,
+   "score": 93.9,
+   "address": "Masar",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Nasma 2",
+  "area": "",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "29 Boulevard Tower 2",
+  "geo": {
+   "lon": 55.272411399999996,
+   "lat": 25.1913204,
+   "score": 90,
+   "address": "Burj Khalifa - Downtown Dubai - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "lodging,point_of_interest,establishment",
+   "name": "Nasma Luxury Stays-29 Boulevard -Tower 2",
+   "via": "google"
+  },
+  "slug": "burjkhalifa"
+ },
+ {
+  "dev": "arada",
   "name": "W Residences at Dubai Harbour",
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.1428125,
    "lat": 25.0918125,
@@ -92,6 +147,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2701679,
    "lat": 25.263351699999998,
@@ -110,6 +166,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2700305,
    "lat": 25.263130099999998,
@@ -128,6 +185,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2661476,
    "lat": 25.274849399999997,
@@ -146,6 +204,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2659947,
    "lat": 25.2759379,
@@ -164,6 +223,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2658395,
    "lat": 25.2795104,
@@ -182,6 +242,7 @@
   "area": "Dubai Maritime City (The Bay District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2701679,
    "lat": 25.263351699999998,
@@ -215,6 +276,7 @@
   "area": "Dubai Maritime City (The Forest District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2636944,
    "lat": 25.2773611,
@@ -233,6 +295,7 @@
   "area": "Dubai Maritime City (The Forest District)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2628066,
    "lat": 25.2784551,
@@ -251,6 +314,7 @@
   "area": "Dubai Islands (Siora)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.318386499999995,
    "lat": 25.310818299999998,
@@ -286,6 +350,7 @@
   "area": "Palm Jumeirah",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.109324199999996,
    "lat": 25.115188000000003,
@@ -318,7 +383,8 @@
   "name": "Arancia Yards by Beyond",
   "area": "City of Arabia (Dubailand)",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Al Rabia Tower",
   "geo": {
    "lon": 55.325560599999996,
    "lat": 25.08839,
@@ -353,7 +419,8 @@
   "name": "Belgravia Gardens",
   "area": "Premium Apartments for Sale in Dubailand",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Ice Hockey Tower",
   "geo": {
    "lon": 55.2036411,
    "lat": 25.0477179,
@@ -371,7 +438,7 @@
   "name": "Belgravia Square",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (jumeirahvillagecircle vs samaaljadaf)",
   "geo": {
    "lon": 55.318856,
    "lat": 25.229192,
@@ -379,8 +446,7 @@
    "address": "Square",
    "addr_type": "POI",
    "type": "Restaurant"
-  },
-  "slug": "samaaljadaf"
+  }
  },
  {
   "dev": "ellington",
@@ -421,7 +487,8 @@
   "name": "Claydon House",
   "area": "Apartments for Sale in MBR City",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Azizi Riviera 54",
   "geo": {
    "lon": 55.319689999999994,
    "lat": 25.179710999999998,
@@ -439,16 +506,14 @@
   "name": "Costa Mare",
   "area": "Properties for Sale in Ras Al Khaimah",
   "source": "site",
-  "why": "outside the 38 districts",
+  "why": "low score 76",
   "geo": {
-   "lon": 55.8586872,
-   "lat": 25.7162407,
-   "score": 90,
-   "address": "Al Riffa - Ras Al Khaimah - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "real_estate_agency,service,point_of_interest",
-   "name": "YAS Properties ياس العقارية",
-   "via": "google"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.87,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
   }
  },
  {
@@ -456,7 +521,8 @@
   "name": "DT1",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Al Wasl Centre",
   "geo": {
    "lon": 55.269607,
    "lat": 25.1916665,
@@ -475,6 +541,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.258754499999995,
    "lat": 25.1174715,
@@ -493,6 +560,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2589481,
    "lat": 25.1186479,
@@ -511,6 +579,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2589481,
    "lat": 25.1186479,
@@ -529,6 +598,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2589481,
    "lat": 25.1186479,
@@ -547,6 +617,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.292741,
    "lat": 25.295527999999997,
@@ -630,7 +701,8 @@
   "name": "Eltiera Heights",
   "area": "Apartments for Sale in Jumeirah Islands",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Pavilion Jumeirah Islands",
   "geo": {
    "lon": 55.145056,
    "lat": 25.065110999999998,
@@ -648,7 +720,8 @@
   "name": "Eltiera Views",
   "area": "Apartments for Sale in Jumeirah Islands",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Corporate Tower",
   "geo": {
    "lon": 55.1430556,
    "lat": 25.0643611,
@@ -715,7 +788,8 @@
   "name": "Mercer House",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "District Cooling Plant",
   "geo": {
    "lon": 55.139492999999995,
    "lat": 25.061232,
@@ -733,7 +807,8 @@
   "name": "Ocean House",
   "area": "Ocean House at Palm Jumeirah",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Serenia Residences North",
   "geo": {
    "lon": 55.1518909,
    "lat": 25.1332222,
@@ -745,6 +820,21 @@
    "via": "google"
   },
   "slug": "palmjumeirah"
+ },
+ {
+  "dev": "ellington",
+  "name": "One River Point",
+  "area": "Dubai",
+  "source": "site",
+  "why": "area disagrees (businessbay vs dubaimarina)",
+  "geo": {
+   "lon": 55.132818312912,
+   "lat": 25.073115706943,
+   "score": 91.48,
+   "address": "The Point, D94, Marsa Dubai, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
  },
  {
   "dev": "ellington",
@@ -786,6 +876,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.318856,
    "lat": 25.229192,
@@ -867,7 +958,7 @@
   "name": "The Crestmark",
   "area": "Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs burjkhalifa)",
   "geo": {
    "lon": 55.2838548,
    "lat": 25.187080599999998,
@@ -877,8 +968,7 @@
    "type": "apartment_building,point_of_interest,service",
    "name": "The Crestmark by Ellington",
    "via": "google"
-  },
-  "slug": "burjkhalifa"
+  }
  },
  {
   "dev": "ellington",
@@ -886,6 +976,7 @@
   "area": "MBR City",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.306373400000005,
    "lat": 25.179986399999997,
@@ -903,7 +994,8 @@
   "name": "The Highgrove",
   "area": "Apartments for Sale in MBR City",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Azizi Riviera 54",
   "geo": {
    "lon": 55.322556,
    "lat": 25.181221999999998,
@@ -918,10 +1010,29 @@
  },
  {
   "dev": "ellington",
+  "name": "The Hillgate",
+  "area": "Apartments for Sale in Dubai Silicon Oasis",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Al Hikma Residence",
+  "geo": {
+   "lon": 55.3834722,
+   "lat": 25.1111389,
+   "score": 90,
+   "address": "496M+M9 - Nadd Hessa - Dubai Silicon Oasis - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,service,point_of_interest",
+   "name": "The Hillgate by Ellington",
+   "via": "google"
+  },
+  "slug": "siliconoasis"
+ },
+ {
+  "dev": "ellington",
   "name": "The Meriva Collection",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (palmdeira vs alwasl)",
   "geo": {
    "lon": 55.245007,
    "lat": 25.193627,
@@ -929,8 +1040,7 @@
    "address": "Das Collection",
    "addr_type": "POI",
    "type": "Clothing Store"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "ellington",
@@ -968,10 +1078,27 @@
  },
  {
   "dev": "ellington",
+  "name": "UH By Ellington",
+  "area": "Jumeirah Lakes Towers",
+  "source": "site",
+  "why": "named footprint disagrees (Fortune Tower)",
+  "geo": {
+   "lon": 55.1389047,
+   "lat": 25.068782,
+   "score": 85.82,
+   "address": "Jumeirah Lake Towers",
+   "addr_type": "POI",
+   "type": "Shopping Center"
+  },
+  "slug": "althanyahfifth"
+ },
+ {
+  "dev": "ellington",
   "name": "Windsor House",
   "area": "Dubai South by Ellington Properties",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.207722000000004,
    "lat": 24.948916,
@@ -990,6 +1117,7 @@
   "area": "Dubai South by Ellington Properties",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.213499999999996,
    "lat": 24.945638900000002,
@@ -1008,6 +1136,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.291219399999996,
    "lat": 25.2920783,
@@ -1026,6 +1155,7 @@
   "area": "Dubai Islands with",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.295592,
    "lat": 25.298758,
@@ -1044,6 +1174,7 @@
   "area": "Dubai Islands by Fakhruddin Properties",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.300531899999996,
    "lat": 25.3013163,
@@ -1062,6 +1193,7 @@
   "area": "Dubai",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.173866700000005,
    "lat": 25.033282699999997,
@@ -1091,6 +1223,22 @@
  },
  {
   "dev": "hh",
+  "name": "BACCARAT HOTEL & RESIDENCES",
+  "area": "Downtown Dubai",
+  "source": "site",
+  "why": "named footprint disagrees (فندق العنوان داون تاون)",
+  "geo": {
+   "lon": 55.27881,
+   "lat": 25.19424,
+   "score": 89.33,
+   "address": "The Address Downtown Dubai Residences",
+   "addr_type": "POI",
+   "type": "Hotel"
+  },
+  "slug": "burjkhalifa"
+ },
+ {
+  "dev": "hh",
   "name": "CITY TOWER",
   "area": "",
   "source": "site",
@@ -1109,7 +1257,8 @@
   "name": "DUBAI HARBOUR RESIDENCES",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Sunrise Bay",
   "geo": {
    "lon": 55.1410081,
    "lat": 25.093958399999998,
@@ -1128,6 +1277,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2681111,
    "lat": 25.107555599999998,
@@ -1146,6 +1296,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2719543,
    "lat": 25.1351423,
@@ -1211,6 +1362,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2795166,
    "lat": 25.2110758,
@@ -1294,28 +1446,13 @@
   "name": "Galleia Mall Al Wasl",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Galleria",
   "geo": {
    "lon": 55.254753,
    "lat": 25.207901,
    "score": 98.06,
    "address": "Galleria Mall",
-   "addr_type": "POI",
-   "type": "Shopping Center"
-  },
-  "slug": "alwasl"
- },
- {
-  "dev": "hh",
-  "name": "Galleria Vilaa Al Wasl",
-  "area": "",
-  "source": "site",
-  "why": "no footprint within 60 m",
-  "geo": {
-   "lon": 55.2539493,
-   "lat": 25.2067554,
-   "score": 92.86,
-   "address": "Galleria",
    "addr_type": "POI",
    "type": "Shopping Center"
   },
@@ -1359,6 +1496,7 @@
   "area": "Jumeirah Village Circle (JVC)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2036236,
    "lat": 25.0636989,
@@ -1424,6 +1562,7 @@
   "area": "Jumeirah Village Circle",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2142961,
    "lat": 25.0596174,
@@ -1442,6 +1581,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.286161,
    "lat": 25.241347,
@@ -1451,6 +1591,39 @@
    "type": "Park"
   },
   "slug": "dubaimaritimecity"
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Cove by Iman",
+  "area": "",
+  "source": "site",
+  "why": "named footprint disagrees (Karama Medica Centre)",
+  "geo": {
+   "lon": 55.2107946,
+   "lat": 25.0661913,
+   "score": 90,
+   "address": "3686+F89 - Al Barsha South Fourth - Jumeirah Village Circle - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "general_contractor,point_of_interest,service",
+   "name": "Oxford Cove by Iman Developers",
+   "via": "google"
+  },
+  "slug": "jumeirahvillagecircle"
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Residence",
+  "area": "",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs burjkhalifa)",
+  "geo": {
+   "lon": 55.2730498,
+   "lat": 25.192451,
+   "score": 87.61,
+   "address": "Residences",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
  },
  {
   "dev": "iman",
@@ -1475,6 +1648,7 @@
   "area": "Dubai Islands (Deira)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2960529,
    "lat": 25.2983112,
@@ -1493,6 +1667,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.29642570000001,
    "lat": 25.2987468,
@@ -1511,6 +1686,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.301710299999996,
    "lat": 25.301390899999998,
@@ -1529,6 +1705,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.296980999999995,
    "lat": 25.2998947,
@@ -1547,6 +1724,7 @@
   "area": "Dubai Islands, offering direct beach access and true waterfront living",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2960529,
    "lat": 25.2983112,
@@ -1565,6 +1743,7 @@
   "area": "Dubai Islands, offering a waterfront lifestyle with seamless connectivity to the mainland",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.292848899999996,
    "lat": 25.291250299999998,
@@ -1583,6 +1762,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2939875,
    "lat": 25.287176799999997,
@@ -1618,6 +1798,7 @@
   "area": "Dubailand (DLRC)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3753817,
    "lat": 25.0919928,
@@ -1635,7 +1816,7 @@
   "name": "Cove by Imtiaz",
   "area": "Dubailand (DLRC)",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (alkhairanfirst vs wadialsafa5)",
   "geo": {
    "lon": 55.3753817,
    "lat": 25.0919928,
@@ -1645,8 +1826,7 @@
    "type": "general_contractor,service,point_of_interest",
    "name": "Cove Edition 2 by Imtiaz",
    "via": "google"
-  },
-  "slug": "wadialsafa5"
+  }
  },
  {
   "dev": "imtiaz",
@@ -1654,6 +1834,7 @@
   "area": "Dubailand (DLRC)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3753817,
    "lat": 25.0919928,
@@ -1671,7 +1852,8 @@
   "name": "Cove Edition 6 by Imtiaz",
   "area": "Dubai Land Residence Complex",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Tulip Oasis 7",
   "geo": {
    "lon": 55.3773611,
    "lat": 25.096388899999997,
@@ -1686,10 +1868,30 @@
  },
  {
   "dev": "imtiaz",
+  "name": "Cove Edition I by Imtiaz",
+  "area": "Dubai Land Residence Complex",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Tulip Oasis 6",
+  "geo": {
+   "lon": 55.3838574,
+   "lat": 25.0893277,
+   "score": 90,
+   "address": "39QM+PGQ The Aquila School - Wadi Al Safa 5 - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,point_of_interest,service",
+   "name": "Cove Edition I by Imtiaz",
+   "via": "google"
+  },
+  "slug": "wadialsafa5"
+ },
+ {
+  "dev": "imtiaz",
   "name": "Cove Edition III by Imtiaz",
   "area": "Dubai Land Residence Complex",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.373812199999996,
    "lat": 25.098453,
@@ -1708,6 +1910,7 @@
   "area": "Dubailand (DLRC)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3751612,
    "lat": 25.0950112,
@@ -1726,6 +1929,7 @@
   "area": "Dubailand (DLRC)",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3801982,
    "lat": 25.086891599999998,
@@ -1740,10 +1944,30 @@
  },
  {
   "dev": "imtiaz",
+  "name": "Luxor by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "The First Collection Hotel",
+  "geo": {
+   "lon": 55.2042764,
+   "lat": 25.0548023,
+   "score": 90,
+   "address": "Al Barsha South Fourth - Jumeirah Village Circle - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,point_of_interest,service",
+   "name": "Luxor by Imtiaz",
+   "via": "google"
+  },
+  "slug": "jumeirahvillagecircle"
+ },
+ {
+  "dev": "imtiaz",
   "name": "Pearl House by Imtiaz",
   "area": "Jumeirah Village Circle",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "GMM Tower",
   "geo": {
    "lon": 55.2130234,
    "lat": 25.0529138,
@@ -1761,7 +1985,8 @@
   "name": "Pearl House II by Imtiaz",
   "area": "Jumeirah Village Circle",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "GMM Tower",
   "geo": {
    "lon": 55.2130234,
    "lat": 25.0529138,
@@ -1779,7 +2004,8 @@
   "name": "Raw District by Imtiaz (Sheikh Zayed Road)",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "صيدلية لايف",
   "geo": {
    "lon": 55.091754699999996,
    "lat": 24.977052099999998,
@@ -1797,7 +2023,8 @@
   "name": "Raw District II by Imtiaz (Sheikh Zayed Road)",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "صيدلية لايف",
   "geo": {
    "lon": 55.091754699999996,
    "lat": 24.977052099999998,
@@ -1816,6 +2043,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.308197899999996,
    "lat": 25.292480599999998,
@@ -1834,6 +2062,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.297649299999996,
    "lat": 25.2868991,
@@ -1852,6 +2081,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2985836,
    "lat": 25.2860208,
@@ -1870,6 +2100,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2993691,
    "lat": 25.2864243,
@@ -1888,6 +2119,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.315023499999995,
    "lat": 25.296948999999998,
@@ -1906,6 +2138,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.296983,
    "lat": 25.288972599999997,
@@ -1924,6 +2157,7 @@
   "area": "Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.296983,
    "lat": 25.288972599999997,
@@ -1958,7 +2192,8 @@
   "name": "Westwood by Imtiaz",
   "area": "Jumeirah Village Circle",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Masaar Residences",
   "geo": {
    "lon": 55.1981349,
    "lat": 25.054951799999998,
@@ -1976,7 +2211,8 @@
   "name": "Westwood Grande by Imtiaz",
   "area": "Jumeirah Village Circle (JVC) , one of Dubai’s most established residential communities",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Masaar Residences",
   "geo": {
    "lon": 55.1981349,
    "lat": 25.054951799999998,
@@ -1994,7 +2230,8 @@
   "name": "Westwood Grande II by Imtiaz",
   "area": "JVC Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Masaar Residences",
   "geo": {
    "lon": 55.198617,
    "lat": 25.0547531,
@@ -2013,6 +2250,7 @@
   "area": "High-End Community in Dubai Islands",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2980599,
    "lat": 25.285750399999998,
@@ -2048,6 +2286,7 @@
   "area": "City Walk",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2570348,
    "lat": 25.206446399999997,
@@ -2083,6 +2322,7 @@
   "area": "Nad Al Sheba",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3123886,
    "lat": 25.136747399999997,
@@ -2131,19 +2371,33 @@
  },
  {
   "dev": "meraas",
+  "name": "Jumeirah Residences Emirates Towers",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "named footprint disagrees (Five JBR)",
+  "geo": {
+   "lon": 55.135975189105,
+   "lat": 25.081218618472,
+   "score": 88.88,
+   "address": "Jumeirah Beach Residence, Al Mamsha Street, Marsa Dubai, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  },
+  "slug": "dubaimarina"
+ },
+ {
+  "dev": "meraas",
   "name": "Atelis at d3",
   "area": "Dubai Design District",
   "source": "site",
-  "why": "outside the 38 districts",
+  "why": "low score 81",
   "geo": {
-   "lon": 55.298632,
-   "lat": 25.1912,
-   "score": 90,
-   "address": "57RX+FFC Marine Transport Station - Zaa'beel Second - Dubai Design District - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "housing_complex,point_of_interest,service",
-   "name": "ATÉLIS BY MERAAS",
-   "via": "google"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.72,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
   }
  },
  {
@@ -2288,6 +2542,7 @@
   "area": "Bluewaters",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.1239788,
    "lat": 25.0734091,
@@ -2333,6 +2588,25 @@
    "name": "Madinat Jumeirah Living phase 1 Lamtara 2",
    "via": "google"
   }
+ },
+ {
+  "dev": "meraas",
+  "name": "City Walk Central Park",
+  "area": "City Walk",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Erin",
+  "geo": {
+   "lon": 55.259455499999994,
+   "lat": 25.203913699999998,
+   "score": 90,
+   "address": "City walk - Al Wasl - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_complex,service,point_of_interest",
+   "name": "Central Park At City Walk by Meraas",
+   "via": "google"
+  },
+  "slug": "alwasl"
  },
  {
   "dev": "meraas",
@@ -2404,6 +2678,24 @@
  },
  {
   "dev": "meraas",
+  "name": "Bluewaters Residences",
+  "area": "Bluewaters",
+  "source": "site",
+  "why": "named footprint disagrees (1, Blue Waters Island Street)",
+  "geo": {
+   "lon": 55.119668399999995,
+   "lat": 25.0792222,
+   "score": 90,
+   "address": "34H9+MVM Blue Water Residential - Dubai Marina - Bluewaters Island - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "service,point_of_interest,establishment",
+   "name": "Bluewaters Residences Apartments",
+   "via": "google"
+  },
+  "slug": "dubaimarina"
+ },
+ {
+  "dev": "meraas",
   "name": "Bulgari Marina Lofts Dubai",
   "area": "Jumeirah",
   "source": "site",
@@ -2442,6 +2734,7 @@
   "area": "Nad Al Sheba",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3123886,
    "lat": 25.136747399999997,
@@ -2493,16 +2786,14 @@
   "name": "Bulgari Resorts & Residences Dubai",
   "area": "Jumeirah",
   "source": "site",
-  "why": "outside the 38 districts",
+  "why": "low score 82",
   "geo": {
-   "lon": 55.236428,
-   "lat": 25.210697000000003,
-   "score": 90,
-   "address": "Jumeirah Bay Island - جميرا باي - جميرا ٢ - دبي - United Arab Emirates",
+   "lon": 55.237182,
+   "lat": 25.210661,
+   "score": 82.15,
+   "address": "Bvlgari Resort Dubai",
    "addr_type": "POI",
-   "type": "hotel,wedding_venue,lodging",
-   "name": "Bvlgari Resort Dubai",
-   "via": "google"
+   "type": "Resort"
   }
  },
  {
@@ -2528,6 +2819,7 @@
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.287955499999995,
    "lat": 25.187687999999998,
@@ -2545,90 +2837,94 @@
   "name": "The Opus",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs dubaimaritimecity)",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
-   "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "point_of_interest,service,establishment",
-   "name": "Prestige Luxury Real Estate",
-   "via": "google"
-  },
-  "slug": "althanyahfifth"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "omniyat",
   "name": "The Alba",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (palmjumeirah vs dubaimaritimecity)",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ANWA",
+  "area": "Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Residence 110",
+  "geo": {
+   "lon": 55.270081399999995,
+   "lat": 25.1776759,
    "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
+   "address": "Al Asayel St - Business Bay - Dubai - United Arab Emirates",
    "addr_type": "POI",
-   "type": "service,point_of_interest,establishment",
-   "name": "Prestige Luxury Real Estate",
+   "type": "real_estate_agency,consultant,point_of_interest",
+   "name": "ANWA properties",
    "via": "google"
   },
-  "slug": "althanyahfifth"
+  "slug": "businessbay"
  },
  {
   "dev": "omniyat",
   "name": "AVA",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "low score 80",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
-   "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "point_of_interest,service,establishment",
-   "name": "Prestige Luxury Real Estate",
-   "via": "google"
-  },
-  "slug": "althanyahfifth"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "omniyat",
   "name": "One at Palm Jumeirah",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "low score 80",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
-   "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "service,point_of_interest,establishment",
-   "name": "Prestige Luxury Real Estate",
-   "via": "google"
-  },
-  "slug": "althanyahfifth"
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 80.49,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "omniyat",
   "name": "ORLA",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (palmjumeirah vs dubaimaritimecity)",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
-   "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "point_of_interest,service,establishment",
-   "name": "Prestige Luxury Real Estate",
-   "via": "google"
-  },
-  "slug": "althanyahfifth"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "omniyat",
@@ -2636,6 +2932,7 @@
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.1120272,
    "lat": 25.1224569,
@@ -2653,7 +2950,8 @@
   "name": "THE STERLING",
   "area": "Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Addiyar Building",
   "geo": {
    "lon": 55.260889899999995,
    "lat": 25.1840236,
@@ -2671,25 +2969,22 @@
   "name": "VELA",
   "area": "Prestige Luxury Real Estate Dubai",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs dubaimaritimecity)",
   "geo": {
-   "lon": 55.1398252,
-   "lat": 25.0753976,
-   "score": 90,
-   "address": "Marina Plaza - Office No. 1603 16th Floor - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "point_of_interest,service,establishment",
-   "name": "Prestige Luxury Real Estate",
-   "via": "google"
-  },
-  "slug": "althanyahfifth"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "select",
   "name": "15 Northside",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs burjkhalifa)",
   "geo": {
    "lon": 55.2865234,
    "lat": 25.1863678,
@@ -2699,15 +2994,15 @@
    "type": "service,point_of_interest,establishment",
    "name": "15 Northside",
    "via": "google"
-  },
-  "slug": "burjkhalifa"
+  }
  },
  {
   "dev": "select",
   "name": "Bay Central",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Reef Tower",
   "geo": {
    "lon": 55.1376956,
    "lat": 25.0788026,
@@ -2723,25 +3018,22 @@
   "name": "Botanica",
   "area": "Dubai Marina overlooking mesmerising coastal and marina views",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (dubaimarina vs dubaimaritimecity)",
   "geo": {
-   "lon": 55.1436213,
-   "lat": 25.0872681,
-   "score": 90,
-   "address": "34PV+WC5 - Dubai Marina - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "tourist_attraction,point_of_interest,establishment",
-   "name": "Dubai Marina • View Point",
-   "via": "google"
-  },
-  "slug": "dubaimarina"
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
  },
  {
   "dev": "select",
   "name": "Jumeirah Living Business Bay",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs alwasl)",
   "geo": {
    "lon": 55.2651301,
    "lat": 25.1829608,
@@ -2751,8 +3043,7 @@
    "type": "apartment_building,point_of_interest,service",
    "name": "Jumeirah Living Business Bay",
    "via": "google"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "select",
@@ -2788,10 +3079,26 @@
  },
  {
   "dev": "select",
+  "name": "No.9",
+  "area": "Dubai Marina",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 96.76,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
   "name": "Pacific",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Villa Rotana",
   "geo": {
    "lon": 55.269762400000005,
    "lat": 25.188484,
@@ -2810,6 +3117,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2664263,
    "lat": 25.1834606,
@@ -2828,6 +3136,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2672343,
    "lat": 25.1837816,
@@ -2845,7 +3154,7 @@
   "name": "Peninsula One",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs alwasl)",
   "geo": {
    "lon": 55.2666235,
    "lat": 25.184693499999998,
@@ -2855,15 +3164,14 @@
    "type": "apartment_building,point_of_interest,service",
    "name": "Peninsula One",
    "via": "google"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "select",
   "name": "Peninsula Three",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs alwasl)",
   "geo": {
    "lon": 55.268519399999995,
    "lat": 25.1854321,
@@ -2873,8 +3181,7 @@
    "type": "apartment_building,service,point_of_interest",
    "name": "Peninsula Three",
    "via": "google"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "select",
@@ -2895,10 +3202,30 @@
  },
  {
   "dev": "select",
+  "name": "Six Senses Residences Dubai Marina",
+  "area": "",
+  "source": "site",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "23 Marina",
+  "geo": {
+   "lon": 55.150537899999996,
+   "lat": 25.089217899999998,
+   "score": 90,
+   "address": "Al Khayay St - Dubai Marina - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,service,point_of_interest",
+   "name": "Six Senses Residences Dubai Marina",
+   "via": "google"
+  },
+  "slug": "dubaimarina"
+ },
+ {
+  "dev": "select",
   "name": "Six Senses Residences The Palm, Dubai",
   "area": "Palm Jumeirah's West Crescent",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Grandeur Residences",
   "geo": {
    "lon": 55.117727599999995,
    "lat": 25.100423799999998,
@@ -2910,6 +3237,38 @@
    "via": "google"
   },
   "slug": "palmjumeirah"
+ },
+ {
+  "dev": "select",
+  "name": "Studio One",
+  "area": "",
+  "source": "site",
+  "why": "area disagrees (dubaimarina vs dubaistudiocity)",
+  "geo": {
+   "lon": 55.2506263,
+   "lat": 25.0438081,
+   "score": 90,
+   "address": "Al Qudra Rd - Al Hebiah Second - Dubai Studio City - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "hotel,lodging,point_of_interest",
+   "name": "Studio One Hotel",
+   "via": "google"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "The EDGE",
+  "area": "",
+  "source": "site",
+  "why": "area disagrees (businessbay vs palmjumeirah)",
+  "geo": {
+   "lon": 55.115398,
+   "lat": 25.129499,
+   "score": 100,
+   "address": "The Edge",
+   "addr_type": "POI",
+   "type": "Italian Food"
+  }
  },
  {
   "dev": "select",
@@ -2933,7 +3292,7 @@
   "name": "West Avenue",
   "area": "",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (dubaimarina vs althanyahfifth)",
   "geo": {
    "lon": 55.138802,
    "lat": 25.074401,
@@ -2941,8 +3300,7 @@
    "address": "West Avenue",
    "addr_type": "POI",
    "type": "Residential Area"
-  },
-  "slug": "althanyahfifth"
+  }
  },
  {
   "dev": "zaya_palma",
@@ -2950,6 +3308,7 @@
   "area": "Studio City",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.237201199999994,
    "lat": 25.0303908,
@@ -2983,6 +3342,7 @@
   "area": "",
   "source": "site",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.325802,
    "lat": 25.230901,
@@ -2998,7 +3358,8 @@
   "name": "West Residence at Serenia District",
   "area": "Jumeirah Islands",
   "source": "site",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Mazaya AA-1",
   "geo": {
    "lon": 55.1456977,
    "lat": 25.0661637,
@@ -3033,7 +3394,8 @@
   "name": "The Alba Residences by Omniyat",
   "area": "PALM JUMEIRAH",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "C Central Resort The Palm",
   "geo": {
    "lon": 55.139526399999994,
    "lat": 25.140412299999998,
@@ -3065,10 +3427,29 @@
  },
  {
   "dev": "omniyat",
+  "name": "ALBA TOWER",
+  "area": "Al Satwa",
+  "source": "dld_tx",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "A Fahad 9",
+  "geo": {
+   "lon": 55.277499,
+   "lat": 25.223758999999998,
+   "score": 90,
+   "address": "67FG+GX5 - Al Satwa - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_complex,service,point_of_interest",
+   "name": "ALBA TOWER",
+   "via": "google"
+  },
+  "slug": "alsatwa"
+ },
+ {
+  "dev": "omniyat",
   "name": "ALBA",
   "area": "LIWAN 2",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (palmjumeirah vs wadialsafa5)",
   "geo": {
    "lon": 55.363416699999995,
    "lat": 25.0994167,
@@ -3078,26 +3459,7 @@
    "type": "apartment_building,service,point_of_interest",
    "name": "ALBA Residence",
    "via": "google"
-  },
-  "slug": "wadialsafa5"
- },
- {
-  "dev": "omniyat",
-  "name": "AVA AT PALM JUMEIRAH BY OMNIYAT",
-  "area": "PALM JUMEIRAH",
-  "source": "dld_tx",
-  "why": "no footprint within 60 m",
-  "geo": {
-   "lon": 55.150730900000006,
-   "lat": 25.1033482,
-   "score": 90,
-   "address": "4532+87 - Nakhlat Jumeira - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "apartment_building,point_of_interest,service",
-   "name": "AVA at Palm Jumeirah, Dorchester Collection, Dubai",
-   "via": "google"
-  },
-  "slug": "palmjumeirah"
+  }
  },
  {
   "dev": "omniyat",
@@ -3105,6 +3467,7 @@
   "area": "PALM JUMEIRAH",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.1121864,
    "lat": 25.123195799999998,
@@ -3123,6 +3486,7 @@
   "area": "Palm Jumeirah",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.1120272,
    "lat": 25.1224569,
@@ -3140,7 +3504,7 @@
   "name": "Peninsula Dubai Residences - Tower 2",
   "area": "Jumeirah Second",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs alwasl)",
   "geo": {
    "lon": 55.2668609,
    "lat": 25.1843376,
@@ -3150,15 +3514,14 @@
    "type": "point_of_interest,service,establishment",
    "name": "Peninsula by Select Group",
    "via": "google"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "select",
   "name": "Peninsula Dubai Residences - Tower 1",
   "area": "Jumeirah Second",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "area disagrees (businessbay vs alwasl)",
   "geo": {
    "lon": 55.2668609,
    "lat": 25.1843376,
@@ -3168,15 +3531,15 @@
    "type": "point_of_interest,service,establishment",
    "name": "Peninsula by Select Group",
    "via": "google"
-  },
-  "slug": "alwasl"
+  }
  },
  {
   "dev": "ellington",
   "name": "CLAYDON HOUSE BY ELLINGTON",
   "area": "HORIZON",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Azizi Riviera 54",
   "geo": {
    "lon": 55.319689999999994,
    "lat": 25.179710999999998,
@@ -3228,7 +3591,8 @@
   "name": "SERENIA DISTRICT - EAST",
   "area": "Al Thanyah Fifth",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Mazaya AA-1",
   "geo": {
    "lon": 55.1456977,
    "lat": 25.0661637,
@@ -3296,6 +3660,7 @@
   "area": "Palm Deira",
   "source": "dld_reg",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.295592,
    "lat": 25.298758,
@@ -3314,6 +3679,7 @@
   "area": "Madinat Dubai Almelaheyah",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2650188,
    "lat": 25.2771691,
@@ -3346,7 +3712,8 @@
   "name": "Arancia Yards 2 By Beyond",
   "area": "CITY OF ARABIA",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Al Rabia Tower",
   "geo": {
    "lon": 55.325560599999996,
    "lat": 25.08839,
@@ -3365,6 +3732,7 @@
   "area": "DUBAI MARITIME CITY",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2700305,
    "lat": 25.263130099999998,
@@ -3383,6 +3751,7 @@
   "area": "Madinat Dubai Almelaheyah",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.266956199999996,
    "lat": 25.273855899999997,
@@ -3400,7 +3769,8 @@
   "name": "RAW DISTRICT BY IMTIAZ R",
   "area": "Jabal Ali Industrial Second",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "صيدلية لايف",
   "geo": {
    "lon": 55.091754699999996,
    "lat": 24.977052099999998,
@@ -3418,7 +3788,8 @@
   "name": "RAW DISTRICT BY IMTIAZ CR",
   "area": "DOWN TOWN JABAL ALI",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "صيدلية لايف",
   "geo": {
    "lon": 55.091754699999996,
    "lat": 24.977052099999998,
@@ -3437,6 +3808,7 @@
   "area": "DUBAI LAND RESIDENCE COMPLEX",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3801982,
    "lat": 25.086891599999998,
@@ -3451,10 +3823,27 @@
  },
  {
   "dev": "imtiaz",
+  "name": "IMTIAZ SYMPHONY TOWER",
+  "area": "HORIZON",
+  "source": "dld_tx",
+  "why": "named footprint disagrees (Horizon Tower)",
+  "geo": {
+   "lon": 55.136886134342,
+   "lat": 25.071855906896,
+   "score": 86.55,
+   "address": "Horizon Tower, Al Marsa Street, Marsa Dubai, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  },
+  "slug": "dubaimarina"
+ },
+ {
+  "dev": "imtiaz",
   "name": "Cove Grand Residence by Imtiaz",
   "area": "DUBAI LAND RESIDENCE COMPLEX",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3751612,
    "lat": 25.0950112,
@@ -3472,7 +3861,8 @@
   "name": "COVE EDITION RESIDENCE 6 BY IMTIAZ",
   "area": "DUBAI LAND RESIDENCE COMPLEX",
   "source": "dld_tx",
-  "why": "no footprint within 60 m",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "Tulip Oasis 7",
   "geo": {
    "lon": 55.3773611,
    "lat": 25.096388899999997,
@@ -3487,10 +3877,29 @@
  },
  {
   "dev": "imtiaz",
+  "name": "RAW DISTRICT 2 BY IMTIAZ",
+  "area": "Jabal Ali Industrial Second",
+  "source": "dld_tx",
+  "why": "named footprint disagrees (Celestial Heights)",
+  "geo": {
+   "lon": 55.0906798,
+   "lat": 24.9744343,
+   "score": 90,
+   "address": "X3FR+Q7F - Unnamed Road - Jabal Ali Industrial Second - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "point_of_interest,establishment",
+   "name": "Raw District 2 by Imtiaz",
+   "via": "google"
+  },
+  "slug": "jabalaliindustrialsecond"
+ },
+ {
+  "dev": "imtiaz",
   "name": "WYNWOOD RESIDENCES BY IMTIAZ",
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2980599,
    "lat": 25.285750399999998,
@@ -3526,6 +3935,7 @@
   "area": "DUBAI CREEK HARBOUR",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.346298,
    "lat": 25.195999,
@@ -3557,6 +3967,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.297649299999996,
    "lat": 25.2868991,
@@ -3592,6 +4003,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2951601,
    "lat": 25.2888759,
@@ -3606,10 +4018,30 @@
  },
  {
   "dev": "imtiaz",
+  "name": "Luxur Tower By Imtiaz",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "every footprint nearby is named as something else",
+  "nearest_named": "The First Collection Hotel",
+  "geo": {
+   "lon": 55.2042764,
+   "lat": 25.0548023,
+   "score": 90,
+   "address": "Al Barsha South Fourth - Jumeirah Village Circle - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "apartment_building,point_of_interest,service",
+   "name": "Luxor by Imtiaz",
+   "via": "google"
+  },
+  "slug": "jumeirahvillagecircle"
+ },
+ {
+  "dev": "imtiaz",
   "name": "COTIER HOUSE 1 BY IMTIAZ",
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2939875,
    "lat": 25.287176799999997,
@@ -3628,6 +4060,7 @@
   "area": "DUBAI LAND RESIDENCE COMPLEX",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.3753817,
    "lat": 25.0919928,
@@ -3646,6 +4079,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2993691,
    "lat": 25.2864243,
@@ -3664,6 +4098,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.297649299999996,
    "lat": 25.2868991,
@@ -3675,24 +4110,6 @@
    "via": "google"
   },
   "slug": "palmdeira"
- },
- {
-  "dev": "imtiaz",
-  "name": "Cove Edition Residence 3 By Imtiaz",
-  "area": "DUBAI LAND RESIDENCE COMPLEX",
-  "source": "dld_tx",
-  "why": "no footprint within 60 m",
-  "geo": {
-   "lon": 55.373812199999996,
-   "lat": 25.098453,
-   "score": 90,
-   "address": "Wadi Al Safa 5 - Dubai Land Residence Complex - Dubai - United Arab Emirates",
-   "addr_type": "POI",
-   "type": "general_contractor,point_of_interest,service",
-   "name": "Cove Edition 3 by Imtiaz",
-   "via": "google"
-  },
-  "slug": "wadialsafa5"
  },
  {
   "dev": "imtiaz",
@@ -3713,10 +4130,30 @@
  },
  {
   "dev": "imtiaz",
+  "name": "Cove Edition Residence 3 By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "no footprint within 60 m",
+  "nearest_named": null,
+  "geo": {
+   "lon": 55.373812199999996,
+   "lat": 25.098453,
+   "score": 90,
+   "address": "Wadi Al Safa 5 - Dubai Land Residence Complex - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "general_contractor,point_of_interest,service",
+   "name": "Cove Edition 3 by Imtiaz",
+   "via": "google"
+  },
+  "slug": "wadialsafa5"
+ },
+ {
+  "dev": "imtiaz",
   "name": "Sunset Bay One By Imtiaz",
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.296983,
    "lat": 25.288972599999997,
@@ -3735,6 +4172,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.2985836,
    "lat": 25.2860208,
@@ -3770,6 +4208,7 @@
   "area": "PALM DEIRA",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.296980999999995,
    "lat": 25.2998947,
@@ -3788,6 +4227,7 @@
   "area": "Palm Deira",
   "source": "dld_tx",
   "why": "no footprint within 60 m",
+  "nearest_named": null,
   "geo": {
    "lon": 55.292848899999996,
    "lat": 25.291250299999998,
@@ -3816,5 +4256,23 @@
    "name": "The Symphony By Imtiaz",
    "via": "google"
   }
+ },
+ {
+  "dev": "iman",
+  "name": "OXFORD COVE",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "named footprint disagrees (Karama Medica Centre)",
+  "geo": {
+   "lon": 55.2107946,
+   "lat": 25.0661913,
+   "score": 90,
+   "address": "3686+F89 - Al Barsha South Fourth - Jumeirah Village Circle - Dubai - United Arab Emirates",
+   "addr_type": "POI",
+   "type": "general_contractor,service,point_of_interest",
+   "name": "Oxford Cove by Iman Developers",
+   "via": "google"
+  },
+  "slug": "jumeirahvillagecircle"
  }
 ]

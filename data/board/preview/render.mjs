@@ -4,7 +4,7 @@ import fs from "node:fs"; import vm from "node:vm"; import path from "node:path"
 const src = fs.readFileSync("C:/Dev/azimuth-worker/src/index.js", "utf8").replace(/^export default/m, "const __mod =");
 const ctx = { console, URL, TextEncoder, TextDecoder, setTimeout, clearTimeout, atob, btoa, fetch: async () => ({ ok: false }), crypto: globalThis.crypto };
 vm.createContext(ctx);
-vm.runInContext(src + "\nglobalThis.__x = { renderHome, renderDev, renderCompare, renderSkyline };", ctx);
+vm.runInContext(src + "\nglobalThis.__x = { renderHome, renderDev, renderCompare, renderSkyline, renderStock };", ctx);
 const bd = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/board_devs.json", "utf8"));
 const key = "PREVIEW";
 const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
@@ -26,4 +26,13 @@ const SKY = [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Bu
              { s: "jumeirahvillagecircle", n: "JVC" }, { s: "palmdeira", n: "Dubai Islands" }];
 for (const d of SKY.filter((d) => fs.existsSync(path.join(dir, "img", "sky_" + d.s))))
   fs.writeFileSync(path.join(dir, "skyline_" + d.s + ".html"), ctx.__x.renderSkyline(d.s, d.n, key, SKY));
+// district stock reports: the model's own measured report, read as a broker would read it
+const mkt = fs.existsSync("C:/Dev/naj-market-pulse/data/board/preview/img/mkt_latest") ? fs.readFileSync("C:/Dev/naj-market-pulse/data/board/preview/img/mkt_latest", "utf8") : null;
+for (const d of SKY) {
+  const bf = "C:/Dev/naj-market-pulse/data/board/bldgfacts_" + d.s + ".json";
+  const an = "C:/Dev/naj-market-pulse/data/names/anchors_" + d.s + ".json";
+  if (!fs.existsSync(bf)) continue;
+  fs.writeFileSync(path.join(dir, "report_" + d.s + ".html"), ctx.__x.renderStock(d.s, d.n, key,
+    fs.readFileSync(bf, "utf8"), fs.existsSync(an) ? fs.readFileSync(an, "utf8") : null, fs.readFileSync("C:/Dev/naj-market-pulse/data/board/projfacts.json", "utf8"), mkt));
+}
 console.log("preview written:", fs.readdirSync(dir).filter(f => f.endsWith(".html")).length, "pages");
