@@ -197,7 +197,9 @@ def default_class(slug, h, idx, name):
     if h > 100 and slug in GLASS_DISTRICTS:
         return ["glassblue", "glassclear", "glassblue", "glassclear", "glassbronze"][idx % 5], "default:height>100,glass district"
     if h > 100:
-        return ["glassblue", "concrete", "glassclear"][idx % 3], "default:height>100"
+        # 3 Sep 2026: a tower over 100 m is never clad opaque by default - the old rotation handed concrete to every third one
+        # (Almas, Uptown, D1 came out as grey slabs). Bronze glass keeps the variety without the lie.
+        return ["glassblue", "glassbronze", "glassclear"][idx % 3], "default:height>100"
     if h > 40:
         return (["concrete", "glassclear", "concrete", "render"] if slug in GLASS_DISTRICTS else ["concrete", "render"])[idx % (4 if slug in GLASS_DISTRICTS else 2)], "default:height>40"
     if h >= 20:
