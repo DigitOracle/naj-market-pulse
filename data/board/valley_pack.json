@@ -1,0 +1,135 @@
+{
+ "updated": "2026-09-03",
+ "contest": {
+  "name": "Emaar District Ambassador Program - The Valley",
+  "window": "1-15 Sep 2026",
+  "closes": "2026-09-15",
+  "ask": "60-90 second video: why The Valley is a place to live and invest",
+  "segments": [
+   "0-20s why The Valley (masterplan, location, connectivity)",
+   "20-45s lifestyle and community (Community Centre, Golden Beach, Kids Dale, Sports Village, Parks)",
+   "45-70s investment opportunity (growth, future developments, benefits)",
+   "70-90s closing, why live + invest, call to action"
+  ],
+  "mechanics": "publish on Instagram / TikTok / LinkedIn / Facebook / YouTube inside the window; hashtag #ThisIsTheValley; tag @EmaarInsider; follow @EmaarInsider",
+  "judging": [
+   "engagement (views, likes, shares)",
+   "content quality and creativity",
+   "accuracy of messaging",
+   "compliance with Emaar branding guidelines"
+  ],
+  "prizes": "marketing budget AED 30k / 25k / 20k / 15k / 10k / 5k plus priority access to the next launch"
+ },
+ "area_mapping": "The Valley registers with the land department as AREA_EN 'Al Yufrah 1' (a legacy tail sits under 'THE VALLEY')",
+ "register_2026": {
+  "sales": 875,
+  "median_price_aed": 3600000,
+  "median_aed_psf": 1514,
+  "rooms": {
+   "3 B/R": 207,
+   "4 B/R": 190,
+   "1 B/R": 112,
+   "2 B/R": 31,
+   "5 B/R": 7
+  },
+  "city_median_price_aed": 1434000,
+  "city_median_aed_psf": 1725
+ },
+ "rents": [
+  {
+   "rooms": "3",
+   "contracts": 71,
+   "median_annual_aed": 130000
+  },
+  {
+   "rooms": "4",
+   "contracts": 19,
+   "median_annual_aed": 170000
+  }
+ ],
+ "pipeline_dld": [
+  {
+   "project": "The Valley - Ovelle",
+   "units": 0,
+   "pct_complete": 2.36,
+   "completion": null,
+   "status": "ACTIVE"
+  },
+  {
+   "project": "The Valley - Avelia",
+   "units": 0,
+   "pct_complete": 0.27,
+   "completion": null,
+   "status": "ACTIVE"
+  },
+  {
+   "project": "The Valley - Alva",
+   "units": 0,
+   "pct_complete": 0.0,
+   "completion": null,
+   "status": "ACTIVE"
+  },
+  {
+   "project": "The Valley - Alva 2",
+   "units": 0,
+   "pct_complete": 0.0,
+   "completion": null,
+   "status": "ACTIVE"
+  },
+  {
+   "project": "The Valley - Alva 3 ",
+   "units": 0,
+   "pct_complete": 0.0,
+   "completion": null,
+   "status": "ACTIVE"
+  }
+ ],
+ "launch_alva": {
+  "note": "live EOI launch, material received 3 Sep 2026",
+  "sales_rooms": "3 BR and 4 BR only, auto-allocation optional",
+  "from_aed": {
+   "3BR": 4380000,
+   "4BR": 5090000
+  },
+  "avg_total_sqft": {
+   "3BR": 2788,
+   "4BR": 3081
+  },
+  "implied_aed_psf": {
+   "3BR": 1571,
+   "4BR": 1652
+  },
+  "eoi_deposit_aed": {
+   "3BR": 100000,
+   "4BR": 150000
+  },
+  "registered": "Alva 196 villas, completion 31 Mar 2030, 0% complete (DLD project register)"
+ },
+ "assets_on_hand": [
+  "Emaar lifestyle film 45 s, 1024x576 landscape",
+  "Emaar branded film 13 s, 576x1024 vertical",
+  "build-out and rate cards rendered from the register",
+  "background plates for AI-assisted cutaways"
+ ],
+ "figure_basis": {
+  "rule": "SALES ONLY (GROUP_EN='Sales'): mortgages and gifts are not market prices. Valley and the city are always compared on the same basis.",
+  "valley_sales_psf": 1514,
+  "city_sales_psf": 1725,
+  "do_not_reuse": [
+   "1,175 AED/sq ft - that is ALL procedures including mortgages and gifts",
+   "1,388 AED/sq ft - an earlier working figure on a different basis"
+  ],
+  "note": "Three different Valley rates exist in older working notes. Only the sales-only pair in this pack may be quoted, and only against the city on the same basis."
+ },
+ "guardrails": [
+  "NEVER claim capital appreciation or rising prices: the median rate is flat over Jan-Aug 2026 (1,262 -> 1,229 AED/sq ft). Accuracy is a judged criterion.",
+  "The defensible investment line is VALUE, not momentum: villa square footage below the city median rate per square foot, on a gross yield near 4.6-4.7 %, inside a masterplan still building out.",
+  "Yields quoted are GROSS, before service charge, agency and voids. Say so.",
+  "Alva prices are 'from' prices as offered; the transacted history is a different figure - never mix the two in one sentence.",
+  "Every post carries #ThisIsTheValley and tags @EmaarInsider.",
+  "The UAE advertiser permit question is unresolved: flag it, do not assume clearance.",
+  "Quote only the sales-only rates in this pack (see figure_basis). Older notes carry 1,175 and 1,388 AED/sq ft on other bases - do not mix them.",
+  "Do not use Six Senses or any competing developer's assets in Valley content."
+ ],
+ "value_gap_pct": 12
+}
