@@ -20,14 +20,20 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 AVAIL = os.path.join(ROOT, "data", "avail")
 INBOX = os.path.join(AVAIL, "inbox")
 REG = os.path.join(AVAIL, "_processed.json")
-LISTENER_DOCS = r"C:\Dev\azimuth-listener-naj\docs"
+LISTENER_DOCS = r"C:\Dev\azimuth-listener-naj\docs\developer_availability"   # the developer group only - other groups post promotions, not inventories
 os.makedirs(INBOX, exist_ok=True)
 
 TYPE_RX = re.compile(r"^(studio|\d\s*bed(room)?s?(\s*duplex)?|\d\s*b/?r(\s*duplex)?|office|retail|penthouse|shop)$", re.I)
 NUM_RX = re.compile(r"^-?[\d,]+(\.\d+)?$")
 DEV_HINTS = ["imtiaz", "fakhruddin", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "select", "object 1", "reportage", "arada", "beyond", "iman", "zaya", "palma"]
 # a sheet often names only the project ("TREPPAN TOWER - INVENTORY"); these map a project word to the developer on the board
-PROJECT_DEV = {"treppan": "fakhruddin", "maimoon": "fakhruddin", "hatimi": "fakhruddin", "symphony": "imtiaz", "westwood": "imtiaz", "cove": "imtiaz", "pearl": "imtiaz"}
+PROJECT_DEV = {"treppan": "fakhruddin", "maimoon": "fakhruddin", "hatimi": "fakhruddin", "symphony": "imtiaz", "westwood": "imtiaz",
+               "passo": "beyond", "kanyon": "beyond", "chateau": "beyond", "talea": "beyond", "soulever": "beyond", "hado": "beyond", "arancia": "beyond", "saria": "beyond", "orise": "beyond"}
+# BEYOND's export: "Created by: <name>" / "dd-MMM-yyyy hh:mm" / a wrapped header (Building | Unit Code | Bedroom Type | Total Area (Sqft) |
+# Unit Sub-Type | Unit Orientation | Selling Price (AED)); one row per unit, orientation may wrap onto the next line.
+BEY_CODE_RX = re.compile(r"^[A-Z]{2,6}\d?[A-Z]?/[A-Z]?\d{1,3}/[A-Z]?\d{1,4}$")
+BEY_TYPE_RX = re.compile(r"^(\d(BR|BD|B)\+?|studio|penthouse|retail|office|townhouse|villa)$", re.I)
+BEY_DATE_RX = re.compile(r"^(\d{2})-([A-Za-z]{3})-(\d{4})\s")
 INV_TITLE_RX = re.compile(r"^(?P<title>.+?)\s*-\s*INVENTORY\s*as\s*\(?\s*(?P<m>\d{1,2})/(?P<d>\d{1,2})/(?P<y>\d{4})\s*\)?", re.I)
 INV_HEADER = "unitcodeviewunitnofloorunittypetotalareasalevalue"
 
@@ -222,6 +228,26 @@ def parse_inventory_row(cells):
     return [uid, norm_type(typ) if typ else "Unit", total, price, view, mid[u], floor or None]
 
 
+def parse_beyond_row(cells):
+    """building words | CODE | type | area | sub-type tokens | orientation words | price  -> [uid, type, total, price, view, building]"""
+    ci = next((i for i, c in enumerate(cells) if BEY_CODE_RX.match(c.strip())), None)
+    if ci is None or ci + 3 >= len(cells):
+        return None
+    price = num(cells[-1]); total = num(cells[ci + 2])
+    if price is None or price < 50000 or total is None or not BEY_TYPE_RX.match(cells[ci + 1].strip()):
+        return None
+    building = " ".join(cells[:ci]).replace("'", "").strip()
+    building = re.sub(r"\s+by\s+beyond", "", building, flags=re.I).strip()
+    tail = [c.strip() for c in cells[ci + 3:-1]]
+    # sub-type is the leading run of code-like tokens (T7_1BR, 2B-4, B-5, PODIUM, "1 BED A"); the orientation is what follows
+    k = 0
+    while k < len(tail) and (re.search(r"[_\d]", tail[k]) or tail[k].isupper() and len(tail[k]) <= 6 or tail[k].lower() in ("bed", "podium", "maid", "study", "duplex", "simplex")):
+        k += 1
+    view = " ".join(tail[k:]).strip(" /")
+    view = re.sub(r"\s*/\s*", " / ", view)
+    return [cells[ci].strip().upper(), norm_type(cells[ci + 1].strip().replace("BD", "BR").replace("+", "")), total, price, view or None, building or None]
+
+
 def parse_pdf(path):
     import fitz
     doc = fitz.open(path)
@@ -229,6 +255,7 @@ def parse_pdf(path):
     header_project, completion, plan = None, None, None
     dev = next((d for d in DEV_HINTS if d in os.path.basename(path).lower()), None)
     inv_title, inv_date, inv_block, prev_line, inv_mode = None, None, None, "", False
+    bey_date, bey_building, pending_view = None, None, None
     for page in doc:
         words = words_text_layer(page)
         mode = "text"
@@ -262,6 +289,35 @@ def parse_pdf(path):
                 if cur and cur["units"] and re.fullmatch(r"[A-Za-z.]+", line.strip()) and INV_TYPE_START.match(line.strip()):
                     cur["units"][-1][1] = norm_type((cur["units"][-1][1].replace(" B/R", " BHK")) + " " + line.strip()); continue
                 prev_line = line; continue
+            # --- BEYOND export
+            md = BEY_DATE_RX.match(line.strip())
+            if md and not bey_date:
+                try: bey_date = dt.datetime.strptime(md.group(0).strip(), "%d-%b-%Y").date().isoformat()
+                except ValueError: bey_date = None
+                dev = dev or "beyond"; continue
+            if bey_date:
+                cells = [t for _, t in row]
+                rec = parse_beyond_row(cells)
+                if rec:
+                    if not rec[5] and bey_building: rec[5] = bey_building
+                    if pending_view and not rec[4]: rec[4] = pending_view
+                    pending_view = None
+                    pname = canonical_project(rec[5] or "Unknown project", dev)
+                    if cur is None or cur["p"] != pname:
+                        cur = {"p": pname, "completion": completion, "plan": plan, "units": [], "_mode": mode, "_sheet_date": bey_date}
+                        projects.append(cur)
+                    cur["units"].append(rec[:5]); continue
+                sl = line.strip()
+                if re.fullmatch(r"Building [A-Z0-9]{1,2}", sl):                       # "Building B": a sub-label, not a name
+                    continue
+                if re.search(r"by\s+beyond", sl, re.I) or (re.fullmatch(r"[A-Za-z][A-Za-z0-9 ']{2,40}", sl) and sl.split()[0][0].isupper() and len(sl.split()) <= 5 and not re.search(r"\d", sl) and sl.lower().split()[0] not in ("beach","ocean","sea","garden","zen","skyline","forest","botanical","evermore","marjan","dubai","cove","park","green","sunset","villa","golf","marina","community","the")):
+                    bey_building = re.sub(r"\s+by\s+beyond", "", sl, flags=re.I).replace("'", "").strip(); continue   # a name-only row names the building for the rows that follow
+                # a wrapped orientation ("Beach / Ocean / Zen", "Garden", "Botanical Garden /"): to the unit above if it has none, else held for the next
+                if cur and cur["units"] and not re.search(r"\d", sl) and len(sl) < 40 and not sl.lower().startswith(("created", "total", "bedroom", "type", "(sqft")):
+                    u = cur["units"][-1]
+                    if not u[4]: u[4] = re.sub(r"\s*/\s*", " / ", sl.strip(" /")) or None
+                    else: pending_view = re.sub(r"\s*/\s*", " / ", sl.strip(" /")) or None
+                continue
             m = re.search(r"completion(?:date)?[:\-]?\s*(q\d|[a-z]+?)[,\s]*(\d{4})", re.sub(r"\s+", "", low))
             if m:
                 completion = m.group(1).upper() + " " + m.group(2) if m.group(1).startswith("q") else m.group(1).title() + " " + m.group(2)
@@ -297,7 +353,7 @@ def parse_pdf(path):
         p["units"] = uniq
     out = [p for p in projects if p["units"]]
     if inv_date:
-        for p in out: p["_sheet_date"] = inv_date
+        for p in out: p.setdefault("_sheet_date", inv_date)
     return dev, out
 
 

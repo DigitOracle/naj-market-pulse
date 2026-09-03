@@ -1,0 +1,1088 @@
+{
+ "source_file": "1788447465693_Beyond Inventories 24-08.pdf",
+ "sheet_date": "2026-08-24",
+ "received": "2026-09-03",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Beyond",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Bedroom Selling",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "AYA2B/1/108",
+     "2 B/R",
+     1101.0,
+     2337000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2B/1/113",
+     "2 B/R",
+     1127.0,
+     2312000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/2/212",
+     "2 B/R",
+     1284.0,
+     2485000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/3/313",
+     "2 B/R",
+     1096.0,
+     2295000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/4/408",
+     "2 B/R",
+     1077.0,
+     2334000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2B/4/412",
+     "2 B/R",
+     1096.0,
+     2296000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/6/608",
+     "2 B/R",
+     1093.0,
+     2324000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/6/609",
+     "2 B/R",
+     1093.0,
+     2324000.0,
+     "Park"
+    ],
+    [
+     "AYA2B/7/705",
+     "3 B/R",
+     1760.0,
+     3673000.0,
+     "Park"
+    ],
+    [
+     "AYA2C/1/108",
+     "2 B/R",
+     1101.0,
+     2437000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2C/1/113",
+     "2 B/R",
+     1127.0,
+     2454000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2C/2/208",
+     "2 B/R",
+     1399.0,
+     2745000.0,
+     "Green Spine"
+    ]
+   ]
+  },
+  {
+   "p": "Kanyon",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "KAN/10/1002",
+     "2 B/R",
+     1388.0,
+     3910000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/10/1005",
+     "2 B/R",
+     1327.0,
+     3745000.0,
+     "Skyline Ocean"
+    ],
+    [
+     "KAN/10/1007",
+     "2 B/R",
+     1389.0,
+     4421000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/13/1302",
+     "2 B/R",
+     1350.0,
+     3858000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/15/1502",
+     "2 B/R",
+     1334.0,
+     3837000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/20/2007",
+     "2 B/R",
+     1327.0,
+     4406000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/27/2707",
+     "2 B/R",
+     1506.0,
+     4958000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/28/2808",
+     "2 B/R",
+     1477.0,
+     5339000.0,
+     "Forest"
+    ],
+    [
+     "KAN/29/2902",
+     "2 B/R",
+     1389.0,
+     4101000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/29/2907",
+     "2 B/R",
+     1470.0,
+     4881000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/30/3009",
+     "2 B/R",
+     1435.0,
+     4958000.0,
+     "Forest Cove"
+    ],
+    [
+     "KAN/31/3102",
+     "2 B/R",
+     1354.0,
+     4035000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/31/3108",
+     "2 B/R",
+     1649.0,
+     5511000.0,
+     "Forest"
+    ],
+    [
+     "KAN/32/3207",
+     "2 B/R",
+     1506.0,
+     4997000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/34/3408",
+     "2 B/R",
+     1649.0,
+     5532000.0,
+     "Forest"
+    ],
+    [
+     "KAN/34/3409",
+     "2 B/R",
+     1486.0,
+     5056000.0,
+     "Forest Cove"
+    ],
+    [
+     "KAN/36/3607",
+     "2 B/R",
+     1621.0,
+     5476000.0,
+     "Forest"
+    ],
+    [
+     "KAN/4/410",
+     "2 B/R",
+     1370.0,
+     4489000.0,
+     "Forest Cove"
+    ],
+    [
+     "KAN/41/4106",
+     "2 B/R",
+     1534.0,
+     5171000.0,
+     "Forest Ocean"
+    ],
+    [
+     "KAN/44/4401",
+     "2 B/R",
+     1388.0,
+     4213000.0,
+     "Skyline Cove"
+    ],
+    [
+     "KAN/47/4707",
+     "2 B/R",
+     1621.0,
+     5601000.0,
+     "Forest"
+    ],
+    [
+     "KAN/8/807",
+     "2 B/R",
+     1389.0,
+     4403000.0,
+     "Forest Ocean"
+    ]
+   ]
+  },
+  {
+   "p": "Soulever",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "SLV/P2/P201",
+     "2 B/R",
+     2888.0,
+     12607000.0,
+     "Ocean Cove / Marina"
+    ],
+    [
+     "SLV/P2/P207",
+     "2 B/R",
+     2891.0,
+     12436000.0,
+     "Ocean Cove / Marina"
+    ]
+   ]
+  },
+  {
+   "p": "Soulever Tower B",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "SLVB/12/1205",
+     "1 B/R",
+     862.0,
+     2974000.0,
+     "Skyline / Cove"
+    ],
+    [
+     "SLVB/13/1302",
+     "1 B/R",
+     854.0,
+     3041000.0,
+     "Forest / Cove"
+    ],
+    [
+     "SLVB/13/1305",
+     "1 B/R",
+     862.0,
+     2985000.0,
+     "Skyline / Cove"
+    ],
+    [
+     "SLVB/14/1405",
+     "1 B/R",
+     859.0,
+     2978000.0,
+     "Skyline / Cove"
+    ],
+    [
+     "SLVB/15/1501",
+     "3 B/R",
+     1868.0,
+     7994000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/18/1804",
+     "2 B/R",
+     1476.0,
+     5225000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/18/1805",
+     "1 B/R",
+     862.0,
+     3009000.0,
+     "Skyline / Cove"
+    ],
+    [
+     "SLVB/20/2005",
+     "1 B/R",
+     862.0,
+     3022000.0,
+     "Skyline / Cove"
+    ],
+    [
+     "SLVB/22/2204",
+     "2 B/R",
+     1476.0,
+     5268000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/27/2701",
+     "3 B/R",
+     1819.0,
+     7985000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/27/2704",
+     "2 B/R",
+     1469.0,
+     5311000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/28/2803",
+     "1 B/R",
+     846.0,
+     3097000.0,
+     "Forest / Cove"
+    ],
+    [
+     "SLVB/29/2904",
+     "2 B/R",
+     1441.0,
+     5246000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/31/3104",
+     "2 B/R",
+     1441.0,
+     5267000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/32/3201",
+     "3 B/R",
+     1819.0,
+     8041000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/34/3404",
+     "2 B/R",
+     1441.0,
+     5288000.0,
+     "Forest / Skyline"
+    ],
+    [
+     "SLVB/35/3501",
+     "3 B/R",
+     1819.0,
+     8098000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/40/4001",
+     "3 B/R",
+     1819.0,
+     8210000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/5/501",
+     "2 B/R",
+     1403.0,
+     5728000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/6/602",
+     "1 B/R",
+     856.0,
+     3000000.0,
+     "Forest / Cove"
+    ],
+    [
+     "SLVB/7/701",
+     "3 B/R",
+     1868.0,
+     7879000.0,
+     "Ocean Cove / Forest"
+    ],
+    [
+     "SLVB/7/703",
+     "1 B/R",
+     846.0,
+     2979000.0,
+     "Forest / Cove"
+    ]
+   ]
+  },
+  {
+   "p": "Passo Avita",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "PASA/1/107",
+     "1 B/R",
+     960.0,
+     4930000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/1/112",
+     "1 B/R",
+     877.0,
+     4146000.0,
+     "Dubai City"
+    ],
+    [
+     "PASA/1/113",
+     "2 B/R",
+     1581.0,
+     8122000.0,
+     "Dubai City"
+    ],
+    [
+     "PASA/1/121",
+     "2 B/R",
+     1365.0,
+     8125000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/10/1013",
+     "2 B/R",
+     1688.0,
+     11069000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/2/221",
+     "2 B/R",
+     1749.0,
+     10924000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/2/222",
+     "2 B/R",
+     1480.0,
+     8800000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/2/224",
+     "3 B/R",
+     2575.0,
+     17398000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/3/303",
+     "3 B/R",
+     1892.0,
+     13294000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/4/402",
+     "3 B/R",
+     1860.0,
+     13085000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/4/409",
+     "2 B/R",
+     1581.0,
+     8381000.0,
+     "Dubai City"
+    ],
+    [
+     "PASA/4/415",
+     "2 B/R",
+     1426.0,
+     8584000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/4/418",
+     "3 B/R",
+     2270.0,
+     13583000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/5/501",
+     "3 B/R",
+     1883.0,
+     13374000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/5/515",
+     "2 B/R",
+     1383.0,
+     8422000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/5/520",
+     "3 B/R",
+     1828.0,
+     12999000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/7/717",
+     "2 B/R",
+     1390.0,
+     8577000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/9/913",
+     "2 B/R",
+     1426.0,
+     8901000.0,
+     "Ocean"
+    ]
+   ]
+  },
+  {
+   "p": "Passo Bella",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "PASB/10/1010",
+     "2 B/R",
+     1748.0,
+     9889000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/11/1106",
+     "3 B/R",
+     1774.0,
+     11383000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/11/1107",
+     "2 B/R",
+     1320.0,
+     8227000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/12/1201",
+     "3 B/R",
+     1826.0,
+     13183000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/13/1301",
+     "3 B/R",
+     1841.0,
+     13519000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/13/1302",
+     "2 B/R",
+     1334.0,
+     9910000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/14/1405",
+     "2 B/R",
+     1931.0,
+     12355000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/3/301",
+     "3 B/R",
+     1805.0,
+     12450000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/3/308",
+     "2 B/R",
+     1706.0,
+     9442000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/3/313",
+     "2 B/R",
+     1704.0,
+     8551000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/3/314",
+     "2 B/R",
+     1333.0,
+     6488000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/5/507",
+     "3 B/R",
+     1730.0,
+     11072000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/6/603",
+     "2 B/R",
+     1363.0,
+     9637000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/6/604",
+     "2 B/R",
+     2641.0,
+     16106000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/6/608",
+     "2 B/R",
+     1477.0,
+     8800000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/6/609",
+     "2 B/R",
+     1519.0,
+     8523000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/6/611",
+     "3 B/R",
+     1727.0,
+     10099000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/6/612",
+     "2 B/R",
+     1748.0,
+     9362000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/6/614",
+     "2 B/R",
+     1351.0,
+     6755000.0,
+     "Skyline"
+    ],
+    [
+     "PASB/6/619",
+     "3 B/R",
+     1848.0,
+     12884000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/7/706",
+     "3 B/R",
+     1799.0,
+     11248000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/8/804",
+     "3 B/R",
+     2452.0,
+     14809000.0,
+     "Ocean"
+    ],
+    [
+     "PASB/8/821",
+     "2 B/R",
+     1385.0,
+     9885000.0,
+     "Beach Elite"
+    ]
+   ]
+  },
+  {
+   "p": "Hado Tower A",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HADA/16/1605",
+     "3 B/R",
+     2493.0,
+     8242000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADA/2/208",
+     "2 B/R",
+     1522.0,
+     4821000.0,
+     "Beach / Ocean / Zen"
+    ],
+    [
+     "HADA/2/219",
+     "1 B/R",
+     1249.0,
+     3644000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADA/2/220",
+     "1 B/R",
+     1126.0,
+     3013000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADA/7/717",
+     "2 B/R",
+     1515.0,
+     4860000.0,
+     "Sea / Villa community"
+    ]
+   ]
+  },
+  {
+   "p": "Hado Tower B",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HADB/1/102",
+     "1 B/R",
+     1426.0,
+     3683000.0,
+     "Zen Garden"
+    ],
+    [
+     "HADB/1/106",
+     "1 B/R",
+     1416.0,
+     3648000.0,
+     "Zen Garden"
+    ],
+    [
+     "HADB/1/108",
+     "1 B/R",
+     904.0,
+     2823000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADB/19/1905",
+     "2 B/R",
+     1201.0,
+     4517000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADB/2/207",
+     "1 B/R",
+     1102.0,
+     3456000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADB/4/401",
+     "2 B/R",
+     1596.0,
+     5187000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADB/4/411",
+     "1 B/R",
+     1100.0,
+     3451000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADB/9/909",
+     "2 B/R",
+     1622.0,
+     5367000.0,
+     "Sea / Villa community"
+    ]
+   ]
+  },
+  {
+   "p": "Hado Tower C",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HADC/1/104",
+     "2 B/R",
+     1613.0,
+     4057000.0,
+     "Dubai Skyline"
+    ],
+    [
+     "HADC/13/1305",
+     "3 B/R",
+     2675.0,
+     8323000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/16/1605",
+     "3 B/R",
+     2492.0,
+     8323000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/19/1903",
+     "3 B/R",
+     2318.0,
+     7781000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/2/219",
+     "1 B/R",
+     1249.0,
+     3680000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/3/319",
+     "1 B/R",
+     1270.0,
+     3711000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/3/320",
+     "1 B/R",
+     1115.0,
+     3042000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/6/617",
+     "2 B/R",
+     1515.0,
+     4893000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/8/817",
+     "2 B/R",
+     1524.0,
+     5102000.0,
+     "Sea / Villa community"
+    ],
+    [
+     "HADC/9/913",
+     "2 B/R",
+     1524.0,
+     5113000.0,
+     "Sea / Villa community"
+    ]
+   ]
+  },
+  {
+   "p": "Le Chateau",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "LCH/10/1002",
+     "1 B/R",
+     830.0,
+     2254000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/10/1003",
+     "2 B/R",
+     1265.0,
+     3349000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/10/1005",
+     "1 B/R",
+     835.0,
+     2211000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/11/1110",
+     "1 B/R",
+     812.0,
+     2330000.0,
+     "Sea / Golf Course"
+    ],
+    [
+     "LCH/12/1204",
+     "1 B/R",
+     841.0,
+     2227000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/12/1205",
+     "1 B/R",
+     835.0,
+     2209000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/14/1403",
+     "2 B/R",
+     1265.0,
+     3349000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/16/1601",
+     "2 B/R",
+     1255.0,
+     3441000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/16/1602",
+     "1 B/R",
+     828.0,
+     2280000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/17/1704",
+     "1 B/R",
+     865.0,
+     2288000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/18/1805",
+     "1 B/R",
+     835.0,
+     2242000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/18/1810",
+     "1 B/R",
+     834.0,
+     2420000.0,
+     "Sea / Golf Course"
+    ],
+    [
+     "LCH/19/1903",
+     "2 B/R",
+     1266.0,
+     3395000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/21/2102",
+     "1 B/R",
+     810.0,
+     2300000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/21/2103",
+     "2 B/R",
+     1389.0,
+     3877000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/21/2104",
+     "2 B/R",
+     1483.0,
+     3870000.0,
+     "Evermore Masterplan"
+    ],
+    [
+     "LCH/21/2107",
+     "3 B/R",
+     1665.0,
+     4663000.0,
+     "Sea / Golf Course"
+    ],
+    [
+     "LCH/28/2801",
+     "2 B/R",
+     1299.0,
+     3621000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/28/2806",
+     "3 B/R",
+     1697.0,
+     5196000.0,
+     "Marjan Island / Sea"
+    ],
+    [
+     "LCH/8/809",
+     "1 B/R",
+     828.0,
+     2349000.0,
+     "Sea / Golf Course"
+    ],
+    [
+     "LCH/9/901",
+     "2 B/R",
+     1268.0,
+     3378000.0,
+     "Botanical Garden"
+    ],
+    [
+     "LCH/9/906",
+     "2 B/R",
+     1270.0,
+     3385000.0,
+     "Marjan Island / Sea"
+    ]
+   ]
+  }
+ ]
+}
