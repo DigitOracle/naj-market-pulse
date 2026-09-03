@@ -19,5 +19,6 @@ const cmp = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/dev_c
 fs.writeFileSync(path.join(dir, "compare.html"), ctx.__x.renderCompare(cmp, bd, { a: "", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_pick.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_imtiaz_ellington.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "ellington", bed: "1", band: "1to2", diff: false }, key));
+fs.writeFileSync(path.join(dir, "skyline_businessbay.html"), ctx.__x.renderSkyline("businessbay", "Business Bay", key, [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" }]));
 fs.writeFileSync(path.join(dir, "skyline_dubaimarina.html"), ctx.__x.renderSkyline("dubaimarina", "Dubai Marina", key, [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" }]));
 console.log("preview written:", fs.readdirSync(dir).filter(f => f.endsWith(".html")).length, "pages");
