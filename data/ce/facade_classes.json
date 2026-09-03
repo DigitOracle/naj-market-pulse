@@ -1,0 +1,258 @@
+{
+ "classes": {
+  "glassblue": {
+   "label": "Curtain wall, blue-tinted glass",
+   "panel": "large panels, mullions 1.6/1.8/2.1 m, spandrel band per floor",
+   "texture": "glass_curtainwall_blue",
+   "tile_m": [
+    1.8,
+    3.4
+   ],
+   "notes": "reflective vision glass + dark spandrel; the Dubai tower default"
+  },
+  "glassclear": {
+   "label": "Curtain wall, clear / grey glass",
+   "panel": "large panels, mullions 1.6/1.8/2.1 m",
+   "texture": "glass_curtainwall_clear",
+   "tile_m": [
+    1.8,
+    3.4
+   ],
+   "notes": "neutral low-iron or grey-tinted glazing"
+  },
+  "glassbronze": {
+   "label": "Curtain wall, bronze glass",
+   "panel": "large panels, mullions 1.6/1.8/2.1 m",
+   "texture": "glass_curtainwall_bronze",
+   "tile_m": [
+    1.8,
+    3.4
+   ],
+   "notes": "warm bronze / gold reflective glazing (1980s-2000s Gulf towers)"
+  },
+  "stone": {
+   "label": "Stone / limestone cladding",
+   "panel": "punched windows 1.2 x 1.6 m per 3.4 m bay",
+   "texture": "stone_limestone_ashlar",
+   "tile_m": [
+    3.4,
+    3.4
+   ],
+   "notes": "beige / cream ashlar, sandstone, travertine"
+  },
+  "render": {
+   "label": "White / cream render",
+   "panel": "punched windows 1.2 x 1.6 m per 3.4 m bay",
+   "texture": "plaster_render_white",
+   "tile_m": [
+    3.4,
+    3.4
+   ],
+   "notes": "painted plaster; villas, low-rise, older apartment blocks"
+  },
+  "concrete": {
+   "label": "Concrete / precast panel",
+   "panel": "punched windows 1.2 x 1.6 m per 3.4 m bay",
+   "texture": "concrete_precast_panel",
+   "tile_m": [
+    3.4,
+    3.4
+   ],
+   "notes": "grey precast or fair-faced concrete; also buildings under construction"
+  },
+  "brick": {
+   "label": "Brick / terracotta",
+   "panel": "punched windows 1.2 x 1.6 m per 3.4 m bay",
+   "texture": "brick_terracotta_running_bond",
+   "tile_m": [
+    3.4,
+    3.4
+   ],
+   "notes": "rare in Dubai; kept for completeness"
+  }
+ },
+ "palette": {
+  "existing": {
+   "base": "#39434F",
+   "glassblue": "#485665",
+   "glassclear": "#555C64",
+   "glassbronze": "#494F55",
+   "stone": "#515656",
+   "render": "#545A61",
+   "concrete": "#4F5257",
+   "brick": "#3B4858",
+   "slab": "#303943",
+   "window": "#313C49",
+   "crown": "#363E47",
+   "roof": "#323B46"
+  },
+  "construction": {
+   "base": "#3E8A7E",
+   "glassblue": "#3EA292",
+   "glassclear": "#5F948C",
+   "glassbronze": "#5D857E",
+   "stone": "#688C87",
+   "render": "#67928B",
+   "concrete": "#67837F",
+   "brick": "#349788",
+   "slab": "#35756B",
+   "window": "#2F8175",
+   "crown": "#427A71",
+   "roof": "#37796F"
+  },
+  "pipeline": {
+   "base": "#C5A56A",
+   "glassblue": "#DBB265",
+   "glassclear": "#C5AF86",
+   "glassbronze": "#B7A788",
+   "stone": "#BCAC90",
+   "render": "#C1AF8E",
+   "concrete": "#B3A792",
+   "brick": "#D5AB5D",
+   "slab": "#A78C5A",
+   "window": "#B99656",
+   "crown": "#AE966B",
+   "roof": "#AD915D"
+  }
+ },
+ "rule": "rules/najma_v2.cga",
+ "variants": {
+  "rule": "feature index % 3",
+  "spandrel_ratio": [
+   0.3,
+   0.36,
+   0.42
+  ],
+  "mullion_spacing_m": [
+   1.6,
+   1.8,
+   2.1
+  ]
+ },
+ "shape_name": "b<feature index>_<class>",
+ "districts": {
+  "businessbay": {
+   "n": 654,
+   "counts": {
+    "glassblue": 29,
+    "glassclear": 37,
+    "glassbronze": 12,
+    "stone": 102,
+    "render": 417,
+    "concrete": 57,
+    "brick": 0
+   },
+   "sources": {
+    "default": 602,
+    "overture": 22,
+    "osm": 30
+   },
+   "generated": "2026-09-03T06:10:52"
+  },
+  "burjkhalifa": {
+   "n": 298,
+   "counts": {
+    "glassblue": 23,
+    "glassclear": 25,
+    "glassbronze": 5,
+    "stone": 40,
+    "render": 173,
+    "concrete": 32,
+    "brick": 0
+   },
+   "sources": {
+    "default": 279,
+    "osm": 8,
+    "overture": 11
+   },
+   "generated": "2026-09-03T06:10:52"
+  },
+  "palmjumeirah": {
+   "n": 2482,
+   "counts": {
+    "glassblue": 13,
+    "glassclear": 3,
+    "glassbronze": 0,
+    "stone": 340,
+    "render": 2084,
+    "concrete": 42,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2057,
+    "overture": 425
+   },
+   "generated": "2026-09-03T06:10:52"
+  }
+ },
+ "updated": "2026-09-03T06:10:52",
+ "rule_v3": "rules/najma_v3.cga",
+ "v3_textures": {
+  "library": "/ESRI.lib/assets/Facades/International/Upperfloors/<name>.jpg (CityEngine workspace, Esri texture library); name encodes u_f<storeys>_t<bays>",
+  "scale": {
+   "storey_m": 3.4,
+   "bay_m": 3.4,
+   "podium_storey_m": 4.5,
+   "roof_tile_m": 28,
+   "fit": "integer storeys x bays per face, top storey aligned to the top edge"
+  },
+  "by_class": {
+   "glassblue": [
+    "u_f014_t009_Office_000",
+    "u_f017_t018_Office_000",
+    "u_f028_t007_Office_000"
+   ],
+   "glassclear": [
+    "u_f012_t006_Office_000",
+    "u_f029_t005_Office_000",
+    "u_f025_t010_Office_000"
+   ],
+   "glassbronze": [
+    "u_f017_t009_Office_000",
+    "u_f024_t015_Office_000",
+    "u_f017_t009_Office_000"
+   ],
+   "stone": [
+    "u_f005_t005_Residential_000",
+    "u_f006_t006_Office_003",
+    "u_f016_t008_Office_000"
+   ],
+   "render": [
+    "u_f007_t007_Residential_000",
+    "u_f005_t006_Residential_005",
+    "u_f006_t004_Office_000"
+   ],
+   "concrete": [
+    "u_f005_t008_Office_000",
+    "u_f004_t006_Residential_008",
+    "u_f020_t007_Office_000"
+   ],
+   "brick": [
+    "u_f006_t007_Residential_000",
+    "u_f006_t007_Residential_000",
+    "u_f006_t007_Residential_000"
+   ]
+  },
+  "variant_index": "fvar 0/1/2 = feature index % 3 (same as v2)",
+  "podium": {
+   "glass classes": "u_f003_t007_Office_002",
+   "other": "u_f004_t009_Office_001"
+  },
+  "roof": [
+   "/ESRI.lib/assets/Roofs/Flat/flatRoof_24.jpg",
+   "flatRoof_29.jpg",
+   "flatRoof_26.jpg"
+  ],
+  "status": "not in the texture: shape / mesh name b<i>_<class>_s<status>, the viewer tints (construction teal, pipeline gold + glass); pipeline stays an untextured ghost",
+  "export": "scripts/ce_batch_v2.py --v3 <slug> -> scripts/glb_merge_per_building.py (textures kept) -> node scripts/glb_pack_v3.mjs (resize 1024, WebP q72, dedup, weld, meshopt)",
+  "businessbay_result": {
+   "merged_mb": 5.16,
+   "packed_mb": 2.33,
+   "triangles": 15532,
+   "images": 22,
+   "image_mb_packed": 0.74,
+   "buildings": 654,
+   "generated": "2026-09-03"
+  }
+ }
+}

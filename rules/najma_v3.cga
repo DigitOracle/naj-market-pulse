@@ -1,0 +1,278 @@
+/**
+ * Najma district rule v3 — v2 massing + real facade textures from ESRI.lib.
+ *
+ * Same object attrs as v2 (status / bHeight / levels / pctComplete / fclass / fvar), same podium /
+ * shaft / crown massing, same reports. New: attr textured (default true). When textured, every
+ * facade face is projected with ONE tileable photographic facade from
+ * /ESRI.lib/assets/Facades/International/Upperfloors at real-world scale (one texture row =
+ * one storey = floorH; one texture column = one bay = tileW), the podium gets a heavier
+ * office/retail texture, roofs get a flat-roof aerial. The geometric floor bands / mullions /
+ * punched windows of v2 are NOT generated when textured (the texture carries them) — the
+ * surfaces are the same planes, so the massing is identical, with fewer triangles.
+ * textured = false reproduces v2 exactly (colour-only, palette-checked).
+ *
+ * Texture family per facade class (fclass) x variant (fvar 0/1/2, feature index % 3, pinned by
+ * scripts/ce_batch_v2.py) — deterministic, no rand() anywhere, so re-exports are identical:
+ *   glassblue    u_f014_t009 / u_f017_t018 / u_f028_t007  Office  (blue reflective curtain wall)
+ *   glassclear   u_f012_t006 / u_f029_t005 / u_f025_t010  Office  (grey / clear glass grid)
+ *   glassbronze  u_f017_t009 / u_f024_t015 / u_f017_t009  Office  (dark bronze glass)
+ *   stone        u_f005_t005 Res / u_f006_t006_003 Off / u_f016_t008 Off  (beige / white stone, punched)
+ *   render       u_f007_t007 Res / u_f005_t006_005 Res / u_f006_t004 Off  (white / cream render)
+ *   concrete     u_f005_t008 Off / u_f004_t006_008 Res / u_f020_t007 Off  (precast / fair-faced)
+ *   brick        u_f006_t007_Residential_000 (all variants)
+ *   podium       glass classes u_f003_t007_Office_002 (glass + stone bands), else u_f004_t009_Office_001
+ *   roof         Roofs/Flat/flatRoof_24 / 29 / 26 by variant, roofTile m per repeat
+ * The ESRI file name encodes the grid: u_f<floors>_t<tiles>_<usage>_<n>. The projection fits an
+ * integer number of storeys and bays on each face (the ESRI Facade_Textures.cga method), so a
+ * floor line lands on the top and bottom edge and the texture wraps cleanly at corners.
+ *
+ * Status is NOT encoded in the texture colour any more: scripts/ce_batch_v2.py --v3 names every
+ * shape "b<i>_<class>_s<status>" and the viewer reads the status from the mesh name. Pipeline
+ * ghosts stay a plain translucent extrusion (design unknown) at every LOD, exactly as v2.
+ *
+ * Export: scripts/ce_batch_v2.py --v3 businessbay  -> AS_GENERATED glTF, folded to one mesh per
+ * building by scripts/glb_merge_per_building.py (now carries TEXCOORD_0 + textures + images),
+ * then scripts/glb_pack_v3.mjs (resize 1024, WebP, dedup, weld, meshopt).
+ */
+version "2023.0"
+
+// ---------------------------------------------------------------- object attributes
+attr status      = "existing"     // existing | construction | pipeline
+attr bHeight     = 12             // m — OSM height or levels x 3.2 at export; 12 = placeholder
+attr levels      = ""             // OSM building:levels (string column in the SHP)
+attr pctComplete = 100
+@Enum("auto", "glassblue", "glassclear", "glassbronze", "stone", "render", "concrete", "brick")
+attr fclass      = "auto"         // facade class (scripts/facade_classes.py -> object attr)
+attr fvar        = -1             // deterministic variant, feature index % 3 (ce_batch_v2.py)
+
+// ---------------------------------------------------------------- design controls
+attr textured      = true         // true = ESRI.lib facade textures; false = v2 colour-only look
+@Range(min=0, max=2, stepsize=1, restricted=true)
+attr LOD           = 1
+@Range(min=-1, max=2, stepsize=1, restricted=true)
+attr facadeVariant = -1           // -1 = auto (fvar, else footprint-area hash); 0/1/2 pins
+@Range(min=1, max=6, stepsize=1, restricted=true)
+attr bandEvery     = 1            // storeys per slab band at LOD 1 (untextured only)
+attr floorH        = 3.4
+attr podiumFloorH  = 4.5
+attr podiumOut     = 1.0          // podium outset beyond the footprint, m
+attr towerMin      = 60
+attr facadeMin     = 20
+attr placeholderH  = 12
+attr crownPct      = 0.02
+attr tileW         = 3.4          // m per texture bay (one "_tNNN" column)
+attr roofTile      = 28           // m per flat-roof texture repeat
+
+const TEXLIB  = "/ESRI.lib/assets/Facades/International/Upperfloors/"
+const ROOFLIB = "/ESRI.lib/assets/Roofs/Flat/"
+
+// ---------------------------------------------------------------- derived quantities
+lvl        = float(levels)
+hasLevels  = lvl > 0
+bldgH      = case bHeight > 0 && !(bHeight == placeholderH && hasLevels) : bHeight
+             case hasLevels : lvl * floorH
+             else : placeholderH
+isTower    = bldgH >= towerMin
+isMid      = bldgH >= facadeMin
+podiumN    = case bldgH < 90 : 4  case bldgH < 150 : 5  else : 6
+podiumH    = podiumN * podiumFloorH
+crownH     = bldgH * crownPct
+shaftH     = bldgH - podiumH - crownH
+storeysEst = case isTower : podiumN + rint(shaftH / floorH)  else : max(1, rint(bldgH / floorH))
+statusOpacity = case status == "construction" : 0.8  else : 1
+
+cls        = case fclass != "auto" && fclass != "" : fclass
+             case bldgH > 100 : "glassblue"
+             case bldgH > 40  : "concrete"
+             else : "render"
+isGlass(c) = c == "glassblue" || c == "glassclear" || c == "glassbronze"
+texturedFlag = case textured : 1 else : 0
+
+variantOf(a) = case facadeVariant >= 0 : facadeVariant
+               case fvar >= 0 : fvar
+               else : floor(a) % 3
+bandRatio(v) = case v == 0 : 0.30  case v == 1 : 0.36  else : 0.42
+mullionW(v)  = case v == 0 : 1.6   case v == 1 : 1.8   else : 2.1
+
+// ---------------------------------------------------------------- texture table (class x variant)
+texBase(c, v) =
+    case c == "glassblue"   && v == 1 : "u_f017_t018_Office_000"
+    case c == "glassblue"   && v == 2 : "u_f028_t007_Office_000"
+    case c == "glassblue"             : "u_f014_t009_Office_000"
+    case c == "glassclear"  && v == 1 : "u_f029_t005_Office_000"
+    case c == "glassclear"  && v == 2 : "u_f025_t010_Office_000"
+    case c == "glassclear"            : "u_f012_t006_Office_000"
+    case c == "glassbronze" && v == 1 : "u_f024_t015_Office_000"
+    case c == "glassbronze"           : "u_f017_t009_Office_000"
+    case c == "stone"       && v == 1 : "u_f006_t006_Office_003"
+    case c == "stone"       && v == 2 : "u_f016_t008_Office_000"
+    case c == "stone"                 : "u_f005_t005_Residential_000"
+    case c == "concrete"    && v == 1 : "u_f004_t006_Residential_008"
+    case c == "concrete"    && v == 2 : "u_f020_t007_Office_000"
+    case c == "concrete"              : "u_f005_t008_Office_000"
+    case c == "brick"                 : "u_f006_t007_Residential_000"
+    case v == 1                       : "u_f005_t006_Residential_005"     // render
+    case v == 2                       : "u_f006_t004_Office_000"
+    else                              : "u_f007_t007_Residential_000"
+podiumBase(c) = case isGlass(c) : "u_f003_t007_Office_002" else : "u_f004_t009_Office_001"
+roofFile(v)   = case v == 1 : "flatRoof_29.jpg"  case v == 2 : "flatRoof_26.jpg"  else : "flatRoof_24.jpg"
+
+// grid encoded in the ESRI file name: "u_f014_t009_..." -> 14 storeys, 9 bays
+// (parameter is "tx", never "t": t is the translate operation and a parameter named t fails to compile)
+nFloors(tx) = float(substring(tx, 3, 6))
+nTiles(tx)  = float(substring(tx, 8, 11))
+
+// texture size in metres so that an integer number of bays / storeys fits the face exactly
+fitW(tx)     = case scope.sx > 0.5 * tileW : scope.sx / max(1, rint(scope.sx / tileW)) * nTiles(tx)
+               else                        : scope.sx * nTiles(tx) * 5
+fitH(tx, fh) = case scope.sy > 0.75 * fh   : scope.sy / max(1, rint(scope.sy / fh)) * nFloors(tx)
+               else                        : scope.sy * nFloors(tx) * 10
+
+// ---------------------------------------------------------------- palette (in-family only, untextured look)
+// Same table as v2, verified by ce_batch_v2.py --palette. Never add a hue here.
+col_glassblue(st)   = case st == "construction" : "#3EA292" case st == "pipeline" : "#DBB265" else : "#485665"
+col_glassclear(st)  = case st == "construction" : "#5F948C" case st == "pipeline" : "#C5AF86" else : "#555C64"
+col_glassbronze(st) = case st == "construction" : "#5D857E" case st == "pipeline" : "#B7A788" else : "#494F55"
+col_stone(st)       = case st == "construction" : "#688C87" case st == "pipeline" : "#BCAC90" else : "#515656"
+col_render(st)      = case st == "construction" : "#67928B" case st == "pipeline" : "#C1AF8E" else : "#545A61"
+col_concrete(st)    = case st == "construction" : "#67837F" case st == "pipeline" : "#B3A792" else : "#4F5257"
+col_brick(st)       = case st == "construction" : "#349788" case st == "pipeline" : "#D5AB5D" else : "#3B4858"
+col_slab(st)        = case st == "construction" : "#35756B" case st == "pipeline" : "#A78C5A" else : "#303943"
+col_window(st)      = case st == "construction" : "#2F8175" case st == "pipeline" : "#B99656" else : "#313C49"
+col_crown(st)       = case st == "construction" : "#427A71" case st == "pipeline" : "#AE966B" else : "#363E47"
+col_roof(st)        = case st == "construction" : "#37796F" case st == "pipeline" : "#AD915D" else : "#323B46"
+col_base(st)        = case st == "construction" : "#3E8A7E" case st == "pipeline" : "#C5A56A" else : "#39434F"
+
+wallCol(c) = case c == "glassblue"   : col_glassblue(status)
+             case c == "glassclear"  : col_glassclear(status)
+             case c == "glassbronze" : col_glassbronze(status)
+             case c == "stone"       : col_stone(status)
+             case c == "concrete"    : col_concrete(status)
+             case c == "brick"       : col_brick(status)
+             else                    : col_render(status)
+
+// ---------------------------------------------------------------- start
+@StartRule
+Lot -->
+    cleanupGeometry(all, 0.3)
+    report("Footprint_m2", geometry.area)
+    report("Height_m", bldgH)
+    report("Storeys_est", storeysEst)
+    report("Class." + cls, 1)
+    report("Variant", variantOf(geometry.area))
+    report("Textured", texturedFlag)
+    set(material.opacity, statusOpacity)
+    Building(variantOf(geometry.area), cls)
+
+Building(v, c) -->
+    case status == "pipeline" : Ghost
+    case LOD == 0             : Plain
+    case isTower              : Tower(v, c)
+    else                      : Low(v, c)
+
+// pipeline ghost — design unknown, so no facade family and no texture; exact status colour, translucent
+Ghost -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    color(col_base("pipeline"))
+    set(material.opacity, 0.4)
+    Ghost.
+
+// LOD 0 — the v1 look: plain extrusion, exact status colour
+Plain -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    PlainPaint
+PlainPaint -->
+    case status == "construction" :
+        color(col_base("construction"))
+        split(y){ bldgH * pctComplete / 100 : PlainPaint. | ~1 : set(material.opacity, 0.25) PlainPaint. }
+    else :
+        color(col_base(status))
+        PlainPaint.
+
+// ---------------------------------------------------------------- tower: podium + shaft + crown
+Tower(v, c) -->
+    [ offset(podiumOut, inside) Podium(v, c) ]
+    t(0, podiumH, 0)
+    extrude(bldgH - podiumH)
+    split(y){ ~1 : Shaft(v, c) | crownH : Crown(v) }
+
+Podium(v, c) -->
+    extrude(podiumH)
+    [ StoreyReports(podiumFloorH) ]
+    comp(f){ side : PodiumFacade(v, c) | top : Roof(v) }
+
+PodiumFacade(v, c) -->
+    case textured : TexFacade(podiumBase(c), podiumFloorH)
+    case LOD >= 1 : split(y){ ~podiumFloorH : FloorBand(v, c) }*
+    else          : Wall(c)
+
+Shaft(v, c) -->
+    [ StoreyReports(floorH) ]
+    comp(f){ side : ShaftFacade(v, c) }
+
+ShaftFacade(v, c) -->
+    case textured : TexFacade(texBase(c, v), floorH)
+    case LOD >= 1 : split(y){ ~(floorH * bandEvery) : FloorBand(v, c) }*
+    else          : Wall(c)
+
+Crown(v) -->
+    comp(f){ side : CrownBand | top : Roof(v) }
+CrownBand --> color(col_crown(status)) CrownBand.
+
+// ---------------------------------------------------------------- low / mid buildings
+Low(v, c) -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    comp(f){ side : LowFacade(v, c) | top : Roof(v) }
+
+LowFacade(v, c) -->
+    case textured          : TexFacade(texBase(c, v), floorH)
+    case LOD >= 1 && isMid : split(y){ ~(floorH * bandEvery) : FloorBand(v, c) }*
+    case LOD >= 1          : split(y){ ~1 : Wall(c) | 0.35 : Spandrel }
+    else                   : Wall(c)
+
+// ---------------------------------------------------------------- textured faces
+// whole face, one texture: N bays across, M storeys up, top storey aligned with the top edge
+TexFacade(tx, fh) -->
+    color("#FFFFFF")
+    setupProjection(0, scope.xy, fitW(tx), fitH(tx, fh), 0, scope.sy - fitH(tx, fh))
+    projectUV(0)
+    texture(TEXLIB + tx + ".jpg")
+    TexFacade.
+
+TexRoof(v) -->
+    color("#FFFFFF")
+    setupProjection(0, scope.xy, roofTile, roofTile)
+    projectUV(0)
+    texture(ROOFLIB + roofFile(v))
+    TexRoof.
+
+// ---------------------------------------------------------------- facade family (untextured v2 look)
+FloorBand(v, c) -->
+    split(y){ bandRatio(v) * floorH : Spandrel | ~1 : Vision(v, c) }
+
+Vision(v, c) -->
+    case LOD >= 2 && isGlass(c) : split(x){ ~mullionW(v) : Panel(c) }*
+    case LOD >= 2               : split(x){ ~3.4 : PunchedBay(c) }*
+    else                        : Wall(c)
+
+Panel(c)      --> split(x){ 0.07 : Mullion | ~1 : Wall(c) | 0.07 : Mullion }
+PunchedBay(c) --> split(x){ ~1 : Wall(c) | 1.2 : WindowStrip(c) | ~1 : Wall(c) }
+WindowStrip(c) --> split(y){ ~0.7 : Wall(c) | 1.6 : Window | ~0.3 : Wall(c) }
+
+Spandrel --> color(col_slab(status))   Spandrel.
+Mullion  --> color(col_slab(status))   Mullion.
+Window   --> color(col_window(status)) Window.
+Wall(c)  --> color(wallCol(c))         Wall.
+Roof(v)  -->
+    case textured : TexRoof(v)
+    else          : color(col_roof(status)) Roof.
+
+// ---------------------------------------------------------------- reports
+// runs on a scope copy of every extruded part: one GFA value + one Storeys tick per slab
+StoreyReports(fh) -->
+    split(y){ ~fh : Storey }*
+Storey     --> comp(f){ bottom : StoreySlab }
+StoreySlab --> report("GFA", geometry.area) report("Storeys", 1) NIL
