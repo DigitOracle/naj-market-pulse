@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Najma — district SceneView</title>
+<link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css">
+<script src="https://js.arcgis.com/4.30/"></script>
+<style>
+:root{--ink:#0C1413;--card:#131F1D;--line:#24352F;--text:#E8E4D8;--mut:#8FA39B;--gold:#C5A56A;--teal:#3E8A7E}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;overflow:hidden}
+#view{position:fixed;inset:0}
+.top{position:fixed;top:0;left:0;right:0;padding:12px 14px 28px;background:linear-gradient(180deg,rgba(12,20,19,.94),rgba(12,20,19,0));pointer-events:none;z-index:5}
+.mast{font-family:Fraunces,Georgia,serif;font-size:1.3rem;font-weight:600}.mast em{font-style:normal;color:var(--gold)}
+.sub{color:var(--mut);font-size:.7rem;font-family:"IBM Plex Mono",monospace;margin-top:2px}
+#rows{position:fixed;left:14px;top:72px;display:flex;flex-direction:column;gap:8px;z-index:6;max-width:min(62vw,760px)}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row .lab{font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--mut);margin-right:2px;letter-spacing:.04em;text-transform:uppercase;min-width:52px}
+.tg{font-family:"IBM Plex Mono",monospace;font-size:.66rem;border:1px solid var(--line);background:rgba(19,31,29,.9);border-radius:99px;padding:6px 11px;color:var(--mut);cursor:pointer;user-select:none;text-decoration:none;display:inline-block}
+.tg.on{color:var(--gold);border-color:rgba(197,165,106,.65);background:rgba(197,165,106,.14)}
+.tg.dis{opacity:.45;cursor:not-allowed}
+#legend{position:fixed;left:14px;bottom:96px;display:flex;flex-direction:column;gap:5px;pointer-events:none;z-index:6}
+.lg{display:flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--text);background:rgba(19,31,29,.85);border:1px solid var(--line);border-radius:99px;padding:3px 9px 3px 5px;width:max-content}
+.lg i{width:10px;height:10px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.4)}
+.lg.dim{opacity:.45}
+#status{position:fixed;right:14px;top:72px;width:min(380px,calc(100vw - 28px));background:rgba(19,31,29,.94);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--mut);z-index:6;line-height:1.5;word-break:break-word;max-height:60vh;overflow:auto}
+#status b{color:var(--text);font-weight:500}
+#status .ok{color:#8FC7B9}#status .warn{color:#F28C6A}
+#status .h{color:var(--gold);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+#status .x{position:absolute;top:6px;right:10px;cursor:pointer;color:var(--mut);font-size:.9rem}
+#gmark{position:fixed;left:14px;bottom:54px;z-index:6;display:none;align-items:center;gap:8px;font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:.8rem;background:rgba(255,255,255,.92);color:#333;border-radius:6px;padding:4px 10px}
+#gmark.on{display:flex}
+#gmark .g{font-weight:600;letter-spacing:-.02em}
+#gmark .g span:nth-child(1){color:#4285F4}#gmark .g span:nth-child(2){color:#EA4335}#gmark .g span:nth-child(3){color:#FBBC05}#gmark .g span:nth-child(4){color:#4285F4}#gmark .g span:nth-child(5){color:#34A853}#gmark .g span:nth-child(6){color:#EA4335}
+.foot{position:fixed;right:10px;bottom:26px;color:rgba(143,163,155,.75);font-size:.58rem;font-family:"IBM Plex Mono",monospace;pointer-events:none;z-index:6;text-align:right}
+</style>
+</head>
+<body>
+<div id="view"></div>
+
+<div class="top">
+  <div class="mast" id="mast">Najma <em>· district SceneView</em></div>
+  <div class="sub" id="sub">hosted scene layer from CityEngine (SLPK) · native callout labels joined client-side to the names register</div>
+</div>
+
+<div id="rows">
+  <div class="row" id="rowDist"><span class="lab">district</span></div>
+  <div class="row" id="rowLabels"><span class="lab">labels</span>
+    <span class="tg on" data-lab="all">all named</span>
+    <span class="tg" data-lab="dev">developer-tagged</span>
+    <span class="tg" data-lab="off">off</span>
+  </div>
+  <div class="row" id="rowView"><span class="lab">view</span>
+    <span class="tg on" data-view="massing">massing</span>
+    <span class="tg" data-view="photoreal" id="chipPhoto">photoreal</span>
+    <span class="lab" id="photoNote"></span>
+  </div>
+</div>
+
+<div id="legend"></div>
+
+<div id="status">
+  <span class="x" onclick="this.parentNode.style.display='none'">✕</span>
+  <div class="h">lane status</div>
+  <div id="stDist">district: <b>…</b></div>
+  <div id="stAuth">sign-in: <b>waiting</b></div>
+  <div id="stLayer">scene layer: <b>loading</b></div>
+  <div id="stJoin">join: <b>…</b></div>
+  <div id="stFields">fields: <b>…</b></div>
+  <div id="stPhoto">photoreal: <b>off</b></div>
+  <div id="stMsg"></div>
+</div>
+
+<div id="gmark"><span class="g"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span><span>Photorealistic 3D Tiles</span></div>
+
+<div class="foot" id="foot">massing: CityEngine from OSM footprints + DLD register · © OpenStreetMap contributors<br>private hosted layer — sign-in required</div>
+
+<script>
+// ---------------------------------------------------------------------------------
+// One page, every district.  ?d=<slug> picks the district; the hosted scene layer
+// URLs come from ../scenelayers.json (written by scripts/agol_publish_scene.py via
+// scripts/agol_manifest.py), the labels from img/anchors_<slug>.
+//
+//   ?d=businessbay        district slug (default dubaimarina)
+//   ?gkey=...             Google Maps Platform key with Map Tiles API -> photoreal toggle
+//   ?join=name|oid        join key (default name: the SLPK `name` field carries b<i>)
+//   ?token=...            short-lived portal token (agol_publish_scene.py --print-token)
+//   ?appid=...            registered ArcGIS Online OAuth app id
+// ---------------------------------------------------------------------------------
+// data/board/scenelayers.json, reached from wherever this page happens to be served:
+// "../" when the server roots at data/board/preview (the usual static preview), same-dir
+// when the page is served next to the manifest, "/scenelayers.json" when it roots at the repo.
+const MANIFEST_URLS = ["../scenelayers.json", "scenelayers.json", "/scenelayers.json",
+                       "/board/scenelayers.json", "img/scenelayers.json"];
+async function loadManifest() {
+  const tried = [];
+  for (const u of MANIFEST_URLS) {
+    try {
+      const r = await fetch(u);
+      if (r.ok) { const j = await r.json(); console.log("manifest from", u); return j; }
+      tried.push(`${u} -> ${r.status}`);
+    } catch (e) { tried.push(`${u} -> ${e.message}`); }
+  }
+  throw new Error("scenelayers.json not found (" + tried.join("; ") + ")");
+}
+const PORTAL_URL   = "https://www.arcgis.com";
+const OAUTH_APP_ID = "";
+// district display names — the SAME labels the shipped skyline pages use (renderSkyline's SKY list),
+// so the two viewers name the same place the same way. Note the AGOL item titles are slug-literal
+// ("Najma - Burj Khalifa massing"), which is why the status panel also shows the item id.
+const LABELS = { dubaimarina:"Dubai Marina", businessbay:"Business Bay", burjkhalifa:"Downtown Dubai",
+                 palmjumeirah:"Palm Jumeirah", jumeirahvillagecircle:"JVC",
+                 palmdeira:"Dubai Islands" };
+const PAL = {omniyat:"#E8E4D8", hh:"#D96C5F", meraas:"#D9A441", select:"#3E8A7E", ellington:"#8FC7B9",
+             arada:"#56B584", zaya_palma:"#9B8CE6", fakhruddin:"#F28C6A", beyond:"#4C9BE8",
+             imtiaz:"#C41E3A", iman:"#B08BD9"};
+const STATUS_COL = {existing:"#39434F", construction:"#3E8A7E", pipeline:"#C5A56A"};
+
+const $ = id => document.getElementById(id);
+const say = (id, html) => { const e = $(id); if (e) e.innerHTML = html; };
+const params = new URLSearchParams(location.search);
+const SLUG = params.get("d") || "dubaimarina";
+const JOIN = params.get("join") || "name";     // v3 shape names carry the index; oid is the fallback
+const OID_OFFSET = 1;
+const pretty = s => LABELS[s] || s;
+
+// district picker — keeps the other query params when switching
+function buildPicker(manifest, active) {
+  const row = $("rowDist");
+  for (const slug of Object.keys(manifest)) {
+    const p = new URLSearchParams(location.search); p.set("d", slug);
+    const a = document.createElement("a");
+    a.className = "tg" + (slug === active ? " on" : "") + (manifest[slug].published ? "" : " dis");
+    a.href = "?" + p.toString();
+    a.textContent = pretty(slug);
+    if (!manifest[slug].published) { a.removeAttribute("href"); a.title = "not published yet"; }
+    row.appendChild(a);
+  }
+}
+
+require([
+  "esri/Map", "esri/views/SceneView", "esri/layers/SceneLayer",
+  "esri/layers/IntegratedMesh3DTilesLayer",
+  "esri/renderers/UniqueValueRenderer", "esri/symbols/MeshSymbol3D", "esri/symbols/FillSymbol3DLayer",
+  "esri/layers/support/LabelClass", "esri/symbols/LabelSymbol3D", "esri/symbols/TextSymbol3DLayer",
+  "esri/symbols/callouts/LineCallout3D",
+  "esri/identity/IdentityManager", "esri/identity/OAuthInfo"
+], function (Map, SceneView, SceneLayer, IntegratedMesh3DTilesLayer,
+             UniqueValueRenderer, MeshSymbol3D, FillSymbol3DLayer,
+             LabelClass, LabelSymbol3D, TextSymbol3DLayer, LineCallout3D,
+             esriId, OAuthInfo) {
+
+  // ---- sign-in: the hosted layers are private (owner only) -----------------------
+  const appId = params.get("appid") || OAUTH_APP_ID;
+  if (appId) {
+    esriId.registerOAuthInfos([new OAuthInfo({ appId, portalUrl: PORTAL_URL, popup: true,
+      popupCallbackUrl: "https://js.arcgis.com/4.30/esri/oauth-callback.html" })]);
+  }
+  const tok = params.get("token");
+  esriId.on("credential-create", e => say("stAuth", `sign-in: <b class="ok">${e.credential.userId || "signed in"}</b>`));
+  esriId.on("dialog-create", () => say("stAuth", 'sign-in: <b class="warn">prompting</b> — private item, sign in as the owner'));
+
+  // ---- map / view ------------------------------------------------------------------
+  const map = new Map({ basemap: "dark-gray-vector", ground: "world-elevation" });
+  map.ground.navigationConstraint = { type: "none" };
+  const view = new SceneView({
+    container: "view", map,
+    qualityProfile: "high",
+    environment: { atmosphere: { quality: "high" },
+                   lighting: { date: new Date("2026-03-21T14:30:00+04:00"), directShadowsEnabled: false } },
+    camera: { position: { longitude: 55.20, latitude: 25.10, z: 12000 }, heading: 40, tilt: 55 },
+    popup: { dockEnabled: false, dockOptions: { buttonEnabled: false } },
+    ui: { components: ["attribution", "navigation-toggle", "compass", "zoom"] }
+  });
+
+  // ---- optional photoreal layer (Google Photorealistic 3D Tiles) -------------------
+  // The key is never stored here: pass ?gkey=... (a Google Maps Platform key with the Map Tiles API enabled).
+  const gkey = params.get("gkey");
+  let photo = null;
+  if (gkey) {
+    photo = new IntegratedMesh3DTilesLayer({
+      url: "https://tile.googleapis.com/v1/3dtiles/root.json?key=" + encodeURIComponent(gkey),
+      title: "Google Photorealistic 3D Tiles", copyright: "Google", visible: false
+    });
+    map.add(photo, 0);
+  } else {
+    $("chipPhoto").classList.add("dis");
+    say("photoNote", "add ?gkey= for photoreal");
+  }
+
+  // ---- manifest -> layer, anchors ---------------------------------------------------
+  loadManifest().then(manifest => {
+    buildPicker(manifest, SLUG);
+    const entry = manifest[SLUG];
+    $("mast").innerHTML = `${pretty(SLUG)} <em>· district SceneView</em>`;
+    document.title = `${pretty(SLUG)} — Najma SceneView`;
+    if (!entry) throw new Error(`"${SLUG}" is not in the manifest — districts: ${Object.keys(manifest).join(", ")}`);
+    if (!entry.published || !entry.layer_url) throw new Error(`"${SLUG}" is in the manifest but not published`);
+    say("stDist", `district: <b>${pretty(SLUG)}</b> · ${entry.features} features · item <b>${entry.item_id}</b>` +
+                  (entry.private ? ' · <b class="warn">private</b>' : ""));
+
+    const LAYER_URL = entry.layer_url;
+    if (tok) {
+      const exp = Date.now() + 110 * 60 * 1000;
+      esriId.registerToken({ server: PORTAL_URL + "/sharing/rest", token: tok, expires: exp, ssl: true });
+      esriId.registerToken({ server: LAYER_URL.split("/rest/services/")[0] + "/rest/services", token: tok, expires: exp, ssl: true });
+      say("stAuth", 'sign-in: <b class="ok">token from URL</b>');
+    }
+
+    const massing = new SceneLayer({ url: LAYER_URL, title: `Najma — ${pretty(SLUG)} massing`, popupEnabled: true });
+    map.add(massing);
+
+    const anchors = fetch(`img/anchors_${SLUG}`).then(r => {
+      if (!r.ok) throw new Error(`anchors_${SLUG} -> HTTP ${r.status}`);
+      return r.json();
+    });
+    return Promise.all([anchors, massing.load(), view.when()]).then(([anc]) => [anc, massing, entry]);
+  }).then(([anc, massing, entry]) => {
+    const list = anc.anchors || [];
+    const nameByKey = {}, devByKey = {}, hByKey = {}, devCount = {};
+    for (const a of list) {
+      const k = "b" + a.i;
+      if (a.name) nameByKey[k] = a.name;
+      if (a.dev) { devByKey[k] = a.dev; devCount[a.dev] = (devCount[a.dev] || 0) + 1; }
+      if (a.h) hByKey[k] = Math.round(a.h * 10) / 10;
+    }
+    const named = Object.keys(nameByKey).length, tagged = Object.keys(devByKey).length;
+
+    // fields actually exposed by the hosted layer
+    const fields = (massing.fields || []).map(f => f.name);
+    const OID_F = massing.objectIdField || fields.find(f => f.toLowerCase() === "oid") || "OBJECTID";
+    const NAME_F = fields.find(f => ["name", "shapename", "shape_name"].includes(f.toLowerCase())) || null;
+    const STATUS_F = fields.find(f => f.toLowerCase() === "status") || null;
+    // CGA reports arrive as "buildings.<status>" flags and "height_m.<status>" values
+    const statusFlags = fields.filter(f => /^buildings\./.test(f)).map(f => f.split(".")[1]);
+    const heightFs = fields.filter(f => /^(bheight|height)$/i.test(f) || /^height_m\./.test(f));
+    say("stFields", `fields: <b>${fields.length ? fields.join(", ") : "none exposed"}</b>`);
+    say("stLayer", `scene layer: <b class="ok">loaded</b> · ${massing.geometryType || "3D object"} · id field ${OID_F}`);
+
+    // ---- join key -------------------------------------------------------------------
+    // The massing batch names shapes "b<i>_<facadeclass>_s<status>", so the FIRST token of
+    // the SLPK `name` field is the key "b<i>" and the THIRD carries the status. Falling back
+    // to OID-1 keeps the older packages (named plain "b<i>", or unnamed) working.
+    const useName = JOIN === "name" && NAME_F;
+    const KEY = useName
+      ? `Split(Text($feature["${NAME_F}"]), "_")[0]`
+      : `"b" + Text(Number($feature["${OID_F}"]) - ${OID_OFFSET})`;
+    const q = (f) => `$feature["${f}"]`;
+    // status: explicit field > "_s<status>" name suffix > buildings.* report flags > existing
+    let statusExpr;
+    if (STATUS_F) {
+      statusExpr = `var s = Lower(Text(${q(STATUS_F)}));`;
+    } else if (NAME_F) {
+      statusExpr = `var s = "existing"; var _t = Split(Text(${q(NAME_F)}), "_"); ` +
+                   `if (Count(_t) >= 3 && Left(_t[2], 1) == "s") { s = Lower(Mid(_t[2], 1, Count(_t[2]) - 1)); } ` +
+                   statusFlags.map(st => `if (Number(DefaultValue(${q("buildings." + st)}, 0)) > 0) { s = "${st}"; }`).join(" ");
+    } else {
+      statusExpr = `var s = "existing"; ` +
+                   statusFlags.map(st => `if (Number(DefaultValue(${q("buildings." + st)}, 0)) > 0) { s = "${st}"; }`).join(" ");
+    }
+
+    // Arcade dictionaries: the join lives inside the expressions (nothing server-side)
+    const dict = (obj) => "Dictionary(" + Object.entries(obj).map(([k, v]) => JSON.stringify(k) + "," + JSON.stringify(v)).join(",") + ")";
+    const lookup = (obj, fallback) => `var d = ${dict(obj)}; var k = ${KEY}; if (HasKey(d, k)) { return d[k]; } return ${JSON.stringify(fallback)};`;
+    const devNameExpr = lookup(Object.fromEntries(Object.keys(devByKey).map(k => [k, nameByKey[k] || k])), "");
+    const otherNameExpr = lookup(Object.fromEntries(Object.keys(nameByKey).filter(k => !devByKey[k]).map(k => [k, nameByKey[k]])), "");
+    // height: the register's measured height wins, else whatever the CGA report carried
+    const heightExpr = `var d = ${dict(hByKey)}; var k = ${KEY}; if (HasKey(d, k)) { return d[k]; } ` +
+      (heightFs.length ? `var h = 0; ${heightFs.map(f => `h = Max(h, Number(DefaultValue(${q(f)}, 0)));`).join(" ")} return IIf(h > 0, h, null);` : `return null;`);
+    // class value: developer key, else status; photoreal variant prefixes existing dev-tagged with "x:"
+    const classExpr = (photoMode) =>
+      `var d = ${dict(devByKey)}; var k = ${KEY}; ${statusExpr} ` +
+      (photoMode
+        ? `if (HasKey(d, k)) { return IIf(s == "existing", "x:" + d[k], d[k]); } return s;`
+        : `if (HasKey(d, k)) { return d[k]; } return s;`);
+
+    // renderers: developer palette, else status colour. Photoreal: existing -> invisible,
+    // existing+developer -> 35 % tint over the real facade, construction/pipeline -> solid.
+    const mesh = (c, alpha) => {
+      const col = alpha === undefined ? c : hexA(c, alpha);
+      return new MeshSymbol3D({ symbolLayers: [new FillSymbol3DLayer({
+        material: { color: col, colorMixMode: "replace" },
+        edges: alpha === 0 ? null : { type: "solid", color: [0, 0, 0, 0.35], size: 0.6 } })] });
+    };
+    function hexA(hex, a) { const n = parseInt(hex.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255, a]; }
+    const infos = (photoMode) => [
+      ...Object.entries(PAL).map(([k, c]) => ({ value: k, label: k, symbol: mesh(c) })),
+      ...(photoMode ? Object.entries(PAL).map(([k, c]) => ({ value: "x:" + k, label: k + " (existing, tinted)", symbol: mesh(c, 0.35) })) : []),
+      { value: "construction", label: "under construction", symbol: mesh(STATUS_COL.construction) },
+      { value: "pipeline", label: "pipeline", symbol: mesh(STATUS_COL.pipeline) },
+      { value: "existing", label: "existing", symbol: photoMode ? mesh(STATUS_COL.existing, 0) : mesh(STATUS_COL.existing) }
+    ];
+    const rMassing = new UniqueValueRenderer({ valueExpression: classExpr(false), valueExpressionTitle: "developer / status",
+      defaultSymbol: mesh(STATUS_COL.existing), defaultLabel: "existing", uniqueValueInfos: infos(false) });
+    const rPhoto = new UniqueValueRenderer({ valueExpression: classExpr(true), valueExpressionTitle: "developer / status",
+      defaultSymbol: mesh(STATUS_COL.existing, 0), defaultLabel: "existing (hidden)", uniqueValueInfos: infos(true) });
+    massing.renderer = rMassing;
+
+    // labels: LabelClass + LabelSymbol3D + LineCallout3D (native 3D callouts)
+    const callout = (text, col, size, off) => new LabelClass({
+      labelExpressionInfo: { expression: text },
+      labelPlacement: "above-center",
+      symbol: new LabelSymbol3D({
+        symbolLayers: [new TextSymbol3DLayer({
+          material: { color: col }, halo: { color: [12, 20, 19, 0.9], size: 1.2 },
+          font: { family: "IBM Plex Sans, Arial, sans-serif", weight: size > 10 ? "bold" : "normal" }, size
+        })],
+        verticalOffset: { screenLength: off, maxWorldLength: 500, minWorldLength: 30 },
+        callout: new LineCallout3D({ color: col, size: size > 10 ? 1.2 : 0.7, border: { color: [12, 20, 19, 0.8] } })
+      })
+    });
+    const devClass = callout(devNameExpr, "#C5A56A", 12, 70);
+    const otherClass = callout(otherNameExpr, "#E8E4D8", 9, 44);
+    const setLabels = (mode) => {
+      massing.labelsVisible = mode !== "off";
+      massing.labelingInfo = mode === "dev" ? [devClass] : [devClass, otherClass];
+      document.querySelectorAll("[data-lab]").forEach(el => el.classList.toggle("on", el.dataset.lab === mode));
+    };
+    setLabels("all");
+    document.querySelectorAll("[data-lab]").forEach(el => el.onclick = () => setLabels(el.dataset.lab));
+
+    // popup: joined name + developer + height
+    massing.popupTemplate = {
+      title: "{expression/nm}",
+      expressionInfos: [
+        { name: "nm", title: "name", expression: `var d = ${dict(nameByKey)}; var k = ${KEY}; if (HasKey(d, k)) { return d[k]; } return "(unnamed) " + k;` },
+        { name: "dv", title: "developer", expression: lookup(devByKey, "—") },
+        { name: "st", title: "status", expression: `${statusExpr} return s;` },
+        { name: "hm", title: "height m", expression: heightExpr },
+        { name: "ky", title: "join key", expression: `return ${KEY};` }
+      ],
+      content: [{ type: "fields", fieldInfos: [
+        { fieldName: "expression/dv", label: "developer" },
+        { fieldName: "expression/st", label: "status" },
+        { fieldName: "expression/hm", label: "height m", format: { places: 1, digitSeparator: true } },
+        { fieldName: "expression/ky", label: "join key (b<i>)" },
+        ...(NAME_F ? [{ fieldName: NAME_F, label: "shape name in package" }] : []),
+        { fieldName: OID_F, label: "object id" }
+      ] }]
+    };
+
+    say("stJoin", `join: <b class="ok">${named} named · ${tagged} developer-tagged</b> of ${anc.buildings} shapes · key = ` +
+                  (useName ? `first token of <b>${NAME_F}</b>` : `<b>${OID_F} − ${OID_OFFSET}</b>`) +
+                  ` · status from ${STATUS_F ? "status field" : (NAME_F ? "name suffix _s&lt;status&gt;" : (statusFlags.length ? "buildings.* reports" : '<span class="warn">nothing</span>'))}`);
+
+    // frame the district from the layer's own extent — no hardcoded cameras
+    if (massing.fullExtent) {
+      view.goTo({ target: massing.fullExtent, tilt: 62, heading: 40 }, { animate: false })
+          .catch(() => {});
+    }
+
+    // legend
+    const lg = $("legend");
+    lg.innerHTML = "";
+    for (const [k, c] of Object.entries(PAL)) {
+      const n = devCount[k] || 0;
+      lg.insertAdjacentHTML("beforeend", `<div class="lg${n ? "" : " dim"}"><i style="background:${c}"></i>${k}${n ? " · " + n : ""}</div>`);
+    }
+    lg.insertAdjacentHTML("beforeend", `<div class="lg"><i style="background:${STATUS_COL.construction}"></i>under construction</div><div class="lg"><i style="background:${STATUS_COL.pipeline}"></i>pipeline</div>`);
+
+    // ---- photoreal / massing toggle --------------------------------------------------
+    // photoreal ON: the Google mesh shows the real facades; our "existing" massing goes invisible
+    // (renderer swap, not a filter, so the callout labels and developer colours stay), and only
+    // construction / pipeline volumes remain solid — the model adds what does not exist yet.
+    const setView = (mode) => {
+      const on = mode === "photoreal";
+      if (on && !photo) return;
+      document.querySelectorAll("[data-view]").forEach(el => el.classList.toggle("on", el.dataset.view === mode));
+      if (photo) photo.visible = on;
+      $("gmark").classList.toggle("on", on);
+      map.basemap = on ? null : "dark-gray-vector";
+      massing.renderer = on ? rPhoto : rMassing;
+      const nStatus = statusFlags.length || STATUS_F || NAME_F;
+      say("stPhoto", on
+        ? `photoreal: <b class="ok">on</b> · existing massing hidden${nStatus ? "" : ' <span class="warn">(no status source — everything treated as existing)</span>'}, construction/pipeline solid, developer-tagged existing tinted, labels kept`
+        : "photoreal: <b>off</b>");
+    };
+    document.querySelectorAll("[data-view]").forEach(el => el.onclick = () => setView(el.dataset.view));
+    if (photo) {
+      photo.when(() => say("stMsg", "Google tiles loaded — brand mark bottom-left, data attribution in the view attribution bar."),
+                 e => say("stMsg", `<span class="warn">Google tiles failed: ${(e && e.message) || e}</span>`));
+      if (params.get("view") === "photoreal") setView("photoreal");
+    }
+  }).catch(e => {
+    console.error(e);
+    say("stLayer", 'scene layer: <b class="warn">failed</b>');
+    say("stMsg", `<span class="warn">${(e && e.message) || e}</span>`);
+  });
+
+  view.when(() => {
+    if (!tok && !esriId.credentials.length) say("stAuth", "sign-in: <b>pending</b> — the dialog appears when the private layer is requested");
+  });
+});
+</script>
+</body>
+</html>

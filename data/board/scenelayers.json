@@ -1,0 +1,74 @@
+{
+  "burjkhalifa": {
+    "item_id": "f5548a0871694861bbfe61dbb5c1e841",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Burj_Khalifa_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Burj_Khalifa_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:18:22",
+    "private": true,
+    "features": 298,
+    "title": "Najma - Burj Khalifa massing",
+    "package_item_id": "19037b9518614c6ab9f1b34696d208a3",
+    "item_page": "https://www.arcgis.com/home/item.html?id=f5548a0871694861bbfe61dbb5c1e841",
+    "owner": "kwilson376@my.ggu.edu"
+  },
+  "businessbay": {
+    "item_id": "f1f2b325b61846699468cdb646a8df10",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Business_Bay_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Business_Bay_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:16:37",
+    "private": true,
+    "features": 654,
+    "title": "Najma - Business Bay massing",
+    "package_item_id": "452681d4a9464280a804991b9df3357f",
+    "item_page": "https://www.arcgis.com/home/item.html?id=f1f2b325b61846699468cdb646a8df10",
+    "owner": "kwilson376@my.ggu.edu"
+  },
+  "dubaimarina": {
+    "item_id": "58a94d03d5324e2680a82cfa731e1446",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Dubai_Marina_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Dubai_Marina_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:36:58",
+    "private": true,
+    "features": 589,
+    "title": "Najma - Dubai Marina massing",
+    "package_item_id": "ee7afb73943c447d90b61c215e3e705c",
+    "item_page": "https://www.arcgis.com/home/item.html?id=58a94d03d5324e2680a82cfa731e1446",
+    "owner": "kwilson376@my.ggu.edu"
+  },
+  "jumeirahvillagecircle": {
+    "item_id": "66019b08b23245c695113fddf3aa252d",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Jumeirah_Village_Circle_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Jumeirah_Village_Circle_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:20:56",
+    "private": true,
+    "features": 1524,
+    "title": "Najma - Jumeirah Village Circle massing",
+    "package_item_id": "94e752a871664914a2a5ea42eaa4a243",
+    "item_page": "https://www.arcgis.com/home/item.html?id=66019b08b23245c695113fddf3aa252d",
+    "owner": "kwilson376@my.ggu.edu"
+  },
+  "palmdeira": {
+    "item_id": "20014669b29248699310b43501f62275",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Palm_Deira_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Palm_Deira_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:22:09",
+    "private": true,
+    "features": 278,
+    "title": "Najma - Palm Deira massing",
+    "package_item_id": "965e0ddd57324197a59bf66654b0d23f",
+    "item_page": "https://www.arcgis.com/home/item.html?id=20014669b29248699310b43501f62275",
+    "owner": "kwilson376@my.ggu.edu"
+  },
+  "palmjumeirah": {
+    "item_id": "fcde00d2cbe64233aefe754e8cee0958",
+    "service_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Palm_Jumeirah_massing/SceneServer",
+    "layer_url": "https://tiles.arcgis.com/tiles/X5OoNWyMULMQeWqf/arcgis/rest/services/Najma_Palm_Jumeirah_massing/SceneServer/layers/0",
+    "published": "2026-09-03T17:19:39",
+    "private": true,
+    "features": 2482,
+    "title": "Najma - Palm Jumeirah massing",
+    "package_item_id": "8c929997001e49df877cd7cfe0871f8c",
+    "item_page": "https://www.arcgis.com/home/item.html?id=fcde00d2cbe64233aefe754e8cee0958",
+    "owner": "kwilson376@my.ggu.edu"
+  }
+}
