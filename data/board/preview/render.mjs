@@ -4,7 +4,7 @@ import fs from "node:fs"; import vm from "node:vm"; import path from "node:path"
 const src = fs.readFileSync("C:/Dev/azimuth-worker/src/index.js", "utf8").replace(/^export default/m, "const __mod =");
 const ctx = { console, URL, TextEncoder, TextDecoder, setTimeout, clearTimeout, atob, btoa, fetch: async () => ({ ok: false }), crypto: globalThis.crypto };
 vm.createContext(ctx);
-vm.runInContext(src + "\nglobalThis.__x = { renderHome, renderDev, renderCompare };", ctx);
+vm.runInContext(src + "\nglobalThis.__x = { renderHome, renderDev, renderCompare, renderSkyline };", ctx);
 const bd = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/board_devs.json", "utf8"));
 const key = "PREVIEW";
 const dir = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
@@ -19,4 +19,5 @@ const cmp = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/dev_c
 fs.writeFileSync(path.join(dir, "compare.html"), ctx.__x.renderCompare(cmp, bd, { a: "", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_pick.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_imtiaz_ellington.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "ellington", bed: "1", band: "1to2", diff: false }, key));
+fs.writeFileSync(path.join(dir, "skyline_dubaimarina.html"), ctx.__x.renderSkyline("dubaimarina", "Dubai Marina", key, [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" }]));
 console.log("preview written:", fs.readdirSync(dir).filter(f => f.endsWith(".html")).length, "pages");
