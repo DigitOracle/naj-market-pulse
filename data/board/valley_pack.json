@@ -33,7 +33,124 @@
    "5 B/R": 7
   },
   "city_median_price_aed": 1434000,
-  "city_median_aed_psf": 1725
+  "city_median_aed_psf": 1725,
+  "monthly": [
+   {
+    "month": "2026-01",
+    "sales": 164,
+    "median_aed": 4377888
+   },
+   {
+    "month": "2026-02",
+    "sales": 87,
+    "median_aed": 3850000
+   },
+   {
+    "month": "2026-03",
+    "sales": 46,
+    "median_aed": 3329944
+   },
+   {
+    "month": "2026-04",
+    "sales": 65,
+    "median_aed": 4100000
+   },
+   {
+    "month": "2026-05",
+    "sales": 40,
+    "median_aed": 3350000
+   },
+   {
+    "month": "2026-06",
+    "sales": 62,
+    "median_aed": 3362944
+   },
+   {
+    "month": "2026-07",
+    "sales": 102,
+    "median_aed": 2600000
+   },
+   {
+    "month": "2026-08",
+    "sales": 309,
+    "median_aed": 4072118
+   }
+  ],
+  "procedures": {
+   "Sales": 875,
+   "Mortgage": 330,
+   "Gifts": 46
+  },
+  "offplan": {
+   "Ready": 534,
+   "Off-Plan": 341
+  },
+  "range": {
+   "lowest_sale_aed": 212100,
+   "highest_sale_aed": 14386180
+  },
+  "typical_area_sqft": {
+   "3 B/R": 1873,
+   "4 B/R": 2971,
+   "1 B/R": 540,
+   "2 B/R": 961,
+   "5 B/R": 5019
+  },
+  "vicinity": {
+   "metro": null,
+   "mall": null,
+   "landmark": null
+  },
+  "city_share": [
+   {
+    "month": "2026-01",
+    "valley": 164,
+    "city": 17372,
+    "share_pct": 0.9
+   },
+   {
+    "month": "2026-02",
+    "valley": 87,
+    "city": 16993,
+    "share_pct": 0.5
+   },
+   {
+    "month": "2026-03",
+    "valley": 46,
+    "city": 13478,
+    "share_pct": 0.3
+   },
+   {
+    "month": "2026-04",
+    "valley": 65,
+    "city": 13991,
+    "share_pct": 0.5
+   },
+   {
+    "month": "2026-05",
+    "valley": 40,
+    "city": 10256,
+    "share_pct": 0.4
+   },
+   {
+    "month": "2026-06",
+    "valley": 62,
+    "city": 13919,
+    "share_pct": 0.4
+   },
+   {
+    "month": "2026-07",
+    "valley": 102,
+    "city": 14136,
+    "share_pct": 0.7
+   },
+   {
+    "month": "2026-08",
+    "valley": 309,
+    "city": 11898,
+    "share_pct": 2.6
+   }
+  ]
  },
  "rents": [
   {
@@ -110,6 +227,70 @@
   "Emaar branded film 13 s, 576x1024 vertical",
   "build-out and rate cards rendered from the register",
   "background plates for AI-assisted cutaways"
+ ],
+ "edges": {
+  "note": "Facts a competitor working from the brochure cannot state. Every one is checkable in an official register.",
+  "items": [
+   {
+    "edge": "The Valley does not exist by that name in the land department register - it books under the area name Al Yufrah 1",
+    "why_it_lands": "she can say 'I looked it up where the deals are actually recorded, and here is what the sales say', which no brochure-led entrant can"
+   },
+   {
+    "edge": "monthly sales count and median, month by month, for this community alone",
+    "data": "register_2026.monthly"
+   },
+   {
+    "edge": "how buyers are paying: sales vs mortgages vs gifts (family transfers)",
+    "data": "register_2026.procedures"
+   },
+   {
+    "edge": "off-plan versus ready split inside the community",
+    "data": "register_2026.offplan"
+   },
+   {
+    "edge": "actual signed rents from the tenancy register, so the yield is arithmetic rather than a promise",
+    "data": "rents"
+   },
+   {
+    "edge": "the build-out that is still coming: registered projects, unit counts, per cent complete and completion dates to 2030",
+    "data": "pipeline_dld"
+   },
+   {
+    "edge": "typical plot and built area by bedroom count, from the register rather than the floor plan",
+    "data": "register_2026.typical_area_sqft"
+   },
+   {
+    "edge": "the cheapest and the dearest villa the register recorded here this year",
+    "data": "register_2026.range"
+   },
+   {
+    "edge": "the community's share of the whole city's sales, month by month",
+    "data": "register_2026.city_share"
+   },
+   {
+    "edge": "the launch as offered today, against the community's own transacted history",
+    "data": "launch_alva"
+   }
+  ]
+ },
+ "creative_modes": [
+  "'I checked the register' - open on the official figure, not on a drone shot; the reveal is the source, not the view",
+  "what AED X actually buys here versus the same money elsewhere in Dubai, on the same measure",
+  "a walk at the pace a resident walks it: school run, park, community centre, home, timed",
+  "the room your child grows up in - the room as the argument, not the building",
+  "myth-buster: the thing buyers assume about a villa community that the register disproves",
+  "count-up: how many homes are still to be built here, and when each one lands",
+  "the quiet number - one figure nobody quotes, held on screen while she explains it",
+  "then and now: the masterplan render beside the phase that is already handed over",
+  "a question posed in the first three seconds and answered at second fifty",
+  "one family's arithmetic: rent here versus own here, both numbers from the registers"
+ ],
+ "creative_rules": [
+  "An angle must be one a competitor with only the brochure could NOT write. If a marketing page could say it, do not send it.",
+  "Lead with a person or a question, never with an adjective. No 'stunning', 'vibrant', 'oasis', 'nestled'.",
+  "One number per angle, said once, in full. The figure is the payoff, not the decoration.",
+  "The shot line must be filmable this week with what is on hand: her phone, or a cut from the two supplied films.",
+  "Never repeat a hook used in the last twelve days."
  ],
  "figure_basis": {
   "rule": "SALES ONLY (GROUP_EN='Sales'): mortgages and gifts are not market prices. Valley and the city are always compared on the same basis.",
