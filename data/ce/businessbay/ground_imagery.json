@@ -1,0 +1,55 @@
+{
+ "district": "businessbay",
+ "crs": "EPSG:32640",
+ "xmin": 323677.878,
+ "ymin": 2784978.171,
+ "xmax": 328183.841,
+ "ymax": 2787826.301,
+ "scene": {
+  "x0": 323677.878,
+  "x1": 328183.841,
+  "z0": -2787826.301,
+  "z1": -2784978.171
+ },
+ "plane": {
+  "center": [
+   325930.86,
+   -2786402.236
+  ],
+  "size": [
+   4505.963,
+   2848.129
+  ],
+  "note": "x = easting, z = -northing (absolute metres); image top row = north = smaller z"
+ },
+ "px": [
+  2048,
+  1294
+ ],
+ "m_per_px": 2.2002,
+ "footprint_bbox": [
+  323827.878,
+  2785128.633,
+  328033.841,
+  2787675.839
+ ],
+ "pad_m": 150.0,
+ "glb_center": [
+  325930.9,
+  -2786402.2
+ ],
+ "file": "ground_imagery.jpg",
+ "bytes": 1026821,
+ "jpeg_quality": 82,
+ "fetch_px": [
+  4096,
+  2589
+ ],
+ "tiles": 1,
+ "source": "Esri World Imagery via ArcGIS Online (World_Imagery MapServer export, PNG24 -> JPEG)",
+ "service": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+ "attribution": "Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community",
+ "licence": "Esri World Imagery - use within ArcGIS-licensed applications with on-screen attribution; not for standalone redistribution",
+ "auth": "arcgis-pro-signin (arcpy.GetSigninToken)",
+ "fetched": "2026-09-03T07:49:34Z"
+}

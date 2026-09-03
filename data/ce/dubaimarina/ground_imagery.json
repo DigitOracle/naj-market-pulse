@@ -1,0 +1,55 @@
+{
+ "district": "dubaimarina",
+ "crs": "EPSG:32640",
+ "xmin": 310182.064,
+ "ymin": 2773563.967,
+ "xmax": 313899.907,
+ "ymax": 2777566.144,
+ "scene": {
+  "x0": 310182.064,
+  "x1": 313899.907,
+  "z0": -2777566.144,
+  "z1": -2773563.967
+ },
+ "plane": {
+  "center": [
+   312040.985,
+   -2775565.056
+  ],
+  "size": [
+   3717.843,
+   4002.178
+  ],
+  "note": "x = easting, z = -northing (absolute metres); image top row = north = smaller z"
+ },
+ "px": [
+  1902,
+  2048
+ ],
+ "m_per_px": 1.9547,
+ "footprint_bbox": [
+  310332.508,
+  2773713.967,
+  313749.462,
+  2777416.144
+ ],
+ "pad_m": 150.0,
+ "glb_center": [
+  312041.0,
+  -2775565.1
+ ],
+ "file": "ground_imagery.jpg",
+ "bytes": 1116330,
+ "jpeg_quality": 82,
+ "fetch_px": [
+  3805,
+  4096
+ ],
+ "tiles": 4,
+ "source": "Esri World Imagery via ArcGIS Online (World_Imagery MapServer export, PNG24 -> JPEG)",
+ "service": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+ "attribution": "Source: Esri, Vantor, Earthstar Geographics, and the GIS User Community",
+ "licence": "Esri World Imagery - use within ArcGIS-licensed applications with on-screen attribution; not for standalone redistribution",
+ "auth": "arcgis-pro-signin (arcpy.GetSigninToken)",
+ "fetched": "2026-09-03T07:57:42Z"
+}
