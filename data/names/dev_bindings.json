@@ -1,14 +1,61 @@
 {
- "updated": "2026-09-03 07:33",
- "placed": 19,
- "unplaced": 298,
+ "updated": "2026-09-03 10:54",
+ "placed": 83,
+ "unplaced": 220,
  "how": {
-  "inside": 10,
-  "near": 5,
-  "tall80": 4
+  "inside": 42,
+  "near": 21,
+  "tall80": 34
  },
  "bindings": {
+  "burjkhalifa": {
+   "288": {
+    "dev": "arada",
+    "project": "Inaura Downtown",
+    "source": "site",
+    "score": 90,
+    "dist_m": 63.7,
+    "how": "tall80",
+    "map_name": "W Downtown The Residences"
+   },
+   "108": {
+    "dev": "arada",
+    "project": "Nasma 2",
+    "source": "site",
+    "score": 90,
+    "dist_m": 64.3,
+    "how": "tall80",
+    "map_name": "29 Boulevard Tower 2"
+   },
+   "1": {
+    "dev": "hh",
+    "project": "BACCARAT HOTEL & RESIDENCES",
+    "source": "site",
+    "score": 89.3,
+    "dist_m": 14.1,
+    "how": "inside",
+    "map_name": "فندق العنوان داون تاون"
+   },
+   "130": {
+    "dev": "select",
+    "project": "Residence 110",
+    "source": "site",
+    "score": 91.8,
+    "dist_m": 69.2,
+    "how": "tall80",
+    "map_name": "Ramada Downtown Dubai"
+   }
+  },
   "dubaiproductioncity": {
+   "1239": {
+    "dev": "arada",
+    "project": "Jouri Hills",
+    "source": "site",
+    "score": 90,
+    "dist_m": 39.5,
+    "how": "near",
+    "map_name": ""
+   },
    "109": {
     "dev": "arada",
     "project": "Masaar",
@@ -16,6 +63,286 @@
     "score": 93.9,
     "dist_m": 14.9,
     "how": "inside",
+    "map_name": ""
+   }
+  },
+  "businessbay": {
+   "321": {
+    "dev": "beyond",
+    "project": "The Pad by Beyond",
+    "source": "site",
+    "score": 90,
+    "dist_m": 23.1,
+    "how": "inside",
+    "map_name": "The Pad by Omniyat"
+   },
+   "637": {
+    "dev": "ellington",
+    "project": "The Quayside",
+    "source": "site",
+    "score": 90,
+    "dist_m": 11.5,
+    "how": "inside",
+    "map_name": "The Quayside"
+   },
+   "630": {
+    "dev": "iman",
+    "project": "One Park Central",
+    "source": "site",
+    "score": 95.1,
+    "dist_m": 32.5,
+    "how": "inside",
+    "map_name": "Park Central"
+   },
+   "305": {
+    "dev": "omniyat",
+    "project": "ANWA",
+    "source": "site",
+    "score": 90,
+    "dist_m": 30.2,
+    "how": "tall80",
+    "map_name": "Residence 110"
+   },
+   "639": {
+    "dev": "omniyat",
+    "project": "VELA VIENTO",
+    "source": "site",
+    "score": 90,
+    "dist_m": 18.5,
+    "how": "inside",
+    "map_name": "Vela Viento"
+   }
+  },
+  "jumeirahvillagecircle": {
+   "805": {
+    "dev": "ellington",
+    "project": "The Sloane by Belgravia Heights",
+    "source": "site",
+    "score": 90,
+    "dist_m": 39.2,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "641": {
+    "dev": "ellington",
+    "project": "Belgravia",
+    "source": "site",
+    "score": 90,
+    "dist_m": 38.6,
+    "how": "near",
+    "map_name": "Belgravia 2"
+   },
+   "999": {
+    "dev": "ellington",
+    "project": "Belgravia III",
+    "source": "site",
+    "score": 90,
+    "dist_m": 33.0,
+    "how": "inside",
+    "map_name": ""
+   },
+   "1174": {
+    "dev": "ellington",
+    "project": "Belgravia Heights I",
+    "source": "site",
+    "score": 90,
+    "dist_m": 10.7,
+    "how": "inside",
+    "map_name": ""
+   },
+   "865": {
+    "dev": "ellington",
+    "project": "Eaton Place",
+    "source": "site",
+    "score": 90,
+    "dist_m": 23.2,
+    "how": "inside",
+    "map_name": "Eaton Place"
+   },
+   "1431": {
+    "dev": "ellington",
+    "project": "Harrington House",
+    "source": "site",
+    "score": 90,
+    "dist_m": 9.6,
+    "how": "inside",
+    "map_name": ""
+   },
+   "1241": {
+    "dev": "ellington",
+    "project": "Hillmont Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 48.2,
+    "how": "near",
+    "map_name": ""
+   },
+   "1492": {
+    "dev": "ellington",
+    "project": "Oakley Square Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 32.4,
+    "how": "near",
+    "map_name": ""
+   },
+   "1040": {
+    "dev": "ellington",
+    "project": "The Portman",
+    "source": "site",
+    "score": 90,
+    "dist_m": 47.3,
+    "how": "tall80",
+    "map_name": "Samha Residence 3"
+   },
+   "1517": {
+    "dev": "fakhruddin",
+    "project": "Maimoon Gardens at JVC Dubai",
+    "source": "site",
+    "score": 90,
+    "dist_m": 16.2,
+    "how": "inside",
+    "map_name": ""
+   },
+   "1263": {
+    "dev": "iman",
+    "project": "Oxford 212",
+    "source": "site",
+    "score": 90,
+    "dist_m": 52.3,
+    "how": "near",
+    "map_name": ""
+   },
+   "941": {
+    "dev": "iman",
+    "project": "Oxford Boulevard",
+    "source": "site",
+    "score": 90,
+    "dist_m": 31.7,
+    "how": "near",
+    "map_name": ""
+   },
+   "4": {
+    "dev": "iman",
+    "project": "Oxford Cove by Iman",
+    "source": "site",
+    "score": 90,
+    "dist_m": 22.4,
+    "how": "inside",
+    "map_name": "Karama Medica Centre"
+   },
+   "854": {
+    "dev": "iman",
+    "project": "Oxford Residence 2",
+    "source": "site",
+    "score": 90,
+    "dist_m": 3.5,
+    "how": "inside",
+    "map_name": ""
+   },
+   "977": {
+    "dev": "iman",
+    "project": "Oxford Terraces",
+    "source": "site",
+    "score": 90,
+    "dist_m": 59.3,
+    "how": "near",
+    "map_name": ""
+   },
+   "978": {
+    "dev": "iman",
+    "project": "Oxford Terraces 2",
+    "source": "site",
+    "score": 90,
+    "dist_m": 58.2,
+    "how": "near",
+    "map_name": ""
+   },
+   "1402": {
+    "dev": "iman",
+    "project": "Oxford Villa",
+    "source": "site",
+    "score": 90,
+    "dist_m": 2.6,
+    "how": "inside",
+    "map_name": ""
+   },
+   "862": {
+    "dev": "imtiaz",
+    "project": "Luxor by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 48.3,
+    "how": "tall80",
+    "map_name": "The First Collection Hotel"
+   },
+   "938": {
+    "dev": "imtiaz",
+    "project": "Pearl House 4 by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 75.8,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "734": {
+    "dev": "imtiaz",
+    "project": "Pearl House III by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 79.1,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "144": {
+    "dev": "arada",
+    "project": "MASAAR RESIDENCES",
+    "source": "dld_tx",
+    "score": 90,
+    "dist_m": 13.2,
+    "how": "inside",
+    "map_name": "Masaar Residences"
+   }
+  },
+  "arjan": {
+   "388": {
+    "dev": "ellington",
+    "project": "Arbor View",
+    "source": "site",
+    "score": 90,
+    "dist_m": 45.2,
+    "how": "near",
+    "map_name": ""
+   },
+   "394": {
+    "dev": "iman",
+    "project": "Oxford Gardens",
+    "source": "site",
+    "score": 90,
+    "dist_m": 24.7,
+    "how": "tall80",
+    "map_name": ""
+   }
+  },
+  "samaaljadaf": {
+   "299": {
+    "dev": "ellington",
+    "project": "Art Bay",
+    "source": "site",
+    "score": 90,
+    "dist_m": 48.8,
+    "how": "near",
+    "map_name": ""
+   }
+  },
+  "jumeirahvillagetriangle": {
+   "1279": {
+    "dev": "ellington",
+    "project": "Belmont Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 36.3,
+    "how": "near",
     "map_name": ""
    }
   },
@@ -28,6 +355,53 @@
     "dist_m": 32.1,
     "how": "near",
     "map_name": ""
+   },
+   "516": {
+    "dev": "ellington",
+    "project": "Wilton Park Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 2.9,
+    "how": "near",
+    "map_name": ""
+   }
+  },
+  "palmjumeirah": {
+   "2468": {
+    "dev": "ellington",
+    "project": "Ellington Villa Collection – Palm Jumeirah",
+    "source": "site",
+    "score": 90,
+    "dist_m": 24.3,
+    "how": "inside",
+    "map_name": ""
+   },
+   "27": {
+    "dev": "select",
+    "project": "The EDGE",
+    "source": "site",
+    "score": 100,
+    "dist_m": 7.2,
+    "how": "inside",
+    "map_name": ""
+   },
+   "2477": {
+    "dev": "zaya_palma",
+    "project": "The Royal Sky Mansion at Serenia Living",
+    "source": "site",
+    "score": 90,
+    "dist_m": 39.0,
+    "how": "near",
+    "map_name": ""
+   },
+   "1807": {
+    "dev": "zaya_palma",
+    "project": "Serenia Residences The Palm",
+    "source": "site",
+    "score": 90,
+    "dist_m": 45.0,
+    "how": "tall80",
+    "map_name": "Serenia Residences North"
    }
   },
   "dubaimarina": {
@@ -49,6 +423,87 @@
     "how": "inside",
     "map_name": "Five JBR"
    },
+   "357": {
+    "dev": "meraas",
+    "project": "Bluewaters Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 7.2,
+    "how": "inside",
+    "map_name": "1, Blue Waters Island Street"
+   },
+   "15": {
+    "dev": "select",
+    "project": "Jumeirah Living Marina Gate",
+    "source": "site",
+    "score": 90,
+    "dist_m": 77.6,
+    "how": "tall80",
+    "map_name": "Dubai Marriott Harbour Hotel & Suites"
+   },
+   "567": {
+    "dev": "select",
+    "project": "No.9",
+    "source": "site",
+    "score": 90,
+    "dist_m": 5.1,
+    "how": "inside",
+    "map_name": ""
+   },
+   "30": {
+    "dev": "select",
+    "project": "Six Senses Residences Dubai Marina",
+    "source": "site",
+    "score": 90,
+    "dist_m": 65.0,
+    "how": "tall80",
+    "map_name": "23 Marina"
+   },
+   "392": {
+    "dev": "select",
+    "project": "The Residences at Marina Gate II",
+    "source": "site",
+    "score": 90,
+    "dist_m": 20.3,
+    "how": "inside",
+    "map_name": "Marina Gate 1"
+   },
+   "142": {
+    "dev": "select",
+    "project": "The Royal Oceanic",
+    "source": "site",
+    "score": 90,
+    "dist_m": 16.5,
+    "how": "inside",
+    "map_name": "The Royal Oceanic"
+   },
+   "60": {
+    "dev": "select",
+    "project": "The Torch",
+    "source": "site",
+    "score": 90,
+    "dist_m": 12.0,
+    "how": "inside",
+    "map_name": "The Torch"
+   },
+   "34": {
+    "dev": "select",
+    "project": "Yacht Bay",
+    "source": "site",
+    "score": 90,
+    "dist_m": 13.4,
+    "how": "inside",
+    "map_name": "Yacht Bay Tower"
+   },
+   "379": {
+    "dev": "zaya_palma",
+    "project": "Infinity / Cayan Tower",
+    "source": "site",
+    "score": 90,
+    "dist_m": 49.4,
+    "how": "tall80",
+    "map_name": "Ciel Tower"
+   },
    "24": {
     "dev": "zaya_palma",
     "project": "La Residencia Del Mar",
@@ -68,6 +523,17 @@
     "map_name": "Horizon Tower"
    }
   },
+  "siliconoasis": {
+   "2282": {
+    "dev": "ellington",
+    "project": "The Hillgate",
+    "source": "site",
+    "score": 90,
+    "dist_m": 78.3,
+    "how": "tall80",
+    "map_name": "Al Hikma Residence"
+   }
+  },
   "althanyahfifth": {
    "45": {
     "dev": "ellington",
@@ -79,35 +545,82 @@
     "map_name": "Fortune Tower"
    }
   },
-  "burjkhalifa": {
-   "1": {
+  "alsatwa": {
+   "770": {
     "dev": "hh",
-    "project": "BACCARAT HOTEL & RESIDENCES",
+    "project": "Eden House Za'abeel",
     "source": "site",
-    "score": 89.3,
-    "dist_m": 14.1,
-    "how": "inside",
-    "map_name": "فندق العنوان داون تاون"
-   },
-   "130": {
-    "dev": "select",
-    "project": "Residence 110",
-    "source": "site",
-    "score": 91.8,
-    "dist_m": 69.2,
+    "score": 90,
+    "dist_m": 44.3,
     "how": "tall80",
-    "map_name": "Ramada Downtown Dubai"
+    "map_name": "Eden house"
+   },
+   "2202": {
+    "dev": "imtiaz",
+    "project": "Hyde Walk by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 6.0,
+    "how": "inside",
+    "map_name": "Hyde Walk by Imtiaz"
+   },
+   "2219": {
+    "dev": "omniyat",
+    "project": "ALBA TOWER",
+    "source": "dld_tx",
+    "score": 90,
+    "dist_m": 36.5,
+    "how": "tall80",
+    "map_name": "A Fahad 9"
    }
   },
-  "businessbay": {
-   "630": {
+  "dubaihills": {
+   "353": {
     "dev": "iman",
-    "project": "One Park Central",
+    "project": "The Grove By Iman",
     "source": "site",
-    "score": 95.1,
-    "dist_m": 32.5,
+    "score": 90,
+    "dist_m": 61.5,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "1979": {
+    "dev": "imtiaz",
+    "project": "The Archive by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 11.9,
     "how": "inside",
-    "map_name": "Park Central"
+    "map_name": ""
+   }
+  },
+  "wadialsafa5": {
+   "359": {
+    "dev": "imtiaz",
+    "project": "Cove Edition 4 by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 78.8,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "1053": {
+    "dev": "imtiaz",
+    "project": "Cove Edition 5 by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 75.5,
+    "how": "tall80",
+    "map_name": ""
+   },
+   "13": {
+    "dev": "imtiaz",
+    "project": "Cove Edition I by Imtiaz",
+    "source": "site",
+    "score": 90,
+    "dist_m": 58.6,
+    "how": "tall80",
+    "map_name": "Tulip Oasis 6"
    }
   },
   "madinatalmataar": {
@@ -121,15 +634,66 @@
     "map_name": ""
    }
   },
-  "palmjumeirah": {
-   "27": {
-    "dev": "select",
-    "project": "The EDGE",
+  "alwasl": {
+   "598": {
+    "dev": "meraas",
+    "project": "City Walk Northline",
     "source": "site",
-    "score": 100,
-    "dist_m": 7.2,
+    "score": 90,
+    "dist_m": 44.5,
+    "how": "near",
+    "map_name": ""
+   },
+   "3043": {
+    "dev": "meraas",
+    "project": "City Walk Central Park",
+    "source": "site",
+    "score": 90,
+    "dist_m": 71.5,
+    "how": "tall80",
+    "map_name": "Erin"
+   },
+   "521": {
+    "dev": "meraas",
+    "project": "City Walk Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 38.0,
     "how": "inside",
     "map_name": ""
+   }
+  },
+  "dubaimaritimecity": {
+   "289": {
+    "dev": "omniyat",
+    "project": "ANWA ARIA",
+    "source": "site",
+    "score": 90,
+    "dist_m": 42.0,
+    "how": "tall80",
+    "map_name": ""
+   }
+  },
+  "dubaistudiocity": {
+   "173": {
+    "dev": "select",
+    "project": "Studio One",
+    "source": "site",
+    "score": 90,
+    "dist_m": 32.5,
+    "how": "tall80",
+    "map_name": ""
+   }
+  },
+  "jabalaliindustrialsecond": {
+   "24": {
+    "dev": "imtiaz",
+    "project": "RAW DISTRICT 2 BY IMTIAZ",
+    "source": "dld_tx",
+    "score": 90,
+    "dist_m": 14.9,
+    "how": "inside",
+    "map_name": "Celestial Heights"
    }
   }
  }
