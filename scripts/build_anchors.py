@@ -139,7 +139,17 @@ def dev_for(name, slug=None):
 
 # ---------------- per-building GLB mesh map
 def mesh_map(slug, blds):
-    f = os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")
+    # v3 (textured) exports name every node "b<i>_<class>_s<status>", so the footprint index is exact —
+    # no centre matching, and it survives the quantised/meshopt pack the viewer actually loads.
+    f3 = os.path.join(CE, "_glb", f"sky_{slug}_v3_0.glb")
+    if os.path.exists(f3):
+        b = open(f3, "rb").read(); ln = struct.unpack_from("<I", b, 12)[0]; j = json.loads(b[20:20 + ln])
+        out = {}
+        for n in j.get("nodes", []):
+            m = re.match(r"^b(\d+)_", n.get("name") or "")
+            if m and n.get("mesh") is not None: out[int(m.group(1))] = n["mesh"]
+        if out: return out
+    f = next((x for x in (os.path.join(CE, "_glb", f"sky_{slug}_v3_0.glb"), os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")) if os.path.exists(x)), "")   # the shipped export is v3 where it exists; mesh order differs between them
     if not os.path.exists(f): return {}
     b = open(f, "rb").read(); ln = struct.unpack_from("<I", b, 12)[0]; j = json.loads(b[20:20 + ln]); acc = j["accessors"]
     out = {}
@@ -284,7 +294,7 @@ def build(slug):
     anchors.sort(key=lambda a: -a["h"])
     json.dump({"district": slug, "buildings": len(blds), "named": len(named), "tall": len(tall), "tall_named": len(tall_named), "tall_cut_m": round(tall_cut, 1),
                "sources": {s: sum(1 for a in anchors if a["source"] == s) for s in ("osm", "osm_en", "wikidata", "dld", "overture", "portfolio")}, "overture_heights": ov_h, "glb_center": ctx.get("glb_center"),
-               "per_building_glb": os.path.exists(os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")),
+               "per_building_glb": any(os.path.exists(os.path.join(CE, "_glb", f"sky_{slug}_{v}_0.glb")) for v in ("v3", "v2")),
                "fps": [[b["i"], b.get("x"), b.get("z"), round(b["h"], 1)] for b in blds],   "developers": sorted({a["dev"] for a in anchors if a.get("dev")}), "dev_tagged": sum(1 for a in anchors if a.get("dev")), "anchors": anchors},
               open(os.path.join(OUT, f"anchors_{slug}.json"), "w", encoding="utf-8"), ensure_ascii=False)
     return len(blds), len(named), len(tall), len(tall_named), [a["name"] for a in anchors[:4]]
