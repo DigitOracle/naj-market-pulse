@@ -298,6 +298,7 @@ def parse_pdf(path):
             if bey_date:
                 cells = [t for _, t in row]
                 rec = parse_beyond_row(cells)
+                if os.environ.get('AVAIL_DEBUG'): print('DBG', repr(line[:50]), '| rec', bool(rec), '| bld', bey_building)
                 if rec:
                     if not rec[5] and bey_building: rec[5] = bey_building
                     if pending_view and not rec[4]: rec[4] = pending_view
