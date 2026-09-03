@@ -218,6 +218,8 @@ def build(slug):
         for k, v in (json.load(open(dbf, encoding="utf-8")).get("bindings", {}).get(slug, {})).items():
             b = next((x for x in blds if x["i"] == int(k)), None)
             if not b: continue
+            nm = dev_for(b["name"], slug) if b["name"] else None
+            if nm and nm[0] != v["dev"] and set(toks(b["name"])) == set(toks(nm[1])): continue   # the map name IS another developer's project (Residence 110 = Select, not ANWA)
             b["dev"], b["dev_project"] = v["dev"], v["project"]
             if not b["name"] or re.search(r"[؀-ۿ]", b["name"]): b["name"], b["src"] = v["project"], "register"
     for b in blds:
