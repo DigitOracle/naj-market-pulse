@@ -239,7 +239,14 @@ def build(slug):
             if metres(w["lon"], w["lat"], cand["lon"], cand["lat"]) <= 40: hit = cand
         if hit and (not hit["name"] or re.search(r"[؀-ۿ]", hit["name"])):   # fill, or replace an Arabic-only map name
             hit["name"], hit["src"] = w["name"], "wikidata"
-        if hit and w.get("height_m") and w["height_m"] > hit["h"]: hit["h"] = w["height_m"]   # true height beats the 3.2 m/level estimate
+        # a sourced height only wins if it is credible: Wikidata carries feet mislabelled as metres (Paramount 886 "m" is 886 ft),
+        # so reject anything more than 1.6x the footprint's own height when that height already came from a survey source,
+        # and reject anything a floor count cannot support (3.6 m per floor is generous for a tower)
+        if hit and w.get("height_m"):
+            cand = float(w["height_m"]); cur = float(hit["h"] or 0); fl = w.get("floors") or 0
+            plaus = (not fl or cand <= fl * 3.6 + 12) and (cur < 20 or cand <= cur * 1.6)
+            if plaus and cand > cur: hit["h"] = cand
+            elif fl and fl * 3.4 > cur: hit["h"] = round(fl * 3.4, 1)                       # fall back to floors x 3.4
     # DLD project bindings (Business Bay so far)
     for b in blds:
         bb = bind.get(b["id"]) or bind.get(str(b["i"]))
