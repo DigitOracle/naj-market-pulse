@@ -81,7 +81,7 @@ def main():
         d = json.load(open(path, encoding="utf-8"))
         n_units = sum(len(p["units"]) for p in d["projects"])
         key = DRILL_KEY.get(dev)
-        out.append({"sheet": "%s %s" % (dev.title(), d.get("sheet_date", "")), "note": "%d units · %d projects%s" % (n_units, len({p["p"] for p in d["projects"]}), " · auto-read" if auto else "")   # distinct projects, not blocks,
+        out.append({"sheet": "%s %s" % (dev.title(), d.get("sheet_date", "")), "note": "%d units · %d projects%s" % (n_units, len({p["p"] for p in d["projects"]}), " · auto-read" if auto else ""),
                     "mapped": bool(key), "d": key})
     idx = {"updated": dt.date.today().isoformat(), "sheets": out}
     r = push("avail_index", idx, tok)
