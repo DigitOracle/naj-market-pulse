@@ -217,6 +217,8 @@ def classify(slug, idx, props, osm, ovt):
         mat = norm_material(ovt.get("facade_material")); col = parse_colour(ovt.get("facade_color"))
         if mat or col: detail["overture"] = {k: ovt[k] for k in ("facade_material", "facade_color", "roof_shape") if k in ovt}
     src = None; cls = None
+    if h > 120 and mat in ("stone", "render", "concrete", "brick") and slug in ("dubaimarina", "businessbay", "burjkhalifa", "althanyahfifth"):
+        mat = "glass"                                                  # a mapper's material tag does not survive a 120 m tower in a glass district
     if mat in ("glass", "metal"):
         cls, src = glass_tint(col), ("osm" if "osm" in detail else "overture") + ":material"
     elif mat in ("stone", "render", "concrete", "brick"):
@@ -224,7 +226,9 @@ def classify(slug, idx, props, osm, ovt):
         if mat == "stone" and col and col["l"] >= 0.85 and col["s"] < 0.08: cls = "render"
     elif col:
         cls, src = opaque_from_colour(col), ("osm" if "osm" in detail else "overture") + ":colour"
-        if h > 100 and cls in ("render", "concrete") and col["l"] < 0.5: cls, src = "glassclear", src + ",dark tower->glass"
+        # a supertall is a curtain-wall tower whatever colour a mapper typed: a bare colour tag never clads a 100 m+ building opaque
+        if h > 100 and cls in ("render", "concrete", "stone", "brick"):
+            cls, src = glass_tint(col), src + ",tall->glass"
     if cls is None and ovt.get("class"):      # Overture building class as a use hint (no colour / material given)
         oc = str(ovt["class"]).lower()
         if oc in ("office", "hotel", "commercial") and h > 40:
