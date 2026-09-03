@@ -30,6 +30,10 @@ python scripts\push_heatmap.py *>> $log
 
 # --- developer availability lifecycle (2 Sep 2026) ---------------------------------------
 # group PDFs (listener capture + manual inbox) -> JSON -> board strip + drill claimed -> unit cards -> KV
+Log "--- availability: was the listener alive since yesterday? ---"
+python scripts\listener_health.py --hours 24 *>> $log
+if ($LASTEXITCODE -eq 3) { Log "LISTENER DOWN - starting DA_Azimuth_Listener_Naj now; sheets posted while it was down were NOT captured"; Start-ScheduledTask -TaskName "DA_Azimuth_Listener_Naj" }
+elseif ($LASTEXITCODE -eq 2) { Log "LISTENER GAP - it restarted overnight; check listener_health.json for the hours lost" }
 Log "--- availability: extract new sheets ---"
 python scripts\extract_avail.py --scan *>> $log
 Log "--- availability: drill (registered mix + claimed) + board index ---"
