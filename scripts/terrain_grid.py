@@ -248,6 +248,7 @@ README = """# Terrain grid - {district}
 | relief | min {mn:.1f} m, max {mx:.1f} m, range {rng:.1f} m{flat} |
 | low-pass | 3 box passes, radius {rad} cells (~{radm:.0f} m) |
 | before the low-pass | {rawmn:.1f} .. {rawmx:.1f} m (raw radar speckle) |
+| footprint datum | {datum:.1f} m (median under the massing; p5 {fp5:.1f}, p95 {fp95:.1f}) |
 | nodata nodes | {nodata} (filled from the nearest valid sample) |
 | fetched | {fetched} |
 
@@ -264,7 +265,8 @@ for (let i = 0; i < p.count; i++) p.setY(i, zArr[i]);   // heights are already s
 g.computeVertexNormals();
 ```
 
-Samples sit ON the nodes - no half-pixel shift is needed.
+Samples sit ON the nodes - no half-pixel shift is needed. Subtract `datum_m` before you displace: the
+massing has every base on one flat plane, and `datum_m` is the height of that plane in this grid.
 
 ## Source and licence
 
@@ -357,6 +359,24 @@ def main():
     z = [round(v, 1) + 0.0 for v in vals]
     mn, mx = min(z), max(z)
     rng = mx - mn
+
+    # Datum: the median height under the massing footprint. The CE massing was built with every base on
+    # ONE flat plane, so that median is the level the buildings implicitly stand on - the viewer subtracts
+    # it, which keeps the built-up ground on the base plane and lets only the water and the open ground
+    # fall away. p5/p95 say how far the built area itself departs from that plane.
+    fb = G.get("footprint_bbox") or [xmin, ymin, xmax, ymax]
+    sub = []
+    for r in range(nz):
+        N = ymax - r * dz
+        if not (fb[1] <= N <= fb[3]):
+            continue
+        for c in range(nx):
+            if fb[0] <= xmin + c * dx <= fb[2]:
+                sub.append(z[r * nx + c])
+    sub = sorted(sub) or sorted(z)
+    q = lambda f: sub[int(f * (len(sub) - 1))]  # noqa: E731
+    datum, fp5, fp95 = q(0.5), q(0.05), q(0.95)
+    log("footprint datum %.1f m (p5 %.1f, p95 %.1f, max %.1f)" % (datum, fp5, fp95, sub[-1]))
     scene = {"x0": round(xmin, 3), "x1": round(xmax, 3), "z0": round(-ymax, 3), "z1": round(-ymin, 3)}
     fetched = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     out = {
@@ -366,6 +386,9 @@ def main():
         "nx": nx, "nz": nz,
         "dx_m": round(dx, 3), "dz_m": round(dz, 3),
         "min_m": round(mn, 1), "max_m": round(mx, 1), "range_m": round(rng, 1),
+        "datum_m": round(datum, 1),
+        "footprint_p5_m": round(fp5, 1), "footprint_p95_m": round(fp95, 1),
+        "footprint_max_m": round(sub[-1], 1),
         "flat": rng < a.flat_m,
         "order": "row-major from z0 (north) to z1 (south), each row x0 -> x1",
         "smooth_m": round(rad * dx, 1), "smooth_cells": rad, "smooth_passes": 3,
@@ -385,7 +408,7 @@ def main():
     flat_note = ("  **FLAT** - below the %.1f m threshold; the viewer skips the mesh" % a.flat_m) if rng < a.flat_m else ""
     open(os.path.join(ddir, "terrain.README.md"), "w", encoding="utf-8").write(README.format(
         district=a.slug, nx=nx, nz=nz, dx=dx, dz=dz, mn=mn, mx=mx, rng=rng, flat=flat_note,
-        rad=rad, radm=rad * dx, rawmn=raw_mn, rawmx=raw_mx, nodata=nfill, fetched=fetched, source=meta["source"],
+        rad=rad, radm=rad * dx, datum=datum, fp5=fp5, fp95=fp95, rawmn=raw_mn, rawmx=raw_mx, nodata=nfill, fetched=fetched, source=meta["source"],
         attribution=meta["attribution"], licence=meta["licence"], note=note, **scene))
 
     log("wrote %s  %dx%d  min %.1f m  max %.1f m  range %.1f m  %.0f KB%s"
