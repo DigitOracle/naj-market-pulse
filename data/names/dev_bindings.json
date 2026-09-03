@@ -1,0 +1,136 @@
+{
+ "updated": "2026-09-03 07:33",
+ "placed": 19,
+ "unplaced": 298,
+ "how": {
+  "inside": 10,
+  "near": 5,
+  "tall80": 4
+ },
+ "bindings": {
+  "dubaiproductioncity": {
+   "109": {
+    "dev": "arada",
+    "project": "Masaar",
+    "source": "site",
+    "score": 93.9,
+    "dist_m": 14.9,
+    "how": "inside",
+    "map_name": ""
+   }
+  },
+  "sobhaheartland": {
+   "1153": {
+    "dev": "ellington",
+    "project": "Wilton Terraces",
+    "source": "site",
+    "score": 87.9,
+    "dist_m": 32.1,
+    "how": "near",
+    "map_name": ""
+   }
+  },
+  "dubaimarina": {
+   "106": {
+    "dev": "select",
+    "project": "The Point",
+    "source": "site",
+    "score": 100,
+    "dist_m": 14.0,
+    "how": "inside",
+    "map_name": "The Point"
+   },
+   "374": {
+    "dev": "meraas",
+    "project": "Jumeirah Residences Emirates Towers",
+    "source": "site",
+    "score": 88.9,
+    "dist_m": 4.3,
+    "how": "inside",
+    "map_name": "Five JBR"
+   },
+   "24": {
+    "dev": "zaya_palma",
+    "project": "La Residencia Del Mar",
+    "source": "site",
+    "score": 94.2,
+    "dist_m": 0.9,
+    "how": "inside",
+    "map_name": "La Residencia Del Mar"
+   },
+   "9": {
+    "dev": "imtiaz",
+    "project": "IMTIAZ SYMPHONY TOWER",
+    "source": "dld_tx",
+    "score": 86.5,
+    "dist_m": 18.4,
+    "how": "inside",
+    "map_name": "Horizon Tower"
+   }
+  },
+  "althanyahfifth": {
+   "45": {
+    "dev": "ellington",
+    "project": "UH By Ellington",
+    "source": "site",
+    "score": 85.8,
+    "dist_m": 9.0,
+    "how": "inside",
+    "map_name": "Fortune Tower"
+   }
+  },
+  "burjkhalifa": {
+   "1": {
+    "dev": "hh",
+    "project": "BACCARAT HOTEL & RESIDENCES",
+    "source": "site",
+    "score": 89.3,
+    "dist_m": 14.1,
+    "how": "inside",
+    "map_name": "فندق العنوان داون تاون"
+   },
+   "130": {
+    "dev": "select",
+    "project": "Residence 110",
+    "source": "site",
+    "score": 91.8,
+    "dist_m": 69.2,
+    "how": "tall80",
+    "map_name": "Ramada Downtown Dubai"
+   }
+  },
+  "businessbay": {
+   "630": {
+    "dev": "iman",
+    "project": "One Park Central",
+    "source": "site",
+    "score": 95.1,
+    "dist_m": 32.5,
+    "how": "inside",
+    "map_name": "Park Central"
+   }
+  },
+  "madinatalmataar": {
+   "32": {
+    "dev": "imtiaz",
+    "project": "ENRE Residence by Imtiaz",
+    "source": "site",
+    "score": 86.7,
+    "dist_m": 41.1,
+    "how": "near",
+    "map_name": ""
+   }
+  },
+  "palmjumeirah": {
+   "27": {
+    "dev": "select",
+    "project": "The EDGE",
+    "source": "site",
+    "score": 100,
+    "dist_m": 7.2,
+    "how": "inside",
+    "map_name": ""
+   }
+  }
+ }
+}

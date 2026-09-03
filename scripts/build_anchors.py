@@ -1,7 +1,8 @@
 """Label anchors for the skyline viewer: one record per NAMED building per district.
 Sources, in precedence order: (1) OpenStreetMap name on the footprint (what ce_export.py kept), (2) Wikidata buildings with
-coordinates (point-in-footprint or nearest footprint <= 40 m), (3) confidence-gated DLD project bindings (data/ce/<slug>/bindings.json),
-(4) developer-site portfolio names geocoded onto footprints (bind_portfolio.py, later). Output data/names/anchors_<slug>.json:
+coordinates (point-in-footprint or nearest footprint <= 40 m), (3) confidence-gated DLD project bindings (data/ce/<slug>/bindings.json), (4) Overture Maps building names (overture_names.py ->
+data/names/overture_<slug>.json; Overture heights also replace the 3.2 m/level estimate when larger),
+(5) developer-site portfolio names geocoded onto footprints (bind_portfolio.py, later). Output data/names/anchors_<slug>.json:
 { id, name, source, dev (developer key when known), lon, lat, x, z (scene metres, y-up, z = -northing like the GLB), h (roof height m) }
 plus a coverage report: how many of the TALL buildings (top 30 % by height) carry a name - those are the ones that pass in front.
 Usage: python scripts/build_anchors.py [slug ...]
@@ -48,6 +49,37 @@ def toks(n):
     t = re.sub(r"[^a-z0-9 ]", " ", (n or "").lower()).split()
     return [ROMAN.get(w, w) for w in t if w not in STOP]
 
+
+# district <- area aliases (lower-case substrings of the DLD AREA_EN or the developers' own location text)
+DISTRICT_ALIASES = {
+    "dubaimarina": ["marsa dubai", "dubai marina", "marina", "jbr", "jumeirah beach residence", "bluewaters", "dubai harbour"],
+    "businessbay": ["business bay", "marasi"], "burjkhalifa": ["burj khalifa", "downtown", "opera district"],
+    "palmjumeirah": ["palm jumeirah", "the palm"], "alkhairanfirst": ["creek harbour", "al khairan", "creek beach"],
+    "dubaimaritimecity": ["maritime", "almelaheyah", "mina rashid"], "meydanone": ["meydan", "al merkadh", "district one", "meydan horizon", "bukadra"],
+    "sobhaheartland": ["sobha hartland", "nad al shiba", "mbr city", "mohammed bin rashid city"], "alwasl": ["al wasl", "city walk", "al safa", "jumeirah 1", "la mer", "port de la mer"],
+    "althanyahfifth": ["jlt", "jumeirah lakes", "al thanyah fifth", "uptown"], "jumeirahvillagecircle": ["jvc", "jumeirah village circle"],
+    "jumeirahvillagetriangle": ["jvt", "jumeirah village triangle"], "arjan": ["arjan", "al barsha south"], "motorcity": ["motor city"],
+    "dubaisportscity": ["sports city", "al hebiah fourth"], "dubaihills": ["dubai hills", "hadaeq"], "palmdeira": ["palm deira", "dubai islands", "deira islands"],
+    "madinatalmataar": ["dubai south", "madinat al mataar", "expo"], "samaaljadaf": ["jaddaf", "al jadaf", "culture village", "dubai healthcare city"],
+    "siliconoasis": ["silicon oasis", "dso"], "dubaistudiocity": ["studio city"], "dubaiproductioncity": ["production city", "impz"],
+    "dubaisciencepark": ["science park"], "majan": ["majan", "wadi al safa 3"], "wadialsafa5": ["wadi al safa 5", "town square", "al yelayiss"],
+    "wadialsafa4": ["wadi al safa 4", "img"], "damachills": ["damac hills"], "alhebiahfifth": ["al hebiah fifth", "damac hills 2", "akoya"],
+    "alsatwa": ["al satwa", "satwa", "al bada"], "alyufrah1": ["al yufrah", "arabian ranches 3"], "alyelayiss1": ["mira", "reem"], "alyelayiss2": ["al yelayiss 2", "town square"],
+    "jabalalifirst": ["jabal ali first", "discovery gardens", "ibn battuta", "the gardens"], "jabalaliindustrialsecond": ["jabal ali industrial", "downtown jebel ali", "raw district"],
+    "dubaiinvestmentparkfirst": ["dip", "investment park"], "dubaiinvestmentparksecond": ["investment park second", "green community"],
+    "dubaiindustrialcity": ["industrial city", "saih shuaib"], "madinathind4": ["madinat hind", "dubai lifestyle"], "alkhairan": ["creek harbour"],
+}
+
+def area_district(area):
+    """slug whose alias appears in the free-text area, or None when unknown."""
+    a = (area or "").lower()
+    if not a: return None
+    best = None
+    for slug, al in DISTRICT_ALIASES.items():
+        if any(x in a for x in al):
+            best = slug if best is None else best
+    return best
+
 _DEVNAMES = None
 def dev_names():
     """[(dev_key, project name, tokens)] from the site registers and the DLD-attributed transaction projects."""
@@ -57,30 +89,32 @@ def dev_names():
     for f in glob.glob(os.path.join(ROOT, "data", "dev_meta", "*_portfolio.json")):
         key = os.path.basename(f)[:-len("_portfolio.json")]
         for pr in json.load(open(f, encoding="utf-8")).get("properties", []):
-            out.append((key, pr["name"], toks(pr["name"])))
+            out.append((key, pr["name"], toks(pr["name"]), pr.get("area") or (pr.get("facts") or {}).get("location")))
     dna = os.path.join(ROOT, "data", "dev_meta", "developer_dna.json")
     if os.path.exists(dna):
         for name, d in json.load(open(dna, encoding="utf-8")).get("developers", {}).items():
             key = DEV_KEY.get(name)
             for t in d.get("tx_2026", {}).get("projects", []):
-                if key and not t.get("portfolio_unmatched"): out.append((key, t["project"], toks(t["project"])))
+                if key and not t.get("portfolio_unmatched"): out.append((key, t["project"], toks(t["project"]), t.get("area")))
             for p in d.get("dld_projects_2026", []):
-                if key: out.append((key, p["project"], toks(p["project"])))
+                if key: out.append((key, p["project"], toks(p["project"]), p.get("area")))
     _DEVNAMES = [x for x in out if len(x[2]) >= 1]
     return _DEVNAMES
 
-def dev_for(name):
-    """Match a footprint name to a developer project: identical token sets, or one contained in the other with >= 2 shared tokens
-    (or a single distinctive token of >= 6 letters). Returns (dev_key, project) or None."""
+def dev_for(name, slug=None):
+    """Match a footprint name to a developer project: identical token sets, or one contained in the other with >= 2 shared tokens.
+    A project whose stated area belongs to a DIFFERENT district is never matched here. Returns (dev_key, project) or None."""
     a = toks(name)
     if not a: return None
     A = set(a); best = None
-    for key, proj, b in dev_names():
+    for key, proj, b, area in dev_names():
         B = set(b)
         if not B: continue
+        ad = area_district(area)
+        if slug and ad and ad != slug: continue
         shared = A & B
         if A == B: return (key, proj)
-        if (A <= B or B <= A) and (len(shared) >= 2 or (len(shared) == 1 and len(next(iter(shared))) >= 6 and not next(iter(shared)).isdigit())):
+        if (A <= B or B <= A) and len(shared) >= 2:          # one shared word is not evidence ("Symphony Business Bay" is not Imtiaz's Symphony)
             best = best or (key, proj)
     return best
 
@@ -144,13 +178,32 @@ def build(slug):
     for b in blds:
         bb = bind.get(b["id"]) or bind.get(str(b["i"]))
         if bb and not b["name"]: b["name"], b["src"] = bb.get("project") or bb.get("name"), "dld"
+    # Overture Maps buildings (overture_names.py -> overture_<slug>.json, keyed by feature index): name fills a footprint that is still
+    # unnamed; measured height replaces the 3.2 m/level estimate when larger; num_floors fills a missing level count
+    ovf = os.path.join(OUT, f"overture_{slug}.json"); ov_h = 0
+    if os.path.exists(ovf):
+        ov = json.load(open(ovf, encoding="utf-8"))
+        for b in blds:
+            o = ov.get(str(b["i"]))
+            if not o: continue
+            if o.get("name") and not b["name"]: b["name"], b["src"] = o["name"].strip(), "overture"
+            if o.get("height") and float(o["height"]) > b["h"]: b["h"] = float(o["height"]); ov_h += 1
+            if o.get("num_floors") and not b["levels"]: b["levels"] = str(o["num_floors"])
     # scene coordinates: the GLB is in EPSG:32640 metres, y-up, z = -northing, ABSOLUTE (ctx.glb_center = scene centre, same units)
     for b in blds:
         e, n = TO_UTM(b["lon"], b["lat"]); b["x"] = round(e, 1); b["z"] = round(-n, 1)
-    # developer tagging: site registers (data/dev_meta/<key>_portfolio.json) + DLD-attributed project names (developer_dna.json)
+    # developer tagging: (1) geocode-and-snap bindings (bind_registers.py -> data/names/dev_bindings.json), which also NAME an unnamed
+    # footprint after the project; (2) name matching against the site registers + DLD-attributed project names (developer_dna.json)
+    dbf = os.path.join(OUT, "dev_bindings.json")
+    if os.path.exists(dbf):
+        for k, v in (json.load(open(dbf, encoding="utf-8")).get("bindings", {}).get(slug, {})).items():
+            b = next((x for x in blds if x["i"] == int(k)), None)
+            if not b: continue
+            b["dev"], b["dev_project"] = v["dev"], v["project"]
+            if not b["name"] or re.search(r"[؀-ۿ]", b["name"]): b["name"], b["src"] = v["project"], "register"
     for b in blds:
-        if b["name"]:
-            hit = dev_for(b["name"])
+        if b["name"] and not b.get("dev"):
+            hit = dev_for(b["name"], slug)
             if hit: b["dev"], b["dev_project"] = hit
     # per-building GLB (sky_<slug>_v2_0.glb): map each mesh to its footprint by centre distance, so the viewer can colour/tag meshes
     mesh_of = mesh_map(slug, blds)
@@ -164,7 +217,7 @@ def build(slug):
     devmeshes = [{"i": b["i"], "mesh": b.get("mesh"), "dev": b["dev"], "name": b.get("dev_project")} for b in blds if b.get("dev") and not b["name"]]
     anchors.sort(key=lambda a: -a["h"])
     json.dump({"district": slug, "buildings": len(blds), "named": len(named), "tall": len(tall), "tall_named": len(tall_named), "tall_cut_m": round(tall_cut, 1),
-               "sources": {s: sum(1 for a in anchors if a["source"] == s) for s in ("osm", "osm_en", "wikidata", "dld", "portfolio")}, "glb_center": ctx.get("glb_center"),
+               "sources": {s: sum(1 for a in anchors if a["source"] == s) for s in ("osm", "osm_en", "wikidata", "dld", "overture", "portfolio")}, "overture_heights": ov_h, "glb_center": ctx.get("glb_center"),
                "per_building_glb": os.path.exists(os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")), "developers": sorted({a["dev"] for a in anchors if a.get("dev")}), "dev_tagged": sum(1 for a in anchors if a.get("dev")), "anchors": anchors},
               open(os.path.join(OUT, f"anchors_{slug}.json"), "w", encoding="utf-8"), ensure_ascii=False)
     return len(blds), len(named), len(tall), len(tall_named), [a["name"] for a in anchors[:4]]

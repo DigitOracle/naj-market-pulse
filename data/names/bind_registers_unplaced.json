@@ -1,0 +1,4482 @@
+[
+ {
+  "dev": "arada",
+  "name": "Aljada",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.3221464,
+   "lat": 25.2201507,
+   "score": 95.02,
+   "address": "Al Jadaf, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Anantara Sharjah Residences",
+  "area": "",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.2730498,
+   "lat": 25.192451,
+   "score": 81.25,
+   "address": "Residences",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Armani Beach Residences",
+  "area": "Luxury Apartments, Townhouses & Penthouses,",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Central Business District (Aljada)",
+  "area": "Arada",
+  "source": "site",
+  "why": "low score 76",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 76.14,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Inaura Downtown",
+  "area": "Downtown Dubai for sale at Inaura by",
+  "source": "site",
+  "why": "area disagrees (burjkhalifa vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Jouri Hills",
+  "area": "Apartments, Villas & Townhouses in Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Nasma 2",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 91.72,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "W Residences at Dubai Harbour",
+  "area": "",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.17,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Aria by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Saria by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Orise by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Sensia by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "The Mural by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Soulever by Beyond",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "31 Above",
+  "area": "Dubai Maritime City (The Bay District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Talea (Forest) by Beyond",
+  "area": "Dubai Maritime City (The Forest District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Kanyon by Beyond",
+  "area": "Dubai Maritime City (The Forest District)",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "HADO by Beyond",
+  "area": "Dubai Islands (Siora)",
+  "source": "site",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.218363513806,
+   "lat": 25.174792006228,
+   "score": 77.78,
+   "address": "Shari' al-Had, Jumeira Third, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "The Sterling by Beyond",
+  "area": "Business Bay (Marasi Bay)",
+  "source": "site",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 77.92,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "The Pad by Beyond",
+  "area": "Business Bay",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 88.33,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Passo by Beyond",
+  "area": "Palm Jumeirah",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 89.01,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Le Chateau by Beyond",
+  "area": "Marjan Beach, Ras Al Khaimah",
+  "source": "site",
+  "why": "area disagrees (arjan vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.87,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Arancia Yards by Beyond",
+  "area": "City of Arabia (Dubailand)",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.326201,
+   "lat": 25.086501,
+   "score": 80.25,
+   "address": "City of Arabia",
+   "addr_type": "POI",
+   "type": "Tourist Attraction"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia Heights II",
+  "area": "",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 82.44,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Eaton Square",
+  "area": "Commercial Offices for sale in MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Arbor View",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 88.75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Art Bay",
+  "area": "Al Jaddaf",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.3221464,
+   "lat": 25.2201507,
+   "score": 93.51,
+   "address": "al-Jaddaf, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia II",
+  "area": "Belgravia",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 81.4,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia III",
+  "area": "Belgravia",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.91,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia Gardens",
+  "area": "Premium Apartments for Sale in Dubailand",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.30228,
+   "lat": 25.0737,
+   "score": 80,
+   "address": "Dubailand, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia Heights I",
+  "area": "JVC by Ellington Properties",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia",
+  "area": "Jumeirah Village Circle in Dubai",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 82.21,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia Square",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.318856,
+   "lat": 25.229192,
+   "score": 85.79,
+   "address": "Square",
+   "addr_type": "POI",
+   "type": "Restaurant"
+  },
+  "slug": "samaaljadaf"
+ },
+ {
+  "dev": "ellington",
+  "name": "Belmont Residences",
+  "area": "Jumeirah Village Triangle",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 89.21,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belmore Residences",
+  "area": "Apartments in MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.292854,
+   "lat": 25.257008,
+   "score": 76.91,
+   "address": "Rolla Residence Hotel Apartments",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Cala Del Mar",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 87.88,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Claydon House",
+  "area": "Apartments for Sale in MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.08,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Costa Mare",
+  "area": "Properties for Sale in Ras Al Khaimah",
+  "source": "site",
+  "why": "low score 76",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.87,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "DT1",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 95.38,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Eaton Place",
+  "area": "Jumeirah Village Circle (JVC)",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 78.63,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Beach House",
+  "area": "Ellington Beach House in Palm Jumeirah",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 80,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington House II",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83.59,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington House III",
+  "area": "",
+  "source": "site",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington House IV",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83.59,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington House",
+  "area": "",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.86,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Sands",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 82.03,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Views I",
+  "area": "Al Hamra Ras Al Khaimah",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.95,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Views II",
+  "area": "Al Hamra Ras Al Khaimah",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.62,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Villa Collection – Emirates Hills",
+  "area": "Villas for Sale in Emirates Hills",
+  "source": "site",
+  "why": "area disagrees (alyelayiss1 vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Villa Collection – La Mer",
+  "area": "Jumeirah 1",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.268962632524,
+   "lat": 25.239195909928,
+   "score": 91.2,
+   "address": "1 Jumeira Street, Jumeira First, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ellington Villa Collection – Palm Jumeirah",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 83.58,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Eltiera Heights",
+  "area": "Apartments for Sale in Jumeirah Islands",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 79.2,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Eltiera Views",
+  "area": "Apartments for Sale in Jumeirah Islands",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 79.2,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Hamilton House",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 78.63,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Harrington House",
+  "area": "Harrington House at Jumeirah Village",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Hillmont Residences",
+  "area": "Apartments for Sale in JVC",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Kensington Waters",
+  "area": "MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Mercer House",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 87.06,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Oakley Square Residences",
+  "area": "Dubai and is close to all the major attractions and amenities",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Ocean House",
+  "area": "Ocean House at Palm Jumeirah",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 84.41,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Playa Del Sol",
+  "area": "Apartments in Ras Al Khaimah",
+  "source": "site",
+  "why": "low score 77",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 77.24,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Porto Playa",
+  "area": "Apartments for Sale in Ras Al Khaimah",
+  "source": "site",
+  "why": "low score 76",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.63,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Portside Square",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.318856,
+   "lat": 25.229192,
+   "score": 87.03,
+   "address": "Square",
+   "addr_type": "POI",
+   "type": "Restaurant"
+  },
+  "slug": "samaaljadaf"
+ },
+ {
+  "dev": "ellington",
+  "name": "Riverton House",
+  "area": "Premium Apartments in MBR City, Dubai",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Rosemont Residences",
+  "area": "Jumeirah Village Triangle",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 88.75,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Somerset Mews",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.311699,
+   "lat": 25.233999,
+   "score": 89.74,
+   "address": "Somersets",
+   "addr_type": "POI",
+   "type": "British Isles Food"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Soto Grande",
+  "area": "Al Hamra",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 85,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Crestmark",
+  "area": "Dubai",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 88,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Highgrove",
+  "area": "Apartments for Sale in MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75.08,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Hillgate",
+  "area": "Apartments for Sale in Dubai Silicon Oasis",
+  "source": "site",
+  "why": "area disagrees (siliconoasis vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Meriva Collection",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.245007,
+   "lat": 25.193627,
+   "score": 86.39,
+   "address": "Das Collection",
+   "addr_type": "POI",
+   "type": "Clothing Store"
+  },
+  "slug": "alwasl"
+ },
+ {
+  "dev": "ellington",
+  "name": "The Portman",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 79.97,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Quayside",
+  "area": "Dubai",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 88.72,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Sanctuary",
+  "area": "The Sanctuary Villas at MBR City",
+  "source": "site",
+  "why": "area disagrees (sobhaheartland vs wadialsafa5)",
+  "geo": {
+   "lon": 55.3694343,
+   "lat": 25.091498,
+   "score": 79.64,
+   "address": "The Villa, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Sloane by Belgravia Heights",
+  "area": "Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "The Watercrest",
+  "area": "Mohammed Bin Rashid City (MBR City)",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2744848,
+   "lat": 25.1630268,
+   "score": 87.15,
+   "address": "Mohammed bin Rashid Al Maktoum City, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Wilton Park Residences",
+  "area": "Mohammed bin Rashid City",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2744848,
+   "lat": 25.1630268,
+   "score": 85.01,
+   "address": "Mohammed bin Rashid Al Maktoum City, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Windsor House",
+  "area": "Dubai South by Ellington Properties",
+  "source": "site",
+  "why": "area disagrees (madinatalmataar vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Windsor House II",
+  "area": "Dubai South by Ellington Properties",
+  "source": "site",
+  "why": "area disagrees (madinatalmataar vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Hatimi Residences at Dubai Islands",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Maimoon Gardens at JVC Dubai",
+  "area": "Dubai by Fakhruddin Properties have",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Tréppan Living PRIVE",
+  "area": "Dubai Islands with",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 76.14,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Treppan Serenique Dubai Islands",
+  "area": "Dubai Islands by Fakhruddin Properties",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Tréppan Tower Residences at JVT by Fakhruddin Properties",
+  "area": "Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Aman DUBAI hotel & residences",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.3007728,
+   "lat": 25.2504892,
+   "score": 87.1,
+   "address": "DoubleTree By Hilton Dubai M Square Hotel & Residences",
+   "addr_type": "POI",
+   "type": "Hotel"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "CITY TOWER",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.300601,
+   "lat": 25.251041,
+   "score": 100,
+   "address": "City Tower",
+   "addr_type": "POI",
+   "type": "Historical Monument"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "DUBAI HARBOUR RESIDENCES",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2730498,
+   "lat": 25.192451,
+   "score": 84,
+   "address": "Residences",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Eden Hills",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 88.75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "EDEN HOUSE, Al SATWA",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2724934,
+   "lat": 25.2177357,
+   "score": 90.77,
+   "address": "Al Satwa, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Eden House Dubai Hills",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 85.8,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Eden House The Canal",
+  "area": "",
+  "source": "site",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Eden House The PARK",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.223751,
+   "lat": 25.184281,
+   "score": 90.81,
+   "address": "Park House",
+   "addr_type": "POI",
+   "type": "Fast Food"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Eden House Za'abeel",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.30491,
+   "lat": 25.22584,
+   "score": 90.77,
+   "address": "Za‘abeel, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Four Seasons Hotel Dubai At Difc",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.239792,
+   "lat": 25.202366,
+   "score": 92.24,
+   "address": "Four Seasons Resort Dubai At Jumeirah Beach",
+   "addr_type": "POI",
+   "type": "Resort"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Four Seasons Private Residences Dubai At Difc",
+  "area": "",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.27787,
+   "lat": 25.2106,
+   "score": 80,
+   "address": "Dubai International Financial Centre, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Four Seasons Private Residences Dubai at Jumeirah",
+  "area": "",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 80,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Four Seasons Resort Dubai At Jumeirah Beach",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.239792,
+   "lat": 25.202366,
+   "score": 100,
+   "address": "Four Seasons Resort Dubai At Jumeirah Beach",
+   "addr_type": "POI",
+   "type": "Resort"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "FOUR SEASONS Staff Accommodation at Jebel Ali",
+  "area": "Jebel Ali",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.168762,
+   "lat": 24.976133,
+   "score": 82,
+   "address": "Staff Accommodation",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Galleria Mall Al Barsha",
+  "area": "Al Barsha Second in close proximity to Dubai’s major arterial",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.228541658832,
+   "lat": 25.103800387636,
+   "score": 81.38,
+   "address": "Al-barsha 2, Al Barsha Second, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "Galleia Mall Al Wasl",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.254753,
+   "lat": 25.207901,
+   "score": 98.06,
+   "address": "Galleria Mall",
+   "addr_type": "POI",
+   "type": "Shopping Center"
+  },
+  "slug": "alwasl"
+ },
+ {
+  "dev": "hh",
+  "name": "Galleria Vilaa Al Wasl",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.2539493,
+   "lat": 25.2067554,
+   "score": 92.86,
+   "address": "Galleria",
+   "addr_type": "POI",
+   "type": "Shopping Center"
+  },
+  "slug": "alwasl"
+ },
+ {
+  "dev": "hh",
+  "name": "JANU DUBAI HOTEL & RESIDENCES",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.3007728,
+   "lat": 25.2504892,
+   "score": 87.1,
+   "address": "DoubleTree By Hilton Dubai M Square Hotel & Residences",
+   "addr_type": "POI",
+   "type": "Hotel"
+  }
+ },
+ {
+  "dev": "hh",
+  "name": "JUMEIRAH AL NASEEM MADINAT JUMEIRAH PHASE 4",
+  "area": "Madinat jumeirah phase 4",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "10 Oxford by Iman",
+  "area": "Jumeirah Village Circle (JVC)",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 77.04,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "113 Residences",
+  "area": "Al Sufouh",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.18285,
+   "lat": 25.12015,
+   "score": 88.18,
+   "address": "Al Sufouh, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "15 Cascade",
+  "area": "Dubai Motor City",
+  "source": "site",
+  "why": "area disagrees (motorcity vs althanyahfifth)",
+  "geo": {
+   "lon": 55.138087680162,
+   "lat": 25.072797320351,
+   "score": 87.68,
+   "address": "The Cascades, Al Ahaimer Street, Marsa Dubai, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Gardens 2",
+  "area": "Arjan",
+  "source": "site",
+  "why": "area disagrees (arjan vs jabalalifirst)",
+  "geo": {
+   "lon": 55.131001,
+   "lat": 25.045225,
+   "score": 91.67,
+   "address": "Gardens 2",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "One Park Square",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 78.63,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "One Sky Park",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.286161,
+   "lat": 25.241347,
+   "score": 89.09,
+   "address": "Park",
+   "addr_type": "POI",
+   "type": "Park"
+  },
+  "slug": "dubaimaritimecity"
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford 212",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.249136581667,
+   "lat": 25.213626704744,
+   "score": 82.02,
+   "address": "212 Jumeira Street, Jumeira First, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Boulevard",
+  "area": "Dubai's JVC",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.311127,
+   "lat": 25.265007,
+   "score": 81.85,
+   "address": "Boulivar",
+   "addr_type": "POI",
+   "type": "International Food"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Cove by Iman",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83.59,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Gardens",
+  "area": "Arjan",
+  "source": "site",
+  "why": "area disagrees (arjan vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 82.44,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Residence 2",
+  "area": "Dubai's JVC with upscale finishes and",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Terraces",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 78.21,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Terraces 2",
+  "area": "JVC Dubai",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.35,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "Oxford Villa",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 79.5,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "SIERRA by Iman",
+  "area": "Motor City",
+  "source": "site",
+  "why": "area disagrees (motorcity vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.91,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "The Grove By Iman",
+  "area": "",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.86,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk 4 by Imtiaz",
+  "area": "Dubai Islands (Deira)",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 87.33,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Grand 2 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 87.33,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Grand by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 87.72,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk III by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 88.55,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Residence by Imtiaz",
+  "area": "Dubai Islands, offering direct beach access and true waterfront living",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 76.88,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Residence II by Imtiaz",
+  "area": "Dubai Islands, offering a waterfront lifestyle with seamless connectivity to the mainland",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimarina)",
+  "geo": {
+   "lon": 55.128477409076,
+   "lat": 25.072125510812,
+   "score": 75.12,
+   "address": "Beach Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cotier House 2 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.56,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cotier House by Imtiaz",
+  "area": "Dubai Islands Marina",
+  "source": "site",
+  "why": "area disagrees (dubaimarina vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Boulevard by Imtiaz",
+  "area": "Dubailand (DLRC)",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 80.63,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove by Imtiaz",
+  "area": "Dubailand (DLRC)",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 84.8,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition 2 by Imtiaz",
+  "area": "Dubailand (DLRC)",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 81.03,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition 4 by Imtiaz",
+  "area": "Dubai Land Residence Complex",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 75.12,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition 5 by Imtiaz",
+  "area": "Dubailand",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.30228,
+   "lat": 25.0737,
+   "score": 84.62,
+   "address": "Dubailand, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition 6 by Imtiaz",
+  "area": "Dubai Land Residence Complex",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 75.12,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition I by Imtiaz",
+  "area": "Dubai Land Residence Complex",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 75.12,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition III by Imtiaz",
+  "area": "Dubai Land Residence Complex",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Grand by Imtiaz",
+  "area": "Dubailand (DLRC)",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 82.31,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Hyde Walk by Imtiaz",
+  "area": "Jumeirah Garden City",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.27541493777,
+   "lat": 25.248375015915,
+   "score": 79.92,
+   "address": "Jumeira Street, Madinat Dubai Al Melaheyah, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Le Blanc by Imtiaz",
+  "area": "Dubailand (DLRC)",
+  "source": "site",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 83.25,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Luxor by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 78.63,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Pearl House 4 by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 76.32,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Pearl House by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 76.67,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Pearl House II by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 75.98,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Pearl House III by Imtiaz",
+  "area": "JVC Dubai",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 81.54,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Raw District by Imtiaz (Sheikh Zayed Road)",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.05213629224,
+   "lat": 24.943351901576,
+   "score": 88.33,
+   "address": "Sheikh Zayed Road, Jebel Ali Industrial Third, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Raw District II by Imtiaz (Sheikh Zayed Road)",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.05213629224,
+   "lat": 24.943351901576,
+   "score": 87.54,
+   "address": "Sheikh Zayed Road, Jebel Ali Industrial Third, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sea Cliff by Imtiaz",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83.59,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay 2 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.202726851477,
+   "lat": 25.148999150983,
+   "score": 81.51,
+   "address": "2 Albay Street, Umm Suqeim Second, Dubai",
+   "addr_type": "StreetAddressExt",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay 3 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.202805893559,
+   "lat": 25.149088659815,
+   "score": 81.51,
+   "address": "3 Albay Street, Umm Suqeim Second, Dubai",
+   "addr_type": "StreetAddressExt",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay 4 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.202726851477,
+   "lat": 25.148999150983,
+   "score": 81.51,
+   "address": "4 Albay Street, Umm Suqeim Second, Dubai",
+   "addr_type": "StreetAddressExt",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay 5 by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.202805893559,
+   "lat": 25.149088659815,
+   "score": 81.51,
+   "address": "5 Albay Street, Umm Suqeim Second, Dubai",
+   "addr_type": "StreetAddressExt",
+   "type": ""
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.72,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay Grand by Imtiaz",
+  "area": "Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "The Archive by Imtiaz",
+  "area": "",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 82.44,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "The Symphony by Imtiaz",
+  "area": "Meydan Horizon",
+  "source": "site",
+  "why": "area disagrees (meydanone vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 76.73,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Westwood by Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 77.42,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Westwood Grande by Imtiaz",
+  "area": "Jumeirah Village Circle (JVC) , one of Dubai’s most established residential communities",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Westwood Grande II by Imtiaz",
+  "area": "JVC Dubai",
+  "source": "site",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Wynwood by Imtiaz",
+  "area": "High-End Community in Dubai Islands",
+  "source": "site",
+  "why": "area disagrees (palmdeira vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Wynwood Horizon by Imtiaz",
+  "area": "Meydan Horizon (MBR City)",
+  "source": "site",
+  "why": "area disagrees (meydanone vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "City Walk Crestlane",
+  "area": "City Walk",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.17,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "The Edit at d3",
+  "area": "Dubai Design District",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.32,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Nad Al Sheba Gardens Villas",
+  "area": "Nad Al Sheba",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.3383,
+   "lat": 25.15223,
+   "score": 87.51,
+   "address": "Nad al Sheba, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Madinat Jumeirah Living Nourelle",
+  "area": "Umm Suqeim",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.21015,
+   "lat": 25.15491,
+   "score": 80.98,
+   "address": "Umm Suqeim, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Solaya",
+  "area": "La Mer",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 87.06,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Atelis at d3",
+  "area": "Dubai Design District",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.72,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Jumeirah Asora Bay",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 90.57,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "The Acres Villas",
+  "area": "The Acres",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.3694343,
+   "lat": 25.091498,
+   "score": 84.59,
+   "address": "The Villa, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "The Acres Estate",
+  "area": "The Acres",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.44,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Verve City Walk",
+  "area": "City Walk",
+  "source": "site",
+  "why": "area disagrees (alwasl vs alsatwa)",
+  "geo": {
+   "lon": 55.2625453,
+   "lat": 25.2074294,
+   "score": 82.27,
+   "address": "City Walk",
+   "addr_type": "POI",
+   "type": "Shopping Center"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Madinat Jumeirah Living Riwa",
+  "area": "Umm Suqeim",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.21015,
+   "lat": 25.15491,
+   "score": 82.46,
+   "address": "Umm Suqeim, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "City Walk Northline",
+  "area": "City Walk",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.17,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Madinat Jumeirah Living Elara",
+  "area": "Umm Suqeim",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.21015,
+   "lat": 25.15491,
+   "score": 82.07,
+   "address": "Umm Suqeim, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Design Quarter at d3",
+  "area": "Dubai Design District",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 79.2,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Madinat Jumeirah Living Jomana",
+  "area": "Umm Suqeim",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.21015,
+   "lat": 25.15491,
+   "score": 81.69,
+   "address": "Umm Suqeim, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bluewaters Bay",
+  "area": "Bluewaters",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.234887,
+   "lat": 25.1629954,
+   "score": 82.04,
+   "address": "Blue Waters",
+   "addr_type": "POI",
+   "type": "Specialty Store"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bulgari Lighthouse Dubai",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.184851,
+   "lat": 25.1237742,
+   "score": 84.14,
+   "address": "Jumeira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Madinat Jumeirah Living Residences",
+  "area": "Umm Suqeim",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.30748,
+   "lat": 25.27114,
+   "score": 80.99,
+   "address": "Jumeirah Living World Trade Centre Residence",
+   "addr_type": "POI",
+   "type": "Hotel"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "City Walk Central Park",
+  "area": "City Walk",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.4,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bulgari Ocean Mansions",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 84.31,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Marsa Al Arab Residences",
+  "area": "Marsa Al Arab",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.376099,
+   "lat": 25.279101,
+   "score": 81.69,
+   "address": "Al Massa Residence",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Marsa Al Arab Villas",
+  "area": "Marsa Al Arab",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.3694343,
+   "lat": 25.091498,
+   "score": 83.88,
+   "address": "The Villa, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Sur La Mer",
+  "area": "La Mer",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 85.56,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bluewaters Residences",
+  "area": "Bluewaters",
+  "source": "site",
+  "why": "area disagrees (dubaimarina vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 77.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bulgari Marina Lofts Dubai",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.150141024566,
+   "lat": 25.084830212912,
+   "score": 84.31,
+   "address": "Marina Walk, Marsa Dubai, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Nikki Beach Residences Dubai",
+  "area": "JBR",
+  "source": "site",
+  "why": "area disagrees (dubaimarina vs burjkhalifa)",
+  "geo": {
+   "lon": 55.2730498,
+   "lat": 25.192451,
+   "score": 84.71,
+   "address": "Residences",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "City Walk Residences",
+  "area": "City Walk",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.78,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Nad Al Sheba Gardens Villa Plots",
+  "area": "Nad Al Sheba",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.3383,
+   "lat": 25.15223,
+   "score": 84.98,
+   "address": "Nad al Sheba, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Villa Amalfi",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 89.52,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "La Mer Maisons",
+  "area": "La Mer",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Bulgari Resorts & Residences Dubai",
+  "area": "Jumeirah",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.237182,
+   "lat": 25.210661,
+   "score": 82.15,
+   "address": "Bvlgari Resort Dubai",
+   "addr_type": "POI",
+   "type": "Resort"
+  }
+ },
+ {
+  "dev": "meraas",
+  "name": "Port de La Mer",
+  "area": "La Mer",
+  "source": "site",
+  "why": "area disagrees (alwasl vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 83.59,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "LANA, Dorchester Collection",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.2889677,
+   "lat": 25.1884629,
+   "score": 81.05,
+   "address": "Lana - Dorchester Collection",
+   "addr_type": "POI",
+   "type": "Hotel"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "The Opus",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "The Alba",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ANWA",
+  "area": "Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.30927,
+   "lat": 25.07725,
+   "score": 83.7,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ANWA ARIA",
+  "area": "Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.30927,
+   "lat": 25.07725,
+   "score": 81.64,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "AVA",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "One at Palm Jumeirah",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 80.49,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ORLA",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ORLA Infinity",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "THE STERLING",
+  "area": "Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "VELA",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "VELA VIENTO",
+  "area": "Prestige Luxury Real Estate Dubai",
+  "source": "site",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 80,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "15 Northside",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 87.06,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Bay Central",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.1376956,
+   "lat": 25.0788026,
+   "score": 100,
+   "address": "Bay Central",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  },
+  "slug": "althanyahfifth"
+ },
+ {
+  "dev": "select",
+  "name": "Botanica",
+  "area": "Dubai Marina overlooking mesmerising coastal and marina views",
+  "source": "site",
+  "why": "area disagrees (dubaimarina vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Jumeirah Living Business Bay",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 88.33,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Jumeirah Living Marina Gate",
+  "area": "",
+  "source": "site",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 81.31,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Mushrif Village",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.4523394,
+   "lat": 25.2229253,
+   "score": 91.51,
+   "address": "Mushrif, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Nautica",
+  "area": "",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.3027331,
+   "lat": 25.2537056,
+   "score": 100,
+   "address": "Nautica",
+   "addr_type": "POI",
+   "type": "Clothing Store"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "No.9",
+  "area": "Dubai Marina",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 96.76,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Pacific",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 90.67,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Five, The Signature Collection",
+  "area": "",
+  "source": "site",
+  "why": "low score 76",
+  "geo": {
+   "lon": 55.263130839571,
+   "lat": 25.046247390586,
+   "score": 76.08,
+   "address": "La Coleccion Avenue, Wadi Al Safa 6, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Four, The Plaza",
+  "area": "",
+  "source": "site",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.310141,
+   "lat": 25.265553,
+   "score": 82.27,
+   "address": "The Plaza",
+   "addr_type": "POI",
+   "type": "Hotel"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula One",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 86.29,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Three",
+  "area": "",
+  "source": "site",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.86,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Two",
+  "area": "Business Bay",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 89.57,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Six Senses Residences Dubai Marina",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 85.66,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Six Senses Residences The Palm, Dubai",
+  "area": "Palm Jumeirah's West Crescent",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 78.67,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Studio One",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 88.75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "The Residences at Marina Gate I",
+  "area": "",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.78,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "The Residences at Marina Gate II",
+  "area": "",
+  "source": "site",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 78.4,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "The Royal Oceanic",
+  "area": "",
+  "source": "site",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.21,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "The Torch",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 89.68,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Velocity Tower",
+  "area": "Modern Development in Sheffield",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "West Avenue",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.138802,
+   "lat": 25.074401,
+   "score": 100,
+   "address": "West Avenue",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  },
+  "slug": "althanyahfifth"
+ },
+ {
+  "dev": "select",
+  "name": "Yacht Bay",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 89.68,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Infinity / Cayan Tower",
+  "area": "Dubai Marina",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 86.15,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Olivara Residences & Park",
+  "area": "Studio City",
+  "source": "site",
+  "why": "low score 77",
+  "geo": {
+   "lon": 55.301591,
+   "lat": 25.254351,
+   "score": 77.16,
+   "address": "Park Residence",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Serenia District",
+  "area": "Dubai",
+  "source": "site",
+  "why": "outside the 38 districts",
+  "geo": {
+   "lon": 55.236698,
+   "lat": 25.191001,
+   "score": 90.23,
+   "address": "District",
+   "addr_type": "POI",
+   "type": "Womens Apparel"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Serenia Living",
+  "area": "",
+  "source": "site",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 85.56,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "The Royal Sky Mansion at Serenia Living",
+  "area": "Serenia Living",
+  "source": "site",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Serenia Residences The Palm",
+  "area": "Palm Jumeirah situated in East Crescent",
+  "source": "site",
+  "why": "area disagrees (palmjumeirah vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Silverene Towers",
+  "area": "",
+  "source": "site",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.325802,
+   "lat": 25.230901,
+   "score": 85.79,
+   "address": "Tower",
+   "addr_type": "POI",
+   "type": "Dentist"
+  },
+  "slug": "samaaljadaf"
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "West Residence at Serenia District",
+  "area": "Jumeirah Islands",
+  "source": "site",
+  "why": "low score 79",
+  "geo": {
+   "lon": 55.22602,
+   "lat": 25.18267,
+   "score": 79.2,
+   "address": "Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "THE OPUS BY OMNIYAT",
+  "area": "BUSINESS BAY",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 87.2,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "THE ANWA BY OMNIYAT",
+  "area": "DUBAI MARITIME CITY",
+  "source": "dld_tx",
+  "why": "area disagrees (dubaimaritimecity vs burjkhalifa)",
+  "geo": {
+   "lon": 55.285980997275,
+   "lat": 25.19334069695,
+   "score": 77.92,
+   "address": "Shari' Omnyati, Burj Khalifa, Dubai",
+   "addr_type": "StreetName",
+   "type": ""
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "The Alba Residences by Omniyat",
+  "area": "PALM JUMEIRAH",
+  "source": "dld_tx",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 82.81,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "Enara By Omniyat",
+  "area": "BUSINESS BAY",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 88.33,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ALBA TOWER",
+  "area": "Al Satwa",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2724934,
+   "lat": 25.2177357,
+   "score": 90.77,
+   "address": "Al Satwa, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "Vela Viento by Omniyat",
+  "area": "BUSINESS BAY",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 85.66,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ALBA",
+  "area": "LIWAN 2",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 87.88,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "AVA AT PALM JUMEIRAH BY OMNIYAT",
+  "area": "PALM JUMEIRAH",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 87.18,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ORLA BY OMNIYAT",
+  "area": "PALM JUMEIRAH",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 89.01,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "ORLA Infinity by OMNIYAT",
+  "area": "Palm Jumeirah",
+  "source": "dld_tx",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.13506,
+   "lat": 25.11607,
+   "score": 84.85,
+   "address": "The Palm Jumeirah, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "omniyat",
+  "name": "VELA by OMNIYAT",
+  "area": "BUSINESS BAY",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2718258,
+   "lat": 25.1780476,
+   "score": 88.94,
+   "address": "Business Bay, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "THE RESIDENCES AT MARINA GATE 2",
+  "area": "DUBAI MARINA",
+  "source": "dld_tx",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 82.67,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "THE RESIDENCES AT MARINA GATE 1",
+  "area": "DUBAI MARINA",
+  "source": "dld_tx",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.14646,
+   "lat": 25.08525,
+   "score": 82.67,
+   "address": "Dubai Marina, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Dubai Residences - Tower 2",
+  "area": "Jumeirah Second",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2435696,
+   "lat": 25.201687,
+   "score": 80.45,
+   "address": "Jumeira Second, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "select",
+  "name": "Peninsula Dubai Residences - Tower 1",
+  "area": "Jumeirah Second",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.2435696,
+   "lat": 25.201687,
+   "score": 80.45,
+   "address": "Jumeira Second, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "Belgravia 2",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.188156811142,
+   "lat": 25.136362488911,
+   "score": 80.15,
+   "address": "2 Jumeira Street, Umm Suqeim Third, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "CLAYDON HOUSE BY ELLINGTON",
+  "area": "HORIZON",
+  "source": "dld_tx",
+  "why": "low score 77",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 77.36,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "ellington",
+  "name": "HILLMONT RESIDENCES BY ELLINGTON",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "Akala Hotels and Residences",
+  "area": "Zaabeel Second",
+  "source": "dld_tx",
+  "why": "low score 84",
+  "geo": {
+   "lon": 55.2799987,
+   "lat": 25.2090778,
+   "score": 84,
+   "address": "Zaa'beel Second, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "arada",
+  "name": "MASAAR RESIDENCES",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs dubaimarina)",
+  "geo": {
+   "lon": 55.135975189105,
+   "lat": 25.081218618472,
+   "score": 83,
+   "address": "Jumeirah Beach Residence, Al Mamsha Street, Marsa Dubai, Dubai",
+   "addr_type": "PointAddress",
+   "type": ""
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "LUNAYA",
+  "area": "Saih Shuaib 1",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.0064157,
+   "lat": 24.9261404,
+   "score": 94,
+   "address": "Saih Shuaib 1, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "SERENIA DISTRICT - EAST",
+  "area": "Al Thanyah Fifth",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.1548179,
+   "lat": 25.0610863,
+   "score": 86.43,
+   "address": "Al Thanyah Fifth, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "ARABIAN RANCHES - PALMA COMMUNITY",
+  "area": "ARABIAN RANCHES II",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 75,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "Palma Residence",
+  "area": "PALM JUMEIRAH",
+  "source": "dld_tx",
+  "why": "area disagrees (palmjumeirah vs dubaimaritimecity)",
+  "geo": {
+   "lon": 55.275217,
+   "lat": 25.242485,
+   "score": 92.46,
+   "address": "Jumeirah Palms Residence",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "zaya_palma",
+  "name": "PALMAROSA",
+  "area": "PALMAROSA",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 82.44,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "fakhruddin",
+  "name": "Treppan Living Prive",
+  "area": "Palm Deira",
+  "source": "dld_reg",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 82.4,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Soulever' By Beyond",
+  "area": "Madinat Dubai Almelaheyah",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2837292,
+   "lat": 25.2612643,
+   "score": 89.68,
+   "address": "Madinat Dubai Al Melaheyah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "31 Above By Beyond",
+  "area": "Madinat Dubai Almelaheyah",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2837292,
+   "lat": 25.2612643,
+   "score": 90.16,
+   "address": "Madinat Dubai Al Melaheyah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Arancia Yards 2 By Beyond",
+  "area": "CITY OF ARABIA",
+  "source": "dld_tx",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.326201,
+   "lat": 25.086501,
+   "score": 77.5,
+   "address": "City of Arabia",
+   "addr_type": "POI",
+   "type": "Tourist Attraction"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Saria",
+  "area": "DUBAI MARITIME CITY",
+  "source": "dld_tx",
+  "why": "low score 85",
+  "geo": {
+   "lon": 55.2926806,
+   "lat": 25.2674058,
+   "score": 84.7,
+   "address": "Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "beyond",
+  "name": "Orise",
+  "area": "Madinat Dubai Almelaheyah",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.2837292,
+   "lat": 25.2612643,
+   "score": 96.08,
+   "address": "Madinat Dubai Al Melaheyah, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "RAW DISTRICT BY IMTIAZ R",
+  "area": "Jabal Ali Industrial Second",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.1040228,
+   "lat": 24.9572736,
+   "score": 88.06,
+   "address": "Jabal Ali Industrial Second, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "RAW DISTRICT BY IMTIAZ CR",
+  "area": "DOWN TOWN JABAL ALI",
+  "source": "dld_tx",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.0936376,
+   "lat": 24.9812934,
+   "score": 78,
+   "address": "Downtown Jebal Ali",
+   "addr_type": "POI",
+   "type": "Tourist Attraction"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Le Blanc Residence by Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 78",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 77.82,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Grand Residence by Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 77",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 76.77,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "PEARL HOUSE IV BY IMTIAZ",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 75.98,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "COVE EDITION RESIDENCE 6 BY IMTIAZ",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "RAW DISTRICT 2 BY IMTIAZ",
+  "area": "Jabal Ali Industrial Second",
+  "source": "dld_tx",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.1040228,
+   "lat": 24.9572736,
+   "score": 88.06,
+   "address": "Jabal Ali Industrial Second, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "WYNWOOD RESIDENCES BY IMTIAZ",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 80,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Seacliff by Imtiaz",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 83",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 83.33,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "The Cove",
+  "area": "DUBAI CREEK HARBOUR",
+  "source": "dld_tx",
+  "why": "no footprint within 60 m",
+  "geo": {
+   "lon": 55.346298,
+   "lat": 25.195999,
+   "score": 91.06,
+   "address": "Dubai Creek Harbour",
+   "addr_type": "POI",
+   "type": "Tourist Attraction"
+  },
+  "slug": "alkhairanfirst"
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Symphony",
+  "area": "TOWN SQUARE",
+  "source": "dld_tx",
+  "why": "area disagrees (wadialsafa5 vs alwasl)",
+  "geo": {
+   "lon": 55.267871,
+   "lat": 25.186731,
+   "score": 86.91,
+   "address": "Symphony Tower",
+   "addr_type": "POI",
+   "type": "Historical Monument"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "SUNSET BAY FIVE by Imtiaz",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.13,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Living Residence By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 76",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 76.27,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Residences 4 by Imtiaz",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 80,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Pearl House I by Imtiaz",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 76.32,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Luxur Tower By Imtiaz",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 76.67,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "COVE EDITION RESIDENCE 5 by Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "COTIER HOUSE 1 BY IMTIAZ",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.54,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition Residence 2 By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "SUNSET BAY FOUR BY IMTIAZ",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.13,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition Residence 4 By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Hyde Walk Residence by Imtiaz",
+  "area": "Al Satwa",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.2724934,
+   "lat": 25.2177357,
+   "score": 81.82,
+   "address": "Al Satwa, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay Two By Imtiaz",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.54,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition Residence 3 By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Cove Edition Residence 1 By Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 75",
+  "geo": {
+   "lon": 55.3065656,
+   "lat": 25.2533362,
+   "score": 75.3,
+   "address": "Residential Complex",
+   "addr_type": "POI",
+   "type": "Residential Area"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Sunset Bay One By Imtiaz",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.54,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "SUNSET BAY THREE BY IMTIAZ",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 81",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 80.74,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "KORE by Imtiaz",
+  "area": "DUBAI LAND RESIDENCE COMPLEX",
+  "source": "dld_tx",
+  "why": "low score 77",
+  "geo": {
+   "lon": 55.3261103,
+   "lat": 25.0111905,
+   "score": 77.22,
+   "address": "Dubai Land, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "BEACH WALK RESIDENCES 3 BY IMTIAZ",
+  "area": "PALM DEIRA",
+  "source": "dld_tx",
+  "why": "low score 80",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 80,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "Beach Walk Residences 2",
+  "area": "Palm Deira",
+  "source": "dld_tx",
+  "why": "low score 82",
+  "geo": {
+   "lon": 55.3651217,
+   "lat": 25.2652684,
+   "score": 81.54,
+   "address": "Deira, Dubai",
+   "addr_type": "Locality",
+   "type": "District"
+  }
+ },
+ {
+  "dev": "imtiaz",
+  "name": "CHAVELLE BY IMTIAZ",
+  "area": "Bukadra",
+  "source": "dld_reg",
+  "why": "coarse hit (Locality)",
+  "geo": {
+   "lon": 55.329393,
+   "lat": 25.1793686,
+   "score": 85.09,
+   "address": "Bu Kadra, Dubai",
+   "addr_type": "Locality",
+   "type": "Neighborhood"
+  }
+ },
+ {
+  "dev": "iman",
+  "name": "OXFORD COVE",
+  "area": "JUMEIRAH VILLAGE CIRCLE",
+  "source": "dld_tx",
+  "why": "area disagrees (jumeirahvillagecircle vs jumeirahvillagetriangle)",
+  "geo": {
+   "lon": 55.1901406,
+   "lat": 25.0474601,
+   "score": 79.97,
+   "address": "Jumeirah Village Triangle, Dubai",
+   "addr_type": "Locality",
+   "type": "City"
+  }
+ }
+]
