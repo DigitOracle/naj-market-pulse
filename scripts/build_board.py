@@ -48,26 +48,48 @@ for seg in SEG["segments"]:
                 return next((v for kk, v in dct.items() if same(kk, nn)), None)
             # Sheets name projects the way the sales desk does ("Treppan Tower", "Hado Tower A", "Passo Avita"); the portfolio names
             # them the way the website does ("Treppan Tower Residences at JVT by Fakhruddin Properties", "Hado by Beyond", "Passo").
-            # Exact matching bound 3 of Beyond's 10 blocks and none of Fakhruddin's. So: fold accents, drop filler words, and accept a
-            # match when the shorter name's distinctive words are all inside the longer one's - then MERGE every sheet block that
-            # matches (Soulever + Soulever Tower B, Hado A/B/C) onto that one card.
+            # Every sheet block is assigned to AT MOST ONE property card, so bound units can never exceed the sheet:
+            #   1. the block's project words equal the card's words (filler and places removed, accents folded)
+            #   2. else the block's words sit inside exactly one card's words        ("Talea" -> "Talea (Forest) by Beyond")
+            #   3. else exactly one card's words sit inside the block's words        ("Passo" <- "Passo Avita", "Passo Bella")
+            # Blocks of one project (Hado Tower A/B/C, Hatimi Duplex + Towers) merge onto the card they resolve to.
             import unicodedata
             FILL = {"at", "by", "in", "on", "of", "and", "the", "a", "an", "properties", "property", "developments", "development",
                     "jvt", "jvc", "islands", "island", "palm", "deira", "marina", "downtown", "bay", "business", "creek", "harbour", "hills",
-                    "tower", "towers", "residences", "residence", "living", "prive", "collection", "villas", "villa", "block", "phase"}
+                    "dubai", "residences", "residence", "residency", "apartments", "apartment", "block", "phase", "forest"}
             def toks(t):
                 t = unicodedata.normalize("NFKD", t or "").encode("ascii", "ignore").decode().lower()
+                t = re.sub(r"\b(tower|towers|building)\s+[a-z0-9]{1,2}\b", " ", t)          # "Hado Tower A" -> "Hado"; "Building B" -> ""
                 return {w for w in re.sub(r"[^a-z0-9 ]", " ", t).split() if w not in FILL and len(w) > 1 and w not in al}
+            # sheet blocks keyed by their PROJECT name (the block label is a sub-division, never a different project)
+            blocks = {}
+            for f in sorted(glob.glob(os.path.join(ROOT, "data", "avail", k + "_20*.json")))[-1:]:
+                av = json.load(open(f, encoding="utf-8"))
+                for pj in av.get("projects", []):
+                    blocks.setdefault(pj["p"], []).append({"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}),
+                                                          "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")})
+            cards = [o["name"] for o in props if o["kind"] == "ours"] + [pr["name"] for pr in port["properties"]]
+            card_toks = {c: toks(c) for c in cards}
+            assign = {}                                                   # project name -> card name
+            for pj_name in blocks:
+                bt = toks(pj_name)
+                if not bt: continue
+                eq = [c for c, ct in card_toks.items() if ct and ct == bt]
+                if len(eq) >= 1: assign[pj_name] = eq[0]; continue
+                inside = [c for c, ct in card_toks.items() if ct and bt < ct]
+                if len(inside) == 1: assign[pj_name] = inside[0]; continue
+                around = [c for c, ct in card_toks.items() if ct and ct < bt]
+                if len(around) == 1: assign[pj_name] = around[0]; continue
             def find_sheet(nn, raw_name):
-                exact = find(sheet, nn)
-                want = toks(raw_name) or toks(nn)
-                hits = [v for kk, v in sheet.items() if same(kk, nn) or (want and toks(kk) and (toks(kk) <= want or want <= toks(kk)))]
-                if not hits: return exact
-                merged = {"units": sum(h["units"] for h in hits), "types": sorted({t for h in hits for t in h["types"]}),
-                          "plan": next((h.get("plan") for h in hits if h.get("plan")), None),
-                          "completion": next((h.get("completion") for h in hits if h.get("completion")), None),
-                          "sheet": max(h.get("sheet") or "" for h in hits) or None, "blocks": len(hits)}
-                return merged
+                hits = [b for pj_name, c in assign.items() if c == raw_name for b in blocks[pj_name]]
+                if not hits: return None
+                return {"units": sum(h["units"] for h in hits), "types": sorted({t for h in hits for t in h["types"]}),
+                        "plan": next((h.get("plan") for h in hits if h.get("plan")), None),
+                        "completion": next((h.get("completion") for h in hits if h.get("completion")), None),
+                        "sheet": max(h.get("sheet") or "" for h in hits) or None, "blocks": len(hits),
+                        "projects": sorted({pj_name for pj_name, c in assign.items() if c == raw_name})}
+            unbound = [pj for pj in blocks if pj not in assign]
+            if unbound: print("  %-12s sheet projects with no card: %s" % (k, unbound))
             # the modelled ("ours") cards absorb their sheet + trading stats and block a duplicate portfolio card
             for o in props:
                 if o["kind"] != "ours": continue
