@@ -270,11 +270,15 @@ def build(slug):
     named = [b for b in blds if b["name"]]
     hs = sorted(b["h"] for b in blds); tall_cut = hs[int(len(hs) * 0.7)] if hs else 0
     tall = [b for b in blds if b["h"] >= tall_cut and b["h"] > 12]; tall_named = [b for b in tall if b["name"]]
+    TO_LL = pyproj.Transformer.from_crs("EPSG:32640", "EPSG:4326", always_xy=True).transform
     for b in named:
-        try: b["bear"], b["fm"] = facade_points(b["ring"])
-        except Exception: b["bear"], b["fm"] = None, None
+        try:
+            b["bear"], b["fm"] = facade_points(b["ring"])
+            # lon/lat of each facade midpoint so the photoreal view can stand exactly there
+            b["fm_ll"] = [[round(v, 6) for v in TO_LL(p[0], -p[1])] if p else None for p in (b["fm"] or [None] * 4)]
+        except Exception: b["bear"], b["fm"], b["fm_ll"] = None, None, None
     write_landmarks()
-    anchors = [{"id": b["id"], "i": b["i"], "mesh": b.get("mesh"), "name": b["name"], "source": b["src"], "dev": b.get("dev"), "dev_project": b.get("dev_project"), "lon": round(b["lon"], 6), "lat": round(b["lat"], 6), "x": b.get("x"), "z": b.get("z"), "h": round(b["h"], 1), "levels": b["levels"], "bear": b.get("bear"), "fm": b.get("fm")} for b in named]
+    anchors = [{"id": b["id"], "i": b["i"], "mesh": b.get("mesh"), "name": b["name"], "source": b["src"], "dev": b.get("dev"), "dev_project": b.get("dev_project"), "lon": round(b["lon"], 6), "lat": round(b["lat"], 6), "x": b.get("x"), "z": b.get("z"), "h": round(b["h"], 1), "levels": b["levels"], "bear": b.get("bear"), "fm": b.get("fm"), "fm_ll": b.get("fm_ll")} for b in named]
     # developer buildings are the point of the exercise: keep them even when the map had no name (the register name becomes the label)
     devmeshes = [{"i": b["i"], "mesh": b.get("mesh"), "dev": b["dev"], "name": b.get("dev_project")} for b in blds if b.get("dev") and not b["name"]]
     anchors.sort(key=lambda a: -a["h"])
