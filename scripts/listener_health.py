@@ -53,26 +53,43 @@ def main():
     a = ap.parse_args()
     now = dt.datetime.now(); since = now - dt.timedelta(hours=a.hours)
     pids = alive_pids()
-    # launcher lines carry ISO timestamps: "[2026-09-03T18:02:45] launcher: starting listener" / "... exited with code 1"
+    # The launcher writes three kinds of stamped lines: "starting listener", "already running (PID n); skipping." (the
+    # 15-minute watchdog finding it alive - a heartbeat) and "listener exited with code n". Coverage is reconstructed from
+    # them: every start and every heartbeat proves the listener was up at that instant; a gap of more than GAP_MIN between
+    # consecutive proofs is time we were not listening; an exit opens a gap until the next start; and a window that opens
+    # with a "starting" rather than a heartbeat means it was down from the window's start until then.
+    GAP_MIN = 20
     log = read_text(os.path.join(LISTENER, "listener.log"))
-    events = []
+    ev = []
     for m in re.finditer(r"\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\]\s*launcher:\s*(starting listener|listener exited with code (-?\d+)|already running)", log):
-        t = dt.datetime.fromisoformat(m.group(1))
-        if t >= since: events.append((t, m.group(2)))
-    starts = [t for t, e in events if e == "starting listener"]; exits = [(t, e) for t, e in events if e.startswith("listener exited")]
-    # coverage lost inside the window: from each exit to the next start (or to now if none, and not alive)
-    lost = dt.timedelta(0)
-    for t, e in exits:
-        nxt = min([s for s in starts if s > t], default=None)
-        lost += ((nxt or now) - t) if (nxt or not pids) else dt.timedelta(0)
-    # if the listener is dead now and there was no exit line in the window, the whole window is lost
-    if not pids and not exits: lost = dt.timedelta(hours=a.hours)
+        ev.append((dt.datetime.fromisoformat(m.group(1)), "start" if m.group(2).startswith("starting") else ("exit" if m.group(2).startswith("listener exited") else "beat")))
+    ev.sort()
+    before = [e for e in ev if e[0] < since]; inwin = [e for e in ev if e[0] >= since]
+    up_at_window_start = bool(before) and before[-1][1] != "exit" and (now - before[-1][0]) < dt.timedelta(days=3) and (not inwin or inwin[0][1] != "start" or True)
+    # if the first event inside the window is a start, the listener was down until then (that is why it had to start)
+    lost = dt.timedelta(0); cursor = since; up = up_at_window_start and not (inwin and inwin[0][1] == "start")
+    for t, kind in inwin:
+        if kind in ("start", "beat"):
+            if not up: lost += t - cursor
+            elif (t - cursor) > dt.timedelta(minutes=GAP_MIN): lost += (t - cursor) - dt.timedelta(minutes=GAP_MIN)
+            up = True; cursor = t
+        else:
+            if up: pass
+            up = False; cursor = t
+    if up:
+        if pids:
+            if (now - cursor) > dt.timedelta(minutes=GAP_MIN) and inwin: lost += (now - cursor) - dt.timedelta(minutes=GAP_MIN)
+        else: lost += now - cursor          # last proof says up, but nothing is running: it died silently since then
+    else:
+        lost += now - cursor
+    if not ev and not pids: lost = now - since
+    starts = [t for t, k in inwin if k == "start"]; exits = [(t, k) for t, k in inwin if k == "exit"]; beats = [t for t, k in inwin if k == "beat"]
     docs = [p for p in glob.glob(os.path.join(LISTENER, "docs", "**", "*.pdf"), recursive=True) if dt.datetime.fromtimestamp(os.path.getmtime(p)) >= since]
     out = read_text(os.path.join(LISTENER, "listener.out.log"))
     connected = "[wa] connected" in out
     verdict = ("listening" if pids and lost.total_seconds() < 60 else ("gap" if pids else "down"))
     rec = {"checked": now.isoformat(timespec="seconds"), "window_hours": a.hours, "alive": bool(pids), "pids": pids,
-           "connected_in_current_log": connected, "starts_in_window": len(starts), "exits_in_window": len(exits),
+           "connected_in_current_log": connected, "starts_in_window": len(starts), "exits_in_window": len(exits), "heartbeats_in_window": len(beats),
            "coverage_lost_hours": round(lost.total_seconds() / 3600, 2), "pdfs_captured_in_window": len(docs),
            "pdfs": [os.path.relpath(p, LISTENER) for p in docs][:20], "verdict": verdict,
            "meaning": {"listening": "the listener was up for the whole window - if nothing new was scanned, nothing was posted",
@@ -81,7 +98,7 @@ def main():
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(rec, open(OUT, "w", encoding="utf-8"), indent=1)
     print(f"listener health: {verdict.upper()} | alive={bool(pids)} | lost {rec['coverage_lost_hours']} h of {a.hours} | "
-          f"restarts {len(starts)} exits {len(exits)} | PDFs captured {len(docs)}")
+          f"starts {len(starts)} exits {len(exits)} heartbeats {len(beats)} | PDFs captured {len(docs)}")
     print("  " + rec["meaning"])
     if not a.no_push:
         try:
