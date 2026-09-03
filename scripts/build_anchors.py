@@ -218,7 +218,8 @@ def build(slug):
     anchors.sort(key=lambda a: -a["h"])
     json.dump({"district": slug, "buildings": len(blds), "named": len(named), "tall": len(tall), "tall_named": len(tall_named), "tall_cut_m": round(tall_cut, 1),
                "sources": {s: sum(1 for a in anchors if a["source"] == s) for s in ("osm", "osm_en", "wikidata", "dld", "overture", "portfolio")}, "overture_heights": ov_h, "glb_center": ctx.get("glb_center"),
-               "per_building_glb": os.path.exists(os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")), "developers": sorted({a["dev"] for a in anchors if a.get("dev")}), "dev_tagged": sum(1 for a in anchors if a.get("dev")), "anchors": anchors},
+               "per_building_glb": os.path.exists(os.path.join(CE, "_glb", f"sky_{slug}_v2_0.glb")),
+               "fps": [[b["i"], b.get("x"), b.get("z"), round(b["h"], 1)] for b in blds],   "developers": sorted({a["dev"] for a in anchors if a.get("dev")}), "dev_tagged": sum(1 for a in anchors if a.get("dev")), "anchors": anchors},
               open(os.path.join(OUT, f"anchors_{slug}.json"), "w", encoding="utf-8"), ensure_ascii=False)
     return len(blds), len(named), len(tall), len(tall_named), [a["name"] for a in anchors[:4]]
 
