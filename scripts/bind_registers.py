@@ -90,6 +90,14 @@ for p in projects:
     seen.add(k); uniq.append(p)
 projects = uniq; print("projects to place:", len(projects))
 
+# DLD area per (dev, alias) from the project fact sheets - the truth about where a project's sales register
+DLD_AREA = {}
+_pf = os.path.join(ROOT, "data", "board", "projfacts.json")
+if os.path.exists(_pf):
+    for rec in json.load(open(_pf, encoding="utf-8")).get("projects", {}).values():
+        da = (rec.get("dld") or {}).get("dld_area")
+        if da:
+            for al in set(rec.get("aliases", [])) | {rec.get("name", "")}: DLD_AREA[(rec["dev"], al.strip().lower())] = da
 cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
 dry = "--dry" in sys.argv
 tok = None if dry else token()
@@ -110,10 +118,17 @@ for p in projects:
             try: cache[ckg] = geocode_google(gk, p["name"], p["area"])
             except Exception as e: cache[ckg] = None; print("  google err", p["name"][:30], str(e)[:40])
             time.sleep(0.15)
-        if cache[ckg]: g = cache[ckg]
+        gg = cache[ckg]
+        # a Google hit must actually be THIS project: its display name shares a distinctive word with the project name
+        if gg:
+            import re as _re
+            stop = {"the", "by", "at", "residences", "residence", "tower", "towers", "dubai", "building", "apartments", "and", "of"}
+            tk = lambda t: {w for w in _re.sub(r"[^a-z0-9 ]", " ", (t or "").lower()).split() if w not in stop and len(w) > 2}
+            if not (tk(p["name"]) & tk(gg.get("name"))): gg = None
+        if gg: g = gg
     if not g: unplaced.append({**p, "why": "no candidate"}); continue
     slug0 = next((s0 for s0, D in DIST.items() if D["bbox"][0] <= g["lon"] <= D["bbox"][2] and D["bbox"][1] <= g["lat"] <= D["bbox"][3]), None)
-    exp = area_district(p["area"])                      # district the developer/DLD says the project is in
+    exp = area_district(p["area"]) or area_district(DLD_AREA.get((p["dev"], p["name"].strip().lower())))   # register area, else the DLD area of its sales
     agree = bool(exp and slug0 and exp == slug0)
     if exp and slug0 and exp != slug0: unplaced.append({**p, "why": f"area disagrees ({exp} vs {slug0})", "geo": g}); continue
     # score gate: 85 on its own, or 75 when the geocoder hit is a POI/address AND the stated area agrees with where it landed

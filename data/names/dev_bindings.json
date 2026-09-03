@@ -1,11 +1,11 @@
 {
- "updated": "2026-09-03 10:54",
- "placed": 83,
- "unplaced": 220,
+ "updated": "2026-09-03 11:26",
+ "placed": 77,
+ "unplaced": 226,
  "how": {
-  "inside": 42,
+  "inside": 38,
   "near": 21,
-  "tall80": 34
+  "tall80": 32
  },
  "bindings": {
   "burjkhalifa": {
@@ -54,15 +54,6 @@
     "score": 90,
     "dist_m": 39.5,
     "how": "near",
-    "map_name": ""
-   },
-   "109": {
-    "dev": "arada",
-    "project": "Masaar",
-    "source": "site",
-    "score": 93.9,
-    "dist_m": 14.9,
-    "how": "inside",
     "map_name": ""
    }
   },
@@ -376,15 +367,6 @@
     "how": "inside",
     "map_name": ""
    },
-   "27": {
-    "dev": "select",
-    "project": "The EDGE",
-    "source": "site",
-    "score": 100,
-    "dist_m": 7.2,
-    "how": "inside",
-    "map_name": ""
-   },
    "2477": {
     "dev": "zaya_palma",
     "project": "The Royal Sky Mansion at Serenia Living",
@@ -402,125 +384,6 @@
     "dist_m": 45.0,
     "how": "tall80",
     "map_name": "Serenia Residences North"
-   }
-  },
-  "dubaimarina": {
-   "106": {
-    "dev": "select",
-    "project": "The Point",
-    "source": "site",
-    "score": 100,
-    "dist_m": 14.0,
-    "how": "inside",
-    "map_name": "The Point"
-   },
-   "374": {
-    "dev": "meraas",
-    "project": "Jumeirah Residences Emirates Towers",
-    "source": "site",
-    "score": 88.9,
-    "dist_m": 4.3,
-    "how": "inside",
-    "map_name": "Five JBR"
-   },
-   "357": {
-    "dev": "meraas",
-    "project": "Bluewaters Residences",
-    "source": "site",
-    "score": 90,
-    "dist_m": 7.2,
-    "how": "inside",
-    "map_name": "1, Blue Waters Island Street"
-   },
-   "15": {
-    "dev": "select",
-    "project": "Jumeirah Living Marina Gate",
-    "source": "site",
-    "score": 90,
-    "dist_m": 77.6,
-    "how": "tall80",
-    "map_name": "Dubai Marriott Harbour Hotel & Suites"
-   },
-   "567": {
-    "dev": "select",
-    "project": "No.9",
-    "source": "site",
-    "score": 90,
-    "dist_m": 5.1,
-    "how": "inside",
-    "map_name": ""
-   },
-   "30": {
-    "dev": "select",
-    "project": "Six Senses Residences Dubai Marina",
-    "source": "site",
-    "score": 90,
-    "dist_m": 65.0,
-    "how": "tall80",
-    "map_name": "23 Marina"
-   },
-   "392": {
-    "dev": "select",
-    "project": "The Residences at Marina Gate II",
-    "source": "site",
-    "score": 90,
-    "dist_m": 20.3,
-    "how": "inside",
-    "map_name": "Marina Gate 1"
-   },
-   "142": {
-    "dev": "select",
-    "project": "The Royal Oceanic",
-    "source": "site",
-    "score": 90,
-    "dist_m": 16.5,
-    "how": "inside",
-    "map_name": "The Royal Oceanic"
-   },
-   "60": {
-    "dev": "select",
-    "project": "The Torch",
-    "source": "site",
-    "score": 90,
-    "dist_m": 12.0,
-    "how": "inside",
-    "map_name": "The Torch"
-   },
-   "34": {
-    "dev": "select",
-    "project": "Yacht Bay",
-    "source": "site",
-    "score": 90,
-    "dist_m": 13.4,
-    "how": "inside",
-    "map_name": "Yacht Bay Tower"
-   },
-   "379": {
-    "dev": "zaya_palma",
-    "project": "Infinity / Cayan Tower",
-    "source": "site",
-    "score": 90,
-    "dist_m": 49.4,
-    "how": "tall80",
-    "map_name": "Ciel Tower"
-   },
-   "24": {
-    "dev": "zaya_palma",
-    "project": "La Residencia Del Mar",
-    "source": "site",
-    "score": 94.2,
-    "dist_m": 0.9,
-    "how": "inside",
-    "map_name": "La Residencia Del Mar"
-   },
-   "9": {
-    "dev": "imtiaz",
-    "project": "IMTIAZ SYMPHONY TOWER",
-    "source": "dld_tx",
-    "score": 86.5,
-    "dist_m": 18.4,
-    "how": "inside",
-    "map_name": "Horizon Tower"
    }
   },
   "siliconoasis": {
@@ -634,6 +497,116 @@
     "map_name": ""
    }
   },
+  "dubaimarina": {
+   "374": {
+    "dev": "meraas",
+    "project": "Jumeirah Residences Emirates Towers",
+    "source": "site",
+    "score": 88.9,
+    "dist_m": 4.3,
+    "how": "inside",
+    "map_name": "Five JBR"
+   },
+   "357": {
+    "dev": "meraas",
+    "project": "Bluewaters Residences",
+    "source": "site",
+    "score": 90,
+    "dist_m": 7.2,
+    "how": "inside",
+    "map_name": "1, Blue Waters Island Street"
+   },
+   "15": {
+    "dev": "select",
+    "project": "Jumeirah Living Marina Gate",
+    "source": "site",
+    "score": 90,
+    "dist_m": 77.6,
+    "how": "tall80",
+    "map_name": "Dubai Marriott Harbour Hotel & Suites"
+   },
+   "30": {
+    "dev": "select",
+    "project": "Six Senses Residences Dubai Marina",
+    "source": "site",
+    "score": 90,
+    "dist_m": 65.0,
+    "how": "tall80",
+    "map_name": "23 Marina"
+   },
+   "106": {
+    "dev": "select",
+    "project": "The Point",
+    "source": "site",
+    "score": 100,
+    "dist_m": 14.0,
+    "how": "inside",
+    "map_name": "The Point"
+   },
+   "392": {
+    "dev": "select",
+    "project": "The Residences at Marina Gate II",
+    "source": "site",
+    "score": 90,
+    "dist_m": 20.3,
+    "how": "inside",
+    "map_name": "Marina Gate 1"
+   },
+   "142": {
+    "dev": "select",
+    "project": "The Royal Oceanic",
+    "source": "site",
+    "score": 90,
+    "dist_m": 16.5,
+    "how": "inside",
+    "map_name": "The Royal Oceanic"
+   },
+   "60": {
+    "dev": "select",
+    "project": "The Torch",
+    "source": "site",
+    "score": 90,
+    "dist_m": 12.0,
+    "how": "inside",
+    "map_name": "The Torch"
+   },
+   "34": {
+    "dev": "select",
+    "project": "Yacht Bay",
+    "source": "site",
+    "score": 90,
+    "dist_m": 13.4,
+    "how": "inside",
+    "map_name": "Yacht Bay Tower"
+   },
+   "379": {
+    "dev": "zaya_palma",
+    "project": "Infinity / Cayan Tower",
+    "source": "site",
+    "score": 90,
+    "dist_m": 49.4,
+    "how": "tall80",
+    "map_name": "Ciel Tower"
+   },
+   "24": {
+    "dev": "zaya_palma",
+    "project": "La Residencia Del Mar",
+    "source": "site",
+    "score": 94.2,
+    "dist_m": 0.9,
+    "how": "inside",
+    "map_name": "La Residencia Del Mar"
+   },
+   "9": {
+    "dev": "imtiaz",
+    "project": "IMTIAZ SYMPHONY TOWER",
+    "source": "dld_tx",
+    "score": 86.5,
+    "dist_m": 18.4,
+    "how": "inside",
+    "map_name": "Horizon Tower"
+   }
+  },
   "alwasl": {
    "598": {
     "dev": "meraas",
@@ -670,17 +643,6 @@
     "source": "site",
     "score": 90,
     "dist_m": 42.0,
-    "how": "tall80",
-    "map_name": ""
-   }
-  },
-  "dubaistudiocity": {
-   "173": {
-    "dev": "select",
-    "project": "Studio One",
-    "source": "site",
-    "score": 90,
-    "dist_m": 32.5,
     "how": "tall80",
     "map_name": ""
    }

@@ -101,6 +101,25 @@ def dev_names():
     _DEVNAMES = [x for x in out if len(x[2]) >= 1]
     return _DEVNAMES
 
+
+_PD = None
+def project_districts():
+    """(dev_key, normalised project) -> set of district slugs named by ANY register/DLD row of that project (plus projfacts DLD area)."""
+    global _PD
+    if _PD is not None: return _PD
+    _PD = {}
+    for key, proj, b, area in dev_names():
+        d = area_district(area)
+        if d: _PD.setdefault((key, " ".join(b)), set()).add(d)
+    pf = os.path.join(ROOT, "data", "board", "projfacts.json")
+    if os.path.exists(pf):
+        for rec in json.load(open(pf, encoding="utf-8")).get("projects", {}).values():
+            d = area_district((rec.get("dld") or {}).get("dld_area") or rec.get("area"))
+            if not d: continue
+            for al in set(rec.get("aliases", [])) | {rec.get("name", "")}:
+                _PD.setdefault((rec["dev"], " ".join(toks(al))), set()).add(d)
+    return _PD
+
 def dev_for(name, slug=None):
     """Match a footprint name to a developer project: identical token sets, or one contained in the other with >= 2 shared tokens.
     A project whose stated area belongs to a DIFFERENT district is never matched here. Returns (dev_key, project) or None."""
@@ -110,8 +129,8 @@ def dev_for(name, slug=None):
     for key, proj, b, area in dev_names():
         B = set(b)
         if not B: continue
-        ad = area_district(area)
-        if slug and ad and ad != slug: continue
+        known = project_districts().get((key, " ".join(b)), set())   # every district any row of this project points at
+        if slug and known and slug not in known: continue
         shared = A & B
         if A == B: return (key, proj)
         if (A <= B or B <= A) and len(shared) >= 2:          # one shared word is not evidence ("Symphony Business Bay" is not Imtiaz's Symphony)
