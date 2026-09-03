@@ -1,7 +1,13 @@
 # Scene layer lane — CityEngine → SLPK → ArcGIS Online → SceneView
 
 *Najma twin, DigitAlchemy. Written 3 Sep 2026. Status: working end to end for six districts,
-**private and owner-only** until the account question below is settled.*
+**private and owner-only**.*
+
+> **Decision, 3 Sep 2026 (owner): this lane is INTERNAL ONLY.** It stays on the current ArcGIS
+> subscription, the six scene layers stay private to the owner, and nothing from it is shared,
+> embedded or shown to a client. The client-facing twin is the three.js skyline page. Reach for this
+> lane for measurement, analysis and ArcGIS Pro work; do not spend further effort making it a
+> deliverable unless that decision is revisited.
 
 This is the second 3D lane. The one we ship today is the three.js skyline page
 (`renderSkyline` in the Azimuth worker, GLB out of KV). This lane publishes the same
