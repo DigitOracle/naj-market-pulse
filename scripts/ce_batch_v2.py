@@ -243,15 +243,30 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
     mapping, how = map_shapes_to_features(ce, shapes, feats); T["mapped"] = time.time()
 
     # names + object attrs (grouped to keep bridge calls low)
-    by_cls, by_var = {}, {}
+    by_cls, by_var, by_h, by_lv = {}, {}, {}, {}
     for s, fi in zip(shapes, mapping):
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3}); c = rec["class"]; v = int(rec.get("variant", fi % 3))
-        st = str(feats[fi]["properties"].get("status") or "existing").lower()
+        pr = feats[fi]["properties"]
+        st = str(pr.get("status") or "existing").lower()
         ce.setName(s, f"b{fi}_{c}_s{st}" if VER == "v3" else f"b{fi}_{c}")   # v3: status travels in the name (textures carry no status colour)
         by_cls.setdefault(c, []).append(s); by_var.setdefault(v, []).append(s)
+        # bHeight / levels are OBJECT-sourced, and the scene's objects still carry whatever the original
+        # SHP import baked in — so heights improved in buildings.geojson (overture/wikidata backfill) only
+        # reach the rule if we push them here, exactly the way fclass/fvar are pushed. Grouped by value to
+        # keep the number of bridge calls down.
+        try:
+            h = float(pr.get("bHeight") or 0)
+        except (TypeError, ValueError):
+            h = 0.0
+        if h > 0: by_h.setdefault(round(h, 1), []).append(s)
+        lv = str(pr.get("levels") or "").strip()
+        if lv: by_lv.setdefault(lv, []).append(s)
     for c, lst in by_cls.items(): ce.setAttribute(lst, "fclass", c)
     for v, lst in by_var.items(): ce.setAttribute(lst, "fvar", v)
+    for h, lst in by_h.items(): ce.setAttribute(lst, "bHeight", h)
+    for lv, lst in by_lv.items(): ce.setAttribute(lst, "levels", lv)
     log(f"  named {n} shapes (mapping: {how}); classes " + ", ".join(f"{c}={len(l)}" for c, l in sorted(by_cls.items())))
+    log(f"  heights pushed: {len(by_h)} distinct values, max {max(by_h) if by_h else 0} m; levels {len(by_lv)} distinct")
     T["named"] = time.time()
     ce.setRuleFile(shapes, RULE_WS); ce.setStartRule(shapes, "Lot")
     for a in ("bHeight", "status", "levels", "fclass", "fvar", "pctComplete"):

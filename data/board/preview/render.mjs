@@ -19,6 +19,11 @@ const cmp = JSON.parse(fs.readFileSync("C:/Dev/naj-market-pulse/data/board/dev_c
 fs.writeFileSync(path.join(dir, "compare.html"), ctx.__x.renderCompare(cmp, bd, { a: "", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_pick.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "", bed: "all", band: "all", diff: false }, key));
 fs.writeFileSync(path.join(dir, "compare_imtiaz_ellington.html"), ctx.__x.renderCompare(cmp, bd, { a: "imtiaz", b: "ellington", bed: "1", band: "1to2", diff: false }, key));
-fs.writeFileSync(path.join(dir, "skyline_businessbay.html"), ctx.__x.renderSkyline("businessbay", "Business Bay", key, [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" }]));
-fs.writeFileSync(path.join(dir, "skyline_dubaimarina.html"), ctx.__x.renderSkyline("dubaimarina", "Dubai Marina", key, [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" }]));
+// Skyline districts: every district whose packed massing has been copied into img/ as sky_<slug>.
+// The same list is the page switcher on each skyline page, so adding a district here adds it everywhere.
+const SKY = [{ s: "dubaimarina", n: "Dubai Marina" }, { s: "businessbay", n: "Business Bay" },
+             { s: "burjkhalifa", n: "Downtown Dubai" }, { s: "palmjumeirah", n: "Palm Jumeirah" },
+             { s: "jumeirahvillagecircle", n: "JVC" }, { s: "palmdeira", n: "Dubai Islands" }];
+for (const d of SKY.filter((d) => fs.existsSync(path.join(dir, "img", "sky_" + d.s))))
+  fs.writeFileSync(path.join(dir, "skyline_" + d.s + ".html"), ctx.__x.renderSkyline(d.s, d.n, key, SKY));
 console.log("preview written:", fs.readdirSync(dir).filter(f => f.endsWith(".html")).length, "pages");
