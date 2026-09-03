@@ -1,0 +1,478 @@
+{
+ "source_file": [
+  "1788446152606_Treppan Tower.pdf",
+  "1788446152608_Maimoon gardene.pdf",
+  "1788446152614_Hatimi Residences.pdf",
+  "1788446152697_Treppan sereninqe.pdf"
+ ],
+ "sheet_date": "2026-08-21",
+ "received": "2026-09-03",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Fakhruddin",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Treppan Tower",
+   "block": "TREPPAN TOWER",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "TTY-FL12-1204",
+     "1 B/R",
+     625.65,
+     1174000.0,
+     "Road / Production City View & JVC"
+    ],
+    [
+     "TTY-FL12-1207",
+     "1 B/R",
+     475.86,
+     1005000.0,
+     "Amenities"
+    ],
+    [
+     "TTY-FL14-1405",
+     "1 B/R",
+     643.13,
+     1212000.0,
+     "Road / Production City"
+    ],
+    [
+     "TTY-FL15-1507",
+     "1 B/R",
+     638.6,
+     1206000.0,
+     "JVC"
+    ],
+    [
+     "TTY-FL17-1701",
+     "1 B/R",
+     640.13,
+     1214000.0,
+     "Amenities"
+    ],
+    [
+     "TTY-FL17-1702",
+     "1 B/R",
+     624.47,
+     1184000.0,
+     "Road / Production City View & Amenities"
+    ],
+    [
+     "TTY-FL17-1706",
+     "1 B/R",
+     621.45,
+     1179000.0,
+     "Road / Production City View & JVC"
+    ],
+    [
+     "TTY-FL18-1805",
+     "1 B/R",
+     643.13,
+     1222000.0,
+     "Road / Production City"
+    ],
+    [
+     "TTY-FL2-210",
+     "1 B/R",
+     476.24,
+     996000.0,
+     "Amenities"
+    ],
+    [
+     "TTY-FL22-2201",
+     "1 B/R",
+     640.13,
+     1227000.0,
+     "Amenities"
+    ],
+    [
+     "TTY-FL22-2203",
+     "1 B/R",
+     643.13,
+     1233000.0,
+     "Road / Production City"
+    ],
+    [
+     "TTY-FL22-2207",
+     "1 B/R",
+     638.6,
+     1224000.0,
+     "JVC"
+    ],
+    [
+     "TTY-FL22-2210",
+     "1 B/R",
+     476.24,
+     1024000.0,
+     "Marina"
+    ],
+    [
+     "TTY-FL24-2402",
+     "1 B/R",
+     624.47,
+     1202000.0,
+     "Road / Production City View & Amenities"
+    ],
+    [
+     "TTY-FL24-2404",
+     "1 B/R",
+     622.53,
+     1198000.0,
+     "Road / Production City"
+    ],
+    [
+     "TTY-FL24-2406",
+     "1 B/R",
+     621.45,
+     1196000.0,
+     "Road / Production City View & JVC"
+    ],
+    [
+     "TTY-FL25-2510",
+     "1 B/R",
+     476.24,
+     1034000.0,
+     "Marina"
+    ],
+    [
+     "TTY-FL26-2601",
+     "3 B/R",
+     2878.7,
+     5562000.0,
+     "Road / Production City View & Amenities"
+    ],
+    [
+     "TTY-FL4-405",
+     "1 B/R",
+     643.13,
+     1184000.0,
+     "Road / Production City"
+    ],
+    [
+     "TTY-FL5-501",
+     "1 B/R",
+     640.13,
+     1181000.0,
+     "Amenities"
+    ],
+    [
+     "TTY-FL5-502",
+     "1 B/R",
+     624.47,
+     1152000.0,
+     "Road / Production City View & Amenities"
+    ],
+    [
+     "TTY-FL8-802",
+     "1 B/R",
+     624.47,
+     1162000.0,
+     "Road / Production City View & Amenities"
+    ]
+   ]
+  },
+  {
+   "p": "Maimoon Gardens",
+   "block": "RETAIL",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "MGR-GL-6",
+     "Retail",
+     2774.95,
+     7769900.0,
+     null
+    ],
+    [
+     "MGR-GL-7",
+     "Retail",
+     1603.57,
+     4490000.0,
+     null
+    ],
+    [
+     "MGR-GL-10",
+     "Retail",
+     1831.38,
+     5127900.0,
+     null
+    ]
+   ]
+  },
+  {
+   "p": "Maimoon Gardens",
+   "block": "TREPPAN LIVING",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "MGTL-FL2-205",
+     "1 B/R",
+     790.44,
+     1550000.0,
+     null
+    ],
+    [
+     "MGTL-FL3-303",
+     "1 B/R",
+     812.49,
+     1600000.0,
+     "Barsha South"
+    ],
+    [
+     "MGTL-FL3-308",
+     "1 B/R",
+     795.32,
+     1570000.0,
+     "Circle Mall & Amenities"
+    ],
+    [
+     "MGTL-FL4-403",
+     "1 B/R",
+     811.07,
+     1610000.0,
+     "Barsha South"
+    ],
+    [
+     "MGTL-FL7-706",
+     "1 B/R",
+     793.63,
+     1580000.0,
+     "Jumeirah"
+    ],
+    [
+     "MGTL-FL8-806",
+     "1 B/R",
+     793.63,
+     1600000.0,
+     "Jumeirah"
+    ]
+   ]
+  },
+  {
+   "p": "Hatimi Residences",
+   "block": "HATIMI DUPLEX",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HRD-FLG-002",
+     "Duplex",
+     3242.0,
+     11500000.0,
+     "Sea"
+    ],
+    [
+     "HRD-FLG-003",
+     "Duplex",
+     2531.0,
+     8900000.0,
+     "Sea"
+    ],
+    [
+     "HRD-FLG-005",
+     "Duplex",
+     3261.0,
+     11500000.0,
+     "Sea"
+    ]
+   ]
+  },
+  {
+   "p": "Hatimi Residences",
+   "block": "HATIMI TOWER A",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HRA-P-FL8-802",
+     "4 B/R Penthouse",
+     4574.48,
+     18000000.0,
+     "Sea"
+    ]
+   ]
+  },
+  {
+   "p": "Hatimi Residences",
+   "block": "HATIMI TOWER B",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "HRB-P-FL8-801",
+     "4 B/R Penthouse",
+     4590.84,
+     18000000.0,
+     "Sea"
+    ]
+   ]
+  },
+  {
+   "p": "Treppan Serenique Residences",
+   "block": "TREPPAN SERENIQUE TOWER A",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "TSA-FL8-803",
+     "2 B/R",
+     989.17,
+     3553000.0,
+     "Partial Sea View / Amenities"
+    ],
+    [
+     "TSA-FL11-1103",
+     "3 B/R",
+     1807.16,
+     6453000.0,
+     "Partial Sea View / Community"
+    ],
+    [
+     "TSA-FL10-1004",
+     "3 B/R",
+     1901.15,
+     7053000.0,
+     "Resort and Sea"
+    ],
+    [
+     "TSA-FL12-1204",
+     "3 B/R",
+     1900.88,
+     7153000.0,
+     "Resort and Sea"
+    ],
+    [
+     "TSA-FL5-502",
+     "2 B/R",
+     1044.38,
+     3453000.0,
+     "Partial Sea View / Amenities"
+    ],
+    [
+     "TSA-FL5-507",
+     "2 B/R",
+     1044.38,
+     3453000.0,
+     "Partial Sea View / Resort"
+    ],
+    [
+     "TSA-FL1-101",
+     "2 B/R",
+     1363.56,
+     4153000.0,
+     "Resort and Sea"
+    ],
+    [
+     "TSA-FL1-103",
+     "2 B/R",
+     1035.88,
+     3153000.0,
+     "Partial Sea View / Resort"
+    ],
+    [
+     "TSA-FL9-902",
+     "2 B/R",
+     1044.38,
+     3653000.0,
+     "Partial Sea View / Amenities"
+    ],
+    [
+     "TSA-FL9-907",
+     "2 B/R",
+     1044.38,
+     3653000.0,
+     "Partial Sea View / Resort"
+    ],
+    [
+     "TSA-FL2-203",
+     "2 B/R",
+     989.17,
+     2824025.0,
+     "Partial Sea View / Amenities"
+    ],
+    [
+     "TSA-FL6-604",
+     "2 B/R",
+     1416.08,
+     4453000.0,
+     "Partial Sea View / Community and Amenities"
+    ],
+    [
+     "TSA-FL3-301",
+     "2 B/R",
+     1363.56,
+     4553000.0,
+     "Amenities and Sea"
+    ],
+    [
+     "TSA-FL3-305",
+     "2 B/R",
+     1325.66,
+     4053000.0,
+     "Partial Sea View / Community and Resorts"
+    ],
+    [
+     "TSA-FL3-307",
+     "2 B/R",
+     1044.38,
+     3253000.0,
+     "Partial Sea View / Resort"
+    ]
+   ]
+  },
+  {
+   "p": "Treppan Serenique Residences",
+   "block": "TREPPAN SERENIQUE TOWER B",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "TSB-FL12-1202",
+     "3 B/R",
+     1831.27,
+     6253000.0,
+     "Partial Sea View / Community and Amenities"
+    ],
+    [
+     "TSB-FL1-106",
+     "2 B/R",
+     1043.55,
+     3021000.0,
+     "Partial Sea View / Amenities"
+    ],
+    [
+     "TSB-FL9-904",
+     "2 B/R",
+     1325.66,
+     4253000.0,
+     "Partial Sea View / Resort and Community"
+    ],
+    [
+     "TSB-FL7-705",
+     "2 B/R",
+     1325.66,
+     4153000.0,
+     "Partial Sea View / Community and Amenities"
+    ],
+    [
+     "TSB-FL3-305",
+     "2 B/R",
+     1325.66,
+     3853000.0,
+     "Partial Sea View / Community and Amenities"
+    ],
+    [
+     "TSB-FL3-308",
+     "2 B/R",
+     1363.56,
+     4678300.0,
+     "Amenities and Sea"
+    ]
+   ]
+  }
+ ]
+}

@@ -25,7 +25,11 @@ os.makedirs(INBOX, exist_ok=True)
 
 TYPE_RX = re.compile(r"^(studio|\d\s*bed(room)?s?(\s*duplex)?|\d\s*b/?r(\s*duplex)?|office|retail|penthouse|shop)$", re.I)
 NUM_RX = re.compile(r"^-?[\d,]+(\.\d+)?$")
-DEV_HINTS = ["imtiaz", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "select", "object 1", "reportage"]
+DEV_HINTS = ["imtiaz", "fakhruddin", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "select", "object 1", "reportage", "arada", "beyond", "iman", "zaya", "palma"]
+# a sheet often names only the project ("TREPPAN TOWER - INVENTORY"); these map a project word to the developer on the board
+PROJECT_DEV = {"treppan": "fakhruddin", "maimoon": "fakhruddin", "hatimi": "fakhruddin", "symphony": "imtiaz", "westwood": "imtiaz", "cove": "imtiaz", "pearl": "imtiaz"}
+INV_TITLE_RX = re.compile(r"^(?P<title>.+?)\s*-\s*INVENTORY\s*as\s*\(?\s*(?P<m>\d{1,2})/(?P<d>\d{1,2})/(?P<y>\d{4})\s*\)?", re.I)
+INV_HEADER = "unitcodeviewunitnofloorunittypetotalareasalevalue"
 
 
 def nkey(t):
@@ -71,10 +75,12 @@ def sha1(p):
 
 
 def norm_type(t):
-    t = t.strip().lower().replace("bedrooms", "bedroom")
-    m = re.match(r"(\d)\s*(bed(room)?|b/?r)(\s*duplex)?", t)
+    t = t.strip().lower().replace("bedrooms", "bedroom").replace("p.house", "penthouse")
+    m = re.match(r"(\d)\s*(bed(room)?|b/?r|bhk)(\s*(duplex|penthouse))?", t)
     if m:
-        return "%s B/R%s" % (m.group(1), " Duplex" if m.group(4) else "")
+        return "%s B/R%s" % (m.group(1), (" " + m.group(5).title()) if m.group(5) else "")
+    if t.startswith("duplex"):
+        return "Duplex"
     if t.startswith("studio"):
         return "Studio"
     if t.startswith("office"):
@@ -181,12 +187,48 @@ def parse_row(cells):
     return [uid, norm_type(cells[ti]), total, price, view or None, suite, balcony]
 
 
+INV_CODE_RX = re.compile(r"^[A-Z]{2,6}(-[A-Z0-9]+){1,4}$")
+INV_TYPE_START = re.compile(r"^(\d|studio|duplex|retail|office|penthouse|p\.house|shop|villa|townhouse)", re.I)
+
+
+def parse_inventory_row(cells):
+    """code | view words | unit no | floor (token or words) | type words | area sq.ft | price  -> [uid, type, total, price, view]"""
+    if len(cells) < 6 or not INV_CODE_RX.match(cells[0].strip()):
+        return None
+    try:
+        k = next(i for i, c in enumerate(cells) if c.strip().lower().replace(" ", "") in ("sq.ft", "sqft", "sq.ft.", "sq.m", "sqm"))
+    except StopIteration:
+        return None
+    total = num(cells[k - 1]); price = num(cells[k + 1]) if k + 1 < len(cells) else None
+    if total is None or price is None or price < 50000:
+        return None
+    mid = [c.strip() for c in cells[1:k - 1]]
+    u = next((i for i, c in enumerate(mid) if re.fullmatch(r"[A-Z]?\d{1,4}[A-Z]?", c)), None)   # unit number: first numeric-ish token
+    if u is None:
+        return None
+    view = " ".join(mid[:u]); rest = mid[u + 1:]
+    t = next((i for i, c in enumerate(rest) if INV_TYPE_START.match(c)), None)
+    if t is None:
+        floor, typ = " ".join(rest), ""
+    else:
+        floor, typ = " ".join(rest[:t]), " ".join(rest[t:])
+    # a bare floor number followed by a "1 BHK" type: the first numeric of rest is the floor, not the type
+    if t == 0 and len(rest) >= 3 and re.fullmatch(r"\d{1,2}", rest[0]) and re.fullmatch(r"\d", rest[1]):
+        floor, typ = rest[0], " ".join(rest[1:])
+    view = re.sub(r"\s*view\s*$", "", re.sub(r"\s*/\s*", " / ", view), flags=re.I).strip()
+    if view.lower() in ("default", "default view", ""):
+        view = None
+    uid = cells[0].strip().upper()
+    return [uid, norm_type(typ) if typ else "Unit", total, price, view, mid[u], floor or None]
+
+
 def parse_pdf(path):
     import fitz
     doc = fitz.open(path)
     projects, cur = [], None
     header_project, completion, plan = None, None, None
     dev = next((d for d in DEV_HINTS if d in os.path.basename(path).lower()), None)
+    inv_title, inv_date, inv_block, prev_line, inv_mode = None, None, None, "", False
     for page in doc:
         words = words_text_layer(page)
         mode = "text"
@@ -197,7 +239,29 @@ def parse_pdf(path):
             line = " ".join(t for _, t in row)
             low = line.lower()
             if dev is None:
-                dev = next((d for d in DEV_HINTS if d in low), None)
+                dev = next((d for d in DEV_HINTS if d in low), None) or next((v for k, v in PROJECT_DEV.items() if k in low), None)
+            # --- inventory format (Fakhruddin et al.): "<PROJECT> - INVENTORY as (m/d/yyyy)", sections, a fixed column header
+            mt = INV_TITLE_RX.match(line.strip())
+            if mt:
+                inv_title = re.sub(r"\s+by\s+\w+$", "", mt.group("title").strip(), flags=re.I)
+                try: inv_date = dt.date(int(mt.group("y")), int(mt.group("m")), int(mt.group("d"))).isoformat()
+                except ValueError: inv_date = None
+                inv_mode = True; prev_line = ""; continue
+            if inv_mode and nkey(line) == INV_HEADER:
+                inv_block = prev_line.strip() if prev_line and not re.search(r"\d{3,}", prev_line) else inv_block
+                prev_line = ""; continue
+            if inv_mode:
+                rec = parse_inventory_row(split_cells(row))
+                if rec:
+                    pname = canonical_project((inv_title or "Unknown project").title(), dev)   # title-case first: an all-caps title survives the fallback re-spacing
+                    if cur is None or cur["p"] != pname or cur.get("block") != inv_block:
+                        cur = {"p": pname, "block": inv_block, "completion": completion, "plan": plan, "units": [], "_mode": mode}
+                        projects.append(cur)
+                    cur["units"].append(rec[:5]); prev_line = line; continue
+                # a one-word continuation row ("P.HOUSE") belongs to the type of the unit above it
+                if cur and cur["units"] and re.fullmatch(r"[A-Za-z.]+", line.strip()) and INV_TYPE_START.match(line.strip()):
+                    cur["units"][-1][1] = norm_type((cur["units"][-1][1].replace(" B/R", " BHK")) + " " + line.strip()); continue
+                prev_line = line; continue
             m = re.search(r"completion(?:date)?[:\-]?\s*(q\d|[a-z]+?)[,\s]*(\d{4})", re.sub(r"\s+", "", low))
             if m:
                 completion = m.group(1).upper() + " " + m.group(2) if m.group(1).startswith("q") else m.group(1).title() + " " + m.group(2)
@@ -231,7 +295,10 @@ def parse_pdf(path):
             if u[0] not in seen:
                 seen.add(u[0]); uniq.append(u)
         p["units"] = uniq
-    return dev, [p for p in projects if p["units"]]
+    out = [p for p in projects if p["units"]]
+    if inv_date:
+        for p in out: p["_sheet_date"] = inv_date
+    return dev, out
 
 
 def sheet_date_from(name, fallback):
@@ -255,7 +322,8 @@ def process(path, received=None, force=False):
         return None, reg[h]
     dev, projects = parse_pdf(path)
     received = received or dt.date.fromtimestamp(os.path.getmtime(path))
-    sheet_date = sheet_date_from(os.path.basename(path), received)
+    stated = next((p.get("_sheet_date") for p in projects if p.get("_sheet_date")), None)
+    sheet_date = stated or sheet_date_from(re.sub(r"^\d{13}_", "", os.path.basename(path)), received)   # strip the capture timestamp
     out = {"source_file": os.path.basename(path), "sheet_date": sheet_date, "received": dt.date.today().isoformat(),
            "channel": "DEVELOPER AVAILABILITY group (listener capture)" if path.lower().startswith(LISTENER_DOCS.lower()) else "manual inbox",
            "developer": (dev or "unknown").title(), "extraction": "auto: " + ("ocr" if any(p.get("_mode") == "ocr" for p in projects) else "text"),
@@ -265,6 +333,17 @@ def process(path, received=None, force=False):
     if os.path.exists(dest) and not json.load(open(dest, encoding="utf-8")).get("extraction", "").startswith("auto"):
         # NEVER overwrite a hand-verified file (even with --force): write alongside as _auto
         dest = os.path.join(AVAIL, "%s_%s_auto.json" % ((dev or "unknown"), sheet_date))
+    # Fakhruddin posts one PDF per project: the developer's sheet for the day is the union of them, never the last one to land
+    if os.path.exists(dest):
+        try:
+            prev = json.load(open(dest, encoding="utf-8"))
+            if prev.get("extraction", "").startswith("auto") and prev.get("developer") == out["developer"]:
+                keep = [p for p in prev.get("projects", []) if (p.get("p"), p.get("block")) not in {(q.get("p"), q.get("block")) for q in out["projects"]}]
+                out["projects"] = keep + out["projects"]
+                srcs = prev.get("source_file"); srcs = srcs if isinstance(srcs, list) else [srcs]
+                out["source_file"] = sorted(set(srcs + [out["source_file"]]))
+        except Exception:
+            pass
     json.dump(out, open(dest, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     reg[h] = {"file": os.path.basename(path), "out": os.path.basename(dest), "when": dt.datetime.now().isoformat(timespec="seconds"),
               "units": sum(len(p["units"]) for p in projects)}
