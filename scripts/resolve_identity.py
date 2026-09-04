@@ -257,6 +257,38 @@ def adapters(slug, blds):
                                  f"Overture place '{cat}' inside/next to the footprint", SOURCES["overture_place"][1] * f * (0.6 + 0.4 * float(conf)),
                                  dist_m=round(d, 1), inside=d == 0.0))
 
+    # 3b. OSM addresses — addr:housename / building:name give a name; addr:housenumber + street give an IDENTIFIER.
+    ao = os.path.join(IDENT, "osm", f"addr_{slug}.json")
+    if os.path.exists(ao):
+        A2 = load_json(ao, {"elements": []})
+        pts = []
+        for e in A2.get("elements", []):
+            c = e.get("center") or {}
+            if not c: continue
+            pts.append(((c["lon"], c["lat"]), e.get("tags") or {}, e.get("id")))
+        for i, b in blds.items():
+            cen = b["centroid"]
+            for pt, tags, oid in pts:
+                if abs(pt[0] - cen[0]) > 0.002 or abs(pt[1] - cen[1]) > 0.002: continue
+                d = edge_dist(pt, b["ring"])
+                if d > 15: continue
+                f = spatial_factor(d, d == 0.0)
+                nm = clean_name(tags.get("addr:housename") or tags.get("building:name"))
+                if nm and poi_name_is_whole(nm):
+                    out[i].append(ev(b["duid"], "name", nm, "osm", f"way/{oid}", "OpenStreetMap addr:housename / building:name",
+                                     SOURCES["osm"][1] * f, dist_m=round(d, 1), inside=d == 0.0, weak=is_weak(nm)))
+                hn = (tags.get("addr:housenumber") or "").strip()
+                if hn:
+                    st = (tags.get("addr:street") or "").strip()
+                    label = (("Villa " if (tags.get("building") or "") in ("house", "detached", "residential", "villa") else "No. ") + hn
+                             + (", " + st if st else ""))
+                    out[i].append(ev(b["duid"], "identifier", label, "osm", f"way/{oid}", "OpenStreetMap street address on the footprint",
+                                     SOURCES["osm"][1] * f, dist_m=round(d, 1), inside=d == 0.0))
+                rf = (tags.get("ref") or "").strip()
+                if rf and not hn:
+                    out[i].append(ev(b["duid"], "identifier", rf, "osm", f"way/{oid}", "OpenStreetMap ref on the footprint",
+                                     SOURCES["osm"][1] * 0.9 * f, dist_m=round(d, 1), inside=d == 0.0))
+
     # 4. Wikidata — landmarks, wide emirate box
     W = load_json(os.path.join(IDENT, "wikidata", "dubai_structures.json"), None)
     if W:
@@ -341,11 +373,16 @@ def run(slug, min_conf):
     current = {a["i"]: a.get("name") for a in A.get("anchors", []) if a.get("name")}
     for i, b in blds.items():
         r = resolve(b, EV[i], min_conf)
+        ids = [e for e in EV[i] if e["attribute"] == "identifier"]
+        ident = max(ids, key=lambda e: e["confidence"])["value"] if ids else None
+        ident_src = max(ids, key=lambda e: e["confidence"])["source"] if ids else None
         dev = next((e["value"] for e in EV[i] if e["attribute"] == "developer"), None)
         proj = next((e["value"] for e in EV[i] if e["attribute"] == "project"), None)
+        if r["grade"] == "UNKNOWN" and ident: r["grade"] = "IDENTIFIED"
         rows.append({"duid": b["duid"], "district": slug, "i": i, "lon": round(b["centroid"][0], 6), "lat": round(b["centroid"][1], 6),
                      "height_m": b["height_m"], "storeys": b["storeys"], "current_name": current.get(i),
-                     "proposed_name": r["name"], "grade": r["grade"], "name_source": r["name_source"],
+                     "proposed_name": r["name"], "identifier": ident, "identifier_source": ident_src,
+                     "grade": r["grade"], "name_source": r["name_source"],
                      "confidence": r["confidence"], "agreeing_sources": r["agreeing_sources"],
                      "method": r.get("method"), "dist_m": r.get("dist_m"), "inside": r.get("inside"),
                      "developer": dev, "project": proj,
@@ -370,12 +407,13 @@ if __name__ == "__main__":
     tcsv = os.path.join(IDENT, "IDENTITY_TABLE.csv")
     with open(tcsv, "w", newline="", encoding="utf-8-sig") as fh:
         w = csv.writer(fh)
-        w.writerow(["duid", "district", "lon", "lat", "height_m", "storeys", "current_name", "proposed_name", "grade",
-                    "name_source", "agreeing_sources", "confidence", "match_distance_m", "inside_footprint", "method",
-                    "developer", "project", "changed"])
+        w.writerow(["duid", "district", "lon", "lat", "height_m", "storeys", "current_name", "proposed_name", "identifier",
+                    "identifier_source", "grade", "name_source", "agreeing_sources", "confidence", "match_distance_m",
+                    "inside_footprint", "method", "developer", "project", "changed"])
         for r in allrows:
             w.writerow([r["duid"], r["district"], r["lon"], r["lat"], r["height_m"], r["storeys"], r["current_name"] or "",
-                        r["proposed_name"] or "", r["grade"], r["name_source"] or "", "|".join(r["agreeing_sources"]),
+                        r["proposed_name"] or "", r["identifier"] or "", r["identifier_source"] or "",
+                        r["grade"], r["name_source"] or "", "|".join(r["agreeing_sources"]),
                         r["confidence"], r["dist_m"] if r["dist_m"] is not None else "", r["inside"], r["method"] or "",
                         r["developer"] or "", r["project"] or "", r["changed"]])
     import collections
@@ -383,7 +421,10 @@ if __name__ == "__main__":
     src = collections.Counter(r["name_source"] for r in allrows if r["proposed_name"])
     named_before = sum(1 for r in allrows if r["current_name"]); named_after = sum(1 for r in allrows if r["proposed_name"])
     n = len(allrows)
+    ident_n = sum(1 for r in allrows if r["identifier"])
+    known = sum(1 for r in allrows if r["proposed_name"] or r["identifier"])
     print(f"\nbuildings {n:,} | named before {named_before:,} ({named_before/max(1,n):.1%}) -> after {named_after:,} ({named_after/max(1,n):.1%})")
+    print(f"carrying a street identifier: {ident_n:,} | uniquely identified (name OR identifier): {known:,} ({known/max(1,n):.1%})")
     print("grades:", dict(g))
     print("winning source:", dict(src.most_common()))
     print("new names proposed:", sum(1 for r in allrows if r["changed"]))
