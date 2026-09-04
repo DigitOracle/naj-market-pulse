@@ -1,0 +1,63 @@
+{
+ "364": {
+  "name": "Emicool Plant 8",
+  "place_id": "ChIJV2rcm3ZuXz4RHzA7FUn-Urg",
+  "types": [
+   "establishment",
+   "government_office",
+   "manufacturer",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "government_office",
+  "source": "places"
+ },
+ "384": {
+  "name": null,
+  "checked": true
+ },
+ "387": {
+  "name": null,
+  "checked": true
+ },
+ "389": {
+  "name": "Dragon Racing International LLC",
+  "place_id": "ChIJ39lWMnBuXz4RkEEdeRvfL08",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "sporting_goods_store",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "sporting_goods_store",
+  "source": "places"
+ },
+ "390": {
+  "name": "CARS Shipping LLC",
+  "place_id": "ChIJw04hmL5yXz4Rdr1xYguj2Ic",
+  "types": [
+   "establishment",
+   "government_office",
+   "local_government_office",
+   "moving_company",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "shipping_service",
+  "source": "places"
+ },
+ "410": {
+  "name": null,
+  "checked": true
+ },
+ "428": {
+  "name": null,
+  "checked": true
+ }
+}

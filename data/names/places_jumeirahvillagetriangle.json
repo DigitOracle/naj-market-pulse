@@ -1,0 +1,130 @@
+{
+ "240": {
+  "name": "Timeless Tranquility Massage Luxury",
+  "place_id": "ChIJbTz4_uptXz4RhvpDZFeb2uA",
+  "types": [
+   "establishment",
+   "massage",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "massage",
+  "source": "places"
+ },
+ "328": {
+  "name": "Trophy - Urban Oasis Suite - One-Bedroom Apartment",
+  "place_id": "ChIJm_0SGwZtXz4RKGDAqsPvXC4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "791": {
+  "name": "CREATES Design Studio",
+  "place_id": "ChIJC-MdJK5tXz4RNm_IGftZgYo",
+  "types": [
+   "establishment",
+   "general_contractor",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "general_contractor",
+  "source": "places"
+ },
+ "792": {
+  "name": "Prime Motors",
+  "place_id": "ChIJ1QrD5J9tXz4RTKizJmO6H2M",
+  "types": [
+   "car_dealer",
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "car_dealer",
+  "source": "places"
+ },
+ "1175": {
+  "name": "Sokon Spa",
+  "place_id": "ChIJ38Lp3odtXz4RU4SFis3vBEc",
+  "types": [
+   "establishment",
+   "health",
+   "massage",
+   "massage_spa",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "massage_spa",
+  "source": "places"
+ },
+ "1176": {
+  "name": "Smart SwimCraft Sport Academy L.L.C",
+  "place_id": "ChIJqxwR6pttXz4RXnzazOJ7H-U",
+  "types": [
+   "association_or_organization",
+   "educational_institution",
+   "establishment",
+   "health",
+   "point_of_interest",
+   "school"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "sports_school",
+  "source": "places"
+ },
+ "1182": {
+  "name": "Brand New Luxury Apartment with Pool Gym",
+  "place_id": "ChIJ8WvxuU9sXz4R6r8IktRfabs",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 11.9,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1556": {
+  "name": "Quest AC Repair & Installation Services LLC",
+  "place_id": "ChIJqz23P9dtXz4R5oeHCE3wA7g",
+  "types": [
+   "establishment",
+   "general_contractor",
+   "plumber",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "1557": {
+  "name": "Tranquil Wellness Stay Modern Hotel Apartment",
+  "place_id": "ChIJyxUf4E1sXz4RirHGBo79Hy0",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ }
+}

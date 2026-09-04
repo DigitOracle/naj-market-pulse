@@ -1,0 +1,175 @@
+{
+ "updated": "2026-09-04",
+ "count": 24,
+ "note": "Emaar's own campaign material, used inside Emaar's own contest. Stills carry the film and timestamp they came from; plates are generated backgrounds, never presented as photographs of the project.",
+ "assets": [
+  {
+   "key": "valley_fp_3br_1",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 3BR floor plan, page 1",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+  },
+  {
+   "key": "valley_fp_3br_2",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 3BR floor plan, page 2",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+  },
+  {
+   "key": "valley_fp_3br_3",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 3BR floor plan, page 3",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+  },
+  {
+   "key": "valley_fp_4br_1",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 4BR floor plan, page 1",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+  },
+  {
+   "key": "valley_fp_4br_2",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 4BR floor plan, page 2",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+  },
+  {
+   "key": "valley_fp_4br_3",
+   "type": "image/jpeg",
+   "kind": "floorplan",
+   "caption": "ALVA at The Valley — 4BR floor plan, page 3",
+   "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+  },
+  {
+   "key": "valley_still_life_03s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar lifestyle film (45 s, landscape) — still at 3s",
+   "source": "Emaar lifestyle film (45 s, landscape), frame at 3s"
+  },
+  {
+   "key": "valley_still_life_12s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar lifestyle film (45 s, landscape) — still at 12s",
+   "source": "Emaar lifestyle film (45 s, landscape), frame at 12s"
+  },
+  {
+   "key": "valley_still_life_22s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar lifestyle film (45 s, landscape) — still at 22s",
+   "source": "Emaar lifestyle film (45 s, landscape), frame at 22s"
+  },
+  {
+   "key": "valley_still_life_32s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar lifestyle film (45 s, landscape) — still at 32s",
+   "source": "Emaar lifestyle film (45 s, landscape), frame at 32s"
+  },
+  {
+   "key": "valley_still_life_41s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar lifestyle film (45 s, landscape) — still at 41s",
+   "source": "Emaar lifestyle film (45 s, landscape), frame at 41s"
+  },
+  {
+   "key": "valley_still_brand_02s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar branded film (13 s, vertical) — still at 2s",
+   "source": "Emaar branded film (13 s, vertical), frame at 2s"
+  },
+  {
+   "key": "valley_still_brand_06s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar branded film (13 s, vertical) — still at 6s",
+   "source": "Emaar branded film (13 s, vertical), frame at 6s"
+  },
+  {
+   "key": "valley_still_brand_11s",
+   "type": "image/jpeg",
+   "kind": "still",
+   "caption": "Emaar branded film (13 s, vertical) — still at 11s",
+   "source": "Emaar branded film (13 s, vertical), frame at 11s"
+  },
+  {
+   "key": "valley_plate_01",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — aerial community",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_02",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — park benches",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_03",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — sports courts",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_04",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — golden hour walk",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_05",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — golden beach pool",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_06",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — skate park",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_07",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — yoga pergola",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_08",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — aerial playing fields",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_09",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — child on shoulders",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  },
+  {
+   "key": "valley_plate_10",
+   "type": "image/png",
+   "kind": "plate",
+   "caption": "The Valley — lavender lawn",
+   "source": "background plate for an AI-assisted cutaway (not a photograph of the project)"
+  }
+ ]
+}

@@ -1,0 +1,634 @@
+{
+ "22": {
+  "name": "Reflection Spa",
+  "place_id": "ChIJwYTfIuFdXz4R01nV-YhkzFU",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "spa"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "spa",
+  "source": "places"
+ },
+ "280": {
+  "name": "Chicago Home Health",
+  "place_id": "ChIJYUPcwq5lXz4R1y9AL9B4lPI",
+  "types": [
+   "consultant",
+   "establishment",
+   "health",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "health",
+  "source": "places"
+ },
+ "283": {
+  "name": "WHITE PEARL FASHION LLC",
+  "place_id": "ChIJIe5G4GBdXz4RQJBOkErEhYY",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service",
+   "wholesaler"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "wholesaler",
+  "source": "places"
+ },
+ "285": {
+  "name": "CozyHaven Iris Amber",
+  "place_id": "ChIJcxOyKZtdXz4R-qP1QIxcYuU",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 7.0,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "286": {
+  "name": "Massage Body Service Spa Alley",
+  "place_id": "ChIJU5-NOgBvXz4Rq6A0GMWzG34",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "spa"
+  ],
+  "dist_m": 9.3,
+  "inside": false,
+  "primary": "spa",
+  "source": "places"
+ },
+ "287": {
+  "name": "Ali BUILDING",
+  "place_id": "ChIJVUwTjAFdXz4RNeL78zjVeJI",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "305": {
+  "name": "Yasmine Building",
+  "place_id": "ChIJhTqRtrNdXz4RvMGm8kA3Wc0",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "315": {
+  "name": "BARAJEEL Residency",
+  "place_id": "ChIJh2aXlNNdXz4RYNiFAwYzxZI",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "316": {
+  "name": "Nawaem al sham ladies salon (branch)",
+  "place_id": "ChIJS8_3g6ZdXz4RzUvoNkZQqDg",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "320": {
+  "name": "Kindred Klothing",
+  "place_id": "ChIJ1Ruc1TNdXz4RhrxAhhwmQw0",
+  "types": [
+   "clothing_store",
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "clothing_store",
+  "source": "places"
+ },
+ "322": {
+  "name": "M3 al jaddaf",
+  "place_id": "ChIJU54FCm1dXz4RrLJA_0UbSzg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "330": {
+  "name": "Dutco Creek Residence",
+  "place_id": "ChIJ1SO-hD1dXz4Rk7cBLaUgUy4",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "333": {
+  "name": "Relmira Spa & Massage Dubai",
+  "place_id": "ChIJ8_rmUABdXz4R8w1D6MAbz3o",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "spa"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "spa",
+  "source": "places"
+ },
+ "334": {
+  "name": "بناية بيت الصفاء (الرستماني)",
+  "place_id": "ChIJFZi9Y7VdXz4RXD4kP4zzCsU",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "335": {
+  "name": null,
+  "checked": true
+ },
+ "336": {
+  "name": null,
+  "checked": true
+ },
+ "341": {
+  "name": "Dr. Marwa Yahfouf",
+  "place_id": "ChIJVXNm4LldXz4R_9CVRkBLrDk",
+  "types": [
+   "doctor",
+   "establishment",
+   "health",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "doctor",
+  "source": "places"
+ },
+ "355": {
+  "name": null,
+  "checked": true
+ },
+ "356": {
+  "name": null,
+  "checked": true
+ },
+ "383": {
+  "name": "AL MESBAR, Jaddaf",
+  "place_id": "ChIJOdD4skJdXz4RxH2prZLQ4nY",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "384": {
+  "name": "T4 tea cafeteria",
+  "place_id": "ChIJE-T4eP9dXz4RYuGp2jpslDI",
+  "types": [
+   "cafe",
+   "coffee_shop",
+   "establishment",
+   "food",
+   "food_store",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "coffee_shop",
+  "source": "places"
+ },
+ "389": {
+  "name": "Car Recovery Services",
+  "place_id": "ChIJKx9oPX9dXz4RRQoOzXh25hI",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "395": {
+  "name": "Chubby Cheeks Nursery Jaddaf Garhoud",
+  "place_id": "ChIJJ4Yvij5dXz4ROitIq5aJ6V4",
+  "types": [
+   "child_care_agency",
+   "educational_institution",
+   "establishment",
+   "point_of_interest",
+   "preschool",
+   "school"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "preschool",
+  "source": "places"
+ },
+ "397": {
+  "name": "Lahore Plate Restaurant Jaddaf",
+  "place_id": "ChIJPeCR2TFdXz4ROI5UoOSxAic",
+  "types": [
+   "establishment",
+   "food",
+   "pakistani_restaurant",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "pakistani_restaurant",
+  "source": "places"
+ },
+ "398": {
+  "name": "Moonglam beauty",
+  "place_id": "ChIJd53jYgBdXz4RlSE2urOzjVA",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "399": {
+  "name": "Golden Appliance Repairing Dubai",
+  "place_id": "ChIJ8w0SNkRDXz4Ru5Qc3WGNuJA",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "400": {
+  "name": "Ramada Residences by Wyndham",
+  "place_id": "ChIJ1W1wJABdXz4Ri8aBQh5ACQ0",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "401": {
+  "name": "Stylish Roomy 1BR in the Heart of the City - One-Bedroom Apartment",
+  "place_id": "ChIJy9RD9lNdXz4RdLOF9thWdII",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "408": {
+  "name": "Al Shafar Palladium (SBK)",
+  "place_id": "ChIJg80hyeldXz4RdpG4bFYmZ04",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "410": {
+  "name": "S massage",
+  "place_id": "ChIJrdcYdgBdXz4R91FJUAiupY0",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "850": {
+  "name": "Mada Media - مدى ميديا",
+  "place_id": "ChIJE4oPICJdXz4RKP5g7IT8o6U",
+  "types": [
+   "corporate_office",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 14.2,
+  "inside": false,
+  "primary": "corporate_office",
+  "source": "places"
+ },
+ "851": {
+  "name": "Al Jaddaf",
+  "place_id": "ChIJT_ISVgBdXz4RYJk5l_0qrWk",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 9.7,
+  "inside": false,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "855": {
+  "name": "sixty three car rental",
+  "place_id": "ChIJSyEu7hRdXz4RDdYDxHnVjNQ",
+  "types": [
+   "car_rental",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "car_rental",
+  "source": "places"
+ },
+ "861": {
+  "name": "Dubai cutter hair",
+  "place_id": "ChIJeWFkYQBdXz4R4x2FZ20pYLY",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "944": {
+  "name": "RHYTMIX ENTERTAINMENT DUBAI",
+  "place_id": "ChIJuVjzzIddXz4R4acIe202WzQ",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "978": {
+  "name": "Al Arsh Properties LLC",
+  "place_id": "ChIJtfFSd9pdXz4Rue_m1bfyPtk",
+  "types": [
+   "corporate_office",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "corporate_office",
+  "source": "places"
+ },
+ "980": {
+  "name": "Nizo Jaddaf",
+  "place_id": "ChIJC1k__5JdXz4Rhxft9BZXW1U",
+  "types": [
+   "doctor",
+   "establishment",
+   "health",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "doctor",
+  "source": "places"
+ },
+ "1018": {
+  "name": "Omaroro house",
+  "place_id": "ChIJK_CHZmZdXz4RgNnWJj-rdSs",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "store",
+   "toy_store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "toy_store",
+  "source": "places"
+ },
+ "1019": {
+  "name": "Chef Pecan",
+  "place_id": "ChIJKVfPD9BdXz4RqMWTplYAq6I",
+  "types": [
+   "establishment",
+   "food",
+   "food_delivery",
+   "meal_delivery",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "meal_delivery",
+  "source": "places"
+ },
+ "1025": {
+  "name": "Jadaf western residence",
+  "place_id": "ChIJac6pHABdXz4R_B6azab_qRg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1026": {
+  "name": "Palma Building",
+  "place_id": "ChIJqx4xRwBdXz4Rv-Lb5Loebeg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1027": {
+  "name": "INTERIOR DESIGN WORLD",
+  "place_id": "ChIJby_MihpdXz4RyVDrDbmr1ao",
+  "types": [
+   "establishment",
+   "general_contractor",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "general_contractor",
+  "source": "places"
+ },
+ "1103": {
+  "name": "Courtyard by Marriott Culture Village, Dubai",
+  "place_id": "ChIJVW2bH9ZdXz4Rbrqd1uZ6aYU",
+  "types": [
+   "establishment",
+   "hotel",
+   "lodging",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "hotel",
+  "source": "places"
+ },
+ "1104": {
+  "name": "Bebax Coffee بيباكس كوفي",
+  "place_id": "ChIJAwew9GldXz4RsAQ6I7rua74",
+  "types": [
+   "cafe",
+   "coffee_shop",
+   "establishment",
+   "food",
+   "food_store",
+   "point_of_interest"
+  ],
+  "dist_m": 5.5,
+  "inside": false,
+  "primary": "coffee_shop",
+  "source": "places"
+ },
+ "1105": {
+  "name": "Life Pharmacy LLC 181 (Amalfi Building - Al Jaddaf)",
+  "place_id": "ChIJaXOekgFdXz4RdZP0Cmqer-o",
+  "types": [
+   "establishment",
+   "health",
+   "pharmacy",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "pharmacy",
+  "source": "places"
+ },
+ "1106": {
+  "name": "Almeria Building",
+  "place_id": "ChIJke4iIQBdXz4Rsxf9_WOzgsg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1107": {
+  "name": "THE MATCH GENTS SALOON L.L.C",
+  "place_id": "ChIJwR_8FXldXz4RzpgIAqT2S2o",
+  "types": [
+   "establishment",
+   "hair_care",
+   "hair_salon",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "hair_salon",
+  "source": "places"
+ },
+ "1108": {
+  "name": "LUXURY 2 bedrooms 5 minutes from Burj Khalifa - Two-Bedroom Apartment",
+  "place_id": "ChIJ_xsVPVRdXz4RhXLH_-t7lQs",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ }
+}

@@ -1,0 +1,238 @@
+{
+ "0": {
+  "name": "La Strega",
+  "place_id": "ChIJ-x8b0jNrXz4R8sGX3hRHUkQ",
+  "types": [
+   "establishment",
+   "european_restaurant",
+   "food",
+   "italian_restaurant",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "italian_restaurant",
+  "source": "places"
+ },
+ "86": {
+  "name": "Murjan Suites Waterfront Jumeirah Beach Residence The Walk Dubai Eye Beach Marina",
+  "place_id": "ChIJD1iFKqsUXz4R57QH5gcjDvI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "92": {
+  "name": "Marina's Pool Restaurant",
+  "place_id": "ChIJP9sXGVZrXz4RerUiiHhlUu0",
+  "types": [
+   "establishment",
+   "food",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "restaurant",
+  "source": "places"
+ },
+ "185": {
+  "name": "Massage Home Service In Dubai",
+  "place_id": "ChIJt0XWUABzXz4RcAoFgt_iNnU",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "spa"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "spa",
+  "source": "places"
+ },
+ "286": {
+  "name": "Oasis Home Massage European",
+  "place_id": "ChIJw53FkAkTXz4Rb5tEaklgyNY",
+  "types": [
+   "establishment",
+   "massage",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "massage",
+  "source": "places"
+ },
+ "297": {
+  "name": "CHERRY FACE PAINTING GLASGOW",
+  "place_id": "ChIJgYS63VRrXz4RKOrhVHOzZ-0",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": null,
+  "source": "places"
+ },
+ "299": {
+  "name": "Pelagos by IGO",
+  "place_id": "ChIJTbjvVQBrXz4RVcUzjPVpSPg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "300": {
+  "name": "Haji Ruli tower",
+  "place_id": "ChIJA70rMgBrXz4RevWCfhaAXIU",
+  "types": [
+   "establishment",
+   "hotel",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 1.7,
+  "inside": false,
+  "primary": "hotel",
+  "source": "places"
+ },
+ "301": {
+  "name": "Fusion",
+  "place_id": "ChIJyR6tClNrXz4RxNf8v80IUxs",
+  "types": [
+   "establishment",
+   "food",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "restaurant",
+  "source": "places"
+ },
+ "336": {
+  "name": "Stylish Studio by beach metro in Dubai Marina",
+  "place_id": "ChIJrYo3klMTXz4RlBBz7L5Bu38",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "340": {
+  "name": "Xploriz Digital",
+  "place_id": "ChIJnz_9-G0L9j4R1jQXCEnKus4",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.7,
+  "inside": false,
+  "primary": "service",
+  "source": "places"
+ },
+ "353": {
+  "name": "Gargash Tower",
+  "place_id": "ChIJRTEGVlZrXz4RAkOgU0JFJHg",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "434": {
+  "name": "Misty Maybe",
+  "place_id": "ChIJIzuVSjwTXz4Ry3x-MYpHHl8",
+  "types": [
+   "clothing_store",
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "clothing_store",
+  "source": "places"
+ },
+ "466": {
+  "name": "Rhodes 2010",
+  "place_id": "ChIJRaaqHlNrXz4R9AXp00KnO5Q",
+  "types": [
+   "british_restaurant",
+   "establishment",
+   "european_restaurant",
+   "family_restaurant",
+   "food",
+   "point_of_interest"
+  ],
+  "dist_m": 6.9,
+  "inside": false,
+  "primary": "restaurant",
+  "source": "places"
+ },
+ "467": {
+  "name": "Le Royal Meridien Clinic",
+  "place_id": "ChIJyR6tClNrXz4RyRP_nZczBis",
+  "types": [
+   "establishment",
+   "health",
+   "medical_clinic",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "medical_clinic",
+  "source": "places"
+ },
+ "468": {
+  "name": "Studio in Studio One Marina",
+  "place_id": "ChIJDxLyElNrXz4RKHs6ZpP7GmQ",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 1.2,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "560": {
+  "name": "Business Backpackers JBR",
+  "place_id": "ChIJd4B5WB8TXz4RsgTV8ykfMMA",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ }
+}

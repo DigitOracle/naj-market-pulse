@@ -1,0 +1,30 @@
+{
+ "95": {
+  "name": "Salone Del Mobile",
+  "place_id": "ChIJQdXbhONtXz4RWQVB4FeOsX0",
+  "types": [
+   "establishment",
+   "general_contractor",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "general_contractor",
+  "source": "places"
+ },
+ "3201": {
+  "name": "Iryna Shemyakina - Transformational Coach - RTT - Hypnotherapy - Dubai",
+  "place_id": "ChIJH1_AqjJtXz4RB-S7djE-vcU",
+  "types": [
+   "establishment",
+   "health",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ }
+}

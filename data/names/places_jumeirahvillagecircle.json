@@ -1,0 +1,646 @@
+{
+ "0": {
+  "name": null,
+  "checked": true
+ },
+ "2": {
+  "name": "Stunning Pool View Studio in JVC",
+  "place_id": "ChIJhUvyLjpsXz4RmbMYQLgBpIE",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "30": {
+  "name": "hyphen productions",
+  "place_id": "ChIJA-Zij8FtXz4R0J9JIp4UMhs",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "612": {
+  "name": "Instaworthy 2-Bedroom Apartment at Villa Pera in JVC",
+  "place_id": "ChIJYe1r-0tsXz4RkCYVA4jgs_E",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 9.5,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "621": {
+  "name": "Exquisite 1Bedroom With City Views",
+  "place_id": "ChIJ-cBNmExsXz4RxDQyr1W8uTQ",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "622": {
+  "name": "EasyGo - Cozy STU in Damac Ghalia JVC DUbai",
+  "place_id": "ChIJ_2RUTktsXz4RdC5IFKphBUo",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "626": {
+  "name": "Esplora Residences by Nisus",
+  "place_id": "ChIJ32rlYQBtXz4REkabd5Nj0SY",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "627": {
+  "name": "Sydney Tower-JVC",
+  "place_id": "ChIJCy5LKbVtXz4RX0cOJIOJFc8",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "628": {
+  "name": "Aura Beauty Salon",
+  "place_id": "ChIJUZuRaSZtXz4Rq1TNc-KVKW4",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "656": {
+  "name": "Luxurious and Spacious one Bedroom Apartment in the Heart of Dubai",
+  "place_id": "ChIJIQ9Js89tXz4RSEUWtiB9Jss",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "660": {
+  "name": "South Residences JVC",
+  "place_id": "ChIJx5pd6EFtXz4Rxt88UGO3Gbs",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "661": {
+  "name": "ATC Gulf LLC",
+  "place_id": "ChIJK_GgIp5dXz4RNwCVftlscbk",
+  "types": [
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": null,
+  "source": "places"
+ },
+ "662": {
+  "name": "Continents Tower",
+  "place_id": "ChIJNflCXgBtXz4Rh9FC1VawgqY",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "707": {
+  "name": null,
+  "checked": true
+ },
+ "708": {
+  "name": "Imperial Tower JVC",
+  "place_id": "ChIJi9NDSABtXz4RHRNhzC77p7w",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "709": {
+  "name": "Turbofox Car Rental",
+  "place_id": "ChIJ2_7PHCltXz4RDtAZHgLgoik",
+  "types": [
+   "car_rental",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "car_rental",
+  "source": "places"
+ },
+ "710": {
+  "name": "One Life Journeys",
+  "place_id": "ChIJM7ouT1E-_g0RFdtbWkmS8HE",
+  "types": [
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": null,
+  "source": "places"
+ },
+ "711": {
+  "name": "Frank Porter - Empire Residence, JVC",
+  "place_id": "ChIJAQoOky1sXz4RbenKUgk6K-A",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "712": {
+  "name": "Subway",
+  "place_id": "ChIJ3bE1UaNtXz4RWsJplun6BYw",
+  "types": [
+   "establishment",
+   "fast_food_restaurant",
+   "food",
+   "point_of_interest",
+   "restaurant",
+   "sandwich_shop"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "restaurant",
+  "source": "places"
+ },
+ "713": {
+  "name": "Jvc",
+  "place_id": "ChIJ6SLbJwBtXz4RCYl36Ux4z50",
+  "types": [
+   "establishment",
+   "food",
+   "food_store",
+   "grocery_store",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "supermarket",
+  "source": "places"
+ },
+ "750": {
+  "name": "One Bedroom Apartment Near Community Park JVC",
+  "place_id": "ChIJFymbpS1sXz4RFj-uotk2kw0",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "760": {
+  "name": "Green Roots Nursery Dubai",
+  "place_id": "ChIJlynP6rZtXz4RniSpHAdGlcg",
+  "types": [
+   "child_care_agency",
+   "educational_institution",
+   "establishment",
+   "point_of_interest",
+   "preschool",
+   "school"
+  ],
+  "dist_m": 9.6,
+  "inside": false,
+  "primary": "preschool",
+  "source": "places"
+ },
+ "761": {
+  "name": "PET AVENUE CLINIC",
+  "place_id": "ChIJl15zC6NtXz4R081RIpLAO3M",
+  "types": [
+   "establishment",
+   "pet_care",
+   "point_of_interest",
+   "veterinary_care"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "veterinary_care",
+  "source": "places"
+ },
+ "762": {
+  "name": "Lady Charm Beauty Salon",
+  "place_id": "ChIJgdu4ruBtXz4R4kXVUmbur9Y",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "763": {
+  "name": "Head Shapez Gents Salon",
+  "place_id": "ChIJ9ZBN0kdtXz4RcdZLNi-9yFA",
+  "types": [
+   "barber_shop",
+   "establishment",
+   "hair_care",
+   "health",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "barber_shop",
+  "source": "places"
+ },
+ "840": {
+  "name": "Designer Loft Studio with top Amenities in JVC",
+  "place_id": "ChIJh8g5l8ttXz4R75K4OYq4FFw",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 2.2,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "841": {
+  "name": "Unwind in Style at Park Vista's Studio Gem",
+  "place_id": "ChIJZzPPiMttXz4RDrVegv_H7TY",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "860": {
+  "name": "Plaza Residences 2 Tower C",
+  "place_id": "ChIJfYT8FwBtXz4RnUwTzTDlJXM",
+  "types": [
+   "condominium_complex",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "condominium_complex",
+  "source": "places"
+ },
+ "895": {
+  "name": "Dareen spa",
+  "place_id": "ChIJFz7JNOZtXz4RLAP7qE00cTg",
+  "types": [
+   "establishment",
+   "massage",
+   "massage_spa",
+   "point_of_interest",
+   "service",
+   "spa"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "massage_spa",
+  "source": "places"
+ },
+ "899": {
+  "name": "Stylish Studio Apartment at RMT",
+  "place_id": "ChIJpWPpDDRsXz4Ri4GbNR8k4-U",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "935": {
+  "name": "Nara Massage enjoy Dubai",
+  "place_id": "ChIJJZHq0lNtXz4Re-OUzE95qOU",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "massage",
+   "massage_spa",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "1010": {
+  "name": "RBE Vacation Homes 1 Bed Smart home in Binghatti Crest JVC",
+  "place_id": "ChIJC1yceMltXz4RYxqK5kRsPjc",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 4.4,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1013": {
+  "name": "Frank Porter - Golden Dream Tower",
+  "place_id": "ChIJA5l9NEtsXz4R_oYe1YB17ls",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1018": {
+  "name": "City Station Laundry LLC",
+  "place_id": "ChIJ1TPK5rRtXz4RMIz1SMQcHSs",
+  "types": [
+   "establishment",
+   "laundry",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 3.1,
+  "inside": false,
+  "primary": "laundry",
+  "source": "places"
+ },
+ "1026": {
+  "name": "Residence 9",
+  "place_id": "ChIJHQWYYf1tXz4RBHSLQSHxPfM",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1027": {
+  "name": "Murdih Tower",
+  "place_id": "ChIJESKA0mNtXz4RklGwPHmeU1w",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1123": {
+  "name": "King Kafta Dubai Bakery",
+  "place_id": "ChIJN_DISRNtXz4RLJbocCg_nDc",
+  "types": [
+   "bakery",
+   "establishment",
+   "food",
+   "food_store",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "bakery",
+  "source": "places"
+ },
+ "1144": {
+  "name": "new system 74 site office",
+  "place_id": "ChIJHwCb0NZtXz4RW-mof1SA0p0",
+  "types": [
+   "corporate_office",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "corporate_office",
+  "source": "places"
+ },
+ "1148": {
+  "name": "CENTRAL SUSHI - Jumeirah Village Circle",
+  "place_id": "ChIJWSNOiiJtXz4RZsP8UUR8NfI",
+  "types": [
+   "establishment",
+   "food",
+   "japanese_restaurant",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "japanese_restaurant",
+  "source": "places"
+ },
+ "1173": {
+  "name": "GuestReady - Hidden gem in JVC",
+  "place_id": "ChIJoyRIctRtXz4RewHT5864evk",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1240": {
+  "name": "Comfy 3BR at Marwa Heights JVC by Deluxe Holiday Homes",
+  "place_id": "ChIJLeDOTEhsXz4RXf3q5bmjNV4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1307": {
+  "name": "Noon Warehouse",
+  "place_id": "ChIJ_whC8l5tXz4R-LRszJUZjX4",
+  "types": [
+   "establishment",
+   "food",
+   "food_store",
+   "grocery_store",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "grocery_store",
+  "source": "places"
+ },
+ "1349": {
+  "name": "Exclusive Luxury Studio Apartment in Amara Residences JVC",
+  "place_id": "ChIJJbIcHExsXz4RNfmm_fxNR5g",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1398": {
+  "name": "ARCADIA TOWER",
+  "place_id": "ChIJ6YatLQBtXz4R7ZtPIUnWCJE",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1486": {
+  "name": "Luxe Studio with Stunning Pool Views at Hameni Tower JVC",
+  "place_id": "ChIJW3IjdTVsXz4R6JomH3b2xDA",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1499": {
+  "name": "Elegant 2 Bedroom apartment-Binghatti Emerald JVC",
+  "place_id": "ChIJ8zWxUEhsXz4R_PhR9lbECuQ",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1500": {
+  "name": "Smartly Designed Studio in JVC",
+  "place_id": "ChIJdduIdTZsXz4RzmO5ZCF4b0U",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1503": {
+  "name": "Binghatti Amber - 734",
+  "place_id": "ChIJX-DPKzFsXz4RyKHRxR2kODE",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ }
+}

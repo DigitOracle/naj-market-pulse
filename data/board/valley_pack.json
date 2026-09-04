@@ -223,10 +223,12 @@
   "registered": "Alva 196 villas, completion 31 Mar 2030, 0% complete (DLD project register)"
  },
  "assets_on_hand": [
-  "Emaar lifestyle film 45 s, 1024x576 landscape",
-  "Emaar branded film 13 s, 576x1024 vertical",
+  "Emaar lifestyle film 45 s, 1024x576 landscape (5 stills on hand)",
+  "Emaar branded film 13 s, 576x1024 vertical (3 stills on hand)",
+  "ALVA floor plans, 3BR and 4BR, 6 pages as images",
   "build-out and rate cards rendered from the register",
-  "background plates for AI-assisted cutaways"
+  "10 background plates for AI-assisted cutaways",
+  "all of the above reachable in the chat: she taps Assets on a Valley angle"
  ],
  "edges": {
   "note": "Facts a competitor working from the brochure cannot state. Every one is checkable in an official register.",

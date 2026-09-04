@@ -1,0 +1,315 @@
+{
+ "159": {
+  "name": "Royal Stamps and seals",
+  "place_id": "ChIJN-f3K-RpXz4RePepeLdZTHM",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "store",
+  "source": "places"
+ },
+ "160": {
+  "name": "FIRST CLASS | 1BR | Luxe Hideaway Escape",
+  "place_id": "ChIJhVUaJXdoXz4R2E0CwJ3GVBY",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "162": {
+  "name": "Spacious 1BR with Pool Gym and Kids Play Area",
+  "place_id": "ChIJp85VGndoXz4Rq7_CPJqTYD8",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "163": {
+  "name": "Samar Shine Ladies Beauty Salon LLC",
+  "place_id": "ChIJ6RREWe1pXz4RX7j2D37MuOo",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "468": {
+  "name": "PVH - Serene 1BR - Sobha Waves",
+  "place_id": "ChIJM9Y3WHdoXz4RjEMw2tx6Wr4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "503": {
+  "name": "Al Sheraifi Project ( Hotel )",
+  "place_id": "ChIJxVh1ff1pXz4RSw44nloM6fY",
+  "types": [
+   "establishment",
+   "general_contractor",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "general_contractor",
+  "source": "places"
+ },
+ "504": {
+  "name": "1 BR Sobha Hartland | Fast WiFi | Near Downtown",
+  "place_id": "ChIJU2pU13ZoXz4RNcJEbj4So6o",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "505": {
+  "name": "2 BR LUXURY APARTMENT IN SOBHA HARTLAND GREENS",
+  "place_id": "ChIJR6wBLXFoXz4RdduOwSj84Ic",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "507": {
+  "name": "Roasters Specialty Coffee House Sobha Hartland",
+  "place_id": "ChIJQ0kMtYtpXz4RxRv5SxYMMZw",
+  "types": [
+   "cafe",
+   "coffee_shop",
+   "establishment",
+   "food",
+   "food_store",
+   "point_of_interest"
+  ],
+  "dist_m": 8.7,
+  "inside": false,
+  "primary": "cafe",
+  "source": "places"
+ },
+ "508": {
+  "name": "Roasters Specialty Coffee House Sobha Hartland",
+  "place_id": "ChIJQ0kMtYtpXz4RxRv5SxYMMZw",
+  "types": [
+   "cafe",
+   "coffee_shop",
+   "establishment",
+   "food",
+   "food_store",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "cafe",
+  "source": "places"
+ },
+ "509": {
+  "name": "Life GP Clinic - Sobha Hartland, Meydan",
+  "place_id": "ChIJ33UmVetpXz4RGBfeSTnuvoI",
+  "types": [
+   "establishment",
+   "health",
+   "medical_clinic",
+   "point_of_interest"
+  ],
+  "dist_m": 4.3,
+  "inside": false,
+  "primary": "medical_clinic",
+  "source": "places"
+ },
+ "1340": {
+  "name": "Flat with terrace & pool",
+  "place_id": "ChIJ6_aWE3JoXz4RuAwr6PRyIDg",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1341": {
+  "name": "Modern 1BR - Sobha Creek Vistas Reserve",
+  "place_id": "ChIJf15yPHJoXz4RmqdL6_CMSyo",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1342": {
+  "name": "Sobha Creek Vistas, Sobha Hartland, MBR City, Dubai",
+  "place_id": "ChIJtapMKXJoXz4RuHi37ziW4ZE",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1343": {
+  "name": "FIRST CLASS | 1BR | Lavish Living | Waves Grande",
+  "place_id": "ChIJwe-ZU3doXz4RTzTsNFW43A8",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1344": {
+  "name": "Trophy - Waves Grande Regent Urban Sanctuary",
+  "place_id": "ChIJjxDJUHdoXz4RXU3NChWPR0k",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1456": {
+  "name": "Creek Vista Elegance-1BRBurj Khalifa View",
+  "place_id": "ChIJf9zZdHJoXz4RQmdQg_dwHH4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1457": {
+  "name": "Collective 2.0 is exclusive lobby in Dubai with co-working spaces, library etc.",
+  "place_id": "ChIJmyON6m1oXz4RnZAxVdVAGVI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 5.8,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1458": {
+  "name": null,
+  "checked": true
+ },
+ "1459": {
+  "name": "Modern & Luxury 1BR -Pool View - Kensington Waters",
+  "place_id": "ChIJBWztsXdoXz4RLSu534oDfAw",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1460": {
+  "name": "Apartment Elli 1BR Kensington Waters",
+  "place_id": "ChIJpT-Cu3doXz4RYMxRaYqZMzw",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1461": {
+  "name": "7-guests Brand New Apt | Dubai | Sauna, Gym & Pool",
+  "place_id": "ChIJWUR2i3doXz4Rf64-Cavc2Fk",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1462": {
+  "name": "STAY BY LATINEM Luxury 1BR Plus Study Holiday Home CB 1013 Near Burj Khalifa",
+  "place_id": "ChIJl_4n4ndoXz4Rk1Qmlz7gINI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "1463": {
+  "name": "Birdies Restaurant",
+  "place_id": "ChIJr8wLA8ZpXz4RRSn5gVWfhpw",
+  "types": [
+   "establishment",
+   "food",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "restaurant",
+  "source": "places"
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "94": {
+  "name": "Layali Ramadan Tent",
+  "place_id": "ChIJxQZghEYVXz4RguZBQbOH8A0",
+  "types": [
+   "buffet_restaurant",
+   "establishment",
+   "food",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "buffet_restaurant",
+  "source": "places"
+ },
+ "682": {
+  "name": "Massive 2 Bedroom with Palm View Balqis",
+  "place_id": "ChIJFaDMjRkVXz4RLIO-A9XByIw",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "688": {
+  "name": "Campione - Dubai",
+  "place_id": "ChIJbUSni8YUXz4RbR7ZaicmuoQ",
+  "types": [
+   "clothing_store",
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "clothing_store",
+  "source": "places"
+ },
+ "875": {
+  "name": "Oliver’s Lounge",
+  "place_id": "ChIJQ9ffaQAVXz4R9RqFGrhRl2k",
+  "types": [
+   "bar",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "bar",
+  "source": "places"
+ },
+ "1474": {
+  "name": "Palme Couture Residences",
+  "place_id": "ChIJ-WBkcjFrXz4RImcuFYATqo8",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 17.5,
+  "inside": false,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1475": {
+  "name": "Al Sayyah Mansion",
+  "place_id": "ChIJlctH6oZrXz4RpPs5tT2Mt-I",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "1477": {
+  "name": "Fanzone - Best Sports Bar in Palm Jumeirah",
+  "place_id": "ChIJPzhtGkdrXz4RayrvRwpTw0A",
+  "types": [
+   "bar",
+   "establishment",
+   "point_of_interest",
+   "sports_bar"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "sports_bar",
+  "source": "places"
+ },
+ "1766": {
+  "name": null,
+  "checked": true
+ },
+ "1767": {
+  "name": null,
+  "checked": true
+ },
+ "1770": {
+  "name": null,
+  "checked": true
+ },
+ "1771": {
+  "name": null,
+  "checked": true
+ },
+ "1812": {
+  "name": null,
+  "checked": true
+ },
+ "1814": {
+  "name": "Cloud 22 Dubai",
+  "place_id": "ChIJb3RczncVXz4R2B9nby2174M",
+  "types": [
+   "association_or_organization",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 9.2,
+  "inside": false,
+  "primary": "association_or_organization",
+  "source": "places"
+ },
+ "1815": {
+  "name": "Alkemy Salons",
+  "place_id": "ChIJDxwBR1wVXz4RK1vxnMenXVg",
+  "types": [
+   "beauty_salon",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 8.9,
+  "inside": false,
+  "primary": "beauty_salon",
+  "source": "places"
+ },
+ "2302": {
+  "name": "Frenia Rooftop Bar & Lounge",
+  "place_id": "ChIJ9aAvbgprXz4RL1sO-3WO0lM",
+  "types": [
+   "bar",
+   "establishment",
+   "lounge_bar",
+   "night_club",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lounge_bar",
+  "source": "places"
+ },
+ "2331": {
+  "name": "bnbmehomes - Private Beach in a Resort with DJ Infinity Pool - 10201",
+  "place_id": "ChIJm9VL0RsVXz4RjJbaDd9T_EY",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 11.0,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "2432": {
+  "name": "Ultimate Stay - Balqis",
+  "place_id": "ChIJ5Y1JowUVXz4Rl6vAlqqiN5w",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "2434": {
+  "name": "Nayab - Villa on the Sky",
+  "place_id": "ChIJO8EtdwAVXz4R1P9oQHCJCOI",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "2441": {
+  "name": "Astounding 1BR Apartment Situated In Palm Jumeirah",
+  "place_id": "ChIJ_WXMjDFrXz4Rc584hdC_IM4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 2.6,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "2469": {
+  "name": null,
+  "checked": true
+ }
+}

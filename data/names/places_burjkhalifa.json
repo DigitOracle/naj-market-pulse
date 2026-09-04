@@ -1,0 +1,520 @@
+{
+ "0": {
+  "name": "Burj Khalifa Pool Annex",
+  "place_id": "ChIJvT1wcypoXz4R1Xu34Tuif3g",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "sports_activity_location",
+   "swimming_pool"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "swimming_pool",
+  "source": "places"
+ },
+ "2": {
+  "name": "Male Bathroom",
+  "place_id": "ChIJAQA09oFCXz4RXrk7El756s8",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "public_bathroom"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "public_bathroom",
+  "source": "places"
+ },
+ "59": {
+  "name": "EHG Talent Academy",
+  "place_id": "ChIJrVWz-dVpXz4RqcCofohhEPg",
+  "types": [
+   "educational_institution",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "educational_institution",
+  "source": "places"
+ },
+ "90": {
+  "name": "Jam Tower Car parking",
+  "place_id": "ChIJQ6UtJZdDXz4Rp5M-oo4RZyc",
+  "types": [
+   "corporate_office",
+   "establishment",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "corporate_office",
+  "source": "places"
+ },
+ "109": {
+  "name": "L'ECLAIR D'OR",
+  "place_id": "ChIJ5yUKQwBpXz4Rg7eRhDPQE7M",
+  "types": [
+   "bakery",
+   "confectionery",
+   "dessert_shop",
+   "establishment",
+   "food",
+   "food_store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "pastry_shop",
+  "source": "places"
+ },
+ "139": {
+  "name": "Kadoosh Properties LLC",
+  "place_id": "ChIJH4t7HJ7plK8R__bulC1Mfl0",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "real_estate_agency",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "real_estate_agency",
+  "source": "places"
+ },
+ "140": {
+  "name": "Old Town Luxury: 1-BR Apartment with Large Terrace Burj Khalifa View",
+  "place_id": "ChIJUX3KrC5oXz4RZMNuaElT5Cc",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "142": {
+  "name": "Burj Plaza by Emaar",
+  "place_id": "ChIJBWMV_ytoXz4R_JsckO9vtFc",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "tourist_attraction"
+  ],
+  "dist_m": 1.6,
+  "inside": false,
+  "primary": "tourist_attraction",
+  "source": "places"
+ },
+ "149": {
+  "name": "Burj Dubai Area - 5min Walk - Luxury 2 Bedroom Apartment",
+  "place_id": "ChIJozO9-i5oXz4RA6m8H_yYPFA",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "150": {
+  "name": "Tranquil Studio with Greenery View in Reehan",
+  "place_id": "ChIJWQFQ4S5oXz4R9eo6U-6ThbI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "151": {
+  "name": "The Smart Concierge - Reehan 8",
+  "place_id": "ChIJN-txiy5oXz4RycM2EKQaUWA",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "155": {
+  "name": "Cozy 1BR Apartment | Close to Mall, Metro, and Dining",
+  "place_id": "ChIJV9T7_C5oXz4RHRBziHfJmYE",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "168": {
+  "name": "Boulevard Elegance at the Heart of Downtown",
+  "place_id": "ChIJ-Y0GNCtoXz4ROl0yv_ZHfbQ",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "170": {
+  "name": "Amazing 3BR Burj Khalifa Fountain View",
+  "place_id": "ChIJgTalJitoXz4ROrfYVQmSAZQ",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "176": {
+  "name": "HiGuests - Elegant Apt With Terrace Minutes from Burj Khalifa",
+  "place_id": "ChIJ1XXuQytoXz4RYiVuyglLkkU",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 15.4,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "180": {
+  "name": "Long Island Restaurant",
+  "place_id": "ChIJ5RjDbKFpXz4RCQ03qsnMzfM",
+  "types": [
+   "cafe",
+   "establishment",
+   "fine_dining_restaurant",
+   "food",
+   "point_of_interest",
+   "restaurant"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "restaurant",
+  "source": "places"
+ },
+ "185": {
+  "name": "Luxurious 4BR Act one w/ Full Burj Fountain View",
+  "place_id": "ChIJRXGoJitoXz4RZEd-1fQ1a6U",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "201": {
+  "name": "Burj Khalifa View 2 Bed Luxury Apartment",
+  "place_id": "ChIJZzWCoi5oXz4RAmbhPzxasIg",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "209": {
+  "name": "LUXfolio Retreats - Old Town Charm - Attareen",
+  "place_id": "ChIJue-5si5oXz4R5ksePNs7F8c",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 1.0,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "210": {
+  "name": "all car battery fixing",
+  "place_id": "ChIJL30kJQBpXz4RQO4n7PqLnuA",
+  "types": [
+   "auto_parts_store",
+   "car_repair",
+   "establishment",
+   "point_of_interest",
+   "service",
+   "store"
+  ],
+  "dist_m": 3.6,
+  "inside": false,
+  "primary": "auto_parts_store",
+  "source": "places"
+ },
+ "211": {
+  "name": "مبنى الخدمات",
+  "place_id": "ChIJlTBl3bZpXz4RNp6eFj2iY38",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "tourist_attraction"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "tourist_attraction",
+  "source": "places"
+ },
+ "212": {
+  "name": "Bakalla Online Store",
+  "place_id": "ChIJ1yDjWiloXz4RxAxkk-k_MIk",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "store",
+   "warehouse_store"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "warehouse_store",
+  "source": "places"
+ },
+ "213": {
+  "name": "LUXHABITAT",
+  "place_id": "ChIJpRp1FV1rXz4R8eRxhzQEqTU",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "service",
+  "source": "places"
+ },
+ "214": {
+  "name": "Safe Driver Dubai | Best Safe Driver",
+  "place_id": "ChIJi4LAMxMkFYYRTROfpiMPQo8",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "transportation_service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "transportation_service",
+  "source": "places"
+ },
+ "215": {
+  "name": "Downtown Clinic",
+  "place_id": "ChIJdz5dI1hpXz4RKxx2UTAX-FM",
+  "types": [
+   "dental_clinic",
+   "establishment",
+   "health",
+   "medical_clinic",
+   "point_of_interest"
+  ],
+  "dist_m": 7.9,
+  "inside": false,
+  "primary": "dental_clinic",
+  "source": "places"
+ },
+ "217": {
+  "name": "Swey Collective",
+  "place_id": "ChIJp4BbTCNpXz4RG_EPOMP7hbI",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "store"
+  ],
+  "dist_m": 2.8,
+  "inside": false,
+  "primary": "store",
+  "source": "places"
+ },
+ "218": {
+  "name": "37 Consult LLC",
+  "place_id": "ChIJQSsfNY5pXz4R2-z4FxS5UkE",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 1.5,
+  "inside": false,
+  "primary": "service",
+  "source": "places"
+ },
+ "219": {
+  "name": "3 Bedroom Apartment in Downtown",
+  "place_id": "ChIJpXmKIyloXz4RqHFokuSxKfI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "220": {
+  "name": "Souk Albahar downtown Tajer heart of dubai",
+  "place_id": "ChIJt83QM5ppXz4RQzWR75CrhjA",
+  "types": [
+   "establishment",
+   "point_of_interest",
+   "real_estate_agency",
+   "service"
+  ],
+  "dist_m": 10.3,
+  "inside": false,
+  "primary": "real_estate_agency",
+  "source": "places"
+ },
+ "232": {
+  "name": "1 Br downtown 5 min walk to Dubai mall",
+  "place_id": "ChIJ487akSVoXz4Rxw3HE-xJP1Q",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "273": {
+  "name": "Elite Royal Apartment - Sky Series - Full Panoramic Burj Khalifa Fountain View - Icon",
+  "place_id": "ChIJr-V5NC9oXz4RRzE0AVHxriM",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "274": {
+  "name": "GMS Clinic",
+  "place_id": "ChIJAUwijZ5pXz4RVTsdWPwQY0g",
+  "types": [
+   "establishment",
+   "health",
+   "hospital",
+   "medical_center",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 1.9,
+  "inside": false,
+  "primary": "medical_center",
+  "source": "places"
+ },
+ "280": {
+  "name": "Stay in First-Class, Burj Khalifa View Luxury 2BR",
+  "place_id": "ChIJASoJRtVpXz4RTzqdXmNXIr4",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "281": {
+  "name": "DAMAC Maison Mall Street - One Bedroom City View King with kitchenette and Private Balcony",
+  "place_id": "ChIJb4gJ-iZoXz4RaOiGGgGDzRI",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "282": {
+  "name": "Apartment with a large balcony",
+  "place_id": "ChIJEd-FBn9CXz4ReEzGDA61I8c",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 13.6,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "284": {
+  "name": "Apartment with a large balcony",
+  "place_id": "ChIJEd-FBn9CXz4ReEzGDA61I8c",
+  "types": [
+   "establishment",
+   "lodging",
+   "point_of_interest"
+  ],
+  "dist_m": 16.1,
+  "inside": false,
+  "primary": "lodging",
+  "source": "places"
+ },
+ "285": {
+  "name": "Tiara Tower",
+  "place_id": "ChIJ53Z-79NDXz4RujNpX_H7dng",
+  "types": [
+   "condominium_complex",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 6.9,
+  "inside": false,
+  "primary": "condominium_complex",
+  "source": "places"
+ },
+ "287": {
+  "name": "Mercedes Benz Places by Binghatti",
+  "place_id": "ChIJ4eRirhhpXz4R0s0R6vuSsjw",
+  "types": [
+   "apartment_building",
+   "establishment",
+   "point_of_interest",
+   "service"
+  ],
+  "dist_m": 0.0,
+  "inside": true,
+  "primary": "apartment_building",
+  "source": "places"
+ },
+ "297": {
+  "name": null,
+  "checked": true
+ }
+}
