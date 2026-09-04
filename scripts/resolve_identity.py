@@ -67,6 +67,38 @@ BUILDINGISH = re.compile(r"\b(tower|towers|residence|residences|building|plaza|h
 GENERIC = re.compile(r"^(building|tower|residence|residences|apartments?|villa|villas|entrance|gate|parking|reception|"
                      r"lobby|office|shop|store|unknown|untitled)\W*\d*$", re.I)
 
+# A place search returns whatever TRADES at a point, which is not what the building is CALLED. The first run proposed
+# "Look Up Rooftop Bar", "Primavera Dry Cleaning" and a holiday-let listing ("City Walk 1BR, Stunning Burj Khalifa view")
+# as building names. A tenant is not an address. These two gates keep a business, a practitioner or a rental ad out of
+# the name column, and let a genuine building name through even when the POI category is commercial.
+POI_BUSINESS = re.compile(r"\b(restaurant|cafe|coffee|bar|pub|lounge|salon|spa|barber|clinic|dental|dentist|doctor|"
+                          r"pharmacy|laundry|dry[- ]cleaning|cleaners|grocery|supermarket|market|bakery|butcher|"
+                          r"insurance|bank|exchange|travel|tourism|agency|agent|consultanc|contracting|trading|"
+                          r"gym|fitness|yoga|studio|nursery|kindergarten|showroom|furniture|boutique|tailor|optic|"
+                          r"garage|workshop|car wash|rent a car|typing|photocopy|stationery|florist|pet |vet)\b", re.I)
+# a holiday-let or brokerage listing, not a building: bedroom counts, sales adjectives, "view", "near", pipes and commas
+POI_LISTING = re.compile(r"(\b\d\s*(br|bed|bedroom|bhk)\b|\bstudio apt|\bapartment with\b|\bwith .*\bview\b|"
+                         r"\bstunning\b|\bluxur|\bcosy\b|\bcozy\b|\bspacious\b|\bsophisticated\b|\bstay\b|"
+                         r"\bhosted by\b|\bshort term\b|\bholiday home\b|\bfor rent\b|\bfor sale\b|\|)", re.I)
+# a person, not a place: "Dr. X", "Iryna Shemyakina - Transformation Coach"
+POI_PERSON = re.compile(r"^(dr|mr|mrs|ms|prof|eng)\.?\s|\s[-–]\s.*\b(coach|consultant|therapist|trainer|specialist|"
+                        r"designer|photographer|adviser|advisor|broker|realtor)\b", re.I)
+
+
+def poi_is_a_building_name(name, primary_type):
+    """True only when the POI plausibly names the BUILDING rather than something trading inside it."""
+    t = (primary_type or "").lower()
+    if POI_LISTING.search(name) or POI_PERSON.search(name) or not poi_name_is_whole(name): return False
+    STRUCTURAL = {"premise", "subpremise", "apartment_building", "apartment_complex", "condominium_complex",
+                  "housing_complex", "office_building", "corporate_office", "shopping_mall", "hotel", "resort_hotel",
+                  "hospital", "school", "university", "mosque", "place_of_worship", "government_office", "embassy",
+                  "real_estate_agency", "landmark_and_historical_building"}
+    # order matters: a bar inside a hotel carries the hotel's category, so the trade name is tested FIRST unless the
+    # name itself reads like a building ("Palazzo Versace Dubai" keeps its hotel category and its building name).
+    if POI_BUSINESS.search(name) and not BUILDINGISH.search(name): return False
+    if t in STRUCTURAL: return True
+    return bool(BUILDINGISH.search(name))
+
 
 # ---------------------------------------------------------------- geometry
 def ring_of(geom):
@@ -109,12 +141,34 @@ def duid_of(slug, ring):
 
 # ---------------------------------------------------------------- naming hygiene
 def clean_name(v):
+    """Normalised name, or None. A short plot-style label ('A1', 'Building 6') is NOT discarded - it is a real identifier
+    and returning None here is what let a tenant's shopfront take an occupied slot."""
     if not v: return None
     v = unicodedata.normalize("NFKC", str(v)).strip().strip("-–—,;:")
     v = re.sub(r"\s+", " ", v)
-    if len(v) < 3 or GENERIC.match(v): return None
-    if not re.search(r"[A-Za-z؀-ۿ]", v): return None            # a bare number is a plot, not a name
+    if len(v) < 2: return None
+    if not re.search(r"[A-Za-z؀-ۿ]", v): return None            # a bare number is a plot number, not a name
     return v
+
+
+def is_weak(v):
+    """A label that identifies the building on a site plan but is not its published name."""
+    return bool(GENERIC.match(v or "") or re.fullmatch(r"[A-Za-z]{1,2}[- ]?\d{1,3}[A-Za-z]?", (v or "").strip()))
+
+
+# A POI name has to survive one more test: it must not be a fragment, and it must not name a facility inside or beside
+# the building rather than the building. "Group", "Dubai The", "Jam Tower Car parking" and "... Metro Station" all failed here.
+POI_FACILITY = re.compile(r"\b(car park|carpark|car parking|parking|metro station|station|bus stop|entrance|gate \d|"
+                          r"reception|lobby|atm|kiosk|food court|toilet|prayer room|taxi)\b", re.I)
+
+
+def poi_name_is_whole(name):
+    n = (name or "").strip()
+    if POI_FACILITY.search(n): return False
+    words = [w for w in re.split(r"\s+", n) if w]
+    if len(words) < 2 and not re.search(r"\d", n): return False          # "Group", "Attareen" alone: a fragment
+    if re.fullmatch(r"(the|a|an|of|and|dubai|uae)(\s+(the|a|an|of|and|dubai|uae))*", n, re.I): return False
+    return True
 
 
 def norm(v):
@@ -154,8 +208,10 @@ def adapters(slug, blds):
         nm = clean_name(a.get("name"))
         if nm:
             rank, base = SOURCES.get(src, (6, 0.80))
-            out[i].append(ev(blds[i]["duid"], "name", nm, src, a.get("id"), "carried on the footprint by build_anchors", base,
-                             dist_m=0.0, inside=True))
+            weak = is_weak(nm)
+            out[i].append(ev(blds[i]["duid"], "name", nm, src, a.get("id"),
+                             ("site-plan label carried on the footprint" if weak else "carried on the footprint by build_anchors"),
+                             base * (0.75 if weak else 1.0), dist_m=0.0, inside=True, weak=weak))
         if a.get("dev"):
             out[i].append(ev(blds[i]["duid"], "developer", a["dev"], "binding", a.get("dev_project"),
                              "register scheme bound to this footprint", SOURCES["binding"][1], dist_m=0.0, inside=True))
@@ -169,7 +225,7 @@ def adapters(slug, blds):
         i = int(k)
         if i not in out or not v or not v.get("name"): continue
         nm = clean_name(v["name"])
-        if not nm: continue
+        if not nm or not poi_is_a_building_name(nm, v.get("primary")): continue
         f = spatial_factor(v.get("dist_m") or 0, bool(v.get("inside")))
         out[i].append(ev(blds[i]["duid"], "name", nm, "places", v.get("place_id"),
                          f"place search on the footprint centroid ({v.get('primary') or 'poi'})",
@@ -188,6 +244,7 @@ def adapters(slug, blds):
             cat = ((f["properties"].get("categories") or {}).get("primary")) or ""
             conf = f["properties"].get("confidence") or 0.5
             if cat not in PLACE_OK and not BUILDINGISH.search(nm): continue
+            if not poi_is_a_building_name(nm, cat): continue
             pts.append((tuple(g["coordinates"][:2]), nm, cat, conf, f["properties"].get("id") or f.get("id")))
         for i, b in blds.items():
             ring = b["ring"]; c = b["centroid"]
@@ -237,8 +294,13 @@ def adapters(slug, blds):
 
 
 # ---------------------------------------------------------------- the resolver
+POI_SOURCES = {"places", "overture_place"}
+
+
 def resolve(building, evidence, min_conf):
     names = [e for e in evidence if e["attribute"] == "name" and e["confidence"] >= min_conf]
+    if any(e["source"] not in POI_SOURCES for e in names):
+        names = [e for e in names if e["source"] not in POI_SOURCES]   # a POI fills a blank, it never replaces a name
     by_norm = {}
     for e in names: by_norm.setdefault(norm(e["value"]), []).append(e)
     best = None
@@ -252,8 +314,9 @@ def resolve(building, evidence, min_conf):
         return {"name": None, "grade": "UNKNOWN", "name_source": None, "confidence": 0.0, "agreeing_sources": []}
     _, top, distinct, agree = best
     rank = SOURCES.get(top["source"], (9, 0))[0]
+    poi = top["source"] in POI_SOURCES
     if rank <= 3 or (agree and top["inside"]): grade = "VERIFIED"
-    elif top["inside"] and top["confidence"] >= 0.70: grade = "MATCHED"
+    elif top["inside"] and top["confidence"] >= 0.70 and (not poi or BUILDINGISH.search(top["value"])): grade = "MATCHED"
     else: grade = "INFERRED"
     return {"name": top["value"], "grade": grade, "name_source": top["source"], "confidence": round(top["confidence"] + (0.10 if agree else 0), 3),
             "agreeing_sources": distinct, "method": top["method"], "dist_m": top.get("dist_m"), "inside": top.get("inside")}
