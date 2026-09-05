@@ -1,0 +1,23 @@
+{
+  "note": "Scribd documents found 5 Sep 2026 that carry floor plans / brochures for projects on the board. Viewing is free; these are developer brochures re-uploaded by brokers. Capture = read in the browser pane and rasterise pages (the Symphony method), never a paywall bypass. Each becomes a plans_index entry with the Scribd doc id as source.",
+  "already_captured": [
+    {"developer": "imtiaz", "project": "The Symphony", "scribd": "969868549", "title": "The Symphony by Imtiaz - Floor Plan", "status": "captured 2 Sep 2026 (24 pages in plans_index)"}
+  ],
+  "candidates": [
+    {"developer": "imtiaz", "project": "Cove by Imtiaz", "scribd": "709995124", "title": "Cove by Imtiaz - Floor Plans", "kind": "floor plans", "priority": 1},
+    {"developer": "imtiaz", "project": "Cove by Imtiaz", "scribd": "709995984", "title": "Cove by Imtiaz - Brochure - Desktop Version", "kind": "brochure", "priority": 2},
+    {"developer": "imtiaz", "project": "Cove Edition 5", "scribd": "866123364", "title": "IMTIAZ-Cove Edition 5_Brochure", "kind": "brochure", "priority": 1},
+    {"developer": "imtiaz", "project": "Wynwood", "scribd": "944128710", "title": "IMTIAZ Wynwood Brochure", "kind": "brochure", "priority": 1},
+    {"developer": "imtiaz", "project": "Dubailand portfolio", "scribd": "890473113", "title": "Imtiaz Projects - Dubailand Availability 19 July 2025", "kind": "availability sheet (dated)", "priority": 3},
+    {"developer": "select", "project": "Jumeirah Living Marina Gate", "scribd": "823897302", "title": "Jumeirah Living Marina Gate by Select Group Brochure", "kind": "brochure", "priority": 1},
+    {"developer": "select", "project": "Six Senses Residences Dubai Marina", "scribd": "812569845", "title": "Six Senses Residences Dubai Marina", "kind": "brochure", "priority": 1},
+    {"developer": "select", "project": "Peninsula Four, The Plaza", "scribd": "670509557", "title": "Peninsula Four The Plaza Brochure", "kind": "brochure", "priority": 2},
+    {"developer": "select", "project": "The Residences, Peninsula", "scribd": "937112632", "title": "The Residences Peninsula Dubai - Digital Brochure", "kind": "brochure", "priority": 2},
+    {"developer": "ellington", "project": "Art Bay", "scribd": "840824681", "title": "Art Bay - Brochure (Dutco x Ellington)", "kind": "brochure", "priority": 1},
+    {"developer": "meraas", "project": "Bluewaters", "scribd": "341934664", "title": "Bluewaters Island Meraas Brochure", "kind": "brochure", "priority": 3},
+    {"developer": "meraas", "project": "Bluewaters", "scribd": "410788093", "title": "Exclusive Preview of Bluewaters by Meraas (floor plans presentation)", "kind": "floor plans", "priority": 2},
+    {"developer": "meraas", "project": "Nad Al Sheba Gardens", "scribd": "916151286", "title": "Brochures Nad Al Sheba Gardens", "kind": "brochure", "priority": 2}
+  ],
+  "not_found_on_scribd": ["Beyond: Passo, Hado, Soulever, Kanyon, Talea, Le Chateau", "Fakhruddin: Treppan, Maimoon Gardens, Hatimi", "Iman: Oxford, One Park Central", "Omniyat: Vela, The Sterling, AVA", "H&H: Eden House", "Arada: Masaar, Armani"],
+  "next": "For the not-found list the developer group is the source (Beyond and Fakhruddin already post sheets there) - ask Naj for the brochure PDFs directly; PDF capture already flows into extract_avail."
+}
