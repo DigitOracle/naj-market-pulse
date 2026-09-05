@@ -1,0 +1,341 @@
+{
+ "updated": "2026-09-05",
+ "count": 44,
+ "note": "Every floor plan we hold, by developer and project. Developer material, shown inside the app to the broker who sells it; each plan names its source. There are no floor-plan links in any of the eleven developers' public portfolios - new plans arrive through the developer group (PDF capture) or by hand.",
+ "developers": [
+  {
+   "key": "imtiaz",
+   "name": "Imtiaz",
+   "projects": [
+    {
+     "name": "The Symphony",
+     "area": "Meydan Horizon (MBR City)",
+     "note": "Level stack B2 · B1 · G · P1 · P2 · P3 …",
+     "plans": [
+      {
+       "label": "1BR",
+       "kind": "unit_card",
+       "img": "card_symphony_1br",
+       "url": "/img/card_symphony_1br",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "2BR",
+       "kind": "unit_card",
+       "img": "card_symphony_2br",
+       "url": "/img/card_symphony_2br",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "3BR",
+       "kind": "unit_card",
+       "img": "card_symphony_3br",
+       "url": "/img/card_symphony_3br",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "4BR",
+       "kind": "unit_card",
+       "img": "card_symphony_4br",
+       "url": "/img/card_symphony_4br",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "4BR Duplex lower",
+       "kind": "unit_card",
+       "img": "card_symphony_4br_duplex_lower",
+       "url": "/img/card_symphony_4br_duplex_lower",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "4BR Duplex upper",
+       "kind": "unit_card",
+       "img": "card_symphony_4br_duplex_upper",
+       "url": "/img/card_symphony_4br_duplex_upper",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "Master Suite 1BR",
+       "kind": "unit_card",
+       "img": "card_symphony_mastersuite_1br",
+       "url": "/img/card_symphony_mastersuite_1br",
+       "source": "unit-type card rendered from the register + brochure (build_unit_cards_v4.py)"
+      },
+      {
+       "label": "32nd floor (unit 3307 study)",
+       "kind": "page",
+       "img": "plan_symphony_crop32nd",
+       "url": "/img/plan_symphony_crop32nd",
+       "source": "The Symphony floor-plan deck (developer brochure), page 32nd"
+      },
+      {
+       "label": "33rd floor (unit 3307 study)",
+       "kind": "page",
+       "img": "plan_symphony_crop33rd",
+       "url": "/img/plan_symphony_crop33rd",
+       "source": "The Symphony floor-plan deck (developer brochure), page 33rd"
+      },
+      {
+       "label": "34th floor (unit 3307 study)",
+       "kind": "page",
+       "img": "plan_symphony_crop34th",
+       "url": "/img/plan_symphony_crop34th",
+       "source": "The Symphony floor-plan deck (developer brochure), page 34th"
+      },
+      {
+       "label": "Site plan and ground floor",
+       "kind": "page",
+       "img": "plan_symphony_cropgroundsite",
+       "url": "/img/plan_symphony_cropgroundsite",
+       "source": "The Symphony floor-plan deck (developer brochure), page ground_site"
+      },
+      {
+       "label": "11,13,15,17,19,21 — 13 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_cropp16",
+       "url": "/img/plan_symphony_cropp16",
+       "source": "The Symphony floor-plan deck (developer brochure), page p16"
+      },
+      {
+       "label": "23Rd — 11 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_cropp17",
+       "url": "/img/plan_symphony_cropp17",
+       "source": "The Symphony floor-plan deck (developer brochure), page p17"
+      },
+      {
+       "label": "25,27,29,31 — 11 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_cropp18",
+       "url": "/img/plan_symphony_cropp18",
+       "source": "The Symphony floor-plan deck (developer brochure), page p18"
+      },
+      {
+       "label": "24,26,28,30 — 10 units: master suite / 1BR / 3BR",
+       "kind": "page",
+       "img": "plan_symphony_cropp19",
+       "url": "/img/plan_symphony_cropp19",
+       "source": "The Symphony floor-plan deck (developer brochure), page p19"
+      },
+      {
+       "label": "32Nd — 9 units: master suite / 1BR / 4BR",
+       "kind": "page",
+       "img": "plan_symphony_cropp20",
+       "url": "/img/plan_symphony_cropp20",
+       "source": "The Symphony floor-plan deck (developer brochure), page p20"
+      },
+      {
+       "label": "35Th — MEP + 4-BEDROOM DUPLEX (top)",
+       "kind": "page",
+       "img": "plan_symphony_cropp23",
+       "url": "/img/plan_symphony_cropp23",
+       "source": "The Symphony floor-plan deck (developer brochure), page p23"
+      },
+      {
+       "label": "Fp P01",
+       "kind": "page",
+       "img": "plan_symphony_fpp01",
+       "url": "/img/plan_symphony_fpp01",
+       "source": "The Symphony floor-plan deck (developer brochure), page 01"
+      },
+      {
+       "label": "Ground Floor — Retail R-1..R-8, residential lobby, commercial lobby",
+       "kind": "page",
+       "img": "plan_symphony_fpp02",
+       "url": "/img/plan_symphony_fpp02",
+       "source": "The Symphony floor-plan deck (developer brochure), page 02"
+      },
+      {
+       "label": "1St Podium — Offices 1-4 + retail R-1, R-5",
+       "kind": "page",
+       "img": "plan_symphony_fpp03",
+       "url": "/img/plan_symphony_fpp03",
+       "source": "The Symphony floor-plan deck (developer brochure), page 03"
+      },
+      {
+       "label": "4Th Podium — Offices 1-6",
+       "kind": "page",
+       "img": "plan_symphony_fpp04",
+       "url": "/img/plan_symphony_fpp04",
+       "source": "The Symphony floor-plan deck (developer brochure), page 04"
+      },
+      {
+       "label": "5Th Podium — Offices 1-5",
+       "kind": "page",
+       "img": "plan_symphony_fpp05",
+       "url": "/img/plan_symphony_fpp05",
+       "source": "The Symphony floor-plan deck (developer brochure), page 05"
+      },
+      {
+       "label": "2Nd Floor — Offices 1-10",
+       "kind": "page",
+       "img": "plan_symphony_fpp07",
+       "url": "/img/plan_symphony_fpp07",
+       "source": "The Symphony floor-plan deck (developer brochure), page 07"
+      },
+      {
+       "label": "3Rd Floor — Offices 1-9",
+       "kind": "page",
+       "img": "plan_symphony_fpp08",
+       "url": "/img/plan_symphony_fpp08",
+       "source": "The Symphony floor-plan deck (developer brochure), page 08"
+      },
+      {
+       "label": "4Th Floor — Offices 1-7",
+       "kind": "page",
+       "img": "plan_symphony_fpp09",
+       "url": "/img/plan_symphony_fpp09",
+       "source": "The Symphony floor-plan deck (developer brochure), page 09"
+      },
+      {
+       "label": "5Th Floor — Offices 1-7",
+       "kind": "page",
+       "img": "plan_symphony_fpp10",
+       "url": "/img/plan_symphony_fpp10",
+       "source": "The Symphony floor-plan deck (developer brochure), page 10"
+      },
+      {
+       "label": "6Th Floor — Offices 1-7",
+       "kind": "page",
+       "img": "plan_symphony_fpp11",
+       "url": "/img/plan_symphony_fpp11",
+       "source": "The Symphony floor-plan deck (developer brochure), page 11"
+      },
+      {
+       "label": "7Th Floor — Offices 1-7",
+       "kind": "page",
+       "img": "plan_symphony_fpp12",
+       "url": "/img/plan_symphony_fpp12",
+       "source": "The Symphony floor-plan deck (developer brochure), page 12"
+      },
+      {
+       "label": "8Th Floor — Offices 1-7",
+       "kind": "page",
+       "img": "plan_symphony_fpp13",
+       "url": "/img/plan_symphony_fpp13",
+       "source": "The Symphony floor-plan deck (developer brochure), page 13"
+      },
+      {
+       "label": "9Th Floor — Clubhouse, gym",
+       "kind": "page",
+       "img": "plan_symphony_fpp14",
+       "url": "/img/plan_symphony_fpp14",
+       "source": "The Symphony floor-plan deck (developer brochure), page 14"
+      },
+      {
+       "label": "11,13,15,17,19,21 — 13 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_fpp16",
+       "url": "/img/plan_symphony_fpp16",
+       "source": "The Symphony floor-plan deck (developer brochure), page 16"
+      },
+      {
+       "label": "23Rd — 11 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_fpp17",
+       "url": "/img/plan_symphony_fpp17",
+       "source": "The Symphony floor-plan deck (developer brochure), page 17"
+      },
+      {
+       "label": "25,27,29,31 — 11 units: master suite / 1BR / 2BR",
+       "kind": "page",
+       "img": "plan_symphony_fpp18",
+       "url": "/img/plan_symphony_fpp18",
+       "source": "The Symphony floor-plan deck (developer brochure), page 18"
+      },
+      {
+       "label": "24,26,28,30 — 10 units: master suite / 1BR / 3BR",
+       "kind": "page",
+       "img": "plan_symphony_fpp19",
+       "url": "/img/plan_symphony_fpp19",
+       "source": "The Symphony floor-plan deck (developer brochure), page 19"
+      },
+      {
+       "label": "32Nd — 9 units: master suite / 1BR / 4BR",
+       "kind": "page",
+       "img": "plan_symphony_fpp20",
+       "url": "/img/plan_symphony_fpp20",
+       "source": "The Symphony floor-plan deck (developer brochure), page 20"
+      },
+      {
+       "label": "33Rd — 10 units: master suite / 1BR / 2BR / 4-BEDROOM DUPLEX (lower)",
+       "kind": "page",
+       "img": "plan_symphony_fpp21",
+       "url": "/img/plan_symphony_fpp21",
+       "source": "The Symphony floor-plan deck (developer brochure), page 21"
+      },
+      {
+       "label": "34Th — 7 units: master suite / 1BR / 4-BEDROOM DUPLEX (upper); unit 3308 labelled",
+       "kind": "page",
+       "img": "plan_symphony_fpp22",
+       "url": "/img/plan_symphony_fpp22",
+       "source": "The Symphony floor-plan deck (developer brochure), page 22"
+      },
+      {
+       "label": "35Th — MEP + 4-BEDROOM DUPLEX (top)",
+       "kind": "page",
+       "img": "plan_symphony_fpp23",
+       "url": "/img/plan_symphony_fpp23",
+       "source": "The Symphony floor-plan deck (developer brochure), page 23"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "emaar",
+   "name": "Emaar",
+   "projects": [
+    {
+     "name": "ALVA at The Valley",
+     "area": "The Valley, Dubai-Al Ain Road",
+     "note": "3 and 4 bedroom townhouses - EOI stage, sales rooms only",
+     "plans": [
+      {
+       "label": "3BR floor plan, page 1",
+       "kind": "floorplan",
+       "img": "valley_fp_3br_1",
+       "url": "/img/valley_fp_3br_1",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+      },
+      {
+       "label": "3BR floor plan, page 2",
+       "kind": "floorplan",
+       "img": "valley_fp_3br_2",
+       "url": "/img/valley_fp_3br_2",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+      },
+      {
+       "label": "3BR floor plan, page 3",
+       "kind": "floorplan",
+       "img": "valley_fp_3br_3",
+       "url": "/img/valley_fp_3br_3",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_3 BR.pdf"
+      },
+      {
+       "label": "4BR floor plan, page 1",
+       "kind": "floorplan",
+       "img": "valley_fp_4br_1",
+       "url": "/img/valley_fp_4br_1",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+      },
+      {
+       "label": "4BR floor plan, page 2",
+       "kind": "floorplan",
+       "img": "valley_fp_4br_2",
+       "url": "/img/valley_fp_4br_2",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+      },
+      {
+       "label": "4BR floor plan, page 3",
+       "kind": "floorplan",
+       "img": "valley_fp_4br_3",
+       "url": "/img/valley_fp_4br_3",
+       "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
