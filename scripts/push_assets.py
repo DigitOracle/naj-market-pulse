@@ -20,6 +20,14 @@ DEFAULTS = [  # (kv name, local file, content type)
 def push(name, path, ctype, url, token):
     with open(path, "rb") as f:
         raw = f.read()
+    if len(raw) > 5 * 1024 * 1024 and ctype == "model/gltf-binary":
+        # v86: a district GLB is mostly JSON (node/mesh/accessor tables, ~1.6 KB per building) and gzips 5-6x.
+        # Store it gzipped; the Worker's /img/ route sees the gzip magic and serves it with Content-Encoding: gzip,
+        # which the browser's fetch (and so GLTFLoader) inflates transparently. Cap applies to what is stored.
+        import gzip
+        gz = gzip.compress(raw, 9)
+        print(f"{name}: {len(raw)//1024} KB raw -> {len(gz)//1024} KB gzipped for transport")
+        raw = gz
     if len(raw) > 5 * 1024 * 1024:
         print(f"SKIP {name}: {len(raw)//1024} KB exceeds the 5 MB ingest cap — slim and re-push")
         return
@@ -58,8 +66,10 @@ def main():
     glbdir = os.path.join(PUB, "..", "data", "ce", "_glb")
     if "--skylines" in sys.argv and os.path.isdir(glbdir):
         for f in sorted(os.listdir(glbdir)):
-            if f.endswith(".glb"):
+            if f.endswith(".glb") and not f.endswith(".merged.glb"):     # v86: skip the packer's intermediate copy
                 kvname = re.sub(r"_0$", "", os.path.splitext(f)[0])
+                only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None   # v86: --only jltnorth,jltsouth
+                if only and not any(kvname == f"sky_{o}" or kvname.startswith(f"sky_{o}_") for o in only): continue
                 jobs.append((kvname, os.path.join(glbdir, f), "model/gltf-binary"))
     if "--splash" in sys.argv:
         vid = sys.argv[sys.argv.index("--splash") + 1]

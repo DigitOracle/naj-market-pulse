@@ -66,10 +66,18 @@ def main():
     want = sys.argv[sys.argv.index("--area") + 1]
     areas = json.load(open(os.path.join(PUB, "mp_areas.json"), encoding="utf-8"))
     ft = next((f for f in areas["features"] if slug(f["properties"]["n"]) == slug(want)), None)
-    if not ft:
+    tile_gj = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "ce", slug(want), "buildings.geojson")
+    if not ft and os.path.exists(tile_gj):
+        # v86: a model TILE (jltnorth / jltsouth) has no community polygon of its own - frame it on its footprints' hull
+        from shapely.ops import unary_union as _uu
+        _fc = json.load(open(tile_gj, encoding="utf-8"))
+        poly = _uu([shape(f["geometry"]) for f in _fc["features"]]).convex_hull
+        name = slug(want); sl = name
+    elif not ft:
         sys.exit(f'no boundary polygon for "{want}"')
-    name = ft["properties"]["n"]; sl = slug(name)
-    poly = shape(ft["geometry"])
+    else:
+        name = ft["properties"]["n"]; sl = slug(name)
+        poly = shape(ft["geometry"])
     b = poly.buffer(0.004).bounds                                  # ~400m frame beyond the district
     bbox = f"{b[1]},{b[0]},{b[3]},{b[2]}"
     print(f"{name}: context bbox {tuple(round(x,3) for x in b)}")

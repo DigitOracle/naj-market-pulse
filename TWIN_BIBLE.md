@@ -173,3 +173,30 @@ and `PROJECT_NAME` outright. It is rank 1 in the precedence table and the adapte
 `data/identity/official/dld/`. Then Dubai Municipality's **Building Summary Information** and **Makani** for the villas.
 
 Open data can improve the edges. It will not take 1,775 names to 10,000. Only the cadastral registers will.
+
+## 10. Tiles, the size budget and what a district GLB actually weighs (JLT split, 5 Sep 2026)
+
+- **A district GLB is mostly JSON, not geometry.** JLT North packed to 7.99 MB: 5.57 MB of that is the JSON chunk
+  (one node + mesh + three accessors + a name per building, ~1.6 KB each for 3,577 buildings); triangles were 2.4 MB.
+  meshopt/webp cannot touch the JSON. gzip crushes the whole file 5-6x (7.99 -> 1.65 MB). So the 5 MB cap is met by
+  **storing large GLBs gzipped** (`push_assets.py` does it automatically for `model/gltf-binary` over the cap) and the
+  Worker's `/img/` route serving them with `Content-Encoding: gzip` + `encodeBody: "manual"` when it sees the 1f 8b magic.
+  The browser's fetch inflates transparently, GLTFLoader never knows. Do NOT merge meshes to save bytes - per-building
+  meshes are what make tap-a-tower work.
+- **Split by count, keep buildings whole.** `split_district.py <parent> <north> <south>` cuts at the median centroid
+  latitude of the building-level export; a building goes with its centroid. JLT: 7,153 -> 3,577 / 3,576. All 111 towers
+  fell north; the south tile is the Jumeirah Islands / Jumeirah Park villa belt - that is the geography, not a bug.
+- **Never run `ce_batch.py` to add one district.** It imports every folder that has a buildings.shp and only skips folders
+  with a legacy `sky_<slug>_0.glb`; v2/v3 districts have `_v2_0`/`_v3_0` names, so it would re-import the whole city.
+  `ce_import_tile.py <tile> ...` does the single import (lock-protected) and `ce_batch_v2.py --v3 <tile>` masses it.
+- **KV name = `sky_<slug>` exactly.** `push_assets.py --skylines` maps `sky_<slug>_v3_0.glb` to `sky_<slug>_v3`, which is
+  the WRONG key (the rail lists every `img_sky_*` key, so a stray name becomes a phantom district pill), and it happily
+  pushed the packer's `.merged.glb` intermediate too. Both fixed (`--only`, `.merged` excluded) - but for v3 tiles push by
+  hand under `sky_<slug>` and `kv key list --prefix img_sky_` afterwards.
+- **A tile has no community polygon.** `ce_context.py --area <tile>` now frames on the convex hull of the tile's own
+  footprints; the minimap and locator map the tile to its parent polygon via `TWIN_TILE_PARENT` in the Worker.
+  Identity evidence (Overture / OSM addresses / Places) is still keyed by the PARENT slug - the tiles came out with
+  anchors-only names (164 / 179). Teach `resolve_identity.py` to read the parent's evidence for a tile before re-running.
+- **Rail lesson.** One flat alphabetical row does not scale past ~12 districts. v86 groups by five corridors, badges
+  maturity from `twin_audit` (gold = register-bound, grey = surveyed, dark = massing only) and retires a parent from the
+  rail once all of its tiles are live.

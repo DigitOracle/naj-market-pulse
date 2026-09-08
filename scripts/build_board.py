@@ -17,7 +17,7 @@ from build_avail_index import env_token, push, WORKER  # noqa: E402
 SEG = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_segments.json"), encoding="utf-8"))
 DNA = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), encoding="utf-8"))
 KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-       "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+       "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
 # buildings we hold cards / meta for, per developer key -> [{building slug, title, cards key, meta slug, drill dev key}]
 OURS = {"imtiaz": [{"building": "symphony", "title": "The Symphony by Imtiaz", "cards": "symphony", "meta": "goldensymphony", "drill": "imtiaz",
                     "area": "Bukadra (Meydan Horizon)", "status": "under construction"}]}

@@ -1,6 +1,6 @@
 {
  "updated": "2026-09-03 17:16",
- "placed": 63,
+ "placed": 53,
  "unplaced": 242,
  "how": {
   "inside": 30,
@@ -220,15 +220,6 @@
     "dist_m": 79.1,
     "how": "tall80",
     "map_name": ""
-   },
-   "144": {
-    "dev": "arada",
-    "project": "MASAAR RESIDENCES",
-    "source": "dld_tx",
-    "score": 90,
-    "dist_m": 13.2,
-    "how": "inside",
-    "map_name": "Masaar Residences"
    }
   },
   "arjan": {
@@ -304,7 +295,7 @@
     "map_name": ""
    },
    "2477": {
-    "dev": "zaya_palma",
+    "dev": "palma",
     "project": "The Royal Sky Mansion at Serenia Living",
     "source": "site",
     "score": 90,
@@ -313,7 +304,7 @@
     "map_name": ""
    },
    "1807": {
-    "dev": "zaya_palma",
+    "dev": "palma",
     "project": "Serenia Residences The Palm",
     "source": "site",
     "score": 90,
@@ -509,7 +500,7 @@
     "map_name": "Yacht Bay Tower"
    },
    "55": {
-    "dev": "zaya_palma",
+    "dev": "palma",
     "project": "Infinity / Cayan Tower",
     "source": "site",
     "score": 90,
@@ -518,7 +509,7 @@
     "map_name": "Cayan Tower"
    },
    "24": {
-    "dev": "zaya_palma",
+    "dev": "palma",
     "project": "La Residencia Del Mar",
     "source": "site",
     "score": 94.2,
@@ -527,5 +518,14 @@
     "map_name": "La Residencia Del Mar"
    }
   }
- }
+ },
+ "rejected_by_hand": [
+  {
+   "district": "jumeirahvillagecircle",
+   "i": 144,
+   "project": "MASAAR RESIDENCES",
+   "why": "JVC building named Masaar Residences is not Arada's Masaar (a Sharjah master community); a name-only match",
+   "when": "2026-09-08"
+  }
+ ]
 }

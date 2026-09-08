@@ -1,0 +1,8 @@
+{
+ "parent": "althanyahfifth",
+ "cut_lat": 25.055976,
+ "source": "OpenStreetMap ways + relations (reexport_footprints.py)",
+ "total": 7153,
+ "half": "north",
+ "count": 3577
+}

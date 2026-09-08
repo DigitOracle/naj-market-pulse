@@ -3,7 +3,7 @@ One generic engine, one config block per developer: seed listing pages + a detai
 exposes one (Ellington, Palma, Arada). Each detail page yields name, area, hero image, description, facts (location, structure/storeys,
 units, handover, payment plans, mix) and amenity keywords from the page text; direct PDF links are RECORDED, never downloaded.
 Meraas blocks scripted fetches (403) - its register is built separately (meraas_portfolio.json via the research fetcher, see notes).
-ZAYA has no live site (zaya.ae is parked) -> the ZAYA/Palma card uses Palma's register.
+ZAYA has no live site (zaya.ae is parked; zaya.com is a one-page brochure) -> ZAYA is register/MEED only; Palma reads palmaholding.com. Split 8 Sep 2026.
 Usage: python scripts/dev_portfolio.py [key ...]
 """
 import html, json, os, re, ssl, sys, time, urllib.request
@@ -24,10 +24,13 @@ CFG = {
     "ellington":  {"base": "https://ellingtonproperties.ae", "rest": "/wp-json/wp/v2/property?per_page=100&_fields=slug,link,title"},
     "arada":      {"base": "https://www.arada.com", "seeds": ["/en", "/en/"], "detail": r"^/en/[^/]+/?$",
                    "keep": r"aljada|masaar|jouri-hills|nasma|armani-beach|w-residences|anantara|inaura|cbd", "name": "slug"},
-    "zaya_palma": {"base": "https://palmaholding.com", "rest": "/wp-json/wp/v2/projects?per_page=100&_fields=slug,link,title", "drop": r"school"},
+    "zaya":       None,   # ZAYA has no live site (zaya.ae parked; zaya.com is a brochure page) - register/MEED only
+    "sobha":      None,   # sobharealty.com answers slowly / blocks scripted fetches - register/MEED only for now
+    "palma":      {"base": "https://palmaholding.com", "rest": "/wp-json/wp/v2/projects?per_page=100&_fields=slug,link,title", "drop": r"school"},
     "fakhruddin": {"base": "https://www.fakhruddinproperties.com", "seeds": ["/projects", "/"], "detail": r"^/projects/[^/]+$"},
     "beyond":     {"base": "https://beyonddevelopments.ae", "seeds": ["/", "/our-portfolio/"], "detail": r"^/Projects/[^/]+$"},
     "iman":       {"base": "https://www.imandevelopers.com", "seeds": ["/properties", "/"], "detail": r"^/iman-properties/[^/]+$"},
+    "emaar":      {"base": "https://www.emaar.com", "sitemap": "/sitemap.xml", "detail": r"^/en/properties/[^/]+$", "name": "slug"},
 }
 AMEN_KW = [("pool", "pool"), ("gym", "gym"), ("kids", "kids' zone"), ("clubhouse", "clubhouse"), ("bbq", "BBQ"), ("cinema", "cinema"), ("spa", "spa"), ("sauna", "sauna"),
            ("yoga", "yoga"), ("ev charg", "EV charging"), ("padel", "padel"), ("co-working", "co-working"), ("coworking", "co-working"), ("beach", "beach access"),
@@ -59,6 +62,10 @@ def strip(s):
 def discover(cfg):
     base = cfg["base"]; host = re.sub(r"^https?://(www\.)?", "", base)
     urls = {}
+    if cfg.get("sitemap"):                                                     # every <loc> in the sitemap that looks like a detail page
+        for u in re.findall(r"<loc>" + r"\s*([^<\s]+)" + r"\s*</loc>", get(base + cfg["sitemap"])):
+            path = re.sub(r"^https?://[^/]+", "", u.strip())
+            if re.search(cfg["detail"], path) and not (cfg.get("drop") and re.search(cfg["drop"], path)): urls.setdefault(base + path.rstrip("/"), None)
     if cfg.get("rest"):
         for it in json.loads(get(base + cfg["rest"])):
             urls[it["link"]] = strip(it["title"]["rendered"]) if isinstance(it.get("title"), dict) else None
@@ -121,6 +128,7 @@ if __name__ == "__main__":
     keys = sys.argv[1:] or list(CFG)
     for k in keys:
         cfg = CFG[k]; print("==", k)
+        if not cfg: print("   no live site - register/MEED only"); continue
         try:
             urls = discover(cfg)
         except Exception as e:

@@ -41,7 +41,7 @@ def metres(lon1, lat1, lon2, lat2):
 
 # ---------------- developer tagging
 DEV_KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-           "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+           "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
 STOP = {"the", "by", "at", "residences", "residence", "tower", "towers", "dubai", "marina", "bay", "living", "collection", "building", "apartments", "hotel", "and", "of", "a"}
 ROMAN = {"i": "1", "ii": "2", "iii": "3", "iv": "4", "v": "5", "vi": "6"}
 
@@ -57,7 +57,7 @@ DISTRICT_ALIASES = {
     "palmjumeirah": ["palm jumeirah", "the palm"], "alkhairanfirst": ["creek harbour", "al khairan", "creek beach"],
     "dubaimaritimecity": ["maritime", "almelaheyah", "mina rashid"], "meydanone": ["meydan", "al merkadh", "district one", "meydan horizon", "bukadra"],
     "sobhaheartland": ["sobha hartland", "nad al shiba", "mbr city", "mohammed bin rashid city"], "alwasl": ["al wasl", "city walk", "al safa", "jumeirah 1", "la mer", "port de la mer"],
-    "althanyahfifth": ["jlt", "jumeirah lakes", "al thanyah fifth", "uptown"], "jumeirahvillagecircle": ["jvc", "jumeirah village circle"],
+    "althanyahfifth": ["jlt", "jumeirah lakes", "al thanyah fifth", "uptown"], "jltnorth": ["jlt", "jumeirah lakes", "al thanyah fifth", "uptown"], "jltsouth": ["jlt", "jumeirah lakes", "al thanyah fifth", "uptown"], "jumeirahvillagecircle": ["jvc", "jumeirah village circle"],
     "jumeirahvillagetriangle": ["jvt", "jumeirah village triangle"], "arjan": ["arjan", "al barsha south"], "motorcity": ["motor city"],
     "dubaisportscity": ["sports city", "al hebiah fourth"], "dubaihills": ["dubai hills", "hadaeq"], "palmdeira": ["palm deira", "dubai islands", "deira islands"],
     "madinatalmataar": ["dubai south", "madinat al mataar", "expo"], "samaaljadaf": ["jaddaf", "al jadaf", "culture village", "dubai healthcare city"],

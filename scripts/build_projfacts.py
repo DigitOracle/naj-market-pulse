@@ -21,7 +21,7 @@ SEG = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_segments.
 BOARD = json.load(open(os.path.join(ROOT, "data", "board", "board_devs.json"), encoding="utf-8"))
 DNA = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), encoding="utf-8"))["developers"]
 KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-       "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+       "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
 con = duckdb.connect(os.path.join(ROOT, "naj.duckdb"), read_only=True)
 JUNK_AREA = ("luxury", "prestige", "real estate", "apartments", "for sale", "developer", "properties")
 

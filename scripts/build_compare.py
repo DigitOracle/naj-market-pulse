@@ -20,7 +20,7 @@ SEG = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_segments.
 DNA = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), encoding="utf-8"))
 BOARD = json.load(open(os.path.join(ROOT, "data", "board", "board_devs.json"), encoding="utf-8"))
 KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-       "ZAYA/Palma": "zaya_palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman"}
+       "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
 BEDS = {"all": None, "studio": ["Studio"], "1": ["1 B/R"], "2": ["2 B/R"], "3": ["3 B/R"], "4": ["4 B/R", "5 B/R", "6 B/R", "PENTHOUSE"]}
 BANDS = {"all": (0, 1e12), "lt1": (0, 1e6), "1to2": (1e6, 2e6), "2to4": (2e6, 4e6), "gt4": (4e6, 1e12)}
 BAND_LABEL = {"all": "any price", "lt1": "under AED 1 M", "1to2": "AED 1-2 M", "2to4": "AED 2-4 M", "gt4": "AED 4 M+"}

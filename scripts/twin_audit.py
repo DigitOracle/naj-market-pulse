@@ -28,7 +28,7 @@ sys.path.insert(0, HERE)
 from build_developer_dna import norm_name, same  # noqa: E402
 
 DISTRICT_NAME = {"burjkhalifa": "Downtown Dubai", "palmdeira": "Dubai Islands", "jumeirahvillagecircle": "JVC",
-                 "jumeirahvillagetriangle": "JVT", "althanyahfifth": "JLT / Al Thanyah Fifth", "samaaljadaf": "Al Jaddaf",
+                 "jumeirahvillagetriangle": "JVT", "althanyahfifth": "JLT / Al Thanyah Fifth", "jltnorth": "JLT North", "jltsouth": "JLT South", "samaaljadaf": "Al Jaddaf",
                  "sobhaheartland": "Sobha Hartland", "alwasl": "Al Wasl", "motorcity": "Motor City",
                  "businessbay": "Business Bay", "dubaimarina": "Dubai Marina", "palmjumeirah": "Palm Jumeirah"}
 SURVEY = {"osm", "osm_en", "overture", "wikidata"}

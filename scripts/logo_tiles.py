@@ -56,7 +56,7 @@ def svg_to_png(src, scale_px=1600):
 
 RASTER = {"fakhruddin": "https://portal.fandcproperties.ae/uploads/panel/developers/logo/fakhruddin_properties_logo_1713885144.png"}
 PICK = {"omniyat": "raw_omniyat_word.svg", "hh": "raw_hh.svg", "meraas": "raw_meraas.svg", "select": "raw_select.svg", "ellington": "raw_ellington.png",
-        "arada": "raw_arada.svg", "zaya_palma": "raw_palma_art.png", "fakhruddin": "raw_fakhruddin.png", "beyond": "raw_beyond.webp", "imtiaz": "raw_imtiaz.svg", "iman": "raw_iman.svg"}
+        "arada": "raw_arada.svg", "zaya": "raw_zaya.png", "palma": "raw_palma_art.png", "sobha": "raw_sobha.png", "fakhruddin": "raw_fakhruddin.png", "beyond": "raw_beyond.webp", "imtiaz": "raw_imtiaz.svg", "iman": "raw_iman.svg"}
 
 if __name__ == "__main__":
     pull_inline_svgs()
