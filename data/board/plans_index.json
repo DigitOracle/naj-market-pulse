@@ -1,6 +1,6 @@
 {
- "updated": "2026-09-05",
- "count": 44,
+ "updated": "2026-09-09",
+ "count": 71,
  "note": "Every floor plan we hold, by developer and project. Developer material, shown inside the app to the broker who sells it; each plan names its source. There are no floor-plan links in any of the eleven developers' public portfolios - new plans arrive through the developer group (PDF capture) or by hand.",
  "developers": [
   {
@@ -332,6 +332,208 @@
        "img": "valley_fp_4br_3",
        "url": "/img/valley_fp_4br_3",
        "source": "Emaar ALVA floor plan pack, ALVA_TV_FLOORPLANS_4 BR(1).pdf"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "select",
+   "name": "Select Group",
+   "projects": [
+    {
+     "name": "Six Senses Residences Dubai Marina",
+     "area": "Dubai Marina",
+     "note": "",
+     "plans": [
+      {
+       "label": "Type 2A · unit 02 · levels 07-21",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l07212aunit02",
+       "url": "/img/plan_select_sixsense_l07212aunit02",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 2B · unit 03 · levels 07-21",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l07212bunit03",
+       "url": "/img/plan_select_sixsense_l07212bunit03",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 3A · unit 01 · levels 07-21",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l07213aunit01",
+       "url": "/img/plan_select_sixsense_l07213aunit01",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4A · unit 04 · levels 07-21",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l07214aunit04",
+       "url": "/img/plan_select_sixsense_l07214aunit04",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 3B · unit 01 · levels 107",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1073bunit01",
+       "url": "/img/plan_select_sixsense_l1073bunit01",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexA · unit 01 · levels 111-112",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1111124duplexaunit",
+       "url": "/img/plan_select_sixsense_l1111124duplexaunit",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexB · unit 02 · levels 111-112",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1111124duplexbunit",
+       "url": "/img/plan_select_sixsense_l1111124duplexbunit",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexA1 · unit 01 · levels 113-114",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1131144duplexa1uni",
+       "url": "/img/plan_select_sixsense_l1131144duplexa1uni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexB1 · unit 02 · levels 113-114",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1131144duplexb1uni",
+       "url": "/img/plan_select_sixsense_l1131144duplexb1uni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexA2 · unit 01 · levels 115-116",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1151164duplexa2uni",
+       "url": "/img/plan_select_sixsense_l1151164duplexa2uni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4DuplexB2 · unit 02 · levels 115-116",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1151164duplexb2uni",
+       "url": "/img/plan_select_sixsense_l1151164duplexb2uni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 5TriplexA · unit 01 · levels 117-119",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1171195triplexauni",
+       "url": "/img/plan_select_sixsense_l1171195triplexauni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 5TriplexB · unit 02 · levels 117-119",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1171195triplexbuni",
+       "url": "/img/plan_select_sixsense_l1171195triplexbuni",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 5TriplexA1 · unit 01 · levels 120-122",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1201225triplexa1un",
+       "url": "/img/plan_select_sixsense_l1201225triplexa1un",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 5TriplexB1 · unit 02 · levels 120-122",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l1201225triplexb1un",
+       "url": "/img/plan_select_sixsense_l1201225triplexb1un",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 2A1 · unit 02 · levels 24-38",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l24382a1unit02",
+       "url": "/img/plan_select_sixsense_l24382a1unit02",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 2B1 · unit 03 · levels 24-38",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l24382b1unit03",
+       "url": "/img/plan_select_sixsense_l24382b1unit03",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 3A1 · unit 01 · levels 24-38",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l24383a1unit01",
+       "url": "/img/plan_select_sixsense_l24383a1unit01",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4A1 · unit 04 · levels 24-38",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l24384a1unit04",
+       "url": "/img/plan_select_sixsense_l24384a1unit04",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4B · unit 01 · levels 41-61",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l41614bunit01",
+       "url": "/img/plan_select_sixsense_l41614bunit01",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4C · unit 02 · levels 41-61",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l41614cunit02",
+       "url": "/img/plan_select_sixsense_l41614cunit02",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4D · unit 01 · levels 64-84 and 89-106",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l6484l891064dunit01",
+       "url": "/img/plan_select_sixsense_l6484l891064dunit01",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Type 4E · unit 02 · levels 64-84 and 89-106",
+       "kind": "floorplan",
+       "img": "plan_select_sixsense_l6484l891064eunit02",
+       "url": "/img/plan_select_sixsense_l6484l891064eunit02",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Amenities, page 1",
+       "kind": "page",
+       "img": "plan_select_sixsense_amenitiesp1",
+       "url": "/img/plan_select_sixsense_amenitiesp1",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Amenities, page 2",
+       "kind": "page",
+       "img": "plan_select_sixsense_amenitiesp2",
+       "url": "/img/plan_select_sixsense_amenitiesp2",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Amenities, page 3",
+       "kind": "page",
+       "img": "plan_select_sixsense_amenitiesp3",
+       "url": "/img/plan_select_sixsense_amenitiesp3",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
+      },
+      {
+       "label": "Amenities, page 4",
+       "kind": "page",
+       "img": "plan_select_sixsense_amenitiesp4",
+       "url": "/img/plan_select_sixsense_amenitiesp4",
+       "source": "Developer floor-plan pack (Google Drive export, 8 Sep 2026): 23 unit plans by level band, type and unit position, 4 amenity pages; the 124 MB key plan is kept locally only"
       }
      ]
     }

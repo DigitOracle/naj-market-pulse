@@ -9,6 +9,15 @@ import csv, json, statistics, re, sys, os
 from collections import Counter
 from datetime import datetime, timezone
 
+# marketing name -> the DLD area name Ejari files rents under (register-derived, scripts that build it: area_alias.json)
+_AREA_ALIAS = {}
+try:
+    import os as _os
+    _AREA_ALIAS = json.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "..", "data", "dld", "area_alias.json"), encoding="utf-8"))["alias"]
+except Exception:
+    pass
+
+
 DATA = "data"
 PUB = "public"
 
@@ -247,7 +256,7 @@ def collect_brokers():
 # the Digital Abbot Cloud API (status 1u + stats 2u — frugal on quota). The DAC key lives
 # in .env (gitignored) and must NEVER appear in code or in any published output.
 MEED_DIR = os.environ.get("MEED_SNAPSHOT_DIR",
-                          r"C:\Users\kwils\Downloads\MEED\MEED")
+                          r"C:\Dev\naj-market-pulse\data\raw_downloads\MEED\MEED")
 
 # DLD AREA_EN names are inconsistently cased — always match lowercased.
 # Mapping confidence is stated per development; never guess an area (HANDOVER lesson).
@@ -523,7 +532,13 @@ def collect_area_intel(sales_rows, rents_yields):
                 }
         sc = SERVICE_CHARGE_AED_SQFT.get(area.lower(), SERVICE_CHARGE_DEFAULT)
         sc_est = area.lower() not in SERVICE_CHARGE_AED_SQFT
+        # 6 Sep 2026: sales are filed under the marketing name (DUBAI HILLS, JUMEIRAH VILLAGE CIRCLE), Ejari under the DLD area
+        # name (Hadaeq Sheikh Mohammed Bin Rashid, Al Barsha South Fourth). Without this alias 118 of 186 area cards showed no
+        # yield at all - the rents were there, under another name. Alias is register-derived (data/dld/area_alias.json).
         gross = yields.get(area.lower())
+        if gross is None:
+            _al = _AREA_ALIAS.get(area.lower())
+            if _al: gross = yields.get(_al.lower())
         psf_sale = round(statistics.median(e["psf"]) / AED_PER_SQFT) if e["psf"] else None
         # net yield = gross − (annual service charge / sale price per sq ft). Both per sq ft/yr.
         net = None
@@ -577,16 +592,21 @@ def collect_rents(sales_rows):
            if num(r.get("ACTUAL_AREA")) and 10 < num(r["ACTUAL_AREA"]) < 10000]
 
     # gross yields: median rent-psf / median sale-psf per area, both sides >= 30 samples
+    # 6 Sep 2026: canonicalise BOTH sides. Sales arrive under the marketing name, rents under the DLD area name; keying each on
+    # its own string meant the two halves of the same community never met and the yield came out blank.
+    def _canon(a):
+        k = (a or "").strip().lower()
+        return (_AREA_ALIAS.get(k) or k).lower()
     rent_area, sale_area = {}, {}
     for r in res:
         a = num(r.get("ACTUAL_AREA"))
         if a and 10 < a < 10000:
-            rent_area.setdefault(r["AREA_EN"].lower(), []).append(num(r["ANNUAL_AMOUNT"]) / a)
+            rent_area.setdefault(_canon(r["AREA_EN"]), []).append(num(r["ANNUAL_AMOUNT"]) / a)
     for r in sales_rows:
         if r["USAGE_EN"] == "Residential":
             v, a = num(r["TRANS_VALUE"]), num(r["ACTUAL_AREA"])
             if v and a and a > 10:
-                sale_area.setdefault(r["AREA_EN"].lower(), []).append(v / a)
+                sale_area.setdefault(_canon(r["AREA_EN"]), []).append(v / a)
     yields, excluded = [], []
     for ar, rl in rent_area.items():
         sl = sale_area.get(ar, [])
@@ -607,7 +627,8 @@ def collect_rents(sales_rows):
         "residentialSingles": len(res),
         "medianAnnualRentAed": round(statistics.median(amts)) if amts else None,
         "medianRentAedSqftYr": round(statistics.median(rps) / AED_PER_SQFT, 1) if rps else None,
-        "grossYieldPctByArea": yields[:8],
+        "grossYieldPctByArea": yields[:8],          # the leaderboard block shown in the pulse
+        "grossYieldPctAllAreas": yields,             # every area that cleared 30 rents + 30 sales and the canary band
         "excludedYields": excluded,
         "yieldNote": ("Gross yield = median registered rent per sq ft over median sale price per sq ft, "
                       "same area, both sides >= 30 contracts. Registered contracts, not asking rates."),
@@ -650,7 +671,8 @@ def main():
         quarantine["monthly"] = str(e)
         print("QUARANTINED monthly", e)
     try:
-        _yields = (out.get("rents") or {}).get("grossYieldPctByArea")
+        _r = out.get("rents") or {}
+        _yields = _r.get("grossYieldPctAllAreas") or _r.get("grossYieldPctByArea")
         out["areaIntel"] = collect_area_intel(sales_rows, _yields)
     except Exception as e:
         quarantine["areaIntel"] = str(e)

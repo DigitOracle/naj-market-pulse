@@ -54,7 +54,7 @@ ROLE_SCORE = {
     ("osm", "BUILDING_NAME"): 92, ("osm_en", "BUILDING_NAME"): 92,
     ("overture", "BUILDING_NAME"): 88, ("wikidata", "BUILDING_NAME"): 86,
     ("dld_unit", "PROJECT_NAME"): 80, ("dm_building", "PROJECT_NAME"): 78,
-    ("dld", "PROJECT_NAME"): 80, ("register", "PROJECT_NAME"): 78, ("binding", "PROJECT_NAME"): 74,
+    ("dld", "PROJECT_NAME"): 80, ("dld", "BUILDING_NAME"): 96, ("register", "PROJECT_NAME"): 78, ("register", "BUILDING_NAME"): 84, ("binding", "PROJECT_NAME"): 74,
     ("osm", "STRUCTURAL_ID"): 76, ("osm_en", "STRUCTURAL_ID"): 76, ("register", "STRUCTURAL_ID"): 75,
     ("dld", "STRUCTURAL_ID"): 75, ("overture", "STRUCTURAL_ID"): 72, ("wikidata", "STRUCTURAL_ID"): 70,
     ("makani", "PLOT_ID"): 70, ("dm_building", "PLOT_ID"): 70, ("osm", "PLOT_ID"): 66,
@@ -147,9 +147,13 @@ def load_json(p, default=None):
     except Exception: return default
 
 
+TILE_PARENT = {"jltnorth": "althanyahfifth", "jltsouth": "althanyahfifth"}   # model tiles read the evidence acquired for their parent district
+
+
 def adapters(slug, blds):
     """Every source, turned into evidence records keyed by footprint index. Missing sources simply contribute nothing."""
     out = {i: [] for i in blds}
+    es = TILE_PARENT.get(slug, slug)            # evidence slug: acquisition files are keyed by the parent for a tile
 
     # 1. anchors — whatever build_anchors already merged (osm, osm_en, overture, wikidata, dld, register, places)
     A = load_json(os.path.join(NAMES, f"anchors_{slug}.json"), {"anchors": []})
@@ -168,6 +172,43 @@ def adapters(slug, blds):
             out[i].append(ev(blds[i]["duid"], "project", a["dev_project"], "binding", a.get("dev_project"),
                              "register scheme bound to this footprint", 0.60, role="PROJECT_NAME", dist_m=0.0, inside=True))
 
+    # 2y. the register's building list (units + buildings tables) bound to footprints by bind_register_buildings.py: every named registered
+    #     building, not only those that traded. Same authority, same grading as the transactions names below.
+    RB = load_json(os.path.join(IDENT, "official", "dld", "reg_bindings.json"), {}) or {}
+    for k, v in (RB.get(slug) or {}).items():
+        i = int(k)
+        if i not in out or not v or not v.get("name"): continue
+        nm = clean_name(v["name"]); f = spatial_factor(v.get("dist_m") or 0, v.get("method") == "name match" or (v.get("dist_m") or 0) == 0)
+        if nm: out[i].append(ev(blds[i]["duid"], "name", nm, "dld", v.get("place_id") or ("reg:" + str(v.get("property_id"))), "DLD units register building name (" + (v.get("method") or "bound") + ")", 0.92 * f, role="BUILDING_NAME", dist_m=v.get("dist_m") or 0.0, inside=(v.get("dist_m") or 0) == 0))
+        if v.get("master"): out[i].append(ev(blds[i]["duid"], "project", clean_name(v["master"]), "dld", "reg:" + str(v.get("property_id")), "DLD master project of the plot", 0.80, role="PROJECT_NAME", dist_m=0.0, inside=True))
+
+    # 2z. the DUBAI LAND DEPARTMENT's own building names, bound to footprints by bind_dld_buildings.py (transactions export).
+    #     Authoritative: a name the register itself uses for the building -> BUILDING_NAME at dld strength (VERIFIED).
+    DB = load_json(os.path.join(IDENT, "official", "dld", "tx_bindings.json"), {}) or {}
+    for k, v in (DB.get(slug) or {}).items():
+        i = int(k)
+        if i not in out or not v or not v.get("building"): continue
+        nm = clean_name(v["building"]); f = spatial_factor(v.get("dist_m") or 0, v.get("method") == "name match" or (v.get("dist_m") or 0) == 0)
+        if nm: out[i].append(ev(blds[i]["duid"], "name", nm, "dld", v.get("place_id") or ("tx:" + nm), "DLD transactions register building name (" + (v.get("method") or "bound") + ")", 0.92 * f, role="BUILDING_NAME", dist_m=v.get("dist_m"), inside=v.get("method") == "name match"))
+        pj = clean_name(v.get("project") or "")
+        if pj and normalize(pj) != normalize(nm): out[i].append(ev(blds[i]["duid"], "project", pj, "dld", "tx:" + pj, "DLD transactions register project of the building", 0.90 * f, role="PROJECT_NAME", dist_m=v.get("dist_m"), inside=True))
+
+    # 2a. the REGISTER geocoded onto footprints (geocode_projects.py): a developer project bound to this footprint.
+    #     PROJECT_NAME evidence at register strength; when the place found IS the project (same name), also a name candidate.
+    RG = load_json(os.path.join(IDENT, "register", "geocoded_projects.json"), {}) or {}
+    for k, v in (RG.get(slug) or RG.get(es) or {}).items():
+        i = int(k)
+        if i not in out or not v or not v.get("name"): continue
+        nm = clean_name(v["name"]); f = spatial_factor(v.get("dist_m") or 0, bool(v.get("inside")))
+        if not nm: continue
+        out[i].append(ev(blds[i]["duid"], "project", nm, "register", v.get("project_id") or v.get("place_id"), v.get("method") or "register project geocoded onto the footprint",
+                         0.85 * f, role="PROJECT_NAME", dist_m=v.get("dist_m"), inside=bool(v.get("inside")), developer=v.get("developer")))
+        if v.get("developer"):
+            out[i].append(ev(blds[i]["duid"], "developer", v["developer"], "register", v.get("project_id") or v.get("place_id"), "developer of the geocoded project", 0.85 * f, role="PROJECT_NAME", dist_m=v.get("dist_m"), inside=bool(v.get("inside"))))
+        pn = clean_name(v.get("place_name") or "")
+        if pn and normalize(pn) == normalize(nm):
+            out[i].append(ev(blds[i]["duid"], "name", nm, "register", v.get("place_id"), "the place found for the project carries the project's name", 0.80 * f, role="BUILDING_NAME", dist_m=v.get("dist_m"), inside=bool(v.get("inside"))))
+
     # 2. Google Places — the targeted pass over unnamed buildings above the default height
     P = load_json(os.path.join(NAMES, f"places_{slug}.json"), {}) or {}
     for k, v in P.items():
@@ -181,7 +222,7 @@ def adapters(slug, blds):
                          0.70 * f, category=v.get("primary"), dist_m=v.get("dist_m"), inside=bool(v.get("inside"))))
 
     # 3. Overture Places — POIs that describe the building rather than a business inside it
-    op = os.path.join(IDENT, "overture", f"place_{slug}.geojson")
+    op = os.path.join(IDENT, "overture", f"place_{es}.geojson")
     if os.path.exists(op):
         G = load_json(op, {"features": []})
         pts = []
@@ -205,7 +246,7 @@ def adapters(slug, blds):
                                  category=cat, dist_m=round(d, 1), inside=d == 0.0))
 
     # 3b. OSM addresses — addr:housename / building:name give a name; addr:housenumber + street give an IDENTIFIER.
-    ao = os.path.join(IDENT, "osm", f"addr_{slug}.json")
+    ao = os.path.join(IDENT, "osm", f"addr_{es}.json")
     if os.path.exists(ao):
         A2 = load_json(ao, {"elements": []})
         pts = []
@@ -317,6 +358,8 @@ def resolve(building, evidence, min_conf):
     _, top, distinct, agree = chosen[pick]
     src = top["source"]
     if src in AUTHORITATIVE: grade = "VERIFIED"
+    elif src == "dld":                                  # the register's own building name: VERIFIED when the map already agreed (name match),
+        grade = "VERIFIED" if "name match" in (top.get("method") or "") else "MATCHED"   # MATCHED when placed by geocoding (register + place location)
     elif pick in ("STRUCTURAL_ID", "PLOT_ID", "ADDRESS"): grade = "STRUCTURALLY_IDENTIFIED"
     elif src in SURVEY: grade = "MATCHED"
     else: grade = "INFERRED"

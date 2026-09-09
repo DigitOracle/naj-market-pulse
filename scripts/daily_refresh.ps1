@@ -39,6 +39,9 @@ python scripts\extract_avail.py --scan *>> $log
 Log "--- availability: drill (registered mix + claimed) + board index ---"
 python scripts\build_avail_drill.py *>> $log
 python scripts\build_avail_index.py *>> $log
+# 6 Sep 2026: what is left to sell (launched - sold vs the developer sheet) and the FIND index, straight after the sheets
+python scripts\remaining_inventory.py *>> $log
+python scripts\build_search_index.py *>> $log
 Log "--- DNA chain: sheets + DLD -> developer DNA -> board cards -> project facts -> compare (added 3 Sep 2026: without it, captured sheets never reached the DNA) ---"
 python scripts\build_developer_dna.py *>> $log
 python scripts\build_board.py *>> $log
@@ -50,3 +53,6 @@ python scripts\push_cards.py *>> $log
 Log "--- knowledge graph: building meta ---"
 python scripts\build_building_meta.py goldensymphony *>> $log
 Log "=== refresh done ==="
+
+# 8 Sep 2026 - the truth store: nodes, edges and the evidence ledger, rebuilt after the register (data/graph/najma.duckdb)
+python scripts\graph_build.py *>> $log

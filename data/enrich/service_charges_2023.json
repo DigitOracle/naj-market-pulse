@@ -1,0 +1,3174 @@
+{
+ "budget_year": 2023,
+ "unit": "AED per sq ft per year (sum of RERA-approved categories, median across property groups)",
+ "projects": {
+  "28397166": {
+   "name": "BADRA PHASE 1",
+   "master": "Unspecified",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1979.0
+  },
+  "-1": {
+   "name": "UNSPECIFIED PROJECT",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "12765916": {
+   "name": "AL KHAIL HEIGHTS",
+   "master": "Unspecified",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1.0
+  },
+  "1297": {
+   "name": "MARINA RESIDENCE",
+   "master": "Palm Jumeirah",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "154160899": {
+   "name": "The Terraces",
+   "master": "Meydan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "37608708": {
+   "name": "NOOR TOWNHOUSES",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 3.0
+  },
+  "12920133": {
+   "name": "THE POLO RESIDENCE",
+   "master": "Meydan",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "1288": {
+   "name": "INTERNATIONAL CITY EMARATI",
+   "master": "International City",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 10.0
+  },
+  "1153": {
+   "name": "DUBAI MARINA",
+   "master": "Dubai Marina",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "29101001": {
+   "name": "JUMEIRAH LIVING MARINA GATE",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 794.0
+  },
+  "1303": {
+   "name": "GOLF TOWER",
+   "master": "The Greens",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 14.5
+  },
+  "139848299": {
+   "name": "CHAIMAA PREMIERE",
+   "master": "Jumeirah Village",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "49412328": {
+   "name": "MAG 5",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 15.5
+  },
+  "7398439": {
+   "name": "MILLENNIUM ESTATES",
+   "master": "Meydan",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 4.0
+  },
+  "323": {
+   "name": "CANAL RESIDENCE WEST (PHASE 1)",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "34148216": {
+   "name": "The Pulse Boulevard Apartments",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "35224125": {
+   "name": "La-Riviera Apartments",
+   "master": "Jumeirah Village Circle",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "1280": {
+   "name": "BAY SQUARE",
+   "master": "Business Bay",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "1242": {
+   "name": "WESTERN RESIDENCE - SOUTH",
+   "master": "Falconcity of Wonders",
+   "manager": "ALMOOSA OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 5.0
+  },
+  "33541820": {
+   "name": "Bluewaters Residences",
+   "master": "Bluewaters Island",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 2356.0
+  },
+  "1185": {
+   "name": "QPOINT LIWAN - PLOT R002",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "57": {
+   "name": "FAIR VIEW RESIDENCY",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 904.0
+  },
+  "880": {
+   "name": "DURAR1",
+   "master": "Dubai Investment Park",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 5.0
+  },
+  "400": {
+   "name": "IRIS PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 1.0
+  },
+  "1461": {
+   "name": "THE DUBAI MALL",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 40.0
+  },
+  "793": {
+   "name": "RITZ RESIDENCE",
+   "master": "International City",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "1182": {
+   "name": "QPOINT LIWAN-PLOT R017",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "14142453": {
+   "name": "MON REVE",
+   "master": "Burj Khalifa District",
+   "manager": "STAR OWNERS ASSOCIATIONS MANAGEMENT",
+   "aed_sqft": 23.0
+  },
+  "509": {
+   "name": "LADY RATAN MANOR",
+   "master": "International City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 698.0
+  },
+  "251": {
+   "name": "SANDOVAL GARDENS",
+   "master": "Jumeirah Village",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 3.5
+  },
+  "422": {
+   "name": "SUBERBIA",
+   "master": "Downtown Jebel Ali",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 17.0
+  },
+  "11796582": {
+   "name": "MULBERRY at PARK HEIGHTS",
+   "master": "Dubai Hills Estate",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 23.0
+  },
+  "8290418": {
+   "name": "DAMAC HILLS - WHITEFIELD",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "1214": {
+   "name": "QPOINT LIWAN-PLOT R096",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "525": {
+   "name": "THE ZEN",
+   "master": "Dubai Marina",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "103968483": {
+   "name": "MBL RESIDENCE",
+   "master": "Unspecified",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "81544667": {
+   "name": "GREEN DIAMOND 1",
+   "master": "Arjan",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "194020796": {
+   "name": "Madinat Jumeirah Living",
+   "master": "Jumeira Bay",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 1566.0
+  },
+  "394": {
+   "name": "AJMAL SARAH",
+   "master": "Dubai Land",
+   "manager": "SHEPHERD OAM JOINTLY OWNED MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "34098121": {
+   "name": "DAMAC HILLS (2) - BASSWOOD",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "288": {
+   "name": "PLAZA RESIDENCES",
+   "master": "Jumeirah Village",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 810.0
+  },
+  "299": {
+   "name": "TENORA",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "25333395": {
+   "name": "CITY APARTMENTS",
+   "master": "City Walk",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "217": {
+   "name": "DIAMOND VIEWS 2",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 10.0
+  },
+  "11411833": {
+   "name": "VIDA RESIDENCE DOWNTOWN DUBAI",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 28.0
+  },
+  "78775671": {
+   "name": "The Pulse Residence Plaza",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.5
+  },
+  "1283": {
+   "name": "AL FURJAN",
+   "master": "Al Furjan",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 20.0
+  },
+  "77746512": {
+   "name": "Oxford Residence",
+   "master": "Jumeirah Village",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 15.0
+  },
+  "79736684": {
+   "name": "Bayz Tower",
+   "master": "Business Bay",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "223": {
+   "name": "DIAMOND VIEWS 1",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 8.5
+  },
+  "19623599": {
+   "name": "SANCTNARY @ AKOYA OXYGEN",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "687": {
+   "name": "ALSHERA TOWER",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "12597060": {
+   "name": "AZIZI. YASAMINE",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "419": {
+   "name": "TUSCAN RESIDENCE 1",
+   "master": "Jumeirah Village",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 13.0
+  },
+  "29864239": {
+   "name": "CLUB VILLAS",
+   "master": "Palm Jumeirah",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "547": {
+   "name": "DUBAI ARCH TOWER",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 14.0
+  },
+  "298342892": {
+   "name": "Nicholas Residence",
+   "master": "Jumeirah Village Circle",
+   "manager": "SIGMA HOMES OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "1186": {
+   "name": "QPOINT LIWAN-PLOT R015",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "260": {
+   "name": "THE POINT",
+   "master": "Dubai Marina",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 21.0
+  },
+  "9860003": {
+   "name": "PRIVE BY DAMAC",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1596.0
+  },
+  "11542409": {
+   "name": "DAMAC HILLS - JASMINE",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 831.5
+  },
+  "605": {
+   "name": "IMPERIAL",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "14291116": {
+   "name": "DUBAI WHARF",
+   "master": "Culture Village",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 2.0
+  },
+  "773": {
+   "name": "ARABIAN GATE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "1199": {
+   "name": "QPOINT LIWAN-PLOT R053",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "379031092": {
+   "name": "Golden Wood Views -1",
+   "master": "Jumeirah Village",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 18.0
+  },
+  "95736088": {
+   "name": "Farhad Azizi Residence",
+   "master": "Dubai HealthCare City",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 746.0
+  },
+  "763": {
+   "name": "CHAMPIONS TOWER1",
+   "master": "Dubai Sports City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1219": {
+   "name": "QPOINT LIWAN-PLOT R022",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "1119": {
+   "name": "EMIRATES GARDEN 2 (MAPLE- MAGNOLA - MULBERRY)",
+   "master": "Jumeirah Village",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 11.0
+  },
+  "277474888": {
+   "name": "Chaimaa Avenue",
+   "master": "Jumeirah Village Circle",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "1442": {
+   "name": "LINCOLN PARK ( NORTH SIDE)",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 12.0
+  },
+  "33352683": {
+   "name": "VERA TOWER",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 27.0
+  },
+  "446": {
+   "name": "EXECUTIVE BAY A",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1180.0
+  },
+  "7900151": {
+   "name": "VICEROY HOTEL RESORTS RESIDENCES",
+   "master": "Palm Jumeirah",
+   "manager": "FIVE COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 29.5
+  },
+  "883": {
+   "name": "CONCORDE TOWER",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 20.0
+  },
+  "1251": {
+   "name": "AXIS RESIDENCES 5",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "1205": {
+   "name": "QPOINT LIWAN-PLOT R094",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "4664224": {
+   "name": "LIVING LEGENDS PHASE 7",
+   "master": "Unspecified",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "690": {
+   "name": "TRAFALGAR CENTRAL",
+   "master": "International City",
+   "manager": "MASAKIN OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 11.0
+  },
+  "430": {
+   "name": "DAMAC HEIGHTS",
+   "master": "Dubai Marina",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1034.0
+  },
+  "12666707": {
+   "name": "MAJESTINE",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1464.0
+  },
+  "13777164": {
+   "name": "PRIMROSE @ AKOYA OXYGEN",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 5.0
+  },
+  "11542112": {
+   "name": "DAMAC HILLS - ORCHID",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1466.5
+  },
+  "29172452": {
+   "name": "GEMINI SPLENDOR",
+   "master": "Meydan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "37589852": {
+   "name": "Azizi Star Hotel Apartments",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 853.0
+  },
+  "762": {
+   "name": "THE DUNES",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "14218835": {
+   "name": "AZIZI. FREESIA",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "21402060": {
+   "name": "GLITZ RESIDENCE 3",
+   "master": "Dubai Studio City",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "191": {
+   "name": "SOBHA DAFFODIL",
+   "master": "Jumeirah Village",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.5
+  },
+  "218": {
+   "name": "DIAMOND VIEWS 4",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 342.0
+  },
+  "14219160": {
+   "name": "AZIZI. TULIP",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "595": {
+   "name": "GLOBAL GREEN VIEW II",
+   "master": "International City",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "33373089": {
+   "name": "GREEN COMMUNITY MOTOR CITY, PHASE II - CASA FAMILIA",
+   "master": "Motor City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 3.0
+  },
+  "1302": {
+   "name": "HUB CANAL 2 TOWER",
+   "master": "Dubai Sports City",
+   "manager": "MARF MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 9.0
+  },
+  "723": {
+   "name": "VILLA PERA",
+   "master": "Jumeirah Village Circle",
+   "manager": "SHEPHERD OAM JOINTLY OWNED MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 20.0
+  },
+  "276430615": {
+   "name": "ARIA",
+   "master": "Jumeirah Village Circle",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 15.0
+  },
+  "507": {
+   "name": "SOLITAIRE CASCADES",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "35224499": {
+   "name": "Azizi Farishta Residence",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 1036.0
+  },
+  "23477580": {
+   "name": "STELLA MARIS",
+   "master": "Dubai Marina",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.5
+  },
+  "397": {
+   "name": "THE MEDALIST",
+   "master": "Dubai Sports City",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 18.0
+  },
+  "24754715": {
+   "name": "MAG 5 BOULEVARD",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "48": {
+   "name": "AL SEEF II",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 15.0
+  },
+  "15643745": {
+   "name": "SEVENTH HEAVEN - ASHJAR",
+   "master": "Al Barari",
+   "manager": "ABWAB OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 23.0
+  },
+  "5509527": {
+   "name": "THE DISTINCTION",
+   "master": "Burj Khalifa District",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1706.0
+  },
+  "477": {
+   "name": "ROYALE RESIDENCE1",
+   "master": "Dubai Sports City",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 11.0
+  },
+  "11895881": {
+   "name": "MANAZEL ALKHOR",
+   "master": "Culture Village",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 25.0
+  },
+  "129": {
+   "name": "SILVERENE",
+   "master": "Dubai Marina",
+   "manager": "PALMA COMMUNITY MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 24.0
+  },
+  "41940138": {
+   "name": "The Pulse Residence Icon",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "21377043": {
+   "name": "TOPAZ RESIDENCES 3",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "100127165": {
+   "name": "BELGRAVIA III",
+   "master": "Jumeirah Village",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 873.5
+  },
+  "146775856": {
+   "name": "PANTHEON ELYSEE",
+   "master": "Jumeirah Village Circle",
+   "manager": "PANDA OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 801.0
+  },
+  "12626290": {
+   "name": "Azizi. Iris",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 14.0
+  },
+  "12626401": {
+   "name": "AZIZI. ORCHID",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "1135": {
+   "name": "GRAND HORIZON 1",
+   "master": "Dubai Sports City",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "21230947": {
+   "name": "BV RESIDENCES",
+   "master": "Jumeira Bay",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 52.0
+  },
+  "29429341": {
+   "name": "Project Registration Request beta verification",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "ITIHAD COMMUNITY MANAGEMENT",
+   "aed_sqft": 14.0
+  },
+  "162465361": {
+   "name": "PLAZZO HEIGHTS",
+   "master": "Jumeirah Village Circle",
+   "manager": "SIGMA HOMES OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "169": {
+   "name": "WESTAR TERRACE  GARDEN",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 2.0
+  },
+  "506": {
+   "name": "THE PEARL",
+   "master": "Unspecified",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 23.0
+  },
+  "1123": {
+   "name": "GREEN PARK",
+   "master": "Jumeirah Village",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 15.0
+  },
+  "10068302": {
+   "name": "THE ADDRESS RESIDENCE FOUNTAIN VIEWS III",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 35.0
+  },
+  "318": {
+   "name": "ICON TOWER",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "OPEN EYE COMMUNITY OWNERS ASSOCIATION MANAGEMENT SERVICS",
+   "aed_sqft": 101.5
+  },
+  "138464699": {
+   "name": "Azizi Riviera 6",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 20.0
+  },
+  "413": {
+   "name": "THE SIGNATURE",
+   "master": "Burj Khalifa District",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 34.0
+  },
+  "33496152": {
+   "name": "DAMAC HILLS (2) - ALBIZIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "712": {
+   "name": "EAGLE HEIGHTS",
+   "master": "Dubai Sports City",
+   "manager": "IRTIKAZ OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "43": {
+   "name": "CORAL RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 12.0
+  },
+  "799": {
+   "name": "CORDOBA PALACE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "41940378": {
+   "name": "The Pulse Residence Park",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.5
+  },
+  "138879656": {
+   "name": "Canal Residence West 2",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 1044.5
+  },
+  "16553236": {
+   "name": "TOWN SQUARE ZAHRA",
+   "master": "Dubai Land",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 351.0
+  },
+  "34144880": {
+   "name": "THE PULSE TOWNHOUSES",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 3.0
+  },
+  "178": {
+   "name": "MANHATTAN",
+   "master": "Liwan",
+   "manager": "ESTEEM GULF OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "9618977": {
+   "name": "MOHAMMED BIN RASHID AL MAKTOUM CITY- DISTRICT ONE, PHASE 1",
+   "master": "Meydan",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 6.0
+  },
+  "92": {
+   "name": "GRANDEUR RESIDENCES",
+   "master": "Palm Jumeirah",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "450": {
+   "name": "VICTORY HEIGHTS",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 4.0
+  },
+  "611": {
+   "name": "BALQIS RESIDENCE",
+   "master": "Palm Jumeirah",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 962.0
+  },
+  "388": {
+   "name": "GOLDEN MILE",
+   "master": "Palm Jumeirah",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "11561444": {
+   "name": "THE ATRIA",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 734.0
+  },
+  "1196": {
+   "name": "QPOINT LIWAN-PLOT R051",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "94284211": {
+   "name": "Sobha Hartland Greens - Phase III",
+   "master": "Unspecified",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "46953486": {
+   "name": "Resortz Residence",
+   "master": "Arjan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "14590316": {
+   "name": "PLATINUM RESIDENCE 1",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "719": {
+   "name": "GOLF VIEW RESIDENCE",
+   "master": "Dubai Sports City",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "26522245": {
+   "name": "MAY RESIDENCE",
+   "master": "Jumeirah Village Circle",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "27082393": {
+   "name": "W Residences Dubai - The Palm",
+   "master": "Palm Jumeirah",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 41.0
+  },
+  "31147422": {
+   "name": "The Galleries",
+   "master": "Dubai Silicon Oasis",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 16.0
+  },
+  "295": {
+   "name": "SYANN PARK1",
+   "master": "Dubai Land",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 13.0
+  },
+  "142593703": {
+   "name": "SOMERSET MEWS",
+   "master": "Unspecified",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 3.0
+  },
+  "776": {
+   "name": "SILICON GATE2",
+   "master": "Dubai Silicon Oasis",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "32562229": {
+   "name": "Studio One",
+   "master": "Dubai Marina",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "1103": {
+   "name": "JUMEIRAH HEIGHTS CLUSTERS",
+   "master": "Jumeirah Islands",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 15.5
+  },
+  "34147222": {
+   "name": "The Pulse Residence",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "148394168": {
+   "name": "Azizi Riviera 10",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 18.0
+  },
+  "189": {
+   "name": "FORTUNATO",
+   "master": "Jumeirah Village",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "1247": {
+   "name": "AXIS  RESIDENCES 1",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "871": {
+   "name": "EDMONTON ELM",
+   "master": "Jumeirah Village",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 20.0
+  },
+  "989": {
+   "name": "WESTAR CASABLANCA",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 5.0
+  },
+  "367": {
+   "name": "MIRDIF TULIP",
+   "master": "Mirdif",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "78773702": {
+   "name": "TAMWEEL TOWERS",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 360.0
+  },
+  "12193740": {
+   "name": "TOWER 108",
+   "master": "Jumeirah Village",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 940.0
+  },
+  "635": {
+   "name": "HANOVER SQUARE",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 23.0
+  },
+  "55": {
+   "name": "JADE RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 13.0
+  },
+  "307": {
+   "name": "MADISON RESIDENCE",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 16.0
+  },
+  "4444959": {
+   "name": "PANORAMA",
+   "master": "The Greens",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 17.0
+  },
+  "1215": {
+   "name": "QPOINT LIWAN-PLOT R097",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1193": {
+   "name": "QPOINT LIWAN-PLOT R048",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "140974993": {
+   "name": "UNA",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 20.5
+  },
+  "438": {
+   "name": "LAKE TERRACE",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 19.0
+  },
+  "401147435": {
+   "name": "Binghatti Creek",
+   "master": "Dubai HealthCare City",
+   "manager": "STEALTH OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "14289957": {
+   "name": "MURABA RESIDENCES PALM JUMERIAH",
+   "master": "Palm Jumeirah",
+   "manager": "MURABA MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 28.0
+  },
+  "363": {
+   "name": "INDIGO VILLE7",
+   "master": "Jumeirah Village",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 1.0
+  },
+  "208": {
+   "name": "TRIDENT GRAND",
+   "master": "Dubai Marina",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 22.0
+  },
+  "152892699": {
+   "name": "BELGRAVIA HEIGHTS I",
+   "master": "Jumeirah Village Circle",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "464": {
+   "name": "SABA TOWER 3",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "Saba Property Management Dmcc",
+   "aed_sqft": 506.0
+  },
+  "815": {
+   "name": "DANA TOWER",
+   "master": "Jumeirah Village",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 20.0
+  },
+  "916": {
+   "name": "S.P OASIS",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "184151037": {
+   "name": "OXFORD RESIDENCE 2",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 18.0
+  },
+  "816": {
+   "name": "LAKE CITY TOWER",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 14.0
+  },
+  "9533292": {
+   "name": "DAMAC HILLS - GOLF VISTA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1983.0
+  },
+  "97396922": {
+   "name": "Grenland Residence By arloid",
+   "master": "Unspecified",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 13.0
+  },
+  "21208864": {
+   "name": "AMAZONIA @ AKOYA OXYGEN",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.5
+  },
+  "1195": {
+   "name": "QPOINT LIWAN-PLOT R047",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "975": {
+   "name": "REMRAAM",
+   "master": "Dubai Land",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 18.5
+  },
+  "195314591": {
+   "name": "BELLA ROSE",
+   "master": "Dubai Science Park",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 15.0
+  },
+  "102608419": {
+   "name": "SIGNATURE LIVINGS",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 17.0
+  },
+  "265": {
+   "name": "THE BAY RESIDENCES",
+   "master": "Business Bay",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "27136683": {
+   "name": "ORION BUILDING",
+   "master": "Arjan",
+   "manager": "HYPE OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 10.0
+  },
+  "14590397": {
+   "name": "PLATINUM RESIDENCE 2",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "53824987": {
+   "name": "Mudon Views",
+   "master": "Dubai Land",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 1333.0
+  },
+  "139543242": {
+   "name": "THE SQUARE",
+   "master": "Jumeirah Village Circle",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 14.0
+  },
+  "47": {
+   "name": "OAKWOOD RESIDENCY",
+   "master": "Dubai Production City",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 11.0
+  },
+  "213": {
+   "name": "PALACE TOWER",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 15.0
+  },
+  "946": {
+   "name": "ASTORIA RESIDNECE",
+   "master": "Jumeirah Village",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "15155987": {
+   "name": "RP HEIGHTS",
+   "master": "Burj Khalifa District",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "402": {
+   "name": "MULBERRY PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 1.0
+  },
+  "267": {
+   "name": "MARINA WHARF II",
+   "master": "Dubai Marina",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "1178": {
+   "name": "CHURCHILL TOWER",
+   "master": "Business Bay",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "31960359": {
+   "name": "Azizi Mina",
+   "master": "Palm Jumeirah",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 1579.0
+  },
+  "1187": {
+   "name": "QPOINT LIWAN - PLOT R003",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "14641471": {
+   "name": "DAMAC HILLS - CALERO",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "161689957": {
+   "name": "SUNRISE BAY",
+   "master": "Unspecified",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 21.0
+  },
+  "616": {
+   "name": "BERMUDA VIEWS",
+   "master": "Dubai Sports City",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "14327173": {
+   "name": "REEF RESIDENCE",
+   "master": "Jumeirah Village",
+   "manager": "AL REEF OWNER ASSOCIATION MANAGEMENT SERVICES L L C",
+   "aed_sqft": 12.0
+  },
+  "1117": {
+   "name": "EMIRATES GARDEN 1 (LAVENDER - GARDENIA - ROSE)",
+   "master": "Jumeirah Village",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 13.0
+  },
+  "138432391": {
+   "name": "O 2",
+   "master": "Jumeirah Village Circle",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 140.5
+  },
+  "158930255": {
+   "name": "Golden Wood Views",
+   "master": "Jumeirah Village",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "401": {
+   "name": "LOTUS PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 2.0
+  },
+  "817": {
+   "name": "MARINA PINNACLE",
+   "master": "Dubai Marina",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 16.0
+  },
+  "965": {
+   "name": "WADI TOWER",
+   "master": "Dubai Land",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 12.0
+  },
+  "12556191": {
+   "name": "DAMAC HILLS - LORETO",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 12.0
+  },
+  "139848506": {
+   "name": "Azizi Riviera 12",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "443": {
+   "name": "DAMAC TOWERS BY PARAMOUNT",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2013.0
+  },
+  "7053716": {
+   "name": "THE ADDRESS RESIDENCE - SKY VIEW",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 29.0
+  },
+  "15063463": {
+   "name": "GRAND VIEWS",
+   "master": "Meydan",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 2.0
+  },
+  "221": {
+   "name": "PRINCESS TOWER",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 1635.0
+  },
+  "10590557": {
+   "name": "DAMAC HILLS - THE FIELD",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "33710887": {
+   "name": "Azizi Aliyah Residences",
+   "master": "Dubai HealthCare City",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 11.0
+  },
+  "32823025": {
+   "name": "AL JAWHARA TOWER",
+   "master": "Jumeirah Village",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 14.0
+  },
+  "37495991": {
+   "name": "DAMAC HILLS (2) - MIMOSA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "21205417": {
+   "name": "DAMAC HILLS (2) - PACIFICA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "12727332": {
+   "name": "DAMAC HILLS - ARTESIA",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1376.0
+  },
+  "27088122": {
+   "name": "STARZ TOWER by DANUBE",
+   "master": "Al Furjan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "1198": {
+   "name": "QPOINT LIWAN-PLOT R046",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "715": {
+   "name": "G-TOWER",
+   "master": "Jumeirah Village Circle",
+   "manager": "SHEPHERD OAM JOINTLY OWNED MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "40977243": {
+   "name": "LIV RESIDENCE",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 23.0
+  },
+  "16376834": {
+   "name": "ONE AT PALM JUMEIRAH",
+   "master": "Palm Jumeirah",
+   "manager": "CLARITY OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 1495.0
+  },
+  "33415848": {
+   "name": "Jumeriah Gate",
+   "master": "Dubai Marina",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 7.0
+  },
+  "356": {
+   "name": "ROYAL AMWAJ",
+   "master": "Palm Jumeirah",
+   "manager": "SEVEN TIDES OWNERS ASSOCIATION MANAGEMENT (BR OF SEVEN TIDES INVESTMENTS L.L.C)",
+   "aed_sqft": 25.5
+  },
+  "349": {
+   "name": "ONTARIO TOWER",
+   "master": "Business Bay",
+   "manager": "ROSE CONTINENTAL OWNERS ASSOCIATIONS MANAGEMENT L.L.C",
+   "aed_sqft": 2170.0
+  },
+  "4463425": {
+   "name": "PALM VIEWS - EAST",
+   "master": "Palm Jumeirah",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 20.0
+  },
+  "139542812": {
+   "name": "Park ville 07",
+   "master": "International City Ph 2 & 3",
+   "manager": "ACE OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 12.0
+  },
+  "813": {
+   "name": "DESERT SUN TOWER",
+   "master": "Dubai Land",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "12626031": {
+   "name": "Azizi. Liatris",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "1459": {
+   "name": "TANARO",
+   "master": "The Greens",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 20.0
+  },
+  "16514851": {
+   "name": "TOPAZ RESIDENCES 1",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "25266448": {
+   "name": "ALTIA RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 10.0
+  },
+  "8481176": {
+   "name": "DAMAC HILLS - SILVER SPRINGS",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "1208": {
+   "name": "QPOINT LIWAN- R093",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "82": {
+   "name": "ARENA APARTMENTS",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "16457431": {
+   "name": "THE 118",
+   "master": "Burj Khalifa District",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 36.0
+  },
+  "630": {
+   "name": "SOL BAY",
+   "master": "Business Bay",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 14.0
+  },
+  "44327175": {
+   "name": "DAMAC HILLS (2) - AMARGO",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "501": {
+   "name": "OASIS TOWER ONE",
+   "master": "Dubai Sports City",
+   "manager": "MASAKIN OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "682": {
+   "name": "JUMEIRAH LAKE TOWERS",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 19.5
+  },
+  "448": {
+   "name": "CAPITAL BAY  A",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 29.0
+  },
+  "60": {
+   "name": "CLAYTON RESIDENCY",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 854.0
+  },
+  "15665986": {
+   "name": "DAMAC HILLS (2) - CENTAURY",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "31252039": {
+   "name": "DAMAC HILLS (2) - VARDON",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "15601007": {
+   "name": "THE 8",
+   "master": "Palm Jumeirah",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1001.0
+  },
+  "21509590": {
+   "name": "RIAH TOWERS",
+   "master": "Culture Village",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 599.0
+  },
+  "910": {
+   "name": "LE PRESIDIUM",
+   "master": "Dubai Silicon Oasis",
+   "manager": "MASAKIN OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 532.0
+  },
+  "13583892": {
+   "name": "SAFEER TOWER 2",
+   "master": "Business Bay",
+   "manager": "SYMBIOSIS OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 715.0
+  },
+  "774": {
+   "name": "SILICON GATE 1",
+   "master": "Dubai Silicon Oasis",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 15.0
+  },
+  "316": {
+   "name": "WINDSOR MANOR",
+   "master": "Business Bay",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 269.0
+  },
+  "895": {
+   "name": "QPOINT LIWAN-PLOTR001",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "493": {
+   "name": "LYNX",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 1494.0
+  },
+  "777": {
+   "name": "SILICON GATE 3",
+   "master": "Dubai Silicon Oasis",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "1306": {
+   "name": "SEASONS COMMUNITY- SUMMER",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 759.0
+  },
+  "393": {
+   "name": "KEMPINSKI",
+   "master": "Palm Jumeirah",
+   "manager": "Kep Association & Property Management Fze",
+   "aed_sqft": 30.0
+  },
+  "404": {
+   "name": "LILAC PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 3.0
+  },
+  "80969710": {
+   "name": "MAG 318",
+   "master": "Business Bay",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1152.0
+  },
+  "259": {
+   "name": "BAY CENTRAL WEST & CENTRAL TOWERS",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 704.0
+  },
+  "16544176": {
+   "name": "THE ANWA BY OMNIYAT,",
+   "master": "Unspecified",
+   "manager": "CLARITY OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 665.0
+  },
+  "98109046": {
+   "name": "joya verde residences dubai",
+   "master": "Jumeirah Village Circle",
+   "manager": "T M C MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS",
+   "aed_sqft": 14.0
+  },
+  "775": {
+   "name": "SILICON GATES 4",
+   "master": "Dubai Silicon Oasis",
+   "manager": "SHAHEEN OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "1443": {
+   "name": "LINCOLN PARK (SHEFFIELD)",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 14.0
+  },
+  "317": {
+   "name": "SILICON HEIGHTS",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "638": {
+   "name": "PLATINUM 1",
+   "master": "Dubai Land",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 20.0
+  },
+  "45561625": {
+   "name": "Regent Court",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "577": {
+   "name": "ORCHID RESIDENCE",
+   "master": "Dubai Science Park",
+   "manager": "COASTAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "1210": {
+   "name": "QPOINT LIWAN-PLOT R092",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "33363617": {
+   "name": "SAFI TOWNHOUSES",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 4.0
+  },
+  "5368995": {
+   "name": "THE ADDRESS - THE BLVD",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 743.0
+  },
+  "1213": {
+   "name": "QPOINT LIWAN-PLOT R095",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "14244075": {
+   "name": "SOBHA HARTLAND GREENS- PHASE I",
+   "master": "Meydan",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 19.0
+  },
+  "429": {
+   "name": "PARK CENTRAL",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 938.0
+  },
+  "13027437": {
+   "name": "HAMENI",
+   "master": "Jumeirah Village Circle",
+   "manager": "ABWAB OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "12004618": {
+   "name": "THE RESIDENCES AT MARINA GATE 1",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 831.0
+  },
+  "53": {
+   "name": "MAYFAIR TOWER",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1049.0
+  },
+  "1449": {
+   "name": "BAYSIDE RESIDENCE",
+   "master": "Dubai Marina",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "11659980": {
+   "name": "THE POLO TOWN HOUSES",
+   "master": "Meydan",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 4.0
+  },
+  "139034831": {
+   "name": "Prime Views",
+   "master": "Meydan",
+   "manager": "PRESCOTT OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 12.0
+  },
+  "44122495": {
+   "name": "DAMAC HILLS (2) - AVENCIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 6.0
+  },
+  "12331295": {
+   "name": "SHAMAL RESIDENCES 2",
+   "master": "Jumeirah Village",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "531": {
+   "name": "GIOVANNI BOUTIQUE",
+   "master": "Dubai Sports City",
+   "manager": "BETTER COMMUNITIES OWNER ASSOCIATION MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "239649853": {
+   "name": "MAJESTIQUE RESIDENCE 1",
+   "master": "Dubai South",
+   "manager": "STAR OWNERS ASSOCIATIONS MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "297851131": {
+   "name": "OXFORD BOULEVARD",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 19.0
+  },
+  "11539548": {
+   "name": "DAMAC HILLS - ROCHESTER",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "641": {
+   "name": "DUNES VILLAGE",
+   "master": "Dubai Investment Park",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 18.0
+  },
+  "8713121": {
+   "name": "MASAAR RESIDENCES",
+   "master": "Jumeirah Village Circle",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "142": {
+   "name": "SEASONS COMMUNITY- AUTUMN",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "8037213": {
+   "name": "BAY'S EDGE",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 31.0
+  },
+  "732": {
+   "name": "ORRA MARINA",
+   "master": "Dubai Marina",
+   "manager": "ORRA DEVELOPERS MANAGEMENT SERVICES OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 22.0
+  },
+  "23604250": {
+   "name": "PARAMOUNT TOWER HOTEL & RESIDENCES",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 20.0
+  },
+  "33149130": {
+   "name": "Milano Giovanni Boutique Suites",
+   "master": "Jumeirah Village Circle",
+   "manager": "BETTER COMMUNITIES OWNER ASSOCIATION MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "12753745": {
+   "name": "Villa Lantana 1",
+   "master": "Dubai Science Park",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 5.0
+  },
+  "14215195": {
+   "name": "ACES CHATEAU",
+   "master": "Jumeirah Village",
+   "manager": "PRISTINE OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "140608318": {
+   "name": "Azizi Riviera 13",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "151": {
+   "name": "23 MARINA",
+   "master": "Dubai Marina",
+   "manager": "SOLITAIRE OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 20.0
+  },
+  "473": {
+   "name": "THE RESIDENCE",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 29.0
+  },
+  "699": {
+   "name": "SPICA",
+   "master": "Jumeirah Village Circle",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "139995510": {
+   "name": "Azizi Riviera 11",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "1190": {
+   "name": "QPOINT LIWAN-PLOT R009",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 8.0
+  },
+  "34220580": {
+   "name": "SHAMAL WAVES",
+   "master": "Jumeirah Village",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "14229489": {
+   "name": "DAMAC HILLS (2) - ASTER",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "657": {
+   "name": "SUNRISE BOULEVARD",
+   "master": "Liwan",
+   "manager": "ITIHAD COMMUNITY MANAGEMENT",
+   "aed_sqft": 2.0
+  },
+  "1183": {
+   "name": "QPOINT LIWAN-PLOT R008 A&B",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "32972196": {
+   "name": "Azizi Shaista Residence",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 996.0
+  },
+  "769": {
+   "name": "THE ATHENA",
+   "master": "Liwan",
+   "manager": "ESTEEM GULF OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "271": {
+   "name": "MARINA WHARF I",
+   "master": "Dubai Marina",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "694": {
+   "name": "INDIGO VILLE 2",
+   "master": "Jumeirah Village",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 1.0
+  },
+  "231": {
+   "name": "PRIME RESIDENCY1",
+   "master": "International City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1191": {
+   "name": "QPOINT LIWAN-PLOT R016",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "77699333": {
+   "name": "Vincitore Boulevard",
+   "master": "Barsha Heights",
+   "manager": "ONE WORLD MANAGEMENT AND OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 18.0
+  },
+  "610": {
+   "name": "OASIS HIGH PARK",
+   "master": "Dubai Silicon Oasis",
+   "manager": "MASAKIN OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 456.0
+  },
+  "15657773": {
+   "name": "DAMAC HILLS (2) - JANUSIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "1217": {
+   "name": "QPOINT LIWAN-PLOT R020",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1136": {
+   "name": "OLYMPIC PARK 3",
+   "master": "Dubai Sports City",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "9534067": {
+   "name": "DAMAC HILLS - GOLF TERRACE",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 15.0
+  },
+  "1141": {
+   "name": "OLYMPIC PARK 4",
+   "master": "Dubai Sports City",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "25109683": {
+   "name": "THE ONE JBR",
+   "master": "Al Sufouh",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 25.0
+  },
+  "9690799": {
+   "name": "PRIME VILLAS",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 6.0
+  },
+  "50161514": {
+   "name": "DAMAC HILLS-VENETO",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.5
+  },
+  "444": {
+   "name": "THE VOGUE",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 28.0
+  },
+  "10589568": {
+   "name": "DAMAC HILLS - THE TURF",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "1301": {
+   "name": "HUB CANAL 1 TOWER",
+   "master": "Dubai Sports City",
+   "manager": "MARF MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 10.0
+  },
+  "919": {
+   "name": "ZENITH TOWER A1",
+   "master": "Dubai Sports City",
+   "manager": "KEY SIGNATURE OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "14694479": {
+   "name": "DAMAC HILLS (2) - ZINNIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 5.0
+  },
+  "1184": {
+   "name": "QPOINT LIWAN-PLOT R010",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 8.0
+  },
+  "138444891": {
+   "name": "Azizi Riviera 2",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "51474209": {
+   "name": "Al Haseen Residence",
+   "master": "Dubai Industrial City",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "11539306": {
+   "name": "DAMAC HILLS - THE TRUMP ESTATES",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "1224": {
+   "name": "QPOINT LIWAN-PLOT R070",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "95071021": {
+   "name": "J ONE",
+   "master": "Business Bay",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 19.5
+  },
+  "475": {
+   "name": "SILICON BOULEVARD",
+   "master": "Dubai Silicon Oasis",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1300": {
+   "name": "HOCKEY TOWER",
+   "master": "Dubai Sports City",
+   "manager": "MARF MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 13.0
+  },
+  "14231424": {
+   "name": "BELLEVUE TOWERS",
+   "master": "Burj Khalifa District",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 23.0
+  },
+  "1188": {
+   "name": "QPOINT LIWAN-PLOT R004",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 7.0
+  },
+  "162": {
+   "name": "INDIGO SPECTRUM1",
+   "master": "International City",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 12.0
+  },
+  "614": {
+   "name": "LATIFA TOWER",
+   "master": "Dubai World Trade Centre",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 8.0
+  },
+  "135422266": {
+   "name": "Azizi Riviera 7",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "9533811": {
+   "name": "DAMAC HILLS - GOLF VEDUTA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1150.0
+  },
+  "27443852": {
+   "name": "MURANO RESIDENCE 1",
+   "master": "Al Furjan",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 568.0
+  },
+  "387707825": {
+   "name": "Binghatti Rose",
+   "master": "Jumeirah Village Circle",
+   "manager": "BETTER COMMUNITIES OWNER ASSOCIATION MANAGEMENT",
+   "aed_sqft": 12.0
+  },
+  "1201": {
+   "name": "QPOINT LIWAN-PLOT R055",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "147473083": {
+   "name": "Easy18",
+   "master": "International City",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 12.0
+  },
+  "47101619": {
+   "name": "CASA FLORES AND EDEN APARTMENTS",
+   "master": "Unspecified",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 3.0
+  },
+  "21187491": {
+   "name": "TOWN SQUARE SAFI",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 328.0
+  },
+  "29500845": {
+   "name": "GLAMZ RESIDENCE",
+   "master": "Al Furjan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "11705020": {
+   "name": "CELESTIA",
+   "master": "Dubai South",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 18.0
+  },
+  "11539810": {
+   "name": "DAMAC HILLS- PELHAM",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "25673322": {
+   "name": "MADA RESIDENCES TOWER",
+   "master": "Burj Khalifa District",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 22.0
+  },
+  "32": {
+   "name": "WESTERN RESIDENCE - NORTH",
+   "master": "Falconcity of Wonders",
+   "manager": "ALMOOSA OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 5.0
+  },
+  "56": {
+   "name": "HAMILTON RESIDENCY",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1047.0
+  },
+  "948": {
+   "name": "MARINA ARCADE",
+   "master": "Dubai Marina",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 15.0
+  },
+  "79501150": {
+   "name": "SLS DUBAI",
+   "master": "Business Bay",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 27.0
+  },
+  "1223": {
+   "name": "QPOINT LIWAN-PLOT R069",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "12919951": {
+   "name": "MONTROSE",
+   "master": "Dubai Science Park",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 15.0
+  },
+  "9859588": {
+   "name": "AVENUE RESIDENCE1",
+   "master": "Al Furjan",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 13.0
+  },
+  "767": {
+   "name": "CLASSIC APARTMENTS",
+   "master": "International City",
+   "manager": "SHEPHERD OAM JOINTLY OWNED MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "1249": {
+   "name": "AXIS RESIDENCES 3",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "11554308": {
+   "name": "SEVENTH HEAVEN",
+   "master": "Al Barari",
+   "manager": "ABWAB OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 22.0
+  },
+  "388412465": {
+   "name": "Luma21",
+   "master": "Jumeirah Village Circle",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "365853782": {
+   "name": "Binghatti Gems",
+   "master": "Jumeirah Village Circle",
+   "manager": "BETTER COMMUNITIES OWNER ASSOCIATION MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "14959806": {
+   "name": "DAMAC HILLS (2) - SYCAMORE",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "27987049": {
+   "name": "NB RESIDENCES",
+   "master": "Pearl Jumeira",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 69.0
+  },
+  "13778906": {
+   "name": "JUNIPER @ AKOYA OXYGEN",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "43816874": {
+   "name": "RAWDA APARTMENTS",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 514.0
+  },
+  "10830789": {
+   "name": "DAMAC HILLS -  TOPANGA",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "103653321": {
+   "name": "BINGHATTI STARS",
+   "master": "Dubai Silicon Oasis",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "421": {
+   "name": "THE COSMOPOLITAN",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 27.0
+  },
+  "139560630": {
+   "name": "WILTON TERRACES",
+   "master": "Meydan",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 21.0
+  },
+  "140": {
+   "name": "THE SPIRIT",
+   "master": "Dubai Sports City",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "165012706": {
+   "name": "Samana Green",
+   "master": "Unspecified",
+   "manager": "SYMBIOSIS OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "436": {
+   "name": "LAKESIDE",
+   "master": "Dubai Production City",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 15.0
+  },
+  "479": {
+   "name": "ROYALE RESIDENCE2",
+   "master": "Dubai Sports City",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 14.0
+  },
+  "28764992": {
+   "name": "VICTORIA RESIDENCY",
+   "master": "Al Furjan",
+   "manager": "ACE OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 873.0
+  },
+  "25127170": {
+   "name": "HYATI RESIDENCE",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 10.0
+  },
+  "29846448": {
+   "name": "CRYSTAL RESIDENCE",
+   "master": "Jumeirah Village",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "720": {
+   "name": "PARK CORNER",
+   "master": "Jumeirah Village",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "10590210": {
+   "name": "DAMAC HILLS - THE FLORA",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "13603766": {
+   "name": "SAFEER TOWER 1",
+   "master": "Business Bay",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "140634600": {
+   "name": "AL HELAL AL ZAHABY  2",
+   "master": "International City",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 9.0
+  },
+  "370143869": {
+   "name": "HARRINGTON HOUSE",
+   "master": "Jumeirah Village Circle",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 18.0
+  },
+  "30007997": {
+   "name": "HAYAT BOULEVARD",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 488.0
+  },
+  "188275958": {
+   "name": "Tabeer 1",
+   "master": "International City",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 12.0
+  },
+  "405": {
+   "name": "VALENCIA",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 2.0
+  },
+  "40": {
+   "name": "SULAFA TOWER",
+   "master": "Dubai Marina",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "53049987": {
+   "name": "EATON PLACE",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1406.0
+  },
+  "16471116": {
+   "name": "ACACIA AT PARK HEIGHTS",
+   "master": "Dubai Hills Estate",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 21.0
+  },
+  "845": {
+   "name": "ESCAN MARINA TOWER",
+   "master": "Dubai Marina",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "300": {
+   "name": "UPPER CREST",
+   "master": "Burj Khalifa District",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1575.0
+  },
+  "8764169": {
+   "name": "DAMAC HILLS - GOLF PANORAMA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1400.0
+  },
+  "103211813": {
+   "name": "DAMAC HILLS - GOLF VITA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1626.0
+  },
+  "619": {
+   "name": "LA RIVIERA ESTATE",
+   "master": "Dubai Marina",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 15.0
+  },
+  "25474041": {
+   "name": "VOLANTE",
+   "master": "Business Bay",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 23.0
+  },
+  "406": {
+   "name": "TULIP PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 1.0
+  },
+  "15656669": {
+   "name": "DAMAC HILLS - CARSON",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 18.0
+  },
+  "102": {
+   "name": "DUBAI STAR",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "1203": {
+   "name": "QPOINT LIWAN-PLOT R071",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "25124096": {
+   "name": "TOWN SQUARE JENNA AND WARDA",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 541.0
+  },
+  "622": {
+   "name": "HAMZA TOWER",
+   "master": "Dubai Sports City",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "86": {
+   "name": "PALLADIUM",
+   "master": "Jumeirah Lakes Towers",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 13.0
+  },
+  "275896163": {
+   "name": "Sobha Creek vistas Reserve",
+   "master": "Meydan",
+   "manager": "SOBHA COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 19.0
+  },
+  "1209": {
+   "name": "QPOINT LIWAN-PLOT R082",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "35805880": {
+   "name": "BV Mansions",
+   "master": "Jumeira Bay",
+   "manager": "DCM COMMUNITIES L.L.C",
+   "aed_sqft": 6.0
+  },
+  "8291241": {
+   "name": "DAMAC HILLS - BROOKFIELD-1",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "10453805": {
+   "name": "Continental Tower",
+   "master": "Dubai Marina",
+   "manager": "SYMBIOSIS OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 16.0
+  },
+  "33227399": {
+   "name": "Belvedere",
+   "master": "International City",
+   "manager": "BETTER COMMUNITIES OWNER ASSOCIATION MANAGEMENT",
+   "aed_sqft": 10.0
+  },
+  "27461839": {
+   "name": "BELGRAVIA",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1156.0
+  },
+  "21468892": {
+   "name": "AL FALAK RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RAFAH OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "52": {
+   "name": "MAYFAIR RESIDENCY",
+   "master": "Business Bay",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1173.0
+  },
+  "6869110": {
+   "name": "THE ADDRESS RESIDENCE FOUNTAIN VIEWS II",
+   "master": "Burj Khalifa District",
+   "manager": "EMAAR HOSPITALITY COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 32.0
+  },
+  "146746565": {
+   "name": "Beverly Residence",
+   "master": "Jumeirah Village Circle",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 17.0
+  },
+  "210": {
+   "name": "IMPERIAL RESIDENCE",
+   "master": "Jumeirah Village",
+   "manager": "AL RUSTUMANI OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 16.0
+  },
+  "1481": {
+   "name": "WESTAR LES MAISONETTES",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 3.0
+  },
+  "825": {
+   "name": "SEVANAM CROWN",
+   "master": "Dubai Silicon Oasis",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "15475464": {
+   "name": "AXIS SILVER",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "402711616": {
+   "name": "1 Residences",
+   "master": "Unspecified",
+   "manager": "WASL OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "1267": {
+   "name": "HDS SUNSTAR 1",
+   "master": "International City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 8.0
+  },
+  "27149064": {
+   "name": "MODELUX TOWER 1",
+   "master": "International City",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 13.0
+  },
+  "15659914": {
+   "name": "DAMAC HILLS (2) - ACUNA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 5.0
+  },
+  "1189": {
+   "name": "QPOINT LIWAN-PLOT R005",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 7.0
+  },
+  "14217762": {
+   "name": "AZIZI. DAISY",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 15.0
+  },
+  "33413806": {
+   "name": "Azizi Plaza Hotel Apartments",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "54": {
+   "name": "MADISON RESIDENCY",
+   "master": "Barsha Heights",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 19.0
+  },
+  "1197": {
+   "name": "QPOINT LIWAN-PLOT R052",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 9.0
+  },
+  "516": {
+   "name": "U-BORA TOWERS",
+   "master": "Business Bay",
+   "manager": "MANSIONS OWNERS ASSOCIATION MANAGEMENT",
+   "aed_sqft": 405.0
+  },
+  "33574886": {
+   "name": "DT 1",
+   "master": "Burj Khalifa District",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1067.0
+  },
+  "25242746": {
+   "name": "MERANO TOWER",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 17.0
+  },
+  "41938966": {
+   "name": "The Pulse Boulevard Apartments-C1",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "402637910": {
+   "name": "Binghatti Canal",
+   "master": "Business Bay",
+   "manager": "STEALTH OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "1221": {
+   "name": "QPOINT LIWAN-PLOT R068",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "32539639": {
+   "name": "Sunbeam Homes",
+   "master": "Dubai Industrial City",
+   "manager": "SYMBIOSIS OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 17.0
+  },
+  "105304712": {
+   "name": "NASEEM TOWNHOUSES",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 3.0
+  },
+  "928": {
+   "name": "SOBHA AVENUE",
+   "master": "Unspecified",
+   "manager": "SOBHA COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 1193.0
+  },
+  "35483874": {
+   "name": "Azizi Samia Residence",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 76.0
+  },
+  "13924362": {
+   "name": "SPARKLE TOWERS",
+   "master": "Dubai Marina",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "100176267": {
+   "name": "DAR AL JAWHARA",
+   "master": "Jumeirah Village Circle",
+   "manager": "SOLITAIRE OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 14.0
+  },
+  "8388865": {
+   "name": "CLUB VISTA MARE",
+   "master": "Palm Jumeirah",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 21.0
+  },
+  "28073990": {
+   "name": "DEZIRE RESIDENCES",
+   "master": "Jumeirah Village Circle",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 15.0
+  },
+  "9533435": {
+   "name": "DAMAC HILLS - GOLF HORIZON",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 1123.5
+  },
+  "4463513": {
+   "name": "PALM VIEWS - WEST",
+   "master": "Palm Jumeirah",
+   "manager": "NAKHEEL COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 20.0
+  },
+  "447": {
+   "name": "THE CRESCENT",
+   "master": "Dubai Production City",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 15.0
+  },
+  "183468197": {
+   "name": "REGINA",
+   "master": "Jumeirah Village Circle",
+   "manager": "BUNAT AL MUSTAQBAL OWNERS ASSOCIATION ADMINSTRATIVE SUPERVISION",
+   "aed_sqft": 17.0
+  },
+  "30335820": {
+   "name": "AL HELAL AL ZAHABY BUILDING",
+   "master": "International City",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "50": {
+   "name": "RUBY RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 14.0
+  },
+  "1204": {
+   "name": "QPOINT LIWAN-PLOT R072",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "439": {
+   "name": "LAGO VISTA",
+   "master": "Dubai Production City",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 12.0
+  },
+  "257": {
+   "name": "TORCH TOWER",
+   "master": "Dubai Marina",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 1851.0
+  },
+  "167": {
+   "name": "WESTAR REFLECTION",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1.0
+  },
+  "135942190": {
+   "name": "Azizi Riviera 4",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "1427": {
+   "name": "DIAMOND VIEWS 3",
+   "master": "Jumeirah Village",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 256.5
+  },
+  "49": {
+   "name": "SAPPHIRE RESIDENCE",
+   "master": "Dubai Silicon Oasis",
+   "manager": "DEYAAR COMMUNITY MANAGEMENT L.L.C",
+   "aed_sqft": 16.0
+  },
+  "232": {
+   "name": "PRIME RESIDENCY2",
+   "master": "International City",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "8388161": {
+   "name": "AZURE RESIDENCE",
+   "master": "Dubai Marina",
+   "manager": "SYMBIOSIS OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 18.0
+  },
+  "14230291": {
+   "name": "DAMAC HILLS (2) - COURSETIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 6.0
+  },
+  "1216": {
+   "name": "QPOINT LIWAN-PLOT R098",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "11539037": {
+   "name": "DAMAC HILLS - LONGVIEW",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "14960273": {
+   "name": "DAMAC HILLS (2) - ODORA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 6.0
+  },
+  "1304": {
+   "name": "TENNIS TOWER",
+   "master": "Dubai Sports City",
+   "manager": "MARF MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 13.0
+  },
+  "10805705": {
+   "name": "NO 9",
+   "master": "Dubai Marina",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 15.0
+  },
+  "102227215": {
+   "name": "Azizi Riviera 5",
+   "master": "Meydan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 19.0
+  },
+  "157081732": {
+   "name": "REVA RESIDENCES",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 28.0
+  },
+  "1241": {
+   "name": "INDIGO SPECTRUM 2",
+   "master": "International City",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 11.0
+  },
+  "418": {
+   "name": "WATER'S EDGE",
+   "master": "Business Bay",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 31.0
+  },
+  "33556511": {
+   "name": "BLOOM HEIGHTS",
+   "master": "Jumeirah Village Circle",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 439.0
+  },
+  "27010025": {
+   "name": "SAHARA MEADOWS2",
+   "master": "Dubai Industrial City",
+   "manager": "S G COMMUNITY MANAGEMENT SERVICES",
+   "aed_sqft": 5.0
+  },
+  "16560290": {
+   "name": "TOWN SQUARE HAYAT",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 4.0
+  },
+  "1457": {
+   "name": "MOSELA",
+   "master": "The Greens",
+   "manager": "EMAAR COMMUNITY MANAGEMENT (L.L.C)",
+   "aed_sqft": 18.0
+  },
+  "11542030": {
+   "name": "DAMAC HILLS - PHOENIX",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "11897176": {
+   "name": "BLOOMINGDALE",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 4.0
+  },
+  "19484629": {
+   "name": "PARK VIEW TOWER",
+   "master": "Barsha Heights",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 1497.0
+  },
+  "10829455": {
+   "name": "DAMAC HILLS -  RICHMOND",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "53856865": {
+   "name": "BRIGHT CORNER",
+   "master": "Meydan",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 15.0
+  },
+  "29570674": {
+   "name": "MARQUISE SQUARE TOWER",
+   "master": "Business Bay",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "28212274": {
+   "name": "ALCOVE",
+   "master": "Jumeirah Village",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 14.0
+  },
+  "136336451": {
+   "name": "DAMAC HILLS (2) - AQUILEGIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "47941979": {
+   "name": "Al Fouad",
+   "master": "Al Furjan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 10.0
+  },
+  "1444": {
+   "name": "LINCOLN PARK(WEST SIDE & LINCOLN PARK - B)",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 13.0
+  },
+  "593": {
+   "name": "GLOBAL GOLF RESIDENCE 2",
+   "master": "Dubai Sports City",
+   "manager": "SPORTS CITY OWNER ASSOCIATION MANAGEMENTSERVICES L.L.C",
+   "aed_sqft": 16.0
+  },
+  "1479": {
+   "name": "WESTAR LA RESIDENCIA DEL SOL",
+   "master": "Jumeirah Village Circle",
+   "manager": "INFINITY STRATA MANAGEMENT L.L.C",
+   "aed_sqft": 2.0
+  },
+  "83055243": {
+   "name": "Azizi Aura Residences",
+   "master": "Downtown Jebel Ali",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 17.0
+  },
+  "1250": {
+   "name": "AXIS RESIDENCES 4",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "78776074": {
+   "name": "The Pulse Boulevard Apartments - C3",
+   "master": "Dubai South",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "249": {
+   "name": "LOLENA",
+   "master": "Jumeirah Village Circle",
+   "manager": "PRISTINE OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "45833762": {
+   "name": "ROXANA RESIDENCE",
+   "master": "Jumeirah Village",
+   "manager": "ROSE CONTINENTAL OWNERS ASSOCIATIONS MANAGEMENT L.L.C",
+   "aed_sqft": 732.0
+  },
+  "31017064": {
+   "name": "Montrell Hotel Aprtments",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 1126.0
+  },
+  "139": {
+   "name": "THE DIAMOND",
+   "master": "Dubai Sports City",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 20.0
+  },
+  "1212": {
+   "name": "QPOINT LIWAN-PLOT R099",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "913": {
+   "name": "WEST AVENUE",
+   "master": "Dubai Marina",
+   "manager": "PROVIS OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 19.0
+  },
+  "185524878": {
+   "name": "SAMA TOWNHOUSES",
+   "master": "Nshama",
+   "manager": "NSHAMA COMMUNITY MANAGEMENT OWNED BY NSHAMA PROPERTIES ONE PERSON L.L.C",
+   "aed_sqft": 5.0
+  },
+  "1207": {
+   "name": "QPOINT LIWAN-PLOT R081",
+   "master": "Liwan",
+   "manager": "WASEELA MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS",
+   "aed_sqft": 8.0
+  },
+  "26576105": {
+   "name": "PARK ONE",
+   "master": "Jumeirah Village",
+   "manager": "SAGA INTERNATIONAL OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 17.0
+  },
+  "15665625": {
+   "name": "DAMAC HILLS (2) - TRIXIS",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 5.0
+  },
+  "181": {
+   "name": "SIRAJ TOWER",
+   "master": "Dubai Land",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 9.0
+  },
+  "16048476": {
+   "name": "SHERENA RESIDENCE",
+   "master": "Dubai Land",
+   "manager": "ROSE CONTINENTAL OWNERS ASSOCIATIONS MANAGEMENT L.L.C",
+   "aed_sqft": 11.0
+  },
+  "29078549": {
+   "name": "PALACE ESTATES",
+   "master": "Jumeirah Village",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 2.0
+  },
+  "147": {
+   "name": "THE ONYX",
+   "master": "The Greens",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 468.0
+  },
+  "172299126": {
+   "name": "Living Garden II",
+   "master": "Jumeirah Village Circle",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 14.0
+  },
+  "1248": {
+   "name": "AXIS RESIDENCES 2",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "11538904": {
+   "name": "DAMAC HILLS - TRINITY",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "1192": {
+   "name": "QPOINT LIWAN-R019",
+   "master": "Dubai Land",
+   "manager": "KAIZEN OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 11.0
+  },
+  "51159261": {
+   "name": "DAMAC HILLS (2) - AVENCIA-2",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 3.0
+  },
+  "13973222": {
+   "name": "RIGEL",
+   "master": "Jumeirah Village Circle",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 568.0
+  },
+  "403": {
+   "name": "ORCHID PARK",
+   "master": "Jumeirah Village",
+   "manager": "ADVENTUS OWNERS ASSOCIATION MANAGEMENT L.L.C",
+   "aed_sqft": 3.0
+  },
+  "1299": {
+   "name": "CRICKET TOWER",
+   "master": "Dubai Sports City",
+   "manager": "MARF MANAGEMENT & SUPERVISION SERVICES FOR OWNERS ASSOCIATIONS L.L.C",
+   "aed_sqft": 14.0
+  },
+  "12596518": {
+   "name": "AZIZI. FEIROUZ",
+   "master": "Al Furjan",
+   "manager": "V C M COMMUNITY MANAGEMENT",
+   "aed_sqft": 14.0
+  },
+  "214": {
+   "name": "AL JAWZAA",
+   "master": "International City",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 10.0
+  },
+  "806": {
+   "name": "UNIESTATE SPORTS TOWER",
+   "master": "Dubai Sports City",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 18.0
+  },
+  "8481385": {
+   "name": "DAMAC HILLS - QUEENS MEADOW",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "99": {
+   "name": "THE MATRIX",
+   "master": "Dubai Sports City",
+   "manager": "KINGFIELD OWNER ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 11.0
+  },
+  "1480": {
+   "name": "WESTAR LES CASTELETS",
+   "master": "Jumeirah Village",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 3.0
+  },
+  "1252": {
+   "name": "AXIS RESIDENCES 6",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 13.0
+  },
+  "8546559": {
+   "name": "DAMAC HILLS - PICCADILLY GREEN",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "19963196": {
+   "name": "SERENIA RESIDENCES THE PALM",
+   "master": "Palm Jumeirah",
+   "manager": "PALMA COMMUNITY MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 25.0
+  },
+  "411": {
+   "name": "SILICON HEIGHTS2",
+   "master": "Dubai Silicon Oasis",
+   "manager": "RELIANCE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 10.0
+  },
+  "184": {
+   "name": "SCALA TOWER",
+   "master": "Business Bay",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 16.0
+  },
+  "15986259": {
+   "name": "CENTURION RESIDENCE",
+   "master": "Dubai Investment Park",
+   "manager": "HIGHRISE OWNERS ASSOCIATION MANAGEMENT SERVICES",
+   "aed_sqft": 12.0
+  },
+  "168250613": {
+   "name": "V2",
+   "master": "Dubai Sports City",
+   "manager": "AMAL OWNERS COMMUNITY MANAGEMENT",
+   "aed_sqft": 13.0
+  },
+  "412": {
+   "name": "LINCOLN PARK",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 14.0
+  },
+  "37100759": {
+   "name": "MIRACLZ TOWER",
+   "master": "Arjan",
+   "manager": "STRATUM OWNER ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "1255": {
+   "name": "AXIS RESIDENCES 8",
+   "master": "Dubai Silicon Oasis",
+   "manager": "PRIME OWNERS ASSOCIATION MANAGEMENT SERVICES L.L.C",
+   "aed_sqft": 12.0
+  },
+  "13778427": {
+   "name": "CLARET @ AKOYA OXYGEN",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  },
+  "10830591": {
+   "name": "DAMAC HILLS - ROCKWOOD",
+   "master": "Damac Hills",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 2.0
+  },
+  "48204031": {
+   "name": "DAMAC HILLS (2) - VICTORIA",
+   "master": "Dubai Land",
+   "manager": "LUXURY OWNER ASSOCIATION MANAGEMENT SERVICES CO. L.L.C",
+   "aed_sqft": 4.0
+  }
+ }
+}

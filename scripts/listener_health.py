@@ -87,11 +87,23 @@ def main():
     docs = [p for p in glob.glob(os.path.join(LISTENER, "docs", "**", "*.pdf"), recursive=True) if dt.datetime.fromtimestamp(os.path.getmtime(p)) >= since]
     out = read_text(os.path.join(LISTENER, "listener.out.log"))
     connected = "[wa] connected" in out
+    # 6 Sep 2026: the listener writes its own heartbeat (health.json) every minute - socket state, last message received,
+    # last PDF captured, counts over 24 h. It is the primary proof of life now; the launcher lines are the history.
+    hb = {}
+    try: hb = json.load(open(os.path.join(LISTENER, "health.json"), encoding="utf-8"))
+    except Exception: hb = {}
+    hb_age_min = None
+    try: hb_age_min = round((now - dt.datetime.fromisoformat(hb["ts"].replace("Z", "+00:00")).astimezone().replace(tzinfo=None)).total_seconds() / 60, 1) if hb.get("ts") else None
+    except Exception: hb_age_min = None
+    socket_open = hb.get("connection") == "open" and hb_age_min is not None and hb_age_min < 20
+    if socket_open: connected = True
     verdict = ("listening" if pids and lost.total_seconds() < 60 else ("gap" if pids else "down"))
+    if pids and not socket_open and hb: verdict = "gap" if verdict == "listening" else verdict
     rec = {"checked": now.isoformat(timespec="seconds"), "window_hours": a.hours, "alive": bool(pids), "pids": pids,
            "connected_in_current_log": connected, "starts_in_window": len(starts), "exits_in_window": len(exits), "heartbeats_in_window": len(beats),
            "coverage_lost_hours": round(lost.total_seconds() / 3600, 2), "pdfs_captured_in_window": len(docs),
            "pdfs": [os.path.relpath(p, LISTENER) for p in docs][:20], "verdict": verdict,
+           "socket": hb.get("connection"), "heartbeat_age_min": hb_age_min, "last_rx": hb.get("lastRxAt"), "last_doc": hb.get("lastDocAt"), "rx_24h": hb.get("rx24h"), "docs_24h": hb.get("docs24h"),
            "meaning": {"listening": "the listener was up for the whole window - if nothing new was scanned, nothing was posted",
                        "gap": "the listener restarted during the window - sheets posted in the lost hours were NOT captured",
                        "down": "the listener is NOT running - nothing posted since it died has been captured"}[verdict]}
@@ -100,6 +112,7 @@ def main():
     print(f"listener health: {verdict.upper()} | alive={bool(pids)} | lost {rec['coverage_lost_hours']} h of {a.hours} | "
           f"starts {len(starts)} exits {len(exits)} heartbeats {len(beats)} | PDFs captured {len(docs)}")
     print("  " + rec["meaning"])
+    if hb: print(f"  socket {hb.get('connection')} | heartbeat {hb_age_min} min old | last message {hb.get('lastRxAt')} | last PDF {hb.get('lastDocAt')} | 24 h: {hb.get('rx24h')} messages, {hb.get('docs24h')} PDFs")
     if not a.no_push:
         try:
             from build_avail_index import env_token, push

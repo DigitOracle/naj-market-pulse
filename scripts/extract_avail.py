@@ -193,6 +193,41 @@ def parse_row(cells):
     return [uid, norm_type(cells[ti]), total, price, view or None, suite, balcony]
 
 
+AR_UNIT_RX = re.compile(r"\b([A-Z]{1,4}\d{0,2}-?[A-Z]{0,3}\d{2,5}[A-Z]?)\b")            # G1-TH070, ANB-V091, IT1204, T2-1203
+AR_PRICE_RX = re.compile(r"\b(\d{1,2},\d{3},\d{3}|\d{6,9}(?=\.\d{2}\b))\b")          # 3,775,000 or 3655000.00
+AR_BEDS_RX = re.compile(r"\b(studio|\d\s?BR)\b", re.I)
+AR_BEDS2_RX = re.compile(r"\b(\d)\b\s+\d?BR")                                           # Inaura: "| 2 | 2BR-A |"
+AR_DATE_RX = re.compile(r"\b(\d{1,2}-[A-Za-z]{3,5}-\d{4})\b")
+AR_AREA_RX = re.compile(r"\b(\d{3,5}\.\d{2})\b")
+AR_HEAD_WORDS = ("building code", "unit number", "anticipated", "bedrooms", "view/location", "saleable", "selling", "completion", "area(sq", "price(aed", "dates", "unit details")
+
+
+def ar_unspace(t):
+    """OCR reads wide-tracked headers letter by letter ('A n a n t a r a  S h a r j a h'): collapse single-letter runs into words."""
+    t = re.sub(r"\s+", " ", t or "").strip()
+    if not t: return t
+    toks = t.split(" ")
+    if sum(1 for x in toks if len(x) == 1) >= max(3, len(toks) // 2):
+        out, word = [], ""
+        for x in toks:
+            if len(x) == 1: word += x
+            else:
+                if word: out.append(word); word = ""
+                out.append(x)
+        if word: out.append(word)
+        t = " ".join(out)
+    t = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", t)                                   # AnantaraSharjah -> Anantara Sharjah
+    t = re.sub(r"\s*&\s*", " & ", t); t = re.sub(r"\s*;\s*", " / ", t)
+    t = re.sub(r"(?i)hotelsand", "Hotels and", t); t = re.sub(r"(?i)^wresidencesat", "W Residences at", t); t = re.sub(r"(?i)masaar(\d)", r"Masaar ", t)
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def ar_field(line, label):
+    m = re.search(label + r"\s*:?\s*:?\s*(.+?)\s*(?:Cluster/Phase|Project\b|Unit Details|$)", line, re.I)
+    v = (m.group(1) if m else "").strip(" :")
+    return ar_unspace(v) or None
+
+
 INV_CODE_RX = re.compile(r"^[A-Z]{2,6}(-[A-Z0-9]+){1,4}$")
 INV_TYPE_START = re.compile(r"^(\d|studio|duplex|retail|office|penthouse|p\.house|shop|villa|townhouse)", re.I)
 
@@ -256,6 +291,8 @@ def parse_pdf(path):
     dev = next((d for d in DEV_HINTS if d in os.path.basename(path).lower()), None)
     inv_title, inv_date, inv_block, prev_line, inv_mode = None, None, None, "", False
     bey_date, bey_building, pending_view = None, None, None
+    ar_mode, ar_pending, ar_master, ar_cluster, ar_project = False, None, None, None, None
+    ar_plan, ar_plan_pcts = None, None
     for page in doc:
         words = words_text_layer(page)
         mode = "text"
@@ -265,6 +302,55 @@ def parse_pdf(path):
         for row in rows:
             line = " ".join(t for _, t in row)
             low = line.lower()
+            # --- Arada payment-plan page precedes the report: keep the split as the plan string
+            if re.search(r"payment plan", low) and not AR_PRICE_RX.search(line):
+                ar_plan_pcts = []; ar_plan = None; continue
+            if ar_plan_pcts is not None and ar_plan is None:
+                mp = re.search(r"\b(\d{1,3})\.\d{2}\s*%", line)
+                if mp and "100.00" not in line and not re.search(r"total", low):
+                    ar_plan_pcts.append(int(mp.group(1)))
+                    if re.search(r"on completion|final|handover", low): ar_plan = "/".join(str(x) for x in ar_plan_pcts); ar_plan_pcts = None
+                    continue
+            # --- Arada 'Availability Report' (image brochures, OCR): master / cluster / project headers, then unit rows
+            if "availability report" in low or ("unit number" in low and "selling" in low):
+                ar_mode = True; ar_pending = None; dev = dev or "arada"
+                if "availability report" in low: ar_master = ar_cluster = ar_project = None
+                continue
+            if ar_mode:
+                if re.search(r"master development", low): ar_master = ar_field(line, "Master Development") or ar_master; continue
+                if re.search(r"cluster\s*/?\s*phase", low): ar_cluster = ar_field(line, r"Cluster/?\s*Phase") or ar_cluster; continue
+                if re.match(r"\s*project", low) and not AR_PRICE_RX.search(line): ar_project = ar_field(line, "Project") or ar_project; continue
+                if any(w in low for w in AR_HEAD_WORDS) and not AR_PRICE_RX.search(line): continue
+                if low.startswith("units are subject") or low.startswith("page"): ar_pending = None; continue
+                um = AR_UNIT_RX.search(line); pm = AR_PRICE_RX.search(line)
+                if um and not pm:                                                 # row wrapped: hold it until the price arrives
+                    ar_pending = line; continue
+                if pm and not um and ar_pending:
+                    line = ar_pending + " " + line; um = AR_UNIT_RX.search(line); ar_pending = None
+                elif not (um and pm):
+                    # a wrapped bedroom / view fragment ("2 BR", "Residences 1 | Loft") belongs to the unit above
+                    if cur and cur.get("_ar") and cur["units"] and AR_BEDS_RX.fullmatch(line.strip()) and not cur["units"][-1][1]:
+                        cur["units"][-1][1] = norm_type(line.strip().upper().replace(" ", "").replace("BR", " BR"))
+                    continue
+                unit = um.group(1).upper(); price = int(pm.group(1).replace(",", ""))
+                if price < 50000: continue
+                bm = AR_BEDS_RX.search(line); dm = AR_DATE_RX.search(line)
+                if not bm:
+                    b2 = AR_BEDS2_RX.search(line)
+                    if b2: bm = type("M", (), {"group": (lambda self, i=1, v=b2.group(1) + " BR": v), "end": (lambda self, v=b2.end(): v)})()
+                areas = [float(a) for a in AR_AREA_RX.findall(line)]
+                total = areas[-1] if areas else None                             # saleable is the last area column before the price
+                # the type / view text sits between the bedroom token and the first area figure
+                seg = line[bm.end():] if bm else line[um.end():]
+                seg = AR_AREA_RX.split(seg)[0]; seg = AR_PRICE_RX.split(seg)[0]
+                seg = re.sub(r"\d{1,2}-[A-Za-z]{3,5}-\d{4}", " ", seg)
+                view = re.sub(r"\s+", " ", seg).strip(" |:-") or None
+                typ = norm_type(bm.group(1).upper().replace(" ", "").replace("BR", " BR")) if bm else None
+                pname = ar_unspace(ar_project or ar_cluster or ar_master or "Unknown project").title()
+                if cur is None or cur["p"] != pname or not cur.get("_ar"):
+                    cur = {"p": pname, "block": ar_unspace(ar_cluster) if ar_cluster else None, "master": ar_unspace(ar_master) if ar_master else None, "completion": (dm.group(1) if dm else None) or completion, "plan": ar_plan or plan, "units": [], "_mode": mode, "_ar": True}
+                    projects.append(cur)
+                cur["units"].append([unit, typ, total, price, view]); continue
             if dev is None:
                 dev = next((d for d in DEV_HINTS if d in low), None) or next((v for k, v in PROJECT_DEV.items() if k in low), None)
             # --- inventory format (Fakhruddin et al.): "<PROJECT> - INVENTORY as (m/d/yyyy)", sections, a fixed column header
@@ -381,6 +467,7 @@ def process(path, received=None, force=False):
     received = received or dt.date.fromtimestamp(os.path.getmtime(path))
     stated = next((p.get("_sheet_date") for p in projects if p.get("_sheet_date")), None)
     sheet_date = stated or sheet_date_from(re.sub(r"^\d{13}_", "", os.path.basename(path)), received)   # strip the capture timestamp
+    if projects and all(p.get("_ar") for p in projects): dev = "arada"
     out = {"source_file": os.path.basename(path), "sheet_date": sheet_date, "received": dt.date.today().isoformat(),
            "channel": "DEVELOPER AVAILABILITY group (listener capture)" if path.lower().startswith(LISTENER_DOCS.lower()) else "manual inbox",
            "developer": (dev or "unknown").title(), "extraction": "auto: " + ("ocr" if any(p.get("_mode") == "ocr" for p in projects) else "text"),

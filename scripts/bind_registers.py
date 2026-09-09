@@ -19,7 +19,7 @@ WORKER = "https://azimuth-2.digitalchemy.workers.dev"
 sys.path.insert(0, HERE)
 from build_anchors import area_district  # noqa: E402  (same district aliases as the name matcher)
 DEV_KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-           "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
+           "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Prestige One": "prestigeone", "Emaar": "emaar", "Sobha": "sobha"}
 
 def token():
     key = os.environ.get("READ_KEY")

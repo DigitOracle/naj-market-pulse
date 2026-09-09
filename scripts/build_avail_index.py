@@ -19,7 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 AVAIL = os.path.join(ROOT, "data", "avail")
 WORKER = "https://azimuth-2.digitalchemy.workers.dev"
-DRILL_KEY = {"imtiaz": "imtiaz"}          # developer slug -> drill_<key>; extend as developers join the group
+DRILL_KEY = {"imtiaz": "imtiaz", "arada": "arada", "beyond": "beyond", "fakhruddin": "fakhruddin"}          # developer slug -> drill_<key>; extend as developers join the group
 
 
 def env_token(name):
@@ -29,12 +29,12 @@ def env_token(name):
     return os.environ.get(name)
 
 
-def push(name, obj, tok):
+def push(name, obj, tok, timeout=900):          # the upstream here is ~16 KB/s: a 900 KB envelope needs a minute
     raw = json.dumps(obj, ensure_ascii=False).encode()
     body = json.dumps({"imageName": name, "image": base64.b64encode(raw).decode(), "contentType": "application/json"}).encode()
     req = urllib.request.Request(WORKER + "/ingest_market", data=body, method="POST",
                                  headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", "User-Agent": "najma-market-pulse/1.0"})
-    return json.load(urllib.request.urlopen(req, timeout=60))
+    return json.load(urllib.request.urlopen(req, timeout=timeout))
 
 
 def latest_sheets():

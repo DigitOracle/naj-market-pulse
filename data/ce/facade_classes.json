@@ -134,58 +134,703 @@
   "businessbay": {
    "n": 654,
    "counts": {
-    "glassblue": 29,
-    "glassclear": 37,
-    "glassbronze": 12,
-    "stone": 102,
-    "render": 417,
-    "concrete": 57,
+    "glassblue": 58,
+    "glassclear": 78,
+    "glassbronze": 17,
+    "stone": 77,
+    "render": 343,
+    "concrete": 81,
     "brick": 0
    },
    "sources": {
-    "default": 602,
-    "overture": 22,
+    "default": 580,
+    "overture": 44,
     "osm": 30
    },
-   "generated": "2026-09-03T06:10:52"
+   "generated": "2026-09-06T06:18:28"
   },
   "burjkhalifa": {
    "n": 298,
    "counts": {
-    "glassblue": 23,
-    "glassclear": 25,
-    "glassbronze": 5,
-    "stone": 40,
-    "render": 173,
-    "concrete": 32,
+    "glassblue": 33,
+    "glassclear": 42,
+    "glassbronze": 12,
+    "stone": 36,
+    "render": 142,
+    "concrete": 33,
     "brick": 0
    },
    "sources": {
-    "default": 279,
+    "default": 277,
     "osm": 8,
-    "overture": 11
+    "overture": 13
    },
-   "generated": "2026-09-03T06:10:52"
+   "generated": "2026-09-06T06:18:28"
   },
   "palmjumeirah": {
    "n": 2482,
    "counts": {
-    "glassblue": 13,
-    "glassclear": 3,
+    "glassblue": 14,
+    "glassclear": 5,
+    "glassbronze": 1,
+    "stone": 339,
+    "render": 2079,
+    "concrete": 44,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2056,
+    "overture": 426
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "dubaimarina": {
+   "n": 589,
+   "counts": {
+    "glassblue": 70,
+    "glassclear": 76,
+    "glassbronze": 26,
+    "stone": 61,
+    "render": 298,
+    "concrete": 58,
+    "brick": 0
+   },
+   "sources": {
+    "default": 547,
+    "overture": 36,
+    "osm": 6
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "jumeirahvillagecircle": {
+   "n": 1524,
+   "counts": {
+    "glassblue": 2,
+    "glassclear": 5,
+    "glassbronze": 4,
+    "stone": 151,
+    "render": 1315,
+    "concrete": 47,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1002,
+    "overture": 522
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "palmdeira": {
+   "n": 278,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
     "glassbronze": 0,
-    "stone": 340,
-    "render": 2084,
+    "stone": 47,
+    "render": 231,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 278
+   },
+   "generated": "2026-09-06T06:18:29"
+  },
+  "althanyahfifth": {
+   "n": 3548,
+   "counts": {
+    "glassblue": 31,
+    "glassclear": 26,
+    "glassbronze": 0,
+    "stone": 467,
+    "render": 2998,
+    "concrete": 26,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2869,
+    "overture": 678,
+    "osm": 1
+   },
+   "generated": "2026-09-03T17:02:22"
+  },
+  "jumeirahvillagetriangle": {
+   "n": 1558,
+   "counts": {
+    "glassblue": 3,
+    "glassclear": 3,
+    "glassbronze": 1,
+    "stone": 247,
+    "render": 1301,
+    "concrete": 3,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1502,
+    "overture": 56
+   },
+   "generated": "2026-09-06T06:18:29"
+  },
+  "sobhaheartland": {
+   "n": 1498,
+   "counts": {
+    "glassblue": 4,
+    "glassclear": 10,
+    "glassbronze": 1,
+    "stone": 218,
+    "render": 1242,
+    "concrete": 23,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1291,
+    "overture": 207
+   },
+   "generated": "2026-09-06T06:18:29"
+  },
+  "alwasl": {
+   "n": 3046,
+   "counts": {
+    "glassblue": 3,
+    "glassclear": 2,
+    "glassbronze": 0,
+    "stone": 499,
+    "render": 2520,
+    "concrete": 22,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2889,
+    "osm": 24,
+    "overture": 133
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "motorcity": {
+   "n": 505,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 86,
+    "render": 404,
+    "concrete": 14,
+    "brick": 0
+   },
+   "sources": {
+    "default": 499,
+    "overture": 6
+   },
+   "generated": "2026-09-06T06:18:29"
+  },
+  "samaaljadaf": {
+   "n": 1110,
+   "counts": {
+    "glassblue": 4,
+    "glassclear": 1,
+    "glassbronze": 1,
+    "stone": 177,
+    "render": 868,
+    "concrete": 59,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1090,
+    "overture": 20
+   },
+   "generated": "2026-09-06T06:18:29"
+  },
+  "jltnorth": {
+   "n": 3577,
+   "counts": {
+    "glassblue": 31,
+    "glassclear": 25,
+    "glassbronze": 33,
+    "stone": 576,
+    "render": 2892,
+    "concrete": 20,
+    "brick": 0
+   },
+   "sources": {
+    "default": 3576,
+    "osm": 1
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "jltsouth": {
+   "n": 3576,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 594,
+    "render": 2979,
+    "concrete": 3,
+    "brick": 0
+   },
+   "sources": {
+    "default": 3576
+   },
+   "generated": "2026-09-06T06:18:28"
+  },
+  "alhebiahfifth": {
+   "n": 94,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 15,
+    "render": 78,
+    "concrete": 1,
+    "brick": 0
+   },
+   "sources": {
+    "default": 93,
+    "overture": 1
+   },
+   "generated": "2026-09-09T07:47:04"
+  },
+  "alkhairanfirst": {
+   "n": 218,
+   "counts": {
+    "glassblue": 3,
+    "glassclear": 5,
+    "glassbronze": 3,
+    "stone": 36,
+    "render": 167,
+    "concrete": 4,
+    "brick": 0
+   },
+   "sources": {
+    "default": 216,
+    "overture": 2
+   },
+   "generated": "2026-09-09T07:47:12"
+  },
+  "alsatwa": {
+   "n": 2227,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 2,
+    "glassbronze": 1,
+    "stone": 348,
+    "render": 1833,
     "concrete": 42,
     "brick": 0
    },
    "sources": {
-    "default": 2057,
-    "overture": 425
+    "default": 2164,
+    "overture": 63
    },
-   "generated": "2026-09-03T06:10:52"
+   "generated": "2026-09-09T07:47:29"
+  },
+  "alyelayiss1": {
+   "n": 530,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 89,
+    "render": 441,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 529,
+    "overture": 1
+   },
+   "generated": "2026-09-09T07:47:39"
+  },
+  "alyelayiss2": {
+   "n": 382,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 65,
+    "render": 312,
+    "concrete": 5,
+    "brick": 0
+   },
+   "sources": {
+    "default": 382
+   },
+   "generated": "2026-09-09T07:47:46"
+  },
+  "alyufrah1": {
+   "n": 63,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 1,
+    "render": 62,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 6,
+    "overture": 57
+   },
+   "generated": "2026-09-09T07:48:00"
+  },
+  "arjan": {
+   "n": 396,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 2,
+    "glassbronze": 0,
+    "stone": 66,
+    "render": 305,
+    "concrete": 22,
+    "brick": 0
+   },
+   "sources": {
+    "default": 396
+   },
+   "generated": "2026-09-09T07:48:09"
+  },
+  "damachills": {
+   "n": 1006,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 1,
+    "stone": 169,
+    "render": 827,
+    "concrete": 9,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1003,
+    "overture": 3
+   },
+   "generated": "2026-09-09T07:52:09"
+  },
+  "dubaihills": {
+   "n": 4264,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 700,
+    "render": 3543,
+    "concrete": 21,
+    "brick": 0
+   },
+   "sources": {
+    "default": 4223,
+    "overture": 40,
+    "osm": 1
+   },
+   "generated": "2026-09-09T07:52:24"
+  },
+  "dubaiindustrialcity": {
+   "n": 967,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 162,
+    "render": 805,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 967
+   },
+   "generated": "2026-09-09T07:52:32"
+  },
+  "dubaiinvestmentparkfirst": {
+   "n": 1969,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 325,
+    "render": 1619,
+    "concrete": 25,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1928,
+    "overture": 41
+   },
+   "generated": "2026-09-09T07:52:49"
+  },
+  "dubaiinvestmentparksecond": {
+   "n": 822,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 120,
+    "render": 583,
+    "concrete": 119,
+    "brick": 0
+   },
+   "sources": {
+    "default": 703,
+    "overture": 119
+   },
+   "generated": "2026-09-09T07:53:03"
+  },
+  "dubaimaritimecity": {
+   "n": 473,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 1,
+    "stone": 77,
+    "render": 373,
+    "concrete": 22,
+    "brick": 0
+   },
+   "sources": {
+    "default": 459,
+    "overture": 14
+   },
+   "generated": "2026-09-09T07:53:39"
+  },
+  "dubaiproductioncity": {
+   "n": 1270,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 62,
+    "render": 1138,
+    "concrete": 70,
+    "brick": 0
+   },
+   "sources": {
+    "default": 423,
+    "overture": 847
+   },
+   "generated": "2026-09-09T07:53:47"
+  },
+  "dubaisciencepark": {
+   "n": 2952,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 5,
+    "glassbronze": 1,
+    "stone": 490,
+    "render": 2449,
+    "concrete": 6,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2937,
+    "overture": 15
+   },
+   "generated": "2026-09-09T07:54:06"
+  },
+  "dubaisportscity": {
+   "n": 1979,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 1,
+    "glassbronze": 0,
+    "stone": 320,
+    "render": 1619,
+    "concrete": 38,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1975,
+    "overture": 4
+   },
+   "generated": "2026-09-09T07:54:40"
+  },
+  "dubaistudiocity": {
+   "n": 176,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 29,
+    "render": 141,
+    "concrete": 6,
+    "brick": 0
+   },
+   "sources": {
+    "default": 174,
+    "overture": 2
+   },
+   "generated": "2026-09-09T07:54:48"
+  },
+  "goldensymphony": {
+   "n": 1,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 0,
+    "render": 0,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1
+   },
+   "generated": "2026-09-09T07:55:07"
+  },
+  "jabalalifirst": {
+   "n": 2635,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 300,
+    "render": 2259,
+    "concrete": 75,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1777,
+    "overture": 858
+   },
+   "generated": "2026-09-09T07:55:30"
+  },
+  "jabalaliindustrialsecond": {
+   "n": 1191,
+   "counts": {
+    "glassblue": 4,
+    "glassclear": 2,
+    "glassbronze": 0,
+    "stone": 185,
+    "render": 923,
+    "concrete": 77,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1113,
+    "overture": 78
+   },
+   "generated": "2026-09-09T07:55:38"
+  },
+  "madinatalmataar": {
+   "n": 3526,
+   "counts": {
+    "glassblue": 5,
+    "glassclear": 1,
+    "glassbronze": 0,
+    "stone": 428,
+    "render": 3010,
+    "concrete": 82,
+    "brick": 0
+   },
+   "sources": {
+    "default": 2559,
+    "overture": 966,
+    "osm": 1
+   },
+   "generated": "2026-09-09T07:56:41"
+  },
+  "madinathind4": {
+   "n": 1220,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 202,
+    "render": 1015,
+    "concrete": 3,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1220
+   },
+   "generated": "2026-09-09T07:57:09"
+  },
+  "majan": {
+   "n": 4112,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 1,
+    "glassbronze": 0,
+    "stone": 585,
+    "render": 3458,
+    "concrete": 68,
+    "brick": 0
+   },
+   "sources": {
+    "default": 3476,
+    "overture": 635,
+    "osm": 1
+   },
+   "generated": "2026-09-09T07:57:38"
+  },
+  "meydanone": {
+   "n": 3364,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 0,
+    "stone": 554,
+    "render": 2807,
+    "concrete": 3,
+    "brick": 0
+   },
+   "sources": {
+    "default": 3331,
+    "overture": 33
+   },
+   "generated": "2026-09-09T07:58:16"
+  },
+  "siliconoasis": {
+   "n": 2284,
+   "counts": {
+    "glassblue": 4,
+    "glassclear": 3,
+    "glassbronze": 0,
+    "stone": 88,
+    "render": 2088,
+    "concrete": 101,
+    "brick": 0
+   },
+   "sources": {
+    "default": 517,
+    "overture": 1767
+   },
+   "generated": "2026-09-09T07:58:45"
+  },
+  "wadialsafa4": {
+   "n": 775,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 1,
+    "glassbronze": 0,
+    "stone": 128,
+    "render": 642,
+    "concrete": 4,
+    "brick": 0
+   },
+   "sources": {
+    "default": 771,
+    "overture": 4
+   },
+   "generated": "2026-09-09T07:59:20"
+  },
+  "wadialsafa5": {
+   "n": 1091,
+   "counts": {
+    "glassblue": 0,
+    "glassclear": 0,
+    "glassbronze": 2,
+    "stone": 67,
+    "render": 997,
+    "concrete": 25,
+    "brick": 0
+   },
+   "sources": {
+    "default": 409,
+    "overture": 682
+   },
+   "generated": "2026-09-09T07:59:49"
   }
  },
- "updated": "2026-09-03T06:10:52",
+ "updated": "2026-09-09T07:59:49",
  "rule_v3": "rules/najma_v3.cga",
  "v3_textures": {
   "library": "/ESRI.lib/assets/Facades/International/Upperfloors/<name>.jpg (CityEngine workspace, Esri texture library); name encodes u_f<storeys>_t<bays>",

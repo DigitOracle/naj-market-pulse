@@ -1,0 +1,121 @@
+{
+ "1788825253744_Anantara - Availability - 07.09.2026.pdf": {
+  "pages": 4,
+  "report_pages": 1,
+  "master": "Anantara SharjahResidences",
+  "project": "AnantaraSharjah Residences",
+  "units": 0,
+  "sample": [],
+  "secs": 15
+ },
+ "1788825253754_Inaura - Availability - 07.09.2026.pdf": {
+  "pages": 3,
+  "report_pages": 1,
+  "master": "Downtown Dubai",
+  "project": null,
+  "units": 0,
+  "sample": [],
+  "secs": 17
+ },
+ "1788825253818_Masaar 1 - Availability - 07.09.2026.pdf": {
+  "pages": 4,
+  "report_pages": 1,
+  "master": null,
+  "project": "Saro",
+  "units": 2,
+  "sample": [
+   {
+    "unit": "G1-TH070",
+    "beds": "4BR",
+    "price": 3775000
+   },
+   {
+    "unit": "G2-V045",
+    "beds": "4BR",
+    "price": 5875000
+   }
+  ],
+  "secs": 8
+ },
+ "1788825253834_Akala - Availability - 07.09.2026.pdf": {
+  "pages": 4,
+  "report_pages": 1,
+  "master": "Zabeel Second",
+  "project": "AkalaHotels and Residences",
+  "units": 0,
+  "sample": [],
+  "secs": 13
+ },
+ "1788825253896_W Residences T3 - Availability - 07.09.2026.pdf": {
+  "pages": 5,
+  "report_pages": 1,
+  "master": "Dubai Harbour",
+  "project": "W Residences atDubai Harbour",
+  "units": 0,
+  "sample": [],
+  "secs": 22
+ },
+ "1788825253924_W Residences T1 _ T2 - Availability - 07.09.2026.pdf": {
+  "pages": 6,
+  "report_pages": 2,
+  "master": "Dubai Harbour",
+  "project": "W Residences atDubai Harbour",
+  "units": 0,
+  "sample": [],
+  "secs": 33
+ },
+ "1788825254033_Aljada - Avaiolability - 07.09.2026.pdf": {
+  "pages": 21,
+  "report_pages": 14,
+  "master": "Aljada",
+  "project": "Nesba",
+  "units": 0,
+  "sample": [],
+  "secs": 134
+ },
+ "1788825254042_Masaar 2 - Availability - 07.09.2026.pdf": {
+  "pages": 4,
+  "report_pages": 1,
+  "master": "Masaar 2",
+  "project": null,
+  "units": 2,
+  "sample": [
+   {
+    "unit": "ANB-V091",
+    "beds": "4BR",
+    "price": 5325000
+   },
+   {
+    "unit": "NAR-V036",
+    "beds": "4BR",
+    "price": 5195000
+   }
+  ],
+  "secs": 10
+ },
+ "1788825254085_Masaar 3 - Availability - 07.09.2026.pdf": {
+  "pages": 9,
+  "report_pages": 4,
+  "master": null,
+  "project": "LAYAN",
+  "units": 78,
+  "sample": [
+   {
+    "unit": "DAN-V001",
+    "beds": "4BR",
+    "price": 4622000
+   },
+   {
+    "unit": "DAN-V067",
+    "beds": "5BR",
+    "price": 6240000
+   },
+   {
+    "unit": "DAN-V101",
+    "beds": "4BR",
+    "price": 5300000
+   }
+  ],
+  "secs": 43
+ }
+}

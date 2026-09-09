@@ -14,6 +14,10 @@ TARGETS = [
     ("maimoongardens",   "PROJECT_EN = 'Maimoon Gardens'",                     "Maimoon Gardens"),
     ("hatimiresidences", "PROJECT_EN = 'HATIMI RESIDENCES BY FAKHRUDDIN'",     "Hatimi Residences"),
     ("imtiaz",           "lower(PROJECT_EN) LIKE '%imtiaz%'",                  "Imtiaz (all projects)"),
+    # 8 Sep 2026: the developer group now carries Arada and Beyond sheets; /avail?d=<dev> read drill_<dev> and found nothing
+    ("arada",            "(lower(PROJECT_EN) LIKE '%inaura%' OR lower(PROJECT_EN) LIKE '%akala%' OR lower(PROJECT_EN) LIKE '%w residences at dubai harbour%')", "Arada (Dubai projects)"),
+    ("beyond",           "(lower(PROJECT_EN) LIKE '%soulever%' OR lower(PROJECT_EN) LIKE '%kanyon%' OR lower(PROJECT_EN) LIKE '%talea%' OR lower(PROJECT_EN) LIKE '%hado%' OR lower(PROJECT_EN) LIKE '%passo%' OR lower(PROJECT_EN) LIKE '%le chateau%')", "Beyond (all projects)"),
+    ("fakhruddin",       "(PROJECT_EN IN ('TREPPAN TOWER','TREPPAN SERENIQUE RESIDENCES','Maimoon Gardens','HATIMI RESIDENCES BY FAKHRUDDIN'))", "Fakhruddin (all projects)"),
 ]
 
 def main():

@@ -200,3 +200,30 @@ Open data can improve the edges. It will not take 1,775 names to 10,000. Only th
 - **Rail lesson.** One flat alphabetical row does not scale past ~12 districts. v86 groups by five corridors, badges
   maturity from `twin_audit` (gold = register-bound, grey = surveyed, dark = massing only) and retires a parent from the
   rail once all of its tiles are live.
+
+## 11. Rail on the twin (5 Sep 2026, v87)
+
+- **Sources, in order.** OpenStreetMap is the geometry (track ways with bridge/tunnel/layer, stations, construction status,
+  route relations); the public ArcGIS Online station layers (NYU 2018, a 2023 set) are the second source - they confirmed
+  49 of the 60 OpenStreetMap stations and added 12 (mostly Route 2020 and tram stops). Esri World Imagery is the ground and
+  SRTM the relief underneath, both already in the tile. No official RTA geodata is reachable without a portal login
+  (Dubai Pulse returns HTML, data.dubai does not resolve) - the moment a shapefile lands, it goes in as the authority.
+- **Why not CityEngine for the viaduct.** The rail is procedural anyway (deck ribbon + piers every 30 m + platform boxes);
+  building it in the viewer keeps it out of the 5 MB tile budget and lets it be toggled. CityEngine stays for buildings.
+- **Red Line vs Route 2020.** Route relations name the branch as part of the Red Line ("Red Line: ... -> Expo 2020"), so a
+  naive "2020 in the name" test paints the JLT/Marina trunk as Route 2020. Rule: a way on any plain Red Line route is
+  trunk; a way whose route names ALL say 2020/Expo is the branch.
+- **Station noise.** A bare railway=station pin with no network/operator is not a station (a pharmacy in Jebel Ali got in);
+  require station/network/operator and drop retail names.
+- **Heights are standard figures** (viaduct 13 m, rail bridge 8 m, ballast 0.6 m) - OpenStreetMap does not tag them; the
+  footer says "deck heights illustrative". Tunnels are not drawn.
+- **Windows are square.** The tile window is the ground-imagery bbox, which is pixel-square, so JLT North's window reaches
+  across Sheikh Zayed Road into Marina and picks up the tram - that is continuity, not an error.
+- Trolley (Downtown Boulevard, 12 ways) and the airport people-movers are tagged as tram/monorail in OpenStreetMap and get
+  their own nets so the label is honest.
+
+## 12. The register thread (6 Sep 2026)
+
+The Dubai Land Department exports only join once you find the id: `units.parent_property_id = buildings.property_id`, and the building's `project_name_en` is the same string the transactions file calls `building_name_en` and Ejari calls `project_name_en`. That chain gives every registered building its true unit mix (units by type, size, the floors each type sits on), what sold by type, what rents by type, and the gross yield per type. The floor-level file is keyed by a municipality id and joins none of it; ignore it. Footprint binding is still by name (transactions bindings, name match then gated geocode), so an unnamed register building cannot reach the twin until a parcel layer exists. Details and proofs: `DATA_SOURCES_DLD_06SEP2026.md`. Identity grades: a register name confirmed by the map is VERIFIED, a register name placed by geocoding is MATCHED, and `apply_identity.py` now creates a label anchor for any footprint that gains a name.
+
+Addendum, later on 6 Sep: the same parcel id is Dubai Municipality's parcel id. `DLD parcel_id == DM parcel_id` opens `building_summary_information` (permitted floors "6B+G+94+1P+1R", lifts, indoor parking, usages, completion date) and, through its `building_id`, the floor-level file (units and usage per floor). 4,829 of our 20,209 register buildings bridge; the Trakhees communities (Palm Jumeirah, JVC, JVT, Dubai Islands) are not in the municipality file. Script `dm_bridge.py`; the card prints the permit line. The unit-mix layers now read, in order: units register (verified) → DM permit → transactions → Ejari → developer register → sheet → model.

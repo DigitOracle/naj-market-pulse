@@ -21,7 +21,7 @@ SEG = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_segments.
 BOARD = json.load(open(os.path.join(ROOT, "data", "board", "board_devs.json"), encoding="utf-8"))
 DNA = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), encoding="utf-8"))["developers"]
 KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
-       "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Emaar": "emaar", "Sobha": "sobha"}
+       "ZAYA": "zaya", "Palma": "palma", "Fakhruddin": "fakhruddin", "BEYOND": "beyond", "Imtiaz": "imtiaz", "Iman": "iman", "Prestige One": "prestigeone", "Emaar": "emaar", "Sobha": "sobha"}
 con = duckdb.connect(os.path.join(ROOT, "naj.duckdb"), read_only=True)
 JUNK_AREA = ("luxury", "prestige", "real estate", "apartments", "for sale", "developer", "properties")
 
@@ -41,6 +41,8 @@ def dld_facts(names):
             "offplan_share": round(sum(1 for r in rows if r[2] == "Off-Plan") / len(rows), 2), "rooms": dict(rooms.most_common(6)),
             "nearest_metro": mode(4), "nearest_mall": mode(5), "nearest_landmark": mode(6), "dld_area": mode(7), "last_registration": max(str(r[8])[:10] for r in rows)}
 
+# hand rejections (data/names/dev_bindings.json rejected_by_hand): a project name a person has ruled out as a name-only match is never an alias
+REJ = {str(r.get("project") or "").strip().upper() for r in (json.load(open(os.path.join(ROOT, "data", "names", "dev_bindings.json"), encoding="utf-8")).get("rejected_by_hand") or [])}
 out = {}; n_dld = 0
 for dv in BOARD["developers"]:
     dev = dv["key"]; dname = dv["name"]; d = DNA.get(dname, {})
@@ -61,7 +63,7 @@ for dv in BOARD["developers"]:
         rec = out.get(k) or {"dev": dev, "developer": dname, "name": names[0].title(), "aliases": set(), "kind": "trading"}
         rec["aliases"].update(names); out[k] = rec
 for k, rec in out.items():
-    names = set(rec["aliases"]) | {rec["name"]}
+    names = {n for n in set(rec["aliases"]) | {rec["name"]} if n.strip().upper() not in REJ or n == rec["name"]}
     f = dld_facts(names)
     if f: rec["dld"] = f; n_dld += 1
     if not rec.get("area") and f and f.get("dld_area"): rec["area"] = f["dld_area"].title()

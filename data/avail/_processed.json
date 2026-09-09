@@ -70,5 +70,59 @@
   "out": "beyond_2026-08-24.json",
   "when": "2026-09-03T19:55:44",
   "units": 144
+ },
+ "f19cd5ce720786b47bee07ab616db7020903a51c": {
+  "file": "1788825253744_Anantara - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:24:52",
+  "units": 33
+ },
+ "18666bd18dd9fc34da7b843cdc9a2df7bd4b7e44": {
+  "file": "1788825253754_Inaura - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:24:54",
+  "units": 16
+ },
+ "36807d0f2a924896dfab8424882972850536757a": {
+  "file": "1788825253818_Masaar 1 - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:02",
+  "units": 2
+ },
+ "787614653758e53b9f5a54e2337a2a46086c5442": {
+  "file": "1788825253834_Akala - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:04",
+  "units": 26
+ },
+ "6d057e7679dcefa7e70c5527b6bf9984de41face": {
+  "file": "1788825253896_W Residences T3 - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:06",
+  "units": 29
+ },
+ "9db71aa803c4e1862fbaac1058dfeada277cda49": {
+  "file": "1788825253924_W Residences T1 _ T2 - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:09",
+  "units": 52
+ },
+ "3cef4ef82e68731a32758ed258ae15934c458a13": {
+  "file": "1788825254033_Aljada - Avaiolability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:19",
+  "units": 248
+ },
+ "8a0d6f7492c28cd3955db83ea3efdd0b5e1f78b2": {
+  "file": "1788825254042_Masaar 2 - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:20",
+  "units": 2
+ },
+ "c85e150264b3d2868fc0f7346a2702b84df54cbc": {
+  "file": "1788825254085_Masaar 3 - Availability - 07.09.2026.pdf",
+  "out": "arada_2026-09-07.json",
+  "when": "2026-09-08T04:25:22",
+  "units": 88
  }
 }

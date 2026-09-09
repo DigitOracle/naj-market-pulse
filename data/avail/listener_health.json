@@ -1,0 +1,23 @@
+{
+ "checked": "2026-09-09T11:53:22",
+ "window_hours": 24,
+ "alive": true,
+ "pids": [
+  "8400|2026-09-09T08:51:51"
+ ],
+ "connected_in_current_log": true,
+ "starts_in_window": 1,
+ "exits_in_window": 0,
+ "heartbeats_in_window": 32,
+ "coverage_lost_hours": 16.21,
+ "pdfs_captured_in_window": 0,
+ "pdfs": [],
+ "verdict": "gap",
+ "socket": "open",
+ "heartbeat_age_min": 0.9,
+ "last_rx": "2026-09-09T11:51:39",
+ "last_doc": null,
+ "rx_24h": 154,
+ "docs_24h": 0,
+ "meaning": "the listener restarted during the window - sheets posted in the lost hours were NOT captured"
+}

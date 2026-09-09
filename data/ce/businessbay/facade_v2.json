@@ -1,19 +1,19 @@
 {
 "district": "businessbay",
-"generated": "2026-09-03T06:10:52",
+"generated": "2026-09-06T06:18:28",
 "n": 654,
 "counts": {
-"glassblue": 29,
-"glassclear": 37,
-"glassbronze": 12,
-"stone": 102,
-"render": 417,
-"concrete": 57,
+"glassblue": 58,
+"glassclear": 78,
+"glassbronze": 17,
+"stone": 77,
+"render": 343,
+"concrete": 81,
 "brick": 0
 },
 "sources": {
-"default": 602,
-"overture": 22,
+"default": 580,
+"overture": 44,
 "osm": 30
 },
 "osm_construction": 11,
@@ -22,7 +22,7 @@
 "class": "stone",
 "variant": 0,
 "source": "default:low",
-"h": 9.6,
+"h": 12.6,
 "name": "DNATA"
 },
 "1": {
@@ -42,12 +42,16 @@
 "roof_shape": "dome"
 },
 "3": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:height>=20",
-"h": 28.8,
+"source": "overture:class=hotel",
+"h": 355.0,
 "name": "JW Marriott Marquis Hotel",
-"start_date": "2012"
+"start_date": "2012",
+"overture": {
+"class": "hotel",
+"num_floors": 9
+}
 },
 "4": {
 "class": "glassclear",
@@ -70,10 +74,10 @@
 "start_date": "2012"
 },
 "6": {
-"class": "stone",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 105.0,
 "start_date": "2011"
 },
 "7": {
@@ -113,10 +117,10 @@
 "start_date": "2021"
 },
 "12": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 19.2,
+"source": "default:height>100,glass district",
+"h": 115.0,
 "name": "One by Omniyat",
 "start_date": "2012"
 },
@@ -218,50 +222,54 @@
 "class": "glassblue",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 115.2,
+"h": 122.4,
 "start_date": "2012"
 },
 "26": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 16.0,
+"source": "default:height>100,glass district",
+"h": 108.6,
+"name": "Regal Tower",
 "start_date": "2012"
 },
 "27": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 9.6,
+"source": "default:height>100,glass district",
+"h": 105.4,
+"name": "Exchange Tower",
 "start_date": "2015"
 },
 "28": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>100,glass district",
+"h": 140.6,
+"name": "Iris Bay Tower",
 "start_date": "2015"
 },
 "29": {
-"class": "render",
+"class": "glassbronze",
 "variant": 2,
-"source": "default:low",
-"h": 15.0,
+"source": "default:height>100,glass district",
+"h": 125.0,
 "name": "Anantara Downtown Dubai",
 "start_date": "2013"
 },
 "30": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:height>=20",
-"h": 20.0,
+"source": "default:height>100,glass district",
+"h": 131.0,
 "name": "The Burlington"
 },
 "31": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "osm:colour",
-"h": 20.0,
+"source": "osm:colour,tall->glass",
+"h": 108.6,
+"name": "Silver Tower",
 "start_date": "2011",
 "osm": {
 "building:colour": "silver",
@@ -272,32 +280,45 @@
 }
 },
 "32": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:height>=20",
-"h": 20.0,
+"source": "overture:class=commercial",
+"h": 95.8,
 "name": "Bayswater Tower",
-"start_date": "2010"
+"start_date": "2010",
+"overture": {
+"class": "commercial",
+"num_floors": 5,
+"height": 20.0
+}
 },
 "33": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
-"name": "ذا سيتاديل"
+"source": "overture:class=commercial",
+"h": 156.6,
+"name": "ذا سيتاديل",
+"overture": {
+"class": "commercial"
+}
 },
 "34": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:height>=20",
-"h": 22.4,
-"name": "المنارة"
+"source": "overture:class=commercial",
+"h": 115.0,
+"name": "المنارة",
+"overture": {
+"class": "commercial",
+"num_floors": 7
+}
 },
 "35": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 65.02,
+"name": "Capital Golden Tower"
 },
 "36": {
 "class": "stone",
@@ -322,8 +343,8 @@
 "39": {
 "class": "render",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 86.2,
 "name": "15 Northside",
 "start_date": "2023"
 },
@@ -334,70 +355,79 @@
 "h": 12.0
 },
 "41": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 100.0
 },
 "42": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 83.0,
+"name": "Lake Central Tower"
 },
 "43": {
 "class": "render",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
+"name": "Pullman Dubai Downtown",
 "start_date": "2012"
 },
 "44": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>40",
+"h": 73.4,
 "start_date": "2012"
 },
 "45": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 63.8,
+"name": "داماك ميزون كور جاردان شقق فندقية"
 },
 "46": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
-"name": "Free Room LLC"
+"source": "overture:class=office",
+"h": 118.2,
+"name": "Free Room LLC",
+"overture": {
+"class": "office"
+}
 },
 "47": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>100,glass district",
+"h": 101.0
 },
 "48": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 15.0,
+"source": "default:height>40",
+"h": 95.8,
 "name": "Sonder Business Bay"
 },
 "49": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "overture:class=office",
+"h": 89.4,
 "name": "The Metropolis",
-"start_date": "2012"
+"start_date": "2012",
+"overture": {
+"class": "office"
+}
 },
 "50": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:height>=20",
-"h": 20.0,
+"source": "default:height>100,glass district",
+"h": 150.0,
 "name": "Westburry Tower 2",
 "start_date": "2015"
 },
@@ -417,28 +447,37 @@
 "class": "render",
 "variant": 1,
 "source": "default:height>=20",
-"h": 32.0
+"h": 35.0
 },
 "53": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 16.0,
-"name": "The Binary Tower by Omniyat"
+"source": "overture:class=commercial",
+"h": 83.0,
+"name": "The Binary Tower by Omniyat",
+"overture": {
+"class": "commercial",
+"num_floors": 5,
+"roof_shape": "flat"
+}
 },
 "54": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 83.0,
+"name": "Bay's Edge Tower"
 },
 "55": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "overture:class=office",
+"h": 79.8,
 "name": "Opal Tower",
-"start_date": "2013"
+"start_date": "2013",
+"overture": {
+"class": "office"
+}
 },
 "56": {
 "class": "render",
@@ -458,7 +497,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 3.2,
+"h": 6.2,
 "name": "Breeze"
 },
 "59": {
@@ -472,63 +511,71 @@
 "class": "concrete",
 "variant": 0,
 "source": "default:height>40",
-"h": 51.2,
+"h": 54.4,
 "name": "Safeer Tower 2",
 "start_date": "2017"
 },
 "61": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 100.0,
 "name": "Residence 22",
 "start_date": "2016"
 },
 "62": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 79.8,
 "name": "MAG 318"
 },
 "63": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 110.0,
 "name": "Reva Residences",
 "start_date": "2022"
 },
 "64": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 9.6,
+"source": "default:height>40",
+"h": 80.0,
 "name": "ENI Coral Tower",
 "start_date": "2014"
 },
 "65": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 90.0,
 "name": "Damac Maison Canal Views",
 "start_date": "2014"
 },
 "66": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 15.0,
+"source": "overture:class=office",
+"h": 135.0,
 "name": "Westburry Tower 1",
-"start_date": "2015"
+"start_date": "2015",
+"overture": {
+"class": "office",
+"num_floors": 3,
+"height": 15.0
+}
 },
 "67": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
-"name": "B2B Tower"
+"source": "overture:class=office",
+"h": 79.8,
+"name": "B2B Tower",
+"overture": {
+"class": "office"
+}
 },
 "68": {
 "class": "render",
@@ -552,7 +599,7 @@
 "class": "render",
 "variant": 2,
 "source": "default:low",
-"h": 12.8,
+"h": 15.8,
 "name": "dnata DLM Car Parking Building"
 },
 "72": {
@@ -563,25 +610,25 @@
 "start_date": "2012"
 },
 "73": {
-"class": "concrete",
+"class": "glassclear",
 "variant": 1,
-"source": "default:height>=20",
-"h": 20.0,
+"source": "default:height>100,glass district",
+"h": 201.4,
 "name": "Aykon City",
 "start_date": "2023"
 },
 "74": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 76.6,
 "name": "The 9 Tower"
 },
 "75": {
-"class": "stone",
+"class": "render",
 "variant": 0,
-"source": "default:height>=20",
-"h": 38.4,
+"source": "default:height>40",
+"h": 41.4,
 "start_date": "2006"
 },
 "76": {
@@ -591,10 +638,10 @@
 "h": 12.0
 },
 "77": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>40",
+"h": 67.0,
 "name": "Empire Heights",
 "start_date": "2011"
 },
@@ -614,7 +661,7 @@
 "class": "glassblue",
 "variant": 1,
 "source": "osm:material",
-"h": 3.2,
+"h": 6.2,
 "name": "مراسي",
 "osm": {
 "building:material": "metal",
@@ -646,17 +693,22 @@
 "83": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 60.0,
 "name": "DoubleTree by Hilton Dubai - Business Bay",
 "start_date": "2014"
 },
 "84": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:height>=20",
-"h": 30.0,
-"name": "SLS Dubai Hotel & Residences"
+"source": "overture:class=hotel",
+"h": 252.6,
+"name": "SLS Dubai Hotel & Residences",
+"overture": {
+"class": "hotel",
+"num_floors": 6,
+"height": 30.0
+}
 },
 "85": {
 "class": "render",
@@ -677,12 +729,16 @@
 "h": 12.0
 },
 "88": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 16.0,
+"source": "overture:class=commercial",
+"h": 111.8,
 "name": "ذا كورت",
-"start_date": "2010"
+"start_date": "2010",
+"overture": {
+"class": "commercial",
+"num_floors": 5
+}
 },
 "89": {
 "class": "glassblue",
@@ -700,7 +756,7 @@
 "class": "concrete",
 "variant": 0,
 "source": "default:height>40",
-"h": 60.8,
+"h": 63.8,
 "name": "داماك ميزون كور جاردان شقق فندقية",
 "start_date": "2015"
 },
@@ -810,10 +866,10 @@
 "start_date": "2014"
 },
 "105": {
-"class": "concrete",
+"class": "glassblue",
 "variant": 0,
-"source": "default:height>=20",
-"h": 30.0,
+"source": "default:height>100,glass district",
+"h": 195.0,
 "name": "Vision Tower"
 },
 "106": {
@@ -828,7 +884,7 @@
 "class": "glassblue",
 "variant": 2,
 "source": "default:height>100,glass district",
-"h": 102.4
+"h": 108.8
 },
 "108": {
 "class": "stone",
@@ -867,25 +923,29 @@
 "h": 12.0
 },
 "114": {
-"class": "render",
+"class": "glassbronze",
 "variant": 0,
-"source": "default:height>=20",
-"h": 35.2,
+"source": "default:height>100,glass district",
+"h": 185.4,
+"name": "Baygate Tower",
 "start_date": "2015"
 },
 "115": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "overture:class=hotel",
+"h": 70.2,
 "name": "Radisson Blu Hotel, Dubai Canal View",
-"start_date": "2019"
+"start_date": "2019",
+"overture": {
+"class": "hotel"
+}
 },
 "116": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:height>=20",
-"h": 20.0,
+"source": "default:height>100,glass district",
+"h": 130.0,
 "name": "Al Shafar Tower",
 "start_date": "2010"
 },
@@ -893,7 +953,7 @@
 "class": "concrete",
 "variant": 0,
 "source": "default:height>=20",
-"h": 20.0,
+"h": 38.2,
 "name": "Millennium Central",
 "start_date": "2010"
 },
@@ -908,91 +968,102 @@
 "119": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 67.0,
 "name": "Hamilton Residency",
 "start_date": "2010"
 },
 "120": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 85.0,
 "name": "Al Madar Scala Tower",
 "start_date": "2011"
 },
 "121": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 90.0,
 "name": "Waves Tower by KASCO",
 "start_date": "2022"
 },
 "122": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "name": "Dolphin Tower"
 },
 "123": {
 "class": "render",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 85.0,
 "name": "Clayton Residency"
 },
 "124": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "name": "Mayfair Residency",
 "start_date": "2011"
 },
 "125": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>40",
+"h": 83.0,
+"name": "Ubora Residential Tower 2",
 "start_date": "2011"
 },
 "126": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "overture:class=commercial",
+"h": 79.8,
+"name": "O 14 Tower",
+"overture": {
+"class": "commercial"
+}
 },
 "127": {
 "class": "render",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 97.53,
+"name": "Bay View Tower"
 },
 "128": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0
+"source": "overture:class=commercial",
+"h": 76.6,
+"name": "Damac Business Tower",
+"overture": {
+"class": "commercial"
+}
 },
 "129": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 76.6,
+"name": "XL Tower"
 },
 "130": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 72.0
 },
 "131": {
 "class": "render",
 "variant": 2,
 "source": "osm:material",
-"h": 63.0,
+"h": 72.0,
 "roof_shape": "flat",
 "osm": {
 "building:colour": "#f0f0f0",
@@ -1004,10 +1075,11 @@
 }
 },
 "132": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>100,glass district",
+"h": 176.0,
+"name": "Churchill Executive"
 },
 "133": {
 "class": "glassclear",
@@ -1029,14 +1101,14 @@
 "class": "stone",
 "variant": 0,
 "source": "default:height>=20",
-"h": 25.6,
+"h": 28.6,
 "start_date": "2007"
 },
 "136": {
 "class": "render",
 "variant": 1,
 "source": "default:height>=20",
-"h": 32.0,
+"h": 35.0,
 "start_date": "2010"
 },
 "137": {
@@ -1051,21 +1123,21 @@
 "class": "render",
 "variant": 0,
 "source": "default:height>=20",
-"h": 35.2,
+"h": 38.2,
 "start_date": "2012"
 },
 "139": {
 "class": "stone",
 "variant": 1,
 "source": "default:height>=20",
-"h": 32.0,
+"h": 35.0,
 "start_date": "2005"
 },
 "140": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:height>=20",
-"h": 38.4,
+"source": "default:height>40",
+"h": 41.4,
 "start_date": "2009"
 },
 "141": {
@@ -1088,7 +1160,7 @@
 "class": "render",
 "variant": 2,
 "source": "default:low",
-"h": 6.4,
+"h": 9.4,
 "name": "Al Habtoor Tennis Academy"
 },
 "144": {
@@ -1157,10 +1229,10 @@
 "start_date": "2019"
 },
 "154": {
-"class": "render",
+"class": "glassbronze",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 110.0,
 "name": "UPSIDE Living by SRG",
 "start_date": "2023"
 },
@@ -1168,7 +1240,7 @@
 "class": "concrete",
 "variant": 2,
 "source": "overture:class=service",
-"h": 3.2,
+"h": 6.2,
 "name": "District Cooling Plant",
 "overture": {
 "class": "service",
@@ -1179,13 +1251,13 @@
 "class": "stone",
 "variant": 0,
 "source": "default:low",
-"h": 3.2
+"h": 6.2
 },
 "157": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 70.0,
 "name": "Al Noor Tower",
 "start_date": "2020"
 },
@@ -1193,7 +1265,7 @@
 "class": "glassblue",
 "variant": 2,
 "source": "overture:class=office",
-"h": 67.2,
+"h": 71.4,
 "start_date": "2020",
 "overture": {
 "class": "office",
@@ -1246,14 +1318,14 @@
 "class": "concrete",
 "variant": 1,
 "source": "default:height>40",
-"h": 57.6,
+"h": 61.2,
 "start_date": "2020"
 },
 "167": {
 "class": "render",
 "variant": 2,
 "source": "default:height>40",
-"h": 57.6,
+"h": 61.2,
 "start_date": "2019"
 },
 "168": {
@@ -1269,10 +1341,10 @@
 "h": 12.0
 },
 "170": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 15.0,
+"source": "default:height>100,glass district",
+"h": 140.0,
 "name": "Damac Maison Prive",
 "start_date": "2019"
 },
@@ -1287,21 +1359,26 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 3.2,
+"h": 6.2,
 "name": "زووم"
 },
 "173": {
 "class": "render",
 "variant": 2,
 "source": "default:low",
-"h": 3.2,
+"h": 6.2,
 "name": "اوتوبرو"
 },
 "174": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "overture:class=commercial",
+"h": 75.0,
+"overture": {
+"class": "commercial",
+"num_floors": 20,
+"height": 75.0
+}
 },
 "175": {
 "class": "glassclear",
@@ -1317,18 +1394,18 @@
 }
 },
 "176": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 99.0,
 "name": "Marquise Square Tower",
 "start_date": "2019"
 },
 "177": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 90.0,
 "name": "Art 14 XIV",
 "start_date": "2018"
 },
@@ -1343,8 +1420,8 @@
 "179": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 75.0,
 "name": "Majestic Tower"
 },
 "180": {
@@ -1798,7 +1875,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 4.8,
+"h": 6.9,
 "roof_shape": "gabled"
 },
 "254": {
@@ -1978,7 +2055,7 @@
 "class": "render",
 "variant": 0,
 "source": "default:height>=20",
-"h": 32.0,
+"h": 35.0,
 "start_date": "2019"
 },
 "283": {
@@ -2001,29 +2078,40 @@
 "name": "Elite Business Bay Residences"
 },
 "286": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
-"name": "Canal Central Hotel"
+"source": "overture:class=hotel",
+"h": 89.4,
+"name": "Canal Central Hotel",
+"overture": {
+"class": "hotel"
+}
 },
 "287": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0
+"source": "overture:class=commercial",
+"h": 101.59,
+"name": "AG Tower",
+"overture": {
+"class": "commercial"
+}
 },
 "288": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "overture:class=commercial",
+"h": 76.6,
+"name": "Damac Business Tower",
+"overture": {
+"class": "commercial"
+}
 },
 "289": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 97.53,
 "name": "Millennium Binghatti Residence"
 },
 "290": {
@@ -2043,23 +2131,25 @@
 "start_date": "2024"
 },
 "292": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 65.02,
+"name": "Sobha Ivory Tower 2"
 },
 "293": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 73.15,
 "name": "Art XVIII"
 },
 "294": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 67.0,
+"name": "Sol Bay Tower"
 },
 "295": {
 "class": "render",
@@ -2078,16 +2168,17 @@
 "start_date": "2012"
 },
 "297": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 70.2,
+"name": "The Oval Tower"
 },
 "298": {
 "class": "concrete",
 "variant": 1,
 "source": "default:height>40",
-"h": 64.0,
+"h": 68.0,
 "name": "Sol Avenue",
 "start_date": "2020"
 },
@@ -2095,7 +2186,7 @@
 "class": "render",
 "variant": 2,
 "source": "default:height>40",
-"h": 57.6,
+"h": 61.2,
 "start_date": "2019"
 },
 "300": {
@@ -2108,31 +2199,31 @@
 }
 },
 "301": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 120.0,
 "start_date": "2022"
 },
 "302": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 120.0,
 "start_date": "2023"
 },
 "303": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 120.0,
 "start_date": "2023"
 },
 "304": {
 "class": "concrete",
 "variant": 1,
 "source": "osm:material",
-"h": 64.0,
+"h": 68.0,
 "name": "Safeer Tower 3",
 "osm_building": "construction",
 "roof_shape": "flat",
@@ -2164,8 +2255,8 @@
 "307": {
 "class": "render",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 80.0
 },
 "308": {
 "class": "render",
@@ -2174,10 +2265,11 @@
 "h": 12.0
 },
 "309": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 75.0,
+"name": "The First Collection Business Bay, Dubai, a Tribute Portfolio Hotel"
 },
 "310": {
 "class": "render",
@@ -2242,18 +2334,18 @@
 "roof_shape": "dome"
 },
 "320": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 100.0,
 "name": "Binghatti Canal",
 "start_date": "2023"
 },
 "321": {
-"class": "render",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 100.0,
 "name": "The Pad by Omniyat",
 "start_date": "2019"
 },
@@ -2268,16 +2360,16 @@
 "323": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 67.0,
 "name": "RBC Tower",
 "start_date": "2013"
 },
 "324": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 90.0
 },
 "325": {
 "class": "glassblue",
@@ -2288,10 +2380,10 @@
 "start_date": "2024"
 },
 "326": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:height>=20",
-"h": 30.0,
+"source": "default:height>100,glass district",
+"h": 100.9,
 "name": "Regalia By Deyaar"
 },
 "327": {
@@ -2305,24 +2397,24 @@
 }
 },
 "328": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "name": "Royal Continental Suites"
 },
 "329": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "name": "Trillionaire Residences"
 },
 "330": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>40",
+"h": 75.0
 },
 "331": {
 "class": "render",
@@ -2523,10 +2615,10 @@
 "h": 12.0
 },
 "364": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 67.0,
 "name": "Burj Pacific"
 },
 "365": {
@@ -2558,12 +2650,15 @@
 "h": 12.0
 },
 "369": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "overture:class=commercial",
+"h": 80.0,
 "name": "Cavo Dubai",
-"start_date": "2022"
+"start_date": "2022",
+"overture": {
+"class": "commercial"
+}
 },
 "370": {
 "class": "render",
@@ -2872,7 +2967,7 @@
 "class": "concrete",
 "variant": 0,
 "source": "default:height>40",
-"h": 60.8,
+"h": 64.6,
 "name": "Capital Business Courtyard"
 },
 "421": {
@@ -3302,10 +3397,10 @@
 "h": 12.0
 },
 "492": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 85.0,
 "name": "Hotel Indigo Dubai Downtown",
 "start_date": "2021"
 },
@@ -3368,7 +3463,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:height>=20",
-"h": 35.2,
+"h": 38.2,
 "start_date": "2010"
 },
 "503": {
@@ -3531,7 +3626,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 12.8
+"h": 15.8
 },
 "530": {
 "class": "render",
@@ -3571,10 +3666,11 @@
 }
 },
 "535": {
-"class": "render",
+"class": "glassblue",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>100,glass district",
+"h": 130.0,
+"name": "One"
 },
 "536": {
 "class": "render",
@@ -3641,10 +3737,10 @@
 "name": "girgish | the everything agency"
 },
 "545": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 110.0,
 "name": "Vera Residences",
 "start_date": "2022"
 },
@@ -3677,46 +3773,46 @@
 "start_date": "2020"
 },
 "550": {
-"class": "render",
+"class": "concrete",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 67.0,
 "start_date": "2014"
 },
 "551": {
 "class": "render",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 100.0,
 "start_date": "2021"
 },
 "552": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "start_date": "2016"
 },
 "553": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 80.0,
 "start_date": "2011"
 },
 "554": {
 "class": "concrete",
 "variant": 2,
 "source": "default:height>40",
-"h": 70.4,
+"h": 90.0,
 "name": "Canal Bay",
 "start_date": "2024"
 },
 "555": {
-"class": "render",
+"class": "glassblue",
 "variant": 0,
-"source": "default:height>40",
-"h": 96.0,
+"source": "default:height>100,glass district",
+"h": 102.0,
 "name": "Bottega Dalmut Clubhouse Dubai"
 },
 "556": {
@@ -3743,10 +3839,10 @@
 "class": "glassbronze",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 115.2
+"h": 122.4
 },
 "560": {
-"class": "stone",
+"class": "glassblue",
 "variant": 2,
 "source": "osm:material",
 "h": 180.0,
@@ -3762,7 +3858,7 @@
 }
 },
 "561": {
-"class": "stone",
+"class": "glassblue",
 "variant": 0,
 "source": "osm:material",
 "h": 180.0,
@@ -3778,7 +3874,7 @@
 }
 },
 "562": {
-"class": "stone",
+"class": "glassblue",
 "variant": 1,
 "source": "osm:material",
 "h": 130.0,
@@ -3877,21 +3973,21 @@
 "class": "render",
 "variant": 1,
 "source": "default:height>40",
-"h": 76.0,
+"h": 96.0,
 "name": "Paragon"
 },
 "572": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 53.0,
 "name": "Marriott Residences Business Bay"
 },
 "573": {
 "class": "glassclear",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 130.0,
+"h": 595.0,
 "name": "Burj Binghatti Jacob & Co Residences"
 },
 "574": {
@@ -3905,13 +4001,13 @@
 "class": "render",
 "variant": 2,
 "source": "default:low",
-"h": 12.8
+"h": 15.8
 },
 "576": {
-"class": "concrete",
+"class": "glassclear",
 "variant": 0,
-"source": "default:height>40",
-"h": 96.0,
+"source": "default:height>100,glass district",
+"h": 102.0,
 "name": "Damac Merano Tower"
 },
 "577": {
@@ -3940,10 +4036,10 @@
 }
 },
 "579": {
-"class": "stone",
+"class": "glassbronze",
 "variant": 0,
-"source": "default:height>=20",
-"h": 22.4,
+"source": "default:height>100,glass district",
+"h": 137.0,
 "name": "Chic Tower",
 "osm_building": "construction",
 "roof_shape": "flat"
@@ -3952,7 +4048,7 @@
 "class": "concrete",
 "variant": 1,
 "source": "overture:class=service",
-"h": 6.4,
+"h": 9.4,
 "name": "BBAY Substation",
 "roof_shape": "flat",
 "overture": {
@@ -3982,7 +4078,7 @@
 "class": "concrete",
 "variant": 0,
 "source": "overture:class=service",
-"h": 3.2,
+"h": 6.2,
 "name": "SS20587",
 "roof_shape": "flat",
 "overture": {
@@ -3995,7 +4091,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 3.2,
+"h": 6.2,
 "roof_shape": "flat"
 },
 "584": {
@@ -4021,55 +4117,59 @@
 "class": "glassblue",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 105.6,
+"h": 112.2,
 "name": "Polaris"
 },
 "586": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.8,
-"name": "Ontario Tower"
+"source": "overture:class=commercial",
+"h": 99.0,
+"name": "Ontario Tower",
+"overture": {
+"class": "commercial",
+"num_floors": 4
+}
 },
 "587": {
 "class": "render",
 "variant": 2,
 "source": "default:low",
-"h": 12.8,
+"h": 15.8,
 "name": "Urban Oasis"
 },
 "588": {
-"class": "stone",
+"class": "glassclear",
 "variant": 0,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>100,glass district",
+"h": 355.0
 },
 "589": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 3.2,
+"source": "default:height>40",
+"h": 88.0,
 "name": "One River Point"
 },
 "590": {
 "class": "concrete",
 "variant": 2,
 "source": "default:height>40",
-"h": 73.6,
+"h": 78.2,
 "name": "DG1 Living"
 },
 "591": {
 "class": "glassclear",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 214.4,
+"h": 227.8,
 "name": "One by Binghatti"
 },
 "592": {
 "class": "glassblue",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 108.8,
+"h": 130.0,
 "name": "West Bay Tower"
 },
 "593": {
@@ -4091,14 +4191,14 @@
 "class": "glassbronze",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 102.4,
+"h": 108.8,
 "name": "Future Tower"
 },
 "595": {
 "class": "concrete",
 "variant": 1,
 "source": "osm:material",
-"h": 64.0,
+"h": 68.0,
 "name": "Royal Regency Suites Business Bay",
 "osm_building": "construction",
 "roof_shape": "flat",
@@ -4114,7 +4214,7 @@
 "class": "concrete",
 "variant": 2,
 "source": "osm:material",
-"h": 57.6,
+"h": 61.2,
 "name": "Royal Regency",
 "osm_building": "construction",
 "roof_shape": "flat",
@@ -4137,14 +4237,14 @@
 "class": "glassclear",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 115.2,
+"h": 130.0,
 "name": "Jumeirah Living Business Bay"
 },
 "599": {
 "class": "glassblue",
 "variant": 2,
 "source": "overture:class=commercial",
-"h": 89.6,
+"h": 95.2,
 "overture": {
 "class": "commercial",
 "num_floors": 28
@@ -4184,7 +4284,7 @@
 "class": "concrete",
 "variant": 2,
 "source": "default:height>40",
-"h": 73.6,
+"h": 80.0,
 "name": "Voleo"
 },
 "603": {
@@ -4198,7 +4298,7 @@
 "class": "stone",
 "variant": 1,
 "source": "osm:material",
-"h": 3.2,
+"h": 6.2,
 "roof_shape": "flat",
 "osm": {
 "building:colour": "#dcd8c7",
@@ -4240,7 +4340,7 @@
 "class": "render",
 "variant": 1,
 "source": "default:low",
-"h": 9.6
+"h": 12.6
 },
 "608": {
 "class": "concrete",
@@ -4258,30 +4358,30 @@
 "class": "concrete",
 "variant": 0,
 "source": "overture:class=service",
-"h": 3.2,
+"h": 6.2,
 "overture": {
 "class": "service",
 "num_floors": 1
 }
 },
 "610": {
-"class": "render",
+"class": "glassblue",
 "variant": 1,
-"source": "default:low",
-"h": 12.0
+"source": "default:height>100,glass district",
+"h": 102.2
 },
 "611": {
-"class": "render",
+"class": "glassclear",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>100,glass district",
+"h": 118.2,
 "name": "Bugatti Residences"
 },
 "612": {
 "class": "concrete",
 "variant": 0,
 "source": "osm:material",
-"h": 3.2,
+"h": 6.2,
 "roof_shape": "flat",
 "osm": {
 "building:material": "concrete",
@@ -4316,64 +4416,67 @@
 "class": "glassblue",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 115.2,
+"h": 122.4,
 "name": "Tower B"
 },
 "616": {
 "class": "glassclear",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 147.2,
+"h": 156.4,
 "name": "Tower A"
 },
 "617": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>=20",
+"h": 32.0,
 "name": "Altitude"
 },
 "618": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.8,
+"source": "default:height>40",
+"h": 80.0,
 "name": "Canal Crown"
 },
 "619": {
 "class": "glassbronze",
 "variant": 1,
 "source": "default:height>100,glass district",
-"h": 153.6,
+"h": 163.2,
 "name": "1"
 },
 "620": {
-"class": "render",
+"class": "concrete",
 "variant": 2,
-"source": "default:low",
-"h": 8.0,
+"source": "default:height>40",
+"h": 88.0,
 "name": "2"
 },
 "621": {
 "class": "glassclear",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 112.0,
+"h": 119.0,
 "name": "Volante 3"
 },
 "622": {
 "class": "concrete",
 "variant": 1,
 "source": "default:height>40",
-"h": 73.6,
+"h": 92.0,
 "name": "Eywa"
 },
 "623": {
-"class": "render",
+"class": "glassblue",
 "variant": 2,
-"source": "default:low",
-"h": 12.0,
-"name": "Renaissance Business Bay Hotel, Dubai"
+"source": "overture:class=commercial",
+"h": 67.0,
+"name": "Renaissance Business Bay Hotel, Dubai",
+"overture": {
+"class": "commercial"
+}
 },
 "624": {
 "class": "concrete",
@@ -4383,38 +4486,38 @@
 "name": "Grand Mercure Business Bay"
 },
 "625": {
-"class": "render",
+"class": "glassclear",
 "variant": 1,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 92.0,
 "name": "V-Suites"
 },
 "626": {
 "class": "glassclear",
 "variant": 2,
 "source": "default:height>100,glass district",
-"h": 108.8,
+"h": 115.6,
 "name": "Skyhall"
 },
 "627": {
 "class": "render",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 92.0,
 "name": "Onda"
 },
 "628": {
-"class": "concrete",
+"class": "glassclear",
 "variant": 1,
-"source": "default:height>40",
-"h": 96.0,
+"source": "default:height>100,glass district",
+"h": 102.0,
 "name": "Symphony Business Bay"
 },
 "629": {
-"class": "glassclear",
+"class": "glassbronze",
 "variant": 2,
-"source": "default:height>40",
-"h": 99.2,
+"source": "default:height>100,glass district",
+"h": 105.4,
 "name": "Vela"
 },
 "630": {
@@ -4449,7 +4552,7 @@
 "class": "glassblue",
 "variant": 0,
 "source": "overture:class=commercial",
-"h": 51.2,
+"h": 54.4,
 "name": "Sobha Ivory 1 Tower",
 "start_date": "2014",
 "overture": {
@@ -4489,7 +4592,7 @@
 "class": "concrete",
 "variant": 1,
 "source": "osm:material",
-"h": 64.0,
+"h": 68.0,
 "name": "The Quayside",
 "osm_building": "construction",
 "roof_shape": "flat",
@@ -4515,14 +4618,14 @@
 "class": "glassbronze",
 "variant": 0,
 "source": "default:height>100,glass district",
-"h": 134.4,
+"h": 142.8,
 "name": "Vela Viento"
 },
 "640": {
 "class": "concrete",
 "variant": 1,
 "source": "default:height>40",
-"h": 60.8,
+"h": 64.6,
 "name": "Urban Life"
 },
 "641": {
@@ -4534,10 +4637,10 @@
 "start_date": "2018"
 },
 "642": {
-"class": "stone",
+"class": "concrete",
 "variant": 0,
-"source": "default:low",
-"h": 12.0,
+"source": "default:height>40",
+"h": 92.0,
 "name": "Eywa"
 },
 "643": {
@@ -4621,7 +4724,7 @@
 "class": "concrete",
 "variant": 2,
 "source": "osm:material",
-"h": 12.0,
+"h": 32.0,
 "name": "Aquarise",
 "osm_building": "construction",
 "roof_shape": "flat",
@@ -4654,7 +4757,7 @@
 "class": "concrete",
 "variant": 1,
 "source": "osm:material",
-"h": 12.8,
+"h": 15.8,
 "name": "The Edge",
 "osm_building": "construction",
 "roof_shape": "flat",

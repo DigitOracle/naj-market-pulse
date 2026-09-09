@@ -39,14 +39,61 @@ PF = os.path.join(ROOT, "data", "board", "projfacts.json")
 PROJ = json.load(open(PF, encoding="utf-8"))["projects"] if os.path.exists(PF) else {}
 
 
+def _levels(v):
+    """Storeys above ground. '12' -> 12 · 'G+5' -> 6 · '2B+G+12' -> 13 (basements excluded) · 'G+M+8' -> 10 · 'G' -> 1."""
+    import re
+    t = str(v or "").strip().upper()
+    if not t: return 0
+    try: return int(float(t))
+    except Exception: pass
+    n = 0
+    for tok in re.split(r"[+/,]", t):
+        tok = tok.strip()
+        if not tok: continue
+        m = re.match(r"^(\d*)\s*([A-Z]*)$", tok)
+        if not m: continue
+        num, kind = m.group(1), m.group(2)
+        c = int(num) if num else 1
+        if kind.startswith("B"): continue                  # basements sit below ground
+        n += c
+    return n
+
+
+def _rows_from_geojson(slug):
+    """No v3 massing report for this district: derive footprint / height / storeys from the footprints we already hold, so the
+    register facts still reach a card. Same envelope definition (footprint x storeys), same honesty gate, flagged as derived."""
+    import math
+    gj = os.path.join(ROOT, "data", "ce", slug, "buildings.geojson")
+    if not os.path.exists(gj): return []
+    try:
+        import pyproj
+        to_utm = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:32640", always_xy=True).transform
+    except Exception:
+        return []
+    out = []
+    for i, f in enumerate(json.load(open(gj, encoding="utf-8"))["features"]):
+        g = f.get("geometry") or {}; pr = f.get("properties") or {}
+        rings = [g["coordinates"][0]] if g.get("type") == "Polygon" else ([pg[0] for pg in g.get("coordinates", [])] if g.get("type") == "MultiPolygon" else [])
+        if not rings: continue
+        ring = max(rings, key=len)
+        pts = [to_utm(x, y) for x, y in ring]
+        a = abs(sum(pts[j][0] * pts[(j + 1) % len(pts)][1] - pts[(j + 1) % len(pts)][0] * pts[j][1] for j in range(len(pts)))) / 2.0
+        h = float(pr.get("bHeight") or 0)
+        st = _levels(pr.get("levels")) or (int(h / 3.2) if h >= 3.2 else 0)
+        if a <= 0 or st <= 0: continue
+        out.append({"shape": f"b{i}", "footprint_m2": a, "height_m": h, "storeys": st, "gfa_m2": a * st, "class": pr.get("status") or None})
+    return out
+
+
 def run(slug):
     rep = os.path.join(ROOT, "data", "ce", slug, "report_v3.csv")
     anc = os.path.join(ROOT, "data", "names", f"anchors_{slug}.json")
-    if not (os.path.exists(rep) and os.path.exists(anc)): return None
+    if not os.path.exists(anc): return None
+    derived = not os.path.exists(rep)
     A = json.load(open(anc, encoding="utf-8"))
     by_i = {a["i"]: a for a in A["anchors"]}
     out, tot_env, tot_units, tot_reg, n_flag = {}, 0.0, 0, 0, 0
-    for r in csv.DictReader(open(rep, encoding="utf-8")):
+    for r in (_rows_from_geojson(slug) if derived else csv.DictReader(open(rep, encoding="utf-8"))):
         sh = r.get("shape") or ""
         if not sh.startswith("b"): continue
         try: i = int(sh[1:].split("_")[0])
@@ -57,7 +104,7 @@ def run(slug):
         flag = any(h > gh and fp > gf for gh, gf in PLATE_GATES)
         rec = {"i": i, "footprint_m2": round(fp), "height_m": round(h, 1), "storeys": st,
                "envelope_m2": round(env), "envelope_sqft": round(env * 10.7639), "class": r.get("class"),
-               "plate_suspect": flag,
+               "facts_source": "footprints" if derived else "ce_v3", "plate_suspect": flag,
                "units_indicative": (None if flag or st <= 1 else max(1, round(env * EFF / UNIT_M2))),
                "basis": "envelope = footprint x storeys from our own massing, an upper bound on floor area"
                         + (" - this footprint is a podium or plot outline, so the envelope is a ceiling only" if flag else "")}
@@ -93,7 +140,8 @@ def run(slug):
 
 
 if __name__ == "__main__":
-    slugs = sys.argv[1:] or [os.path.basename(os.path.dirname(p)) for p in sorted(glob.glob(os.path.join(ROOT, "data", "ce", "*", "report_v3.csv")))]
+    slugs = sys.argv[1:] or sorted({os.path.basename(os.path.dirname(p)) for p in
+                                    glob.glob(os.path.join(ROOT, "data", "ce", "*", "report_v3.csv")) + glob.glob(os.path.join(ROOT, "data", "ce", "*", "buildings.geojson"))})
     tok = env_token("INGEST_TOKEN")
     for s in slugs:
         d = run(s)
