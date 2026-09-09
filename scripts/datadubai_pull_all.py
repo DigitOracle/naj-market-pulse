@@ -139,6 +139,7 @@ def main():
             rec.update({"id": did, "entity": ent, "status": "error: " + str(e)[:90], "fetched": time.strftime("%Y-%m-%dT%H:%M:%S")}); failed += 1
             print(f"  [{n}/{len(todo)}] {nm:55s} ERROR {str(e)[:80]}")
         man[nm] = rec
+        time.sleep(float(os.environ.get('DD_PAUSE', '0')))   # the CDN answered 403 after two hours of back-to-back pulls; pace the big registers
         if n % 10 == 0: json.dump(man, open(MAN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     json.dump(man, open(MAN, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"done: {ok} fetched · {skipped} already today · {failed} without a file or failed · {round(time.time() - t0)} s · manifest {MAN}")

@@ -9,6 +9,8 @@ $log = "logs\avail_sweep_$(Get-Date -Format yyyyMMdd).log"
 & python scripts\listener_health.py 2>&1 | Out-File $log -Append -Encoding utf8
 $before = (Get-ChildItem data\avail\*.json | Measure-Object -Property LastWriteTime -Maximum).Maximum
 & python scripts\extract_avail.py --scan 2>&1 | Tee-Object -Variable scanOut | Out-File $log -Append -Encoding utf8
+"--- links posted in the groups (listener links.jsonl)" | Out-File $log -Append -Encoding utf8
+& python scripts\group_links.py 2>&1 | Out-File $log -Append -Encoding utf8
 # a developer-group PDF that parses to zero units is a FAILURE (a new sheet format), never a quiet success
 $zero = ($scanOut | Select-String -Pattern '^extracted: .* 0 units$')
 if ($zero) { "!! PARSE FAILURE - $($zero.Count) developer PDF(s) yielded 0 units (new format?):" | Out-File $log -Append -Encoding utf8; $zero | ForEach-Object { "   " + $_.Line } | Out-File $log -Append -Encoding utf8 }

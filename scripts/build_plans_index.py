@@ -1,3 +1,4 @@
+import hashlib
 """One floor-plan library for the app: every floor plan we hold, by developer and project, in one index the Worker serves.
 
 Until now the plans lived in three unconnected places - the Symphony unit cards (KV cards_symphony_*), the Symphony brochure
@@ -97,7 +98,11 @@ def main(dry):
                      [{"label": a["caption"].replace("ALVA at The Valley — ", ""), "kind": "floorplan", "img": a["key"], "url": "/img/" + a["key"],
                        "source": a["source"]} for a in fps]}]})
     # developer packs dropped into data/plans/<devkey>/<project>/ with a meta.json and jpg/ renders (8 Sep 2026: Six Senses Residences Dubai Marina, Select Group)
-    for mp in sorted(glob.glob(os.path.join(ROOT, "data", "plans", "*", "*", "meta.json"))):
+    # packs: data/plans/<dev>/<project>/meta.json (hand-dropped) and data/plans/harvest/<dev>/<project>/meta.json (public developer pages, 9 Sep 2026).
+    # Harvest files are the developer's own images as served, or whole brochure pages; nothing is redrawn or cropped (Kendall, 9 Sep 2026).
+    packs = sorted(glob.glob(os.path.join(ROOT, "data", "plans", "*", "*", "meta.json"))) + sorted(glob.glob(os.path.join(ROOT, "data", "plans", "harvest", "*", "*", "meta.json")))
+    for mp in packs:
+        if os.sep + "_work" + os.sep in mp: continue
         meta = json.load(open(mp, encoding="utf-8")); folder = os.path.dirname(mp); dk = meta["developer"]; ps = re.sub(r"[^a-z0-9]", "", meta["project"].lower())[:24]
         plans = []; seen_keys = set()
         for it in meta.get("items", []):
@@ -105,8 +110,9 @@ def main(dry):
             if not os.path.exists(f): continue
             # the Worker keeps only the first 40 characters of an image name (ingest_market slices imageName to 40): keep every key inside that
             stem = re.sub(r"[^a-z0-9]", "", os.path.splitext(it["file"])[0].lower())
-            key = ("plan_" + dk[:6] + "_" + ps[:8] + "_" + stem)[:40]
-            if key in seen_keys: raise SystemExit(f"plan key collision inside the 40-character cap: {key} ({it['file']})")
+            # 32 readable characters + a 7-character fingerprint of developer/project/file: always inside the Worker's 40-character cap, never colliding
+            key = ("plan_" + dk[:6] + "_" + ps[:8] + "_" + stem)[:32].rstrip("_") + "_" + hashlib.sha1(f"{dk}|{ps}|{it['file']}".encode()).hexdigest()[:7]
+            if key in seen_keys: continue      # the same file listed twice in a pack (Nakheel Azure p006): keep the first
             seen_keys.add(key)
             if not dry and not there(key):
                 r = push_img(key, f, tok); print(f"  {key:<60} {'pushed' if r.get('ok') else 'FAILED ' + str(r)[:50]}", flush=True)

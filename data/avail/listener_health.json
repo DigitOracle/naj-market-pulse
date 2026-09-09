@@ -1,5 +1,5 @@
 {
- "checked": "2026-09-09T11:53:22",
+ "checked": "2026-09-09T13:00:01",
  "window_hours": 24,
  "alive": true,
  "pids": [
@@ -14,10 +14,10 @@
  "pdfs": [],
  "verdict": "gap",
  "socket": "open",
- "heartbeat_age_min": 0.9,
- "last_rx": "2026-09-09T11:51:39",
+ "heartbeat_age_min": 0.2,
+ "last_rx": "2026-09-09T12:58:07",
  "last_doc": null,
- "rx_24h": 154,
+ "rx_24h": 223,
  "docs_24h": 0,
  "meaning": "the listener restarted during the window - sheets posted in the lost hours were NOT captured"
 }
