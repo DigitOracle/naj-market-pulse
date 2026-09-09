@@ -28,7 +28,7 @@ DLD_AREA = {
     'Al Hebiah First': ['motorcity'],
     'Palm Deira': ['palmdeira'],
     'Al Jadaf': ['samaaljadaf'],
-    'Nad Al Shiba First': ['sobhaheartland'],
+    'Nad Al Shiba First': ['meydanone'],        # DM community polygon: Meydan One twin district = NADD AL SHIBA FIRST (checked 9 Sep 2026)
     'Al Thanyah Fifth': ['jltnorth', 'althanyahfifth'],
     'Al Thanyah Third': ['jltsouth'],
     'Al Barshaa South Third': ['arjan'],
@@ -41,7 +41,7 @@ DLD_AREA = {
     'Al Hebiah Fourth': ['dubaisportscity'],
     'Al Hebiah Second': ['dubaistudiocity'],
     'Wadi Al Safa 3': ['majan'],
-    'Al Merkadh': ['meydanone'],
+    'Al Merkadh': ['sobhaheartland'],           # DM community polygon: Sobha Hartland twin district = AL MERKADH (the two were swapped until 9 Sep 2026)
     'Nadd Hessa': ['siliconoasis'],
     'Al Hebiah Fifth': ['alhebiahfifth'],
     'Al Khairan First': ['alkhairanfirst'],

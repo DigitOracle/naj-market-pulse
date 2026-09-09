@@ -1,6 +1,6 @@
 {
  "updated": "2026-09-09",
- "count": 1130,
+ "count": 1126,
  "note": "Every floor plan we hold, by developer and project. Developer material, shown inside the app to the broker who sells it; each plan names its source. There are no floor-plan links in any of the eleven developers' public portfolios - new plans arrive through the developer group (PDF capture) or by hand.",
  "developers": [
   {
@@ -6541,54 +6541,6 @@
        "img": "plan_object_essenl1f_essenl1fees_1ac0cac",
        "url": "/img/plan_object_essenl1f_essenl1fees_1ac0cac",
        "source": "Object 1 public project page (floor-plan images and/or brochure PDF), harvested 9 Sep 2026: https://object-1.com/project/essenl1fe/"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "key": "prestigeone",
-   "name": "Prestige One",
-   "projects": [
-    {
-     "name": "Coastal Haven",
-     "area": "",
-     "note": "",
-     "plans": [
-      {
-       "label": "Type 04 Typical Corridors · unit",
-       "kind": "floorplan",
-       "img": "plan_presti_coastalh_04typicalco_14bfad7",
-       "url": "/img/plan_presti_coastalh_04typicalco_14bfad7",
-       "source": "Prestige One asset library (https://assets.prestigeone.ae/coastal-haven), forwarded by the developer group 9 Sep 2026; files as served, PDFs kept whole"
-      },
-      {
-       "label": "Type 05 Typical Lift Lobby · unit",
-       "kind": "floorplan",
-       "img": "plan_presti_coastalh_05typicalli_be50d0f",
-       "url": "/img/plan_presti_coastalh_05typicalli_be50d0f",
-       "source": "Prestige One asset library (https://assets.prestigeone.ae/coastal-haven), forwarded by the developer group 9 Sep 2026; files as served, PDFs kept whole"
-      }
-     ]
-    },
-    {
-     "name": "FAUCHON RÉSIDENCES",
-     "area": "",
-     "note": "",
-     "plans": [
-      {
-       "label": "Type 02_Typical Corridor · unit",
-       "kind": "floorplan",
-       "img": "plan_presti_fauchonr_02typicalco_77dd13f",
-       "url": "/img/plan_presti_fauchonr_02typicalco_77dd13f",
-       "source": "Prestige One asset library (https://assets.prestigeone.ae/fauchon-residences), forwarded by the developer group 9 Sep 2026; files as served, PDFs kept whole"
-      },
-      {
-       "label": "Type 03_Typical Corridor - Apartment Doors · unit",
-       "kind": "floorplan",
-       "img": "plan_presti_fauchonr_03typicalco_b35caab",
-       "url": "/img/plan_presti_fauchonr_03typicalco_b35caab",
-       "source": "Prestige One asset library (https://assets.prestigeone.ae/fauchon-residences), forwarded by the developer group 9 Sep 2026; files as served, PDFs kept whole"
       }
      ]
     }
