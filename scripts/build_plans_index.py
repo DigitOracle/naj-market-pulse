@@ -29,7 +29,7 @@ import urllib.request, base64
 from build_avail_index import WORKER  # noqa: E402
 PAGES = os.path.join(ROOT, "data", "brochure", "floorplan_pages")
 LABELS = os.path.join(ROOT, "data", "brochure", "floorplan_labels.json")
-CAP = 5 * 1024 * 1024
+CAP = 12 * 1024 * 1024
 
 
 def there(name):

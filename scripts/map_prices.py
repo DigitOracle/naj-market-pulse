@@ -49,7 +49,7 @@ def main():
             if b[0] <= lon <= b[2] and b[1] <= lat <= b[3]: return d["slug"]
         return None
     BEDKEY = {"studio": 0, "1 b/r": 1, "2 b/r": 2, "3 b/r": 3, "4 b/r": 4, "5 b/r": 5, "6 b/r": 6, "7 b/r": 7}
-    seen_rows = set()
+    seen_rows = {}
     for key, v in U.items():
         rows = v.get("rows") or []
         beds, rent, est = {}, {}, []
@@ -106,9 +106,19 @@ def main():
         if tot.get("launched"): it["la"] = int(tot["launched"]); it["so"] = int(tot.get("sold") or 0)
         if ask: it["ask"] = {str(k): ask[k] for k in sorted(ask)}; it["sheet"] = rem.get("sheet_date")
         if v.get("floors"): it["fl"] = v["floors"]
-        dk = (it.get("d"), it.get("i"), it.get("n"))          # two unit-mix keys can describe the same footprint (Berkeley Square N/S): one row on the map
-        if dk in seen_rows: continue
-        seen_rows.add(dk); items.append(it)
+        dk = (it.get("d"), it.get("i"), it.get("n"))          # two unit-mix keys can describe the same footprint (Berkeley Square N/S): one row on the map, facts merged
+        if dk in seen_rows:
+            first = seen_rows[dk]
+            if it.get("u") and first.get("u") and it["u"] != first["u"]: first["u"] = first["u"] + it["u"]
+            elif it.get("u") and not first.get("u"): first["u"] = it["u"]
+            for fld in ("b", "r", "ask"):
+                for k2, v2 in (it.get(fld) or {}).items(): first.setdefault(fld, {}).setdefault(k2, v2)
+            for fld in ("la", "so", "left"):
+                if it.get(fld): first[fld] = (first.get(fld) or 0) + it[fld]
+            if it.get("e"): first["e"] = sorted(set((first.get("e") or []) + it["e"]))
+            if not first.get("dev") and it.get("dev"): first["dev"] = it["dev"]
+            continue
+        seen_rows[dk] = it; items.append(it)
     doc = {"generated": time.strftime("%Y-%m-%d %H:%M"), "count": len(items),
            "note": "Register medians per bedroom count from the unit-mix cards (DLD settled sales; 'e' marks bedroom counts that are estimates, never mixed with asking); ask = lowest asking per bedroom on the developer sheet dated 'sheet'; rent = registered contracts; left = launched minus sold where a sheet exists; la/so = launched and sold in the register for sheet projects.",
            "items": items}

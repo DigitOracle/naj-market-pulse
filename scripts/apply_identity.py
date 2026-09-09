@@ -51,8 +51,9 @@ def register_case(n):
 
 
 def run(slug, accept, dry, tok):
-    matrix_n = 0
+    matrix_n = 0; villa_n = 0
     rf = os.path.join(RES, f"{slug}.json"); af = os.path.join(NAMES, f"anchors_{slug}.json")
+    vlf = os.path.join(NAMES, f"villa_labels_{slug}.json"); VL = (json.load(open(vlf, encoding="utf-8")).get("labels") or {}) if os.path.exists(vlf) else {}   # villa_labels.py: place labels for unnamed low-rise
     if not (os.path.exists(rf) and os.path.exists(af)): return None
     R = json.load(open(rf, encoding="utf-8")); A = json.load(open(af, encoding="utf-8"))
     pinned = json.load(open(PINNED, encoding="utf-8")) if os.path.exists(PINNED) else {}
@@ -128,12 +129,19 @@ def run(slug, accept, dry, tok):
                "tenants": r["tenant_names"][:12], "amenities": r["amenity_names"][:8],
                "height_m": r["height_m"], "storeys": r["storeys"], "lon": r["lon"], "lat": r["lat"],
                "developer": r["developer"], "confidence": r["confidence"]}
+        vl = VL.get(str(i)) if not name else None
+        if vl: rec["kind"] = vl.get("kind"); rec["place_label"] = vl.get("place_label"); rec["place_basis"] = vl.get("basis"); rec["cluster_name"] = vl.get("cluster"); villa_n += 1
         out.append(rec)
         if a is None and name and grade in accept and not dry: a = new_anchor(i, name, src)
         if a is None and clusters.get(i) and not dry:
             a = new_anchor(i, None, None)                                       # a nameless anchor that carries the neighbourhood
             if a is not None: a["cluster"] = clusters[i]
         if a is not None and clusters.get(i): a["cluster"] = clusters[i]        # attribution rides on every anchor, named or not
+        if vl and not name and not dry:                                           # villa rule: a nameless anchor that carries kind + place label
+            if a is None: a = new_anchor(i, None, None)
+            if a is not None:
+                a["kind"] = vl.get("kind"); a["place_label"] = vl.get("place_label"); a["place_basis"] = vl.get("basis"); a["duid"] = r["duid"]
+                if vl.get("cluster") and not a.get("cluster"): a["cluster"] = vl["cluster"]
         if a is not None and name:                     # the twin's own label layer keeps its shape; identity rides on it
             a["name"] = name; a["duid"] = r["duid"]; a["identity_grade"] = grade; a["display_role"] = role
             if src: a["source"] = src
@@ -148,7 +156,7 @@ def run(slug, accept, dry, tok):
                      "building and are never its name.",
              "by_index": {str(r["i"]): r for r in out}}
     named = sum(1 for r in out if r["name"])
-    print(f"  {slug:<26} {len(out):>5} bldgs | named {named:>5} | heights from register {len(hreg):>4} | matrix {matrix_n} | +{added} new, {changed} replaced, {kept} unchanged, "
+    print(f"  {slug:<26} {len(out):>5} bldgs | named {named:>5} | heights from register {len(hreg):>4} | matrix {matrix_n} | villa labels {villa_n} | +{added} new, {changed} replaced, {kept} unchanged, "
           f"{pinned_n} pinned | kept-not-lost {len(lost)}")
     if dry: return {"slug": slug, "named": named, "added": added, "changed": changed, "lost": lost}
     if hreg and not dry:
