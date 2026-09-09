@@ -212,7 +212,8 @@ def main():
         b[k] = {"dev": p["dev"], "project": p["name"], "source": p["source"], "score": round(g["score"], 1), "dist_m": round(d, 1), "how": how, "map_name": hit["name"]}
         placed += 1
     json.dump(cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False)
-    json.dump({"updated": time.strftime("%Y-%m-%d %H:%M"), "placed": placed, "unplaced": len(unplaced), "how": stats, "bindings": bind}, open(os.path.join(NAMES, "dev_bindings.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    _prev = json.load(open(os.path.join(NAMES, "dev_bindings.json"), encoding="utf-8")) if os.path.exists(os.path.join(NAMES, "dev_bindings.json")) else {}   # 9 Sep 2026: never drop the hand list
+    json.dump({"updated": time.strftime("%Y-%m-%d %H:%M"), "placed": placed, "unplaced": len(unplaced), "how": stats, "bindings": bind, "rejected_by_hand": _prev.get("rejected_by_hand") or []}, open(os.path.join(NAMES, "dev_bindings.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     json.dump(unplaced, open(os.path.join(NAMES, "bind_registers_unplaced.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     import collections
     why = collections.Counter(u["why"].split(" (")[0].split(" score")[0] for u in unplaced)
