@@ -12,7 +12,8 @@ C:\\Users\\kwils\\digitalchemy-dda.env (never committed, never printed).
 Facts from the issuing pack (data/raw_downloads/dda_ipaas/): token 3600 s; 60 requests/minute; 30 s timeout; 1,000 records per
 page; UAE-only source addresses; test credentials do not expire. Production needs a separate request quoting the Application Id.
 """
-import argparse, json, os, sys, time, urllib.error, urllib.parse, urllib.request
+import argparse, json, os, socket, sys, time, urllib.error, urllib.parse, urllib.request
+socket.setdefaulttimeout(40)            # a stalled TLS handshake hung the 10 Sep bulk pull for 30 min; urllib's timeout alone did not cover it
 try: sys.stdout.reconfigure(encoding="utf-8")
 except Exception: pass
 
