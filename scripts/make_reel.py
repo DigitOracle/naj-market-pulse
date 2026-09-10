@@ -97,10 +97,11 @@ def main():
     link = W + "/video/" + name
     print("uploaded", name, round(nbytes / 1e6, 2), "MB ->", res.strip(), "|", link)
 
-    if a.send:
-        txt = ("Your Reel is ready.\n\n" + (caption or "")).strip()[:1500]
-        get(W + "/note?key=" + urllib.parse.quote(key) + "&text=" + urllib.parse.quote(txt + "\n\n" + link))
-        print("link sent to her")
+    if a.send:                                                     # v118 - it arrives as a video message, not a link
+        cap = (caption or "Your card as a Reel. Hold to save, then post.").strip()[:900]
+        r = get(W + "/send_video?key=" + urllib.parse.quote(key) + "&v=" + urllib.parse.quote(name)
+                + "&caption=" + urllib.parse.quote(cap)).decode()
+        print("sent to her as a video ->", r.strip())
 
 
 if __name__ == "__main__":
