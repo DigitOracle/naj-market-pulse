@@ -23,9 +23,9 @@ HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.pat
 sys.path.insert(0, HERE)
 from build_avail_index import env_token, push  # noqa: E402
 AVAIL = os.path.join(ROOT, "data", "avail"); BOARD = os.path.join(ROOT, "data", "board")
-UNITS = [f for f in sorted(glob.glob(r"C:\Users\kwils\Downloads\units_2026-09-04_*.csv")) if "(1)" not in f]
-TX = [f for f in sorted(glob.glob(r"C:\Users\kwils\Downloads\transactions_2026-09-04*.csv")) if "(1)" not in f]
-RENT = [f for f in sorted(glob.glob(r"C:\Users\kwils\Downloads\rent_contracts_*.json")) if "(1)" not in f]
+UNITS = [f for f in sorted(glob.glob(r"C:\Dev\naj-market-pulse\data\raw_downloads\units_2026-09-04_*.csv")) if "(1)" not in f]
+TX = [f for f in sorted(glob.glob(r"C:\Dev\naj-market-pulse\data\raw_downloads\transactions_2026-09-04*.csv")) if "(1)" not in f]
+RENT = [f for f in sorted(glob.glob(r"C:\Dev\naj-market-pulse\data\raw_downloads\rent_contracts_*.json")) if "(1)" not in f]
 TYPE = {"studio": "Studio", "1 b/r": "1 B/R", "2 b/r": "2 B/R", "3 b/r": "3 B/R", "4 b/r": "4 B/R", "5 b/r": "5 B/R", "penthouse": "PENTHOUSE", "office": "Office", "shop": "Shop", "retail": "Shop",
         "1bed room+hall": "1 B/R", "2 bed rooms+hall": "2 B/R", "3 bed rooms+hall": "3 B/R", "4 bed rooms+hall": "4 B/R", "5 bed rooms+hall": "5 B/R", "1br": "1 B/R", "2br": "2 B/R", "3br": "3 B/R", "1 br": "1 B/R", "2 br": "2 B/R", "3 br": "3 B/R"}
 GENERIC = r"^(tower|towers|residences?|residence|building|podium|block|phase|[ab]|i{1,3}|[12]|by[a-z]+)*$"   # what a register name may add to a sheet name and still be the same project

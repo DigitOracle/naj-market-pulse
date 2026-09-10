@@ -23,7 +23,7 @@ sys.path.insert(0, HERE)
 from geocoders import geocode_google, places_contact  # noqa: E402
 REG = os.path.join(ROOT, "data", "registers"); CACHE = os.path.join(REG, "refine_cache.json")
 DM = os.path.join(ROOT, "data", "dld", "dm_building_summary_2026-08-31.csv")
-LAND = r"C:\Users\kwils\Downloads\land_registry_2026-09-04_17-30-03_0001.csv"
+LAND = r"C:\Dev\naj-market-pulse\data\raw_downloads\land_registry_2026-09-04_17-30-03_0001.csv"
 
 # candidate trade names per DM parcel, to be VERIFIED by community match - never trusted on their own
 CANDIDATE = {

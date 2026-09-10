@@ -32,6 +32,16 @@ LABELS = os.path.join(ROOT, "data", "brochure", "floorplan_labels.json")
 CAP = 12 * 1024 * 1024
 
 
+def _retry(fn, tries=6, wait=20):
+    """The laptop's network drops (sleep, DNS): retry a request a few times instead of losing a two-hour upload (added 10 Sep 2026)."""
+    import time as _t
+    for k in range(tries):
+        try: return fn()
+        except Exception as e:
+            if k == tries - 1: raise
+            print(f"    network hiccup ({str(e)[:50]}) - retry {k+1}/{tries} in {wait}s", flush=True); _t.sleep(wait)
+
+
 def there(name):
     """True only when the Worker serves real image bytes for the key. HEAD answers 200 for any key (found 9 Sep 2026: 27 Six Senses plans
     indexed but never uploaded), so fetch the first bytes and check the image signature."""
@@ -50,7 +60,7 @@ def push_img(name, path, tok):
     body = json.dumps({"imageName": name, "image": base64.b64encode(raw).decode(), "contentType": ctype}).encode()
     req = urllib.request.Request(WORKER + "/ingest_market", data=body, method="POST",
                                  headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", "User-Agent": "najma-plans/1.0"})
-    return json.load(urllib.request.urlopen(req, timeout=120))
+    return _retry(lambda: json.load(urllib.request.urlopen(req, timeout=120)))
 
 
 def symphony_pages(dry, tok):
