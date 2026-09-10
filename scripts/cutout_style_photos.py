@@ -9,7 +9,7 @@ is the default look the Worker places. Idempotent: nothing to do -> exits quietl
 
 Usage: python scripts/cutout_style_photos.py [--force]
 """
-import base64, io, json, sys, urllib.error, urllib.request
+import base64, io, json, sys, urllib.error, urllib.parse, urllib.request
 
 W = "https://azimuth-2.digitalchemy.workers.dev"
 H = {"User-Agent": "najma-market-pulse/1.0"}
@@ -90,11 +90,19 @@ def cutout(jpg):
 def main():
     force = "--force" in sys.argv
     tok = env_token("INGEST_TOKEN")
-    names = []
-    for n in range(1, 41):
-        nm = "style_me_%02d" % n
-        if exists(nm): names.append(nm)
-        else: break
+    # read the pile itself rather than guessing slot names: the Worker's counter can go stale
+    # under concurrent sends, so a photo can exist in the pile without a matching style_me_NN.
+    names, key = [], env_token("READ_KEY")
+    try:
+        st = json.load(urllib.request.urlopen(urllib.request.Request(
+            W + "/style_status?key=" + urllib.parse.quote(key), headers=H), timeout=120))
+        names = [r["key"] for r in st.get("refs", []) if r.get("kind") == "me" and r.get("key")]
+    except Exception as e:
+        print("style_status unavailable (%s); falling back to slot names" % str(e)[:60])
+        for n in range(1, 41):
+            nm = "style_me_%02d" % n
+            if exists(nm): names.append(nm)
+            else: break
     if not names and exists("style_me"):
         names = ["style_me"]
     todo = [nm for nm in names if force or not exists(nm + "_cut")]
@@ -108,7 +116,30 @@ def main():
         for k in ("warm", "blue", "day", "soft"):
             push(nm + "_cut_" + k, g[k], tok)
         print("  done", nm, {k: round(len(v) / 1024) for k, v in g.items()}, "KB")
-    newest = names[-1]
+    def usable(name):
+        """A cut-out can only be placed if it is colour and full-length standing.
+        Seated or half-body shots come out wide; black-and-white cannot sit in a colour scene."""
+        from PIL import Image
+        try:
+            im = Image.open(io.BytesIO(get(name + "_cut")))
+        except Exception:
+            return (False, "not cut")
+        w, h = im.size
+        ratio = w / float(h or 1)
+        sm = im.convert("RGB").resize((60, 100))
+        px = list(sm.get_flattened_data()) if hasattr(sm, "get_flattened_data") else list(sm.getdata())
+        sat = sum(max(r, g, b) - min(r, g, b) for r, g, b in px) / float(len(px))
+        if sat < 12: return (False, "black and white")
+        if ratio > 0.46: return (False, "not full-length standing (%.2f wide)" % ratio)
+        return (True, "ok %.2f" % ratio)
+
+    newest = None
+    for nm in reversed(names):
+        ok_, why = usable(nm)
+        print("  %-16s %s" % (nm, why))
+        if ok_ and newest is None: newest = nm
+    if not newest:
+        print("no photo is usable as the default look; leaving the current one alone"); return
     print("default look <-", newest)
     push("style_me_cut", get(newest + "_cut"), tok)
     for k in ("warm", "blue", "day", "soft"):
