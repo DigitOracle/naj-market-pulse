@@ -1,0 +1,23 @@
+{
+  "kind": "link assessment",
+  "url": "https://imtiaz.server.virtualvisions.studio/",
+  "posted": "2026-09-09T10:46:19Z",
+  "channel": "DEVELOPER AVAILABILITY group",
+  "sender": "Najjuko",
+  "billed_as": "IMTIAZ VIRTUAL - explore all our locations and projects virtually in 3D with walkthrough option. A new way to showcase Imtiaz Developments to your clients.",
+  "checked": "2026-09-11",
+  "verdict": "DEMO. The site carries its own DEMO badge and none of the inventory is real.",
+  "evidence": [
+    "A badge reading DEMO sits beside the project count on the interactive map.",
+    "34 projects across 6 cities including Riyadh, Jeddah and Doha. Imtiaz builds in Dubai.",
+    "None of the eight project names on the map appear in Imtiaz's real portfolio: Ewan Residence, Roya Gardens, Sedra Vista, Manara Tower, Yasmin Park, Areen Court, Nawar Heights, Saffron Bay.",
+    "Real Imtiaz projects on record: Cove, Pearl House, Westwood, Raw District, Symphony, Seacliff, Wynwood, Sunset Bay, The Archive, Hyde Walk, ENRE.",
+    "The eight names repeat across markers with different unit counts and prices. Unit counts alternate between 16 and 32.",
+    "902 units, prices quoted 812,000 to 3,372,000 USD.",
+    "The root URL has no route at all; only /interactive-map, /tour, /floorplate, /abu-dhabi, /yas-island and /zoomable-map resolve.",
+    "The page opens a websocket to backoffice.server.virtualvisions.studio and registers a visitor profile, so every broker who opens it is tracked by the vendor."
+  ],
+  "so_what": "This is a vendor's product demonstration built under an Imtiaz-branded subdomain, not a catalogue of Imtiaz stock. A broker showing it to a client would be quoting projects that do not exist. Nothing from it belongs in the truth store.",
+  "vendor": "Virtual Visions (virtualvisions.studio)",
+  "tenant_id": "cmqku1uwt02b1ph0vf21i3r3u"
+}

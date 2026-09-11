@@ -200,6 +200,20 @@ def main():
                           num(r.get("start_area_sqft")), num(r.get("start_price_aed")),
                           num(r.get("promo_price_aed")), r.get("promo"), o.get("source_note")))
 
+    # A link that was checked by hand. Without this a URL sits in dev_link looking like inventory, and the
+    # Imtiaz Virtual one is a vendor demo whose 34 projects do not exist - a broker could quote from it.
+    for p in sorted(glob.glob(os.path.join(AVAIL, "offers", "_link_*.json"))):
+        o = jload(p) or {}
+        for i, r in enumerate(lrows):
+            if r[3] == o.get("url"):
+                lrows[i] = r + (o.get("verdict"), o.get("so_what"), o.get("checked"))
+                break
+        else:
+            lrows.append((o.get("posted"), o.get("channel"), o.get("sender"), o.get("url"), None,
+                          o.get("billed_as"), None, o.get("checked"),
+                          o.get("verdict"), o.get("so_what"), o.get("checked")))
+    lrows = [r if len(r) == 11 else r + (None, None, None) for r in lrows]
+
     con = duckdb.connect(DB)
     con.execute("""create or replace table dev_offer (offer_file varchar, developer varchar, project varchar, master varchar,
                    posted varchar, channel varchar, sender varchar, source_kind varchar, stage varchar, phase varchar,
@@ -220,8 +234,9 @@ def main():
                    supplied_by varchar, state varchar)""")
     con.executemany("insert into dev_doc values (?,?,?,?,?,?,?,?,?,?,?)", drows)
     con.execute("""create or replace table dev_link (posted_at varchar, channel varchar, sender varchar, url varchar,
-                   host varchar, title varchar, text varchar, captured_at varchar)""")
-    con.executemany("insert into dev_link values (?,?,?,?,?,?,?,?)", lrows)
+                   host varchar, title varchar, text varchar, captured_at varchar,
+                   verdict varchar, so_what varchar, checked varchar)""")
+    con.executemany("insert into dev_link values (?,?,?,?,?,?,?,?,?,?,?)", lrows)
 
     # A live view is what the app and any question should read: superseded sheets stay for the audit trail.
     con.execute("create or replace view v_dev_units as select * from dev_sheet_unit where status = 'current'")
