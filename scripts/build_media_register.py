@@ -34,6 +34,7 @@ MEDIA = os.path.join(ROOT, "data", "media")
 DB = os.path.join(ROOT, "data", "graph", "najma.duckdb")
 CAPTURE = r"C:\Dev\azimuth-listener-naj\docs\developer_availability"
 BROCHURE = os.path.join(ROOT, "data", "brochure")
+INBOX = os.path.join(ROOT, "data", "brochure_inbox")      # what she sends on WhatsApp lands here (pull_brochures.py)
 MAX_SIDE = 1600
 MIN_IMAGE_COVER = 0.55      # a page is a picture when images cover this much of it
 MAX_TEXT_CHARS = 260        # ...and it carries no more than a caption's worth of text
@@ -109,6 +110,10 @@ def sources():
         for f in sorted(os.listdir(BROCHURE)):
             if f.lower().endswith(".pdf"):
                 out.append((os.path.join(BROCHURE, f), "brochure folder (" + f.split("_")[-1].replace(".pdf", "") + ")", "published brochure: public marketing material"))
+    if os.path.isdir(INBOX):
+        for f in sorted(os.listdir(INBOX)):
+            if f.lower().endswith(".pdf"):
+                out.append((os.path.join(INBOX, f), "sent by Naj on WhatsApp", "developer-supplied: given to her as a broker, for broker use"))
     return out
 
 

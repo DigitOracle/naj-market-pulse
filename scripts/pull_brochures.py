@@ -61,6 +61,7 @@ def guess(name, devs, projs):
 
 
 def main():
+    quiet = "--quiet" in sys.argv                       # register and clear, but send her nothing (test runs)
     key = env_token("READ_KEY")
     if not key:
         print("no READ_KEY"); return
@@ -101,8 +102,14 @@ def main():
     print(tail)
 
     for d in done:
+        # The register binds by its own list too; if the filename guess found nothing, take the register's word.
+        # Its per-file line reads:  "  <Developer>   <Project>   57 pages -> 43 pictures   <filename>"
+        if not d["dev"]:
+            m0 = re.search(r"^\s+(\S+)\s+(.+?)\s+\d+ pages ->\s+\d+ pictures\s+%s" % re.escape(d["name"][:48]), r.stdout or "", re.M)
+            if m0:
+                d["dev"], d["proj"] = m0.group(1), m0.group(2).strip()
         n = 0
-        m = re.search(r"%s\s+.*?=\s+(\d+) renders" % re.escape(d["dev"] or "\u0000"), tail) if d["dev"] else None
+        m = re.search(r"%s\s+.*?=\s+(\d+) renders" % re.escape(d["dev"]), tail) if d["dev"] else None
         if m:
             n = int(m.group(1))
         if d["dev"] and n:
@@ -112,8 +119,8 @@ def main():
         else:
             say = "Got %s and kept it. I could not tell which developer it belongs to - tell me in a line and I will file it." % d["name"]
         try:
-            get("/broc_done?key=%s&id=%s&say=%s" % (q, urllib.parse.quote(d["id"]), urllib.parse.quote(say)), timeout=120)
-            print("  done:", d["name"], "|", say[:70])
+            get("/broc_done?key=%s&id=%s&say=%s" % (q, urllib.parse.quote(d["id"]), urllib.parse.quote("" if quiet else say)), timeout=120)
+            print("  done:", d["name"], "|", ("(quiet) " if quiet else "") + say[:70])
         except Exception as e:
             print("  broc_done failed for", d["name"], str(e)[:70])
 
