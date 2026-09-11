@@ -37,6 +37,15 @@ def push(name, obj, tok, timeout=900):          # the upstream here is ~16 KB/s:
     return json.load(urllib.request.urlopen(req, timeout=timeout))
 
 
+def unit_count(path):
+    """Unit rows in a sheet file. A brochure or floor-plan set parses to zero - it is not inventory."""
+    try:
+        d = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return 0
+    return sum(len(p.get("units") or []) for p in d.get("projects") or [])
+
+
 def latest_sheets():
     best = {}
     for p in glob.glob(os.path.join(AVAIL, "*.json")):
@@ -47,7 +56,10 @@ def latest_sheets():
         if not m:
             continue
         dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
-        rank = (date, 0 if auto else 1)          # newest date; verified beats auto on the same date
+        # 11 Sep 2026: units first. The group posts brochures and floor plans to the same thread as inventory,
+        # and those parse to zero units. Ranking on date alone let a render booklet dated later REPLACE a real
+        # sheet - Imtiaz's 48 units vanished from the board and from drill_imtiaz the day the Archive plans landed.
+        rank = (1 if unit_count(p) else 0, date, 0 if auto else 1)          # inventory beats brochure; then newest date; verified beats auto
         if dev not in best or rank > best[dev][0]:
             best[dev] = (rank, p, auto)
     return {dev: (path, auto) for dev, (rank, path, auto) in best.items()}
@@ -60,6 +72,8 @@ def claimed_for_dev(dev):
         return None
     path, auto = sheets[dev]
     d = json.load(open(path, encoding="utf-8"))
+    if not sum(len(p.get("units") or []) for p in d.get("projects") or []):
+        return None                              # brochure only: leave the drill page's existing claimed block alone
     rooms = collections.OrderedDict()
     for p in d["projects"]:
         for u in p["units"]:
@@ -80,6 +94,8 @@ def main():
     for dev, (path, auto) in sorted(sheets.items()):
         d = json.load(open(path, encoding="utf-8"))
         n_units = sum(len(p["units"]) for p in d["projects"])
+        if not n_units:                          # nothing but brochures from this developer - no availability to show
+            continue
         key = DRILL_KEY.get(dev)
         out.append({"sheet": "%s %s" % (dev.title(), d.get("sheet_date", "")), "note": "%d units · %d projects%s" % (n_units, len({p["p"] for p in d["projects"]}), " · auto-read" if auto else ""),
                     "mapped": bool(key), "d": key})
