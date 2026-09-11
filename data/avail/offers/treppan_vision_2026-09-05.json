@@ -1,0 +1,20 @@
+{
+  "developer": "Fakhruddin",
+  "project": "Treppan Vision",
+  "master": "Dubai Land Residence Complex (DLRC)",
+  "posted": "2026-09-05T12:32:00Z",
+  "channel": "DEVELOPER AVAILABILITY group",
+  "sender": "Najj Property Developer",
+  "source_kind": "broker pack (PDF)",
+  "source_file": "1788611520000_Treppan VIsion brokre pack-1-sep.pdf",
+  "source_note": "57 pages, 71 MB. Over the listener's 20 MB cap at the time, so it was never captured; supplied by hand on 11 Sep 2026 and read from pages 26-28.",
+  "total_units": 463,
+  "note": "Pre-launch. Residential L3-L14 (pack also states levels 6-17 on the price page - the two pages disagree), offices L1-L2, retail ground and mezzanine.",
+  "rows": [
+    {"unit_type": "Smart Studio", "configuration": "Open plan", "levels": "L3-L14", "units": 252, "start_area_sqft": 378, "start_price_aed": 799000, "promo_price_aed": 735080, "promo": "pre-launch less 8%"},
+    {"unit_type": "Smart Flexi 1 BR", "configuration": "One-bedroom", "levels": "L3-L14", "units": 108, "start_area_sqft": 776, "start_price_aed": 1373000, "promo_price_aed": 1263160, "promo": "pre-launch less 8%"},
+    {"unit_type": "Smart Flexi 2 BR", "configuration": "Two-bedroom", "levels": "L3-L14", "units": 48, "start_area_sqft": 1285, "start_price_aed": 2014000, "promo_price_aed": 1852880, "promo": "pre-launch less 8%"},
+    {"unit_type": "Office", "configuration": "Commercial suite", "levels": "L1-L2", "units": 48, "start_area_sqft": 454, "start_price_aed": 925000, "promo_price_aed": null, "promo": null},
+    {"unit_type": "Retail", "configuration": "Retail unit", "levels": "Ground & Mezzanine", "units": 7, "start_area_sqft": 4588, "start_price_aed": 11375000, "promo_price_aed": null, "promo": null}
+  ]
+}

@@ -264,10 +264,18 @@ def main():
       r as (select *, row_number() over (partition by duid order by w desc, confidence desc, coalesce(dist_m,999)) rn from c)
       select r.duid, r.value as canonical_name, r.source as canonical_source, r.w as weight, b.display_name as current_name, b.name_source as current_source,
              (lower(r.value) is distinct from lower(b.display_name)) as differs from r join building b on b.duid=r.duid where rn=1""")
+    # ---- the developer WhatsApp group (sheets, units, documents, links) -----------------------------------------------------------------------
+    con.close()
+    try:
+        import load_dev_group
+        load_dev_group.main()                      # own connection; --fresh drops the DB, so rebuild these here too
+    except Exception as e:
+        print("  [warn] developer-group load failed:", e)
+    con = duckdb.connect(DB)
     # ---- report ------------------------------------------------------------------------------------------------------------------------------
     def n(t): return con.execute(f"select count(*) from {t}").fetchone()[0]
     print(f"najma.duckdb · run {RUN} · schema {SCHEMA}")
-    for t in ("source", "source_authority", "district", "sub_community", "plot", "developer", "project", "sheet_project", "amenity", "water_body", "building", "evidence", "building_waterfront", "sub_community_amenity", "golden"): print(f"  {t:24s} {n(t):>9,}")
+    for t in ("source", "source_authority", "district", "sub_community", "plot", "developer", "project", "sheet_project", "amenity", "water_body", "building", "evidence", "building_waterfront", "sub_community_amenity", "golden", "dev_sheet", "dev_sheet_unit", "dev_doc", "dev_link"): print(f"  {t:24s} {n(t):>9,}")
     print("  evidence appended this run:", len(erows))
     print("  unresolved towers:", con.execute("select count(*) from v_unresolved_towers").fetchone()[0], "| buildings with conflicting names:", con.execute("select count(*) from v_conflicting_names").fetchone()[0])
     print("  canonical (matrix + role rule) would change:", con.execute("select count(*) from v_canonical_name where differs").fetchone()[0], "of", con.execute("select count(*) from v_canonical_name").fetchone()[0], "| aliases:", con.execute("select count(*) from alias").fetchone()[0], "| rejected place-names:", con.execute("select count(*) from evidence where status='REJECTED'").fetchone()[0])
