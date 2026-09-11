@@ -26,6 +26,15 @@ def main():
     key = env_token("READ_KEY"); tok = env_token("INGEST_TOKEN")
     if not key or not tok or not EDGE: log(f"missing: key={bool(key)} token={bool(tok)} edge={bool(EDGE)}"); return
     os.makedirs(OUT, exist_ok=True)
+    # v123 (11 Sep 2026) - finish any picture she asked for that the Worker did not live long enough to send.
+    # A deploy landed on top of her Lobby request this morning: plate made, cards rendered, nothing sent.
+    # This runs every five minutes, so five minutes is now the worst she waits with no one watching.
+    try:
+        rs = json.load(get("/pic_resume?min_age=90", key, timeout=280))
+        for j in rs.get("jobs", []):
+            if j.get("done"): log(f"pic_resume finished {j.get('job')}")
+            elif j.get("why"): log(f"pic_resume {j.get('job')}: {str(j.get('why'))[:80]}")
+    except Exception as e: log(f"pic_resume failed: {str(e)[:80]}")
     try: pend = json.load(get("/angle_pending", key))
     except Exception as e: log(f"angle_pending failed: {str(e)[:80]}"); return
     if not pend.get("pending"): return
