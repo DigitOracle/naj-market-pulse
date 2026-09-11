@@ -63,8 +63,11 @@ def token(c, force=False):
         if t.get("expires_at", 0) - 60 > time.time() and t.get("base") == c["DDA_BASE_URL"]:
             return t["access_token"]
     body = json.dumps({"grant_type": "client_credentials", "client_id": c["DDA_CLIENT_ID"], "client_secret": c["DDA_CLIENT_SECRET"]}).encode()
-    code, raw = _req(c["DDA_BASE_URL"] + "/secure/ssis/dubaiai/gatewaytoken/1.0.0/getAccessToken", body,
-                     {"Content-Type": "application/json", "x-DDA-SecurityApplicationIdentifier": c["DDA_SECURITY_APP_IDENTIFIER"]})
+    for attempt in range(6):                          # the hotspot link drops for a minute at a time: wait it out rather than exit
+        code, raw = _req(c["DDA_BASE_URL"] + "/secure/ssis/dubaiai/gatewaytoken/1.0.0/getAccessToken", body,
+                         {"Content-Type": "application/json", "x-DDA-SecurityApplicationIdentifier": c["DDA_SECURITY_APP_IDENTIFIER"]})
+        if code == 200: break
+        log(f"token attempt {attempt+1} HTTP {code}: {raw[:120].decode(errors='replace')}"); time.sleep(20 * (attempt + 1))
     if code != 200:
         sys.exit(f"token failed HTTP {code}: {raw[:300].decode(errors='replace')}")
     j = json.loads(raw)
@@ -77,6 +80,9 @@ def token(c, force=False):
 def auth_get(c, url, tok=None):
     tok = tok or token(c)
     code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
+    for attempt in range(4):                          # transport drops: retry the same page with backoff
+        if code != 0: break
+        time.sleep(15 * (attempt + 1)); code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
     if code == 401:                                   # expired mid-run
         tok = token(c, force=True); code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
     return code, raw
