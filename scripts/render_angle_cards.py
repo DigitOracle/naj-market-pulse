@@ -35,6 +35,10 @@ def main():
             if j.get("done"): log(f"pic_resume finished {j.get('job')}")
             elif j.get("why"): log(f"pic_resume {j.get('job')}: {str(j.get('why'))[:80]}")
     except Exception as e: log(f"pic_resume failed: {str(e)[:80]}")
+    # v124 - a brochure she sent on WhatsApp comes down here, gets registered, and the index goes back up.
+    try:
+        subprocess.run([sys.executable, os.path.join(HERE, "pull_brochures.py")], cwd=ROOT, timeout=1500)
+    except Exception as e: log(f"pull_brochures failed: {str(e)[:80]}")
     try: pend = json.load(get("/angle_pending", key))
     except Exception as e: log(f"angle_pending failed: {str(e)[:80]}"); return
     if not pend.get("pending"): return

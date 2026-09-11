@@ -78,13 +78,25 @@ def classify(im):
     them - but a plan is drawn on white and barely coloured, and a render is neither. The Archive's
     43 'pictures' were all floor plans on the first pass; offering one as a backdrop would put a unit
     layout behind her head."""
-    from PIL import ImageStat
-    small = im.convert("RGB").resize((160, 160))
+    from PIL import ImageStat, ImageFilter
+    small = im.convert("RGB").resize((200, 200))
     sat = ImageStat.Stat(small.convert("HSV")).mean[1]
     px = list(small.getdata())
     white = sum(1 for p in px if min(p) > 235) / len(px)
-    kind = "render" if (white < 0.15 and sat >= 30) else "plan"
-    return kind, round(sat, 1), round(white, 3)
+    # A brochure's cover and its section dividers are dark, coloured and low-text, so saturation alone
+    # calls them renders - and one of them went behind her head on the first live card, showing the
+    # developer's own logo and typography under her headline. A photograph is DETAILED: grey-level
+    # spread and edge density separate it from a flat title slide (Serenia p1 read 12/8, its renders 30-68/18-42).
+    g = small.convert("L")
+    detail = ImageStat.Stat(g).stddev[0]
+    edges = ImageStat.Stat(g.filter(ImageFilter.FIND_EDGES)).mean[0]
+    if white >= 0.15 or sat < 30:
+        kind = "plan"
+    elif detail < 25 or edges < 15:
+        kind = "cover"                       # title page or section divider: real, but never a backdrop
+    else:
+        kind = "render"
+    return kind, round(sat, 1), round(white, 3), round(detail, 1), round(edges, 2)
 
 
 def sources():
@@ -139,11 +151,11 @@ def main():
             if ih in seen_sha:                              # the compressed and full versions of a pack give the same page twice
                 continue
             seen_sha.add(ih)
-            kind, sat, white = classify(im)
+            kind, sat, white, detail, edges = classify(im)
             mid = "m_" + ih[:12]
             fn = os.path.join(outdir, "%s_p%02d.jpg" % (mid, i + 1))
             open(fn, "wb").write(b)
-            rows.append({"media_id": mid, "kind": kind, "sat": sat, "white": white, "developer": dev, "project": proj, "area": area,
+            rows.append({"media_id": mid, "kind": kind, "sat": sat, "white": white, "detail": detail, "edges": edges, "developer": dev, "project": proj, "area": area,
                          "path": os.path.relpath(fn, ROOT).replace("\\", "/"), "bytes": len(b), "w": im.width, "h": im.height,
                          "orient": "landscape" if im.width >= im.height else "portrait",
                          "source_file": os.path.basename(path), "source": source, "page": i + 1, "image_cover": round(cover, 2), "text_chars": ntext,
@@ -159,16 +171,17 @@ def main():
     con.execute("""create or replace table media (media_id varchar primary key, kind varchar, developer varchar, project varchar, area varchar,
                    path varchar, bytes integer, w integer, h integer, orient varchar, source_file varchar, source varchar, page integer,
                    image_cover double, text_chars integer, reuse_basis varchar, sha1 varchar, registered_at varchar, worker_key varchar,
-                   saturation double, whiteness double)""")
-    con.executemany("insert into media values (" + ",".join("?" * 21) + ")",
+                   saturation double, whiteness double, detail double, edge_density double)""")
+    con.executemany("insert into media values (" + ",".join("?" * 23) + ")",
                     [(r["media_id"], r["kind"], r["developer"], r["project"], r["area"], r["path"], r["bytes"], r["w"], r["h"], r["orient"],
-                      r["source_file"], r["source"], r["page"], r["image_cover"], r["text_chars"], r["reuse_basis"], r["sha1"], r["registered_at"], None, r["sat"], r["white"]) for r in rows])
+                      r["source_file"], r["source"], r["page"], r["image_cover"], r["text_chars"], r["reuse_basis"], r["sha1"], r["registered_at"], None, r["sat"], r["white"], r["detail"], r["edges"]) for r in rows])
     print("\nmedia table: %d rows" % len(rows))
     for r in con.execute("""select developer, project, count(*) as n_total,
                                    sum(case when kind='render' then 1 else 0 end) as n_renders,
-                                   sum(case when kind='plan' then 1 else 0 end) as n_plans
+                                   sum(case when kind='plan' then 1 else 0 end) as n_plans,
+                                   sum(case when kind='cover' then 1 else 0 end) as n_covers
                             from media group by 1,2 order by 1,2""").fetchall():
-        print("  %-12s %-28s %3d pages = %3d renders + %3d plans" % r)
+        print("  %-12s %-26s %3d pages = %3d renders + %3d plans + %2d covers" % r)
 
     if a.push:
         sys.path.insert(0, HERE)
@@ -183,12 +196,12 @@ def main():
             by.setdefault((r["developer"], r["project"]), []).append(r)
         for (dev, proj), items in by.items():
             # portrait first (the card is portrait-friendly on the right), then the most image-dominant
-            items.sort(key=lambda r: (r["orient"] != "portrait", -r["image_cover"], r["page"]))
+            items.sort(key=lambda r: (-r["detail"], -r["image_cover"], r["page"]))     # the most photographic page wins
             chosen = items[: a.per_project]
             lst = []
             for r in chosen:
                 name = "media_" + r["media_id"][2:]                                  # 40-char cap on Worker image names
-                b64 = base64.b64encode(open(os.path.join(ROOT, r["path"]), "rb").read()).decode()
+                b64 = base64.b64encode(to_plate(os.path.join(ROOT, r["path"]))).decode()
                 body = json.dumps({"imageName": name, "image": b64, "contentType": "image/jpeg"}).encode()
                 req = urllib.request.Request("https://azimuth-2.digitalchemy.workers.dev/ingest_market", data=body, method="POST",
                                              headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", "User-Agent": "najma-market-pulse/1.0"})
@@ -203,6 +216,32 @@ def main():
             index["developers"].setdefault(slug(dev), {"name": dev, "projects": {}})["projects"][proj] = {"area": area_for(rows, proj), "renders": lst, "on_file": len(items)}
         print("media_index ->", push("media_index", index, tok).get("ok"))
     con.close()
+
+
+def to_plate(path):
+    """A render is landscape; the card is 1024x1536 portrait and fills the whole frame behind a cream
+    wash on the left. A straight squeeze would distort the building, and a centre crop cuts the sky off
+    a tower. So: crop to 2:3 keeping the full width where possible, biased UP - a render puts its
+    subject above the midline and its foreground below, and her cut-out stands over the bottom right."""
+    im = Image.open(path).convert("RGB")
+    # A brochure page is not a photograph: it carries the developer's frame line at the top and a caption
+    # band along the bottom. Crop straight and her card shows half a sentence under her own headline.
+    # Trim the furniture first - a little off every edge, more off the bottom where captions live.
+    w0, h0 = im.size
+    im = im.crop((int(w0 * 0.035), int(h0 * 0.055), int(w0 * 0.965), int(h0 * 0.885)))
+    w, h = im.size
+    tw, th = 1024, 1536
+    want = tw / th                                             # 0.667
+    if w / h > want:                                           # too wide: take a full-height slice from the middle
+        nw = int(h * want)
+        im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
+    else:                                                      # too tall: take a slice biased to the upper third
+        nh = int(w / want)
+        top = int((h - nh) * 0.33)
+        im = im.crop((0, top, w, top + nh))
+    im = im.resize((tw, th), Image.LANCZOS)
+    buf = io.BytesIO(); im.save(buf, "JPEG", quality=88, optimize=True)
+    return buf.getvalue()
 
 
 def area_for(rows, proj):
