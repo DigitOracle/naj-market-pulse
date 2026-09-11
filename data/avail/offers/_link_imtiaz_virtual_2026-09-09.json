@@ -6,18 +6,40 @@
   "sender": "Najjuko",
   "billed_as": "IMTIAZ VIRTUAL - explore all our locations and projects virtually in 3D with walkthrough option. A new way to showcase Imtiaz Developments to your clients.",
   "checked": "2026-09-11",
-  "verdict": "DEMO. The site carries its own DEMO badge and none of the inventory is real.",
-  "evidence": [
-    "A badge reading DEMO sits beside the project count on the interactive map.",
-    "34 projects across 6 cities including Riyadh, Jeddah and Doha. Imtiaz builds in Dubai.",
-    "None of the eight project names on the map appear in Imtiaz's real portfolio: Ewan Residence, Roya Gardens, Sedra Vista, Manara Tower, Yasmin Park, Areen Court, Nawar Heights, Saffron Bay.",
-    "Real Imtiaz projects on record: Cove, Pearl House, Westwood, Raw District, Symphony, Seacliff, Wynwood, Sunset Bay, The Archive, Hyde Walk, ENRE.",
-    "The eight names repeat across markers with different unit counts and prices. Unit counts alternate between 16 and 32.",
-    "902 units, prices quoted 812,000 to 3,372,000 USD.",
-    "The root URL has no route at all; only /interactive-map, /tour, /floorplate, /abu-dhabi, /yas-island and /zoomable-map resolve.",
-    "The page opens a websocket to backoffice.server.virtualvisions.studio and registers a visitor profile, so every broker who opens it is tracked by the vendor."
+  "status": "PARTIALLY CHECKED - stopped on instruction, not finished",
+  "verdict": "Mixed. The map layer is demo content; the individual project experiences behind it are real. Do not quote anything off the map.",
+  "demo_layer": {
+    "what": "The interactive map at /interactive-map",
+    "evidence": [
+      "A badge reading DEMO sits beside the project count.",
+      "34 projects across 6 cities including Riyadh, Jeddah and Doha. Imtiaz builds in the UAE.",
+      "Eight project names repeat across markers with different prices and unit counts, alternating 16 and 32 units: Ewan Residence, Roya Gardens, Sedra Vista, Manara Tower, Yasmin Park, Areen Court, Nawar Heights, Saffron Bay.",
+      "None of those eight appear in Imtiaz's real portfolio on record: Cove, Pearl House, Westwood, Raw District, Symphony, Seacliff, Wynwood, Sunset Bay, The Archive, Hyde Walk, ENRE.",
+      "902 units quoted at 812,000 to 3,372,000 USD."
+    ]
+  },
+  "real_layer": {
+    "what": "The per-project experiences the map opens into",
+    "evidence": [
+      "Sea Cliff at Dubai Islands opens as a real Imtiaz project: 152 units, 1BHK / 2BHK / 3BHK / 4BHK Duplex, sizes to 5,069 sqft, with a floor-level colour overlay on the building.",
+      "Sea Cliff matches 'Seacliff by Imtiaz', which we already hold 20 units of from the 28 Aug sheet.",
+      "Its payment plan reads as genuine terms: 50% pre-handover and 50% on completion. 20% booking, then seven instalments of 5% from Q3 2026 to Q4 2027, 50% on completion Q1 2028.",
+      "Each project carries Overlays, Gallery (28 exterior renders for Sea Cliff), Progress, Payment Plan, Brochure and Call Back."
+    ]
+  },
+  "so_what": "The tool is real and the project data inside it is worth having. What is fabricated is the portfolio-level map someone forwarded as a client-facing showcase. A broker working off the map would quote projects that do not exist; a broker opening a single project appears to get genuine terms.",
+  "not_established": [
+    "Whether every project behind the map is real, or only some. Only Sea Cliff was opened.",
+    "Whether the map markers link to the real project they name, or to whatever project the vendor wired behind a demo pin.",
+    "Whether the payment plan shown is current.",
+    "How the underlying project data could be read in bulk rather than by clicking."
   ],
-  "so_what": "This is a vendor's product demonstration built under an Imtiaz-branded subdomain, not a catalogue of Imtiaz stock. A broker showing it to a client would be quoting projects that do not exist. Nothing from it belongs in the truth store.",
+  "next": "Ask Imtiaz directly whether there is a production build and whether broker access to the underlying data is on offer. Do not scrape the demo.",
   "vendor": "Virtual Visions (virtualvisions.studio)",
-  "tenant_id": "cmqku1uwt02b1ph0vf21i3r3u"
+  "tenant_id": "cmqku1uwt02b1ph0vf21i3r3u",
+  "notes": [
+    "The root URL has no route; anyone tapping the link as sent gets a black screen. Working entries are /interactive-map, /tour, /floorplate, /abu-dhabi, /yas-island, /zoomable-map.",
+    "The page opens a websocket to backoffice.server.virtualvisions.studio and registers a visitor profile, so every broker who opens it is tracked by the vendor.",
+    "At desktop width the project view refuses to render and asks you to rotate to portrait. It is built for a phone."
+  ]
 }
