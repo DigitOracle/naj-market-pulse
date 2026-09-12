@@ -7560,5 +7560,212 @@
     "days": 9
    }
   ]
+ },
+ "cityLife": {
+  "asOf": "2026-09-12",
+  "source": "Dubai Data (DDA) open datasets, joined to the Najma district board",
+  "caution": "structural facts. Station locations and hourly airport patterns do not move week to week, so these are safe to state without a fresh pull.",
+  "basedOn": [
+   "rta_metro_stations",
+   "dans_e_dxb_hourly_departure_throughput",
+   "rta_average_speed_per_line_buses",
+   "gdrfa_profession",
+   "dm_heritage_places"
+  ],
+  "metro": {
+   "stations": 55,
+   "byLine": {
+    "Red Metro line": 35,
+    "Green Metro line": 20
+   },
+   "districtsMeasured": 41,
+   "withinWalk2km": 11,
+   "beyond5km": 23,
+   "closest": [
+    {
+     "district": "Jebel Ali",
+     "station": "The Gardens Metro Station",
+     "line": "Red Metro line",
+     "km": 0.4
+    },
+    {
+     "district": "Al Satwa",
+     "station": "Emirates Towers Metro Station",
+     "line": "Red Metro line",
+     "km": 0.7
+    },
+    {
+     "district": "Al Wasl",
+     "station": "Business Bay Metro Station",
+     "line": "Red Metro line",
+     "km": 0.8
+    },
+    {
+     "district": "Al Jaddaf",
+     "station": "Al Jadaf Metro Station",
+     "line": "Green Metro line",
+     "km": 0.8
+    },
+    {
+     "district": "Downtown Dubai",
+     "station": "Burj Khalifa/ Dubai Mall Metro Station",
+     "line": "Red Metro line",
+     "km": 1.1
+    },
+    {
+     "district": "Dubai Marina",
+     "station": "DAMAC Properties Metro Station",
+     "line": "Red Metro line",
+     "km": 1.2
+    },
+    {
+     "district": "Dubai Maritime City",
+     "station": "Al Ghubaiba Metro Station",
+     "line": "Green Metro line",
+     "km": 1.4
+    },
+    {
+     "district": "Jumeirah Islands",
+     "station": "Discovery Gardens Metro Station",
+     "line": "Red Metro line",
+     "km": 1.4
+    }
+   ],
+   "furthest": [
+    {
+     "district": "Dubai Silicon Oasis",
+     "station": "Creek Metro Station",
+     "km": 11.8
+    },
+    {
+     "district": "Wadi Al Safa 4",
+     "station": "First Abu Dhabi Bank Metro Station",
+     "km": 12.2
+    },
+    {
+     "district": "Dubai Industrial City",
+     "station": "UAE Exchange Metro Station",
+     "km": 12.5
+    },
+    {
+     "district": "Town Square",
+     "station": "Jumeirah Golf Estates Metro Station",
+     "km": 13.0
+    },
+    {
+     "district": "Al Yelayiss 1",
+     "station": "Jumeirah Golf Estates Metro Station",
+     "km": 14.1
+    },
+    {
+     "district": "Wadi Al Safa 5",
+     "station": "Noor Bank Metro Station",
+     "km": 14.8
+    },
+    {
+     "district": "DAMAC Hills 2",
+     "station": "Jumeirah Golf Estates Metro Station",
+     "km": 20.0
+    },
+    {
+     "district": "The Valley",
+     "station": "Rashidiya Metro Station",
+     "km": 24.7
+    }
+   ],
+   "oldestStationOpened": "2009-09-09"
+  },
+  "airport": {
+   "airport": "DXB",
+   "measure": "average departures per hour band",
+   "busiest": [
+    {
+     "hour": "07-08",
+     "perHour": 37.8
+    },
+    {
+     "hour": "06-07",
+     "perHour": 37.7
+    },
+    {
+     "hour": "05-06",
+     "perHour": 36.8
+    }
+   ],
+   "quietest": [
+    {
+     "hour": "14-15",
+     "perHour": 15.5
+    },
+    {
+     "hour": "02-03",
+     "perHour": 14.6
+    },
+    {
+     "hour": "21-22",
+     "perHour": 14.5
+    }
+   ],
+   "observations": 2952
+  },
+  "buses": {
+   "measure": "average speed in km/h by line",
+   "slowest": [
+    {
+     "line": "FR3",
+     "kph": 5.9
+    },
+    {
+     "line": "BM1",
+     "kph": 7.0
+    },
+    {
+     "line": "DC2",
+     "kph": 7.1
+    },
+    {
+     "line": "F31",
+     "kph": 10.9
+    }
+   ],
+   "fastest": [
+    {
+     "line": "95A",
+     "kph": 66.2
+    },
+    {
+     "line": "56",
+     "kph": 67.3
+    },
+    {
+     "line": "67",
+     "kph": 71.7
+    },
+    {
+     "line": "66",
+     "kph": 77.5
+    }
+   ],
+   "linesMeasured": 41
+  },
+  "professions": {
+   "recognised": 6808,
+   "note": "recognised occupation titles in the residency register, not a count of residents"
+  },
+  "heritage": {
+   "sites": 2,
+   "mostVisited": [
+    {
+     "site": "Dubai Mnicipality Museum",
+     "throughYear": "2024",
+     "visitors": 70317
+    },
+    {
+     "site": "Historical Documents Centre",
+     "throughYear": "2024",
+     "visitors": 60562
+    }
+   ]
+  }
  }
 }

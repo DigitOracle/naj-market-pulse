@@ -87,7 +87,7 @@ def audit_tasks():
     section("2. SCHEDULED TASKS  (this machine)")
     try:
         raw = subprocess.run(["powershell", "-NoProfile", "-Command",
-                              "Get-ScheduledTask | Where-Object {$_.TaskName -like 'Najma*' -or $_.TaskName -like 'DA_Azimuth*'} | ForEach-Object { $i=$_|Get-ScheduledTaskInfo; '{0}|{1}|{2}|{3}' -f $_.TaskName,$_.State,$i.LastRunTime,$i.LastTaskResult }"],
+                              "Get-ScheduledTask | Where-Object {$_.TaskName -like 'Najma*' -or $_.TaskName -like 'DA_Azimuth*'} | ForEach-Object { $i=$_|Get-ScheduledTaskInfo; '{0}|{1}|{2}|{3}|{4}' -f $_.TaskName,$_.State,$i.LastRunTime,$i.LastTaskResult,$i.NextRunTime }"],
                              capture_output=True, text=True, timeout=120).stdout.strip().splitlines()
     except Exception as e:
         check("tasks", "scheduler", "FAIL", str(e)[:60]); return
@@ -101,8 +101,18 @@ def audit_tasks():
             ago = "%.1f h ago" % age_h(lr)
         except Exception:
             ago = lastrun.strip()
-        ok = res.strip() in ("0", "267009")                     # 0 = success, 267009 = currently running
-        check("tasks", nm, "PASS" if ok else "FAIL", "%s, last %s, result %s" % (state, ago, res.strip()))
+        # A repeating task with a bounded window reports 267014 when the window closes, and 0x40010004
+        # when the machine sleeps under it. Neither is a failure, and treating them as one made this
+        # audit cry wolf about two tasks that were scheduled and fine. What matters is whether the task
+        # will run again: a future NextRunTime is the real health signal, not the last exit code.
+        BENIGN = ("0", "267009", "267011", "267014", "1073807364")
+        res_s = res.strip()
+        nxt = p[4].strip() if len(p) > 4 else ""
+        ok = res_s in BENIGN and bool(nxt)
+        note = "%s, last %s, next %s, result %s" % (state, ago, nxt or "NONE SCHEDULED", res_s)
+        if res_s in ("267014", "1073807364") and nxt:
+            note += "  (window closed or machine slept; next run scheduled)"
+        check("tasks", nm, "PASS" if ok else "FAIL", note)
 
 
 def audit_store():
