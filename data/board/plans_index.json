@@ -1,6 +1,6 @@
 {
- "updated": "2026-09-10",
- "count": 4077,
+ "updated": "2026-09-12",
+ "count": 4094,
  "note": "Every floor plan we hold, by developer and project. Developer material, shown inside the app to the broker who sells it; each plan names its source. There are no floor-plan links in any of the eleven developers' public portfolios - new plans arrive through the developer group (PDF capture) or by hand.",
  "developers": [
   {
@@ -1459,6 +1459,138 @@
        "img": "plan_emaar_may_maybr4bedp011_23d32ea",
        "url": "/img/plan_emaar_may_maybr4bedp011_23d32ea",
        "source": "Emaar property page brochure / floor-plan PDF (public Strapi CMS uae-cms.emaar.com), harvested 9 Sep 2026: https://www.emaar.com/en/properties/may"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "fakhruddin",
+   "name": "Fakhruddin",
+   "projects": [
+    {
+     "name": "Treppan Vision",
+     "area": "",
+     "note": "Pages rendered at 150 dpi from the broker's own PDF. Nothing redrawn or cropped.",
+     "plans": [
+      {
+       "label": "Type Page 13 · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p013558b2d_7a738bb",
+       "url": "/img/plan_fakhru_treppanv_p013558b2d_7a738bb",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Ground Floor · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p026558b2d_1e32a28",
+       "url": "/img/plan_fakhru_treppanv_p026558b2d_1e32a28",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flexi 1 BR · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p027558b2d_05b29c8",
+       "url": "/img/plan_fakhru_treppanv_p027558b2d_05b29c8",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Page 31 · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p031558b2d_1e514fc",
+       "url": "/img/plan_fakhru_treppanv_p031558b2d_1e514fc",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Studio · unit 423.71 sq ft",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p050558b2d_cd64da8",
+       "url": "/img/plan_fakhru_treppanv_p050558b2d_cd64da8",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 1 BR TYPE 1 · unit 806.44 sq ft · Floor 3rd to 14th",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p051558b2d_a30e3e4",
+       "url": "/img/plan_fakhru_treppanv_p051558b2d_a30e3e4",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 1 BR TYPE 2 · unit 775.58 sq ft",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p052558b2d_7388021",
+       "url": "/img/plan_fakhru_treppanv_p052558b2d_7388021",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 1 BR TYPE 3 · unit 838 sq ft · Floor 3rd to 14th",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p053558b2d_74fa466",
+       "url": "/img/plan_fakhru_treppanv_p053558b2d_74fa466",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 2 BR TYPE 3 · unit 1360.49 sq ft",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p054558b2d_8580aee",
+       "url": "/img/plan_fakhru_treppanv_p054558b2d_8580aee",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 2 BR TYPE 2 · unit 1664.88 sq ft",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p055558b2d_43510d6",
+       "url": "/img/plan_fakhru_treppanv_p055558b2d_43510d6",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 2 BR TYPE 1 · unit 1321.10 sq ft",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p056558b2d_d84bb57",
+       "url": "/img/plan_fakhru_treppanv_p056558b2d_d84bb57",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 1 BR (Type - 3) · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00126906e_9ad126f",
+       "url": "/img/plan_fakhru_treppanv_p00126906e_9ad126f",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Smart Flex 1 BR (Type - 3) · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00226906e_ffa18c7",
+       "url": "/img/plan_fakhru_treppanv_p00226906e_ffa18c7",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Page 3 · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00326906e_1827d75",
+       "url": "/img/plan_fakhru_treppanv_p00326906e_1827d75",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Ground Floor · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00426906e_b3eb1d8",
+       "url": "/img/plan_fakhru_treppanv_p00426906e_b3eb1d8",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Page 5 · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00526906e_f3dcdb2",
+       "url": "/img/plan_fakhru_treppanv_p00526906e_f3dcdb2",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
+      },
+      {
+       "label": "Type Page 6 · unit",
+       "kind": "floorplan",
+       "img": "plan_fakhru_treppanv_p00626906e_8be1682",
+       "url": "/img/plan_fakhru_treppanv_p00626906e_8be1682",
+       "source": "developer group capture: 1788611520000_Treppan VIsion brokre pack-1-sep.pdf; 1789184073570_Treppan Vision Floor Plate.pdf"
       }
      ]
     }
