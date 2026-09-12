@@ -93,14 +93,21 @@ def sheet_files():
 
 
 def pick_current(sheets):
-    """Sheet keys that are the live view for their developer. Units first: a render booklet never wins."""
+    """(developer, project, file) triples that are the live view.
+
+    Decided per PROJECT, not per developer. A developer posts partial sheets: Arada's 11 Sep sheet
+    covered Inaura alone, and a per-developer rule made those 19 units "current" while a fifteen-
+    project sheet two days older went to superseded. The newest sheet that LISTS a project wins for
+    that project; units first, so a render booklet never wins anything."""
     best = {}
     for s in sheets:
-        n = sum(len(p.get("units") or []) for p in s["doc"].get("projects") or [])
-        rank = (1 if n else 0, s["date"], 0 if s["auto"] else 1)
-        if s["dev"] not in best or rank > best[s["dev"]][0]:
-            best[s["dev"]] = (rank, s["file"])
-    return {f for _, f in best.values()}
+        for p in s["doc"].get("projects") or []:
+            n = len(p.get("units") or [])
+            key = (s["dev"], p.get("p"))
+            rank = (1 if n else 0, s["date"], 0 if s["auto"] else 1)
+            if key not in best or rank > best[key][0]:
+                best[key] = (rank, s["file"])
+    return {(dev, proj, f) for (dev, proj), (_, f) in best.items()}
 
 
 def num(v):
@@ -122,14 +129,14 @@ def main():
         src = [src] if isinstance(src, str) else list(src or [])
         srows.append((s["file"], d.get("developer") or s["dev"].title(), s["date"], d.get("received"),
                       d.get("channel") or GROUP, d.get("extraction"), "auto" if s["auto"] else "verified",
-                      "current" if s["file"] in current else "superseded",
+                      "current" if any((s["dev"], p.get("p"), s["file"]) in current for p in projects) else "superseded",
                       len(projects), units, json.dumps(src, ensure_ascii=False)))
         for p in projects:
             for u in p.get("units") or []:
                 u = list(u) + [None] * (5 - len(u))
                 size, price = num(u[2]), num(u[3])
                 urows.append((s["file"], d.get("developer") or s["dev"].title(), s["date"],
-                              "current" if s["file"] in current else "superseded",
+                              "current" if (s["dev"], p.get("p"), s["file"]) in current else "superseded",
                               p.get("p"), p.get("block"), p.get("master"), p.get("completion"), p.get("plan"),
                               str(u[0]) if u[0] is not None else None, u[1], size, price,
                               round(price / size, 2) if (size and price) else None, u[4]))

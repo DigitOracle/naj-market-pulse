@@ -43,26 +43,28 @@ def main():
     # One row per developer+date+type. The hand-verified and auto-read copies of the same sheet carry
     # the same units, so count DISTINCT unit codes rather than rows - otherwise Imtiaz doubles.
     con.execute("""create or replace view v_dev_sheet_type as
-        select developer, sheet_date, unit_type,
+        select developer, project, sheet_date, unit_type,
                count(distinct coalesce(unit_code, project || '|' || cast(price_aed as varchar))) units,
                round(min(price_aed)) from_aed, round(max(price_aed)) to_aed,
                round(avg(aed_per_sqft)) avg_psf
         from dev_sheet_unit
-        group by 1, 2, 3""")
+        group by 1, 2, 3, 4""")
 
     # Consecutive sheets per developer. lag() over the developer gives the previous date's count;
     # a type that appears in only one of the two sheets is a release or a sell-out, so coalesce to 0.
     con.execute("""create or replace table dev_unit_move as
+        -- Per PROJECT: two sheets are comparable only for a project they both list. Arada's 11 Sep
+        -- sheet was Inaura alone; compared at developer level it read every other project as sold out.
         with t as (select * from v_dev_sheet_type),
-             dates as (select distinct developer, sheet_date from t),
-             pairs as (select developer, sheet_date,
-                              lag(sheet_date) over (partition by developer order by sheet_date) prev
+             dates as (select distinct developer, project, sheet_date from t),
+             pairs as (select developer, project, sheet_date,
+                              lag(sheet_date) over (partition by developer, project order by sheet_date) prev
                        from dates),
              p as (select * from pairs where prev is not null),
-             types as (select distinct p.developer, p.prev, p.sheet_date, x.unit_type
-                       from p join t x on x.developer = p.developer
+             types as (select distinct p.developer, p.project, p.prev, p.sheet_date, x.unit_type
+                       from p join t x on x.developer = p.developer and x.project = p.project
                                       and x.sheet_date in (p.prev, p.sheet_date))
-        select ty.developer, ty.prev as from_date, ty.sheet_date as to_date, ty.unit_type,
+        select ty.developer, ty.project, ty.prev as from_date, ty.sheet_date as to_date, ty.unit_type,
                coalesce(a.units, 0) as units_before,
                coalesce(b.units, 0) as units_after,
                coalesce(b.units, 0) - coalesce(a.units, 0) as change,
@@ -72,15 +74,15 @@ def main():
                date_diff('day', ty.prev::date, ty.sheet_date::date) as days,
                b.from_aed, b.to_aed, b.avg_psf
         from types ty
-        left join t a on a.developer = ty.developer and a.sheet_date = ty.prev      and a.unit_type = ty.unit_type
-        left join t b on b.developer = ty.developer and b.sheet_date = ty.sheet_date and b.unit_type = ty.unit_type
-        order by ty.developer, ty.sheet_date, ty.unit_type""")
+        left join t a on a.developer = ty.developer and a.project = ty.project and a.sheet_date = ty.prev      and a.unit_type = ty.unit_type
+        left join t b on b.developer = ty.developer and b.project = ty.project and b.sheet_date = ty.sheet_date and b.unit_type = ty.unit_type
+        order by ty.developer, ty.project, ty.sheet_date, ty.unit_type""")
 
     n = con.execute("select count(*) from dev_unit_move").fetchone()[0]
     print("dev_unit_move: %d rows" % n)
-    for r in con.execute("""select developer, from_date, to_date, unit_type, units_before, units_after, change, movement, days
-                            from dev_unit_move where change <> 0 order by abs(change) desc""").fetchall():
-        print("  %-11s %s -> %s  %-8s %3d -> %3d  %+d  %-9s over %d days" % r)
+    for r in con.execute("""select developer, project, from_date, to_date, unit_type, units_before, units_after, change, movement, days
+                            from dev_unit_move where change <> 0 order by abs(change) desc limit 12""").fetchall():
+        print("  %-10s %-26s %s -> %s  %-6s %3d -> %3d  %+d  %-8s %dd" % r)
 
     # Only developers with two sheets have movement; say so rather than implying we track everyone.
     cov = con.execute("""select count(distinct developer) from dev_sheet_unit""").fetchone()[0]
@@ -92,8 +94,8 @@ def main():
             print("  no pulse.json - table built, nothing pushed")
             con.close(); return
         pulse = json.load(io.open(PULSE, encoding="utf-8"))
-        moves = [dict(zip(["developer", "from", "to", "type", "before", "after", "change", "movement", "days"], r))
-                 for r in con.execute("""select developer, from_date, to_date, unit_type, units_before, units_after,
+        moves = [dict(zip(["developer", "project", "from", "to", "type", "before", "after", "change", "movement", "days"], r))
+                 for r in con.execute("""select developer, project, from_date, to_date, unit_type, units_before, units_after,
                                                 change, movement, days
                                          from dev_unit_move where change <> 0
                                          order by abs(change) desc limit 24""").fetchall()]
