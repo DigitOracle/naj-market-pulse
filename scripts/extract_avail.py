@@ -23,12 +23,38 @@ REG = os.path.join(AVAIL, "_processed.json")
 LISTENER_DOCS = r"C:\Dev\azimuth-listener-naj\docs\developer_availability"   # the developer group only - other groups post promotions, not inventories
 os.makedirs(INBOX, exist_ok=True)
 
-TYPE_RX = re.compile(r"^(studio|\d\s*bed(room)?s?(\s*duplex)?|\d\s*b/?r(\s*duplex)?|office|retail|penthouse|shop)$", re.I)
 NUM_RX = re.compile(r"^-?[\d,]+(\.\d+)?$")
 DEV_HINTS = ["imtiaz", "fakhruddin", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "select", "object 1", "reportage", "arada", "beyond", "iman", "zaya", "palma"]
 # a sheet often names only the project ("TREPPAN TOWER - INVENTORY"); these map a project word to the developer on the board
 PROJECT_DEV = {"treppan": "fakhruddin", "maimoon": "fakhruddin", "hatimi": "fakhruddin", "symphony": "imtiaz", "westwood": "imtiaz",
+               "archive": "imtiaz", "raw district": "imtiaz", "rd2": "imtiaz",
                "passo": "beyond", "kanyon": "beyond", "chateau": "beyond", "talea": "beyond", "soulever": "beyond", "hado": "beyond", "arancia": "beyond", "saria": "beyond", "orise": "beyond"}
+
+
+def project_from_filename(path):
+    """Fallback project name when the page carries no title.
+
+    A plain price table ("S.N | Unit | Type | ... ") has no header to read, so the project used to
+    fall back to the literal string "Unknown project" - The Archive's 10 units reached the board
+    under that name on 12 Sep 2026. The broker names the file after the project; use that.
+    """
+    stem = os.path.splitext(re.sub(r"^\d+_", "", os.path.basename(path or "")))[0]
+    stem = re.sub(r"\b(availability|avaiolability|inventory|floor\s*plans?|floor\s*plate|unit\s*types?"
+                  r"|brok?re?\s*pack|broker\s*pack|compressed|escrow\s*account|sales?\s*offer)\b", " ", stem, flags=re.I)
+    stem = re.sub(r"\b\d{1,2}[.\-/]\d{1,2}([.\-/]\d{2,4})?\b", " ", stem)                 # 28.08, 09.09.2026
+    stem = re.sub(r"\b\d{1,2}\s*(st|nd|rd|th)?\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)\w*\b", " ", stem, flags=re.I)
+    stem = re.sub(r"[-_]+", " ", stem)
+    stem = re.sub(r"\s+", " ", stem).strip(" -_.|")
+    return stem.title() if stem else "Unknown project"
+
+
+def dev_from_text(s):
+    """The ONE developer resolver: developer name first, then the project->developer table.
+    Both halves must be tried everywhere - a filename-only check that skipped PROJECT_DEV sent
+    Fakhruddin's Treppan Vision floor plates to the Unknown bucket on 12 Sep 2026."""
+    low = (s or "").lower()
+    return (next((d for d in DEV_HINTS if d in low), None)
+            or next((v for k, v in PROJECT_DEV.items() if k in low), None))
 # BEYOND's export: "Created by: <name>" / "dd-MMM-yyyy hh:mm" / a wrapped header (Building | Unit Code | Bedroom Type | Total Area (Sqft) |
 # Unit Sub-Type | Unit Orientation | Selling Price (AED)); one row per unit, orientation may wrap onto the next line.
 BEY_CODE_RX = re.compile(r"^[A-Z]{2,6}\d?[A-Z]?/[A-Z]?\d{1,3}/[A-Z]?\d{1,4}$")
@@ -80,22 +106,50 @@ def sha1(p):
     return h.hexdigest()
 
 
-def norm_type(t):
-    t = t.strip().lower().replace("bedrooms", "bedroom").replace("p.house", "penthouse")
-    m = re.match(r"(\d)\s*(bed(room)?|b/?r|bhk)(\s*(duplex|penthouse))?", t)
+# One vocabulary for unit types, shared by the gate (type_of) and the label (norm_type).
+# These drifted once: the gate knew "B/R" but not "BHK" while the label knew both, so on
+# 12 Sep 2026 The Archive's sheet lost 7 of its 10 units in silence - every BHK row.
+# Add a notation HERE and both halves learn it. DRIFT_GUARD below refuses to start otherwise.
+BED_WORDS = r"bed(?:room)?s?|b/?r|bhk|bd"
+WORD_TYPE = {"studio": "Studio", "duplex": "Duplex", "office": "Office", "retail": "Retail",
+             "shop": "Retail", "penthouse": "Penthouse", "townhouse": "Townhouse", "villa": "Villa"}
+BED_STRICT_RX = re.compile(r"^(\d)\s*(?:%s)\+?(?:\s*(duplex|penthouse))?$" % BED_WORDS, re.I)
+BED_LOOSE_RX = re.compile(r"(\d)\s*(?:%s)\+?(?:\s*(duplex|penthouse))?" % BED_WORDS, re.I)
+WORD_STRICT_RX = re.compile(r"^(%s)s?$" % "|".join(WORD_TYPE), re.I)
+
+
+def _bed_label(m):
+    return "%s B/R%s" % (m.group(1), (" " + m.group(2).title()) if m.group(2) else "")
+
+
+def type_of(t):
+    """Strict gate: the token IS a unit type -> canonical label, else None. Never guesses."""
+    t = (t or "").strip().lower().replace("bedrooms", "bedroom").replace("p.house", "penthouse")
+    m = BED_STRICT_RX.match(t)
     if m:
-        return "%s B/R%s" % (m.group(1), (" " + m.group(5).title()) if m.group(5) else "")
-    if t.startswith("duplex"):
-        return "Duplex"
-    if t.startswith("studio"):
-        return "Studio"
-    if t.startswith("office"):
-        return "Office"
-    if t.startswith("retail") or t.startswith("shop"):
-        return "Retail"
-    if t.startswith("penthouse"):
-        return "Penthouse"
+        return _bed_label(m)
+    m = WORD_STRICT_RX.match(t)
+    return WORD_TYPE[m.group(1).lower()] if m else None
+
+
+def norm_type(t):
+    """Lenient label: the token may carry a suffix ("2 BHK Type A", "Studio Deluxe")."""
+    t = (t or "").strip().lower().replace("bedrooms", "bedroom").replace("p.house", "penthouse")
+    m = BED_LOOSE_RX.match(t)
+    if m:
+        return _bed_label(m)
+    for w in WORD_TYPE:
+        if t.startswith(w):
+            return WORD_TYPE[w]
     return t.title()
+
+
+# DRIFT GUARD: every notation the label understands, the gate must also accept.
+# If this fires, someone taught one half a notation and not the other - fix that, do not delete this.
+for _s in ("Studio", "1 BR", "2 B/R", "3 Bedroom", "3 Bedrooms", "1 BHK", "2 BHK", "4 BD",
+           "Office", "Retail", "Shop", "Penthouse", "Townhouse", "Villa", "Duplex", "2 BR Duplex"):
+    if not type_of(_s):
+        raise AssertionError("unit-type gate rejects %r, which norm_type labels %r" % (_s, norm_type(_s)))
 
 
 def num(s):
@@ -162,7 +216,17 @@ def parse_row(cells):
     if len(cells) < 5:
         return None
     # find the type token
-    ti = next((i for i, c in enumerate(cells) if TYPE_RX.match(c.strip())), None)
+    # The type can arrive as ONE cell ("Studio", "2 B/R") or as TWO ("1" then "BHK"), because the
+    # PDF sets the count and the word as separate word boxes. Looking only at single cells found
+    # the studios and missed every BHK row on The Archive's sheet - 7 units of 10, in silence.
+    ti, tlen = None, 1
+    for i, c in enumerate(cells):
+        if type_of(c):
+            ti, tlen = i, 1
+            break
+        if i + 1 < len(cells) and type_of(c + " " + cells[i + 1]):
+            ti, tlen = i, 2
+            break
     if ti is None or ti == 0:
         return None
     unit = cells[ti - 1].strip()
@@ -170,7 +234,7 @@ def parse_row(cells):
     if not re.match(r"^((office|retail|shop|villa|ph|p\d)-?)?[A-Z]?\d{1,4}[A-Z]?(-\d{1,3})?$", unit, re.I):
         return None
     nums = []
-    j = ti + 1
+    j = ti + tlen
     while j < len(cells) and NUM_RX.match(cells[j].replace(" ", "")):
         nums.append(num(cells[j])); j += 1
     view = " ".join(c for c in cells[j:]).strip()
@@ -190,7 +254,7 @@ def parse_row(cells):
         view = re.sub(r"\s*/\s*", " / ", view)
         view = re.sub(r"\s*view\s*$", "", view, flags=re.I).strip()          # drop the trailing 'View'
         view = re.sub(r"\s+", " ", view)
-    return [uid, norm_type(cells[ti]), total, price, view or None, suite, balcony]
+    return [uid, norm_type(" ".join(cells[ti:ti + tlen])), total, price, view or None, suite, balcony]
 
 
 AR_UNIT_RX = re.compile(r"\b([A-Z]{1,4}\d{0,2}-?[A-Z]{0,3}\d{2,5}[A-Z]?)\b")            # G1-TH070, ANB-V091, IT1204, T2-1203
@@ -288,7 +352,8 @@ def parse_pdf(path):
     doc = fitz.open(path)
     projects, cur = [], None
     header_project, completion, plan = None, None, None
-    dev = next((d for d in DEV_HINTS if d in os.path.basename(path).lower()), None)
+    dev = dev_from_text(os.path.basename(path))
+    fallback_project = project_from_filename(path)
     inv_title, inv_date, inv_block, prev_line, inv_mode = None, None, None, "", False
     bey_date, bey_building, pending_view = None, None, None
     ar_mode, ar_pending, ar_master, ar_cluster, ar_project = False, None, None, None, None
@@ -352,7 +417,7 @@ def parse_pdf(path):
                     projects.append(cur)
                 cur["units"].append([unit, typ, total, price, view]); continue
             if dev is None:
-                dev = next((d for d in DEV_HINTS if d in low), None) or next((v for k, v in PROJECT_DEV.items() if k in low), None)
+                dev = dev_from_text(low)
             # --- inventory format (Fakhruddin et al.): "<PROJECT> - INVENTORY as (m/d/yyyy)", sections, a fixed column header
             mt = INV_TITLE_RX.match(line.strip())
             if mt:
@@ -366,7 +431,7 @@ def parse_pdf(path):
             if inv_mode:
                 rec = parse_inventory_row(split_cells(row))
                 if rec:
-                    pname = canonical_project((inv_title or "Unknown project").title(), dev)   # title-case first: an all-caps title survives the fallback re-spacing
+                    pname = canonical_project((inv_title or fallback_project).title(), dev)   # title-case first: an all-caps title survives the fallback re-spacing
                     if cur is None or cur["p"] != pname or cur.get("block") != inv_block:
                         cur = {"p": pname, "block": inv_block, "completion": completion, "plan": plan, "units": [], "_mode": mode}
                         projects.append(cur)
@@ -389,7 +454,7 @@ def parse_pdf(path):
                     if not rec[5] and bey_building: rec[5] = bey_building
                     if pending_view and not rec[4]: rec[4] = pending_view
                     pending_view = None
-                    pname = canonical_project(rec[5] or "Unknown project", dev)
+                    pname = canonical_project(rec[5] or fallback_project, dev)
                     if cur is None or cur["p"] != pname:
                         cur = {"p": pname, "completion": completion, "plan": plan, "units": [], "_mode": mode, "_sheet_date": bey_date}
                         projects.append(cur)
@@ -413,7 +478,7 @@ def parse_pdf(path):
                 plan = m.group(1)
             # project header: a line naming the developer + 'tower|residence|by <dev>' with no numbers
             flat = nkey(line)
-            is_header = (not re.search(r"\d{3,}", line) and len(line) < 70 and not TYPE_RX.match(line)
+            is_header = (not re.search(r"\d{3,}", line) and len(line) < 70 and not type_of(line)
                          and not flat.startswith("unitview") and "completiondate" not in flat and "sellingprice" not in flat
                          and re.search(r"(tower|residence|by" + (dev or "x") + r"|edition|boulevard|grand|horizon|bay|cove|house|walk|district)", flat)
                          and (dev is None or dev in flat or re.search(r"(tower|residences?)$", flat)))
@@ -425,8 +490,8 @@ def parse_pdf(path):
                 continue
             rec = parse_row(split_cells(row))
             if rec:
-                if cur is None or cur["p"] != (header_project or "Unknown project"):
-                    cur = {"p": header_project or "Unknown project", "completion": completion, "plan": plan, "units": [], "_mode": mode}
+                if cur is None or cur["p"] != (header_project or fallback_project):
+                    cur = {"p": header_project or fallback_project, "completion": completion, "plan": plan, "units": [], "_mode": mode}
                     projects.append(cur)
                 cur["completion"] = cur["completion"] or completion
                 cur["plan"] = cur["plan"] or plan

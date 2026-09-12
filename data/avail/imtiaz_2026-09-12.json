@@ -1,0 +1,93 @@
+{
+ "source_file": [
+  "1789183986100_The Archive Availability.pdf",
+  "1789183986377_RD2 Retail 25.pdf",
+  "1789184010737_The Archive By Imtiaz - Floor Plans _ Units Types Compressed.pdf",
+  "1789184014034_IMTIAZ - Corporate Profile 2026 V2.pdf",
+  "1789184015606_The Archive By Imtiaz - Floor Plans _ Units Types .pdf"
+ ],
+ "sheet_date": "2026-09-12",
+ "received": "2026-09-13",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Imtiaz",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "The Archive",
+   "completion": null,
+   "plan": "50/50",
+   "units": [
+    [
+     "118",
+     "Studio",
+     480.29,
+     677209.0,
+     "Community"
+    ],
+    [
+     "114",
+     "1 B/R",
+     1654.52,
+     1141619.0,
+     "Community"
+    ],
+    [
+     "119",
+     "Studio",
+     484.16,
+     677824.0,
+     "Community"
+    ],
+    [
+     "120",
+     "2 B/R",
+     1699.73,
+     1611218.0,
+     "Park"
+    ],
+    [
+     "121",
+     "2 B/R",
+     1407.17,
+     1625785.0,
+     "Park View & Amenity"
+    ],
+    [
+     "214",
+     "1 B/R",
+     1080.27,
+     1145087.0,
+     "Community"
+    ],
+    [
+     "219",
+     "Studio",
+     381.8,
+     679604.0,
+     "Community"
+    ],
+    [
+     "318",
+     "1 B/R",
+     1080.27,
+     1150488.0,
+     "Community"
+    ],
+    [
+     "418",
+     "1 B/R",
+     1080.27,
+     1152649.0,
+     "Community"
+    ],
+    [
+     "424",
+     "2 B/R",
+     1226.98,
+     1639652.0,
+     "Park"
+    ]
+   ]
+  }
+ ]
+}
