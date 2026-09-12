@@ -7563,15 +7563,46 @@
  },
  "cityLife": {
   "asOf": "2026-09-12",
-  "source": "Dubai Data (DDA) open datasets, joined to the Najma district board",
-  "caution": "structural facts. Station locations and hourly airport patterns do not move week to week, so these are safe to state without a fresh pull.",
+  "source": "Dubai Data (DDA) open datasets, read through the realness gate and joined to the Najma district board",
+  "caution": "structural facts. Station locations, community coverage and hourly airport patterns do not move week to week, so these are safe to state without a fresh pull.",
   "basedOn": [
-   "rta_metro_stations",
-   "dans_e_dxb_hourly_departure_throughput",
-   "rta_average_speed_per_line_buses",
-   "gdrfa_profession",
-   "dm_heritage_places"
+   {
+    "dataset": "rta_metro_stations",
+    "rowsUsed": 55,
+    "fillRowsExcluded": 0
+   },
+   {
+    "dataset": "rta_bus_network_coverage",
+    "rowsUsed": 226,
+    "fillRowsExcluded": 9
+   },
+   {
+    "dataset": "rta_bus_stop_details",
+    "rowsUsed": 6144,
+    "fillRowsExcluded": 0
+   },
+   {
+    "dataset": "dans_e_dxb_hourly_departure_throughput",
+    "rowsUsed": 2952,
+    "fillRowsExcluded": 0
+   },
+   {
+    "dataset": "rta_average_speed_per_line_buses",
+    "rowsUsed": 53319,
+    "fillRowsExcluded": 0
+   },
+   {
+    "dataset": "gdrfa_profession",
+    "rowsUsed": 7432,
+    "fillRowsExcluded": 31
+   },
+   {
+    "dataset": "dm_heritage_places",
+    "rowsUsed": 150,
+    "fillRowsExcluded": 0
+   }
   ],
+  "excludedFillRows": 40,
   "metro": {
    "stations": 55,
    "byLine": {
@@ -7675,6 +7706,183 @@
    ],
    "oldestStationOpened": "2009-09-09"
   },
+  "busCoverage": {
+   "measure": "Roads and Transport Authority bus network coverage by community",
+   "reportDate": "2024-12-31",
+   "communities": 226,
+   "populationCovered": 3549900,
+   "stops": 2373,
+   "withinReach": 3123618,
+   "cityCoveragePct": 88.0,
+   "communitiesOver1000WithNoStop": {
+    "count": 15,
+    "residents": 107848
+   },
+   "worstServed": [
+    {
+     "community": "ME'AISEM FIRST",
+     "residents": 18664,
+     "stops": 18,
+     "coveragePct": 0
+    },
+    {
+     "community": "HESSYAN SECOND",
+     "residents": 10418,
+     "stops": 7,
+     "coveragePct": 0
+    },
+    {
+     "community": "WARSAN FOURTH",
+     "residents": 10205,
+     "stops": 6,
+     "coveragePct": 0
+    },
+    {
+     "community": "AL BARSHA SOUTH FIFTH",
+     "residents": 7997,
+     "stops": 0,
+     "coveragePct": 0
+    },
+    {
+     "community": "AL BARSHA SOUTH SECOND",
+     "residents": 7350,
+     "stops": 9,
+     "coveragePct": 0
+    },
+    {
+     "community": "OUD AL MUTEENA SECOND",
+     "residents": 5953,
+     "stops": 0,
+     "coveragePct": 0
+    }
+   ],
+   "bestServed": [
+    {
+     "community": "MUHAISANAH SECOND",
+     "residents": 150710,
+     "stops": 46,
+     "coveragePct": 100
+    },
+    {
+     "community": "WARSAN FIRST",
+     "residents": 108637,
+     "stops": 33,
+     "coveragePct": 100
+    },
+    {
+     "community": "HOR AL ANZ",
+     "residents": 85080,
+     "stops": 35,
+     "coveragePct": 100
+    },
+    {
+     "community": "AL KARAMA",
+     "residents": 77139,
+     "stops": 28,
+     "coveragePct": 100
+    },
+    {
+     "community": "AL MURAQQABAT",
+     "residents": 73879,
+     "stops": 16,
+     "coveragePct": 100
+    },
+    {
+     "community": "AL NAHDA SECOND",
+     "residents": 65947,
+     "stops": 27,
+     "coveragePct": 100
+    }
+   ],
+   "theValley": [
+    {
+     "community": "AL YUFRAH 1",
+     "residents": 403,
+     "stops": 1,
+     "withinReach": 0,
+     "coveragePct": 0
+    },
+    {
+     "community": "AL YUFRAH 2",
+     "residents": 2008,
+     "stops": 0,
+     "withinReach": 2008,
+     "coveragePct": 50
+    },
+    {
+     "community": "AL YUFRAH 3",
+     "residents": 1754,
+     "stops": 0,
+     "withinReach": 1696,
+     "coveragePct": 0
+    },
+    {
+     "community": "AL YUFRAH 4",
+     "residents": 3,
+     "stops": 0,
+     "withinReach": 0,
+     "coveragePct": 0
+    }
+   ],
+   "note": "reported by the community names the Authority uses, not mapped onto the district board; only a few names match exactly and a fuzzy match would invent a geography"
+  },
+  "busStops": {
+   "total": 6144,
+   "radiusKm": 3,
+   "mostServed": [
+    {
+     "district": "Al Satwa",
+     "stops": 595
+    },
+    {
+     "district": "Al Wasl",
+     "stops": 433
+    },
+    {
+     "district": "Downtown Dubai",
+     "stops": 375
+    },
+    {
+     "district": "Dubai Maritime City",
+     "stops": 362
+    },
+    {
+     "district": "Business Bay",
+     "stops": 280
+    },
+    {
+     "district": "Dubai Silicon Oasis",
+     "stops": 197
+    }
+   ],
+   "leastServed": [
+    {
+     "district": "Meydan One",
+     "stops": 11
+    },
+    {
+     "district": "Wadi Al Safa 5",
+     "stops": 10
+    },
+    {
+     "district": "Dubai Hills Estate",
+     "stops": 8
+    },
+    {
+     "district": "Wadi Al Safa 4",
+     "stops": 4
+    },
+    {
+     "district": "Dubai South",
+     "stops": 4
+    },
+    {
+     "district": "Palm Jumeirah",
+     "stops": 2
+    }
+   ],
+   "districtsWithNone": 6
+  },
   "airport": {
    "airport": "DXB",
    "measure": "average departures per hour band",
@@ -7709,7 +7917,11 @@
    "observations": 2952
   },
   "buses": {
-   "measure": "average speed in km/h by line",
+   "measure": "average speed in km/h",
+   "medianKph": 18.2,
+   "meanKph": 24.3,
+   "observations": 49377,
+   "linesMeasured": 41,
    "slowest": [
     {
      "line": "FR3",
@@ -7746,10 +7958,10 @@
      "kph": 77.5
     }
    ],
-   "linesMeasured": 41
+   "note": "readings outside 1-120 km/h are excluded; the raw column contains values up to 201"
   },
   "professions": {
-   "recognised": 6808,
+   "recognised": 6784,
    "note": "recognised occupation titles in the residency register, not a count of residents"
   },
   "heritage": {
