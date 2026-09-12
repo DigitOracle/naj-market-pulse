@@ -12,10 +12,12 @@ Usage:
 import json, mimetypes, os, sys, time, urllib.parse, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 from build_avail_index import env_token, WORKER  # noqa: E402
-CHUNK = 8 * 1024 * 1024
+CHUNK = int(float(os.environ.get("DRIVE_CHUNK_MB", "1.5")) * 1024 * 1024)  # 7 Sep 2026: upstream ~16 KB/s, 8 MB chunks time out silently
+TIMEOUT = int(os.environ.get("DRIVE_TIMEOUT_S", "600"))
 UA = {"User-Agent": "najma-market-pulse/1.0 (drive media)"}
 
-def call(path, method="GET", data=None, headers=None, timeout=300):
+def call(path, method="GET", data=None, headers=None, timeout=None):
+    timeout = timeout or TIMEOUT
     req = urllib.request.Request(WORKER + path, data=data, method=method, headers={**UA, **(headers or {})})
     return urllib.request.urlopen(req, timeout=timeout)
 
