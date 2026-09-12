@@ -1,26 +1,31 @@
-"""Which of the government datasets are REAL, and which are obfuscated staging fill.
+"""Which ROWS of the government datasets are real, and which are obfuscated staging fill.
 
-The Dubai Data staging environment does not only serve stale data - it serves some datasets with the
-values scrambled. Two found by hand:
+The Dubai Data staging environment does not serve stale data only. It serves some values scrambled,
+and the first version of this gate got the shape of that wrong in a way worth recording.
 
-    dtcm_overnight_visitors_by_region.total_list_regions -> 'ODTYCXWMYVYISIXNYCKIESCGDY'
-    rta_salik_tariff.month                               -> 'HAU', 'OBZ', 'ZGN'
+It assumed whole datasets were either real or fake, and rated `rta_bus_network_coverage` real. It is
+mostly real - 226 of its 235 rows carry genuine Dubai communities with plausible figures, including
+AL YUFRAH 1 at 403 residents and one bus stop, and MIRDIF at 68,346 residents and 32 stops - and NINE
+rows are fill. Judging the dataset as a whole either throws away 226 good rows or imports nine
+fabricated ones. Both are wrong, so the gate now works row by row.
 
-Those are not region names or months. They are random letters of the right length. A dataset like that
-is worse than a missing one, because it reads as data and will pass any row count or freshness check.
-If one reached the morning feed, Naj would post a number that was never true.
+Two signatures, both observed rather than guessed:
 
-So every landed table is gated before anything is allowed to use it. The test is deliberately crude
-and errs towards suspicion: for each text column, what share of its distinct values look like random
-uppercase letters - no spaces, no vowel rhythm, no repetition across rows? Real reference data
-(BurJuman Metro Station, Green Metro line, PETROLEUM MIXING WORKER) fails that description easily.
+  long fill    twelve or more characters of uppercase letters and digits with no break and almost no
+               vowels. The visitor-region values are a hundred characters - fifty random letters then
+               fifty random digits.
+  word fake    a 3-8 letter vowel-poor uppercase run in a column whose NAME promises a word. A month
+               called 'HAU' is fill; an airport called 'DXB' is not, which is why the column name
+               decides and code-like columns are exempt.
 
-Writes `realness` and `realness_note` onto gov_dataset. Nothing is deleted: a scrambled dataset stays
-registered and stays on disk, marked, so the next pull can be compared against it.
+For every materialised table a companion view `g_<entity>__<dataset>` is created carrying only the
+rows that pass. `v_gov_usable` names that view, so anything downstream reads clean rows without
+having to know any of this. Nothing is deleted: the fabricated rows stay in the base table so the
+next pull can be compared against them.
 """
-import argparse, re, sys
+import argparse, os, re, sys
 
-import duckdb, os
+import duckdb
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -29,44 +34,31 @@ except Exception:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DB = os.path.join(os.path.abspath(os.path.join(HERE, "..")), "data", "graph", "najma.duckdb")
-VOWELS = set("AEIOUaeiou")
-# The staging fill is not what it first looked like. The visitor-region values are ONE HUNDRED
-# characters - fifty random uppercase letters followed by fifty random digits:
-#   'SVJERDHTONGYTIBNUJRGKCJZMBZRFXUGWHQKNEBDXAKFBFLUBM63494341155240133306324743623645345853236161468338'
-# A test for pure uppercase runs missed every one of them. Length and charset catch them instead.
-LONG_FILL_RX = re.compile(r"^[A-Z0-9]{12,}$")
-SHORT_CODE_RX = re.compile(r"^[A-Z]{3,8}$")
-# A 3-letter uppercase code is normal in a code column and meaningless in a word column: DXB and GBR
-# are real, a month called 'HAU' is not. So the column's own name decides how suspicious to be.
-CODE_COL_RX = re.compile(r"(code|iso|_id$|^id$|abbr|num$|number$|currency|symbol|ticker|sr_num)", re.I)
-WORD_COL_RX = re.compile(r"(month|year|day|region|name|desc|title|location|unit|type|status|"
-                         r"category|city|country|emirate|area|line|station|activity|profession)", re.I)
 
+# A code column may legitimately hold DXB, GBR or AED. A word column may not hold 'HAU'.
+CODE_COL_RX = re.compile(r"(code|iso|_id$|^id$|abbr|num$|number$|currency|symbol|ticker|sr_num|no$)", re.I)
+WORD_COL_RX = re.compile(r"(month|day|region|name|desc|title|location|unit|type|status|category|city|"
+                         r"country|emirate|area|line|station|activity|profession|author|group)", re.I)
 
-def low_vowel(s):
-    letters = [ch for ch in s if ch.isalpha()]
-    if not letters:
-        return False
-    return (sum(1 for ch in letters if ch in VOWELS) / len(letters)) < 0.34
+# Share of fabricated rows above which a dataset is not worth reading at all.
+MOSTLY_FAKE = 0.98
+# ...and below which it is treated as clean rather than mixed. Some datasets carry a stray oddity.
+MOSTLY_CLEAN = 0.02
 
-
-def looks_scrambled(v, column=""):
-    """Synthetic fill, on either of two signatures.
-
-    Long: a dozen or more characters of uppercase letters and digits with no break - nothing a person
-    typed looks like that. Short: a 3-8 letter uppercase run with almost no vowels sitting in a column
-    whose NAME promises a word. Codes are exempted, because DXB, GBR and AED are all real and all
-    vowel-poor."""
-    s = str(v or "").strip()
-    if len(s) < 3:
-        return False
-    if LONG_FILL_RX.match(s) and low_vowel(s):
-        return True
-    if SHORT_CODE_RX.match(s) and low_vowel(s):
-        if CODE_COL_RX.search(column or ""):
-            return False
-        return bool(WORD_COL_RX.search(column or ""))
-    return False
+MACROS = [
+    # Vowel share among the LETTERS only, so a letters-and-digits run is judged on its letters.
+    """create or replace macro _vowel_share(s) as (
+         case when length(regexp_replace(s, '[^A-Za-z]', '', 'g')) = 0 then 0.0
+              else length(regexp_replace(s, '[^AEIOUaeiou]', '', 'g')) * 1.0
+                   / length(regexp_replace(s, '[^A-Za-z]', '', 'g')) end)""",
+    """create or replace macro _is_long_fill(s) as (
+         s is not null and length(s) >= 12
+         and regexp_full_match(s, '[A-Z0-9]+')
+         and _vowel_share(s) < 0.34)""",
+    """create or replace macro _is_word_fake(s) as (
+         s is not null and regexp_full_match(s, '[A-Z]{3,8}')
+         and _vowel_share(s) < 0.34)""",
+]
 
 
 def main():
@@ -74,7 +66,10 @@ def main():
     ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args()
     con = duckdb.connect(DB)
-    for col, typ in (("realness", "varchar"), ("realness_note", "varchar")):
+    for m in MACROS:
+        con.execute(m)
+    for col, typ in (("realness", "varchar"), ("realness_note", "varchar"),
+                     ("rows_clean", "bigint"), ("rows_fabricated", "bigint"), ("clean_view", "varchar")):
         try:
             con.execute("alter table gov_dataset add column %s %s" % (col, typ))
         except Exception:
@@ -82,50 +77,83 @@ def main():
 
     tabs = con.execute("select key, entity, dataset, table_name, rows_loaded from gov_dataset "
                        "where materialised and table_name is not null order by rows_loaded desc").fetchall()
-    counts = {"real": 0, "suspect": 0, "scrambled": 0, "thin": 0}
+    counts = {"clean": 0, "mixed": 0, "fabricated": 0, "untestable": 0}
     for key, ent, ds, tn, nrows in tabs:
         try:
             cols = con.execute("select * from %s limit 1" % tn).description
         except Exception:
-            con.execute("update gov_dataset set realness='unreadable' where key=?", [key]); continue
+            con.execute("update gov_dataset set realness='unreadable' where key=?", [key])
+            continue
         text_cols = [d[0] for d in cols if str(d[1]).lower() in ("string", "varchar", "object")]
-        flagged, checked = [], 0
-        for cname in text_cols[:12]:
-            try:
-                vals = [r[0] for r in con.execute(
-                    'select distinct "%s" from %s where "%s" is not null limit 40' % (cname, tn, cname)).fetchall()]
-            except Exception:
-                continue
-            vals = [v for v in vals if isinstance(v, str) and v.strip()]
-            if len(vals) < 4:
-                continue
-            checked += 1
-            share = sum(1 for v in vals if looks_scrambled(v, cname)) / len(vals)
-            if share >= 0.6:
-                flagged.append("%s (%.0f%% of values)" % (cname, share * 100))
-        if not checked:
-            verdict, note = "thin", "no text column with enough distinct values to test"
-        elif flagged:
-            # One fabricated column is enough to make a dataset unusable: the fake column is
-            # invariably the one carrying the meaning. A second only confirms it.
-            verdict = "scrambled" if (len(flagged) >= 2 or checked == 1) else "suspect"
-            note = "random-letter values in " + "; ".join(flagged[:3])
-        else:
-            verdict, note = "real", "text values read as real names across %d column(s)" % checked
-        counts[verdict] = counts.get(verdict, 0) + 1
-        con.execute("update gov_dataset set realness=?, realness_note=? where key=?", [verdict, note, key])
-        if a.verbose or verdict in ("scrambled", "suspect"):
-            print("  %-10s %-46s %s" % (verdict.upper(), (ent + "/" + ds.replace("-open-api", ""))[:46], note[:70]))
+        # The two signatures do not deserve the same unit of judgement, and getting that wrong dropped
+        # MIRDIF - six letters, two vowels, 33% - as fill. A twelve-character run of letters and digits
+        # is unambiguous, so it is judged per ROW. A short vowel-poor uppercase word is not: MIRDIF,
+        # ABU HAIL and PORT SAEED all look like 'HAU' to that test. So it is judged per COLUMN, and only
+        # when most of the column looks fake is the whole column treated as fill.
+        tests = []
+        for c in text_cols:
+            q = '"%s"' % c
+            tests.append("_is_long_fill(%s)" % q)
+            if WORD_COL_RX.search(c) and not CODE_COL_RX.search(c):
+                try:
+                    n_all, n_fake = con.execute(
+                        'select count(%s), sum(case when _is_word_fake(%s) then 1 else 0 end) from %s'
+                        % (q, q, tn)).fetchone()
+                except Exception:
+                    continue
+                if n_all and (int(n_fake or 0) / n_all) >= 0.6:
+                    tests.append("_is_word_fake(%s)" % q)
+        if not tests:
+            con.execute("update gov_dataset set realness=?, realness_note=?, rows_clean=?, rows_fabricated=0, "
+                        "clean_view=? where key=?",
+                        ["untestable", "no text column to test; rows taken as they are", nrows, tn, key])
+            counts["untestable"] += 1
+            continue
 
+        bad = "(" + " or ".join(tests) + ")"
+        tot, fab = con.execute("select count(*), sum(case when %s then 1 else 0 end) from %s" % (bad, tn)).fetchone()
+        fab = int(fab or 0)
+        clean = int(tot) - fab
+        share = (fab / tot) if tot else 0.0
+
+        view = ("g_" + re.sub(r"^gov_", "", tn))[:120]
+        if share >= MOSTLY_FAKE:
+            verdict = "fabricated"
+            note = "every row carries staging fill; nothing usable"
+            con.execute("drop view if exists %s" % view)
+            view_out = None
+        else:
+            verdict = "clean" if share <= MOSTLY_CLEAN else "mixed"
+            note = ("%d of %d rows are staging fill and are excluded by %s" % (fab, tot, view)) if fab else \
+                   ("all %d rows pass; %s is the whole table" % (tot, view))
+            con.execute("create or replace view %s as select * from %s where not %s" % (view, tn, bad))
+            view_out = view
+        counts[verdict] += 1
+        con.execute("update gov_dataset set realness=?, realness_note=?, rows_clean=?, rows_fabricated=?, "
+                    "clean_view=? where key=?", [verdict, note, clean, fab, view_out, key])
+        if a.verbose or verdict != "clean":
+            print("  %-11s %-44s %s" % (verdict.upper(), (ent + "/" + ds.replace("-open-api", ""))[:44], note[:64]))
+
+    # The only view anything downstream should read. clean_view is where the rows actually are.
     con.execute("""create or replace view v_gov_usable as
-                   select entity, dataset, title, table_name, rows_loaded, realness, realness_note
+                   select entity, dataset, title, clean_view, rows_clean, rows_fabricated, realness, realness_note
                    from gov_dataset
-                   where materialised and realness = 'real' and rows_loaded > 0
-                   order by rows_loaded desc""")
+                   where materialised and clean_view is not null and rows_clean > 0
+                   order by rows_clean desc""")
+    con.execute("""create or replace view v_gov_rejected as
+                   select entity, dataset, title, status, realness, realness_note, rows_fabricated
+                   from gov_dataset
+                   where realness in ('fabricated') or status <> 'ok'
+                   order by entity, dataset""")
+
     print()
-    for k in ("real", "suspect", "scrambled", "thin"):
-        print("  %-10s %3d datasets" % (k, counts.get(k, 0)))
-    print("\n  v_gov_usable is the only view anything downstream should read.")
+    for k in ("clean", "mixed", "fabricated", "untestable"):
+        print("  %-11s %3d datasets" % (k, counts[k]))
+    tot = con.execute("select sum(rows_clean), sum(rows_fabricated) from gov_dataset "
+                      "where clean_view is not null").fetchone()
+    print("\n  rows through the gate: %s clean, %s excluded as fill"
+          % (f"{int(tot[0] or 0):,}", f"{int(tot[1] or 0):,}"))
+    print("  read v_gov_usable and query the clean_view it names.")
     con.close()
 
 
