@@ -39,11 +39,27 @@ for seg in SEG["segments"]:
             al = SEG["aliases"].get(name, [name.lower()])
             reg = {norm_name(p["project"], al): p for p in d.get("dld_projects_2026", [])}
             trd = {norm_name(t["project"], al): t for t in tx.get("projects", [])}
+            # 12 Sep 2026: was `sorted(glob(...))[-1:]` - the LAST sheet file by name. These developers
+            # post one PDF per project on different days, so that showed whichever project happened to
+            # arrive last and hid the rest; for Fakhruddin the last file is a floor-plan set with no
+            # units at all, so the board saw nothing. Union per project instead, same as the drill.
+            from build_avail_index import latest_projects                      # noqa: E402
+            _lp = latest_projects().get(k) or {"projects": [], "meta": {}}
+
+            def _pj_units(pj):
+                """Unit rows if we have them; else the type table's own counts (level='type')."""
+                if pj.get("units"):
+                    return len(pj["units"]), sorted({u[1] for u in pj["units"]})
+                if pj.get("types"):
+                    return (sum(t.get("n") or 0 for t in pj["types"]), [t["t"] for t in pj["types"]])
+                return 0, []
+
             sheet = {}
-            for f in sorted(glob.glob(os.path.join(ROOT, "data", "avail", k + "_20*.json")))[-1:]:
-                av = json.load(open(f, encoding="utf-8"))
-                for pj in av.get("projects", []):
-                    sheet[norm_name(pj["p"] + ((" " + pj["block"]) if pj.get("block") and pj["block"].lower() not in pj["p"].lower() else ""), al)] = {"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}), "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")}
+            for pj in _lp["projects"]:
+                n, ty = _pj_units(pj)
+                sheet[norm_name(pj["p"] + ((" " + pj["block"]) if pj.get("block") and pj["block"].lower() not in pj["p"].lower() else ""), al)] = {
+                    "units": n, "types": ty, "plan": pj.get("plan"), "completion": pj.get("completion"),
+                    "sheet": _lp["meta"].get(pj["p"], {}).get("as_of"), "level": pj.get("level") or "unit"}
             def find(dct, nn):
                 return next((v for kk, v in dct.items() if same(kk, nn)), None)
             # Sheets name projects the way the sales desk does ("Treppan Tower", "Hado Tower A", "Passo Avita"); the portfolio names
@@ -63,11 +79,12 @@ for seg in SEG["segments"]:
                 return {w for w in re.sub(r"[^a-z0-9 ]", " ", t).split() if w not in FILL and len(w) > 1 and w not in al}
             # sheet blocks keyed by their PROJECT name (the block label is a sub-division, never a different project)
             blocks = {}
-            for f in sorted(glob.glob(os.path.join(ROOT, "data", "avail", k + "_20*.json")))[-1:]:
-                av = json.load(open(f, encoding="utf-8"))
-                for pj in av.get("projects", []):
-                    blocks.setdefault(pj["p"], []).append({"units": len(pj["units"]), "types": sorted({u[1] for u in pj["units"]}),
-                                                          "plan": pj.get("plan"), "completion": pj.get("completion"), "sheet": av.get("sheet_date")})
+            for pj in _lp["projects"]:
+                n, ty = _pj_units(pj)
+                blocks.setdefault(pj["p"], []).append({"units": n, "types": ty, "plan": pj.get("plan"),
+                                                      "completion": pj.get("completion"),
+                                                      "sheet": _lp["meta"].get(pj["p"], {}).get("as_of"),
+                                                      "level": pj.get("level") or "unit"})
             cards = [o["name"] for o in props if o["kind"] == "ours"] + [pr["name"] for pr in port["properties"]]
             card_toks = {c: toks(c) for c in cards}
             assign = {}                                                   # project name -> card name
@@ -90,6 +107,11 @@ for seg in SEG["segments"]:
                         "completion": next((h.get("completion") for h in hits if h.get("completion")), None),
                         "sheet": max(h.get("sheet") or "" for h in hits) or None, "blocks": len(hits),
                         "projects": sorted({pj_name for pj_name, c in assign.items() if c == raw_name})}
+            # A type-level project is a project in its own right, not a block of another one. Name
+            # matching folded "Treppan Vision" into a sibling Treppan card and its 463 units vanished,
+            # so keep it out of the assignment and let it take its own card below.
+            for _t in {pj["p"] for pj in _lp["projects"] if pj.get("level") == "type"}:
+                assign.pop(_t, None)
             unbound = [pj for pj in blocks if pj not in assign]
             if unbound: print("  %-12s sheet projects with no card: %s" % (k, unbound))
             # the modelled ("ours") cards absorb their sheet + trading stats and block a duplicate portfolio card
@@ -110,6 +132,41 @@ for seg in SEG["segments"]:
                               "tx": (t or {}).get("tx"), "median_aed_per_sqm": (t or {}).get("median_aed_per_sqm"), "last": (t or {}).get("last"),
                               "sheet": sh, "gated": pr.get("downloads_gated") or []})
                 seen.add(nn.replace(" ", "")); seen.add(pr["name"].lower())
+            # A project we hold availability for, that matches no modelled card and no website card,
+            # used to be printed as "unbound" and then dropped - it appeared nowhere. Treppan Vision
+            # is exactly that: a pre-launch the developer had not yet put on its own site, whose only
+            # numbers are the broker pack's type table. Give it its own card so the developer's
+            # property list is everything we hold, not only what the website happens to publish.
+            _by_name = {pj["p"]: pj for pj in _lp["projects"]}
+            for pj_name in unbound:
+                pj = _by_name.get(pj_name) or {}
+                nn = norm_name(pj_name, al)
+                if nn.replace(" ", "") in seen:
+                    continue
+                if re.match(r"^(unknown|untitled|n/?a)\b", pj_name.strip(), re.I):
+                    # the extractor's placeholder for a sheet whose header it could not read - a
+                    # real gap to fix upstream, never a property to show a broker
+                    print("  %-12s PLACEHOLDER project not carded: %r (%d units need a real name)"
+                          % (k, pj_name, _pj_units(pj)[0]))
+                    continue
+                n, ty = _pj_units(pj)
+                r, t = find(reg, nn), find(trd, nn)
+                props.append({"kind": "sheet", "name": pj_name,
+                              "area": pj.get("location") or (r or {}).get("area") or (t or {}).get("area"),
+                              "location": pj.get("location"),
+                              "units": pj.get("total_units") or n or None,
+                              "handover": pj.get("completion"),
+                              "plans": [pj["plan"]] if pj.get("plan") else [],
+                              "mix": ty,
+                              "types": pj.get("types") or [],
+                              "level": pj.get("level") or "unit",
+                              "note": pj.get("source_note"),
+                              "dld": {"status": (r or {}).get("status"), "pct": (r or {}).get("pct_complete"),
+                                      "value_aed": (r or {}).get("value_aed")} if r else None,
+                              "tx": (t or {}).get("tx"), "median_aed_per_sqm": (t or {}).get("median_aed_per_sqm"),
+                              "sheet": find_sheet(nn, pj_name) or {"units": n, "types": ty,
+                                                                   "sheet": _lp["meta"].get(pj_name, {}).get("as_of")}})
+                seen.add(nn.replace(" ", "")); seen.add(pj_name.lower())
             # sort: on the availability sheet first, then trading volume, then handover
             props[len(OURS.get(k, [])):] = sorted(props[len(OURS.get(k, [])):], key=lambda x: (0 if x.get("sheet") else 1, -(x.get("tx") or 0), x.get("handover") or "z"))
         for p in d.get("dld_projects_2026", []):

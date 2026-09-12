@@ -65,15 +65,79 @@ def latest_sheets():
     return {dev: (path, auto) for dev, (rank, path, auto) in best.items()}
 
 
+def latest_projects():
+    """Newest sheet PER PROJECT, unioned per developer.
+
+    12 Sep 2026: these developers post ONE PDF PER PROJECT, on different days, so a developer's
+    inventory does not live in a single sheet. Picking one sheet per developer let an 11 Sep
+    update covering only Inaura stand in for the whole of Arada - 415 units collapsed to 19, and
+    fourteen projects disappeared from the board without a word. Same displacement failure as the
+    brochure one fixed on 11 Sep, one layer further out.
+
+    Each project takes its newest appearance and carries its own as_of, so a project that has not
+    been re-posted reads as stale rather than vanishing. A project absent from a newer sheet is
+    NOT treated as sold out - we cannot tell that apart from "not updated today", and dropping
+    real inventory is the worse error.
+
+    Returns {dev: {"projects": [...], "meta": {project: {...}}, "as_of", "auto"}}.
+    """
+    by_dev = {}
+    for p in glob.glob(os.path.join(AVAIL, "*.json")):
+        b = os.path.basename(p)
+        if b.startswith("_"):
+            continue
+        m = re.match(r"([a-z0-9]+)_(\d{4}-\d{2}-\d{2})(_auto)?\.json$", b)
+        if not m:
+            continue
+        dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
+        # inventory means unit rows OR a type-level summary (a broker pack's "Prices & Availability"
+        # table). A sheet with neither is a brochure or a floor-plan set and carries nothing.
+        try:
+            _d = json.load(open(p, encoding="utf-8"))
+        except Exception:
+            continue
+        if not any((pr.get("units") or pr.get("types")) for pr in _d.get("projects") or []):
+            continue
+        by_dev.setdefault(dev, []).append(((date, 0 if auto else 1), p, auto, date))
+
+    out = {}
+    for dev, sheets in by_dev.items():
+        sheets.sort(key=lambda x: x[0])          # oldest first so a newer sheet overwrites its projects
+        projects, meta, came_from = collections.OrderedDict(), {}, {}
+        for _rank, path, auto, date in sheets:
+            d = json.load(open(path, encoding="utf-8"))
+            for pr in d.get("projects") or []:
+                if not (pr.get("units") or pr.get("types")):
+                    continue
+                name = pr["p"]
+                if name in projects and came_from.get(name) == path:
+                    # SAME sheet listing a project twice - Fakhruddin posts one PDF per project and
+                    # they merge into one day's sheet, so "Treppan Tower" appears more than once.
+                    # These are additional units, not a newer reading: overwriting loses them.
+                    seen = {tuple(u[:2]) for u in projects[name]["units"]}
+                    projects[name]["units"].extend(u for u in pr["units"] if tuple(u[:2]) not in seen)
+                else:
+                    projects[name] = json.loads(json.dumps(pr))     # copy: we mutate units above
+                    came_from[name] = path
+                meta[name] = {"as_of": d.get("sheet_date") or date, "auto": auto,
+                              "received": d.get("received"), "sheet": os.path.basename(path)}
+        if projects:
+            out[dev] = {"projects": list(projects.values()), "meta": meta,
+                        "as_of": max(m["as_of"] for m in meta.values()),
+                        "auto": any(m["auto"] for m in meta.values())}
+    return out
+
+
 def claimed_for_dev(dev):
-    """Claimed-availability block for drill_<key>, from the newest sheet of this developer (None if no sheet)."""
-    sheets = latest_sheets()
-    if dev not in sheets:
-        return None
-    path, auto = sheets[dev]
-    d = json.load(open(path, encoding="utf-8"))
-    if not sum(len(p.get("units") or []) for p in d.get("projects") or []):
+    """Claimed-availability block for drill_<key>, unioned across this developer's sheets (None if none)."""
+    devs = latest_projects()
+    if dev not in devs:
         return None                              # brochure only: leave the drill page's existing claimed block alone
+    info = devs[dev]
+    auto = info["auto"]
+    d = {"projects": info["projects"], "sheet_date": info["as_of"],
+         "received": max((m.get("received") or "") for m in info["meta"].values()) or None,
+         "developer": dev.title()}
     rooms = collections.OrderedDict()
     for p in d["projects"]:
         for u in p["units"]:
@@ -82,22 +146,33 @@ def claimed_for_dev(dev):
             if u[3]:
                 r["from"] = u[3] if r["from"] is None else min(r["from"], u[3])
     return {"as_of": d.get("sheet_date"), "received": d.get("received"),
-            "source": d.get("developer", dev.title()) + (" sheet (auto-read; verify before quoting)" if auto else " sheet"),
+            "source": d.get("developer", dev.title()) + (" sheets (auto-read; verify before quoting)" if auto else " sheets"),
             "rooms": list(rooms.values()),
-            "detail": [{"p": p["p"], "completion": p.get("completion"), "plan": p.get("plan"), "units": p["units"]} for p in d["projects"]]}
+            # each project carries the date of the sheet it came from, so a project nobody has
+            # re-posted reads as stale in the app instead of silently passing as today's number
+            "detail": [{"p": p["p"], "completion": p.get("completion"), "plan": p.get("plan"),
+                        "as_of": info["meta"].get(p["p"], {}).get("as_of"),
+                        "units": p["units"]} for p in d["projects"]]}
 
 
 def main():
     tok = env_token("INGEST_TOKEN")
     read_key = env_token("READ_KEY") or os.environ.get("READ_KEY")
-    sheets, out = latest_sheets(), []
-    for dev, (path, auto) in sorted(sheets.items()):
-        d = json.load(open(path, encoding="utf-8"))
-        n_units = sum(len(p["units"]) for p in d["projects"])
-        if not n_units:                          # nothing but brochures from this developer - no availability to show
+    devs, out = latest_projects(), []
+    for dev, info in sorted(devs.items()):
+        n_units = sum(len(p.get("units") or []) for p in info["projects"])
+        tl = [p for p in info["projects"] if p.get("level") == "type"]
+        n_type = sum(sum(t.get("n") or 0 for t in p.get("types") or []) for p in tl)
+        if not n_units and not n_type:           # nothing but brochures from this developer
             continue
         key = DRILL_KEY.get(dev)
-        out.append({"sheet": "%s %s" % (dev.title(), d.get("sheet_date", "")), "note": "%d units · %d projects%s" % (n_units, len({p["p"] for p in d["projects"]}), " · auto-read" if auto else ""),
+        # say plainly which part is unit-by-unit and which is only a developer type summary, so the
+        # strip never implies we hold 463 units we can actually quote
+        note = "%d units · %d projects" % (n_units, len(info["projects"]))
+        if n_type:
+            note += " · +%d in %d type-level" % (n_type, len(tl))
+        out.append({"sheet": "%s %s" % (dev.title(), info["as_of"]),
+                    "note": note + (" · auto-read" if info["auto"] else ""),
                     "mapped": bool(key), "d": key})
     idx = {"updated": dt.date.today().isoformat(), "sheets": out}
     r = push("avail_index", idx, tok)

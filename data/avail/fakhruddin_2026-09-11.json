@@ -1,0 +1,59 @@
+{
+ "source_file": [
+  "1788611520000_Treppan VIsion brokre pack-1-sep.pdf"
+ ],
+ "sheet_date": "2026-09-11",
+ "received": "2026-09-12",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Fakhruddin",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Treppan Vision",
+   "level": "type",
+   "units": [],
+   "types": [
+    {
+     "t": "Smart Studio",
+     "from_sqft": 378.0,
+     "from_aed": 799000.0,
+     "n": 252,
+     "promo_aed": 735080.0
+    },
+    {
+     "t": "Smart Flexi 1 BR",
+     "from_sqft": 776.0,
+     "from_aed": 1373000.0,
+     "n": 108,
+     "promo_aed": 1263160.0
+    },
+    {
+     "t": "Smart Flexi 2 BR",
+     "from_sqft": 1285.0,
+     "from_aed": 2014000.0,
+     "n": 48,
+     "promo_aed": 1852880.0
+    },
+    {
+     "t": "Offices · Levels 1 2",
+     "from_sqft": 454.0,
+     "from_aed": 925000.0,
+     "n": 48,
+     "promo_aed": null
+    },
+    {
+     "t": "Retail · Ground & Mezzanine",
+     "from_sqft": 4588.0,
+     "from_aed": 11375000.0,
+     "n": 7,
+     "promo_aed": null
+    }
+   ],
+   "completion": null,
+   "plan": null,
+   "source_note": "type-level summary from the developer's broker pack (1788611520000_Treppan VIsion brokre pack-1-sep.pdf, p28); starting prices, not unit-by-unit availability",
+   "location": "Dubai Land Residence Complex (DLRC) Dubai, UAE",
+   "total_units": 463
+  }
+ ]
+}
