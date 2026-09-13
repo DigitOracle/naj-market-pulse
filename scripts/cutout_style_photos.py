@@ -9,7 +9,7 @@ is the default look the Worker places. Idempotent: nothing to do -> exits quietl
 
 Usage: python scripts/cutout_style_photos.py [--force]
 """
-import base64, io, json, sys, urllib.error, urllib.parse, urllib.request
+import base64, datetime, io, json, os, sys, urllib.error, urllib.parse, urllib.request
 
 W = "https://azimuth-2.digitalchemy.workers.dev"
 H = {"User-Agent": "najma-market-pulse/1.0"}
@@ -87,6 +87,58 @@ def cutout(jpg):
     buf = io.BytesIO(); out.save(buf, "PNG"); return buf.getvalue()
 
 
+VERDICTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "style", "me_verdicts.json")
+
+
+def usable(name):
+    """A cut-out can only be placed if it is colour and full-length standing.
+    Seated or half-body shots come out wide; black-and-white cannot sit in a colour scene."""
+    from PIL import Image
+    try:
+        im = Image.open(io.BytesIO(get(name + "_cut")))
+    except Exception:
+        return (False, "not cut")
+    w, h = im.size
+    ratio = w / float(h or 1)
+    sm = im.convert("RGB").resize((60, 100))
+    px = list(sm.get_flattened_data()) if hasattr(sm, "get_flattened_data") else list(sm.getdata())
+    sat = sum(max(r, g, b) - min(r, g, b) for r, g, b in px) / float(len(px))
+    if sat < 12: return (False, "black and white")
+    if ratio > 0.46: return (False, "not full-length standing (%.2f wide)" % ratio)
+    return (True, "ok %.2f" % ratio)
+
+
+def publish_pool(names, tok, fresh, force):
+    """13 Sep 2026 - tell the Worker which photos of her can be placed (img_style_me_pool), so it can offer her
+    a choice of up to three for each picture. Verdicts are cached locally: a photo is only measured again when it
+    is new, re-cut, or --force, so the 30-minute schedule does not re-download every cut-out. The pool is pushed
+    only when it changes."""
+    try:
+        cache = json.load(open(VERDICTS, encoding="utf-8"))
+    except Exception:
+        cache = {}
+    verdicts = cache.get("verdicts", {})
+    for nm in names:
+        if force or nm in fresh or nm not in verdicts:
+            ok_, why = usable(nm)
+            verdicts[nm] = {"usable": ok_, "why": why}
+    verdicts = {nm: verdicts[nm] for nm in names if nm in verdicts}
+    pool = [nm for nm in names if verdicts.get(nm, {}).get("usable")]
+    if force or pool != cache.get("pushed_pool"):
+        body = json.dumps({"at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+                           "usable": pool, "verdicts": verdicts}).encode()
+        ok = push("style_me_pool", body, tok, ct="application/json")
+        print("pool pushed:", pool, "->", ok)
+        if ok:
+            cache["pushed_pool"] = pool
+    else:
+        print("pool unchanged:", pool)
+    cache["verdicts"] = verdicts
+    os.makedirs(os.path.dirname(VERDICTS), exist_ok=True)
+    json.dump(cache, open(VERDICTS, "w", encoding="utf-8"), indent=1)
+    return verdicts
+
+
 def main():
     force = "--force" in sys.argv
     tok = env_token("INGEST_TOKEN")
@@ -106,8 +158,6 @@ def main():
     if not names and exists("style_me"):
         names = ["style_me"]
     todo = [nm for nm in names if force or not exists(nm + "_cut")]
-    if not todo:
-        print("nothing new"); return
     for nm in todo:
         print("cutting", nm)
         png = cutout(get(nm))
@@ -116,28 +166,15 @@ def main():
         for k in ("warm", "blue", "day", "soft"):
             push(nm + "_cut_" + k, g[k], tok)
         print("  done", nm, {k: round(len(v) / 1024) for k, v in g.items()}, "KB")
-    def usable(name):
-        """A cut-out can only be placed if it is colour and full-length standing.
-        Seated or half-body shots come out wide; black-and-white cannot sit in a colour scene."""
-        from PIL import Image
-        try:
-            im = Image.open(io.BytesIO(get(name + "_cut")))
-        except Exception:
-            return (False, "not cut")
-        w, h = im.size
-        ratio = w / float(h or 1)
-        sm = im.convert("RGB").resize((60, 100))
-        px = list(sm.get_flattened_data()) if hasattr(sm, "get_flattened_data") else list(sm.getdata())
-        sat = sum(max(r, g, b) - min(r, g, b) for r, g, b in px) / float(len(px))
-        if sat < 12: return (False, "black and white")
-        if ratio > 0.46: return (False, "not full-length standing (%.2f wide)" % ratio)
-        return (True, "ok %.2f" % ratio)
+    verdicts = publish_pool(names, tok, set(todo), force)
+    if not todo:
+        print("nothing new"); return
 
     newest = None
     for nm in reversed(names):
-        ok_, why = usable(nm)
-        print("  %-16s %s" % (nm, why))
-        if ok_ and newest is None: newest = nm
+        v = verdicts.get(nm, {})
+        print("  %-16s %s" % (nm, v.get("why")))
+        if v.get("usable") and newest is None: newest = nm
     if not newest:
         print("no photo is usable as the default look; leaving the current one alone"); return
     print("default look <-", newest)
@@ -145,7 +182,6 @@ def main():
     for k in ("warm", "blue", "day", "soft"):
         push("style_me_cut_" + k, get(newest + "_cut_" + k), tok)
     print("ok")
-
 
 if __name__ == "__main__":
     main()
