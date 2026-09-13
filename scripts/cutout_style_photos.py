@@ -77,14 +77,39 @@ def grades(src_png):
     return res
 
 
+# 13 Sep 2026: alpha matting (pymatting) asked for 1.86 GiB on one of her photos and crashed the whole run, so her new
+# photos were never cut and the pool was never refreshed. Try the full-quality setting first, then lighter ones; the
+# edge is eroded and feathered in grades() either way, so the plain-mask fallback still places cleanly.
+MATTING_ATTEMPTS = [
+    (1400, True, 8, "1400px matted"),
+    (1400, True, 3, "1400px matted, narrow edge"),
+    (1000, True, 8, "1000px matted"),
+    (1400, False, 0, "1400px mask only"),
+]
+
+
 def cutout(jpg):
     from PIL import Image
     from rembg import remove, new_session
-    im = Image.open(io.BytesIO(jpg)).convert("RGB"); im.thumbnail((1400, 1400))
-    out = remove(im, session=new_session("u2net_human_seg"), alpha_matting=True,
-                 alpha_matting_foreground_threshold=240, alpha_matting_background_threshold=10, alpha_matting_erode_size=8)
-    out = out.crop(out.getbbox())
-    buf = io.BytesIO(); out.save(buf, "PNG"); return buf.getvalue()
+    session = new_session("u2net_human_seg")
+    last = None
+    for size, matte, erode, label in MATTING_ATTEMPTS:
+        try:
+            im = Image.open(io.BytesIO(jpg)).convert("RGB"); im.thumbnail((size, size))
+            if matte:
+                out = remove(im, session=session, alpha_matting=True, alpha_matting_foreground_threshold=240,
+                             alpha_matting_background_threshold=10, alpha_matting_erode_size=erode)
+            else:
+                out = remove(im, session=session)
+            out = out.crop(out.getbbox())
+            buf = io.BytesIO(); out.save(buf, "PNG")
+            print("  cut with", label)
+            return buf.getvalue()
+        except MemoryError as e:
+            last = e; print("  out of memory at", label, "- trying lighter")
+        except Exception as e:
+            last = e; print("  failed at", label, "-", str(e)[:80])
+    raise RuntimeError("every cut-out setting failed: %s" % str(last)[:120])
 
 
 VERDICTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "style", "me_verdicts.json")
@@ -158,15 +183,21 @@ def main():
     if not names and exists("style_me"):
         names = ["style_me"]
     todo = [nm for nm in names if force or not exists(nm + "_cut")]
-    for nm in todo:
+    cut_ok = []
+    for nm in todo:                                  # one photo failing must not stop the others or the pool refresh
         print("cutting", nm)
-        png = cutout(get(nm))
-        g = grades(png)
-        push(nm + "_cut", g["base"], tok)
-        for k in ("warm", "blue", "day", "soft"):
-            push(nm + "_cut_" + k, g[k], tok)
-        print("  done", nm, {k: round(len(v) / 1024) for k, v in g.items()}, "KB")
-    verdicts = publish_pool(names, tok, set(todo), force)
+        try:
+            png = cutout(get(nm))
+            g = grades(png)
+            push(nm + "_cut", g["base"], tok)
+            for k in ("warm", "blue", "day", "soft"):
+                push(nm + "_cut_" + k, g[k], tok)
+            cut_ok.append(nm)
+            print("  done", nm, {k: round(len(v) / 1024) for k, v in g.items()}, "KB")
+        except Exception as e:
+            print("  SKIPPED", nm, "-", str(e)[:160])
+    verdicts = publish_pool(names, tok, set(cut_ok), force)
+    todo = cut_ok
     if not todo:
         print("nothing new"); return
 
