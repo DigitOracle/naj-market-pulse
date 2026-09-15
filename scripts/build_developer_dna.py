@@ -135,35 +135,57 @@ def partial_match(project, seed, aliases=()):
 
 
 def developer_numbers(con_, seg):
-    """DLD developer numbers per board developer, from the English developer names in the project register (whole-word alias match)."""
+    """DLD developer numbers per board developer, from the English developer names in the project register (whole-word alias match).
+    Numbers normalised by keys.norm_number ('2537.00' == '2537')."""
+    from keys import norm_number
     names = con_.execute("select distinct DEVELOPER_NUMBER, DEVELOPER_EN from projects where DEVELOPER_NUMBER is not null").fetchall()
     out = {}
     for s in seg["segments"]:
         for dev in s["developers"]:
             al = seg["aliases"].get(dev, [dev.lower()])
-            out[dev] = {str(n).strip() for n, en in names if any(wmatch(en, a) for a in al)}
+            out[dev] = {norm_number(n) for n, en in names if norm_number(n) and any(wmatch(en, a) for a in al)}
     return out
 
 
-def register_developers():
-    """Project name (upper) -> DLD developer numbers, from the lake's project register. Empty when the lake cannot be opened
-    (the veto is then simply not applied, and the run says so)."""
+def register_developers(con_=None):
+    """Project name (upper) -> DLD developer numbers. Empty when nothing can be read (the veto is then simply not applied, and the
+    run says so). 15 Sep 2026 (digital thread Q1/Q3): numbers normalised by keys.norm_number on both sides; the project numbers come
+    from lk_project_numbers (register extract + the 2026 registrations, register_joins sales_projects) when the lake has it, else
+    from lk_dld_projects; and the 2026 registrations' own English names (naj.duckdb projects) are added directly, so a launch the
+    6 Jul extract lacks can still be vetoed."""
+    from keys import norm_number
+    reg, notes = {}, []
+
+    def add(nm, dn):
+        n = norm_number(dn)
+        if nm and n:
+            reg.setdefault(str(nm).strip().upper(), set()).add(n)
     try:
         import lake
         lk = lake.connect(read_only=True)
+        A = lake.ALIAS
+        have = {r[0] for r in lk.execute("select table_name from information_schema.tables where table_catalog = '%s'" % A).fetchall()}
+        numbers = "%s.lk_project_numbers" % A if "lk_project_numbers" in have else "%s.lk_dld_projects" % A
+        num = "try_cast(try_cast(trim(cast(%s as varchar)) as double) as bigint)"
         rows = lk.execute(
-            "select upper(trim(n.project_en)), cast(p.developer_number as varchar) from %s.lk_project_number_names n "
-            "join %s.lk_dld_projects p on cast(p.project_number as varchar) = cast(n.project_number as varchar) "
+            "select n.project_en, p.developer_number from %s.lk_project_number_names n join %s p on %s = %s "
             "where n.project_en is not null and p.developer_number is not null "
-            "union select upper(trim(t.portal_project_en)), cast(p.developer_number as varchar) from %s.lk_txn_register t "
-            "join %s.lk_dld_projects p on cast(p.project_number as varchar) = cast(t.project_number as varchar) "
-            "where t.portal_project_en is not null and p.developer_number is not null" % ((lake.ALIAS,) * 4)).fetchall()
-        reg = {}
+            "union select t.portal_project_en, p.developer_number from %s.lk_txn_register t join %s p on %s = %s "
+            "where t.portal_project_en is not null and p.developer_number is not null" % (
+                A, numbers, num % "p.project_number", num % "n.project_number", A, numbers, num % "p.project_number", num % "t.project_number")).fetchall()
         for nm, dn in rows:
-            reg.setdefault(nm, set()).add(str(dn).strip())
-        return reg, None
+            add(nm, dn)
+        notes.append("project numbers from " + numbers.split(".")[-1])
     except Exception as e:
-        return {}, "register veto unavailable: %s" % str(e)[:160]
+        notes.append("lake register unavailable: %s" % str(e)[:120])
+    if con_ is not None:
+        try:
+            for nm, dn in con_.execute("select PROJECT_EN, DEVELOPER_NUMBER from projects where PROJECT_EN is not null").fetchall():
+                add(nm, dn)
+            notes.append("plus the 2026 registrations")
+        except Exception as e:
+            notes.append("2026 registrations unavailable: %s" % str(e)[:80])
+    return reg, (None if reg else "register veto unavailable: " + "; ".join(notes))
 
 
 def tx_aggregates(con_):
@@ -238,7 +260,7 @@ def main():
     dac_key = os.environ.get("DAC_KEY")
     agg = tx_aggregates(con)                      # every transaction project once; each developer filters it (no per-name LIKE scans)
     dev_nums = developer_numbers(con, SEG)        # DLD developer numbers per board developer (English names, whole word)
-    reg_dev, reg_note = register_developers()     # project -> registered developer numbers (lake), for the veto
+    reg_dev, reg_note = register_developers(con)  # project -> registered developer numbers (lake + 2026 registrations), for the veto
     all_aliases = {d: SEG["aliases"].get(d, [d.lower()]) for s in SEG["segments"] for d in s["developers"]}
     if reg_note:
         print(reg_note)

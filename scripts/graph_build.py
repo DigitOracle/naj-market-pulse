@@ -79,6 +79,39 @@ MATRIX = {  # rows: source; columns: ATTRS in order
 }
 
 
+def amenity_ids(items):
+    """Digital thread Q8 (15 Sep 2026): amenity ids from content, never list position. The id was AM-<position in amenities.json>,
+    so adding OSM malls and supermarkets on 15 Sep (2,730 -> 3,181 items) would have silently repointed hundreds of ids at the next
+    build. Now AM-<sha1 of kind | lon | lat (5 dp) | name>[:12], the same whatever order the list is in. Where kind, place and
+    name coincide (BurJuman station on the Red and the Green line) every member of that group adds its detail, so which one is which
+    never depends on order; an exact duplicate left over gets -2, -3 in list order."""
+    import hashlib
+
+    def h(*parts):
+        return "AM-" + hashlib.sha1("|".join(parts).encode("utf-8")).hexdigest()[:12]
+
+    def base(a, with_detail=False):
+        try:
+            lon, lat = "%.5f" % float(a.get("lon")), "%.5f" % float(a.get("lat"))
+        except (TypeError, ValueError):
+            lon = lat = ""
+        parts = [str(a.get("k") or ""), lon, lat, " ".join((a.get("n") or "").lower().split())]
+        return h(*(parts + [str(a.get("x") or "")] if with_detail else parts))
+
+    first = [base(a) for a in items]
+    counts = {}
+    for b in first:
+        counts[b] = counts.get(b, 0) + 1
+    ids, taken = [], set()
+    for a, b in zip(items, first):
+        cand = base(a, with_detail=True) if counts[b] > 1 else b
+        out, n = cand, 2
+        while out in taken:
+            out = "%s-%d" % (cand, n); n += 1
+        taken.add(out); ids.append(out)
+    return ids
+
+
 def jload(p, default=None):
     try: return json.load(open(p, encoding="utf-8"))
     except Exception: return default
@@ -130,7 +163,7 @@ def main():
     # ---- amenities (with access), water bodies -----------------------------------------------------------------------------------------
     A = jload(os.path.join(BOARD, "amenities.json"), {"items": []})["items"]
     con.execute("create or replace table amenity (amenity_id varchar primary key, kind varchar, name varchar, lon double, lat double, source varchar, access varchar, detail varchar, district varchar, tel varchar, web varchar, addr varchar, approx boolean)")
-    con.executemany("insert into amenity values (?,?,?,?,?,?,?,?,?,?,?,?,?)", [(f"AM-{i}", a.get("k"), a.get("n"), a.get("lon"), a.get("lat"), a.get("src"), a.get("acc"), a.get("x"), a.get("d"), a.get("tel"), a.get("web"), a.get("ad") or a.get("addr"), bool(a.get("ap"))) for i, a in enumerate(A)])
+    con.executemany("insert into amenity values (?,?,?,?,?,?,?,?,?,?,?,?,?)", [(aid, a.get("k"), a.get("n"), a.get("lon"), a.get("lat"), a.get("src"), a.get("acc"), a.get("x"), a.get("d"), a.get("tel"), a.get("web"), a.get("ad") or a.get("addr"), bool(a.get("ap"))) for aid, a in zip(amenity_ids(A), A)])
     W = jload(os.path.join(BOARD, "water_register.json"), {"bodies": []})["bodies"]
     con.execute("create or replace table water_body (body_id integer primary key, name varchar, named boolean, cls varchar, overture_class varchar, area_ha double, lon double, lat double, district varchar)")
     con.executemany("insert into water_body values (?,?,?,?,?,?,?,?,?)", [(b["id"], b["name"], b["named"], b["cls"], b["overture_class"], b["area_ha"], b["centroid"][0], b["centroid"][1], b.get("district")) for b in W])

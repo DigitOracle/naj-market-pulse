@@ -20,7 +20,11 @@ A rate under 80% of the job's last accepted run is HELD - nothing replaced, exit
 Raw rows stay on this machine. The DEWA tables keep counts only: no nationality, no identity type.
 Nothing here reaches her board: docs/GOV_DATA_METHODOLOGY.md section 5 still decides that.
 
-Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects makani] [--dry]
+  rent_projects    (15 Sep 2026) Ejari rent rows -> project_id by exact registered name within the rent's own DLD area; every rent
+                   row -> area_id. sales_projects also gained lk_project_numbers: register extract + 2026 registrations, with a
+                   name + area bridge to project_id used only while it agrees with the register on >= 99% (digital thread Q2/Q3/Q5)
+
+Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects makani resident_mix building_activity] [--dry]
 """
 import csv, datetime as dt, json, glob, os, re, sys, time
 
@@ -74,18 +78,9 @@ def read(paths):
         "'%s'" % lake._p(p) for p in paths)
 
 
-def num(col):
-    """'3656.00', ' 3656', '3656' -> 3656"""
-    return "try_cast(try_cast(trim(cast(%s as varchar)) as double) as bigint)" % col
-
-
-def parcel_key(col):
-    """The three spellings of one parcel: '6830847', '6830847.00' and '683-847' (community-plot) -> 6830847"""
-    x = "trim(cast(%s as varchar))" % col
-    return ("(case when regexp_matches({x}, '^[0-9]+$') then try_cast({x} as bigint)"
-            " when regexp_matches({x}, '^[0-9]+[.][0-9]+$') then try_cast(try_cast({x} as double) as bigint)"
-            " when regexp_matches({x}, '^[0-9]{{1,4}}-[0-9]{{1,4}}$')"
-            " then try_cast(split_part({x}, '-', 1) as bigint) * 10000 + try_cast(split_part({x}, '-', 2) as bigint) end)").format(x=x)
+# 15 Sep 2026 (digital thread Q1): the number and parcel-key normalisers moved to scripts/keys.py so every script joins register
+# numbers the same way; the names num / parcel_key are kept here for the jobs below.
+from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql  # noqa: E402
 
 
 def one(con, sql):
@@ -257,6 +252,79 @@ def job_service_charges(con):
                        "residential charge, median of %s project-year-group totals: %.2f AED per sq ft a year" % (format(med[1], ","), med[0] or 0)]}
 
 
+def project_numbers(con):
+    """Digital thread Q2 + Q3 (15 Sep 2026): one table of every DLD project number we hold, with its project_id where one can be
+    established, and its developer number.
+
+      numbers      the projects register extract (dld__projects, 3,039 rows, extract 6 Jul 2026 - the newest the portal holds)
+                   + the DLD projects CSV of 2026 registrations (data/projects-YYYY-MM-DD.csv, numbers up to 4557) the extract lacks
+      project_id   the register's own id; else a bridge: the number's English project name + area_id (from the portal sales rows
+                   that carry the number, and from the 2026 CSV) matched exactly to ONE project_id in the buildings, land and units
+                   registers. The bridge is used only when it agrees with the register on >= 99% of the numbers both hold.
+      developer    the register's developer_number, else the 2026 CSV's
+
+    Leaves temp table j_projects (project_number, project_id, developer_number, project_id_method, number_source) and returns report
+    lines. Needs temp table j_portal."""
+    PR = read(register_files("projects", "dld__projects__*.csv"))
+    con.execute("""create or replace temp table j_reg_projects as
+        select %s project_number, %s project_id, %s developer_number from %s where %s is not null""" % (
+        num("project_number"), num("project_id"), num("developer_number"), PR, num("project_number")))
+    lines = []
+    y26 = sorted(glob.glob(os.path.join(ROOT, "data", "projects-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].csv")))
+    if y26:
+        con.execute("""create or replace temp table j_2026 as
+            select %s project_number, %s developer_number, %s name_norm, upper(trim(AREA_EN)) area_up
+            from read_csv('%s', all_varchar=true, header=true) where %s is not null""" % (
+            num("PROJECT_NUMBER"), num("DEVELOPER_NUMBER"), name_norm_sql("PROJECT_EN"), lake._p(y26[-1]), num("PROJECT_NUMBER")))
+    else:
+        con.execute("create or replace temp table j_2026 (project_number bigint, developer_number bigint, name_norm varchar, area_up varchar)")
+    parts = [p for name, pattern in (("buildings", "dld__buildings__*.csv"), ("land_registry", "dld__land_registry__*.csv"),
+                                     ("units", "dld__units__*.csv")) for p in register_files(name, pattern)]
+    con.execute("""create or replace temp table j_right as
+        select name_norm, area_id, count(distinct project_id) ids, any_value(project_id) project_id from (
+            select %s name_norm, %s area_id, %s project_id from %s)
+        where name_norm is not null and area_id is not null and project_id is not null group by 1, 2""" % (
+        name_norm_sql("project_name_en"), num("area_id"), num("project_id"), read(parts)))
+    L = read(register_files("lkp_areas", "dld__lkp_areas__*.csv"))
+    con.execute("""create or replace temp table j_num_names as
+        select project_number, name_norm, area_id from (
+            select project_number, %s name_norm, area_id from j_portal where project_number is not null
+            union all
+            select t.project_number, t.name_norm, l.area_id from j_2026 t
+            left join (select %s area_id, upper(trim(name_en)) area_up from %s) l on l.area_up = t.area_up)
+        where name_norm is not null and area_id is not null group by 1, 2, 3""" % (name_norm_sql("project_name_en"), num("area_id"), L))
+    con.execute("""create or replace temp table j_num_bridge as
+        select n.project_number, count(distinct r.project_id) ids, any_value(r.project_id) project_id
+        from j_num_names n join j_right r on r.name_norm = n.name_norm and r.area_id = n.area_id and r.ids = 1 group by 1""")
+    checks, agree = one(con, """select count(*), count(*) filter (where b.project_id = g.project_id)
+        from j_num_bridge b join (select project_number, any_value(project_id) project_id from j_reg_projects
+                                  where project_id is not null group by 1) g using (project_number) where b.ids = 1""")
+    use_bridge = checks >= 100 and agree >= 0.99 * checks
+    con.execute("""create or replace temp table j_projects as
+        with reg as (select project_number, any_value(project_id) project_id, any_value(developer_number) developer_number
+                     from j_reg_projects group by 1),
+             br as (select project_number, project_id from j_num_bridge where ids = 1 and %s),
+             y as (select project_number, any_value(developer_number) developer_number from j_2026 group by 1),
+             allnum as (select project_number from reg union select project_number from y)
+        select a.project_number, coalesce(reg.project_id, br.project_id) project_id,
+               coalesce(reg.developer_number, y.developer_number) developer_number,
+               case when reg.project_id is not null then 'projects register' when br.project_id is not null then 'register name + area' end project_id_method,
+               case when reg.project_number is not null then 'dld__projects extract' else 'DLD projects CSV (2026 registrations)' end number_source
+        from allnum a left join reg on reg.project_number = a.project_number left join br on br.project_number = a.project_number
+        left join y on y.project_number = a.project_number""" % ("true" if use_bridge else "false"))
+    tot, by_reg, by_bridge, y_only, devs = one(con, """select count(*), count(*) filter (where project_id_method = 'projects register'),
+        count(*) filter (where project_id_method = 'register name + area'), count(*) filter (where number_source <> 'dld__projects extract'),
+        count(developer_number) from j_projects""")
+    lines.append("project numbers held: %s (register extract %s, 2026 registrations only %s) - project_id by register %s, by name + area bridge %s; developer number on %s"
+                 % tuple(format(x, ",") for x in (tot, tot - y_only, y_only, by_reg, by_bridge, devs)))
+    lines.append("name + area bridge vs the register where both hold the number: agrees on %s%s"
+                 % (pct(agree, checks), "" if use_bridge else " - BELOW 99%, bridge not used"))
+    ambiguous = one(con, "select count(*) from j_num_bridge where ids > 1")[0]
+    if ambiguous:
+        lines.append("numbers whose name + area reach more than one project_id (left unlinked): %d" % ambiguous)
+    return lines
+
+
 def job_sales_projects(con):
     T = read(register_files("transactions", "dld__transactions__*.csv"))
     PR = read(register_files("projects", "dld__projects__*.csv"))
@@ -265,8 +333,16 @@ def job_sales_projects(con):
                transaction_id, %s project_number, try_cast(area_id as bigint) area_id, nullif(trim(building_name_en), '') building_name_en,
                nullif(trim(project_name_en), '') project_name_en, try_cast(actual_worth as double) worth, try_cast(procedure_area as double) size_sqm
         from %s where regexp_matches(transaction_id, '^[0-9]+-[0-9]+-[0-9]+-[0-9]+$')""" % (num("project_number"), T))
-    con.execute("""create or replace temp table j_projects as
-        select %s project_number, %s project_id from %s where %s is not null""" % (num("project_number"), num("project_id"), PR, num("project_number")))
+    # 15 Sep 2026 (digital thread Q2/Q3): project numbers -> project_id through the register AND a checked name + area bridge, with the
+    # 2026 registrations the extract lacks. If that build fails for any reason the job falls back to the register alone, as before.
+    try:
+        number_lines = project_numbers(con)
+        extra_tables = [("lk_project_numbers", "select * from j_projects")]
+    except Exception as e:
+        number_lines = ["project number bridge skipped (%s) - register extract only" % str(e)[:160]]
+        extra_tables = []
+        con.execute("""create or replace temp table j_projects as
+            select %s project_number, %s project_id from %s where %s is not null""" % (num("project_number"), num("project_id"), PR, num("project_number")))
     con.execute("""create or replace temp table j_now as
         select split_part(txn_key, '#', 1) txn_key, max(try_cast(TRANS_VALUE as double)) worth, max(try_cast(PROCEDURE_AREA as double)) size_sqm,
                max(PROJECT_EN) project_en, max(AREA_EN) area_en, count(*) row_count
@@ -319,17 +395,74 @@ def job_sales_projects(con):
               left join nm on nm.project_en = n.PROJECT_EN
               left join (select left_name, left_area, try_cast(project_id as bigint) project_id from lk_identity_xref
                          where job = 'tx_project' and decision = 'accepted') x on x.left_name = n.PROJECT_EN and x.left_area = n.AREA_EN"""
-    return {"tables": [("lk_txn_register", "select * from j_bridge"), ("lk_project_number_names", "select * from j_names")],
+    return {"tables": [("lk_txn_register", "select * from j_bridge"), ("lk_project_number_names", "select * from j_names")] + extra_tables,
             "views": [("v_transactions_register_project", view)],
             "keys_in": named, "keys_matched": by_row + by_name, "rows_in": keys,
             "note": "named sales rows linked by the register (row or name pair)",
             "review": report_rows,
-            "report": ["current sales keys paired with the portal's row (price or size agrees): " + pct(paired, keys),
+            "report": number_lines + ["current sales keys paired with the portal's row (price or size agrees): " + pct(paired, keys),
                        "paired sales whose register area carries a community number: " + pct(area_comm, with_area),
                        "named sales rows linked: by the register's row %s, by its name-number pair %s, by name match only %s, of %s"
                        % (format(by_row, ","), format(by_name, ","), format(by_match, ","), format(named, ",")),
                        "where the register's row and identity_match both give a project, they agree on " + pct(agree, both),
                        "disagreeing name/project pairs: %d (data/identity/register_vs_name.csv)" % len(report_rows)]}
+
+
+def job_rent_projects(con):
+    """Digital thread Q5 (15 Sep 2026): registered rent contracts -> project_id and area_id. Rents carried no project link at all.
+    Ejari names its project in free text and its area by the DLD area name, so: the normalised project name matched exactly to the
+    English names the buildings, land and units registers give each project_id (plus the sales-register aliases identity_match has
+    accepted), and accepted only when exactly one of those projects is registered in the rent's own area. A name several projects
+    share in that area, or a name whose only project sits in another area, goes to review - never guessed. Every rent row also gets
+    its area_id from the DLD area lookup. Publishes lk_rent_project, lk_dld_area_names and the view v_rents_project (live over rents)."""
+    parts = [p for name, pattern in (("buildings", "dld__buildings__*.csv"), ("land_registry", "dld__land_registry__*.csv"),
+                                     ("units", "dld__units__*.csv")) for p in register_files(name, pattern)]
+    L = read(register_files("lkp_areas", "dld__lkp_areas__*.csv"))
+    con.execute("""create or replace temp table j_rreg as
+        select distinct %s name_norm, %s area_id, %s project_id from %s""" % (name_norm_sql("project_name_en"), num("area_id"), num("project_id"), read(parts)))
+    con.execute("delete from j_rreg where name_norm is null or project_id is null")
+    con.execute("create or replace temp table j_pid_area as select distinct project_id, area_id from j_rreg where area_id is not null")
+    con.execute("""create or replace temp table j_rcand as
+        select name_norm, project_id from j_rreg
+        union
+        select %s, %s from lk_project_alias where lang = 'en'""" % (name_norm_sql("alias"), num("project_id")))
+    # two DLD area names belong to two area ids each (OUD AL MUTEENA 381/474, MUSHRIF 404/420): such a name gives no area_id rather
+    # than two, so the view never duplicates a rent row
+    con.execute("""create or replace temp table j_area_names as
+        select area_id, name_en, name_up from (select %s area_id, trim(name_en) name_en, upper(trim(name_en)) name_up from %s where %s is not null)
+        qualify count(*) over (partition by name_up) = 1""" % (num("area_id"), L, num("area_id")))
+    con.execute("""create or replace temp table j_rnames as
+        select PROJECT_EN project_en, AREA_EN area_en, %s name_norm, count(*) n_rows from rents
+        where nullif(trim(PROJECT_EN), '') is not null group by 1, 2, 3""" % name_norm_sql("PROJECT_EN"))
+    con.execute("""create or replace temp table j_rent_project as
+        with c as (select n.project_en, n.area_en, n.n_rows, an.area_id, c.project_id, pa.project_id is not null area_ok
+                   from j_rnames n left join j_area_names an on an.name_up = upper(trim(n.area_en))
+                   left join j_rcand c on c.name_norm = n.name_norm
+                   left join j_pid_area pa on pa.project_id = c.project_id and pa.area_id = an.area_id),
+             g as (select project_en, area_en, any_value(n_rows) n_rows, any_value(area_id) area_id,
+                          count(distinct project_id) ids_any, count(distinct project_id) filter (where area_ok) ids_area,
+                          any_value(project_id) filter (where area_ok) pid_area
+                   from c group by 1, 2)
+        select project_en, area_en, n_rows, area_id, case when ids_area = 1 then pid_area end project_id,
+               case when ids_area = 1 then 'exact name + area' when ids_area > 1 then 'exact name, several projects in the area'
+                    when ids_any >= 1 then 'exact name, registered in another area' else 'no registered name' end link_method,
+               case when ids_area = 1 then 'accepted' when ids_any >= 1 then 'review' else 'unmatched' end decision
+        from g""")
+    total, named, accepted, review, with_area = one(con, """select (select count(*) from rents), sum(n_rows),
+        sum(n_rows) filter (where decision = 'accepted'), sum(n_rows) filter (where decision = 'review'),
+        (select count(*) from rents r join j_area_names a on a.name_up = upper(trim(r.AREA_EN))) from j_rent_project""")
+    names_acc = one(con, "select count(*) from j_rent_project where decision = 'accepted'")[0]
+    view = """select r.*, a.area_id, x.project_id, x.link_method project_link
+              from rents r left join lk_dld_area_names a on a.name_up = upper(trim(r.AREA_EN))
+              left join lk_rent_project x on x.project_en = r.PROJECT_EN and x.area_en = r.AREA_EN and x.decision = 'accepted'"""
+    return {"tables": [("lk_rent_project", "select * from j_rent_project"), ("lk_dld_area_names", "select * from j_area_names")],
+            "views": [("v_rents_project", view)],
+            "keys_in": named or 0, "keys_matched": accepted or 0, "rows_in": total,
+            "note": "named rent rows linked to one registered project in their own area",
+            "report": ["rent rows: %s; named %s" % (format(total, ","), pct(named or 0, total)),
+                       "named rent rows linked to a project_id (exact name + area): %s across %s names" % (pct(accepted or 0, named or 0), format(names_acc, ",")),
+                       "named rent rows left for review (several projects, or registered elsewhere): " + format(review or 0, ","),
+                       "rent rows given an area_id: " + pct(with_area, total)]}
 
 
 def job_makani(con):
@@ -535,8 +668,11 @@ def job_building_activity(con):
 
 
 JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": job_service_charges,
-        "sales_projects": job_sales_projects, "makani": job_makani, "resident_mix": job_resident_mix,
+        "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "makani": job_makani, "resident_mix": job_resident_mix,
         "building_activity": job_building_activity}
+# 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
+# dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
+NON_BLOCKING = {"rent_projects"}
 
 
 def run(con, name, dry):
@@ -600,6 +736,9 @@ def main():
         try:
             rc = max(rc, run(con, n, dry))
         except Exception as e:
+            if n in NON_BLOCKING:
+                print("FAILED register join %s (reported, does not fail the step): %s" % (n, str(e)[:300]))
+                continue
             print("FAILED register join %s: %s" % (n, str(e)[:300]))
             rc = max(rc, 1)
     sys.exit(rc)
