@@ -24,7 +24,10 @@ Nothing here reaches her board: docs/GOV_DATA_METHODOLOGY.md section 5 still dec
                    row -> area_id. sales_projects also gained lk_project_numbers: register extract + 2026 registrations, with a
                    name + area bridge to project_id used only while it agrees with the register on >= 99% (digital thread Q2/Q3/Q5)
 
-Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects makani resident_mix building_activity] [--dry]
+  twin_bindings    (15 Sep 2026) register and sales bindings to twin footprints, keyed by duid + property_id, with a review view (Q6);
+                   parcels also carries comm_num = parcel_key // 10000, checked against the DM summary and the land registry (Q7)
+
+Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects twin_bindings makani resident_mix building_activity] [--dry]
 """
 import csv, datetime as dt, json, glob, os, re, sys, time
 
@@ -188,6 +191,12 @@ def job_parcels(con):
     con.execute("create or replace temp table j_keys as " + " union all ".join(
         "select distinct '%s' as source, trim(cast(%s as varchar)) as raw, %s as parcel_key from %s where %s is not null"
         % (t, c, parcel_key(c), t, c) for t, c in sources))
+    # 15 Sep 2026 (digital thread Q7): a parcel key IS community x 10000 + plot, so every parcel carries its Municipality community
+    # number without a spatial join: comm_num = parcel_key // 10000. Checked below against the DM building summary's own community_no
+    # and against the DLD land registry's community (munc_zip_code).
+    for t in ("j_dm", "j_keys"):
+        con.execute("alter table %s add column comm_num bigint" % t)
+        con.execute("update %s set comm_num = parcel_key // 10000 where parcel_key is not null" % t)
     report, twin_in, twin_hit = [], 0, 0
     for t, _ in sources:
         raw, keyed, before, after = one(con, """select count(*), count(parcel_key),
@@ -205,14 +214,24 @@ def job_parcels(con):
                   % (pct(dash_hit, dash), format(dash_same, ",")))
     rows, parcels, heights = one(con, "select count(*), count(distinct parcel_key), count(height_m) from j_dm")
     report.append("Municipality buildings: %s on %s parcels, %s with a height" % (format(rows, ","), format(parcels, ","), format(heights, ",")))
-    twin = """select bp.duid, bp.district, k.parcel_key, d.building_id dm_building_id, d.height_m dm_height_m, b.height_m twin_height_m,
+    both, same = one(con, "select count(*), count(*) filter (where comm_num = community_no) from j_dm where comm_num is not null and community_no is not null")
+    report.append("community from the parcel key (parcel_key // 10000) = the building summary's community_no: " + pct(same, both))
+    try:
+        LR = read(register_files("land_registry", "dld__land_registry__*.csv"))
+        # the land registry's munc_zip_code is the community number (683 for parcel 6836248); munc_number is the plot (6248)
+        lboth, lsame = one(con, """select count(*), count(*) filter (where k // 10000 = m) from (select %s k, %s m from %s)
+                                   where k is not null and m is not null""" % (parcel_key("parcel_id"), num("munc_zip_code"), LR))
+        report.append("community from the parcel key = the DLD land registry's community (munc_zip_code): " + pct(lsame, lboth))
+    except Exception as e:
+        report.append("land registry community check skipped: %s" % str(e)[:120])
+    twin = """select bp.duid, bp.district, k.parcel_key, k.comm_num, d.building_id dm_building_id, d.height_m dm_height_m, b.height_m twin_height_m,
                      d.typical_floors dm_typical_floors, b.storeys twin_storeys, d.floor_config, d.completion_date, d.status,
                      d.building_type, d.usages, d.buildings_on_plot, bp.dist_m
               from building_parcel_dm bp
               join lk_parcel_keys k on k.source = 'building_parcel_dm' and k.raw = trim(cast(bp.parcel_id as varchar))
               join lk_dm_buildings d on d.parcel_key = k.parcel_key
               left join building b on b.duid = bp.duid"""
-    plots = """select p.plot_no, p.name, p.district, p.master, k.parcel_key, d.building_id dm_building_id, d.height_m, d.typical_floors,
+    plots = """select p.plot_no, p.name, p.district, p.master, k.parcel_key, k.comm_num, d.building_id dm_building_id, d.height_m, d.typical_floors,
                       d.floor_config, d.completion_date, d.status, d.usages
                from plot p
                join lk_parcel_keys k on k.source = 'plot' and k.raw = trim(cast(p.parcel_id as varchar))
@@ -406,6 +425,81 @@ def job_sales_projects(con):
                        % (format(by_row, ","), format(by_name, ","), format(by_match, ","), format(named, ",")),
                        "where the register's row and identity_match both give a project, they agree on " + pct(agree, both),
                        "disagreeing name/project pairs: %d (data/identity/register_vs_name.csv)" % len(report_rows)]}
+
+
+def job_twin_bindings(con):
+    """Digital thread Q6 (15 Sep 2026): the only register -> twin link lived in two JSON files keyed by district and footprint LIST
+    POSITION (data/identity/official/dld/reg_bindings.json from bind_register_buildings.py, tx_bindings.json from bind_dld_buildings.py)
+    and never reached the lake. This job loads both keyed by the twin's duid (resolved from data/identity/resolved/<district>.json)
+    and the register's property_id / parcel key, and publishes a review view for what a one-to-one link must not do: one register
+    building on several footprints, and a register name that disagrees with the twin's own name. Nothing is decided here - it makes
+    the links queryable and their conflicts countable."""
+    from keys import norm_number, parcel_key as pkey, name_norm
+    ident = os.path.join(ROOT, "data", "identity")
+    duid = {}
+    for f in glob.glob(os.path.join(ident, "resolved", "*.json")):
+        d = json.load(open(f, encoding="utf-8"))
+        slug = d.get("district") or os.path.splitext(os.path.basename(f))[0]
+        for r in d.get("rows") or []:
+            if r.get("i") is not None and r.get("duid"):
+                duid[(slug, int(r["i"]))] = (r["duid"], r.get("display_name") or r.get("official_building_name") or r.get("current_name"))
+    reg_rows, tx_rows = [], []
+    regf, txf = os.path.join(ident, "official", "dld", "reg_bindings.json"), os.path.join(ident, "official", "dld", "tx_bindings.json")
+    for slug, B in (json.load(open(regf, encoding="utf-8")) if os.path.exists(regf) else {}).items():
+        if not isinstance(B, dict):
+            continue
+        for i, b in B.items():
+            if not str(i).isdigit() or not isinstance(b, dict):
+                continue                                   # summary blocks keyed by district, not footprint bindings
+            fp = duid.get((slug, int(i)), (None, None))
+            for rank, x in [("primary", b)] + [("also", a) for a in (b.get("also") or [])]:
+                reg_rows.append((slug, int(i), fp[0], fp[1], rank, norm_number(x.get("property_id")), pkey(x.get("parcel")), x.get("name"),
+                                 x.get("project"), x.get("master"), x.get("units"), x.get("floors"), b.get("method"), b.get("dist_m")))
+    for slug, B in (json.load(open(txf, encoding="utf-8")) if os.path.exists(txf) else {}).items():
+        if not isinstance(B, dict):
+            continue
+        for i, b in B.items():
+            if not str(i).isdigit() or not isinstance(b, dict):
+                continue
+            fp = duid.get((slug, int(i)), (None, None))
+            tx_rows.append((slug, int(i), fp[0], fp[1], b.get("area"), b.get("project"), b.get("building"), b.get("master"), b.get("sales"),
+                            b.get("first"), b.get("last"), b.get("median_aed_sqm")))
+    con.execute("""create or replace temp table j_bind_reg (district varchar, footprint_i integer, duid varchar, twin_name varchar, rank varchar,
+                   property_id varchar, parcel_key bigint, register_name varchar, project varchar, master varchar, units integer, floors integer,
+                   method varchar, dist_m double)""")
+    if reg_rows:
+        con.executemany("insert into j_bind_reg values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", reg_rows)
+    con.execute("""create or replace temp table j_bind_tx (district varchar, footprint_i integer, duid varchar, twin_name varchar, area varchar,
+                   project varchar, building varchar, master varchar, sales integer, first_sale varchar, last_sale varchar, median_aed_sqm double)""")
+    if tx_rows:
+        con.executemany("insert into j_bind_tx values (?,?,?,?,?,?,?,?,?,?,?,?)", tx_rows)
+    con.execute("alter table j_bind_reg add column names_differ boolean")
+    con.execute("update j_bind_reg set names_differ = twin_name is not null and register_name is not null")
+    for row in con.execute("select rowid, twin_name, register_name from j_bind_reg where names_differ").fetchall():
+        a, b = name_norm(row[1]), name_norm(row[2])
+        if a and b and (a in b or b in a):
+            con.execute("update j_bind_reg set names_differ = false where rowid = ?", [row[0]])
+    fps, fps_duid, props, multi, differ = one(con, """select count(*) filter (where rank = 'primary'), count(duid) filter (where rank = 'primary'),
+        count(distinct property_id), (select count(*) from (select property_id from j_bind_reg where property_id is not null
+                                       group by 1 having count(distinct duid) > 1)),
+        count(*) filter (where rank = 'primary' and names_differ) from j_bind_reg""")
+    units = one(con, "select coalesce(sum(units), 0) from j_bind_reg where rank = 'primary'")[0]
+    txn, txn_duid = one(con, "select count(*), count(duid) from j_bind_tx")
+    review = """select 'register building on several footprints' issue, property_id, list(distinct duid) duids, any_value(register_name) register_name,
+                       null::varchar twin_name, count(distinct duid) n
+                from lk_twin_binding_register where property_id is not null group by property_id having count(distinct duid) > 1
+                union all
+                select 'register name differs from the twin name', property_id, [duid], register_name, twin_name, 1
+                from lk_twin_binding_register where rank = 'primary' and names_differ"""
+    return {"tables": [("lk_twin_binding_register", "select * from j_bind_reg"), ("lk_twin_binding_sales", "select * from j_bind_tx")],
+            "views": [("v_twin_binding_review", review)],
+            "keys_in": fps, "keys_matched": fps_duid, "rows_in": len(reg_rows) + len(tx_rows),
+            "note": "register-bound footprints resolved to a duid",
+            "report": ["register bindings: %s footprints (%s register buildings incl. 'also', %s units on the primaries); footprints with a duid: %s"
+                       % (format(fps, ","), format(props, ","), format(units, ","), pct(fps_duid, fps)),
+                       "sales bindings: %s footprints, with a duid: %s" % (format(txn, ","), pct(txn_duid, txn)),
+                       "for review: %s register buildings on more than one footprint; %s primary bindings whose register name differs from the twin's"
+                       % (format(multi, ","), format(differ, ","))]}
 
 
 def job_rent_projects(con):
@@ -668,11 +762,11 @@ def job_building_activity(con):
 
 
 JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": job_service_charges,
-        "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "makani": job_makani, "resident_mix": job_resident_mix,
+        "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings, "makani": job_makani, "resident_mix": job_resident_mix,
         "building_activity": job_building_activity}
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"rent_projects"}
+NON_BLOCKING = {"rent_projects", "twin_bindings"}
 
 
 def run(con, name, dry):

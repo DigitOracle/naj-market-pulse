@@ -68,7 +68,10 @@ def ty(s):
 
 
 def sheets():
-    """newest sheet per developer, hand-verified beats _auto"""
+    """newest sheet per developer AND project; on the same date a hand-verified sheet beats _auto.
+    15 Sep 2026 (digital thread Q9): this read only each developer's newest FILE, so a project that was not on the latest sheet
+    (a developer that sends one sheet per project, or a partial resend) vanished from remaining.json - 15 Arada and 4 Fakhruddin
+    projects on 15 Sep. Every sheet is read now, and each project keeps its own newest sheet and that sheet's date."""
     best = {}
     for f in sorted(glob.glob(os.path.join(AVAIL, "*.json"))):
         b = os.path.basename(f)
@@ -78,15 +81,16 @@ def sheets():
         dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
         key = (dev, date); rank = (date, 0 if auto else 1)
         if key not in best or rank > best[key][0]: best[key] = (rank, f)
-    newest = {}
-    for (dev, date), (rank, f) in best.items():
-        if dev not in newest or date > newest[dev][0]: newest[dev] = (date, f)
-    out = []
-    for dev, (date, f) in newest.items():
+    per_project = {}
+    for (dev, date), (rank, f) in sorted(best.items(), key=lambda kv: kv[0][1]):          # oldest first, so a newer sheet overwrites
         d = json.load(open(f, encoding="utf-8"))
+        dk = nk(d.get("developer") or dev)
         for p in d.get("projects", []):
-            out.append({"developer": d.get("developer") or dev, "sheet_date": d.get("sheet_date") or date, "name": p.get("p"), "units": p.get("units") or [], "completion": p.get("completion")})
-    return out
+            if not p.get("p"): continue
+            pk = nk(p.get("p")).replace("by" + dk, "").replace(dk, "") or nk(p.get("p"))
+            per_project[(dev, pk)] = {"developer": d.get("developer") or dev, "sheet_date": d.get("sheet_date") or date, "name": p.get("p"),
+                                      "units": p.get("units") or [], "completion": p.get("completion")}
+    return list(per_project.values())
 
 
 def main():

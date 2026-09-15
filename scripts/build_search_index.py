@@ -43,8 +43,12 @@ def main():
         if cur is None or len(json.dumps(rec)) > len(json.dumps(cur)): items[key] = {**(cur or {}), **rec}
     # developers: the eleven on the board, plus any developer the register index names
     dna = load(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), {})
-    for k, v in (dna.items() if isinstance(dna, dict) else []):
-        add((v.get("name") if isinstance(v, dict) else None) or DEVS.get(k) or k, "developer", dev=k, seg=(v.get("segment") if isinstance(v, dict) else None))
+    # 15 Sep 2026 (digital thread Q9): iterate the DNA's developers, not the file's top level - that loop published four junk
+    # "developers" named developers, segments, source_note and updated. Keys map to the board's dev_key.
+    by_name = {v.lower(): k for k, v in DEVS.items()}
+    for name, v in ((dna.get("developers") or {}).items() if isinstance(dna, dict) else []):
+        key = by_name.get(str(name).lower()) or next((k for k in DEVS if k == nk(name)), None) or nk(name)
+        add(name, "developer", dev=key, seg=(v.get("segment") if isinstance(v, dict) else None))
     for k, v in DEVS.items(): add(v, "developer", dev=k)
     # the developer pages (board_devs.json): every property card on HOMES, keyed to its developer and its card anchor (p = normalised name)
     bd = load(os.path.join(BOARD, "board_devs.json"), {})

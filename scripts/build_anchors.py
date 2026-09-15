@@ -269,7 +269,12 @@ def build(slug):
     # footprint after the project; (2) name matching against the site registers + DLD-attributed project names (developer_dna.json)
     dbf = os.path.join(OUT, "dev_bindings.json")
     if os.path.exists(dbf):
-        for k, v in (json.load(open(dbf, encoding="utf-8")).get("bindings", {}).get(slug, {})).items():
+        _db = json.load(open(dbf, encoding="utf-8"))
+        # 15 Sep 2026 (digital thread Q9): a binding a person rejected (rejected_by_hand) never tags or names a footprint, even while an
+        # older bind_registers run still carries it in "bindings"
+        _rej = {(r.get("district"), str(r.get("i")), str(r.get("project") or "").strip().upper()) for r in (_db.get("rejected_by_hand") or [])}
+        for k, v in (_db.get("bindings", {}).get(slug, {})).items():
+            if (slug, str(k), str(v.get("project") or "").strip().upper()) in _rej: continue
             b = next((x for x in blds if x["i"] == int(k)), None)
             if not b: continue
             nm = dev_for(b["name"], slug) if b["name"] else None

@@ -149,6 +149,11 @@ def main():
         if _TOK["v"] is None: _TOK["v"] = token()
         return _TOK["v"]
     bind = {}; unplaced = []; placed = 0; stats = {"inside": 0, "namematch": 0, "near": 0, "tall80": 0}
+    # 15 Sep 2026 (digital thread Q9): the hand list was carried forward but never ENFORCED, so a re-bind put Arada's Masaar back on
+    # JVC footprint 144. A (district, footprint, project) a person rejected is never bound again.
+    _dbf = os.path.join(NAMES, "dev_bindings.json")
+    REJ = {(r.get("district"), str(r.get("i")), str(r.get("project") or "").strip().upper())
+           for r in ((json.load(open(_dbf, encoding="utf-8")).get("rejected_by_hand") or []) if os.path.exists(_dbf) else [])}
     for p in projects:
         q = f"{p['name']}, {p['area']}, Dubai, United Arab Emirates" if p["area"] else f"{p['name']}, Dubai, United Arab Emirates"
         ck = "reg::" + q
@@ -207,6 +212,8 @@ def main():
             unplaced.append({**p, "why": ("every footprint nearby is named as something else" if blocked else "no footprint within 60 m"),
                              "nearest_named": (blocked[0][1].get("name") if blocked else None), "geo": g, "slug": slug}); continue
         d = metres(pt[0], pt[1], hit["lon"], hit["lat"]); stats[how] += 1
+        if (slug, str(hit["i"]), p["name"].strip().upper()) in REJ:
+            unplaced.append({**p, "why": "rejected by hand (dev_bindings.json rejected_by_hand)", "slug": slug}); continue
         b = bind.setdefault(slug, {}); k = str(hit["i"])
         if k in b and b[k]["source"] == "site" and p["source"] != "site": continue          # site register beats a DLD name on the same footprint
         b[k] = {"dev": p["dev"], "project": p["name"], "source": p["source"], "score": round(g["score"], 1), "dist_m": round(d, 1), "how": how, "map_name": hit["name"]}

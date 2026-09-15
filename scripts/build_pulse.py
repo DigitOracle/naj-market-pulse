@@ -22,6 +22,22 @@ DATA = "data"
 PUB = "public"
 
 
+def _register_areas():
+    """15 Sep 2026 (digital thread Q4): transaction number -> the DLD area its register row names (lake: lk_txn_register.area_id ->
+    lk_dld_area_names), so a sale's area comes from the register, not from its marketing label through area_alias.json. The alias
+    stays the fallback for a sale the register join has not reached yet. Returns ({}, reason) when the lake cannot be read."""
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import lake
+        con = lake.connect(read_only=True)
+        rows = con.execute("select r.txn_key, a.name_en from %s.lk_txn_register r join %s.lk_dld_area_names a on a.area_id = r.area_id"
+                           % (lake.ALIAS, lake.ALIAS)).fetchall()
+        con.close()
+        return {k: n for k, n in rows if k and n}, None
+    except Exception as e:
+        return {}, str(e)[:160]
+
+
 def _newest_stamp():
     """Capture date = newest transactions-YYYY-MM-DD.csv in data/, unless PULSE_STAMP pins it."""
     if os.environ.get("PULSE_STAMP"):
@@ -506,7 +522,8 @@ def collect_area_intel(sales_rows, rents_yields):
         area = (r.get("AREA_EN") or "").strip()
         if not area:
             continue
-        e = by_area.setdefault(area, {"vals": [], "psf": [], "off": Counter(), "rooms": {}})
+        e = by_area.setdefault(area, {"vals": [], "psf": [], "off": Counter(), "rooms": {}, "reg": Counter()})
+        if r.get("_REG_AREA"): e["reg"][r["_REG_AREA"]] += 1
         e["vals"].append(v)
         if a and a > 10:
             e["psf"].append(v / a)
@@ -535,10 +552,20 @@ def collect_area_intel(sales_rows, rents_yields):
         # 6 Sep 2026: sales are filed under the marketing name (DUBAI HILLS, JUMEIRAH VILLAGE CIRCLE), Ejari under the DLD area
         # name (Hadaeq Sheikh Mohammed Bin Rashid, Al Barsha South Fourth). Without this alias 118 of 186 area cards showed no
         # yield at all - the rents were there, under another name. Alias is register-derived (data/dld/area_alias.json).
-        gross = yields.get(area.lower())
-        if gross is None:
+        # 15 Sep 2026 (Q4): a card takes the yield of the DLD area where MOST of its sales are registered (the register row), and
+        # names that area; the label's own name and the alias are the fallbacks for a label the register join has not reached
+        yield_area, yield_src = None, None
+        if e["reg"]:
+            top, top_n = e["reg"].most_common(1)[0]
+            if top_n * 2 > sum(e["reg"].values()) and yields.get(top.lower()) is not None:
+                yield_area, yield_src = top, "register"
+        if yield_area is None and yields.get(area.lower()) is not None:
+            yield_area, yield_src = area, "area name"
+        if yield_area is None:
             _al = _AREA_ALIAS.get(area.lower())
-            if _al: gross = yields.get(_al.lower())
+            if _al and yields.get(_al.lower()) is not None:
+                yield_area, yield_src = _al, "area alias"
+        gross = yields.get(yield_area.lower()) if yield_area else None
         psf_sale = round(statistics.median(e["psf"]) / AED_PER_SQFT) if e["psf"] else None
         # net yield = gross − (annual service charge / sale price per sq ft). Both per sq ft/yr.
         net = None
@@ -551,6 +578,8 @@ def collect_area_intel(sales_rows, rents_yields):
             "medianAedSqft": psf_sale,
             "offPlanPct": round(100 * off.get("Off-Plan", 0) / n),
             "grossYieldPct": gross,
+            "yieldArea": yield_area,
+            "yieldAreaSource": yield_src,
             "serviceChargeAedSqftYr": sc,
             "serviceChargeIsEstimate": sc_est,
             "netYieldPct": net,
@@ -602,11 +631,14 @@ def collect_rents(sales_rows):
         a = num(r.get("ACTUAL_AREA"))
         if a and 10 < a < 10000:
             rent_area.setdefault(_canon(r["AREA_EN"]), []).append(num(r["ANNUAL_AMOUNT"]) / a)
+    by_source = Counter()
     for r in sales_rows:
         if r["USAGE_EN"] == "Residential":
             v, a = num(r["TRANS_VALUE"]), num(r["ACTUAL_AREA"])
             if v and a and a > 10:
-                sale_area.setdefault(_canon(r["AREA_EN"]), []).append(v / a)
+                # 15 Sep 2026 (Q4): the register row's DLD area first; the label through area_alias.json only when there is no register row
+                by_source["register row" if r.get("_REG_AREA") else "area label"] += 1
+                sale_area.setdefault(_canon(r.get("_REG_AREA") or r["AREA_EN"]), []).append(v / a)
     yields, excluded = [], []
     for ar, rl in rent_area.items():
         sl = sale_area.get(ar, [])
@@ -632,6 +664,7 @@ def collect_rents(sales_rows):
         "excludedYields": excluded,
         "yieldNote": ("Gross yield = median registered rent per sq ft over median sale price per sq ft, "
                       "same area, both sides >= 30 contracts. Registered contracts, not asking rates."),
+        "saleAreaSource": dict(by_source),   # 15 Sep 2026 (Q4): residential sales whose area came from the register row vs from the label
     }
 
 
@@ -660,6 +693,14 @@ def main():
             quarantine[name] = str(e)
             print("QUARANTINED", name, e)
     sales_rows = [r for r in read_csv("transactions") if r["GROUP_EN"] == "Sales"]
+    # 15 Sep 2026 (digital thread Q4): each sale's DLD area from its register row; the area label + alias only where there is none
+    reg_area, reg_err = _register_areas()
+    for r in sales_rows:
+        ra = reg_area.get(r.get("TRANSACTION_NUMBER"))
+        if ra:
+            r["_REG_AREA"] = ra
+    print("sale areas from the register row: %d of %d sales%s" % (sum(1 for r in sales_rows if r.get("_REG_AREA")), len(sales_rows),
+                                                                 (" (register unavailable: %s - labels only)" % reg_err) if reg_err else ""))
     try:
         out["rents"] = collect_rents(sales_rows)
     except SourceRejected as e:
