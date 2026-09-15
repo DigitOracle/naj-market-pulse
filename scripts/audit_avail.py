@@ -121,6 +121,21 @@ def main():
         for f in files:
             file_to_sheet[f] = sf
 
+    # Documents whose priced rows are a TYPE-LEVEL summary (extract_type_avail.py), not unit rows. Their
+    # "Studio 378 sq ft 799,000" lines are accounted for by the type card, so zero unit rows is correct,
+    # not a loss. Without this the audit flagged Treppan Vision's broker pack forever.
+    type_level_docs = set()
+    for jp in glob.glob(os.path.join(ROOT, "data", "avail", "*_20*.json")):
+        try:
+            jd = json.load(open(jp, encoding="utf-8"))
+        except Exception:
+            continue
+        for pr in jd.get("projects") or []:
+            if pr.get("level") == "type":
+                m = re.search(r"\(([^,()]+\.pdf)", pr.get("source_note") or "", re.I)
+                if m:
+                    type_level_docs.add(m.group(1).strip())
+
     # The listener re-saves the same document under a new timestamp on every re-delivery, so the
     # folder holds many byte-identical copies. Audit each distinct DOCUMENT once, judged by the
     # copy the store actually used - otherwise duplicates bury the real findings.
@@ -158,6 +173,8 @@ def main():
         if found and sheet is None:
             findings.append({"file": base, "kind": "orphan",
                              "detail": "%d priced unit rows on the page, document belongs to no sheet" % found})
+        elif found and base in type_level_docs:
+            pass                                   # summary rows, captured as a type-level card
         elif found and (d.get("units") or 0) == 0 and d.get("parsed"):
             findings.append({"file": base, "kind": "parsed_to_nothing",
                              "detail": "%d priced unit rows on the page, 0 units stored" % found})

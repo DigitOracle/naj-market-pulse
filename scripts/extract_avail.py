@@ -57,7 +57,14 @@ def dev_from_text(s):
             or next((v for k, v in PROJECT_DEV.items() if k in low), None))
 # BEYOND's export: "Created by: <name>" / "dd-MMM-yyyy hh:mm" / a wrapped header (Building | Unit Code | Bedroom Type | Total Area (Sqft) |
 # Unit Sub-Type | Unit Orientation | Selling Price (AED)); one row per unit, orientation may wrap onto the next line.
-BEY_CODE_RX = re.compile(r"^[A-Z]{2,6}\d?[A-Z]?/[A-Z]?\d{1,3}/[A-Z]?\d{1,4}$")
+# BUILDING / FLOOR / UNIT. The floor used to require a digit ([A-Z]?\d{1,3}), so a ground floor coded
+# plain "G" never matched: on 13 Sep 2026 that dropped every ground-floor unit on Beyond's sheets -
+# 15 on Inventories 24-08 and 7 on Passo, the Pool Garden and Beach Elite stock at AED 7-21 M. The
+# floor may now be letters alone (G, M, LG, UG, PH), letters with digits (P1, B2), or digits (12).
+BEY_CODE_RX = re.compile(r"^[A-Z]{2,6}\d?[A-Z]?/(?:[A-Z]{1,2}\d{0,3}|\d{1,3})/[A-Z]?\d{1,4}$")
+for _c in ("PASA/G/001", "PASB/G/016", "AYA2B/G/G01", "PASA/12/001", "HADO/P1/104", "KANY/M/02", "TALE/LG/7"):
+    if not BEY_CODE_RX.match(_c):
+        raise AssertionError("Beyond unit-code pattern rejects %r - a floor code it must accept" % _c)
 BEY_TYPE_RX = re.compile(r"^(\d(BR|BD|B)\+?|studio|penthouse|retail|office|townhouse|villa)$", re.I)
 BEY_DATE_RX = re.compile(r"^(\d{2})-([A-Za-z]{3})-(\d{4})\s")
 INV_TITLE_RX = re.compile(r"^(?P<title>.+?)\s*-\s*INVENTORY\s*as\s*\(?\s*(?P<m>\d{1,2})/(?P<d>\d{1,2})/(?P<y>\d{4})\s*\)?", re.I)

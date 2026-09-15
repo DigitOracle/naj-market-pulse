@@ -1,0 +1,52 @@
+{
+ "version": "1.0",
+ "updated": "2026-09-13",
+ "note": "The metric registry (Data Spine Phase 4). Every figure the pulse, the pages, the cards and Azimuth may state is defined ONCE here: what it counts, from which register, with which filters, over which window, and with how many samples before it may be said at all. Definitions are transcribed from scripts/build_pulse.py as it computes them today; a change of definition is a new version, never an edit in place. scripts/claims.py turns each computed figure into a claim that carries its definition, and the writer may cite a figure only through a claim.",
+ "rules": [
+  "A sentence may state a figure only through a claim: metric id, value, scope, window, sample size and source body travel together.",
+  "Comparisons between windows (up, down, beat, record) are computed from two claims of the same metric by code, never by the writer.",
+  "A developer or project is attributed to a figure only through a registered project_id (lk_identity_xref), never by name.",
+  "A window whose last day is less than two days old is provisional: the DLD register back-fills (8 Sep 2026 read 526 sales on 9 Sep and 641 by 10 Sep).",
+  "A figure below its minimum sample is not stated, and the claim says so."
+ ],
+ "sources": {
+  "dld_transactions": "Dubai Land Department transactions register (DLD open data)",
+  "dld_rents": "Dubai Land Department Ejari rent contracts register (DLD open data)"
+ },
+ "metrics": [
+  {"id": "transactions.rows", "label": "Registered transactions (sales, mortgages and gifts)", "unit": "transactions", "grain": ["city"], "source": "dld_transactions",
+   "definition": "Rows of the transactions register inside the window that pass the shape gate: a dated instance, group Sales, Mortgage or Gifts, and a value (when present) above zero and under AED 5 bn.",
+   "pulse_path": "transactions.totalRows"},
+  {"id": "sales.count", "label": "Sales registered", "unit": "sales", "grain": ["city", "area"], "source": "dld_transactions",
+   "definition": "Transactions in group Sales inside the window, after the shape gate. By area: the register's own AREA_EN label.",
+   "pulse_path": "transactions.salesCount", "area_path": "transactions.topAreas"},
+  {"id": "sales.value_aed_bn", "label": "Value of sales", "unit": "AED bn", "grain": ["city"], "source": "dld_transactions", "rounding": 1,
+   "definition": "Sum of TRANS_VALUE over sales with a numeric value, in billions of dirhams, rounded to one decimal.",
+   "pulse_path": "transactions.salesValueAedBn"},
+  {"id": "sales.median_ticket_aed", "label": "Median sale price", "unit": "AED", "grain": ["city"], "source": "dld_transactions", "rounding": 0,
+   "definition": "Median TRANS_VALUE over sales with a numeric value.",
+   "pulse_path": "transactions.medianTicketAed"},
+  {"id": "sales.median_residential_aed_sqft", "label": "Median residential sale price per square foot", "unit": "AED per sq ft", "grain": ["city"], "source": "dld_transactions", "rounding": 0,
+   "definition": "Median of TRANS_VALUE divided by ACTUAL_AREA (square metres) over residential sales with an area above 10 m2, divided by 10.7639 to give dirhams per square foot.",
+   "pulse_path": "transactions.medianResidentialAedSqft"},
+  {"id": "sales.offplan_count", "label": "Off-plan sales", "unit": "sales", "grain": ["city"], "source": "dld_transactions",
+   "definition": "Sales whose IS_OFFPLAN_EN is Off-Plan.", "pulse_path": "transactions.offPlanSplit.Off-Plan"},
+  {"id": "sales.ready_count", "label": "Ready (completed) sales", "unit": "sales", "grain": ["city"], "source": "dld_transactions",
+   "definition": "Sales whose IS_OFFPLAN_EN is Ready.", "pulse_path": "transactions.offPlanSplit.Ready"},
+  {"id": "rents.contracts", "label": "Rent contracts registered", "unit": "contracts", "grain": ["city"], "source": "dld_rents",
+   "definition": "Ejari contracts in the window that pass the shape gate: a dated registration, version New or Renewed, and an annual amount (when present) between AED 1,000 and AED 5 m.",
+   "pulse_path": "rents.contractsCount"},
+  {"id": "rents.residential_singles", "label": "Residential single-unit contracts", "unit": "contracts", "grain": ["city"], "source": "dld_rents",
+   "definition": "Residential contracts for a Unit or Villa with an annual amount, excluding bulk leases (TOTAL_PROPERTIES above 1 - the 48.9% phantom-yield lesson).",
+   "pulse_path": "rents.residentialSingles"},
+  {"id": "rents.median_annual_aed", "label": "Median annual rent", "unit": "AED per year", "grain": ["city"], "source": "dld_rents", "rounding": 0,
+   "definition": "Median ANNUAL_AMOUNT over residential single-unit contracts.", "pulse_path": "rents.medianAnnualRentAed"},
+  {"id": "rents.median_aed_sqft_yr", "label": "Median annual rent per square foot", "unit": "AED per sq ft per year", "grain": ["city"], "source": "dld_rents", "rounding": 1,
+   "definition": "Median of ANNUAL_AMOUNT divided by ACTUAL_AREA over residential single-unit contracts with an area between 10 and 10,000 m2, divided by 10.7639.",
+   "pulse_path": "rents.medianRentAedSqftYr"},
+  {"id": "yield.gross_pct", "label": "Gross rental yield", "unit": "percent", "grain": ["area"], "source": "dld_rents+dld_transactions", "rounding": 1, "min_sample": 30, "band": [1.5, 12],
+   "definition": "100 x median annual rent per m2 (residential single-unit contracts, 10-10,000 m2) / median sale price per m2 (residential sales above 10 m2), the same area on both sides once marketing names are mapped to DLD areas through data/dld/area_alias.json. Stated only with at least 30 contracts AND 30 sales, and only inside the 1.5-12% canary band.",
+   "caution": "The area mapping is only as good as area_alias.json. On 13 Sep 2026 the register showed seven labels mapped to the wrong DLD area (City of Arabia is Wadi Al Safa 4, not 2) - see data/identity/area_alias_evidence.csv.",
+   "pulse_path": "rents.grossYieldPctAllAreas"}
+ ]
+}

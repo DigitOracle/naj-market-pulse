@@ -11,7 +11,7 @@ records the first identity hit plus whatever context the others add. Nothing is 
   4  DM projects (by parcel)      data/registers/project_information + project_building_information   consultant, contractor, permit and completion dates, construction stage
   5  MEED pipeline                already joined by remaining_inventory.py (developer_dna active records)
   6  DSC population by community  data/registers/estimated_population_by_community   people living in the community the project sits in (latest year)
-  7  Every other register CSV     data/registers/**/*.csv, data/dld/*.csv, Downloads/*.csv with a name-like column - a last sweep, reported as 'mentions'
+  7  Every other register CSV     data/registers/**/*.csv, data/dld/*.csv with a name-like column - a last sweep, reported as 'mentions' (not ~/Downloads)
 
 Writes the result under each project as "registry" in remaining.json, prints a per-project line, and pushes KV `remaining`.
 Usage: python scripts/register_fallback.py [--no-push] [--only "<name substring>"]
@@ -33,8 +33,18 @@ DEV_ALIAS = {"arada": ["arada"], "beyond": ["beyond"], "fakhruddin": ["fakhruddi
              "meraas": ["meraas"], "select group": ["select"], "ellington": ["ellington"], "iman": ["iman"], "prestige one": ["prestige one", "prestigeone"], "zaya/palma": ["zaya", "palma"], "h&h": ["h&h", "h & h"]}
 
 
+MATCHER = "2026-09-15"   # remaining_inventory.py carries a registry block forward only when it was made by this matcher
+DEV_WORDS = {w for al in DEV_ALIAS.values() for a in al for w in re.sub(r"[^a-z0-9]+", " ", a).split()}
+QUAL = re.compile(r"\b(tower|block|building|bldg|phase)\s*[-']?\s*([a-z]|\d{1,2})\b", re.I)
+
+
 def toks(t):
     return {w for w in re.sub(r"[^a-z0-9]+", " ", (t or "").lower()).split() if len(w) >= 3 and w not in STOP and not w.isdigit()}
+
+
+def qualifiers(t):
+    """'Soulever Tower B' -> {'tower b'}; 'Soulever By Beyond Tower-2' -> {'tower 2'}; 'Le Chateau' -> set()."""
+    return {("%s %s" % (m.group(1), m.group(2))).lower() for m in QUAL.finditer(t or "")}
 
 
 def q(con, sql, *a):
@@ -54,15 +64,27 @@ def dev_ok(sheet_dev, reg_dev):
 
 
 def best_name_match(pt, rows, name_ix, dev_ix=None, sheet_dev=None, min_share=1):
-    """rows: tuples; return (score, row) for the register row whose name shares the most distinctive words with the project."""
+    """rows: tuples; return (score, row) for the register row that carries EVERY distinctive word of the project's name.
+    15 Sep 2026: one shared word was enough, so 'Le Chateau' took ACES CHATEAU's plot and 'Passo Bella' took BELLA ROSE's. Now all the
+    project's words must be in the register name, and a one-word project must BE the register name (developer names aside):
+    'Le Chateau' != 'ACES CHATEAU'; 'Soulever' == "Soulever' By Beyond"."""
     best = None
+    if not pt:
+        return None
     for r in rows:
-        rt = toks(r[name_ix]); sh = pt & rt
-        if len(sh) < min_share: continue
+        rt = toks(r[name_ix]) - DEV_WORDS; sh = pt & rt
+        if sh != pt: continue
+        if len(pt) == 1 and rt != pt: continue
         if dev_ix is not None and not dev_ok(sheet_dev, r[dev_ix]): continue
         score = (len(sh), -abs(len(rt) - len(pt)))
         if best is None or score > best[0]: best = (score, r)
     return best
+
+
+def scope_note(sheet_name, reg_name):
+    """A block-level sheet ('Soulever Tower B') matched to a project-level register row ('Soulever By Beyond') gets context, not counts."""
+    sq = qualifiers(sheet_name)
+    return ("whole project - the sheet names %s, the register does not" % ", ".join(sorted(sq))) if sq and not (sq & qualifiers(reg_name)) else None
 
 
 def main():
@@ -75,17 +97,31 @@ def main():
     PB = f"read_csv_auto([{csvglob(REG, 'project_building_information', '*.csv')}], all_varchar=true, union_by_name=true)"
     POP = f"read_csv_auto([{csvglob(REG, 'estimated_population_by_community', '*.csv')}], all_varchar=true)"
     BR = f"read_csv_auto('{os.path.join(DLD, 'buildings_register.csv').replace(chr(92), '/')}', all_varchar=true, ignore_errors=true)"
-    LR = f"read_csv_auto('{os.path.join(DOWN, 'land_registry_2026-09-04_17-30-03_0001.csv').replace(chr(92), '/')}', all_varchar=true, sample_size=50000)"
+    # 15 Sep 2026: the land registry was read from a file in ~/Downloads that no longer exists, and the failure was swallowed. It now comes
+    # from the portal pull through the same manifest-aware resolver identity_match.py uses (every part of the newest finished extract).
+    warnings = []
+    try:
+        from register_joins import register_files
+        LR = "read_csv_auto([%s], all_varchar=true, union_by_name=true, sample_size=50000)" % ",".join(
+            "'" + p.replace(chr(92), "/") + "'" for p in register_files("land_registry", "dld__land_registry__*.csv"))
+    except Exception as e:
+        LR = None
+        warnings.append("land registry unavailable: %s" % str(e)[:160])
+        print("WARNING", warnings[-1])
     projects = q(con, f"select project_name, developer_name, master_project_en, area_name_en, project_status, percent_completed, no_of_units, no_of_villas, no_of_buildings, escrow_agent_name, project_number, property_id, project_end_date, project_description_en from {PR} where project_name is not null")
     devs = q(con, f"select developer_name_en, developer_number, license_number, license_expiry_date, phone, webpage, legal_status_en from {DV} where developer_name_en is not null")
     pop_year = (q(con, f'select max("Year") from {POP}') or [[None]])[0][0]
     pop = {r[0].strip().lower(): (r[1], r[0].strip()) for r in q(con, f'select "Sector & Community", "Value" from {POP} where "Year" = ?', pop_year)}
     # last-sweep CSV inventory: any csv with a name-like column
-    sweep_files = [f for f in glob.glob(os.path.join(REG, "**", "*.csv"), recursive=True) + glob.glob(os.path.join(DLD, "*.csv")) + glob.glob(os.path.join(DOWN, "*.csv"))
+    # 15 Sep 2026: ~/Downloads is no longer swept - it held personal files (broker lists, event registrations) whose NAMES were published
+    # in remaining.json as 'mentions'. Only the repo's own registers are read.
+    sweep_files = [f for f in glob.glob(os.path.join(REG, "**", "*.csv"), recursive=True) + glob.glob(os.path.join(DLD, "*.csv"))
                    if os.path.getsize(f) < 400 * 1024 * 1024 and not re.search(r"building_floor_level|building_permits|building_summary|bus_stop|sheryan", f)]
     print(f"registers: {len(projects):,} DLD projects · {len(devs):,} developers · population {pop_year} for {len(pop)} communities · {len(sweep_files)} CSVs in the last sweep")
     BR_ROWS = q(con, f"select PROJECT_EN, PARCEL_ID, PARENT_PROPERTY_ID, count(*) from {BR} where PROJECT_EN is not null group by 1,2,3")
-    LR_ROWS = q(con, f"select project_name_en, master_project_en, area_name_en, munc_zip_code, count(*), any_value(parcel_id) from {LR} where project_name_en is not null group by 1,2,3,4")
+    LR_ROWS = q(con, f"select project_name_en, master_project_en, area_name_en, munc_zip_code, count(*), any_value(parcel_id) from {LR} where project_name_en is not null group by 1,2,3,4") if LR else []
+    if LR and not LR_ROWS:
+        warnings.append("land registry read returned no project rows"); print("WARNING", warnings[-1])
     print(f"grouped once: {len(BR_ROWS):,} building-project rows, {len(LR_ROWS):,} land-project rows")
     # 7 (precomputed): one pass over every register CSV, all projects at once - which files mention which project
     PATS = {pk: re.compile(".*".join(re.escape(w) for w in sorted(toks(rec.get("name") or pk))[:3]), re.I) for pk, rec in P.items() if toks(rec.get("name") or pk)}
@@ -112,12 +148,15 @@ def main():
         name = rec.get("name") or pk
         if only and only not in name.lower(): continue
         pt = toks(name); dev = rec.get("developer") or ""
-        R = {"checked": time.strftime("%Y-%m-%d"), "sources_hit": []}
+        R = {"checked": time.strftime("%Y-%m-%d"), "matcher": MATCHER, "sources_hit": []}
         # 1 DLD projects register
         b = best_name_match(pt, projects, 0, 1, dev)
         if b:
             r = b[1]
             R["dld_project"] = {"name": r[0], "developer": r[1], "master": r[2], "area": r[3], "status": r[4], "percent_completed": r[5], "units": r[6], "villas": r[7], "buildings": r[8], "escrow_agent": r[9], "project_number": r[10], "property_id": r[11], "end_date": r[12]}
+            sc = scope_note(name, r[0])
+            if sc:                                   # a block on the sheet, the whole project in the register: keep the context, never its counts
+                R["dld_project"].update({"scope": sc, "units": None, "villas": None, "buildings": None})
             R["sources_hit"].append("DLD projects register")
             area_for_pop = r[3]
         else:
@@ -130,12 +169,16 @@ def main():
                 R["dld_developer"] = {"name": d[0], "number": d[1], "licence": d[2], "licence_expiry": d[3], "phone": d[4], "web": d[5], "status": d[6]}
                 R["sources_hit"].append("DLD developers register")
         # 3 DLD buildings / land: parcel and property ids by name
-        b = best_name_match(pt, BR_ROWS, 0)
-        if b and b[0][0] >= max(1, len(pt) - 1):
+        b = best_name_match(pt, BR_ROWS, 0)                      # every project word present (best_name_match), no one-word overlaps
+        if b:
             R["dld_buildings"] = {"project": b[1][0], "parcel_id": b[1][1], "parent_property_id": b[1][2], "rows": b[1][3]}; R["sources_hit"].append("DLD buildings register")
+            sc = scope_note(name, b[1][0])
+            if sc: R["dld_buildings"].update({"scope": sc, "rows": None})
         b = best_name_match(pt, LR_ROWS, 0)
-        if b and b[0][0] >= max(1, len(pt) - 1):
+        if b:
             R["dld_land"] = {"project": b[1][0], "master": b[1][1], "area": b[1][2], "community_no": b[1][3], "plots": b[1][4], "parcel_id": b[1][5]}; R["sources_hit"].append("DLD land registry")
+            sc = scope_note(name, b[1][0])
+            if sc: R["dld_land"].update({"scope": sc, "plots": None})
             area_for_pop = area_for_pop or b[1][2]
         # 4 DM by parcel: consultant / contractor / stage
         parcel = (R.get("dld_buildings") or {}).get("parcel_id") or (R.get("dld_land") or {}).get("parcel_id")
@@ -158,7 +201,9 @@ def main():
         rec["registry"] = R
         idn = R.get("dld_project") or {}
         print(f"  {name[:30]:<30} {dev[:10]:<10} | {', '.join(R['sources_hit']) or 'no register hit':<75} | {('DLD: ' + str(idn.get('status')) + ' ' + str(idn.get('percent_completed') or '') + '%') if idn else ''} | mentions {len(mentions)}")
-    doc["registry_note"] = "registry = the fallback tier (DLD projects/developers/buildings/land, DM project register, DSC population, then every register CSV); MEED sits under 'pipeline'."
+    doc["registry_note"] = "registry = the fallback tier (DLD projects/developers/buildings/land, DM project register, DSC population, then every register CSV in the repo); MEED sits under 'pipeline'. Matcher %s: every project word must be in the register name." % MATCHER
+    doc["registry_matcher"] = MATCHER
+    doc["registry_warnings"] = warnings
     json.dump(doc, open(remp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n{hits} of {len(P)} sheet projects touched by at least one register")
     if do_push: print("remaining ->", push("remaining", doc, env_token("INGEST_TOKEN")).get("ok"))

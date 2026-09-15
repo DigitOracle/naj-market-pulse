@@ -1,0 +1,22 @@
+# Python packages for the always-on host (Data Spine Phase 6). Pinned to the versions the laptop ran on 13 Sep 2026,
+# found by scanning scripts/ for third-party imports.   python -m pip install -r ops/requirements-host.txt
+# Not listed on purpose: arcpy, arcgis, cityengine (Esri-licensed, internal twin scripts only); kuzu (retired in Phase 2).
+duckdb==1.5.5
+splink==4.0.17
+pyproj==3.7.2
+shapely==2.1.2
+geopandas==1.1.3
+numpy==2.4.3
+pandas==3.0.1
+scipy==1.17.1
+ijson==3.5.1
+requests==2.33.1
+beautifulsoup4==4.14.3
+pillow==12.1.1
+PyMuPDF==1.27.2
+matplotlib==3.10.8
+mapbox_earcut==2.0.0
+CairoSVG==2.9.0            # also needs the Cairo runtime libraries on Windows
+rapidocr-onnxruntime==1.4.4
+rembg==2.0.84
+playwright==1.58.0         # then: python -m playwright install chromium

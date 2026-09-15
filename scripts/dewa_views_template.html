@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Najma Residents and Buildings</title>
+<!-- Filled by scripts/build_dewa_views.py. Holds internal nationality shares: opens on this laptop, never published.
+     Same map as the app's MAP tab: MapLibre 4.7.1 on Carto Dark Matter. Only map tiles are fetched; the data stays in this file. -->
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>
+  :root {
+    --ground: #0e1413; --panel: #151d1c; --raise: #1b2524; --ink: #e8eeec; --muted: #9aa9a5; --line: #26312f;
+    --teal: #2f8a7f; --gold: #c5a56a;
+    --b5: #1f5f58; --b10: #2f8a7f; --b20: #58b5a8; --b40: #a9e2da;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--ground); color: var(--ink); font: 14px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif; }
+  header { padding: 14px 20px 0; border-bottom: 1px solid var(--line); background: var(--panel); }
+  .top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+  h1 { margin: 0; font-size: 18px; font-weight: 600; }
+  .flag { padding: 3px 9px; border-radius: 4px; background: var(--gold); color: #1d1608; font-size: 12px; font-weight: 700; }
+  .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  nav { display: flex; gap: 2px; margin-top: 8px; }
+  nav button { border: 0; background: none; padding: 9px 12px; font: inherit; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  nav button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--gold); font-weight: 600; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  main { padding: 14px 20px 24px; }
+  .grid { display: grid; grid-template-columns: 300px minmax(0, 1fr) 330px; gap: 14px; }
+  @media (max-width: 1200px) { .grid { grid-template-columns: 280px minmax(0, 1fr); } #detail { grid-column: 1 / -1; } }
+  @media (max-width: 800px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-width: 0; }
+  .stack { display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .label { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 0 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { border: 1px solid var(--line); background: var(--raise); color: var(--ink); border-radius: 999px; padding: 4px 10px; font: inherit; font-size: 12.5px; cursor: pointer; }
+  .chip[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .seg button { flex: 1; border: 0; background: var(--raise); color: var(--ink); padding: 7px 0; font: inherit; font-size: 12.5px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--gold); color: #1d1608; font-weight: 700; }
+  input[type=search], select { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--raise); color: var(--ink); font: inherit; }
+  #map { height: calc(100vh - 190px); min-height: 520px; border-radius: 8px; border: 1px solid var(--line); overflow: hidden; }
+  .list { max-height: 330px; overflow: auto; margin: 0 -4px; }
+  .row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 7px 6px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .row:hover, .row.sel { background: var(--raise); }
+  .row .n { font-weight: 600; font-size: 13px; }
+  .row .o, .row .m { color: var(--muted); font-size: 11.5px; }
+  .tag { font-size: 11.5px; padding: 1px 7px; border-radius: 4px; color: #0b1211; white-space: nowrap; align-self: center; font-weight: 600; }
+  .legend { display: grid; gap: 5px; font-size: 12.5px; }
+  .sw { display: inline-block; width: 14px; height: 10px; border-radius: 2px; margin-right: 7px; vertical-align: middle; }
+  .note { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  h2 { margin: 0; font-size: 18px; }
+  .aka { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .bars { display: grid; gap: 8px; margin-top: 4px; }
+  .bar { display: grid; grid-template-columns: 120px minmax(0, 1fr) 40px; gap: 8px; align-items: center; font-size: 12.5px; }
+  .bar i { display: block; height: 9px; border-radius: 2px; background: var(--b20); }
+  .bar b { text-align: right; font-variant-numeric: tabular-nums; }
+  .maplibregl-popup-content { background: var(--panel); color: var(--ink); border: 1px solid var(--line); padding: 7px 10px; font: 12.5px/1.35 "Segoe UI", system-ui, sans-serif; }
+  .maplibregl-popup-tip { display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  th { font-size: 11px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); position: sticky; top: 0; background: var(--panel); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tablewrap { max-height: calc(100vh - 330px); overflow: auto; }
+  .counts { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .count { border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 12.5px; background: var(--panel); }
+  .bld-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Residents by community and building activity</h1><span class="flag">Internal: Kendall and Naj only. Never for clients.</span></div>
+  <div class="sub" id="source"></div>
+  <nav role="tablist">
+    <button role="tab" aria-selected="true" data-tab="res">Residents by community</button>
+    <button role="tab" aria-selected="false" data-tab="bld">Building colours</button>
+  </nav>
+</header>
+<main>
+  <section id="res">
+    <div class="grid">
+      <div class="stack">
+        <div class="card"><p class="label">Nationality</p><div class="chips" id="nats"></div></div>
+        <div class="card"><p class="label">Minimum share</p><div class="seg" id="mins"></div></div>
+        <div class="card">
+          <p class="label">Community</p>
+          <input type="search" id="q" placeholder="Search: Dubai Marina, JVC, Al Barsha...">
+          <p class="label" id="listhead" style="margin-top:12px"></p>
+          <div class="list" id="list"></div>
+        </div>
+        <div class="card"><p class="label">Shading</p><div class="legend" id="legend"></div><p class="note" id="rules"></p></div>
+      </div>
+      <div id="map" role="region" aria-label="Map of Dubai communities shaded by the selected nationalities"></div>
+      <div class="card" id="detail"></div>
+    </div>
+  </section>
+  <section id="bld" hidden>
+    <div class="bld-controls">
+      <div class="card"><p class="label">Colour by</p><select id="mode"></select></div>
+      <div class="card"><p class="label">District</p><select id="dist"></select></div>
+      <div class="card"><p class="label">What it means</p><p class="note" id="modelabel" style="margin:0"></p></div>
+    </div>
+    <div class="counts" id="bcounts"></div>
+    <div class="card"><div class="tablewrap"><table id="btable"></table></div></div>
+    <p class="note" id="bnotes"></p>
+  </section>
+</main>
+<script>
+const DATA = __DATA__;
+const MIX = DATA.mix, TWIN = DATA.twin;
+const $ = (id) => document.getElementById(id);
+const COL = { 5: "#1f5f58", 10: "#2f8a7f", 20: "#58b5a8", 40: "#a9e2da" };
+const BAND_TXT = { 5: "5-10%", 10: "10-20%", 20: "20-40%", 40: "40%+" };
+const state = { nats: new Set([MIX.nationalities[0]]), min: 5, q: "", sel: null };
+const byComm = new Map(MIX.communities.map(c => [String(c.comm), c]));
+const nameOf = (comm) => (byComm.get(comm) || MIX.names[comm] || { label: "Community " + comm, official: "" });
+
+$("source").textContent = MIX.source + ". Names from the Land Department's sales records; official Municipality names underneath.";
+$("rules").textContent = "Communities with at least " + MIX.rules.minResidentialAccounts + " residential accounts. Groups under " +
+  MIX.rules.minSharePct + "% are pooled; shares rounded. " + MIX.notes[0];
+$("legend").innerHTML = [40, 20, 10, 5].map(k => '<div><span class="sw" style="background:' + COL[k] + '"></span>' + BAND_TXT[k] + "</div>").join("") +
+  '<div><span class="sw" style="border:1px solid #c5a56a88"></span>shown, below your minimum</div>' +
+  '<div><span class="sw" style="border:1px solid #ffffff22"></span>fewer than 500 accounts: not shown</div>';
+
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("nav button").forEach(x => x.setAttribute("aria-selected", x === b ? "true" : "false"));
+  $("res").hidden = b.dataset.tab !== "res"; $("bld").hidden = b.dataset.tab !== "bld";
+  if (b.dataset.tab === "res" && map) map.resize();
+}));
+MIX.nationalities.forEach(n => {
+  const b = document.createElement("button"); b.className = "chip"; b.textContent = n; b.dataset.nat = n;
+  b.onclick = () => { state.nats.has(n) ? state.nats.delete(n) : state.nats.add(n); render(); };
+  $("nats").appendChild(b);
+});
+[5, 10, 20, 40].forEach(v => {
+  const b = document.createElement("button"); b.textContent = v + "%+"; b.dataset.min = v;
+  b.onclick = () => { state.min = v; render(); }; $("mins").appendChild(b);
+});
+$("q").addEventListener("input", e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+
+function bandFor(c) {
+  let best = 0;
+  state.nats.forEach(n => { const b = (c.bands || {})[n] || 0; if (b >= state.min && b > best) best = b; });
+  return best;
+}
+const matchesQ = (comm) => { if (!state.q) return true; const n = nameOf(comm); return (n.label + " " + n.official + " " + ((byComm.get(comm) || {}).known || []).join(" ")).toLowerCase().includes(state.q); };
+
+function features() {
+  return { type: "FeatureCollection", features: Object.entries(MIX.outlines).map(([comm, ring]) => {
+    const c = byComm.get(comm), n = nameOf(comm), band = c ? bandFor(c) : 0;
+    return { type: "Feature", geometry: { type: "Polygon", coordinates: [ring] },
+             properties: { comm, label: n.label, official: n.official, band, shown: !!c, dim: !matchesQ(comm), sel: state.sel === comm } };
+  }) };
+}
+
+let map = null;
+function bboxOf(comm) {
+  const ring = MIX.outlines[comm]; if (!ring) return null;
+  let a = [180, 90, -180, -90]; ring.forEach(([x, y]) => { a = [Math.min(a[0], x), Math.min(a[1], y), Math.max(a[2], x), Math.max(a[3], y)]; });
+  return [[a[0], a[1]], [a[2], a[3]]];
+}
+function select(comm, fly) {
+  state.sel = comm; render();
+  if (fly && map) { const b = bboxOf(comm); if (b) map.fitBounds(b, { padding: 80, maxZoom: 13.5, duration: 600 }); }
+}
+
+function detail() {
+  const c = state.sel && byComm.get(state.sel);
+  if (!c) {
+    const n = state.sel ? nameOf(state.sel) : null;
+    $("detail").innerHTML = '<p class="label">Community</p>' + (n ? '<h2>' + n.label + '</h2><div class="aka">' + (n.official !== n.label ? n.official : '') +
+      '</div><p class="note">Fewer than 500 residential accounts with a nationality, so no mix is shown.</p>' : '<p class="note">Tap a community on the map or in the list.</p>');
+    return;
+  }
+  const bars = c.mix.map(([n, s]) => '<div class="bar"><span>' + n + '</span><i style="width:' + Math.max(2, s) + '%"></i><b>' + s + '%</b></div>').join("") +
+    (c.other ? '<div class="bar"><span>Other</span><i style="width:' + Math.max(2, c.other) + '%;background:#3a4a48"></i><b>' + c.other + '%</b></div>' : "");
+  $("detail").innerHTML = '<p class="label">Community</p><h2>' + c.label + '</h2>' +
+    '<div class="aka">' + (c.known && c.known.length > 2 ? "Also " + c.known.slice(2).join(", ") + " · " : "") + (c.official !== c.label ? 'Official name: ' + c.official : 'Official and common name') + '</div>' +
+    '<p class="note">About ' + c.accounts.toLocaleString() + ' residential accounts with a nationality; ' + c.noNationalityPct + '% record none.</p>' +
+    '<p class="label" style="margin-top:14px">Largest groups</p><div class="bars">' + bars + '</div>' +
+    '<p class="note" style="margin-top:14px">Account holders, not every resident. For market understanding and planning content; not for recommending homes.</p>';
+}
+
+function render() {
+  document.querySelectorAll("#nats .chip").forEach(b => b.setAttribute("aria-pressed", state.nats.has(b.dataset.nat)));
+  document.querySelectorAll("#mins button").forEach(b => b.setAttribute("aria-pressed", Number(b.dataset.min) === state.min));
+  const hits = MIX.communities.map(c => [c, bandFor(c)]).filter(([c, b]) => b && matchesQ(String(c.comm)));
+  hits.sort((a, b) => b[1] - a[1] || a[0].label.localeCompare(b[0].label));
+  const sel = [...state.nats];
+  $("listhead").textContent = sel.length ? hits.length + " communities where " + sel.join(" or ") + " reach " + state.min + "%+" : "Pick at least one nationality";
+  $("list").innerHTML = hits.map(([c, b]) => {
+    const top = c.mix.filter(([n]) => state.nats.has(n)).map(([n, s]) => n + " " + s + "%").join(", ");
+    return '<div class="row' + (state.sel === String(c.comm) ? " sel" : "") + '" data-comm="' + c.comm + '"><div><div class="n">' + c.label + '</div>' + (c.official !== c.label ? '<div class="o">' + c.official + '</div>' : '') + '<div class="m">' + top + '</div></div><span class="tag" style="background:' + COL[b] + '">' + BAND_TXT[b] + '</span></div>';
+  }).join("") || '<p class="note">No community matches.</p>';
+  $("list").querySelectorAll(".row").forEach(r => r.onclick = () => select(r.dataset.comm, true));
+  if (map && map.getSource("comm")) map.getSource("comm").setData(features());
+  detail();
+}
+
+function startMap() {
+  map = new maplibregl.Map({ container: "map", style: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+                             center: [55.24, 25.12], zoom: 10.2, attributionControl: { compact: true } });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  map.on("load", () => {
+    const layers = map.getStyle().layers;
+    const firstSymbol = (layers.find(l => l.type === "symbol") || {}).id;
+    const font = ((layers.find(l => l.type === "symbol" && l.layout && l.layout["text-font"]) || {}).layout || {})["text-font"] || ["Open Sans Regular"];
+    map.addSource("comm", { type: "geojson", data: features() });
+    map.addLayer({ id: "comm-fill", type: "fill", source: "comm", paint: {
+      "fill-color": ["match", ["get", "band"], 40, COL[40], 20, COL[20], 10, COL[10], 5, COL[5], "#000000"],
+      "fill-opacity": ["case", ["==", ["get", "band"], 0], 0.01, ["get", "dim"], 0.2, 0.62] } }, firstSymbol);
+    map.addLayer({ id: "comm-line", type: "line", source: "comm", paint: {
+      "line-color": ["case", ["get", "sel"], "#c5a56a", ["get", "shown"], "rgba(197,165,106,0.45)", "rgba(255,255,255,0.13)"],
+      "line-width": ["case", ["get", "sel"], 2.6, 0.7] } }, firstSymbol);
+    map.addLayer({ id: "comm-label", type: "symbol", source: "comm",
+      filter: ["any", [">", ["get", "band"], 0], ["get", "sel"]],
+      layout: { "text-field": ["get", "label"], "text-font": font, "text-size": 11.5, "text-max-width": 9, "text-allow-overlap": false },
+      paint: { "text-color": "#f5efe2", "text-halo-color": "#0b0f0f", "text-halo-width": 1.4 } });
+    const pop = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 12 });
+    map.on("mousemove", "comm-fill", e => {
+      const p = e.features[0].properties; map.getCanvas().style.cursor = "pointer";
+      pop.setLngLat(e.lngLat).setHTML("<b>" + p.label + "</b>" + (p.official && p.official !== p.label ? "<br><span style='color:#9aa9a5'>" + p.official + "</span>" : "")).addTo(map);
+    });
+    map.on("mouseleave", "comm-fill", () => { map.getCanvas().style.cursor = ""; pop.remove(); });
+    map.on("click", "comm-fill", e => select(e.features[0].properties.comm, false));
+  });
+}
+render();
+if (window.maplibregl) startMap(); else $("map").innerHTML = '<p class="note" style="padding:16px">The map library could not load (no internet?). The list and details still work.</p>';
+
+// --- building colours (preview of the TWIN modes) -------------------------------------------------------------------------
+const B = Object.entries(TWIN.buildings).map(([duid, v]) => Object.assign({ duid }, v));
+Object.entries(TWIN.modes).forEach(([k, m]) => { const o = document.createElement("option"); o.value = k; o.textContent = m.label.split(":")[0].split(",")[0]; $("mode").appendChild(o); });
+const districts = [...new Set(B.map(b => b.district).filter(Boolean))].sort();
+$("dist").innerHTML = '<option value="">All districts</option>' + districts.map(d => '<option>' + d + '</option>').join("");
+$("mode").onchange = $("dist").onchange = renderB;
+$("bnotes").textContent = TWIN.attribution + ". " + TWIN.notes.join(" ");
+function renderB() {
+  const mode = $("mode").value, dist = $("dist").value, m = TWIN.modes[mode];
+  $("modelabel").textContent = m.label + (mode === "activity" ? " (Dubai's own ratio " + TWIN.cityRatio + "; last six months " + TWIN.window.last6.join(" to ") + ")" : "");
+  const rows = B.filter(b => (!dist || b.district === dist) && b[mode]);
+  $("bcounts").innerHTML = m.bands.map(band => '<div class="count">' + band + ': <b>' + rows.filter(b => b[mode] === band).length + '</b></div>').join("") +
+    '<div class="count">buildings shown: <b>' + rows.length + '</b></div>';
+  rows.sort((a, b) => m.bands.indexOf(b[mode]) - m.bands.indexOf(a[mode]) || (b.last6 || 0) - (a.last6 || 0));
+  $("btable").innerHTML = '<thead><tr><th>Building</th><th>District</th><th>' + mode + '</th><th>Opened</th><th class="num">Move-ins a month (first 6)</th><th class="num">Residents %</th><th class="num">Last 6 mo</th><th class="num">6 before</th></tr></thead><tbody>' +
+    rows.slice(0, 600).map(b => '<tr><td>' + (b.name || b.duid) + '</td><td>' + (b.district || "") + '</td><td>' + b[mode] + '</td><td>' + (b.opened || "") +
+      '</td><td class="num">' + (b.fillPerMonth ?? "") + '</td><td class="num">' + b.residentialPct + '</td><td class="num">' + b.last6 + '</td><td class="num">' + b.prev6 + '</td></tr>').join("") + "</tbody>";
+}
+renderB();
+</script>
+</body>
+</html>

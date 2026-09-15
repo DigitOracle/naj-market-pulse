@@ -29,6 +29,10 @@ RENT = [f for f in sorted(glob.glob(r"C:\Dev\naj-market-pulse\data\raw_downloads
 TYPE = {"studio": "Studio", "1 b/r": "1 B/R", "2 b/r": "2 B/R", "3 b/r": "3 B/R", "4 b/r": "4 B/R", "5 b/r": "5 B/R", "penthouse": "PENTHOUSE", "office": "Office", "shop": "Shop", "retail": "Shop",
         "1bed room+hall": "1 B/R", "2 bed rooms+hall": "2 B/R", "3 bed rooms+hall": "3 B/R", "4 bed rooms+hall": "4 B/R", "5 bed rooms+hall": "5 B/R", "1br": "1 B/R", "2br": "2 B/R", "3br": "3 B/R", "1 br": "1 B/R", "2 br": "2 B/R", "3 br": "3 B/R"}
 GENERIC = r"^(tower|towers|residences?|residence|building|podium|block|phase|[ab]|i{1,3}|[12]|by[a-z]+)*$"   # what a register name may add to a sheet name and still be the same project
+# 15 Sep 2026: what a SHEET name may add to a register name - generic words only, never a block/tower/phase letter or number. With the
+# letters allowed, 'Soulever Tower B' took the whole of "Soulever' By Beyond" (517 launched units) as if the block were the project.
+GENERIC_SHEET = r"^(tower|towers|residences?|residence|building|podium|by[a-z]+)*$"
+REGISTRY_MATCHER = "2026-09-15"   # register_fallback.MATCHER: only registry blocks made by the current matcher are carried forward
 
 
 def nk(s): return re.sub(r"[^a-z0-9]", "", str(s or "").lower())
@@ -40,11 +44,16 @@ def canon(k):
     return k
 def same(sheet_key, reg_name):
     """the register name is the sheet's project, or the sheet's project plus only generic words (Tower A, Residences, Podium, by X)"""
-    r = canon(nk(reg_name)); sheet_key = canon(sheet_key)
+    raw_r, raw_s = nk(reg_name), sheet_key
+    r = canon(raw_r); sheet_key = canon(sheet_key)
     if not r or not sheet_key: return False
     if r == sheet_key: return True
+    # a sheet name that carries its developer ('Imtiaz Symphony Tower') only takes an unbranded register name when it is the same
+    # project exactly - 15 Sep 2026: the generic-suffix rule let it absorb an unrelated 'Symphony' (767 launched units)
+    sdev = {d for d in DEVTOK if d and d in raw_s}
+    if sdev and not any(d in raw_r for d in sdev): return False
     if r.startswith(sheet_key) and re.fullmatch(GENERIC, r[len(sheet_key):]): return True
-    if sheet_key.startswith(r) and re.fullmatch(GENERIC, sheet_key[len(r):]): return True
+    if sheet_key.startswith(r) and re.fullmatch(GENERIC_SHEET, sheet_key[len(r):]): return True
     return False
 
 
@@ -155,11 +164,21 @@ def main():
             dn = next((k for k in DNA if k.lower() == dev.lower()), None)
             act = ((DNA.get(dn) or {}).get("meed") or {}).get("active") or []
             pt = toks(rec["name"]); best = None
+            words = [w for w in re.sub(r"[^a-z0-9]+", " ", rec["name"].lower()).split() if len(w) >= 3 and w not in STOPW]
+            first = words[0] if words else None
             for a in act:
                 tt = toks(a.get("title")); sh = pt & tt
-                if sh and (not best or len(sh) > best[0]): best = (len(sh), a)
+                # 15 Sep 2026: every project word ('Soulever Tower B' ~ 'Soulever By Beyond'), or the project family - the name's first word -
+                # labelled as such ('Passo Bella' ~ MEED 'Passo'); never one arbitrary shared word
+                full = bool(pt) and sh == pt
+                family = not full and len(pt) >= 2 and first in tt
+                score = (2 if full else 1 if family else 0, len(sh))
+                if score[0] and (not best or score > best[0]): best = (score, a)
             if best:
                 a = best[1]; rec["pipeline"] = {"title": a.get("title"), "stage": a.get("stage"), "usd_m": a.get("usd_m"), "source": "MEED projects corpus (stored snapshot)"}
+                qual = lambda t: {("%s %s" % m.groups()).lower() for m in re.finditer(r"\b(tower|block|building|phase)\s*[-']?\s*([a-z]|\d{1,2})\b", t or "", re.I)}
+                if best[0][0] == 1 or (qual(rec["name"]) and not (qual(rec["name"]) & qual(a.get("title")))):
+                    rec["pipeline"]["scope"] = "project family - MEED names the wider project, not '%s'" % rec["name"]
                 rec["basis"] += " · pipeline = MEED (no DLD registration found)"; hits += 1
         print(f"  MEED fallback: {hits} sheet project(s) without a DLD registration matched to a MEED record")
     except Exception as e:
@@ -168,13 +187,17 @@ def main():
     prevp = os.path.join(BOARD, "remaining.json"); prev = {}
     try: prev = json.load(open(prevp, encoding="utf-8")) if os.path.exists(prevp) else {}
     except Exception: prev = {}
-    kept = 0
+    kept = stale = 0
     for pk, rec in out.items():
         old = (prev.get("projects") or {}).get(pk) or {}
-        if old.get("registry") and not rec.get("registry"): rec["registry"] = old["registry"]; kept += 1
+        if old.get("registry") and not rec.get("registry"):
+            if old["registry"].get("matcher") == REGISTRY_MATCHER: rec["registry"] = old["registry"]; kept += 1
+            else: stale += 1                     # made by the one-shared-word matcher (before 15 Sep 2026): dropped, not republished
     doc = {"generated": time.strftime("%Y-%m-%d %H:%M"), "projects": out}
-    if prev.get("registry_note"): doc["registry_note"] = prev["registry_note"]
+    for k in ("registry_note", "registry_matcher", "registry_warnings"):
+        if prev.get(k) is not None: doc[k] = prev[k]
     if kept: print(f"registry blocks carried forward: {kept}")
+    if stale: print(f"stale registry blocks dropped (old matcher): {stale} - run register_fallback.py to rebuild them")
     json.dump(doc, open(os.path.join(BOARD, "remaining.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     if not dry: print("push ->", push("remaining", doc, env_token("INGEST_TOKEN")))
 

@@ -34,9 +34,11 @@ KM = "111.0*sqrt(power(d.lat-s.lat,2)+power((d.lon-s.lon)*cos(radians(d.lat)),2)
 
 
 def gated(con, dataset):
-    """The gate's clean view for a dataset, or None if it has nothing usable."""
-    r = con.execute("select clean_view, rows_clean, rows_fabricated from gov_dataset "
-                    "where dataset like ? and clean_view is not null and rows_clean > 0",
+    """The gate's clean view for a dataset, or None if it has nothing usable.
+
+    13 Sep 2026 (Data Spine Phase 1): reads v_gov_usable, not gov_dataset, so a dataset the feed contract holds
+    (gov_contract_check.py) never reaches her feed even when its rows look clean."""
+    r = con.execute("select clean_view, rows_clean, rows_fabricated from v_gov_usable where dataset like ?",
                     [dataset + "%"]).fetchone()
     return (r[0], r[1], r[2]) if r else (None, 0, 0)
 
@@ -45,7 +47,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-pulse", action="store_true")
     a = ap.parse_args()
-    con = duckdb.connect(DB, read_only=True)
+    # 13 Sep 2026 (Data Spine Phase 2): read the published lake (data/lake), not the work-in-progress file - the clean g_*
+    # rows are published there as tables, and a reader of the lake never waits on a builder holding najma.duckdb.
+    sys.path.insert(0, HERE)
+    import lake
+    con = lake.connect()
     block = {"asOf": dt.date.today().isoformat(),
              "source": "Dubai Data (DDA) open datasets, read through the realness gate and joined to "
                        "the Najma district board",
@@ -132,7 +138,7 @@ def main():
                               cast(stop_location_latitude as double) lat
                        from {v} where try_cast(stop_location_longitude as double) is not null),
                  d as (select name, lon, lat from district where lon is not null)
-            select d.name, count(*) stops from d join s on {KM} <= 3 group by 1 order by 2 desc""").fetchall()
+            select d.name, count(*) stops from d join s on {KM} <= 3 group by 1 order by 2 desc, 1""").fetchall()   # name breaks ties, so the list does not reshuffle between runs
         block["busStops"] = {"total": cl, "radiusKm": 3,
                              "mostServed": [{"district": x[0], "stops": x[1]} for x in rows[:6]],
                              "leastServed": [{"district": x[0], "stops": x[1]} for x in rows[-6:]],

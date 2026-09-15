@@ -60,6 +60,30 @@ def load_payload(path):
     return None, "no row array found"
 
 
+
+BIG_BYTES = 150 * 1024 * 1024
+
+
+def ndjson_sidecar(path):
+    """Stream a {..., results:[...]} payload to one-record-per-line JSON, dropping identical records on the way.
+
+    DuckDB's read_json has to hold a single JSON object in memory to parse it, so the two 700 MB payloads (DM building permits,
+    DED licence master) ran it out of memory on 13 Sep however much it was allowed to spill. Line-delimited JSON streams.
+    The sidecar is rebuilt only when the payload is newer than it."""
+    import hashlib, ijson
+    side = path[:-5] + ".ndjson" if path.endswith(".json") else path + ".ndjson"
+    if os.path.exists(side) and os.path.getmtime(side) >= os.path.getmtime(path):
+        return side
+    seen = set(); tmp = side + ".part"
+    with open(path, "rb") as f, open(tmp, "w", encoding="utf-8") as out:
+        for rec in ijson.items(f, "results.item", use_float=True):
+            line = json.dumps(rec, ensure_ascii=False, sort_keys=True, default=str)
+            h = hashlib.sha1(line.encode("utf-8")).digest()
+            if h in seen: continue
+            seen.add(h); out.write(line + "\n")
+    os.replace(tmp, side)
+    return side
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--registry-only", action="store_true")
@@ -73,6 +97,10 @@ def main():
     now = dt.datetime.now().isoformat(timespec="seconds")
 
     con = duckdb.connect(DB)
+    # The two biggest payloads (DM permits 658 MB, DED licence master) ran DuckDB out of memory on 13 Sep while the Unreal
+    # editor held most of the RAM, and landed as empty tables. Let large reads spill to disk instead of failing.
+    tmp = os.path.join(os.path.dirname(DB), '.duck_tmp'); os.makedirs(tmp, exist_ok=True)
+    con.execute("set preserve_insertion_order=false"); con.execute("set temp_directory='%s'" % tmp.replace(os.sep, "/"))
     con.execute("""create or replace table gov_dataset (
                      key varchar primary key, dataset_id bigint, entity varchar, dataset varchar, title varchar,
                      status varchar, rows_reported bigint, columns_reported integer, file varchar, path varchar,
@@ -116,14 +144,40 @@ def main():
             # The payload is one object carrying a results array, so unnest it and expand the struct -
             # `select unnest(results)` alone yields a single anonymous struct column, not the fields.
             fp = p.replace("\\", "/")
-            con.execute("create or replace table %s as with src as (select unnest(results) as r from "
-                        "read_json(?, format='auto', maximum_object_size=1000000000)) select r.* from src"
-                        % tn, [fp])
-            n = con.execute("select count(*) from %s" % tn).fetchone()[0]
-            if n == 0:      # not the {..., results:[...]} shape: try it as a plain array of rows
-                con.execute("create or replace table %s as select * from read_json(?, format='auto', "
-                            "maximum_object_size=1000000000, records=true)" % tn, [fp])
+            if os.path.getsize(p) > BIG_BYTES:
+                side = ndjson_sidecar(p).replace(os.sep, "/")
+                con.execute("create or replace table %s as select * from read_json(?, format='newline_delimited', "
+                            "maximum_object_size=16777216, sample_size=20000)" % tn, [side])
                 n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+                fp = None
+            # DISTINCT: until 13 Sep the pager read past the end of every dataset, because the API wraps round to record 1
+            # instead of returning a short page. 2,252,220 of 6,923,807 landed rows were repeats (ded license master 3x,
+            # customs airway bills 42x). Identical rows carry no information, so they are collapsed here; the raw JSON on
+            # disk keeps what the API actually served. Falls back to a plain select if a column type cannot be compared.
+            def build(sql_distinct, sql_plain):
+                try: con.execute(sql_distinct, [fp])
+                except Exception: con.execute(sql_plain, [fp])
+            if fp is not None: build("create or replace table %s as with src as (select unnest(results) as r from "
+                  "read_json(?, format='auto', maximum_object_size=1000000000)) select distinct r.* from src" % tn,
+                  "create or replace table %s as with src as (select unnest(results) as r from "
+                  "read_json(?, format='auto', maximum_object_size=1000000000)) select r.* from src" % tn)
+            if fp is not None: n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+            if fp is not None and n == 0:      # not the {..., results:[...]} shape: try it as a plain array of rows
+                build("create or replace table %s as select distinct * from read_json(?, format='auto', "
+                      "maximum_object_size=1000000000, records=true)" % tn,
+                      "create or replace table %s as select * from read_json(?, format='auto', "
+                      "maximum_object_size=1000000000, records=true)" % tn)
+                n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+            # Some registers carry each record twice, identical but for load_timestamp (the publisher loaded it twice two
+            # seconds apart: dm_building_permits 1,103,352 rows, 568,037 records). Keep one row per record, earliest load.
+            cols = [r[0] for r in con.execute("describe %s" % tn).fetchall()]
+            if "load_timestamp" in cols and len(cols) > 1:
+                try:
+                    con.execute("create or replace table %s as select * exclude (load_timestamp), min(load_timestamp) as "
+                                "load_timestamp from %s group by all" % (tn, tn))
+                    n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+                except Exception:
+                    pass
             con.execute("update gov_dataset set materialised=true, rows_loaded=? where key=?", [n, key])
             loaded += 1
             ok += n
@@ -132,6 +186,14 @@ def main():
             failed += 1
 
     print("materialised: %d tables, %s rows   (skipped %d oversize, %d failed)" % (loaded, f"{ok:,}", skipped, failed))
+
+    # The registry is rebuilt on every run, so a one-entity run used to mark every other landed table as not materialised.
+    # Re-credit any table that already exists from an earlier run (13 Sep).
+    existing = {r[0] for r in con.execute("select table_name from information_schema.tables").fetchall()}
+    for key, tn in con.execute("select key, table_name from gov_dataset where not materialised and table_name is not null").fetchall():
+        if tn in existing:
+            n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+            if n: con.execute("update gov_dataset set materialised=true, rows_loaded=? where key=?", [n, key])
 
     # Views a person would actually ask for. Kept deliberately few - the registry is the index.
     con.execute("""create or replace view v_gov_missing as

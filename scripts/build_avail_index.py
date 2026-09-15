@@ -46,7 +46,22 @@ def unit_count(path):
     return sum(len(p.get("units") or []) for p in d.get("projects") or [])
 
 
+def held_readings():
+    """(sheet file, project) pairs the volume check is holding (data/avail/_held.json, written by avail_volume_check.py).
+
+    13 Sep 2026, Data Spine Phase 1: a reading with under half the units of the one it would replace is held until a later
+    sheet agrees, so the board keeps the previous count instead of quietly shrinking. Only the newest reading of a project
+    is ever active; a missing or unreadable file holds nothing.
+    """
+    try:
+        d = json.load(open(os.path.join(AVAIL, "_held.json"), encoding="utf-8"))
+    except Exception:
+        return set()
+    return {(h["sheet"], h["project"]) for h in d.get("holds") or [] if h.get("active")}
+
+
 def latest_sheets():
+    held = held_readings()
     best = {}
     for p in glob.glob(os.path.join(AVAIL, "*.json")):
         b = os.path.basename(p)
@@ -56,6 +71,13 @@ def latest_sheets():
         if not m:
             continue
         dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
+        if held:                                          # 13 Sep 2026: a sheet whose every inventory project is held cannot win
+            try:
+                _projs = [pr.get("p") for pr in json.load(open(p, encoding="utf-8")).get("projects") or [] if pr.get("units") or pr.get("types")]
+            except Exception:
+                _projs = []
+            if _projs and all((b, x) in held for x in _projs):
+                continue
         # 11 Sep 2026: units first. The group posts brochures and floor plans to the same thread as inventory,
         # and those parse to zero units. Ranking on date alone let a render booklet dated later REPLACE a real
         # sheet - Imtiaz's 48 units vanished from the board and from drill_imtiaz the day the Archive plans landed.
@@ -101,6 +123,7 @@ def latest_projects():
         by_dev.setdefault(dev, []).append(((date, 0 if auto else 1), p, auto, date))
 
     out = {}
+    held = held_readings()                       # 13 Sep 2026: a held reading never overwrites the project's previous one
     for dev, sheets in by_dev.items():
         sheets.sort(key=lambda x: x[0])          # oldest first so a newer sheet overwrites its projects
         projects, meta, came_from = collections.OrderedDict(), {}, {}
@@ -108,6 +131,8 @@ def latest_projects():
             d = json.load(open(path, encoding="utf-8"))
             for pr in d.get("projects") or []:
                 if not (pr.get("units") or pr.get("types")):
+                    continue
+                if (os.path.basename(path), pr["p"]) in held:
                     continue
                 name = pr["p"]
                 if name in projects and came_from.get(name) == path:

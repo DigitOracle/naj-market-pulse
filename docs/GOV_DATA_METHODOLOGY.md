@@ -1,10 +1,10 @@
 # How a government dataset earns its way into her feed
 
 The pipeline from a Dubai Data pull to a sentence Najjuko posts, written down after a day of
-applying it. Nine gates. A dataset that fails one stops there; it stays registered so the failure is
-on record, but nothing downstream reads it.
+applying it. Ten gates (the tenth, the feed contract, added 13 Sep 2026). A dataset that fails one
+stops there; it stays registered so the failure is on record, but nothing downstream reads it.
 
-The principle behind all nine: **a number she posts must be traceable to a public body, a date, and a
+The principle behind all ten: **a number she posts must be traceable to a public body, a date, and a
 row that a person can open.** Every gate exists because a way was found for that to silently stop
 being true.
 
@@ -57,13 +57,18 @@ network reaches, which hour the airport is busiest) does not go stale week to we
 with its report date. The block carries that date, and the caution travels inside the data, not in
 a footnote.
 
-## 5. Geography: three classes, one forbidden move
+## 5. Geography: four classes, one forbidden move
 
 | Class | Example | How it binds |
 |---|---|---|
 | DLD area names | land registry `area_name_en`, transactions `AREA_EN` | joins the register directly; same geography |
 | coordinates | metro stations, bus stops, food businesses, taxi stands | distance to her 41 district centroids; a flat approximation with a cosine correction is accurate to tens of metres at this latitude |
+| Municipality community number | DLD's own area lookup (`lkp_areas.municipality_number`), population `Code`, bus coverage `community_num`, DEWA's `345-BURJ KHALIFA` | joins by key where a register carries it (`register_joins.py`, `lk_community`); 224 of 301 DLD areas have one |
 | foreign community names | RTA and Municipality community registers | **reported by their own names, never mapped onto her board** |
+
+The community number is not a name match: the Land Department's own lookup gives a DLD area its Municipality community, so a
+sale reaches bus coverage and population by key. Mapping those communities onto her 41 district labels is still a separate
+decision, and until it is made the number stays in the store.
 
 Five of 226 bus-coverage community names match her district labels exactly. A fuzzy match would
 invent a geography. The 07:02 feed proved the risk in prose: the model welded "no bus stop in this
@@ -106,6 +111,55 @@ released by the developer, never call it a sale.**
 "RTA bus network coverage, 31 Dec 2024." "Developer inventory moves, Beyond, 24 Aug–2 Sep 2026."
 The source is part of the angle, not decoration, and the QA pass rejects an angle without one.
 
+## 10. The contract: the counts reconcile, or the dataset is held
+
+`scripts/gov_contract_check.py`, added 13 Sep 2026 (Data Spine Phase 1). The governed API never
+serves a short last page: past the final record it wraps round to record 1 and keeps serving full
+pages. 2,252,220 of 6,923,807 landed rows were repeats across 28 datasets, and the realness gate
+rated every one of them clean, because gate 3 looks for scrambled text, not for the same row twice.
+The pager and the loader were fixed; this gate makes the class impossible to miss again.
+
+Every run compares the rows the pull **landed**, the rows the loader **kept** after `select distinct`,
+and the rows the table **holds** now, and once a week scans each table for duplicate rows. A dataset
+is **held** when it landed rows but loaded none, when the table no longer holds what the register
+recorded, when duplicates reached the table, or when it loaded under 80% of its last accepted count.
+It is **stale** (reported, not held) past ten days. Held datasets drop out of `v_gov_usable`, so
+nothing downstream can post from them; every run is appended to `gov_contract`, nothing overwritten.
+
+The same idea covers the portal downloads (`portal_manifest_check.py`: every part of the newest extract
+on disk, or the register is partial) and the developer sheets (`avail_volume_check.py`: a reading with
+under half the units of the one it replaces is held until a second sheet agrees).
+
+First run, 13 Sep 2026: 369 landed datasets, 332 reconcile exactly, 37 had repeats the loader removed,
+none held. Eight untestable datasets that `v_gov_usable` used to point at base tables now read through
+pass-through `g_` views.
+
+## 11. Nationality: counts only, never below 20, never at a building
+
+The DEWA customer register gives every active account its holder's nationality, building and move-in date
+(`scripts/dewa_accounts.py`, 14 Sep 2026). It is kept for demand: which markets new residents of a community
+come from, where UAE nationals are settling, and, from the second extract on, who arrived and who left.
+
+- **Grain.** Nationality is stored per community and move-in month only. The building table carries no
+  nationality and no national/expatriate split: a villa's Makani number is one household.
+- **Size.** No figure below 20 accounts leaves the store; smaller groups are pooled or dropped
+  (`v_dewa_new_residents_nationality`, `v_dewa_flows_nationality` apply this).
+- **Framing.** In anything published or shown to a client, nationality is where new residents come from. It is
+  never a reason to buy or rent somewhere, never linked to a home or a listing, and never a filter a client uses.
+- **Internal resident mix (Kendall's decision, 14 Sep 2026 afternoon).** For Kendall and Naj only: each community's
+  largest nationality groups among current residential accounts, and a filter by group and minimum share, for market
+  understanding and for planning where her content in a given language should focus (`register_joins.py resident_mix`,
+  `lk_community_resident_mix`, `lk_community_resident_bands`, `data/internal/community_resident_mix.json`). Only
+  communities with at least 500 residential accounts carrying a nationality; only groups at 5% or more, shares rounded
+  to the whole percent, the rest pooled; no counts per nationality stored; nothing below community level. It is never
+  in a link, page, card, post or answer a client can see. Kendall chose where it lives: the app's MAP tab, behind a
+  private link for him and Naj only, so these rounded shares may be stored with the app on Cloudflare, outside the UAE.
+- **Reading.** An account is its holder, not a household; a quarter of residential accounts opened in
+  late 2025 in Business Bay carry no nationality; people who left are absent, so compare shares within a
+  period, or arrivals between two extracts, never raw counts across years.
+- **Use today.** Internal: Naj's targeting and Azimuth's reading. Anything bound for the pulse or her
+  chat passes sections 5 to 9 first, with DEWA named as the source and the extract date stated.
+
 ## What this has produced so far
 
 - Metro access by district: 11 of her 41 within two kilometres, 23 beyond five.
@@ -119,6 +173,9 @@ The source is part of the angle, not decoration, and the QA pass rejects an angl
 
 - 1.1 million building permits, because they end in 2016.
 - 16,850 broker licences, because every one has expired.
-- 19 datasets whose every row is fill, and 71,783 fill rows out of 25 mixed datasets.
+- 26 datasets whose every row is fill, and 632,331 fill rows out of 31 mixed datasets (gate run of
+  13 Sep 2026; the first pass on 12 Sep counted 19 and 71,783).
+- 2,252,220 repeated rows served by the wrapping pager. They had reached the tables and passed the
+  realness gate until 13 Sep, when the loader began keeping distinct rows only; gate 10 now checks it.
 - A metro-to-bus-community join, because the names are different geographies.
 - The sales count that the 07:02 angle tried to attach to a bus-coverage community.

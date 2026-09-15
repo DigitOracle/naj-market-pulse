@@ -11,7 +11,7 @@ dedupes, so late registrations are picked up rather than missed.
 Run:  python scripts/fetch_dld.py
 Env:  DLD_TX_DAYS (default 56) · DLD_RENT_DAYS (default 28)
 """
-import csv, json, os, sys, time
+import csv, glob, json, os, sys, time
 import requests
 from datetime import date, timedelta
 
@@ -73,21 +73,31 @@ def rent_payload(frm, to, take="1", skip="0"):
             "P_TAKE": take, "P_SKIP": skip, "P_SORT": ""}
 
 
-def pull(endpoint, make_payload, windows, cols, key_fn):
-    """Pull every window paged, dedupe by key_fn, return list of dicts limited to cols."""
+def pull(endpoint, make_payload, windows, cols, key_fn, max_passes=1):
+    """Pull every window paged, dedupe by key_fn, return list of dicts limited to cols. With max_passes > 1 a window is
+    paged again until a whole pass adds no new key; a window whose unique keys reach the reported total stops at once.
+    The log line per window says how many keys each pass added."""
     rows, seen = [], set()
     for frm, to in windows:
         probe = post(endpoint, make_payload(mdy(frm), mdy(to)))
         total = probe[0]["TOTAL"] if probe else 0
-        print(f"  {endpoint} {frm} -> {to}: {total} rows")
-        for skip in range(0, total, PAGE):
-            page = post(endpoint, make_payload(mdy(frm), mdy(to), take=str(PAGE), skip=str(skip)))
-            for r in page:
-                k = key_fn(r)
-                if k in seen:
-                    continue
-                seen.add(k)
-                rows.append({c: ("" if r.get(c) is None else r.get(c)) for c in cols})
+        start, added = len(seen), []
+        for p in range(max_passes):
+            n = 0
+            for skip in range(0, total, PAGE):
+                page = post(endpoint, make_payload(mdy(frm), mdy(to), take=str(PAGE), skip=str(skip)))
+                for r in page:
+                    k = key_fn(r)
+                    if k in seen:
+                        continue
+                    seen.add(k)
+                    n += 1
+                    rows.append({c: ("" if r.get(c) is None else r.get(c)) for c in cols})
+            added.append(n)
+            if len(seen) - start >= total or (p > 0 and n == 0):
+                break
+        print(f"  {endpoint} {frm} -> {to}: {total} rows reported, {len(seen) - start} unique; "
+              f"new per pass {'/'.join(str(x) for x in added)}")
     return rows
 
 
@@ -101,6 +111,42 @@ def windows(days_back, step):
         out.append((cur, nxt))
         cur = nxt
     return out
+
+
+def known_transactions(days):
+    """Transaction numbers the last three window pulls held, for the days today's window fully covers (its first day is only
+    partly inside the window), up to yesterday."""
+    since = (date.today() - timedelta(days=days - 1)).isoformat()
+    today = date.today().isoformat()
+    files = sorted(p for p in glob.glob(os.path.join(DATA, "transactions-20??-??-??*.csv")) if today not in os.path.basename(p))[-3:]
+    keys = set()
+    for p in files:
+        with open(p, encoding="utf-8-sig", newline="") as f:
+            for r in csv.DictReader(f):
+                if since <= (r.get("INSTANCE_DATE") or "")[:10] < today:
+                    keys.add(r["TRANSACTION_NUMBER"])
+    return keys
+
+
+def complete_transactions(tx, days, retries=2, wait=120):
+    """A pull short of transactions the last pulls held is pulled again, and the union kept, before anything is written.
+
+    14 Sep 2026: the 06:30 pull lacked 1,496 transactions the previous pull held; the vanish contract in register_versions.py
+    held it, so the pulse stayed a day old. The same windows pulled again at 14:40 held all but one of them, and 99.8% of the
+    portal register's copy against 95.0% for the morning pull. A second pass inside the same run had added nothing, so the
+    shortfall belongs to a pull as a whole: wait, pull again, keep both. The limit is the contract's: 0.2%, at least 50."""
+    known = known_transactions(days)
+    for attempt in range(retries + 1):
+        have = {r["TRANSACTION_NUMBER"] for r in tx}
+        missing, limit = len(known - have), max(50, 0.002 * len(known))
+        print(f"  transactions: {missing} of {len(known)} held by the last pulls are missing (limit {limit:.0f})")
+        if missing <= limit or attempt == retries:
+            return tx
+        print(f"  pulling the transaction windows again in {wait}s (attempt {attempt + 2} of {retries + 1})")
+        time.sleep(wait)
+        again = pull("transactions", tx_payload, windows(days, 14), TX_COLS, key_fn=lambda r: r["TRANSACTION_NUMBER"])
+        tx = tx + [r for r in again if r["TRANSACTION_NUMBER"] not in have]
+    return tx
 
 
 def write_csv(name, cols, rows):
@@ -124,6 +170,7 @@ def main():
 
     tx = pull("transactions", tx_payload, windows(tx_days, 14), TX_COLS,
               key_fn=lambda r: r["TRANSACTION_NUMBER"])
+    tx = complete_transactions(tx, tx_days)
     write_csv("transactions", TX_COLS, tx)
 
     rents = pull("rents", rent_payload, windows(rent_days, 6), RENT_COLS,

@@ -40,7 +40,13 @@ def main():
     if gate.returncode != 0:
         print(gate.stdout[-1500:]); print("golden gate FAILED - nothing exported"); sys.exit(1)
     gate_line = [l for l in gate.stdout.splitlines() if l.startswith("golden gate")][-1]
-    con = connect_when_free(DB); now = time.strftime("%Y-%m-%dT%H:%M:%S")
+    # 13 Sep 2026 (Data Spine Phase 2): the gate passed, so the checked store is published as a new DuckLake snapshot and the
+    # export reads THAT, never the work-in-progress file - an export is always reproducible from a numbered version, and
+    # it no longer waits on (or blocks) a builder holding najma.duckdb. A publish the contract refuses exports nothing.
+    import lake
+    if lake.publish(note="graph_export after the golden gate") != 0:
+        print("lake publish HELD - nothing exported"); sys.exit(1)
+    con = lake.connect(); now = time.strftime("%Y-%m-%dT%H:%M:%S")
     can = rows(con, "select duid, canonical_name, canonical_source, weight, current_name, current_source from v_canonical_name where differs and canonical_name is not null")
     canon = {"generated": now, "gate": gate_line, "n": len(can), "rule": "matrix winner over ACCEPTED/MANUALLY_VERIFIED BUILDING_NAME claims; place sources excluded; applied by apply_identity when weight >= 90",
              "items": {r["duid"]: {"name": r["canonical_name"], "source": r["canonical_source"], "weight": r["weight"], "was": r["current_name"], "was_source": r["current_source"]} for r in can}}

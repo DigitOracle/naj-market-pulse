@@ -27,6 +27,9 @@ import argparse, os, re, sys
 
 import duckdb
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from contracts import GOV_CONTRACT_DDL, HOLDS_VIEW  # noqa: E402  (13 Sep 2026: held datasets leave v_gov_usable)
+
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
@@ -104,9 +107,14 @@ def main():
                 if n_all and (int(n_fake or 0) / n_all) >= 0.6:
                     tests.append("_is_word_fake(%s)" % q)
         if not tests:
+            # 13 Sep 2026 (Data Spine Phase 1): an untestable dataset still gets its own g_ view. clean_view used to name
+            # the BASE table here, so eight datasets (1.10 M rows) were read from base tables, against the rule this gate
+            # exists to enforce. The view passes every row through; the realness column says nothing was tested.
+            view = ("g_" + re.sub(r"^gov_", "", tn))[:120]
+            con.execute("create or replace view %s as select * from %s" % (view, tn))
             con.execute("update gov_dataset set realness=?, realness_note=?, rows_clean=?, rows_fabricated=0, "
                         "clean_view=? where key=?",
-                        ["untestable", "no text column to test; rows taken as they are", nrows, tn, key])
+                        ["untestable", "no text column to test; rows taken as they are through %s" % view, nrows, view, key])
             counts["untestable"] += 1
             continue
 
@@ -135,10 +143,15 @@ def main():
             print("  %-11s %-44s %s" % (verdict.upper(), (ent + "/" + ds.replace("-open-api", ""))[:44], note[:64]))
 
     # The only view anything downstream should read. clean_view is where the rows actually are.
+    # 13 Sep 2026 (Data Spine Phase 1): a dataset the feed contract holds (gov_contract_check.py) is not usable either,
+    # whatever its realness - a doubled or shrunken load is refused before anything can post from it.
+    con.execute(GOV_CONTRACT_DDL)
+    con.execute(HOLDS_VIEW)
     con.execute("""create or replace view v_gov_usable as
                    select entity, dataset, title, clean_view, rows_clean, rows_fabricated, realness, realness_note
                    from gov_dataset
                    where materialised and clean_view is not null and rows_clean > 0
+                     and key not in (select key from v_gov_contract_holds)
                    order by rows_clean desc""")
     con.execute("""create or replace view v_gov_rejected as
                    select entity, dataset, title, status, realness, realness_note, rows_fabricated

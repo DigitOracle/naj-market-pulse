@@ -1,5 +1,10 @@
 """Kùzu projection of the truth store — Kendall's step 4 (9 Sep 2026), run only after graph_golden_check.py passes.
 
+RETIRED 13 Sep 2026 (Data Spine Phase 2). Kùzu was archived upstream in October 2025 (Apple acquired the company) and
+0.11.3, the version installed here, was its last release, so this projection has no future and was never scheduled.
+Path questions run as recursive SQL over the published lake (scripts/lake.py); if a traversal ever outgrows SQL, the live
+successor is LadybugDB (MIT). Kept for reference; do not add to a chain.
+
 DuckDB (data/graph/najma.duckdb) stays the truth store. This script projects its gold tables into a Kùzu property graph
 (data/graph/najma.kuzu) so the questions the app asks ("homes within 400 m of a public beach", "what does this developer
 hold in Creek Harbour", "which towers on this waterfront have no name") are one Cypher pattern each instead of a join chain.

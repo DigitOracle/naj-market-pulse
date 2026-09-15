@@ -67,6 +67,39 @@ def catalogue_names():
     return names
 
 
+def xlsx_to_csv(path, header=None):
+    """A multi-part register can publish a part as an Excel workbook: DLD buildings on 14 Sep 2026 came as part 1 CSV and part 2
+    a workbook holding a 470 MB sheet. Every reader here takes CSV, so the first sheet is streamed to a CSV beside the workbook:
+    whole numbers without '.0', dates as ISO text. With a header from a CSV part, the columns must match or nothing is written.
+    Returns (csv_path, rows, columns)."""
+    import openpyxl
+    out = os.path.splitext(path)[0] + ".csv"
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    rows, cols = 0, None
+    try:
+        with open(out + ".tmp", "w", encoding="utf-8", newline="") as f:
+            w = csv.writer(f)
+            for r in wb.worksheets[0].iter_rows(values_only=True):
+                vals = ["" if v is None else str(int(v)) if isinstance(v, float) and v.is_integer()
+                        else v.isoformat() if hasattr(v, "isoformat") else str(v) for v in r]
+                if cols is None:
+                    cols = [c.strip() for c in vals]
+                    if header and [c.lower() for c in cols] != [c.strip().lower() for c in header]:
+                        raise RuntimeError("%s: workbook columns differ from the CSV part's - not converted" % os.path.basename(path))
+                    w.writerow(cols)
+                elif any(vals):
+                    w.writerow(vals)
+                    rows += 1
+    except Exception:
+        if os.path.exists(out + ".tmp"):
+            os.remove(out + ".tmp")
+        raise
+    finally:
+        wb.close()
+    os.replace(out + ".tmp", out)
+    return out, rows, cols
+
+
 def download(did, slug):
     """Every part of the dataset's latest extract. The payload lists one metadata entry per part (file_folder ..._0001, _0002 ...),
     each with a files list (the csv.gz plus a schema file). The first pass took one link and left multi-part registers partial."""
@@ -74,9 +107,20 @@ def download(did, slug):
     entries = ((d.get("data") or {}).get("metadata") or []) if isinstance(d, dict) else []
     parts = []
     for e in entries:
-        for f in e.get("files") or []:
+        fs = [f for f in e.get("files") or [] if str(f.get("file_url") or "") and "schema" not in str(f.get("file_name") or "").lower()
+              and not str(f.get("file_name") or "").lower().endswith((".json", ".txt", ".md"))]
+        # 13 Sep 2026 (Data Spine Phase 1): each part is published TWICE, as .csv.gz and as .json.gz, and the old filter kept
+        # both ('.json.gz' does not end in '.json'), so every multi-part register landed as two full copies - the DLD rent
+        # register reached 15.3 GB of duplicates. 14 Sep: some parts come in a third format, .xlsx.gz, which that fix still
+        # kept, so the one-part buildings register landed as "part 2" in Excel. One format per part: CSV, else JSON, else Excel.
+        for fmt in (".csv.gz", ".csv", ".json.gz", ".xlsx.gz", ".xlsx"):
+            pick = [f for f in fs if str(f.get("file_name") or "").lower().endswith(fmt)]
+            if pick:
+                fs = pick
+                break
+        for f in fs:
             u = str(f.get("file_url") or "").replace("\\/", "/"); nm = str(f.get("file_name") or "")
-            if u and not nm.lower().endswith((".json", ".txt", ".md")) and "schema" not in nm.lower(): parts.append((e.get("file_folder") or "", nm, u, int(f.get("file_size") or 0)))
+            parts.append((e.get("file_folder") or "", nm, u, int(f.get("file_size") or 0)))
     if not parts:
         s_ = json.dumps(d); links = [l.replace("\\/", "/") for l in re.findall(r"https://cdn\.data\.dubai[^\"'\\\s]+", s_)]
         parts = [("", "", l, 0) for l in links[:1]]
@@ -94,7 +138,14 @@ def download(did, slug):
         head = b[:64].lstrip()
         ext = "kml" if head.startswith(b"<?xml") and b"<kml" in b[:400] else "xml" if head.startswith(b"<?xml") else "json" if head[:1] in (b"{", b"[") else "xlsx" if b[:2] == b"PK" else "csv"
         suffix = f"__part{k:02d}" if len(parts) > 1 else ""
-        pth = os.path.join(OUT, f"{slug}__{time.strftime('%Y-%m-%d')}{suffix}.{ext}"); open(pth, "wb").write(b); files.append(os.path.relpath(pth, ROOT)); bytes_total += len(b)
+        pth = os.path.join(OUT, f"{slug}__{time.strftime('%Y-%m-%d')}{suffix}.{ext}"); open(pth, "wb").write(b); bytes_total += len(b)
+        if ext == "xlsx" and len(parts) > 1:              # a part published only as a workbook: keep it, list its CSV copy
+            first_csv = next((os.path.join(ROOT, f) for f in files if f.endswith(".csv")), None)
+            head = next(csv.reader(open(first_csv, encoding="utf-8-sig")), None) if first_csv else None
+            pth, n, c = xlsx_to_csv(pth, head)
+            rows_total += n; cols = cols or c; files.append(os.path.relpath(pth, ROOT))
+            continue
+        files.append(os.path.relpath(pth, ROOT))
         if ext == "csv":
             try:
                 txt = b.decode("utf-8-sig", errors="ignore"); rd = csv.reader(io.StringIO(txt)); c0 = next(rd, []); rows_total += sum(1 for _ in rd)
