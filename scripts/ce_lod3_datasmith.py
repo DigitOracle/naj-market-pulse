@@ -285,17 +285,21 @@ def main():
     # 14 Sep: named buildings matched to photos get their own knobs (balcony style, class, true height), applied per shape as USER
     # values so they win over the district defaults and the OBJECT attrs pushed above.
     if ATTR_FILE:
-        match = json.load(open(ATTR_FILE, encoding="utf-8")); n_set = 0; miss = []
+        # 15 Sep: hero_all.py writes an entry for EVERY footprint (1006 x ~6 knobs); one bridge call per value took 0.24 s each on
+        # the 33-building file, so the values are grouped by (knob, value) and set once per group - seconds instead of half an hour.
+        match = json.load(open(ATTR_FILE, encoding="utf-8")); n_set = 0; miss = []; groups = {}
         for fi_s, rec in match.items():
             shp = shape_by_fi.get(int(fi_s))
             if shp is None: miss.append(fi_s); continue
             for k, v in rec.get("cga", {}).items():
-                try:
-                    ce.setAttribute([shp], "/ce/rule/" + k, v if isinstance(v, str) else float(v))
-                    ce.setAttributeSource([shp], "/ce/rule/" + k, "USER"); n_set += 1
-                except Exception as e:
-                    log(f"attr {k} on b{fi_s} failed: {str(e).splitlines()[0][:60]}")
-        log(f"attr file {os.path.basename(ATTR_FILE)}: {len(match)} buildings, {n_set} values set, {len(miss)} not in scene {miss[:5]}")
+                vv = v if isinstance(v, str) else float(v)
+                groups.setdefault((k, vv), []).append(shp); n_set += 1
+        for (k, vv), lst in groups.items():
+            try:
+                ce.setAttribute(lst, "/ce/rule/" + k, vv); ce.setAttributeSource(lst, "/ce/rule/" + k, "USER")
+            except Exception as e:
+                log(f"attr {k}={vv!r} on {len(lst)} shapes failed: {str(e).splitlines()[0][:60]}")
+        log(f"attr file {os.path.basename(ATTR_FILE)}: {len(match)} buildings, {n_set} values in {len(groups)} groups, {len(miss)} not in scene {miss[:5]}")
     # Business Bay, 11 Sep: 654 buildings at LOD 3 took 2.4 h to generate because every glass tower gets per-bay mullion bars and
     # balconies. Towers read through the window material in Unreal anyway, so at/above --tower-lod-h (60 m) they take --tower-lod (2:
     # bands + recess, no bars or balustrades). Heroes are exported separately at full detail.

@@ -235,8 +235,9 @@ Lot -->
 Building(v, c) -->
     case status == "pipeline" : Ghost
     case LOD == 0             : Plain
+    case LOD >= 3 && heroStyle == "akoya" : Akoya3(v, c)   // 15 Sep: the hero family wins over the generic tower grammar, so the
+                                                            // 20-33 storey Artesia / Golf Vita / Carson towers get the Akoya build too
     case LOD >= 3 && isTower  : Tower3(v, c)
-    case LOD >= 3 && heroStyle == "akoya" : Akoya3(v, c)
     case LOD >= 3 && isMid    : Mid3(v, c)
     case LOD >= 3 && lowStyle == "villa" : Villa3(v, c)
     case LOD >= 3             : Low3(v, c)
