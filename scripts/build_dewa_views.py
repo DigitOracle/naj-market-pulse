@@ -4,7 +4,8 @@
                                            residents against businesses, move-ins in the last six months against the six
                                            before (judged against Dubai's own ratio). Buildings with at least 20 accounts.
   data/internal/community_resident_mix.json  Resident nationality by community, for Kendall and Naj only: rounded shares of
-                                           groups at 5% or more in communities with at least 500 residential accounts, the
+                                           groups at 5% or more in communities with at least 500 residential accounts,
+                                           regions with their countries at 1%+ (never a figure under 20 accounts), the
                                            filter bands, simplified community outlines. Never shown to clients, never linked to
                                            homes or listings, never pushed anywhere public (data/internal is not in git).
 
@@ -110,6 +111,17 @@ def mix(con):
     for c, nat, b in bands:
         if c in comms:
             comms[c]["bands"][nat] = b
+    # 15 Sep: regions, each with its countries (Kendall: "continents, then a further breakdown")
+    for c, region, rpct, others, nat, npct in con.execute("""select comm_num, region, region_pct, others_pct, country, country_pct
+                                                            from lk_community_resident_regions
+                                                            order by comm_num, region_rank, country_rank""").fetchall():
+        if c not in comms:
+            continue
+        regs = comms[c].setdefault("regions", [])
+        if not regs or regs[-1]["name"] != region:
+            regs.append({"name": region, "pct": rpct, "countries": [], "others": others})
+        if nat:
+            regs[-1]["countries"].append([nat, npct])
     names = community_names(con)
     reach = {}
     for e in comms.values():
@@ -135,9 +147,15 @@ def mix(con):
            "audience": "Kendall and Naj only. Never shown to clients, never linked to homes or listings; for market understanding and "
                        "for planning where her content in a given language should focus.",
            "rules": {"minResidentialAccounts": 500, "minSharePct": 5, "shares": "whole percent, rounded", "accounts": "rounded to the nearest 100",
-                     "filterBands": [5, 10, 20, 40]},
+                     "filterBands": [5, 10, 20, 40], "regionCountryMinPct": 1, "regionMinAccounts": 20},
            "notes": ["Nationality of the DEWA account holder, not every resident; accounts current at the extract.",
-                     "noNationalityPct: residential accounts in the community with no nationality recorded (excluded from the shares)."],
+                     "noNationalityPct: residential accounts in the community with no nationality recorded (excluded from the shares).",
+                     "regions: each region's share of accounts with a nationality, with its countries at 1% or more; 'others' is the "
+                     "rest of that region, unnamed. Nothing under 20 accounts is shown: smaller countries stay in 'others', and "
+                     "smaller regions, or a remainder small enough to work out by subtraction, count in Rest of the world.",
+                     "A second passport counts where it was issued (Saint Kitts and Nevis, Dominica, Grenada, Antigua under "
+                     "Americas; Vanuatu under Oceania). Arab world = Arab League members, North Africa included. Rest of the "
+                     "world = Israel and the register's non-country entries (United Nations, NATO and similar)."],
            "nationalities": [n for n, _ in sorted(reach.items(), key=lambda kv: (-kv[1], kv[0]))],
            "communities": sorted(comms.values(), key=lambda e: e["label"] or ""),
            "names": {str(c): {"label": v["label"], "official": v["official"]} for c, v in names.items() if str(c) in outlines},

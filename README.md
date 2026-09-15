@@ -168,9 +168,11 @@ attribution still applies on anything published.
   nationality**, for buildings with 20+ accounts (1,386): how fast towers handed over since Jan 2024 fill (211), residents
   against businesses, and move-ins in the last six months against the six before, judged against Dubai's own ratio (1.46)
   because both halves carry the active-accounts tilt (a flat threshold read 517 "more" against 74 "fewer").
-- `resident_mix` → `lk_community_resident_mix`, `lk_community_resident_bands` → `data/internal/community_resident_mix.json`:
-  internal only, for Kendall and Naj. 137 communities, groups at 5%+ rounded, 18 nationalities in the filter. Never in a
-  client link, card or answer.
+- `resident_mix` → `lk_community_resident_mix`, `lk_community_resident_bands`, `lk_community_resident_regions` →
+  `data/internal/community_resident_mix.json`: internal only, for Kendall and Naj. 137 communities, groups at 5%+ rounded,
+  18 nationalities in the filter, and (15 Sep) `regions`: ten regions from `nationality_regions.py`, each with its
+  countries at 1%+, nothing under 20 accounts shown (median 13 countries named per community). Never in a client link,
+  card or answer.
 - Both reach the app weekly (`gov-weekly`): `push_building_activity` → azimuth-2 `/img/building_activity` (public; no
   nationality; read back and compared), and `push_resident_mix` → `/ingest_private` (v152.1, 15 Sep), which stores it
   privately for the MAP Residents layer behind `RESIDENTS_KEY`. Account counts are removed before sending; the route

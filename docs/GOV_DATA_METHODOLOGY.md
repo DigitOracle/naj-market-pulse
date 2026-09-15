@@ -154,6 +154,12 @@ come from, where UAE nationals are settling, and, from the second extract on, wh
   to the whole percent, the rest pooled; no counts per nationality stored; nothing below community level. It is never
   in a link, page, card, post or answer a client can see. Kendall chose where it lives: the app's MAP tab, behind a
   private link for him and Naj only, so these rounded shares may be stored with the app on Cloudflare, outside the UAE.
+- **Regions view (Kendall, 15 Sep 2026: "continents, then a further breakdown").** Each community's residents by region
+  (Arab world, South Asia, Europe, Russia & Central Asia, Iran & Türkiye, East & Southeast Asia, Sub-Saharan Africa,
+  Americas, Oceania, Rest of the world), each region opening onto its countries at 1% or more
+  (`scripts/nationality_regions.py`, `lk_community_resident_regions`). The size rule holds at every level: a country is
+  named only with 20+ accounts, a region is listed only with 20+ accounts, and a remainder small enough to be worked out
+  by subtraction counts in Rest of the world instead. A second passport counts where it was issued. Whole percents only.
 - **Reading.** An account is its holder, not a household; a quarter of residential accounts opened in
   late 2025 in Business Bay carry no nationality; people who left are absent, so compare shares within a
   period, or arrivals between two extracts, never raw counts across years.

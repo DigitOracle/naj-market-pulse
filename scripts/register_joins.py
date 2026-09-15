@@ -33,6 +33,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 sys.path.insert(0, HERE)
 import lake
+import nationality_regions
 
 DD = os.path.join(ROOT, "data", "raw_downloads", "dd")
 MANIFEST = os.path.join(DD, "MANIFEST.json")
@@ -391,13 +392,16 @@ def job_makani(con):
 
 MIX_MIN_ACCOUNTS = 500                 # a community shows its resident mix only above this many residential accounts
 MIX_MIN_SHARE = 0.05                   # groups under this share are folded into "Other nationalities"
+MIX_NAME_MIN_ACCOUNTS = 20             # regions view: no country, region or remainder under this many accounts is shown (section 11)
+REGION_COUNTRY_MIN_PCT = 1             # regions view: a country is named inside its region from this whole percent
 TOWER_MIN_ACCOUNTS = 20                # buildings with fewer DEWA accounts get no colour: a small building's move-in is a household's
 
 
 def job_resident_mix(con):
     """Kendall, 14 Sep 2026: resident nationality by community, for him and Naj only, never shown to clients, and a filter by
-    group. Residential DEWA accounts, current at the extract. Only rounded shares of groups at 5% or more are kept; no
-    counts per nationality are stored, nothing below community level, and nothing here is linked to homes or listings."""
+    group. Residential DEWA accounts, current at the extract. Kept: rounded shares of groups at 5% or more, and (15 Sep) the
+    regions view - each region's share with its countries at 1%+, never a figure under 20 accounts. No counts per
+    nationality are stored, nothing below community level, and nothing here is linked to homes or listings."""
     C = read(register_files("customers_master_data", "customers_master_data__*.csv"))
     con.execute("""create or replace temp table j_rm as
         select try_cast(regexp_extract(community, '^ *([0-9]+)-', 1) as bigint) comm_num, nullif(trim(nationality), '') nationality,
@@ -431,17 +435,39 @@ def job_resident_mix(con):
                     when share >= {s} then '5-10%' else 'under 5%' end band,
                case when share >= 0.40 then 40 when share >= 0.20 then 20 when share >= 0.10 then 10 when share >= {s} then 5 else 0 end band_min
         from grid""".format(s=MIX_MIN_SHARE))
+    # Kendall, 15 Sep 2026: "instead of individual countries, continents, then a further breakdown" - regions with their
+    # countries, from every group's count before rounding. Floors in nationality_regions.regions_for; only percents are stored.
+    by_comm = {}
+    for c, nat, n, tot in con.execute("""select r.comm_num, r.nationality, r.n, t.with_nat from j_rm r join j_rm_tot t using (comm_num)
+                                         where r.nationality is not null and t.with_nat >= %d""" % MIX_MIN_ACCOUNTS).fetchall():
+        by_comm.setdefault(c, ([], tot))[0].append((nat, n))
+    reg_rows, unmapped, named_per = [], set(), []
+    for c, (counts, tot) in by_comm.items():
+        regs, miss = nationality_regions.regions_for(counts, tot, MIX_NAME_MIN_ACCOUNTS, REGION_COUNTRY_MIN_PCT)
+        unmapped.update(miss)
+        named_per.append(sum(len(g["countries"]) for g in regs))
+        for i, g in enumerate(regs, 1):
+            for j, (nat, p) in enumerate(g["countries"] or [(None, None)], 1):
+                reg_rows.append((c, g["name"], i, g["pct"], g["others"], nat, j if nat else None, p))
+    con.execute("""create or replace temp table j_rm_regions (comm_num bigint, region varchar, region_rank int, region_pct int,
+                   others_pct int, country varchar, country_rank int, country_pct int)""")
+    con.executemany("insert into j_rm_regions values (?, ?, ?, ?, ?, ?, ?, ?)", reg_rows)
+    named_per.sort()
     comms, eligible, covered, total = one(con, """select count(*) filter (where with_nat > 0), count(*) filter (where with_nat >= %d),
         sum(with_nat) filter (where with_nat >= %d), sum(with_nat) from j_rm_tot""" % (MIX_MIN_ACCOUNTS, MIX_MIN_ACCOUNTS))
     groups, med_shown = one(con, """select (select count(distinct nationality) from j_rm_bands),
         median(k) from (select comm_num, count(*) k from j_rm_mix where rank < 99 group by 1)""")
-    return {"tables": [("lk_community_resident_mix", "select * from j_rm_mix"), ("lk_community_resident_bands", "select * from j_rm_bands")],
+    return {"tables": [("lk_community_resident_mix", "select * from j_rm_mix"), ("lk_community_resident_bands", "select * from j_rm_bands"),
+                       ("lk_community_resident_regions", "select * from j_rm_regions")],
             "keys_in": comms, "keys_matched": eligible, "rows_in": total,
             "note": "communities with at least %d residential accounts carrying a nationality" % MIX_MIN_ACCOUNTS,
             "report": ["communities shown: " + pct(eligible, comms),
                        "residential accounts inside the communities shown: " + pct(covered or 0, total or 0),
                        "nationalities reaching 5%% in at least one community: %d; groups shown per community, median %s" % (groups, med_shown),
-                       "stored: rounded shares of groups at 5% or more, 'Other nationalities', bands for the filter - no counts per nationality"]}
+                       "stored: rounded shares of groups at 5% or more, 'Other nationalities', bands for the filter - no counts per nationality",
+                       "regions: %d communities; countries named at %d%%+ with %d+ accounts, median %s per community"
+                       % (len(by_comm), REGION_COUNTRY_MIN_PCT, MIX_NAME_MIN_ACCOUNTS, named_per[len(named_per) // 2] if named_per else 0),
+                       "nationality spellings with no region (counted in Rest of the world): " + (", ".join(sorted(unmapped)) or "none")]}
 
 
 def job_building_activity(con):
