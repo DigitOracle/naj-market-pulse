@@ -42,10 +42,14 @@ def flag(name):
     return False
 
 RULE = opt("--rule", "najma_v4.cga"); LOD = opt("--lod", 3, int)
+flag_no_snap = flag("--no-snap")
+TOWER_LOD = opt("--tower-lod", 2, int); TOWER_H = opt("--tower-lod-h", 60.0, float)   # towers take a cheaper LOD (Business Bay: 2.4 h at LOD 3)
 NAME_ARG = opt("--name", None); SUBSET = opt("--subset", None)
 WANT_OBJ = flag("--obj"); NO_DS = flag("--no-datasmith"); STATS_DIR = opt("--stats-dir", None)
 OFFSET_ARG = opt("--offset", None)            # "X,Y,Z" CE-frame global offset; REQUIRED when no <slug>_georef.json exists (never auto)
 FOCUS = opt("--focus", None); FOCUS_NAME = opt("--focus-name", "focus")   # extra snapshot framing these feature indices
+ATTR_FILE = opt("--attr-file", "")          # data/ce/<slug>/facade_match.json: per-building rule attrs (scripts/facade_match.py)
+RULE_ATTRS = opt("--rule-attr", "")          # "balconyMinH=24,winW=2.2": USER overrides of najma_v4.cga knobs for this district only
 SLUGS = [a for a in args if not a.startswith("--")] or ["sobhaheartland"]
 if len(SLUGS) != 1:
     sys.exit("one district at a time")
@@ -269,11 +273,42 @@ def main():
     ce.setAttribute(sel, "/ce/rule/LOD", LOD)
     try: ce.setAttributeSource(sel, "/ce/rule/LOD", "USER")
     except Exception: pass
+    # Damac Hills, 13 Sep: the apartment blocks are 29-42 m, under balconyMinH (60), so they came out as punched 1.5 m windows in a
+    # blank wall and read as "no facade". Per-district knob overrides let one district get balconies without touching the rest.
+    for kv in [x for x in RULE_ATTRS.split(",") if "=" in x]:
+        k, v = kv.split("=", 1)
+        try:
+            ce.setAttribute(sel, "/ce/rule/" + k.strip(), float(v)); ce.setAttributeSource(sel, "/ce/rule/" + k.strip(), "USER")
+            log(f"rule override {k.strip()} = {float(v):g}")
+        except Exception as e:
+            log(f"rule override {kv} failed: {str(e).splitlines()[0][:80]}")
+    # 14 Sep: named buildings matched to photos get their own knobs (balcony style, class, true height), applied per shape as USER
+    # values so they win over the district defaults and the OBJECT attrs pushed above.
+    if ATTR_FILE:
+        match = json.load(open(ATTR_FILE, encoding="utf-8")); n_set = 0; miss = []
+        for fi_s, rec in match.items():
+            shp = shape_by_fi.get(int(fi_s))
+            if shp is None: miss.append(fi_s); continue
+            for k, v in rec.get("cga", {}).items():
+                try:
+                    ce.setAttribute([shp], "/ce/rule/" + k, v if isinstance(v, str) else float(v))
+                    ce.setAttributeSource([shp], "/ce/rule/" + k, "USER"); n_set += 1
+                except Exception as e:
+                    log(f"attr {k} on b{fi_s} failed: {str(e).splitlines()[0][:60]}")
+        log(f"attr file {os.path.basename(ATTR_FILE)}: {len(match)} buildings, {n_set} values set, {len(miss)} not in scene {miss[:5]}")
+    # Business Bay, 11 Sep: 654 buildings at LOD 3 took 2.4 h to generate because every glass tower gets per-bay mullion bars and
+    # balconies. Towers read through the window material in Unreal anyway, so at/above --tower-lod-h (60 m) they take --tower-lod (2:
+    # bands + recess, no bars or balustrades). Heroes are exported separately at full detail.
+    if TOWER_LOD < LOD:
+        tall = [s for h, lst in by_h.items() if h >= TOWER_H for s in lst]
+        if tall:
+            ce.setAttribute(tall, "/ce/rule/LOD", TOWER_LOD); log(f"towers >= {TOWER_H:g} m: {len(tall)} shapes at LOD {TOWER_LOD} (rest LOD {LOD})")
 
     t0 = time.time(); ev = watchdog("generateModels", 600); ce.generateModels(sel); ev.set(); tg = time.time() - t0
     log(f"generated {len(sel)} shapes in {tg:.1f}s")
     # snapshots for the report: whole selection + the tallest building
     try:
+        if flag_no_snap: raise RuntimeError("--no-snap: viewport snapshots skipped (they stalled the Marina batch run for 30 min on 12 Sep)")
         hmap = {nm: float(feats[fi]["properties"].get("bHeight") or 0) for nm, fi in names.items()}
         tallest = max(sel, key=lambda s: hmap.get(str(ce.getName(s)), 0))
         v3 = ce.get3DViews()[0]; ce.setSelection([]); v3.frame(sel)

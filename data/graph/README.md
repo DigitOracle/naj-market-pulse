@@ -2,6 +2,18 @@
 
 *Started 8 Sep 2026. Built by `scripts/graph_build.py`. Schema 1.1 (role rule, aliases, canonical view). Golden gate: `scripts/graph_golden_check.py` — 7 pass · 0 fail · 1 known-open (Symphony) on 9 Sep 2026.*
 
+> **13 Sep 2026, Data Spine Phase 2 — this file is now the work-in-progress store; readers use the published lake.**
+> After the golden gate passes, `graph_export.py` runs `lake.publish()`: the checked tables (clean `g_*` rows as tables,
+> raw `gov_<entity>__<dataset>` rows left behind) and the `v_*` views are copied into **`data/lake/`** — DuckLake 1.0,
+> SQLite catalogue + Parquet files — in one transaction that is a numbered snapshot. Former primary keys are checked for
+> uniqueness before commit (DuckLake has no constraints). Read with `from lake import connect; con = connect()`: a lake
+> reader is never blocked by a builder holding this file, and `select ... from t at (version => n)` reads any kept version
+> (30 days). `python scripts/lake.py status` lists snapshots. The lake also holds tables no builder writes here:
+> `lk_dld_transactions` / `lk_dld_rents` (register rows with the date they happened and the pull that recorded them —
+> `register_versions.py`) and `lk_avail_units` / `lk_avail_types` (developer availability as intervals — `avail_intervals.py`).
+> **The Kùzu copy (`najma.kuzu`, `graph_kuzu.py`) is retired**: Kùzu was archived upstream in Oct 2025 and 0.11.3 was its
+> last release; path questions run as recursive SQL over the published tables instead.
+
 One database, three kinds of table. Every script that learns a fact writes here; the Worker reads exported views. Nothing else is the source of truth any more — the JSON files under `data/board` and `data/enrich` become inputs and caches.
 
 ## Node tables

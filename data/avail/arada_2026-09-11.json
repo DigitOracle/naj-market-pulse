@@ -1,0 +1,154 @@
+{
+ "source_file": [
+  "1789183988153_Inaura - Availability - 11.09.2026.pdf"
+ ],
+ "sheet_date": "2026-09-11",
+ "received": "2026-09-12",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Arada",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Inaura Hotels & Residences",
+   "block": "Inaura Hotels & Residences",
+   "master": "Downtown Dubai",
+   "completion": "30-Jun-2030",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "INAR-1507",
+     "1 B/R",
+     714.72,
+     3655000,
+     "B Building"
+    ],
+    [
+     "INAR-1704",
+     "2 B/R",
+     1296.41,
+     6475000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-1706",
+     "1 B/R",
+     704.93,
+     3620000,
+     "A Building"
+    ],
+    [
+     "INAR-1903",
+     "1 B/R",
+     774.14,
+     3910000,
+     "B Building"
+    ],
+    [
+     "INAR-1905",
+     "2 B/R",
+     1281.87,
+     6425000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-1906",
+     "1 B/R",
+     704.93,
+     3635000,
+     "A Building"
+    ],
+    [
+     "INAR-1907",
+     "1 B/R",
+     714.72,
+     3685000,
+     "B Building"
+    ],
+    [
+     "INAR-2103",
+     "1 B/R",
+     779.74,
+     3955000,
+     "B Building"
+    ],
+    [
+     "INAR-2106",
+     "1 B/R",
+     704.93,
+     3645000,
+     "A Building"
+    ],
+    [
+     "INAR-2205",
+     "2 B/R",
+     1279.61,
+     6455000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-2305",
+     "2 B/R",
+     1344.2,
+     6660000,
+     "D Building"
+    ],
+    [
+     "INAR-2702",
+     "2 B/R",
+     1644.73,
+     7960000,
+     "B Building"
+    ],
+    [
+     "INAR-2705",
+     "2 B/R",
+     1426.22,
+     7120000,
+     "C Building"
+    ],
+    [
+     "INAR-2803",
+     "2 B/R",
+     1291.88,
+     6595000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3102",
+     "2 B/R",
+     1684.55,
+     8220000,
+     "B Building"
+    ],
+    [
+     "INAR-3104",
+     "2 B/R",
+     1271.76,
+     6530000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3105",
+     "2 B/R",
+     1426.22,
+     7175000,
+     "C Building"
+    ],
+    [
+     "INAR-3702",
+     "4 B/R",
+     4037.22,
+     20730000,
+     "Burj Khalifa"
+    ],
+    [
+     "INAR-3902",
+     "5 B/R",
+     6780.94,
+     41050000,
+     "Duplex Burj Khalifa"
+    ]
+   ]
+  }
+ ]
+}

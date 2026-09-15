@@ -1,16 +1,16 @@
 {
  "source_file": [
-  "1788825253744_Anantara - Availability - 07.09.2026.pdf",
-  "1788825253754_Inaura - Availability - 07.09.2026.pdf",
-  "1788825253818_Masaar 1 - Availability - 07.09.2026.pdf",
-  "1788825253834_Akala - Availability - 07.09.2026.pdf",
-  "1788825253896_W Residences T3 - Availability - 07.09.2026.pdf",
-  "1788825253924_W Residences T1 _ T2 - Availability - 07.09.2026.pdf",
-  "1788825254033_Aljada - Avaiolability - 07.09.2026.pdf",
-  "1788825254042_Masaar 2 - Availability - 07.09.2026.pdf",
-  "1788825254085_Masaar 3 - Availability - 07.09.2026.pdf"
+  "1789183947219_Anantara - Availability - 09.09.2026.pdf",
+  "1789183947474_Inaura - Availability - 09.09.2026.pdf",
+  "1789183947733_Masaar 3 - Availability - 09.09.2026.pdf",
+  "1789183987099_Akala - Availability - 09.09.2026.pdf",
+  "1789183987534_W Residences T1 _ T2 - Availability - 09.09.2026.pdf",
+  "1789183988515_Aljada - Availability - 09.09.2026.pdf",
+  "1789183988537_Masaar 1 - Availability - 09.09.2026.pdf",
+  "1789183989402_W Residences T3 - Availability - 09.09.2026.pdf",
+  "1789183992553_Masaar 2 - Availability - 09.09.2026.pdf"
  ],
- "sheet_date": "2026-09-07",
+ "sheet_date": "2026-09-09",
  "received": "2026-09-12",
  "channel": "DEVELOPER AVAILABILITY group (listener capture)",
  "developer": "Arada",
@@ -285,13 +285,6 @@
      "A Building"
     ],
     [
-     "INAR-1901",
-     "3 B/R",
-     2874.29,
-     14680000,
-     "Burj Khalifa"
-    ],
-    [
      "INAR-1903",
      "1 B/R",
      774.14,
@@ -304,6 +297,20 @@
      1281.87,
      6425000,
      "A Business Bay"
+    ],
+    [
+     "INAR-1906",
+     "1 B/R",
+     704.93,
+     3635000,
+     "A Building"
+    ],
+    [
+     "INAR-1907",
+     "1 B/R",
+     714.72,
+     3685000,
+     "B Building"
     ],
     [
      "INAR-2106",
@@ -369,6 +376,13 @@
      "C Building"
     ],
     [
+     "INAR-3702",
+     "4 B/R",
+     4037.22,
+     20730000,
+     "Burj Khalifa"
+    ],
+    [
      "INAR-3902",
      "5 B/R",
      6780.94,
@@ -378,25 +392,647 @@
    ]
   },
   {
-   "p": "Saro",
-   "block": "Saro",
-   "master": "Masaar",
-   "completion": "30-Sept-2026",
-   "plan": "20/80",
+   "p": "Lareen / Dana",
+   "block": "LAREEN / DANA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
    "units": [
     [
-     "G1-TH070",
+     "DAN-V001",
      "4 B/R",
-     3119.0,
-     3775000,
-     "THC-4 BED-A Corner-Warm"
+     3765.0,
+     4622000,
+     "V4 T1-B Corner"
     ],
     [
-     "G2-V045",
+     "DAN-V067",
+     "5 B/R",
+     5142.0,
+     6240000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "DAN-V101",
      "4 B/R",
-     4402.0,
-     5875000,
-     "VILLA 4BED - Middle-Warm"
+     4356.0,
+     5300000,
+     "V4 T2-A Middle"
+    ],
+    [
+     "DAN-V145",
+     "4 B/R",
+     4356.0,
+     5430000,
+     "V4 T2-A Corner"
+    ],
+    [
+     "DAN-V151",
+     "4 B/R",
+     4356.0,
+     5425000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "LAR-TH270",
+     "4 B/R",
+     3139.0,
+     3510000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAR-TH271",
+     "4 B/R",
+     3139.0,
+     3530000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAR-TH361",
+     "4 B/R",
+     2559.0,
+     2900000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAR-TH364",
+     "4 B/R",
+     2559.0,
+     2910000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAR-TH397",
+     "4 B/R",
+     2559.0,
+     2904000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAR-V019",
+     "4 B/R",
+     3765.0,
+     4655000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "LAR-V063",
+     "5 B/R",
+     5142.0,
+     6210000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAR-V065",
+     "5 B/R",
+     5142.0,
+     6260000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAR-V103",
+     "4 B/R",
+     4356.0,
+     5535000,
+     "V4 T2-A Corner"
+    ]
+   ]
+  },
+  {
+   "p": "Laura",
+   "block": "LAURA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "LAU-TH160",
+     "4 B/R",
+     3139.0,
+     3445000,
+     "THE 4BR-A End"
+    ],
+    [
+     "LAU-TH164",
+     "4 B/R",
+     3139.0,
+     3570000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH174",
+     "4 B/R",
+     3139.0,
+     3590000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH175",
+     "4 B/R",
+     3139.0,
+     3570000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH247",
+     "4 B/R",
+     3139.0,
+     3530000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH284",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH289",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH306",
+     "4 B/R",
+     2559.0,
+     2880000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH323",
+     "4 B/R",
+     2559.0,
+     2875000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH355",
+     "4 B/R",
+     2559.0,
+     2924000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH359",
+     "4 B/R",
+     2559.0,
+     2940000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAU-V001",
+     "4 B/R",
+     3765.0,
+     4440000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "LAU-V022",
+     "4 B/R",
+     3765.0,
+     4715000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "LAU-V024",
+     "4 B/R",
+     3765.0,
+     4480000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "LAU-V035",
+     "4 B/R",
+     3765.0,
+     4955000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "LAU-V045",
+     "4 B/R",
+     3765.0,
+     4645000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "LAU-V047",
+     "4 B/R",
+     3765.0,
+     4470000,
+     "V4 T1-B Middle"
+    ],
+    [
+     "LAU-V057",
+     "5 B/R",
+     5142.0,
+     6205000,
+     "V5 T1-A Middle"
+    ],
+    [
+     "LAU-V063",
+     "5 B/R",
+     5142.0,
+     6225000,
+     "V5 T1-A Middle"
+    ],
+    [
+     "LAU-V067",
+     "5 B/R",
+     5142.0,
+     6220000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAU-V095",
+     "4 B/R",
+     4356.0,
+     5290000,
+     "V4 T2-A Middle"
+    ],
+    [
+     "LAU-V113",
+     "4 B/R",
+     4356.0,
+     5530000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "LAU-V116",
+     "4 B/R",
+     4356.0,
+     5240000,
+     "V4 T2-B Middle"
+    ],
+    [
+     "LAU-V122",
+     "5 B/R",
+     5142.0,
+     6190000,
+     "V5 T1-B Corner"
+    ],
+    [
+     "LAU-V124",
+     "5 B/R",
+     5142.0,
+     6215000,
+     "V5 T1-A Corner"
+    ]
+   ]
+  },
+  {
+   "p": "Layan",
+   "block": "LAYAN",
+   "master": "Masaar3",
+   "completion": "30-Sept-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "LAY-TH001",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH004",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-B End"
+    ],
+    [
+     "LAY-TH005",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-A End"
+    ],
+    [
+     "LAY-TH017",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH081",
+     "3 B/R",
+     2342.0,
+     2940000,
+     "THC 3BR-B Corner"
+    ],
+    [
+     "LAY-TH082",
+     "3 B/R",
+     2342.0,
+     2940000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH094",
+     "3 B/R",
+     2342.0,
+     2965000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH106",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-B End"
+    ],
+    [
+     "LAY-TH109",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH110",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-B Corner"
+    ],
+    [
+     "LAY-TH113",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-A End"
+    ],
+    [
+     "LAY-TH114",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-B End"
+    ]
+   ]
+  },
+  {
+   "p": "Sedra",
+   "block": "SEDRA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "SED-TH089",
+     "4 B/R",
+     3139.0,
+     3480000,
+     "THE 4BR-B End"
+    ],
+    [
+     "SED-TH163",
+     "4 B/R",
+     2559.0,
+     2965000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "SED-TH204",
+     "4 B/R",
+     2559.0,
+     2890000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "SED-TH317",
+     "4 B/R",
+     3139.0,
+     3515000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "SED-TH322",
+     "4 B/R",
+     3139.0,
+     3515000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "SED-TH325",
+     "4 B/R",
+     3139.0,
+     3445000,
+     "THE 4BR-B End"
+    ],
+    [
+     "SED-TH334",
+     "4 B/R",
+     3139.0,
+     3440000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH346",
+     "4 B/R",
+     3139.0,
+     3440000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH400",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "SED-TH405",
+     "4 B/R",
+     3139.0,
+     3510000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "SED-TH423",
+     "4 B/R",
+     3139.0,
+     3500000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "SED-TH426",
+     "4 B/R",
+     3139.0,
+     3435000,
+     "THE 4BR-B End"
+    ],
+    [
+     "SED-TH432",
+     "4 B/R",
+     2559.0,
+     2885000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "SED-TH443",
+     "4 B/R",
+     3139.0,
+     3430000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH447",
+     "4 B/R",
+     3139.0,
+     3540000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "SED-TH450",
+     "4 B/R",
+     2559.0,
+     2880000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "SED-V001",
+     "4 B/R",
+     3765.0,
+     4815000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "SED-V002",
+     "4 B/R",
+     3765.0,
+     4675000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V010",
+     "4 B/R",
+     3765.0,
+     4715000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V025",
+     "4 B/R",
+     3765.0,
+     4545000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "SED-V050",
+     "4 B/R",
+     4356.0,
+     5890000,
+     "V4 T2-A Corner"
+    ],
+    [
+     "SED-V053",
+     "5 B/R",
+     6736.0,
+     7970000,
+     "V5 T2-A Middle"
+    ],
+    [
+     "SED-V060",
+     "4 B/R",
+     3765.0,
+     4760000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "SED-V066",
+     "4 B/R",
+     3765.0,
+     4575000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V070",
+     "5 B/R",
+     5142.0,
+     6225000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "SED-V079",
+     "5 B/R",
+     5142.0,
+     6150000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "SED-V093",
+     "5 B/R",
+     6736.0,
+     8035000,
+     "V5 T2-B Middle"
+    ],
+    [
+     "SED-V098",
+     "5 B/R",
+     6736.0,
+     7925000,
+     "V5 T2-A Middle"
+    ],
+    [
+     "SED-V111",
+     "5 B/R",
+     6736.0,
+     7870000,
+     "V5 T2-B Corner"
+    ],
+    [
+     "SED-V128",
+     "4 B/R",
+     4356.0,
+     5330000,
+     "V4 T2-B Middle"
+    ],
+    [
+     "SED-V175",
+     "4 B/R",
+     4356.0,
+     5625000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "SED-V188",
+     "5 B/R",
+     5142.0,
+     6120000,
+     "V5 T1-A Corner"
+    ],
+    [
+     "SED-V197",
+     "5 B/R",
+     5142.0,
+     5990000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "SED-V202",
+     "5 B/R",
+     5142.0,
+     6145000,
+     "V5 T1-B Corner"
+    ],
+    [
+     "SED-V205",
+     "5 B/R",
+     5142.0,
+     6230000,
+     "V5 T1-A Corner"
+    ],
+    [
+     "SED-V206",
+     "5 B/R",
+     5142.0,
+     6235000,
+     "V5 T1-B Corner"
     ]
    ]
   },
@@ -592,379 +1228,6 @@
    ]
   },
   {
-   "p": "W Residences At Dubai Harbour",
-   "block": "W Residences at Dubai Harbour",
-   "master": "Dubai Harbour",
-   "completion": "31-Dec-2028",
-   "plan": "10/10/5/5/5/5/60",
-   "units": [
-    [
-     "WRDH1-0101",
-     "1 B/R",
-     1135.0,
-     4136000,
-     "1 BR - Type D City View"
-    ],
-    [
-     "WRDH1-0201",
-     "1 B/R",
-     1231.0,
-     4412000,
-     "1 BR - Type D City View"
-    ],
-    [
-     "WRDH1-0207",
-     "1 B/R",
-     1163.0,
-     4563000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0301",
-     "1 B/R",
-     1317.0,
-     4689000,
-     "1 BR - Type D City View"
-    ],
-    [
-     "WRDH1-0307",
-     "1 B/R",
-     1163.0,
-     4563000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0401",
-     "1 B/R",
-     1404.0,
-     4965000,
-     "+ 1 BR - Type F City View"
-    ],
-    [
-     "WRDH1-0407",
-     "1 B/R",
-     1163.0,
-     4563000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0507",
-     "1 B/R",
-     1163.0,
-     4563000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0601",
-     "2 B/R",
-     1577.0,
-     5845000,
-     "2 BR - Type C City View"
-    ],
-    [
-     "WRDH1-0607",
-     "1 B/R",
-     1163.0,
-     4622000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0701",
-     "2 B/R",
-     1663.0,
-     6162000,
-     "2 BR - Type C City View"
-    ],
-    [
-     "WRDH1-0707",
-     "1 B/R",
-     1163.0,
-     4622000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0801",
-     "2 B/R",
-     1749.0,
-     6480000,
-     "+ 2 BR - Type B City View"
-    ],
-    [
-     "WRDH1-0807",
-     "1 B/R",
-     1163.0,
-     4622000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-0906",
-     "1 B/R",
-     1163.0,
-     4622000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-1006",
-     "1 B/R",
-     1163.0,
-     4622000,
-     "1 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH1-1601",
-     "2 B/R",
-     1623.0,
-     6237000,
-     "2 BR - Type C City View"
-    ],
-    [
-     "WRDH1-1701",
-     "2 B/R",
-     1579.0,
-     6068000,
-     "2 BR - Type C City View"
-    ],
-    [
-     "WRDH1-2901",
-     "4 B/R",
-     3953.0,
-     17572000,
-     "+ 4 BR - Type B Sea View"
-    ],
-    [
-     "WRDH1-3001",
-     "4 B/R",
-     3836.0,
-     17007000,
-     "+ 4 BR - Type C Sea View"
-    ],
-    [
-     "WRDH1-3401",
-     "4 B/R",
-     3383.0,
-     15107000,
-     "+ 4 BR - Type D Sea View"
-    ],
-    [
-     "WRDH1-3701",
-     "3 B/R",
-     3037.0,
-     14289000,
-     "Type E Sea View"
-    ],
-    [
-     "WRDH1-3802",
-     "4 B/R",
-     4364.0,
-     20090000,
-     "Type A Sea View"
-    ],
-    [
-     "WRDH1-3901",
-     "3 B/R",
-     2805.0,
-     13199000,
-     "Type E Sea View"
-    ],
-    [
-     "WRDH1-4101",
-     "5 B/R",
-     11795.0,
-     65000000,
-     "5 BR - Type Sea View"
-    ],
-    [
-     "WRDH2-0201",
-     "2 B/R",
-     1943.0,
-     7246000,
-     "+ 2 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH2-0401",
-     "2 B/R",
-     2040.0,
-     7599000,
-     "+ 2 BR - Type C Partial Sea"
-    ],
-    [
-     "WRDH2-0407",
-     "1 B/R",
-     1086.0,
-     3911000,
-     "1 BR - Type B City View"
-    ],
-    [
-     "WRDH2-0501",
-     "2 B/R",
-     2064.0,
-     7684000,
-     "+ 2 BR - Type D Partial Sea"
-    ],
-    [
-     "WRDH2-0808",
-     "1 B/R",
-     1086.0,
-     3966000,
-     "1 BR - Type B City View"
-    ],
-    [
-     "WRDH2-0908",
-     "1 B/R",
-     1084.0,
-     3960000,
-     "1 BR - Type B City View"
-    ],
-    [
-     "WRDH2-1008",
-     "1 B/R",
-     1084.0,
-     3960000,
-     "1 BR - Type B City View"
-    ],
-    [
-     "WRDH2-1101",
-     "3 B/R",
-     5731.0,
-     30172000,
-     "3 BR - Type Sea View"
-    ],
-    [
-     "WRDH2-1104",
-     "2 B/R",
-     2555.0,
-     15040000,
-     "2 BR - Type Sea View"
-    ],
-    [
-     "WRDH2-1502",
-     "1 B/R",
-     1179.0,
-     4793000,
-     "1 BR - Type E Partial Sea"
-    ],
-    [
-     "WRDH2-1601",
-     "1 B/R",
-     1060.0,
-     3988000,
-     "1 BR - Type D City View"
-    ],
-    [
-     "WRDH2-1602",
-     "1 B/R",
-     1151.0,
-     4747000,
-     "1 BR - Type E Partial Sea"
-    ],
-    [
-     "WRDH2-1606",
-     "3 B/R",
-     2479.0,
-     11701000,
-     "+ 3 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-1702",
-     "1 B/R",
-     1123.0,
-     4632000,
-     "1 BR - Type E Partial Sea"
-    ],
-    [
-     "WRDH2-1802",
-     "1 B/R",
-     1096.0,
-     4520000,
-     "1 BR - Type E Partial Sea"
-    ],
-    [
-     "WRDH2-2201",
-     "2 B/R",
-     2051.0,
-     8048000,
-     "+ 2 BR - Type F Partial Sea"
-    ],
-    [
-     "WRDH2-2205",
-     "3 B/R",
-     2479.0,
-     11825000,
-     "+ 3 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-2305",
-     "3 B/R",
-     2479.0,
-     11825000,
-     "+ 3 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-2505",
-     "3 B/R",
-     2479.0,
-     11825000,
-     "+ 3 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-2701",
-     "2 B/R",
-     1912.0,
-     7611000,
-     "+ 2 BR - Type F Partial Sea"
-    ],
-    [
-     "WRDH2-2903",
-     "4 B/R",
-     4177.0,
-     18603000,
-     "+ 4 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-3001",
-     "3 B/R",
-     3317.0,
-     14158000,
-     "+ 3 BR - Type D Sea View"
-    ],
-    [
-     "WRDH2-3201",
-     "3 B/R",
-     3173.0,
-     13746000,
-     "+ 3 BR - Type D Sea View"
-    ],
-    [
-     "WRDH2-3802",
-     "4 B/R",
-     4180.0,
-     19034000,
-     "+ 4 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-3901",
-     "5 B/R",
-     5113.0,
-     27114000,
-     "+ 5 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-3902",
-     "4 B/R",
-     4180.0,
-     19034000,
-     "+ 4 BR - Type A Sea View"
-    ],
-    [
-     "WRDH2-4001",
-     "5 B/R",
-     5041.0,
-     26733000,
-     "+ 5 BR - Type A Sea View"
-    ]
-   ]
-  },
-  {
    "p": "Central Business District",
    "block": "Central Business District",
    "master": "Aljada",
@@ -998,218 +1261,13 @@
      1324.0,
      2915000,
      "30-Apr-2027 Office Office Building"
-    ]
-   ]
-  },
-  {
-   "p": "Naseej District",
-   "block": "Naseej District",
-   "master": "Aljada",
-   "completion": "30-Sept-2026",
-   "plan": "5/5/5/5/5/5/70",
-   "units": [
-    [
-     "IT1204",
-     "1 B/R",
-     1090.0,
-     1465000,
-     "1 BR TYPE D Building"
     ],
     [
-     "IT1206",
-     "2 B/R",
-     3133.0,
-     4210000,
-     "2BR TYPE F - il teatro"
-    ],
-    [
-     "IT1208",
-     "2 B/R",
-     2235.0,
-     3041000,
-     "2BR TYPE G - il teatro"
-    ],
-    [
-     "IT1210",
-     "2 B/R",
-     2250.0,
-     3041000,
-     "2BR TYPE G - il teatro"
-    ],
-    [
-     "IT1212",
-     "2 B/R",
-     2236.0,
-     3035000,
-     "2BR TYPE H - il teatro"
-    ],
-    [
-     "IT1214",
-     "2 B/R",
-     2344.0,
-     3153000,
-     "2BR TYPE H - il teatro"
-    ],
-    [
-     "IT1406",
-     "2 B/R",
-     3141.0,
-     4273000,
-     "2 BR TYPE G - il teatro"
-    ],
-    [
-     "IT1408",
-     "2 B/R",
-     2235.0,
-     3086000,
-     "2BR TYPE G - il teatro"
-    ],
-    [
-     "IT1412",
-     "2 B/R",
-     2236.0,
-     3080000,
-     "2BR TYPE H - il teatro"
-    ],
-    [
-     "IT1608",
-     "2 B/R",
-     2232.0,
-     3288000,
-     "2BR TYPE L - il teatro"
-    ],
-    [
-     "IT1610",
-     "2 B/R",
-     2247.0,
-     3287550,
-     "2BR TYPE G - il teatro"
-    ],
-    [
-     "IT1611",
-     "2 B/R",
-     2233.0,
-     3261300,
-     "2BR TYPE J - il teatro"
-    ],
-    [
-     "IT2206",
-     "2 B/R",
-     3110.0,
-     4210000,
-     "2 BR TYPE F - il teatro"
-    ],
-    [
-     "IT2208",
-     "2 B/R",
-     2205.0,
-     3041000,
-     "2 BR TYPE G - il teatro"
-    ],
-    [
-     "IT2209",
-     "1 B/R",
-     1770.0,
-     2375000,
-     "1 BR TYPE E - il teatro"
-    ],
-    [
-     "IT2210",
-     "2 B/R",
-     2205.0,
-     3041000,
-     "2 BR TYPE G - il teatro"
-    ],
-    [
-     "IT2212",
-     "2 B/R",
-     2183.0,
-     3035000,
-     "2 BR TYPE H - il teatro"
-    ],
-    [
-     "IT2214",
-     "2 B/R",
-     2271.0,
-     3153000,
-     "2 BR TYPE H - il teatro"
-    ],
-    [
-     "IT2406",
-     "2 B/R",
-     3110.0,
-     4273000,
-     "2 BR TYPE F - il teatro"
-    ],
-    [
-     "IT2409",
-     "1 B/R",
-     1770.0,
-     2410000,
-     "1 BR TYPE E - il teatro"
-    ],
-    [
-     "IT2412",
-     "2 B/R",
-     2183.0,
-     3080000,
-     "2 BR TYPE H- il teatro"
-    ],
-    [
-     "IT2414",
-     "2 B/R",
-     2271.0,
-     3200000,
-     "2 BR TYPE H - il teatro"
-    ],
-    [
-     "IT2606",
-     "2 B/R",
-     3109.0,
-     4336000,
-     "2 BR TYPE F - il teatro"
-    ],
-    [
-     "IT2607",
-     "2 B/R",
-     2200.0,
-     3106000,
-     "2 BR TYPE G - il teatro"
-    ],
-    [
-     "IT2609",
-     "1 B/R",
-     1768.0,
-     2446000,
-     "1 BR TYPE E - il teatro"
-    ],
-    [
-     "IT2610",
-     "2 B/R",
-     2201.0,
-     3131000,
-     "2 BR TYPE G - il teatro"
-    ],
-    [
-     "IT2611",
-     "2 B/R",
-     2176.0,
-     3106000,
-     "2 BR TYPE H - il teatro"
-    ],
-    [
-     "IT2612",
-     "2 B/R",
-     2178.0,
-     3125000,
-     "2 BR TYPE H - il teatro"
-    ],
-    [
-     "IT2613",
-     "1 B/R",
-     1514.0,
-     2060000,
-     "1 BR TYPE F - il teatro"
+     "CBD10",
+     null,
+     3103.0,
+     6630000,
+     "CBD10-201 30-Jun-2028 Office Office Landscape"
     ]
    ]
   },
@@ -1319,13 +1377,6 @@
      1558.0,
      1965000,
      "2 BR - Type D1 Greenway"
-    ],
-    [
-     "NSB1807",
-     "3 B/R",
-     2061.0,
-     2480000,
-     "3 BR - Type A1 Greenway"
     ],
     [
      "NSB1808",
@@ -2648,13 +2699,6 @@
      "2BR-E3 Street"
     ],
     [
-     "TG6701",
-     "2 B/R",
-     1225.0,
-     1640000,
-     "2BR-F2 Pool"
-    ],
-    [
      "TG6704",
      "2 B/R",
      1272.0,
@@ -2755,6 +2799,241 @@
    ]
   },
   {
+   "p": "Saro",
+   "block": "Saro",
+   "master": "Masaar",
+   "completion": "30-Sept-2026",
+   "plan": "20/80",
+   "units": [
+    [
+     "G1-TH070",
+     "4 B/R",
+     3119.0,
+     3775000,
+     "THC-4 BED-A Corner-Warm"
+    ],
+    [
+     "G2-V045",
+     "4 B/R",
+     4402.0,
+     5875000,
+     "VILLA 4BED - Middle-Warm"
+    ]
+   ]
+  },
+  {
+   "p": "W Residences At Dubai Harbour",
+   "block": "W Residences at Dubai Harbour",
+   "master": "Dubai Harbour",
+   "completion": "31-Dec-2029",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "WRDH3-0101",
+     "1 B/R",
+     1193.0,
+     4825000,
+     "1 BR - Type B Partial Sea"
+    ],
+    [
+     "WRDH3-0102",
+     "2 B/R",
+     1950.0,
+     9150000,
+     "+ 2 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-0106",
+     "1 B/R",
+     1023.0,
+     3999000,
+     "1 BR - Type D Partial Sea"
+    ],
+    [
+     "WRDH3-0202",
+     "2 B/R",
+     1950.0,
+     9150000,
+     "+ 2 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-0401",
+     "1 B/R",
+     1193.0,
+     4845000,
+     "1 BR - Type B Partial Sea"
+    ],
+    [
+     "WRDH3-0506",
+     "1 B/R",
+     1227.0,
+     4980000,
+     "1 BR - Type D Partial Sea"
+    ],
+    [
+     "WRDH3-0605",
+     "1 B/R",
+     1565.0,
+     6995000,
+     "+ 1 BR - Type E Sea View"
+    ],
+    [
+     "WRDH3-0606",
+     "1 B/R",
+     1275.0,
+     5105000,
+     "+ 1 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH3-0701",
+     "1 B/R",
+     1193.0,
+     4865000,
+     "1 BR - Type B Partial Sea"
+    ],
+    [
+     "WRDH3-0706",
+     "1 B/R",
+     1324.0,
+     5295000,
+     "+ 1 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH3-0806",
+     "1 B/R",
+     1372.0,
+     5480000,
+     "+ 1 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH3-1001",
+     "1 B/R",
+     1193.0,
+     4885000,
+     "1 BR - Type B Partial Sea"
+    ],
+    [
+     "WRDH3-1006",
+     "1 B/R",
+     1469.0,
+     5855000,
+     "+ 1 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH3-1103",
+     "2 B/R",
+     2579.0,
+     15240000,
+     "2 BR - Type Sea View"
+    ],
+    [
+     "WRDH3-1104",
+     "4 B/R",
+     5415.0,
+     29725000,
+     "4 BR - Type Sea View"
+    ],
+    [
+     "WRDH3-1404",
+     "3 B/R",
+     3275.0,
+     15580000,
+     "+ 3 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-1604",
+     "3 B/R",
+     3139.0,
+     15010000,
+     "+ 3 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-1704",
+     "3 B/R",
+     3072.0,
+     14725000,
+     "+ 3 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-1804",
+     "3 B/R",
+     3005.0,
+     14420000,
+     "+ 3 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-2104",
+     "3 B/R",
+     2804.0,
+     13510000,
+     "+ 3 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-2204",
+     "3 B/R",
+     2733.0,
+     13200000,
+     "+ 3 BR - Type C Sea View"
+    ],
+    [
+     "WRDH3-2401",
+     "3 B/R",
+     2734.0,
+     13260000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH3-2404",
+     "3 B/R",
+     2602.0,
+     12620000,
+     "+ 3 BR - Type C Sea View"
+    ],
+    [
+     "WRDH3-2902",
+     "4 B/R",
+     3877.0,
+     19170000,
+     "+ 4 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-3301",
+     "4 B/R",
+     4329.0,
+     20815000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH3-3302",
+     "4 B/R",
+     3598.0,
+     17215000,
+     "+ 4 BR - Type B Sea View"
+    ],
+    [
+     "WRDH3-3402",
+     "3 B/R",
+     3543.0,
+     17365000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH3-3502",
+     "3 B/R",
+     3471.0,
+     17070000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH3-3801",
+     "5 B/R",
+     7611.0,
+     40330000,
+     "+ 5 BR - Type A Sea View"
+    ]
+   ]
+  },
+  {
    "p": "Melia / Narenj / Coral / Anber",
    "block": "Melia / Narenj / Coral / Anber",
    "master": "Masaar2",
@@ -2774,658 +3053,6 @@
      3771.0,
      5195000,
      "VILLA 4BR T2- Middle-Cool"
-    ]
-   ]
-  },
-  {
-   "p": "Lareen / Dana",
-   "block": "LAREEN / DANA",
-   "master": "Masaar3",
-   "completion": "31-Mar-2029",
-   "plan": "5/5/5/5/5/5/5/65",
-   "units": [
-    [
-     "DAN-V001",
-     "4 B/R",
-     3765.0,
-     4622000,
-     "V4 T1-B Corner"
-    ],
-    [
-     "DAN-V067",
-     "5 B/R",
-     5142.0,
-     6240000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "DAN-V101",
-     "4 B/R",
-     4356.0,
-     5300000,
-     "V4 T2-A Middle"
-    ],
-    [
-     "DAN-V145",
-     "4 B/R",
-     4356.0,
-     5430000,
-     "V4 T2-A Corner"
-    ],
-    [
-     "DAN-V151",
-     "4 B/R",
-     4356.0,
-     5425000,
-     "V4 T2-B Corner"
-    ],
-    [
-     "LAR-TH270",
-     "4 B/R",
-     3139.0,
-     3510000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "LAR-TH271",
-     "4 B/R",
-     3139.0,
-     3530000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "LAR-TH361",
-     "4 B/R",
-     2559.0,
-     2900000,
-     "THM 4BR-A Middle"
-    ],
-    [
-     "LAR-TH364",
-     "4 B/R",
-     2559.0,
-     2910000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "LAR-TH397",
-     "4 B/R",
-     2559.0,
-     2904000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "LAR-V019",
-     "4 B/R",
-     3765.0,
-     4655000,
-     "V4 T1-A Middle"
-    ],
-    [
-     "LAR-V063",
-     "5 B/R",
-     5142.0,
-     6210000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "LAR-V065",
-     "5 B/R",
-     5142.0,
-     6260000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "LAR-V103",
-     "4 B/R",
-     4356.0,
-     5535000,
-     "V4 T2-A Corner"
-    ]
-   ]
-  },
-  {
-   "p": "Laura",
-   "block": "LAURA",
-   "master": "Masaar3",
-   "completion": "31-Mar-2029",
-   "plan": "5/5/5/5/5/5/5/65",
-   "units": [
-    [
-     "LAU-TH160",
-     "4 B/R",
-     3139.0,
-     3445000,
-     "THE 4BR-A End"
-    ],
-    [
-     "LAU-TH164",
-     "4 B/R",
-     3139.0,
-     3570000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "LAU-TH174",
-     "4 B/R",
-     3139.0,
-     3590000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "LAU-TH175",
-     "4 B/R",
-     3139.0,
-     3570000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "LAU-TH247",
-     "4 B/R",
-     3139.0,
-     3530000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "LAU-TH284",
-     "4 B/R",
-     3139.0,
-     3520000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "LAU-TH289",
-     "4 B/R",
-     3139.0,
-     3520000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "LAU-TH298",
-     "4 B/R",
-     3139.0,
-     3460000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "LAU-TH306",
-     "4 B/R",
-     2559.0,
-     2880000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "LAU-TH323",
-     "4 B/R",
-     2559.0,
-     2875000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "LAU-TH355",
-     "4 B/R",
-     2559.0,
-     2924000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "LAU-TH359",
-     "4 B/R",
-     2559.0,
-     2940000,
-     "THM 4BR-A Middle"
-    ],
-    [
-     "LAU-V001",
-     "4 B/R",
-     3765.0,
-     4440000,
-     "V4 T1-A Corner"
-    ],
-    [
-     "LAU-V022",
-     "4 B/R",
-     3765.0,
-     4715000,
-     "V4 T1-A Corner"
-    ],
-    [
-     "LAU-V024",
-     "4 B/R",
-     3765.0,
-     4480000,
-     "V4 T1-A Middle"
-    ],
-    [
-     "LAU-V035",
-     "4 B/R",
-     3765.0,
-     4955000,
-     "V4 T1-B Corner"
-    ],
-    [
-     "LAU-V045",
-     "4 B/R",
-     3765.0,
-     4645000,
-     "V4 T1-B Corner"
-    ],
-    [
-     "LAU-V047",
-     "4 B/R",
-     3765.0,
-     4470000,
-     "V4 T1-B Middle"
-    ],
-    [
-     "LAU-V057",
-     "5 B/R",
-     5142.0,
-     6205000,
-     "V5 T1-A Middle"
-    ],
-    [
-     "LAU-V063",
-     "5 B/R",
-     5142.0,
-     6225000,
-     "V5 T1-A Middle"
-    ],
-    [
-     "LAU-V067",
-     "5 B/R",
-     5142.0,
-     6220000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "LAU-V095",
-     "4 B/R",
-     4356.0,
-     5290000,
-     "V4 T2-A Middle"
-    ],
-    [
-     "LAU-V113",
-     "4 B/R",
-     4356.0,
-     5530000,
-     "V4 T2-B Corner"
-    ],
-    [
-     "LAU-V116",
-     "4 B/R",
-     4356.0,
-     5240000,
-     "V4 T2-B Middle"
-    ],
-    [
-     "LAU-V122",
-     "5 B/R",
-     5142.0,
-     6190000,
-     "V5 T1-B Corner"
-    ],
-    [
-     "LAU-V124",
-     "5 B/R",
-     5142.0,
-     6215000,
-     "V5 T1-A Corner"
-    ]
-   ]
-  },
-  {
-   "p": "Layan",
-   "block": "LAYAN",
-   "master": "Masaar3",
-   "completion": "30-Sept-2029",
-   "plan": "5/5/5/5/5/5/5/65",
-   "units": [
-    [
-     "LAY-TH001",
-     "3 B/R",
-     2342.0,
-     2980000,
-     "THC 3BR-A Corner"
-    ],
-    [
-     "LAY-TH004",
-     "3 B/R",
-     2342.0,
-     2915000,
-     "THE 3BR-B End"
-    ],
-    [
-     "LAY-TH005",
-     "3 B/R",
-     2342.0,
-     2915000,
-     "THE 3BR-A End"
-    ],
-    [
-     "LAY-TH017",
-     "3 B/R",
-     2342.0,
-     2980000,
-     "THC 3BR-A Corner"
-    ],
-    [
-     "LAY-TH081",
-     "3 B/R",
-     2342.0,
-     2940000,
-     "THC 3BR-B Corner"
-    ],
-    [
-     "LAY-TH082",
-     "3 B/R",
-     2342.0,
-     2940000,
-     "THC 3BR-A Corner"
-    ],
-    [
-     "LAY-TH094",
-     "3 B/R",
-     2342.0,
-     2965000,
-     "THC 3BR-A Corner"
-    ],
-    [
-     "LAY-TH106",
-     "3 B/R",
-     2342.0,
-     2915000,
-     "THE 3BR-B End"
-    ],
-    [
-     "LAY-TH109",
-     "3 B/R",
-     2342.0,
-     2980000,
-     "THC 3BR-A Corner"
-    ],
-    [
-     "LAY-TH110",
-     "3 B/R",
-     2342.0,
-     2980000,
-     "THC 3BR-B Corner"
-    ],
-    [
-     "LAY-TH113",
-     "3 B/R",
-     2342.0,
-     2915000,
-     "THE 3BR-A End"
-    ],
-    [
-     "LAY-TH114",
-     "3 B/R",
-     2342.0,
-     2915000,
-     "THE 3BR-B End"
-    ]
-   ]
-  },
-  {
-   "p": "Sedra",
-   "block": "SEDRA",
-   "master": "Masaar3",
-   "completion": "31-Mar-2029",
-   "plan": "5/5/5/5/5/5/5/65",
-   "units": [
-    [
-     "SED-TH089",
-     "4 B/R",
-     3139.0,
-     3480000,
-     "THE 4BR-B End"
-    ],
-    [
-     "SED-TH163",
-     "4 B/R",
-     2559.0,
-     2965000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "SED-TH204",
-     "4 B/R",
-     2559.0,
-     2890000,
-     "THM 4BR-A Middle"
-    ],
-    [
-     "SED-TH317",
-     "4 B/R",
-     3139.0,
-     3515000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "SED-TH322",
-     "4 B/R",
-     3139.0,
-     3515000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "SED-TH325",
-     "4 B/R",
-     3139.0,
-     3445000,
-     "THE 4BR-B End"
-    ],
-    [
-     "SED-TH334",
-     "4 B/R",
-     3139.0,
-     3440000,
-     "THE 4BR-A End"
-    ],
-    [
-     "SED-TH346",
-     "4 B/R",
-     3139.0,
-     3440000,
-     "THE 4BR-A End"
-    ],
-    [
-     "SED-TH400",
-     "4 B/R",
-     3139.0,
-     3520000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "SED-TH405",
-     "4 B/R",
-     3139.0,
-     3510000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "SED-TH423",
-     "4 B/R",
-     3139.0,
-     3500000,
-     "THC 4BR-A Corner"
-    ],
-    [
-     "SED-TH426",
-     "4 B/R",
-     3139.0,
-     3435000,
-     "THE 4BR-B End"
-    ],
-    [
-     "SED-TH432",
-     "4 B/R",
-     2559.0,
-     2885000,
-     "THM 4BR-A Middle"
-    ],
-    [
-     "SED-TH443",
-     "4 B/R",
-     3139.0,
-     3430000,
-     "THE 4BR-A End"
-    ],
-    [
-     "SED-TH447",
-     "4 B/R",
-     3139.0,
-     3540000,
-     "THC 4BR-B Corner"
-    ],
-    [
-     "SED-TH450",
-     "4 B/R",
-     2559.0,
-     2880000,
-     "THM 4BR-B Middle"
-    ],
-    [
-     "SED-V001",
-     "4 B/R",
-     3765.0,
-     4815000,
-     "V4 T1-B Corner"
-    ],
-    [
-     "SED-V002",
-     "4 B/R",
-     3765.0,
-     4675000,
-     "V4 T1-A Middle"
-    ],
-    [
-     "SED-V010",
-     "4 B/R",
-     3765.0,
-     4715000,
-     "V4 T1-A Middle"
-    ],
-    [
-     "SED-V025",
-     "4 B/R",
-     3765.0,
-     4545000,
-     "V4 T1-A Corner"
-    ],
-    [
-     "SED-V050",
-     "4 B/R",
-     4356.0,
-     5890000,
-     "V4 T2-A Corner"
-    ],
-    [
-     "SED-V053",
-     "5 B/R",
-     6736.0,
-     7970000,
-     "V5 T2-A Middle"
-    ],
-    [
-     "SED-V060",
-     "4 B/R",
-     3765.0,
-     4760000,
-     "V4 T1-A Corner"
-    ],
-    [
-     "SED-V066",
-     "4 B/R",
-     3765.0,
-     4575000,
-     "V4 T1-A Middle"
-    ],
-    [
-     "SED-V070",
-     "5 B/R",
-     5142.0,
-     6225000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "SED-V079",
-     "5 B/R",
-     5142.0,
-     6150000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "SED-V093",
-     "5 B/R",
-     6736.0,
-     8035000,
-     "V5 T2-B Middle"
-    ],
-    [
-     "SED-V098",
-     "5 B/R",
-     6736.0,
-     7925000,
-     "V5 T2-A Middle"
-    ],
-    [
-     "SED-V111",
-     "5 B/R",
-     6736.0,
-     7870000,
-     "V5 T2-B Corner"
-    ],
-    [
-     "SED-V128",
-     "4 B/R",
-     4356.0,
-     5330000,
-     "V4 T2-B Middle"
-    ],
-    [
-     "SED-V175",
-     "4 B/R",
-     4356.0,
-     5625000,
-     "V4 T2-B Corner"
-    ],
-    [
-     "SED-V188",
-     "5 B/R",
-     5142.0,
-     6120000,
-     "V5 T1-A Corner"
-    ],
-    [
-     "SED-V197",
-     "5 B/R",
-     5142.0,
-     5990000,
-     "V5 T1-B Middle"
-    ],
-    [
-     "SED-V202",
-     "5 B/R",
-     5142.0,
-     6145000,
-     "V5 T1-B Corner"
-    ],
-    [
-     "SED-V205",
-     "5 B/R",
-     5142.0,
-     6230000,
-     "V5 T1-A Corner"
-    ],
-    [
-     "SED-V206",
-     "5 B/R",
-     5142.0,
-     6235000,
-     "V5 T1-B Corner"
     ]
    ]
   }

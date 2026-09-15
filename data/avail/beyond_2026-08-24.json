@@ -1,8 +1,14 @@
 {
- "source_file": "1788447465693_Beyond Inventories 24-08.pdf",
+ "source_file": [
+  "1788447465693_Beyond Inventories 24-08.pdf",
+  "1788447778217_Beyond Inventories 24-08.pdf",
+  "1788447783931_Beyond Inventories 24-08.pdf",
+  "1788447822674_Beyond Inventories 24-08.pdf",
+  "1788448309110_Beyond Inventories 24-08.pdf"
+ ],
  "sheet_date": "2026-08-24",
- "received": "2026-09-03",
- "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "received": "2026-09-13",
+ "channel": "manual inbox",
  "developer": "Beyond",
  "extraction": "auto: text",
  "projects": [
@@ -75,6 +81,34 @@
      "Park"
     ],
     [
+     "AYA2B/G/G01",
+     "1 B/R",
+     1023.0,
+     1519000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2B/G/G04",
+     "1 B/R",
+     1019.0,
+     1546000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2B/G/G05",
+     "2 B/R",
+     1298.0,
+     2537000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2B/G/G10",
+     "2 B/R",
+     1538.0,
+     2678000.0,
+     "Park"
+    ],
+    [
      "AYA2C/1/108",
      "2 B/R",
      1101.0,
@@ -93,6 +127,34 @@
      "2 B/R",
      1399.0,
      2745000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2C/G/G03",
+     "1 B/R",
+     1024.0,
+     1563000.0,
+     "Park"
+    ],
+    [
+     "AYA2C/G/G07",
+     "2 B/R",
+     1299.0,
+     2646000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2C/G/G10",
+     "1 B/R",
+     1018.0,
+     1655000.0,
+     "Green Spine"
+    ],
+    [
+     "AYA2C/G/G12",
+     "2 B/R",
+     1538.0,
+     2798000.0,
      "Green Spine"
     ]
    ]
@@ -570,6 +632,41 @@
      1426.0,
      8901000.0,
      "Ocean"
+    ],
+    [
+     "PASA/G/001",
+     "2 B/R",
+     1972.0,
+     11873000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/G/005",
+     "1 B/R",
+     1365.0,
+     9337000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASA/G/014",
+     "1 B/R",
+     1365.0,
+     6981000.0,
+     "Dubai City"
+    ],
+    [
+     "PASA/G/020",
+     "1 B/R",
+     1500.0,
+     9229000.0,
+     "Ocean"
+    ],
+    [
+     "PASA/G/024",
+     "6 B/R",
+     12646.0,
+     98290000.0,
+     "Middle Beach Elite"
     ]
    ]
   },
@@ -737,6 +834,20 @@
      "2 B/R",
      1385.0,
      9885000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/G/016",
+     "3 B/R",
+     3294.0,
+     21351000.0,
+     "Beach Elite"
+    ],
+    [
+     "PASB/G/018",
+     "2 B/R",
+     2292.0,
+     14774000.0,
      "Beach Elite"
     ]
    ]

@@ -1,8 +1,11 @@
 {
- "source_file": "IMTIAZ INVENTORY - 28.08.pdf",
+ "source_file": [
+  "1788446152643_IMTIAZ INVENTORY - 28.08.pdf",
+  "IMTIAZ INVENTORY - 28.08.pdf"
+ ],
  "sheet_date": "2026-08-28",
- "received": "2026-09-02",
- "channel": "manual inbox",
+ "received": "2026-09-12",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
  "developer": "Imtiaz",
  "extraction": "auto: ocr",
  "projects": [

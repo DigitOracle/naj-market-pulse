@@ -26,6 +26,8 @@ SETS = {
     "sand":          "Ground054",             # desert ground
     "metal":         "Metal049A",             # mullions, louvres, garage shutters
     "roof":          "Concrete034",           # flat roof screed
+    "grass":         "Grass004",               # mown lawn: parks, verges, golf fairways. Without a grass set the ground layers
+    "pitch":         "Grass001",               # keep a flat colour, which paints lime green over the photoreal tiles (12 Sep)
 }
 MAPS = {"color": ("_Color.jpg", "_Color.png"), "normal": ("_NormalGL.jpg", "_NormalGL.png", "_Normal.jpg"),
         "roughness": ("_Roughness.jpg", "_Roughness.png"), "ao": ("_AmbientOcclusion.jpg", "_AmbientOcclusion.png"),

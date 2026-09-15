@@ -75,18 +75,6 @@ attr balconySlabT  = 0.20
 attr balustradeH   = 1.10
 attr balconyBay    = 3.60
 attr balconyMinH   = 60           // glass + render buildings at/above this height get balconies
-// hero family (Kendall, 15 Sep: the cluster the film lands in "needs really, really good treatment"). heroStyle = "akoya" builds
-// DAMAC Hills' Akoya apartment block from photos: dark louvred parking podium with a double-height glazed lobby and canopy, floor-to-
-// ceiling glazing behind a continuous white balcony slab with glass rails and a white return wall per unit, solid gable ends with a
-// dark core stripe, plant screen on the roof, planters at the base.
-attr heroStyle     = ""
-attr podiumLevels  = 2
-attr hPodiumFloorH = 4.0
-attr unitBay       = 7.5          // one apartment per bay along the long faces
-attr returnT       = 0.2          // balcony return wall thickness
-attr paneW         = 1.5          // glazing pane rhythm
-attr louvreP       = 0.35         // podium louvre pitch
-attr gableMax      = 30           // faces narrower than this are solid gable ends
 attr balconyContinuous = 0        // 1 = one balcony slab + glass balustrade across the whole facade on every floor (DAMAC Hills
                                   //     Akoya apartment blocks, matched to photos 14 Sep); 0 = every other bay
 attr retailH       = 4.50
@@ -236,7 +224,6 @@ Building(v, c) -->
     case status == "pipeline" : Ghost
     case LOD == 0             : Plain
     case LOD >= 3 && isTower  : Tower3(v, c)
-    case LOD >= 3 && heroStyle == "akoya" : Akoya3(v, c)
     case LOD >= 3 && isMid    : Mid3(v, c)
     case LOD >= 3 && lowStyle == "villa" : Villa3(v, c)
     case LOD >= 3             : Low3(v, c)
@@ -403,94 +390,6 @@ Mid3(v, c) -->
     extrude(bldgH)
     [ StoreyReports(floorH) ]
     comp(f){ side : ShaftFacade3(v, c) | top : RoofSunk(v, false) }
-
-// ================================================================ LOD 3 — hero: DAMAC Akoya apartment block
-hPodiumH   = podiumLevels * hPodiumFloorH
-hFloors    = max(1, rint((bldgH - hPodiumH) / floorH))
-hUpperH    = bldgH - hPodiumH
-
-Akoya3(v, c) -->
-    extrude(bldgH)
-    [ StoreyReports(floorH) ]
-    split(y){ hPodiumH : AkPodium | ~1 : AkUpper(v, c) }
-
-AkPodium -->
-    comp(f){ side : AkPodiumFace | top : AkPodiumDeck }
-AkPodiumDeck -->
-    offset(-1.2, inside) Mat("roof", col_roof(status))
-
-// the lobby sits on the wide faces: 10 m of double-height glazing under a canopy, planters and louvres either side
-AkPodiumFace -->
-    case scope.sx < 45 : split(y){ ~hPodiumFloorH : AkPodiumLevel }*
-    else : split(x){ ~1 : split(y){ ~hPodiumFloorH : AkPodiumLevel }* | 10 : AkLobby | ~1 : split(y){ ~hPodiumFloorH : AkPodiumLevel }* }
-
-AkPodiumLevel -->
-    split(y){ 0.5 : AkPlinth | ~1 : AkLouvres }
-AkPlinth -->
-    [ t(0, 0, 0) extrude(0.9) comp(f){ top : Mat("planter", col_crown(status)) | front : Mat("planter", col_crown(status)) | left : Mat("planter", col_crown(status)) | right : Mat("planter", col_crown(status)) } ]
-    Mat("podium", col_slab(status))
-AkLouvres -->
-    [ Mat("podium", col_slab(status)) ]
-    split(x){ ~6 : AkLouvreBay }*
-AkLouvreBay -->
-    split(x){ 0.15 : NIL | ~1 : split(y){ ~louvreP : split(y){ 0.10 : AkSlat | ~1 : NIL } }* | 0.15 : NIL }
-AkSlat -->
-    t(0, 0, -0.05) extrude(0.2)
-    comp(f){ top : Mat("louvre", col_slab(status)) | bottom : Mat("louvre", col_slab(status)) | front : Mat("louvre", col_slab(status)) }
-
-AkLobby -->
-    split(y){ ~1 : AkLobbyGlass | 0.3 : AkCanopy }
-AkLobbyGlass -->
-    t(0, 0, -0.6)
-    split(x){ ~paneW : split(x){ 0.05 : Mullion | ~1 : Glass("retail_glass", col_window(status)) | 0.05 : Mullion } }*
-AkCanopy -->
-    t(0, 0, -0.6) extrude(3.2)
-    comp(f){ top : Mat("canopy", col_crown(status)) | bottom : Mat("canopy", col_crown(status)) | front : Mat("canopy", col_crown(status)) | left : Mat("canopy", col_crown(status)) | right : Mat("canopy", col_crown(status)) }
-
-AkUpper(v, c) -->
-    comp(f){ side : AkFace(v, c) | top : RoofSunk(v, true) }
-
-AkFace(v, c) -->
-    case scope.sx < gableMax : AkGable(c)
-    else : split(y){ ~floorH : AkFloor(v, c) }*
-
-// one storey on a long face: unit bays, each = pier | glazing | pier, with the balcony slab, rail and return walls in front
-AkFloor(v, c) -->
-    [ AkBalconyLayer ]
-    split(x){ ~unitBay : AkUnit(c) }*
-AkUnit(c) -->
-    split(x){ 0.3 : Wall("render") | ~1 : AkGlazing(c) | 0.3 : Wall("render") }
-AkGlazing(c) -->
-    split(y){ 0.12 : Mat("slab_band", col_slab(status)) | ~1 : split(x){ ~paneW : AkPane(c) }* | 0.25 : Mat("slab_band", col_slab(status)) }
-AkPane(c) -->
-    split(x){ 0.06 : Mullion | ~1 : Glass(c + "_vision", wallCol(c)) | 0.06 : Mullion }
-
-// balcony layer over the whole floor strip: slab, glass rail with posts, one white return wall at every unit boundary
-AkBalconyLayer -->
-    split(y){ balconySlabT : AkSlab | balustradeH : AkRail | ~1 : AkReturnsOnly }
-AkSlab -->
-    extrude(balconyD)
-    comp(f){ top : Mat("balcony_slab", col_crown(status)) | bottom : Mat("balcony_slab", col_crown(status)) | front : Mat("balcony_slab", col_crown(status)) | left : Mat("balcony_slab", col_crown(status)) | right : Mat("balcony_slab", col_crown(status)) }
-AkRail -->
-    [ AkReturns ]
-    t(0, 0, balconyD - 0.06)
-    [ extrude(0.02) comp(f){ front : GlassT("balustrade", col_window(status), 0.4) | back : GlassT("balustrade", col_window(status), 0.4) } ]
-    split(x){ ~1.5 : split(x){ 0.05 : AkPost | ~1 : NIL } }*
-AkPost -->
-    extrude(0.06) comp(f){ front : Mat("mullion", col_slab(status)) | left : Mat("mullion", col_slab(status)) | right : Mat("mullion", col_slab(status)) }
-AkReturnsOnly -->
-    AkReturns
-AkReturns -->
-    split(x){ ~unitBay : split(x){ returnT : AkReturnWall | ~1 : NIL } }*
-AkReturnWall -->
-    extrude(balconyD)
-    comp(f){ front : Mat("render_wall", col_render(status)) | left : Mat("render_wall", col_render(status)) | right : Mat("render_wall", col_render(status)) | top : Mat("render_wall", col_render(status)) }
-
-// gable end: white wall, a dark core stripe a third of the way along, one small window per storey each side of it
-AkGable(c) -->
-    split(x){ ~1 : AkGableWall | 2.4 : Mat("spandrel", col_slab(status)) | ~2 : AkGableWall }
-AkGableWall -->
-    split(y){ ~floorH : split(x){ ~1 : Wall("render") | 1.0 : split(y){ ~1 : Wall("render") | 1.5 : RecessWindow | ~0.9 : Wall("render") } | ~1 : Wall("render") } }*
 
 // ================================================================ LOD 3 — villas / townhouse rows (< 20 m), lowStyle = "villa"
 // G+1 (default) or G+2 volume, flat Dubai roof with a 1.0 m parapet (deck sunk) and a 4 x 3 m roof-access box, windows

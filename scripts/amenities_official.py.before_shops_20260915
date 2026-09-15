@@ -271,60 +271,6 @@ def main():
             if m.get("hrs"): it["hrs"] = compress_hours(m["hrs"])
             items.append(it)
             src_counts[m["src"]] += 1
-    # community malls and chain supermarkets (Kendall, 15 Sep: "we know there's a Spinneys, we know there's a very small mall there,
-    # are those included?" - they were not: the DM register only lists shopping centres of 50k m2 and more, and no supermarket group
-    # existed). Source: OpenStreetMap shop=mall / shop=supermarket for Dubai (data/registers/osm_shops_dubai.json, scripts refresh it
-    # with Overpass). Malls: named ones not already covered by a DM mall within 300 m, plus unnamed ones named from a public source in
-    # data/registers/mall_names_manual.json. Supermarkets: recognised chains only - a buyer asks for the nearest Spinneys, not the
-    # nearest corner grocery - so local baqalas mapped as supermarkets are left out and the note says so. Brand names are
-    # cross-checked against the DED trade-name register in the truth store (ded = 1 when the brand appears there).
-    shops = os.path.join(REG, "osm_shops_dubai.json"); manual = os.path.join(REG, "mall_names_manual.json")
-    if os.path.exists(shops):
-        CHAINS = {"spinneys": "Spinneys", "carrefour": "Carrefour", "waitrose": "Waitrose", "choithram": "Choithrams", "union coop": "Union Coop",
-                  "geant": "Géant", "géant": "Géant", "lulu": "Lulu", "west zone": "West Zone", "viva": "Viva", "grandiose": "Grandiose",
-                  "aswaaq": "Aswaaq", "nesto": "Nesto", "al maya": "Al Maya", "zoom": "Zoom", "allday": "Allday", "kibsons": "Kibsons"}
-        ded_brands = set()
-        try:
-            import duckdb
-            _c = duckdb.connect(os.path.join(ROOT, "data", "graph", "najma.duckdb"), read_only=True)
-            for b in set(CHAINS.values()):
-                n = _c.execute("select count(*) from gov_ded__trade_name where trade_name_en ilike ?", [f"%{b}%"]).fetchone()[0] if _c else 0
-                if n: ded_brands.add(b)
-        except Exception:
-            pass
-        mnames = json.load(open(manual, encoding="utf-8")).get("items", []) if os.path.exists(manual) else []
-        dm_pts = [(i["lon"], i["lat"]) for i in items if i["k"] == "mall"]
-        def near_any(lon, lat, pts, m):
-            return any(math.hypot((lon - a) * 100800, (lat - b) * 111320) <= m for a, b in pts)
-        n_mall = n_sm = 0
-        for e in json.load(open(shops, encoding="utf-8")).get("elements", []):
-            t = e.get("tags") or {}; c = e.get("center") or {"lat": e.get("lat"), "lon": e.get("lon")}
-            if not c.get("lat") or not c.get("lon"): continue
-            lon, lat = round(c["lon"], 6), round(c["lat"], 6); nm = (t.get("name:en") or t.get("name") or "").strip()
-            if t.get("shop") == "mall":
-                if not nm:
-                    mm = next((x for x in mnames if math.hypot((lon - x["lon"]) * 100800, (lat - x["lat"]) * 111320) <= 120), None)
-                    if not mm: continue
-                    nm = mm["name"]
-                if near_any(lon, lat, dm_pts, 300): continue
-                it = {"k": "mall", "n": nm[:60], "lon": lon, "lat": lat, "src": "osm", "x": "community mall"}
-                if t.get("website"): it["web"] = t["website"][:120]
-                if t.get("phone"): it["tel"] = t["phone"][:40]
-                items.append(it); src_counts["osm"] += 1; n_mall += 1
-            elif t.get("shop") == "supermarket":
-                import unicodedata
-                fold = lambda x: "".join(ch for ch in unicodedata.normalize("NFKD", x) if not unicodedata.combining(ch)).lower()
-                low = fold(t.get("brand") or nm); brand = next((v for k, v in CHAINS.items() if fold(k) in low), None)
-                if not brand: continue
-                # a brand tag on a node whose name is plainly not a shop (OSM had Carrefour on "Damac Hills Skate Park") is a mis-tag
-                if nm and fold(brand) not in fold(nm) and re.search(r"park|skate|mosque|masjid|school|clinic|tower|villa", nm, re.I): continue
-                if nm and nm == nm.lower(): nm = nm.title()
-                label = nm if nm and fold(brand) in fold(nm) else (f"{brand} {nm}".strip() if nm else brand)
-                it = {"k": "supermarket", "n": label[:60], "lon": lon, "lat": lat, "src": "osm", "x": brand, "br": brand}
-                if brand in ded_brands: it["ded"] = 1
-                if t.get("opening_hours"): it["hrs"] = compress_hours(t["opening_hours"]) if "compress_hours" in globals() else t["opening_hours"][:60]
-                items.append(it); src_counts["osm"] += 1; n_sm += 1
-        print(f"community malls from OpenStreetMap: {n_mall}; chain supermarkets: {n_sm} (DED-listed brands: {sorted(ded_brands)})")
     # parks and beaches WITH ACCESS (8 Sep 2026): scripts/parks_register.py and scripts/beaches_register.py build them from Overture
     # land_use / land (= OpenStreetMap polygons) and classify access - public, community (residents' estate park), hotel, residents
     # (Palm fronds), unknown. No authority publishes either list; DM 463074 covers three parks' facilities. Labels say whose it is.
