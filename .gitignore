@@ -7,6 +7,11 @@ data/pro/*
 !data/pro/symphony_los.json
 data/dev_meta/*
 !data/dev_meta/curated/
+# 15 Sep 2026: the sales-label -> DLD area alias table is hand- and register-checked mapping that the yields depend on, not a
+# rebuildable output - tracked (39 register-backed corrections applied that day)
+!data/dld/
+data/dld/*
+!data/dld/area_alias.json
 .env
 __pycache__/
 public/heatmap_story.png
