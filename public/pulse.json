@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-15T02:48:40+00:00",
+ "generatedAt": "2026-09-15T10:01:13+00:00",
  "dataCaptured": "2026-09-15",
  "attribution": "Source: Dubai Land Department (DLD) Open Data. Contains information from the Government of Dubai.",
  "transactions": {
@@ -4692,6 +4692,12 @@
   "medianRentAedSqftYr": 84.1,
   "grossYieldPctByArea": [
    {
+    "area": "Al Warsan First",
+    "yieldPct": 7.8,
+    "rentSamples": 1452,
+    "saleSamples": 288
+   },
+   {
     "area": "Al Yelayiss 2",
     "yieldPct": 6.7,
     "rentSamples": 690,
@@ -4713,13 +4719,7 @@
     "area": "Me'Aisem First",
     "yieldPct": 6.5,
     "rentSamples": 1340,
-    "saleSamples": 423
-   },
-   {
-    "area": "Wadi Al Safa 7",
-    "yieldPct": 6.3,
-    "rentSamples": 285,
-    "saleSamples": 135
+    "saleSamples": 439
    },
    {
     "area": "Nadd Hessa",
@@ -4728,20 +4728,26 @@
     "saleSamples": 259
    },
    {
-    "area": "Al Thanyah Third",
-    "yieldPct": 6.2,
-    "rentSamples": 389,
-    "saleSamples": 62
-   },
-   {
     "area": "Al Hebiah Fourth",
     "yieldPct": 6.2,
     "rentSamples": 991,
     "saleSamples": 360
+   },
+   {
+    "area": "Al Merkadh",
+    "yieldPct": 6.2,
+    "rentSamples": 1453,
+    "saleSamples": 450
    }
   ],
   "grossYieldPctAllAreas": [
    {
+    "area": "Al Warsan First",
+    "yieldPct": 7.8,
+    "rentSamples": 1452,
+    "saleSamples": 288
+   },
+   {
     "area": "Al Yelayiss 2",
     "yieldPct": 6.7,
     "rentSamples": 690,
@@ -4763,13 +4769,7 @@
     "area": "Me'Aisem First",
     "yieldPct": 6.5,
     "rentSamples": 1340,
-    "saleSamples": 423
-   },
-   {
-    "area": "Wadi Al Safa 7",
-    "yieldPct": 6.3,
-    "rentSamples": 285,
-    "saleSamples": 135
+    "saleSamples": 439
    },
    {
     "area": "Nadd Hessa",
@@ -4778,16 +4778,22 @@
     "saleSamples": 259
    },
    {
-    "area": "Al Thanyah Third",
-    "yieldPct": 6.2,
-    "rentSamples": 389,
-    "saleSamples": 62
-   },
-   {
     "area": "Al Hebiah Fourth",
     "yieldPct": 6.2,
     "rentSamples": 991,
     "saleSamples": 360
+   },
+   {
+    "area": "Al Merkadh",
+    "yieldPct": 6.2,
+    "rentSamples": 1453,
+    "saleSamples": 450
+   },
+   {
+    "area": "Al Thanyah Third",
+    "yieldPct": 6.0,
+    "rentSamples": 389,
+    "saleSamples": 77
    },
    {
     "area": "Dubai Investment Park First",
@@ -4814,10 +4820,28 @@
     "saleSamples": 1825
    },
    {
+    "area": "Saih Shuaib 2",
+    "yieldPct": 5.8,
+    "rentSamples": 76,
+    "saleSamples": 171
+   },
+   {
     "area": "Al Barshaa South Third",
     "yieldPct": 5.7,
     "rentSamples": 1413,
     "saleSamples": 411
+   },
+   {
+    "area": "Wadi Al Safa 7",
+    "yieldPct": 5.5,
+    "rentSamples": 285,
+    "saleSamples": 83
+   },
+   {
+    "area": "Wadi Al Safa 2",
+    "yieldPct": 5.5,
+    "rentSamples": 389,
+    "saleSamples": 132
    },
    {
     "area": "Al Hebiah Third",
@@ -4829,7 +4853,13 @@
     "area": "Hadaeq Sheikh Mohammed Bin Rashid",
     "yieldPct": 5.5,
     "rentSamples": 948,
-    "saleSamples": 337
+    "saleSamples": 352
+   },
+   {
+    "area": "Warsan Fourth",
+    "yieldPct": 5.4,
+    "rentSamples": 602,
+    "saleSamples": 187
    },
    {
     "area": "Al Barsha South Fifth",
@@ -4853,7 +4883,7 @@
     "area": "Wadi Al Safa 5",
     "yieldPct": 5.1,
     "rentSamples": 937,
-    "saleSamples": 860
+    "saleSamples": 916
    },
    {
     "area": "Palm Jumeirah",
@@ -4871,7 +4901,7 @@
     "area": "Wadi Al Safa 3",
     "yieldPct": 5.0,
     "rentSamples": 353,
-    "saleSamples": 1030
+    "saleSamples": 1051
    },
    {
     "area": "Al Barshaa South Second",
@@ -4895,7 +4925,7 @@
     "area": "Al Thanyah Fifth",
     "yieldPct": 4.8,
     "rentSamples": 972,
-    "saleSamples": 405
+    "saleSamples": 416
    },
    {
     "area": "Dubai Investment Park Second",
@@ -4916,22 +4946,22 @@
     "saleSamples": 35
    },
    {
-    "area": "Nad Al Shiba First",
+    "area": "Wadi Al Safa 6",
     "yieldPct": 4.5,
-    "rentSamples": 222,
-    "saleSamples": 64
+    "rentSamples": 118,
+    "saleSamples": 41
    },
    {
-    "area": "Wadi Al Safa 2",
+    "area": "Al Jadaf",
     "yieldPct": 4.4,
-    "rentSamples": 389,
-    "saleSamples": 1340
+    "rentSamples": 755,
+    "saleSamples": 307
    },
    {
     "area": "Al Hebiah Fifth",
     "yieldPct": 4.4,
     "rentSamples": 604,
-    "saleSamples": 604
+    "saleSamples": 605
    },
    {
     "area": "Mirdif",
@@ -4940,10 +4970,16 @@
     "saleSamples": 32
    },
    {
-    "area": "Al Jadaf",
+    "area": "Al Thanayah Fourth",
     "yieldPct": 4.3,
-    "rentSamples": 755,
-    "saleSamples": 218
+    "rentSamples": 216,
+    "saleSamples": 55
+   },
+   {
+    "area": "Zaabeel Second",
+    "yieldPct": 4.3,
+    "rentSamples": 100,
+    "saleSamples": 58
    },
    {
     "area": "Al Wasl",
@@ -4955,25 +4991,13 @@
     "area": "Madinat Al Mataar",
     "yieldPct": 4.2,
     "rentSamples": 710,
-    "saleSamples": 3198
+    "saleSamples": 3226
    },
    {
     "area": "Al Hebiah First",
     "yieldPct": 4.0,
     "rentSamples": 153,
     "saleSamples": 503
-   },
-   {
-    "area": "Zaabeel Second",
-    "yieldPct": 3.9,
-    "rentSamples": 100,
-    "saleSamples": 281
-   },
-   {
-    "area": "Al Safouh Second",
-    "yieldPct": 3.8,
-    "rentSamples": 42,
-    "saleSamples": 58
    },
    {
     "area": "Al Satwa",
@@ -4988,16 +5012,22 @@
     "saleSamples": 295
    },
    {
-    "area": "Al Safouh First",
-    "yieldPct": 3.5,
-    "rentSamples": 63,
-    "saleSamples": 52
+    "area": "Al Yelayiss 1",
+    "yieldPct": 3.6,
+    "rentSamples": 114,
+    "saleSamples": 293
    },
    {
-    "area": "Al Yelayiss 1",
+    "area": "Al Safouh First",
     "yieldPct": 3.4,
-    "rentSamples": 114,
-    "saleSamples": 254
+    "rentSamples": 63,
+    "saleSamples": 110
+   },
+   {
+    "area": "Nad Al Shiba First",
+    "yieldPct": 2.7,
+    "rentSamples": 222,
+    "saleSamples": 316
    },
    {
     "area": "Madinat Dubai Almelaheyah",
@@ -5157,10 +5187,10 @@
     "medianTicketAed": 614790,
     "medianAedSqft": 1710,
     "offPlanPct": 99,
-    "grossYieldPct": 4.4,
+    "grossYieldPct": null,
     "serviceChargeAedSqftYr": 11,
     "serviceChargeIsEstimate": false,
-    "netYieldPct": 3.8,
+    "netYieldPct": null,
     "byRoom": {
      "Studio": {
       "sales": 808,
@@ -5873,10 +5903,10 @@
     "medianTicketAed": 3042000,
     "medianAedSqft": 1776,
     "offPlanPct": 73,
-    "grossYieldPct": 3.4,
+    "grossYieldPct": 3.6,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": 2.5,
+    "netYieldPct": 2.7,
     "byRoom": {
      "4 B/R": {
       "sales": 115,
@@ -5966,10 +5996,10 @@
     "medianTicketAed": 1352500,
     "medianAedSqft": 3516,
     "offPlanPct": 100,
-    "grossYieldPct": 3.9,
+    "grossYieldPct": 2.7,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": 3.4,
+    "netYieldPct": 2.2,
     "byRoom": {
      "Studio": {
       "sales": 140,
@@ -5997,10 +6027,10 @@
     "medianTicketAed": 450000,
     "medianAedSqft": 692,
     "offPlanPct": 17,
-    "grossYieldPct": null,
+    "grossYieldPct": 7.8,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 5.5,
     "byRoom": {
      "1 B/R": {
       "sales": 104,
@@ -6028,10 +6058,10 @@
     "medianTicketAed": 1074700,
     "medianAedSqft": 2073,
     "offPlanPct": 39,
-    "grossYieldPct": null,
+    "grossYieldPct": 6.2,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 5.4,
     "byRoom": {
      "Studio": {
       "sales": 97,
@@ -6257,10 +6287,10 @@
     "medianTicketAed": 819730,
     "medianAedSqft": 1235,
     "offPlanPct": 71,
-    "grossYieldPct": null,
+    "grossYieldPct": 5.4,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 4.1,
     "byRoom": {
      "Studio": {
       "sales": 59,
@@ -6288,10 +6318,10 @@
     "medianTicketAed": 1648756,
     "medianAedSqft": 1905,
     "offPlanPct": 1,
-    "grossYieldPct": null,
+    "grossYieldPct": 6.2,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 5.4,
     "byRoom": {
      "Studio": {
       "sales": 18,
@@ -6362,10 +6392,10 @@
     "medianTicketAed": 599000,
     "medianAedSqft": 1428,
     "offPlanPct": 96,
-    "grossYieldPct": null,
+    "grossYieldPct": 5.8,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 4.7,
     "byRoom": {
      "Studio": {
       "sales": 123,
@@ -6449,10 +6479,10 @@
     "medianTicketAed": 1388974,
     "medianAedSqft": 2114,
     "offPlanPct": 100,
-    "grossYieldPct": 4.3,
+    "grossYieldPct": 4.4,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": 3.5,
+    "netYieldPct": 3.6,
     "byRoom": {
      "2 B/R": {
       "sales": 12,
@@ -6938,10 +6968,10 @@
     "medianTicketAed": 1440200,
     "medianAedSqft": 1699,
     "offPlanPct": 22,
-    "grossYieldPct": null,
+    "grossYieldPct": 4.4,
     "serviceChargeAedSqftYr": 16,
     "serviceChargeIsEstimate": true,
-    "netYieldPct": null,
+    "netYieldPct": 3.5,
     "byRoom": {
      "1 B/R": {
       "sales": 43,
@@ -7084,7 +7114,7 @@
   "corpus": {
    "projects": 26119,
    "version": 55,
-   "lastSyncAt": "2026-09-15T02:00:38.965Z",
+   "lastSyncAt": "2026-09-15T10:00:36.623Z",
    "archived": 20056,
    "live": false,
    "servedBy": "Digital Abbot Cloud (DigitAlchemy stored MEED corpus)"
