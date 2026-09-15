@@ -24,11 +24,14 @@ LISTENER_DOCS = r"C:\Dev\azimuth-listener-naj\docs\developer_availability"   # t
 os.makedirs(INBOX, exist_ok=True)
 
 NUM_RX = re.compile(r"^-?[\d,]+(\.\d+)?$")
-DEV_HINTS = ["imtiaz", "fakhruddin", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "select", "object 1", "reportage", "arada", "beyond", "iman", "zaya", "palma"]
+DEV_HINTS = ["imtiaz", "fakhruddin", "emaar", "damac", "sobha", "binghatti", "danube", "azizi", "ellington", "samana", "nakheel", "meraas", "omniyat", "prestige one", "select", "object 1", "reportage", "arada", "beyond", "iman", "zaya", "palma"]
 # a sheet often names only the project ("TREPPAN TOWER - INVENTORY"); these map a project word to the developer on the board
 PROJECT_DEV = {"treppan": "fakhruddin", "maimoon": "fakhruddin", "hatimi": "fakhruddin", "symphony": "imtiaz", "westwood": "imtiaz",
                "archive": "imtiaz", "raw district": "imtiaz", "rd2": "imtiaz",
-               "passo": "beyond", "kanyon": "beyond", "chateau": "beyond", "talea": "beyond", "soulever": "beyond", "hado": "beyond", "arancia": "beyond", "saria": "beyond", "orise": "beyond"}
+               "passo": "beyond", "kanyon": "beyond", "chateau": "beyond", "talea": "beyond", "soulever": "beyond", "hado": "beyond", "arancia": "beyond", "saria": "beyond", "orise": "beyond",
+               # 15 Sep 2026: Sanctuary by Prestige One (Meydan Horizon) - its price list is named only "Sanctuary.pdf"; the 125-page
+               # brief went to Select because the brochure says "select" somewhere
+               "sanctuary": "prestige one"}
 
 
 def project_from_filename(path):
@@ -245,6 +248,10 @@ def parse_row(cells):
     while j < len(cells) and NUM_RX.match(cells[j].replace(" ", "")):
         nums.append(num(cells[j])); j += 1
     view = " ".join(c for c in cells[j:]).strip()
+    # a small whole number after the price is a parking count, not an area or a price: Sanctuary's list reads
+    # "101 | 2 BR | 1,463.46 | 3,388,000.00 | 1 | Park / ..." and every row was dropped as priced at AED 1 (15 Sep 2026)
+    while len(nums) >= 3 and nums[-1] is not None and nums[-1] < 10 and float(nums[-1]).is_integer() and (nums[-2] or 0) >= 50000:
+        nums.pop()
     if len(nums) < 2:
         return None
     if len(nums) >= 4:

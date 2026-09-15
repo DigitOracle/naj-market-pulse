@@ -18,7 +18,7 @@ most-asked questions the app does not answer yet - the build list.
 
 Options: --dry (write files, send and push nothing), --notes <file.jsonl> (use these notes instead of pulling; for tests).
 """
-import datetime as dt, difflib, json, os, re, sys, urllib.request
+import datetime as dt, difflib, json, os, re, sys, urllib.parse, urllib.request
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -122,14 +122,26 @@ def read_notes(path=NOTES):
 
 
 def pull(dry):
+    """The export (worker v153) gives at most 2000 notes a call with "more": true; since is inclusive, so ids are deduped."""
     from build_avail_index import WORKER, env_token
     state = json.load(open(STATE, encoding="utf-8")) if os.path.exists(STATE) else {}
     since = state.get("since", "2026-09-01T00:00:00Z")
-    req = urllib.request.Request(WORKER + "/questions/export?since=" + since,
-                                 headers={"X-Azimuth-Ingest": env_token("INGEST_TOKEN"), "User-Agent": "najma-market-pulse/1.0"})
-    got = json.load(urllib.request.urlopen(req, timeout=120)).get("notes", [])
+    got, cursor = [], since
+    for _ in range(50):
+        req = urllib.request.Request(WORKER + "/questions/export?since=" + urllib.parse.quote(cursor, safe=""),
+                                     headers={"X-Azimuth-Ingest": env_token("INGEST_TOKEN"), "User-Agent": "najma-market-pulse/1.0"})
+        page = json.load(urllib.request.urlopen(req, timeout=120))
+        notes = page.get("notes", [])
+        got += notes
+        if not page.get("more") or not notes or notes[-1].get("at") == cursor:
+            break
+        cursor = notes[-1]["at"]
     have = {n["id"] for n in read_notes()}
-    new = [n for n in got if n.get("id") and n["id"] not in have]
+    new = []
+    for n in got:                      # pages overlap at their boundary (since is inclusive): one copy of each id
+        if n.get("id") and n["id"] not in have:
+            have.add(n["id"])
+            new.append(n)
     if new and not dry:
         os.makedirs(QDIR, exist_ok=True)
         with open(NOTES, "a", encoding="utf-8") as f:
@@ -191,8 +203,16 @@ def report(notes, matches, bank, dry):
                                                 ": " + q["source"] if q.get("source") else ""))
     if unmatched:
         lines.append("New questions to add:")
-        for n in unmatched[:8]:
-            lines.append("- \"%s\"%s" % (n.get("text", "")[:120], " (%s)" % n["askedBy"] if n.get("askedBy") else ""))
+        groups = {}
+        for n in unmatched:            # the same words asked twice are one candidate, with a count
+            k = " ".join(norm(n.get("text", "")))
+            g = groups.setdefault(k, {"text": n.get("text", ""), "n": 0, "askedBy": set()})
+            g["n"] += 1
+            if n.get("askedBy"):
+                g["askedBy"].add(n["askedBy"])
+        for g in sorted(groups.values(), key=lambda g: -g["n"])[:8]:
+            extra = ", ".join(filter(None, ["%dx" % g["n"] if g["n"] > 1 else "", ", ".join(sorted(g["askedBy"]))]))
+            lines.append("- \"%s\"%s" % (g["text"][:120], " (%s)" % extra if extra else ""))
     text = "\n".join(lines)
     os.makedirs(QDIR, exist_ok=True)
     out = os.path.join(QDIR, "weekly_%s.md" % dt.date.today().isoformat())
