@@ -1,6 +1,6 @@
 {
  "holds": [],
  "released": [],
- "updated": "2026-09-15T11:00:14",
+ "updated": "2026-09-15T13:54:05",
  "rule": "hold a reading under 50% of the previous one when that had >= 10 units; release when a later reading agrees within 25%"
 }

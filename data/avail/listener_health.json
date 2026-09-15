@@ -1,5 +1,5 @@
 {
- "checked": "2026-09-15T11:00:06",
+ "checked": "2026-09-15T13:53:27",
  "window_hours": 24,
  "alive": true,
  "pids": [
@@ -8,21 +8,23 @@
  "connected_in_current_log": true,
  "starts_in_window": 3,
  "exits_in_window": 0,
- "heartbeats_in_window": 31,
- "coverage_lost_hours": 16.07,
- "pdfs_captured_in_window": 4,
+ "heartbeats_in_window": 42,
+ "coverage_lost_hours": 13.27,
+ "pdfs_captured_in_window": 6,
  "pdfs": [
   "docs\\developer_availability\\1789382067375_IMTIAZ AVAILABILITY 14.09.pdf",
   "docs\\fn_realty_main_group\\1789435930015_SO-C1007.pdf",
+  "docs\\fn_realty_main_group\\1789463284813_Sanctuary Floorplan By Prestige One.pdf",
+  "docs\\fn_realty_main_group\\1789463306714_Sanctuary Brochure By Prestige One.pdf",
   "docs\\jlt_ladies_whattsup_group_chat_\\1789435944422_Ishaque cv_3.pdf",
   "docs\\jlt_ladies_whattsup_group_chat_\\1789435944524_M_Muzain_CV - 2026-1.pdf _1_.pdf"
  ],
  "verdict": "gap",
  "socket": "open",
- "heartbeat_age_min": 0.1,
- "last_rx": "2026-09-15T10:58:14",
- "last_doc": "2026-09-15T05:32:24",
- "rx_24h": 498,
- "docs_24h": 3,
+ "heartbeat_age_min": 0.9,
+ "last_rx": "2026-09-15T13:51:53",
+ "last_doc": "2026-09-15T13:08:26",
+ "rx_24h": 744,
+ "docs_24h": 5,
  "meaning": "the listener restarted during the window - sheets posted in the lost hours were NOT captured"
 }
