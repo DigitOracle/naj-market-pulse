@@ -51,7 +51,10 @@ SQM_TO_SQFT = 10.7639
 UA = {"User-Agent": "DigitAlchemy-najma/1.0 (contact@digitalabbot.io)", "Accept": "application/json"}
 
 # The picture roles a sheet can use, in the order page 2 wants them.
-ROLES = ["hero", "plan_1br", "plan_2br", "plan_3br", "bedroom", "kitchen", "bath", "living", "amenity"]
+# Specific roles are only ever set by a person who looked at the picture. The wiring script assigns
+# neutral interior_1..3 instead, because nothing automatic can tell a bedroom from a living room.
+ROLES = ["hero", "plan_1br", "plan_2br", "plan_3br", "bedroom", "kitchen", "bath", "living", "amenity",
+         "interior_1", "interior_2", "interior_3"]
 
 
 def slugify(s):
@@ -287,6 +290,9 @@ TYPE_LABEL = {"1 B/R": "1 bedroom", "2 B/R": "2 bedroom", "3 B/R": "3 bedroom",
               "4 B/R": "4 bedroom", "5 B/R": "5 bedroom"}
 
 
+MIN_TYPE_SALES = 4   # below this a "median" is one person's deal, not the market
+
+
 def build_record(name, district=None, min_sales=20):
     rows = find_building(name, district)
     if not rows:
@@ -302,6 +308,13 @@ def build_record(name, district=None, min_sales=20):
     mix = unitmix_for(project, d)
     fx = facts_for(slug)
     imgs = assets_for(slug)
+    prov_p = os.path.join(ASSETS, slug, "_provenance.json")
+    if os.path.exists(prov_p):
+        try:
+            pv = json.load(open(prov_p, encoding="utf-8"))
+            fx = dict({"developer": pv.get("developer")} if pv.get("developer") else {}, **fx)
+        except Exception:
+            pass
     units, units_src = live_units(project)
 
     types = []
@@ -328,6 +341,12 @@ def build_record(name, district=None, min_sales=20):
                     row["levels"] = m.get("levels")
         types.append(row)
 
+    # Types too thin to quote. Treppan's three-bed median rested on a single sale - printing that
+    # beside "median of every transaction on record" invites a client to treat one person's deal as
+    # the going rate. They stay on page 3, which says what the building holds, not what it costs.
+    thin = [t for t in types if t["sales"] < MIN_TYPE_SALES]
+    types = [t for t in types if t["sales"] >= MIN_TYPE_SALES]
+
     rec = {
         "name": pretty(project), "slug": slug, "district": d, "medians_exact": exact,
         "master": rows[0].get("master"), "area": rows[0].get("area"),
@@ -337,7 +356,7 @@ def build_record(name, district=None, min_sales=20):
                   else min(r.get("first", "") for r in rows)),
         "last": (max(v["last"] for v in pooled.values()) if exact
                  else max(r.get("last", "") for r in rows)),
-        "types": types,
+        "types": types, "thin_types": thin,
         "rent_window": (rent or {}).get("window"),
         "rent_total": (rent or {}).get("n"),
         "mix": mix, "facts": fx, "images": imgs,
@@ -450,9 +469,14 @@ def img_tag(path, style, alt=""):
     return '<img src="data:%s;base64,%s" alt="%s" style="%s">' % (mt, b64, esc(alt), style)
 
 
+def fx_hero_focus(rec):
+    return rec["facts"].get("hero_focus", "center 38%")
+
+
 def page1(rec, today):
     im = rec["images"]
-    hero = (img_tag(im["hero"], "width:794px;height:248px;object-fit:cover;display:block;", rec["name"])
+    hero = (img_tag(im["hero"], "width:794px;height:248px;object-fit:cover;display:block;"
+                    "object-position:%s;" % fx_hero_focus(rec), rec["name"])
             if "hero" in im else '<div style="width:794px;height:248px;background:#E2E0DC;"></div>')
     fx = rec["facts"]
 
@@ -466,7 +490,9 @@ def page1(rec, today):
     rows = ""
     for i, t in enumerate(rec["types"]):
         band = "background:#F1EEE8;" if i % 2 == 0 else ""
-        ev = "%d sales" % t["sales"] + (" &middot; %d leases" % t["rent_n"] if t.get("rent_n") else "")
+        ev = ("%d sale%s" % (t["sales"], "" if t["sales"] == 1 else "s")
+              + (" &middot; %d lease%s" % (t["rent_n"], "" if t["rent_n"] == 1 else "s")
+                 if t.get("rent_n") else ""))
         rent = "AED " + money(t["rent"]) if t.get("rent") else "&mdash;"
         yld = ("%.1f%%" % t["yield"]) if t.get("yield") else "&mdash;"
         rows += (
@@ -507,7 +533,13 @@ def page1(rec, today):
     ] + ([fx["location_note"]] if fx.get("location_note") else []) + [
         'All figures are medians of recorded transactions &mdash; a guide to the market, not a valuation, an asking '
         'price or an offer.'
-    ] + ([x for x in (fx.get("caveats") or [])]))
+    ] + ([("%s %s recorded too few sales to quote a median and %s left off this table; page 3 shows "
+           "what the building holds." % (
+               ", ".join(t["label"] for t in rec["thin_types"]),
+               "has" if len(rec["thin_types"]) == 1 else "have",
+               "is" if len(rec["thin_types"]) == 1 else "are"))]
+          if rec.get("thin_types") else [])
+      + list(fx.get("caveats") or []))
 
     return """
 <div class="sheet">
@@ -554,7 +586,12 @@ def page2(rec, today):
     im = rec["images"]
     plans = [(k, lbl) for k, lbl in (("plan_1br", "One bedroom"), ("plan_2br", "Two bedroom"),
                                      ("plan_3br", "Three bedroom")) if k in im]
+    caps = rec["facts"].get("captions", {})
     interiors = [(k, k.title()) for k in ("bedroom", "living", "kitchen", "bath", "amenity") if k in im]
+    if not interiors:
+        # Neutral captions: an unverified render is "Interior", never a room we cannot identify.
+        interiors = [(k, caps.get(k, "Interior — developer render"))
+                     for k in ("interior_1", "interior_2", "interior_3") if k in im]
     if not plans and not interiors:
         return None
 
@@ -584,7 +621,7 @@ def page2(rec, today):
         block = ('<div style="display:flex;flex-direction:column;gap:6px;">%s'
                  '<div style="font-size:12.5px;color:#626B78;">%s</div></div>'
                  % (img_tag(im[lead[0]], "width:100%;height:186px;object-fit:cover;display:block;", lead[1]),
-                    esc(rec["facts"].get("captions", {}).get(lead[0], lead[1]))))
+                    esc(caps.get(lead[0], lead[1]))))
         if rest:
             cells = "".join(
                 '<div style="display:flex;flex-direction:column;gap:6px;">%s'
