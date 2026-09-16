@@ -30,6 +30,13 @@ Nothing here reaches her board: docs/GOV_DATA_METHODOLOGY.md section 5 still dec
   project_spine    (15 Sep 2026) one project table (lk_d_project), one developer table (lk_d_developer) and the board developers as groups
                    of DLD developer entities in the shared crosswalk lk_xref (digital thread P1.1 + P1.2)
   sheet_units      (15 Sep 2026) availability-sheet projects -> project_id and sheet units -> register property_id, as lk_xref rows (P1.4)
+  place_spine      (16 Sep 2026) one table per numbered place - area, Municipality community, parcel with its split lineage, register
+                   building (digital thread P2.1 + P2.2)
+  sub_communities  (16 Sep 2026) each sub-community card keyed to the DLD project it names, so its id stops being a list position (P2.3)
+  stations         (16 Sep 2026) RTA metro and tram stations by the RTA's own location id, and the sales register's nearest-station
+                   name keyed to them (P2.5)
+  districts        (16 Sep 2026) the twin's districts as a grouping over the registers' areas and communities, derived from their own
+                   sub-community cards - never a join key (P2.4)
 
 Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects twin_bindings project_spine
        sheet_units makani resident_mix building_activity] [--dry]
@@ -910,6 +917,436 @@ def job_project_spine(con):
                       ["group links for review: %d (%s)" % (len(review_rows), os.path.relpath(GROUP_REVIEW, ROOT))]}
 
 
+def job_place_spine(con):
+    """Digital thread P2.1 + P2.2 (16 Sep 2026): one table per place the registers number, with the parcel's own lineage.
+
+      lk_d_area       area:<area_id> - the DLD's areas, each with the Municipality community it sits in (lkp_areas), and what the registers
+                      hold there: parcels, buildings, units, projects.
+      lk_d_community  comm:<comm_num> - the Municipality's communities, from the areas that name one and from every parcel key on record
+                      (comm_num = parcel_key / 10000, exact on all 231,108 parcels). Carries what the community job already measured (name,
+                      point, population, bus coverage, DEWA move-ins) where it has it, so nothing is counted twice.
+      lk_d_parcel     pcl:<parcel_key> - every registered land parcel: its area, community, project, land and property type, size, and
+                      LINEAGE - separated_from is the property id of the parcel it was split from, and every one of the 110,951 splits
+                      resolves, so each parcel carries its parent's key, the key it descends from and how many splits deep it is.
+      lk_d_building   bld:<property_id> - every registered building: parcel, project, area, community, floors, flats, offices, shops,
+                      parking and size, with the Municipality's own buildings on the same parcel counted beside it (lk_dm_buildings).
+      v_thread_parcel  parcel -> community, area, project, its buildings and its parent parcel.
+    Held (nothing replaced) when more than 1% of the canonical ids published last time vanish (gate C6)."""
+    L = read(register_files("land_registry", "dld__land_registry__*.csv"))
+    B = read(register_files("buildings", "dld__buildings__*.csv"))
+    U = read(register_files("units", "dld__units__*.csv"))
+    LK = read(register_files("lkp_areas", "dld__lkp_areas__*.csv"))
+    txt = lambda c: "nullif(trim(%s), '')" % c
+    dbl = lambda c: "try_cast(%s as double)" % c
+    cnt = lambda c: "try_cast(try_cast(%s as double) as bigint)" % c
+    yes = lambda c: "case when trim(cast(%s as varchar)) in ('1', 'true', 'True') then true when trim(cast(%s as varchar)) in ('0', 'false', 'False') then false end" % (c, c)
+    con.execute("""create or replace temp table j_pl_parcel as
+        select %s parcel_key, %s property_id, %s area_id, %s project_id, %s land_number, %s land_sub_number, %s land_type,
+               %s property_type, %s property_sub_type, %s actual_area, %s is_free_hold, %s is_registered, %s master_project_id,
+               %s master_project_en, %s zone_id, %s munc_zip_code, %s separated_from
+        from %s where %s is not null
+        qualify row_number() over (partition by %s order by property_id) = 1""" % (
+        parcel_key("parcel_id"), num("property_id"), num("area_id"), num("project_id"), txt("land_number"), txt("land_sub_number"),
+        txt("land_type_en"), txt("property_type_en"), txt("property_sub_type_en"), dbl("actual_area"), yes("is_free_hold"),
+        yes("is_registered"), num("master_project_id"), txt("master_project_en"), num("zone_id"), num("munc_zip_code"),
+        num("separated_from"), L, parcel_key("parcel_id"), parcel_key("parcel_id")))
+    con.execute("""create or replace temp table j_pl_bld as
+        select %s property_id, %s parcel_key, %s project_id, %s area_id, %s building_number, %s parent_property_id, %s floors,
+               %s bld_levels, %s flats, %s offices, %s shops, %s car_parks, %s elevators, %s built_up_area, %s actual_area,
+               %s property_sub_type, %s is_registered, %s master_project_en, try_cast(left(trim(creation_date), 10) as date) creation_date
+        from %s where %s is not null
+        qualify row_number() over (partition by %s order by creation_date desc nulls last) = 1""" % (
+        num("property_id"), parcel_key("parcel_id"), num("project_id"), num("area_id"), txt("building_number"), num("parent_property_id"),
+        cnt("floors"), cnt("bld_levels"), cnt("flats"), cnt("offices"), cnt("shops"), cnt("car_parks"), cnt("elevators"),
+        dbl("built_up_area"), dbl("actual_area"), txt("property_sub_type_en"), yes("is_registered"), txt("master_project_en"),
+        B, num("property_id"), num("property_id")))
+    con.execute("""create or replace temp table j_pl_units as
+        select %s area_id, %s parcel_key, count(*) units from %s group by 1, 2""" % (num("area_id"), parcel_key("parcel_id"), U))
+    con.execute("""create or replace temp table j_pl_areas as
+        select %s area_id, %s name_en, %s name_ar, %s comm_num from %s where %s is not null
+        qualify row_number() over (partition by %s order by name_en) = 1""" % (
+        num("area_id"), txt("name_en"), txt("name_ar"), num("municipality_number"), LK, num("area_id"), num("area_id")))
+    # lineage: separated_from is the parent's property id, so a parcel gets its parent's key, the key it descends from, and its depth
+    con.execute("""create or replace temp table j_pl_lineage as
+        with recursive parent as (select c.parcel_key, m.parcel_key parent_parcel_key
+                        from j_pl_parcel c join j_pl_parcel m on m.property_id = c.separated_from where m.parcel_key <> c.parcel_key),
+             walk as (select parcel_key, parent_parcel_key, parent_parcel_key root_parcel_key, 1 generation from parent
+                      union all
+                      select w.parcel_key, w.parent_parcel_key, p.parent_parcel_key, w.generation + 1
+                      from walk w join parent p on p.parcel_key = w.root_parcel_key where w.generation < 8)
+        select parcel_key, any_value(parent_parcel_key) parent_parcel_key,
+               case when max(generation) >= 8 then null else max(generation) end split_generation,
+               case when max(generation) >= 8 then null else arg_max(root_parcel_key, generation) end root_parcel_key,
+               max(generation) >= 8 lineage_loop            -- 159 parcels name each other as the parcel they were split from
+        from walk group by 1""")
+    con.execute("""create or replace temp table j_d_parcel as
+        select 'pcl:' || cast(p.parcel_key as varchar) canonical_id, p.parcel_key, p.property_id, p.area_id, a.name_en area_name_en,
+               p.parcel_key // 10000 comm_num, p.project_id, p.land_number, p.land_sub_number, p.land_type, p.property_type,
+               p.property_sub_type, p.actual_area, p.is_free_hold, p.is_registered, p.master_project_id, p.master_project_en, p.zone_id,
+               p.munc_zip_code, p.separated_from parent_property_id, l.parent_parcel_key,
+               case when l.lineage_loop then null else coalesce(l.split_generation, 0) end split_generation,
+               case when l.lineage_loop then null else coalesce(l.root_parcel_key, p.parcel_key) end root_parcel_key,
+               coalesce(l.lineage_loop, false) lineage_loop, coalesce(b.buildings, 0) register_buildings,
+               coalesce(d.dm_buildings, 0) dm_buildings, coalesce(u.units, 0) register_units
+        from j_pl_parcel p left join j_pl_areas a on a.area_id = p.area_id left join j_pl_lineage l on l.parcel_key = p.parcel_key
+        left join (select parcel_key, count(*) buildings from j_pl_bld where parcel_key is not null group by 1) b on b.parcel_key = p.parcel_key
+        left join (select parcel_key, count(*) dm_buildings from lk_dm_buildings where parcel_key is not null group by 1) d on d.parcel_key = p.parcel_key
+        left join (select parcel_key, sum(units) units from j_pl_units where parcel_key is not null group by 1) u on u.parcel_key = p.parcel_key""")
+    con.execute("""create or replace temp table j_d_building as
+        select 'bld:' || cast(b.property_id as varchar) canonical_id, b.property_id, b.parcel_key, b.parcel_key // 10000 comm_num,
+               b.area_id, a.name_en area_name_en, b.project_id, b.building_number, b.parent_property_id, b.floors, b.bld_levels, b.flats,
+               b.offices, b.shops, b.car_parks, b.elevators, b.built_up_area, b.actual_area, b.property_sub_type, b.is_registered,
+               b.master_project_en, b.creation_date, coalesce(d.dm_buildings, 0) dm_buildings_on_parcel
+        from j_pl_bld b left join j_pl_areas a on a.area_id = b.area_id
+        left join (select parcel_key, count(*) dm_buildings from lk_dm_buildings where parcel_key is not null group by 1) d
+          on d.parcel_key = b.parcel_key""")
+    con.execute("""create or replace temp table j_d_area as
+        select 'area:' || cast(a.area_id as varchar) canonical_id, a.area_id, a.name_en, a.name_ar, a.comm_num,
+               coalesce(p.parcels, 0) parcels, coalesce(p.free_hold, 0) free_hold_parcels, coalesce(b.buildings, 0) register_buildings,
+               coalesce(u.units, 0) register_units, coalesce(j.projects, 0) projects, coalesce(j.planned_units, 0) planned_units
+        from j_pl_areas a
+        left join (select area_id, count(*) parcels, count(*) filter (where is_free_hold) free_hold from j_pl_parcel group by 1) p on p.area_id = a.area_id
+        left join (select area_id, count(*) buildings from j_pl_bld where area_id is not null group by 1) b on b.area_id = a.area_id
+        left join (select area_id, sum(units) units from j_pl_units where area_id is not null group by 1) u on u.area_id = a.area_id
+        left join (select area_id, count(*) projects, sum(planned_units) planned_units from lk_d_project where area_id is not null group by 1) j
+          on j.area_id = a.area_id""")
+    has_comm = lake_has(con, "lk_community")
+    con.execute("""create or replace temp table j_d_community as
+        with nums as (select comm_num from j_pl_areas where comm_num is not null
+                      union select comm_num from j_d_parcel where comm_num is not null %s)
+        select 'comm:' || cast(n.comm_num as varchar) canonical_id, n.comm_num, %s,
+               (select list_sort(list(distinct a.area_id)) from j_pl_areas a where a.comm_num = n.comm_num) area_ids,
+               (select count(*) from j_pl_areas a where a.comm_num = n.comm_num) areas,
+               coalesce(p.parcels, 0) parcels, coalesce(p.register_buildings, 0) register_buildings,
+               coalesce(p.register_units, 0) register_units, coalesce(d.dm_buildings, 0) dm_buildings
+        from nums n %s
+        left join (select comm_num, count(*) parcels, sum(register_buildings) register_buildings, sum(register_units) register_units
+                   from j_d_parcel where comm_num is not null group by 1) p on p.comm_num = n.comm_num
+        left join (select %s comm_num, count(*) dm_buildings from lk_dm_buildings where community_no is not null group by 1) d
+          on d.comm_num = n.comm_num""" % (
+        "union select comm_num from lk_community where comm_num is not null" if has_comm else "",
+        ("c.dm_name_en name_en, c.dm_name_ar name_ar, c.lon, c.lat, c.population, c.bus_coverage_pct, c.dewa_move_ins"
+         if has_comm else "null::varchar name_en, null::varchar name_ar, null::double lon, null::double lat, null::bigint population, "
+                          "null::double bus_coverage_pct, null::bigint dewa_move_ins"),
+        "left join lk_community c on c.comm_num = n.comm_num" if has_comm else "", num("community_no")))
+
+    hold, churn = None, []
+    for table, tmp in (("lk_d_parcel", "j_d_parcel"), ("lk_d_building", "j_d_building"), ("lk_d_area", "j_d_area"),
+                       ("lk_d_community", "j_d_community")):
+        if not lake_has(con, table):
+            churn.append("%s: first publish" % table)
+            continue
+        old, gone = one(con, """select count(*), count(*) filter (where n.canonical_id is null)
+            from %s o left join %s n on n.canonical_id = o.canonical_id""" % (table, tmp))
+        churn.append("%s: %s of %s ids published last time vanished" % (table, format(gone, ","), format(old, ",")))
+        if old and gone > CHURN_MAX * old:
+            hold = "id churn on %s: %s of %s ids vanished (limit %.0f%%)" % (table, format(gone, ","), format(old, ","), 100 * CHURN_MAX)
+    parcels, with_comm, with_area, with_project, split, deepest, loops = one(con, """select count(*), count(comm_num), count(area_id),
+        count(project_id), count(parent_parcel_key), max(split_generation), count(*) filter (where lineage_loop) from j_d_parcel""")
+    blds, b_parcel, b_project = one(con, "select count(*), count(parcel_key), count(project_id) from j_d_building")
+    areas, a_comm = one(con, "select count(*), count(comm_num) from j_d_area")
+    comms, c_named = one(con, "select count(*), count(name_en) from j_d_community")
+    view = """select p.canonical_id, p.parcel_key, p.comm_num, c.name_en community_name_en, p.area_id, p.area_name_en, p.project_id,
+                     j.name_en project_name_en, j.developer_number, p.land_type, p.property_sub_type, p.actual_area, p.is_free_hold,
+                     p.register_buildings, p.dm_buildings, p.register_units, p.parent_parcel_key, p.split_generation, p.root_parcel_key,
+                     p.lineage_loop
+              from lk_d_parcel p left join lk_d_community c on c.comm_num = p.comm_num
+              left join lk_d_project j on j.project_id = p.project_id"""
+    return {"tables": [("lk_d_parcel", "select * from j_d_parcel"), ("lk_d_building", "select * from j_d_building"),
+                       ("lk_d_area", "select * from j_d_area"), ("lk_d_community", "select * from j_d_community")],
+            "views": [("v_thread_parcel", view)],
+            "keys_in": parcels, "keys_matched": with_comm, "rows_in": parcels + blds, "hold": hold,
+            "note": "registered parcels carrying a Municipality community number",
+            "report": ["parcels: %s - with a community %s, with an area %s, with a project %s; split from another parcel %s (deepest chain %s)"
+                       % (format(parcels, ","), pct(with_comm, parcels), pct(with_area, parcels), pct(with_project, parcels),
+                          format(split, ","), deepest),
+                       "parcels whose split chain loops back on itself (lineage left empty): " + format(loops, ","),
+                       "register buildings: %s - on a parcel %s, with a project %s" % (format(blds, ","), pct(b_parcel, blds), pct(b_project, blds)),
+                       "areas: %s, with a community number %s; communities: %s, named by the Municipality %s"
+                       % (format(areas, ","), pct(a_comm, areas), format(comms, ","), pct(c_named, comms))] + churn}
+
+
+def job_districts(con):
+    """Digital thread P2.4 (16 Sep 2026): the twin's districts as a GROUPING over the registers' own places, never a join key.
+
+    A district is Najma's own slice of the city (data/board/districts_geo.json, the twin's view areas) - the DLD has areas and the
+    Municipality has communities, and several scripts each keep their own hand list of what a district contains. This publishes the
+    grouping the registers themselves imply: each district's sub-community cards carry a DLD area (register_joins sub_communities), and
+    each area carries a Municipality community (lkp_areas), so district -> area -> community falls out, with the share of cards, plots and
+    units behind every link, and lk_d_district carries what the registers hold inside that district.
+
+    Publishes lk_d_district, lk_xref job district_area (the share is on the row) and v_thread_district."""
+    geo = os.path.join(ROOT, "data", "board", "districts_geo.json")
+    if not os.path.exists(geo) or not lake_has(con, "lk_sub_community") or not lake_has(con, "lk_d_area"):
+        raise RuntimeError("needs data/board/districts_geo.json, lk_sub_community (sub_communities) and lk_d_area (place_spine)")
+    D = json.load(open(geo, encoding="utf-8")).get("districts") or []
+    con.execute("""create or replace temp table j_dist (slug varchar, name varchar, corridor varchar, lon double, lat double,
+                   bbox_w double, bbox_s double, bbox_e double, bbox_n double, twin_buildings bigint, twin_named bigint)""")
+    con.executemany("insert into j_dist values (?,?,?,?,?,?,?,?,?,?,?)", [
+        [d.get("slug"), d.get("name"), d.get("corridor"), (d.get("centre") or [None, None])[0], (d.get("centre") or [None, None])[1],
+         *(d.get("bbox") or [None, None, None, None]), d.get("buildings"), d.get("named")] for d in D if d.get("slug")])
+    con.execute("""create or replace temp table j_dist_area as
+        select s.district, s.area_id, a.name_en area_name_en, a.comm_num, count(*) cards, sum(coalesce(s.plots, 0)) plots,
+               sum(coalesce(s.units, 0)) units, count(*) filter (where s.decision = 'accepted') keyed_cards
+        from lk_sub_community s join lk_d_area a on a.area_id = s.area_id where s.area_id is not null group by 1, 2, 3, 4""")
+    con.execute("""create or replace temp table j_d_district as
+        select 'dist:' || d.slug canonical_id, d.slug, d.name, d.corridor, d.lon, d.lat, d.bbox_w, d.bbox_s, d.bbox_e, d.bbox_n,
+               d.twin_buildings, d.twin_named, coalesce(x.areas, 0) areas, coalesce(x.communities, 0) communities,
+               coalesce(x.cards, 0) sub_community_cards, coalesce(x.plots, 0) card_plots, coalesce(x.units, 0) card_units,
+               x.area_ids, x.comm_nums, coalesce(p.parcels, 0) register_parcels, coalesce(p.register_buildings, 0) register_buildings,
+               coalesce(p.register_units, 0) register_units
+        from j_dist d
+        left join (select district, count(distinct area_id) areas, count(distinct comm_num) communities, sum(cards) cards,
+                          sum(plots) plots, sum(units) units, list_sort(list(distinct area_id)) area_ids,
+                          list_sort(list(distinct comm_num)) comm_nums
+                   from j_dist_area group by 1) x on x.district = d.slug
+        left join (select da.district, count(*) parcels, sum(pa.register_buildings) register_buildings, sum(pa.register_units) register_units
+                   from lk_d_parcel pa join (select distinct district, area_id from j_dist_area) da on da.area_id = pa.area_id
+                   group by 1) p on p.district = d.slug""")
+    now = dt.datetime.now().replace(microsecond=0)
+    run_id = "districts@" + now.isoformat()
+    snapshot = "districts_geo.json (%d districts); lk_sub_community; lk_d_area" % len(D)
+    xref = [["district_area", "district", "dist:" + slug, "area", "area:" + str(aid), "covers", "sub-community cards in the area",
+             round(share, 3), "accepted", "rule",
+             "%d of the district's %d cards, %s plots, %s units - %s (community %s)"
+             % (cards, total, format(plots or 0, ","), format(units or 0, ","), aname, comm if comm is not None else "none"),
+             snapshot, now, None, run_id]
+            for slug, aid, aname, comm, cards, plots, units, total, share in con.execute("""
+                select district, area_id, area_name_en, comm_num, cards, plots, units,
+                       sum(cards) over (partition by district), cards / sum(cards) over (partition by district)
+                from j_dist_area""").fetchall()]
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_dist"))
+    if xref:
+        con.executemany("insert into j_xref_dist values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", xref)
+    dists, with_area, multi = one(con, "select count(*), count(*) filter (where areas > 0), count(*) filter (where areas > 1) from j_d_district")
+    areas_covered, comms_covered = one(con, "select count(distinct area_id), count(distinct comm_num) from j_dist_area")
+    shared = one(con, """select count(*) from (select area_id from (select distinct district, area_id from j_dist_area)
+                         group by 1 having count(*) > 1)""")[0]
+    view = """select d.canonical_id, d.slug, d.name, d.corridor, d.areas, d.communities, d.sub_community_cards, d.register_parcels,
+                     d.register_buildings, d.register_units, x.to_id area_canonical_id, a.area_id, a.name_en area_name_en, a.comm_num,
+                     c.name_en community_name_en, x.score card_share
+              from lk_d_district d left join lk_xref x on x.job = 'district_area' and x.from_id = d.canonical_id
+              left join lk_d_area a on 'area:' || cast(a.area_id as varchar) = x.to_id
+              left join lk_d_community c on c.comm_num = a.comm_num"""
+    return {"tables": [("lk_d_district", "select * from j_d_district")],
+            "xref": [("district_area", "j_xref_dist")],
+            "views": [("v_thread_district", view)],
+            "keys_in": dists, "keys_matched": with_area, "rows_in": dists,
+            "note": "twin districts their own cards place in at least one DLD area",
+            "report": ["districts: %s - placed in a DLD area by their own cards %s, spanning more than one area %s"
+                       % (format(dists, ","), pct(with_area, dists), format(multi, ",")),
+                       "areas covered: %s; communities reached: %s; areas two districts share: %s"
+                       % (format(areas_covered, ","), format(comms_covered, ","), format(shared, ",")),
+                       "district -> area links: %s (each carries the share of the district's cards behind it)" % format(len(xref), ",")]}
+
+
+STATION_REVIEW = os.path.join(ROOT, "data", "identity", "station_review.csv")
+
+
+def job_stations(con):
+    """Digital thread P2.5 (16 Sep 2026): the RTA's own station ids, and the sales register's nearest-metro name keyed to them.
+
+    Every amenity the pipeline carries was minted from its content; the RTA publishes a station id (location_id) for each metro and tram
+    station, so a station is poi:rta:<location_id> - the source's key, not ours (data/registers/{metro,tram}_stations). The sales register
+    names a nearest station in free text on 47.8% of its rows, in its own spellings ("Buj Khalifa Dubai Mall", "Trade Centre", plural
+    "Stations"), so each name is matched to a station: the same name, the name inside the station's name (or the station's inside it) when
+    only one station fits, or one letter apart. A name that fits several stations, or none, goes to review and is never guessed - the
+    register still names stations the RTA has since renamed (Sharaf DG, Palm Deira), which only a person should decide.
+
+    Publishes lk_d_station, lk_xref job sale_station, and review rows to data/identity/station_review.csv."""
+    import collections
+    from keys import name_norm
+    strip = re.compile(r"\b(metro|tram)?\s*stations?\b", re.I)
+    sn = lambda s: name_norm(strip.sub(" ", s or ""))
+    rows = []
+    for folder, mode in (("metro_stations", "metro"), ("tram_stations", "tram")):
+        for f in sorted(glob.glob(os.path.join(ROOT, "data", "registers", folder, "*.csv"))):
+            with open(f, encoding="utf-8-sig", errors="replace", newline="") as fh:
+                for r in csv.DictReader(fh):
+                    lid = (r.get("location_id") or "").strip()
+                    nm = (r.get("location_name_english") or "").strip()
+                    if not (lid and nm) or (r.get("station_closing_date") or "").strip():
+                        continue
+                    line = (r.get("line_name") or ("Tram" if mode == "tram" else "")).replace(" Metro line", " line").strip()
+                    rows.append(["poi:rta:" + lid, int(lid), " ".join(nm.split()), (r.get("location_name_arabic") or "").strip() or None, mode,
+                                 line or None, (r.get("zone_id") or "").strip() or None, float(r["station_location_longitude"]),
+                                 float(r["station_location_latitude"]), (r.get("station_opening_date") or "").strip()[:10] or None])
+    if not rows:
+        raise RuntimeError("no RTA station register on disk (data/registers/metro_stations)")
+    rows = {r[1]: r for r in rows}                          # one row per location id, whatever the extract repeats
+    rows = [rows[k] for k in sorted(rows)]
+    same = collections.defaultdict(list)
+    for r in rows:
+        same[sn(r[2])].append(r[1])                          # an interchange is one name on two lines (BurJuman, Union)
+    for r in rows:
+        r.append(sorted(x for x in same[sn(r[2])] if x != r[1]))
+    con.execute("""create or replace temp table j_d_station (canonical_id varchar, location_id bigint, name_en varchar, name_ar varchar,
+                   mode varchar, line varchar, zone_id varchar, lon double, lat double, opened varchar, interchange_ids bigint[])""")
+    con.executemany("insert into j_d_station values (?,?,?,?,?,?,?,?,?,?,?)", rows)
+
+    def dist1(a, b):                                        # one insertion, deletion or substitution apart
+        if abs(len(a) - len(b)) > 1:
+            return False
+        if len(a) == len(b):
+            return sum(x != y for x, y in zip(a, b)) == 1
+        lo, hi = (a, b) if len(a) < len(b) else (b, a)
+        for i in range(len(hi)):
+            if hi[:i] + hi[i + 1:] == lo:
+                return True
+        return False
+
+    by_name = collections.defaultdict(list)
+    for r in rows:
+        by_name[sn(r[2])].append(r)
+    now = dt.datetime.now().replace(microsecond=0)
+    run_id = "stations@" + now.isoformat()
+    snapshot = "RTA metro + tram station registers; %s" % ("dld_transactions_now" if lake_has(con, "dld_transactions_now") else "no sales")
+    names = con.execute("""select nullif(trim(NEAREST_METRO_EN), ''), count(*) from dld_transactions_now
+                           where nullif(trim(NEAREST_METRO_EN), '') is not null group by 1""").fetchall() if lake_has(con, "dld_transactions_now") else []
+    total = one(con, "select count(*) from dld_transactions_now")[0] if lake_has(con, "dld_transactions_now") else 0
+    xref, review, reached = [], [], 0
+    for nm, n in sorted(names, key=lambda x: -x[1]):
+        k = sn(nm)
+        hits = by_name.get(k) or []
+        method = "the station's own name"
+        if not hits:
+            inside = [r for r in rows if k and (k in sn(r[2]) or sn(r[2]) in k)]
+            hits, method = (inside, "the name inside the station's name") if len(inside) == 1 else (hits, method)
+        if not hits:
+            near = [r for r in rows if dist1(k, sn(r[2]))]
+            hits, method = (near, "one letter from the station's name") if len(near) == 1 else (hits, method)
+        decision = "accepted" if hits else "review"
+        if hits:
+            reached += n
+        else:
+            cand = [r for r in rows if k and (k.split(" ")[0] == sn(r[2]).split(" ")[0] or k[:6] in sn(r[2]))][:4]
+            review.append([nm, n, ", ".join(r[2] for r in cand)[:120], "no station fits the name"])
+        for r in hits:
+            xref.append(["sale_station", "sales_name", "salemetro:" + nm, "poi", r[0], "nearest station", method, 1.0, decision, "rule",
+                         "%s sales rows name '%s' = %s (%s%s)" % (format(n, ","), nm, r[2], r[5] or r[4],
+                                                                  ", zone " + r[6] if r[6] else ""), snapshot, now, None, run_id])
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_station"))
+    if xref:
+        con.executemany("insert into j_xref_station values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", xref)
+    named = sum(n for _, n in names)
+    metro, tram = sum(1 for r in rows if r[4] == "metro"), sum(1 for r in rows if r[4] == "tram")
+    return {"tables": [("lk_d_station", "select * from j_d_station")],
+            "xref": [("sale_station", "j_xref_station")],
+            "keys_in": named, "keys_matched": reached, "rows_in": total,
+            "note": "sales rows whose nearest-station name reaches an RTA station id",
+            "review_csv": (STATION_REVIEW, ["register_name", "sales_rows", "nearest_stations", "why"], review),
+            "report": ["RTA stations: %s (metro %d, tram %d), keyed by the RTA's own location id" % (format(len(rows), ","), metro, tram),
+                       "sales rows naming a station: %s of %s; reaching a station id: %s"
+                       % (format(named, ","), format(total, ","), pct(reached, total)),
+                       "names left for review (the register's own spellings, or stations since renamed): %d - %s"
+                       % (len(review), "; ".join("%s (%s rows)" % (r[0], format(r[1], ",")) for r in review[:6]))]}
+
+
+SUB_REVIEW = os.path.join(ROOT, "data", "identity", "sub_community_review.csv")
+
+
+def job_sub_communities(con):
+    """Digital thread P2.3 (16 Sep 2026): the sub-community cards keyed to the DLD project they are.
+
+    The cards (data/names/clusters_<district>.json, cluster_names.py) are the sub-community each PLOT belongs to in the land and units
+    registers - Maple 2, Sidra, Golf Promenade - geocoded once each and drawn on the map as a point with a radius. Their ids were list
+    positions (SUB-<district>-<k> in graph_build), so inserting one card renumbered every card after it. Each card's name is a registered
+    project name in its own DLD area, so the card IS that project: matched on the normalised English name inside the file's own area, it
+    takes that project's canonical id and never moves again. A name several projects in the area carry goes to review and keeps a content
+    id - the hash of the name - which is stable too.
+
+    Publishes lk_sub_community (one row per card, with the point, radius, plots, units, footprints and Google place id it carries) and
+    lk_xref job sub_community; review rows to data/identity/sub_community_review.csv."""
+    import collections
+    import hashlib
+    from keys import name_norm
+    if not lake_has(con, "lk_d_project") or not lake_has(con, "lk_d_area"):
+        raise RuntimeError("needs the project and place spines (project_spine, place_spine)")
+    areas = {name_norm(n): (a, n) for a, n in con.execute("select area_id, name_en from lk_d_area").fetchall()}
+    by_name, pname = collections.defaultdict(set), {}
+    for aid, cid, nm, names in con.execute("""select area_id, canonical_id, name_en, names_en from lk_d_project
+                                              where area_id is not null and project_id is not null""").fetchall():
+        pname[cid] = nm
+        for n in [nm] + list(names or []):
+            if name_norm(n):
+                by_name[(aid, name_norm(n))].add(cid)
+    now = dt.datetime.now().replace(microsecond=0)
+    run_id = "sub_communities@" + now.isoformat()
+    files = sorted(glob.glob(os.path.join(ROOT, "data", "names", "clusters_*.json")))
+    snapshot = "%d cluster files; lk_d_project; lk_d_area" % len(files)
+    rows, xref, review, cards, dupes = [], [], [], set(), []
+    for f in files:
+        try:
+            d = json.load(open(f, encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        slug = d.get("district") or os.path.basename(f)[9:-5]
+        aid, area_name = areas.get(name_norm(d.get("area") or ""), (None, d.get("area")))
+        for c in d.get("clusters") or []:
+            name = (c.get("name") or "").strip()
+            if not name:
+                continue
+            spot = (slug, name_norm(name), "%.5f" % (c.get("lon") or 0), "%.5f" % (c.get("lat") or 0))
+            if spot in cards:                              # the same card twice in one file (MAPLE 2 in Dubai Hills): one place, one id
+                dupes.append(spot)
+                continue
+            cards.add(spot)
+            cands = sorted(by_name.get((aid, name_norm(name)), set())) if aid is not None else []
+            fid = "subc:%s:%s" % (slug, name)
+            if len(cands) == 1:
+                cid, decision, method = cands[0], "accepted", "registered project name in the card's own area"
+            else:
+                cid, decision = None, "review" if cands else "unmatched"
+                method = ("several projects in the area carry the name" if cands else
+                          "no project of that name in the area" if aid is not None else "the card's area is not in the register")
+            rows.append([None, slug, name, aid, area_name, cid, decision, method, c.get("lon"), c.get("lat"), c.get("radius_m"),
+                         c.get("plots"), c.get("units"), c.get("footprints"), c.get("place_id"), c.get("place_name")])
+            for hit in cands:
+                xref.append(["sub_community", "sub_community", fid, "project", hit, "same place", method,
+                             1.0 if decision == "accepted" else 0.5, decision, "rule",
+                             "card '%s' in %s = registered '%s'" % (name, area_name or slug, pname.get(hit) or hit), snapshot, now, None, run_id])
+            if decision != "accepted":
+                review.append([slug, area_name, name, ", ".join(pname.get(x) or x for x in cands)[:160], method, c.get("plots"), c.get("units")])
+    # the id: the project's own, so the card never moves; a project several cards divide keeps them apart by district, and by the name's
+    # hash where even that is shared. A card with no single project takes the hash of its name - stable too, just not a register key.
+    shared = collections.Counter(r[5] for r in rows if r[5])
+    seen = collections.Counter()
+    for r in rows:
+        h = hashlib.sha1(("%s|%s|%.5f|%.5f" % (r[1], name_norm(r[2]), r[8] or 0, r[9] or 0)).encode("utf-8")).hexdigest()[:8]
+        if not r[5]:
+            r[0] = "subc:%s:%s" % (r[1], h)
+        elif shared[r[5]] == 1:
+            r[0] = r[5]
+        else:
+            seen[(r[5], r[1])] += 1
+            r[0] = "%s:%s" % (r[5], r[1]) if seen[(r[5], r[1])] == 1 else "%s:%s:%s" % (r[5], r[1], h)
+    con.execute("""create or replace temp table j_sub_community (canonical_id varchar, district varchar, name varchar, area_id bigint,
+                   area_name varchar, project_canonical_id varchar, decision varchar, link_method varchar, lon double, lat double,
+                   radius_m double, plots bigint, units bigint, footprints bigint, place_id varchar, place_name varchar)""")
+    if rows:
+        con.executemany("insert into j_sub_community values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_subc"))
+    if xref:
+        con.executemany("insert into j_xref_subc values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", xref)
+    tot, acc, rev, unm, dup = one(con, """select count(*), count(*) filter (where decision = 'accepted'),
+        count(*) filter (where decision = 'review'), count(*) filter (where decision = 'unmatched'),
+        (select count(*) from (select project_canonical_id from j_sub_community where project_canonical_id is not null
+                               group by 1 having count(*) > 1)) from j_sub_community""")
+    plots, units = one(con, "select sum(plots), sum(units) from j_sub_community where decision = 'accepted'")
+    uniq = one(con, "select count(distinct canonical_id) from j_sub_community")[0]
+    return {"tables": [("lk_sub_community", "select * from j_sub_community")],
+            "xref": [("sub_community", "j_xref_subc")],
+            "keys_in": tot, "keys_matched": acc, "rows_in": tot,
+            "note": "sub-community cards keyed to the DLD project they name",
+            "review_csv": (SUB_REVIEW, ["district", "area", "card", "projects", "method", "plots", "units"], review),
+            "report": ["sub-community cards: %s - keyed to a registered project %s, for review %s, no registered name %s"
+                       % (format(tot, ","), pct(acc, tot), format(rev, ","), format(unm, ",")),
+                       "keyed cards carry %s plots and %s units; projects divided across several cards (each card keeps its own id): %s"
+                       % (format(plots or 0, ","), format(units or 0, ","), format(dup, ",")),
+                       "ids unique: %s of %s%s" % (format(uniq, ","), format(tot, ","),
+                                                   "; the same card twice in one file, kept once: %d" % len(dupes) if dupes else "")]}
+
+
 SHEET_REVIEW = os.path.join(ROOT, "data", "identity", "sheet_register_review.csv")
 SQFT_SQM = 0.09290304
 SIZE_TOL = 0.03
@@ -1329,11 +1766,11 @@ def job_building_activity(con):
 
 JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": job_service_charges,
         "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings,
-        "project_spine": job_project_spine, "sheet_units": job_sheet_units, "makani": job_makani, "resident_mix": job_resident_mix,
+        "project_spine": job_project_spine, "sheet_units": job_sheet_units, "place_spine": job_place_spine, "sub_communities": job_sub_communities, "stations": job_stations, "districts": job_districts, "makani": job_makani, "resident_mix": job_resident_mix,
         "building_activity": job_building_activity}
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"rent_projects", "twin_bindings", "project_spine", "sheet_units"}
+NON_BLOCKING = {"rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
 
 
 def run(con, name, dry):

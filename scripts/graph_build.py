@@ -16,7 +16,7 @@ data/enrich/waterfront.json, data/board/board_devs.json. Nothing is modified; th
 Every run: nodes/edges are rebuilt (they are derived); the ledger is appended (it is history). schema_version and run_id stamp every row.
 Usage: python scripts/graph_build.py [--fresh]   (--fresh deletes the database first, ledger included - only for a schema change)
 """
-import glob, json, math, os, sys, time, uuid
+import glob, hashlib, json, math, os, sys, time, uuid
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
@@ -137,12 +137,15 @@ def main():
     con.execute("create or replace table district (slug varchar primary key, name varchar, corridor varchar, lon double, lat double, bbox_w double, bbox_s double, bbox_e double, bbox_n double, subs integer, plots integer, named integer)")
     con.executemany("insert into district values (?,?,?,?,?,?,?,?,?,?,?,?)", [(d["slug"], d["name"], d.get("corridor"), d["centre"][0], d["centre"][1], *d["bbox"], d.get("subs"), d.get("plots"), d.get("named")) for d in D])
     S = jload(os.path.join(BOARD, "subs.json"), {"features": []}); S = S.get("features", S)
-    con.execute("create or replace table sub_community (sub_id varchar primary key, name varchar, district varchar, lon double, lat double, radius_m double, plots integer, units integer, buildings integer)")
+    con.execute("create or replace table sub_community (sub_id varchar primary key, name varchar, district varchar, lon double, lat double, radius_m double, plots integer, units integer, buildings integer, project varchar)")
     rows = []
     for k, f in enumerate(S):
         p = f["properties"]; g = f["geometry"]["coordinates"]; c = g if isinstance(g[0], (int, float)) else g[0][0]
-        rows.append((f"SUB-{p.get('district','')}-{k}", p.get("name"), p.get("district"), c[0], c[1], p.get("radius_m"), p.get("plots"), p.get("units"), p.get("buildings")))
-    con.executemany("insert into sub_community values (?,?,?,?,?,?,?,?,?)", rows)
+        # 16 Sep 2026 (digital thread P2.3): the card's own id - the DLD project it names (subs_points.py, from the lake's crosswalk),
+        # else the hash of its name. It was this file's list position, so inserting one card renumbered every card after it.
+        sub_id = p.get("sub_id") or "subc:%s:%s" % (p.get("district") or "", hashlib.sha1((p.get("name") or "").strip().upper().encode("utf-8")).hexdigest()[:8])
+        rows.append((sub_id, p.get("name"), p.get("district"), c[0], c[1], p.get("radius_m"), p.get("plots"), p.get("units"), p.get("buildings"), p.get("project")))
+    con.executemany("insert into sub_community values (?,?,?,?,?,?,?,?,?,?)", rows)
     P = jload(os.path.join(BOARD, "plots.json"), {"features": []}); P = P.get("features", P)
     con.execute("create or replace table plot (plot_no varchar, name varchar, district varchar, master varchar, parcel_id varchar, units integer, area_sqm double, lon double, lat double)")
     prow = []
