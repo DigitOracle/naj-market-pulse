@@ -1,0 +1,4 @@
+{
+ "note": "Hand decisions on which DLD developer entities belong to each board developer (register_joins.py project_spine, lk_xref job developer_group). A decision here wins over the rules. Candidates for review are written to data/identity/developer_group_review.csv at each run. Entry: {\"group\": board name or key (\"Select Group\" or \"select\"), \"developer_number\": DLD developer number, \"decision\": \"accepted\" or \"rejected\", \"by\": who decided, \"at\": \"YYYY-MM-DD\", \"note\": why}. Never delete an entry: to change one, add a newer entry for the same group and developer number - the last one wins.",
+ "decisions": []
+}

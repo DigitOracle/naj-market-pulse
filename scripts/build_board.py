@@ -184,7 +184,7 @@ for seg in SEG["segments"]:
                              "median_aed_per_sqm": tx.get("median_aed_per_sqm_across_projects")},
                      "entities": d.get("dld_entities", []), "properties": props, "ours": [b["building"] for b in OURS.get(k, [])]})
 board = {"updated": dt.date.today().isoformat(), "source": SEG["source"], "segments": SEG["segments"], "developers": devs,
-         "note": "DLD figures = naj.duckdb corpus (transactions Jan-Aug 2026, 2026 registrations), name-matched; MEED counts = stored corpus v55; developer sheets shown only where captured from the group."}
+         "note": "DLD figures = naj.duckdb corpus (transactions Jan-Aug 2026, 2026 registrations), attributed by the DLD register (a sale's register row filed under one of the developer's DLD entities) or a confirmed name match; MEED counts = stored corpus v55; developer sheets shown only where captured from the group."}
 out = os.path.join(ROOT, "data", "board", "board_devs.json"); os.makedirs(os.path.dirname(out), exist_ok=True)
 json.dump(board, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 tok = env_token("INGEST_TOKEN")

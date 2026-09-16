@@ -26,6 +26,9 @@ BANDS = {"all": (0, 1e12), "lt1": (0, 1e6), "1to2": (1e6, 2e6), "2to4": (2e6, 4e
 BAND_LABEL = {"all": "any price", "lt1": "under AED 1 M", "1to2": "AED 1-2 M", "2to4": "AED 2-4 M", "gt4": "AED 4 M+"}
 BED_LABEL = {"all": "all homes", "studio": "studio", "1": "1 bed", "2": "2 bed", "3": "3 bed", "4": "4 bed +"}
 con = duckdb.connect(os.path.join(ROOT, "naj.duckdb"), read_only=True)
+from build_developer_dna import spine_links  # noqa: E402  (side-effect free; opens the lake read-only only when called)
+SPINE = spine_links()                        # rent (project, area) -> registered project id; empty when the lake is unavailable (names only)
+print(SPINE["note"])
 
 def sql_list(names):
     return ",".join("'" + n.replace("'", "''") + "'" for n in names)
@@ -83,8 +86,9 @@ def amenities_from_portfolio(key):
     return {"source": d.get("source"), "projects": n, "items": [{"label": l, "share": round(c / n, 2)} for l, c in sorted(counts.items(), key=lambda x: -x[1])]} if n else None
 
 out = {"updated": dt.date.today().isoformat(), "beds": BED_LABEL, "bands": BAND_LABEL, "life": LIFE_LABEL, "developers": {},
-       "note": "DLD Open Data transactions Jan-Aug 2026 on each developer's own projects (name-matched; Imtiaz verified against imtiaz.ae). "
-               "Residential sales only; AED/m2 on procedure area; rents = Ejari contracts on the same project names. Not investment advice."}
+       "note": "DLD Open Data transactions Jan-Aug 2026 on each developer's own projects (the DNA's list: a sale's register row filed under one of "
+               "the developer's DLD entities, or a confirmed name match). Residential sales only; AED/m2 on procedure area; rents = Ejari contracts "
+               "on the same projects, by name or by registered project. Not investment advice."}
 for seg in SEG["segments"]:
     for name in seg["developers"]:
         k = KEY[name]; d = DNA["developers"].get(name, {}); bd = next((x for x in BOARD["developers"] if x["key"] == k), {})
@@ -109,8 +113,13 @@ for seg in SEG["segments"]:
                         cl = cell([r for r in sub if lk in r[7]])
                         if cl: rec["life"][bk + "|" + gk + "|" + lk] = cl
             rec["amenities"] = amenities_from_portfolio(k)
-            # rents: Ejari names differ in case/spacing from the sales register ("Pearl House II By Imtiaz " vs "PEARL HOUSE II BY IMTIAZ") and ROOMS is mostly null
-            rn = con.execute("select ROOMS, median(try_cast(ANNUAL_AMOUNT as double)), count(*) from rents where lower(trim(PROJECT_EN)) in (%s) and try_cast(ANNUAL_AMOUNT as double) > 10000 group by 1" % sql_list([x.lower().strip() for x in projects])).fetchall()
+            # rents: Ejari names differ in case/spacing from the sales register ("Pearl House II By Imtiaz " vs "PEARL HOUSE II BY IMTIAZ") and ROOMS is mostly null.
+            # 15 Sep 2026 (digital thread P1.3): plus the rents whose registered project (lk_rent_project, exact name in the rent's own area)
+            # is one of the developer's counted projects (their project_ids in the DNA) - the same rent population the DNA counts
+            ids = {c for t in d.get("tx_2026", {}).get("projects", []) for c in t.get("project_ids", [])}
+            pairs = ["%s|%s" % pa for pa, cid in SPINE["rent_ids"].items() if cid in ids and pa[0] and pa[1]]
+            rn = con.execute("select ROOMS, median(try_cast(ANNUAL_AMOUNT as double)), count(*) from rents where (lower(trim(PROJECT_EN)) in (%s) or PROJECT_EN || '|' || AREA_EN in (%s)) "
+                             "and try_cast(ANNUAL_AMOUNT as double) > 10000 group by 1" % (sql_list([x.lower().strip() for x in projects]), sql_list(pairs) or "''")).fetchall()
             rmap = {"Studio": "studio", "0": "studio", "1": "1", "2": "2", "3": "3", "4": "4", "5": "4", "6": "4"}
             allr = []
             for r in rn:

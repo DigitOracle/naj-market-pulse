@@ -27,7 +27,12 @@ Nothing here reaches her board: docs/GOV_DATA_METHODOLOGY.md section 5 still dec
   twin_bindings    (15 Sep 2026) register and sales bindings to twin footprints, keyed by duid + property_id, with a review view (Q6);
                    parcels also carries comm_num = parcel_key // 10000, checked against the DM summary and the land registry (Q7)
 
-Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects twin_bindings makani resident_mix building_activity] [--dry]
+  project_spine    (15 Sep 2026) one project table (lk_d_project), one developer table (lk_d_developer) and the board developers as groups
+                   of DLD developer entities in the shared crosswalk lk_xref (digital thread P1.1 + P1.2)
+  sheet_units      (15 Sep 2026) availability-sheet projects -> project_id and sheet units -> register property_id, as lk_xref rows (P1.4)
+
+Usage: python scripts/register_joins.py [all | community parcels service_charges sales_projects rent_projects twin_bindings project_spine
+       sheet_units makani resident_mix building_activity] [--dry]
 """
 import csv, datetime as dt, json, glob, os, re, sys, time
 
@@ -559,6 +564,567 @@ def job_rent_projects(con):
                        "rent rows given an area_id: " + pct(with_area, total)]}
 
 
+# --- digital thread P1: one project table, one developer table, one crosswalk -----------------------------------------------------
+
+XREF_DDL = """create table if not exists lk_xref (job varchar, from_type varchar, from_id varchar, to_type varchar, to_id varchar,
+              relation varchar, method varchar, score double, decision varchar, decided_by varchar, evidence varchar,
+              source_snapshot varchar, valid_from timestamp, valid_to timestamp, run_id varchar)"""
+XREF_COLS = "job, from_type, from_id, to_type, to_id, relation, method, score, decision, decided_by, evidence, source_snapshot, valid_from, valid_to, run_id"
+GROUP_DECISIONS = os.path.join(ROOT, "data", "identity", "developer_group_decisions.json")
+GROUP_REVIEW = os.path.join(ROOT, "data", "identity", "developer_group_review.csv")
+CHURN_MAX = 0.01                       # gate C6: more than 1% of the ids a spine table published last time vanishing holds the job
+
+
+def lake_has(con, table):
+    return con.execute("select count(*) from information_schema.tables where table_name = ?", [table]).fetchone()[0] > 0
+
+
+def job_project_spine(con):
+    """Digital thread P1.1 + P1.2 (15 Sep 2026): one project table, one developer table, and each board developer as a group of DLD
+    developer entities in the crosswalk. Names are alias columns here, never the key.
+
+      lk_d_project    one row per project: prj:<project_id>, or prjn:<project_number> for a 2026 registration no register gives an id yet
+                      (superseded once one does). Union of the projects register, the 2026 registrations CSV (bridged to project_id by
+                      lk_project_numbers), and every project_id the buildings, land, units and service-charge registers carry. The projects
+                      register names projects in Arabic only, so the English name comes from the buildings/land/units registers, then the
+                      2026 CSV, then the sales register's name for the number.
+      lk_d_developer  one row per DLD developer: dev:<developer_id> (id and number are one-to-one in the developers register), or
+                      devn:<number> for a number only the projects files carry; licence, legal status, projects as developer and as master.
+      lk_xref         job developer_group: grp:<board key> -> dev:<id>, relation member. Evidence: (a) the entity's English name carries one
+                      of the group's aliases, whole words; (b) the entity is the registered developer of the group's own portfolio projects
+                      (portfolio file, project seeds and - P1.4 - the projects on its own availability sheets, lk_avail_units; by exact English
+                      name that reaches one project only, or a name titled with the brand).
+                      Accepted: an alias that leads the name or has two or more words; a brand inside another name with (b); (b) alone when
+                      two or more portfolio projects, or one titled with the brand, make at least half the entity's registered projects.
+                      Other evidence is review (data/identity/developer_group_review.csv); an entity accepted for two groups goes to review
+                      for both; hand decisions in data/identity/developer_group_decisions.json win. A master developer role is never
+                      membership.
+      v_thread_developer   accepted group -> developer -> project, role developer or master developer.
+    Held, nothing replaced, when more than 1% of the canonical ids published last time vanish without being superseded (gate C6)."""
+    import collections
+    import build_developer_dna as dna                      # side-effect free at import: PORT_KEY, wmatch, load_portfolio
+    from keys import name_norm, norm_number
+    PRF, DVF = register_files("projects", "dld__projects__*.csv"), register_files("developers", "dld__developers__*.csv")
+    PR, DV = read(PRF), read(DVF)
+    L = read(register_files("lkp_areas", "dld__lkp_areas__*.csv"))
+    SC = read(register_files("oa_service_charges", "dld__oa_service_charges__*.csv"))
+    B, LR, U = (read(register_files(n, p)) for n, p in (("buildings", "dld__buildings__*.csv"), ("land_registry", "dld__land_registry__*.csv"),
+                                                          ("units", "dld__units__*.csv")))
+    txt = lambda c: "nullif(trim(%s), '')" % c
+    day = lambda c: "try_cast(left(trim(%s), 10) as date)" % c
+    cnt = lambda c: "try_cast(try_cast(%s as double) as bigint)" % c
+    not_ar = lambda c: "case when not regexp_matches(coalesce(%s, ''), '[\\x{0600}-\\x{06FF}]') then %s end" % (c, c)
+
+    con.execute("""create or replace temp table j_sp_pr as
+        select %s project_id, %s project_number, %s name_ar, %s area_id, %s area_name_en, %s master_project_en, %s developer_id,
+               %s developer_number, %s developer_name, %s master_developer_number, %s master_developer_name, %s status,
+               try_cast(percent_completed as double) percent_completed, %s start_date, %s end_date, %s completion_date, %s cancellation_date,
+               %s planned_units, %s planned_buildings, %s planned_villas, %s planned_lands, %s escrow_agent_id, %s zoning_authority,
+               %s register_property_id
+        from %s where %s is not null
+        qualify row_number() over (partition by %s order by project_number) = 1""" % (
+        num("project_id"), num("project_number"), txt("project_name"), num("area_id"), txt("area_name_en"), txt("master_project_en"),
+        num("developer_id"), num("developer_number"), not_ar(txt("developer_name")), num("master_developer_number"),
+        not_ar(txt("master_developer_name")), txt("project_status"), day("project_start_date"), day("project_end_date"),
+        day("completion_date"), day("cancellation_date"), cnt("no_of_units"), cnt("no_of_buildings"), cnt("no_of_villas"),
+        cnt("no_of_lands"), num("escrow_agent_id"), txt("zoning_authority_en"), num("property_id"), PR, num("project_id"), num("project_id")))
+    con.execute("""create or replace temp table j_sp_y26 (project_number bigint, name_en varchar, developer_number bigint, developer_name varchar,
+                   start_date date, end_date date, registered_date date, status varchar, percent_completed double, completion_date date,
+                   area_name_en varchar, zoning_authority varchar, master_project_en varchar, planned_units bigint, planned_buildings bigint,
+                   planned_villas bigint, planned_lands bigint)""")
+    y26 = sorted(glob.glob(os.path.join(ROOT, "data", "projects-[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9].csv")))
+    if y26:
+        con.execute("""insert into j_sp_y26 select %s, %s, %s, %s, %s, %s, %s, %s, try_cast(PERCENT_COMPLETED as double), %s, %s, %s, %s,
+                       %s, %s, %s, %s
+            from read_csv('%s', all_varchar=true, header=true) where %s is not null
+            qualify row_number() over (partition by %s order by ADOPTION_DATE desc nulls last) = 1""" % (
+            num("PROJECT_NUMBER"), txt("PROJECT_EN"), num("DEVELOPER_NUMBER"), txt("DEVELOPER_EN"), day("START_DATE"), day("END_DATE"),
+            day("ADOPTION_DATE"), txt("PROJECT_STATUS"), day("COMPLETION_DATE"), txt("AREA_EN"), txt("ZONE_EN"), txt("MASTER_PROJECT_EN"),
+            cnt("CNT_UNIT"), cnt("CNT_BUILDING"), cnt("CNT_VILLA"), cnt("CNT_LAND"), lake._p(y26[-1]), num("PROJECT_NUMBER"),
+            num("PROJECT_NUMBER")))
+    one_reg = "select '%s' src, %s project_id, %s name_en, %s area_id, %s master_project_id, %s master_project_en, %s property_id from %s"
+    con.execute("""create or replace temp table j_sp_reg as
+        select project_id, mode(name_en) name_en, list(distinct name_en) filter (where name_en is not null) names_en, mode(area_id) area_id,
+               mode(master_project_id) master_project_id, mode(master_project_en) master_project_en,
+               count(distinct property_id) filter (where src = 'buildings') registered_buildings,
+               count(distinct property_id) filter (where src = 'land') registered_land,
+               count(distinct property_id) filter (where src = 'units') registered_units
+        from (%s) where project_id is not null group by 1""" % " union all ".join(
+        one_reg % (s, num("project_id"), txt("project_name_en"), num("area_id"), num("master_project_id"), txt("master_project_en"),
+                   num("property_id"), R) for s, R in (("buildings", B), ("land", LR), ("units", U))))
+    con.execute("""create or replace temp table j_sp_sc as select %s project_id, max(try_cast(budget_year as integer)) service_charge_year
+        from %s where %s is not null group by 1""" % (num("project_id"), SC, num("project_id")))
+    # project numbers -> project_id: the register's own pairs first, then lk_project_numbers (2026 registrations by the checked bridge)
+    con.execute("""create or replace temp table j_sp_num as
+        select project_number, project_id, developer_number, project_id_method from (
+            select project_number, project_id, developer_number, 'projects register' project_id_method, 1 prio from j_sp_pr
+            %s)
+        qualify row_number() over (partition by project_number order by prio) = 1""" % (
+        "union all select project_number, project_id, developer_number, project_id_method, 2 from lk_project_numbers"
+        if lake_has(con, "lk_project_numbers") else ""))
+    con.execute("create or replace temp table j_sp_pnn (project_number bigint, project_en varchar, portal_rows bigint)")
+    if lake_has(con, "lk_project_number_names"):
+        con.execute("""insert into j_sp_pnn select project_number, project_en, portal_rows from lk_project_number_names
+                       where project_number is not null and project_en is not null""")
+    con.execute("""create or replace temp table j_sp_area as
+        select %s area_id, any_value(%s) name_en from %s where %s is not null group by 1""" % (num("area_id"), txt("name_en"), L, num("area_id")))
+    con.execute("""create or replace temp table j_sp_area_up as
+        select upper(name_en) name_up, any_value(area_id) area_id from j_sp_area where name_en is not null group by 1 having count(*) = 1""")
+    con.execute("""create or replace temp table j_sp_proj as
+        with ids as (select project_id from j_sp_pr union select project_id from j_sp_reg union select project_id from j_sp_sc
+                     union select project_id from j_sp_num where project_id is not null),
+             nid as (select project_id, list_sort(list(distinct project_number)) numbers, min(project_id_method) id_method
+                     from j_sp_num where project_id is not null group by 1),
+             yid as (select n.project_id id_, y.* from j_sp_num n join j_sp_y26 y on y.project_number = n.project_number
+                     where n.project_id is not null
+                     qualify row_number() over (partition by n.project_id order by y.registered_date desc nulls last, y.project_number desc) = 1),
+             pnid as (select n.project_id, arg_max(p.project_en, p.portal_rows) project_en from j_sp_num n
+                      join j_sp_pnn p on p.project_number = n.project_number where n.project_id is not null group by 1),
+             ndev as (select project_id, any_value(developer_number) developer_number from j_sp_num
+                      where project_id is not null and developer_number is not null group by 1)
+        select 'prj:' || cast(i.project_id as varchar) canonical_id, i.project_id, coalesce(p.project_number, nid.numbers[1]) project_number,
+               nid.numbers project_numbers, coalesce(r.name_en, y.name_en, pn.project_en) name_en,
+               case when r.name_en is not null then 'buildings/land/units registers' when y.name_en is not null then '2026 registrations'
+                    when pn.project_en is not null then 'sales register' end name_source,
+               p.name_ar, r.names_en, coalesce(p.area_id, r.area_id, ya.area_id) area_id, p.area_name_en area_name_register,
+               r.master_project_id, coalesce(r.master_project_en, p.master_project_en, y.master_project_en) master_project_en,
+               coalesce(p.developer_number, y.developer_number, nd.developer_number) developer_number, p.developer_id,
+               p.master_developer_number, coalesce(p.status, y.status) status, coalesce(p.percent_completed, y.percent_completed) percent_completed,
+               coalesce(p.start_date, y.start_date) start_date, coalesce(p.end_date, y.end_date) end_date,
+               coalesce(p.completion_date, y.completion_date) completion_date, p.cancellation_date, y.registered_date,
+               coalesce(p.planned_units, y.planned_units) planned_units, coalesce(p.planned_buildings, y.planned_buildings) planned_buildings,
+               coalesce(p.planned_villas, y.planned_villas) planned_villas, coalesce(p.planned_lands, y.planned_lands) planned_lands,
+               coalesce(r.registered_buildings, 0) registered_buildings, coalesce(r.registered_land, 0) registered_land,
+               coalesce(r.registered_units, 0) registered_units, sc.service_charge_year, p.escrow_agent_id,
+               coalesce(p.zoning_authority, y.zoning_authority) zoning_authority, p.register_property_id,
+               p.project_id is not null in_projects_register, y.id_ is not null in_2026_registrations,
+               coalesce(case when p.project_id is not null then 'projects register' end, nid.id_method, 'register id, no project number') project_id_method
+        from ids i left join j_sp_pr p on p.project_id = i.project_id left join j_sp_reg r on r.project_id = i.project_id
+        left join j_sp_sc sc on sc.project_id = i.project_id left join nid on nid.project_id = i.project_id
+        left join yid y on y.id_ = i.project_id left join pnid pn on pn.project_id = i.project_id
+        left join ndev nd on nd.project_id = i.project_id left join j_sp_area_up ya on ya.name_up = upper(y.area_name_en)
+        union all by name
+        select 'prjn:' || cast(y.project_number as varchar) canonical_id, y.project_number, [y.project_number] project_numbers, y.name_en,
+               '2026 registrations' name_source, ya.area_id, y.master_project_en, y.developer_number, y.status, y.percent_completed,
+               y.start_date, y.end_date, y.completion_date, y.registered_date, y.planned_units, y.planned_buildings, y.planned_villas,
+               y.planned_lands, 0 registered_buildings, 0 registered_land, 0 registered_units, y.zoning_authority,
+               false in_projects_register, true in_2026_registrations, 'none yet' project_id_method
+        from j_sp_y26 y left join j_sp_area_up ya on ya.name_up = upper(y.area_name_en)
+        where not exists (select 1 from j_sp_num n where n.project_number = y.project_number and n.project_id is not null)""")
+    con.execute("""create or replace temp table j_sp_dv as
+        select %s developer_id, %s developer_number, %s name_en, %s name_ar, %s legal_status, %s license_number, %s license_source,
+               %s license_type, %s license_issue_date, %s license_expiry_date, %s chamber_of_commerce_no, %s registration_date
+        from %s where %s is not null
+        qualify row_number() over (partition by %s order by registration_date desc nulls last) = 1""" % (
+        num("developer_id"), num("developer_number"), txt("developer_name_en"), txt("developer_name_ar"), txt("legal_status_en"),
+        txt("license_number"), txt("license_source_en"), txt("license_type_en"), day("license_issue_date"), day("license_expiry_date"),
+        txt("chamber_of_commerce_no"), day("registration_date"), DV, num("developer_number"), num("developer_number")))
+    con.execute("""create or replace temp table j_d_project as
+        select d.canonical_id, d.project_id, d.project_number, d.project_numbers, d.name_en, d.name_source, d.name_ar, d.names_en,
+               d.area_id, coalesce(d.area_name_register, a.name_en) area_name_en, d.master_project_id, d.master_project_en,
+               d.developer_number, coalesce(d.developer_id, v.developer_id) developer_id, d.master_developer_number, d.status,
+               d.percent_completed, d.start_date, d.end_date, d.completion_date, d.cancellation_date, d.registered_date, d.planned_units,
+               d.planned_buildings, d.planned_villas, d.planned_lands, d.registered_buildings, d.registered_land, d.registered_units,
+               d.service_charge_year, d.escrow_agent_id, d.zoning_authority, d.register_property_id, d.in_projects_register,
+               d.in_2026_registrations, d.project_id_method,
+               concat_ws(', ', case when d.in_projects_register then 'projects register' end,
+                         case when d.in_2026_registrations then '2026 registrations' end, case when d.registered_buildings > 0 then 'buildings' end,
+                         case when d.registered_land > 0 then 'land' end, case when d.registered_units > 0 then 'units' end,
+                         case when d.service_charge_year is not null then 'service charges' end) sources
+        from j_sp_proj d left join j_sp_area a on a.area_id = d.area_id left join j_sp_dv v on v.developer_number = d.developer_number""")
+    con.execute("""create or replace temp table j_d_developer as
+        with nums as (select developer_number from j_sp_dv union select developer_number from j_d_project where developer_number is not null
+                      union select master_developer_number from j_d_project where master_developer_number is not null),
+             names as (select developer_number, arg_min(developer_name, prio) name_en from (
+                          select developer_number, developer_name, 1 prio from j_sp_y26 union all
+                          select developer_number, developer_name, 2 from j_sp_pr union all
+                          select master_developer_number, master_developer_name, 3 from j_sp_pr)
+                       where developer_name is not null group by 1),
+             dp as (select developer_number, count(*) projects_as_developer, cast(sum(planned_units) as bigint) planned_units_as_developer,
+                           count(*) filter (where status = 'ACTIVE') active_projects, min(start_date) first_project_start,
+                           max(start_date) last_project_start
+                    from j_d_project where developer_number is not null group by 1),
+             mp as (select master_developer_number developer_number, count(*) projects_as_master from j_d_project
+                    where master_developer_number is not null group by 1)
+        select case when d.developer_id is not null then 'dev:' || cast(d.developer_id as varchar)
+                    else 'devn:' || cast(n.developer_number as varchar) end canonical_id,
+               d.developer_id, n.developer_number, coalesce(d.name_en, nm.name_en) name_en,
+               case when d.name_en is not null then 'developers register' when nm.name_en is not null then 'projects files' end name_source,
+               d.name_ar, d.legal_status, d.license_number, d.license_source, d.license_type, d.license_issue_date, d.license_expiry_date,
+               d.chamber_of_commerce_no, d.registration_date, coalesce(dp.projects_as_developer, 0) projects_as_developer,
+               coalesce(mp.projects_as_master, 0) projects_as_master, dp.planned_units_as_developer, coalesce(dp.active_projects, 0) active_projects,
+               dp.first_project_start, dp.last_project_start, d.developer_id is not null in_developers_register
+        from nums n left join j_sp_dv d on d.developer_number = n.developer_number left join names nm on nm.developer_number = n.developer_number
+        left join dp on dp.developer_number = n.developer_number left join mp on mp.developer_number = n.developer_number""")
+
+    # gate C6: ids published last time that vanished without being superseded (prjn -> prj once the id appears, devn -> dev)
+    hold, churn = None, []
+    for table, tmp, superseded in (
+            ("lk_d_project", "j_d_project",
+             "select distinct 'prjn:' || cast(unnest(project_numbers) as varchar) cid from j_d_project where project_id is not null"),
+            ("lk_d_developer", "j_d_developer",
+             "select 'devn:' || cast(developer_number as varchar) cid from j_d_developer where developer_id is not null")):
+        if not lake_has(con, table):
+            churn.append("%s: first publish" % table)
+            continue
+        old, gone, sup = one(con, """select count(*), count(*) filter (where n.canonical_id is null and s.cid is null),
+            count(*) filter (where n.canonical_id is null and s.cid is not null)
+            from %s o left join %s n on n.canonical_id = o.canonical_id left join (%s) s on s.cid = o.canonical_id""" % (table, tmp, superseded))
+        churn.append("%s: %s of %s ids published last time vanished, %s superseded" % (table, format(gone, ","), format(old, ","), format(sup, ",")))
+        if old and gone > CHURN_MAX * old:
+            hold = "id churn on %s: %s of %s ids vanished (limit %.0f%%)" % (table, format(gone, ","), format(old, ","), 100 * CHURN_MAX)
+
+    # P1.2: board developers -> DLD developer entities
+    seg = json.load(open(dna.SEG_FILE, encoding="utf-8"))
+    groups = [(dev, dna.PORT_KEY.get(dev) or re.sub(r"[^a-z0-9]+", "", dev.lower())) for s in seg["segments"] for dev in s["developers"]]
+    ents = con.execute("select canonical_id, developer_number, name_en, projects_as_developer from j_d_developer where name_en is not null").fetchall()
+    proj_dev, name_to = {}, collections.defaultdict(set)
+    for cid, dn, nm, names in con.execute("select canonical_id, developer_number, name_en, names_en from j_d_project").fetchall():
+        proj_dev[cid] = dn
+        for n in [nm] + list(names or []):
+            if name_norm(n):
+                name_to[name_norm(n)].add(cid)
+    more = """select p.project_en, d.canonical_id from j_sp_pnn p
+              join (select canonical_id, unnest(project_numbers) project_number from j_d_project) d on d.project_number = p.project_number"""
+    if lake_has(con, "lk_project_alias"):
+        more += " union select alias, 'prj:' || cast(%s as varchar) from lk_project_alias where lang = 'en'" % num("project_id")
+    for n, cid in con.execute(more).fetchall():
+        if name_norm(n) and cid in proj_dev:
+            name_to[name_norm(n)].add(cid)
+    hand = {}
+    try:
+        for h in json.load(open(GROUP_DECISIONS, encoding="utf-8")).get("decisions") or []:
+            n = norm_number(h.get("developer_number"))
+            if h.get("group") and n and h.get("decision") in ("accepted", "rejected"):
+                hand[(str(h["group"]).strip().lower(), int(n))] = h
+    except (OSError, ValueError):
+        pass
+    snapshot = "; ".join(os.path.basename(p) for p in DVF + PRF + y26[-1:])
+    sheet_names = collections.defaultdict(list)
+    if lake_has(con, "lk_avail_units"):
+        for dk, proj in con.execute("select distinct developer, project from lk_avail_units").fetchall():
+            sheet_names[dk].append(proj)
+    now = dt.datetime.now().replace(microsecond=0)
+    run_id = "project_spine@" + now.isoformat()
+    links = []
+    for dev, key in groups:
+        al = [a.strip().lower() for a in seg["aliases"].get(dev, [dev.lower()]) if a and a.strip()]
+        seeds = [p.get("name") for p in (dna.load_portfolio(dev) or {}).get("properties") or [] if p.get("name")]
+        seeds += [x for x in (seg.get("project_aliases") or {}).get(dev) or [] if isinstance(x, str)]
+        seeds += sheet_names.get(key, [])                  # P1.4: the projects on the developer's own availability sheets, same rules
+        ev = collections.defaultdict(lambda: {"names": set(), "ids": set(), "branded": set()})
+        for s in seeds:
+            cids, branded = name_to.get(name_norm(s)) or set(), any(dna.wmatch(s, a) for a in al)
+            if len(cids) == 1 or (cids and branded):
+                for cid in cids:
+                    if proj_dev.get(cid) is not None:
+                        e = ev[proj_dev[cid]]
+                        e["names"].add(s); e["ids"].add(cid)
+                        if branded:
+                            e["branded"].add(cid)
+        seen = set()
+        for cid, dn, nm, nproj in ents:
+            hits = [a for a in al if dna.wmatch(nm, a)]
+            h = hand.get((dev.lower(), dn)) or hand.get((key, dn))
+            if not hits and dn not in ev and not h:
+                continue
+            seen.add(dn)
+            e = ev.get(dn) or {"names": set(), "ids": set(), "branded": set()}
+            b, bb = len(e["ids"]), len(e["branded"])
+            share = float(b) / nproj if nproj else 0.0
+            lead = [a for a in hits if len(a.split()) > 1 or re.match(r"[^a-z0-9]*" + re.escape(a) + r"(?![a-z0-9])", nm.lower())]
+            if lead and b:
+                method, decision, score = "register name + portfolio projects", "accepted", 1.0
+            elif lead:
+                method, decision, score = "register name", "accepted", 0.95
+            elif hits and b:
+                method, decision, score = "brand inside the name + portfolio projects", "accepted", 0.9
+            elif b >= 2 and share >= 0.5:
+                method, decision, score = "portfolio projects", "accepted", round(share, 3)
+            elif bb and share >= 0.5:
+                method, decision, score = "portfolio project titled with the brand", "accepted", round(share, 3)
+            elif hits:
+                method, decision, score = "brand inside another name", "review", 0.5
+            elif b:
+                method, decision, score = "portfolio projects, too few", "review", round(share, 3)
+            else:
+                method, decision, score = "hand only", "review", 0.0
+            evidence = "; ".join(x for x in (
+                "name carries " + ", ".join("'%s'" % a for a in hits) if hits else "",
+                "developer of %d of its %d registered projects in the portfolio (%s)" % (b, nproj, ", ".join(sorted(e["names"]))[:180])
+                if b else "%d registered projects as developer" % nproj) if x)
+            by = "rule"
+            if h:
+                decision, method, score, by = h["decision"], "hand", 1.0, h.get("by") or "hand"
+                evidence = "; ".join(x for x in (h.get("note"), evidence) if x)
+            links.append(["developer_group", "developer_group", "grp:" + key, "developer", cid, "member", method, score, decision, by,
+                          evidence[:400], snapshot, now, None, run_id, dev, dn, nm])
+    claimed = collections.defaultdict(set)
+    for l in links:
+        if l[8] == "accepted" and l[9] == "rule":
+            claimed[l[4]].add(l[2])
+    for l in links:
+        if l[8] == "accepted" and l[9] == "rule" and len(claimed[l[4]]) > 1:
+            l[8], l[6] = "review", l[6] + ", claimed by %d groups" % len(claimed[l[4]])
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_dev"))
+    if links:
+        con.executemany("insert into j_xref_dev values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [l[:15] for l in links])
+    per = collections.OrderedDict((dev, collections.Counter()) for dev, _ in groups)
+    for l in links:
+        per[l[15]][l[8] if l[8] != "accepted" else "accepted: " + l[6]] += 1
+    keyed = sum(1 for c in per.values() if any(k.startswith("accepted") for k in c))
+    review_rows = [[l[15], l[16], l[17], l[6], l[7], l[10]] for l in links if l[8] == "review"]
+
+    tot, n_id, in_pr, in_y, reg_only, sc_only, named, with_area, with_dev, multi = one(con, """select count(*), count(project_id),
+        count(*) filter (where in_projects_register), count(*) filter (where in_2026_registrations),
+        count(*) filter (where not in_projects_register and not in_2026_registrations and sources <> 'service charges'),
+        count(*) filter (where sources = 'service charges'), count(name_en), count(area_id), count(developer_number),
+        count(*) filter (where len(project_numbers) > 1) from j_d_project""")
+    dtot, d_reg, d_dev, d_mas = one(con, """select count(*), count(*) filter (where in_developers_register),
+        count(*) filter (where projects_as_developer > 0), count(*) filter (where projects_as_master > 0) from j_d_developer""")
+    no_dev = one(con, """select count(*) from j_d_project p where developer_number is not null
+        and not exists (select 1 from j_d_developer d where d.developer_number = p.developer_number and d.in_developers_register)""")[0]
+    view = """select x.from_id group_id, substr(x.from_id, 5) group_key, x.method link_method, x.score link_score, d.canonical_id developer_canonical_id,
+                     d.developer_number, d.name_en developer_name_en, p.canonical_id project_canonical_id, p.project_id, p.project_number,
+                     p.name_en project_name_en, p.area_id, p.area_name_en, p.status, p.planned_units,
+                     case when p.developer_number = d.developer_number then 'developer' else 'master developer' end project_role
+              from lk_xref x join lk_d_developer d on d.canonical_id = x.to_id
+              join lk_d_project p on p.developer_number = d.developer_number or p.master_developer_number = d.developer_number
+              where x.job = 'developer_group' and x.decision = 'accepted'"""
+    return {"tables": [("lk_d_project", "select * from j_d_project"), ("lk_d_developer", "select * from j_d_developer")],
+            "xref": [("developer_group", "j_xref_dev")],
+            "views": [("v_thread_developer", view)],
+            "keys_in": len(groups), "keys_matched": keyed, "rows_in": tot, "hold": hold,
+            "note": "board developers keyed to at least one DLD developer entity",
+            "review_csv": (GROUP_REVIEW, ["group", "developer_number", "developer_name_en", "method", "score", "evidence"], review_rows),
+            "report": ["projects: %s (project_id %s, 2026 registrations with no id yet %s) - in the projects register %s, in the 2026 registrations %s, "
+                       "only in the buildings/land/units registers %s, only in service charges %s"
+                       % tuple(format(x, ",") for x in (tot, n_id, tot - n_id, in_pr, in_y, reg_only, sc_only)),
+                       "projects with an English name %s; with an area %s; with a developer number %s; project ids holding several numbers %s"
+                       % (pct(named, tot), pct(with_area, tot), pct(with_dev, tot), format(multi, ",")),
+                       "developers: %s (in the developers register %s); developer of at least one project %s; master developer %s; "
+                       "projects whose developer number the developers register lacks %s"
+                       % tuple(format(x, ",") for x in (dtot, d_reg, d_dev, d_mas, no_dev))] + churn +
+                      ["board developers keyed: %d of %d" % (keyed, len(groups))] +
+                      ["  %-13s %s" % (dev, ", ".join("%s %d" % kv for kv in sorted(c.items())) or "no evidence") for dev, c in per.items()] +
+                      ["group links for review: %d (%s)" % (len(review_rows), os.path.relpath(GROUP_REVIEW, ROOT))]}
+
+
+SHEET_REVIEW = os.path.join(ROOT, "data", "identity", "sheet_register_review.csv")
+SQFT_SQM = 0.09290304
+SIZE_TOL = 0.03
+
+
+def units_files():
+    """The fullest units register on disk: the newest manual download (data/raw_downloads/units_<date>_<time>_000N.csv, every part - the
+    portal extract holds one part of three), else the portal extract."""
+    found = sorted(glob.glob(os.path.join(ROOT, "data", "raw_downloads", "units_[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_*.csv")))
+    if found:
+        stamp = max(re.search(r"units_(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2})", os.path.basename(p)).group(1) for p in found)
+        return [p for p in found if stamp in os.path.basename(p)], "manual download " + stamp
+    return register_files("units", "dld__units__*.csv"), "portal extract"
+
+
+def job_sheet_units(con):
+    """Digital thread P1.4 (15 Sep 2026): the developers' availability sheets -> the DLD register, as crosswalk rows.
+
+      sheet project -> project_id   each (developer, project) of lk_avail_units against the registered projects of that developer's own DLD
+                                    entities (accepted lk_xref developer_group links -> lk_d_project): a registered English name equal to the
+                                    sheet's after build_developer_dna.norm_name, tower / building / block suffixes removed ("Hado Tower A" =
+                                    "Hado By Beyond"). One project -> accepted. Several, a name inside a registered name or the reverse, or a
+                                    name only a project of another entity carries -> review. Nothing -> no row (Aljada is in Sharjah, not in
+                                    the Dubai register).
+      sheet unit -> property_id     inside an accepted project: the sheet unit number (the last digit group of its id) among the digits of the
+                                    register unit number, and the sheet size within 3% of the register's actual area, with or without the
+                                    balcony. Several candidates are narrowed by the building: first the register unit number whose whole digit
+                                    sequence ends the sheet's ("WRDH1-0101" = "1-0101"), then the letter or digit that tells the sheet's
+                                    buildings apart (HADA / HADB / HADC, AYA2B / AYA2C, TSA / TSB) against the letter the register writes first
+                                    ("C104", "BG01") or, where it writes none, the building ordinal. One candidate -> accepted; several, or the
+                                    number with a different size -> review.
+    Keys: sht:<developer>:<project> and shu:<developer>:<project>:<unit id> - the sheet's own names, stable across readings of a project (the
+    id a unit carries in lk_avail_units). Writes lk_xref jobs sheet_project and sheet_unit, lk_sheet_register (one row per sheet unit) and
+    v_thread_unit; review rows to data/identity/sheet_register_review.csv."""
+    import collections
+    import build_developer_dna as dna                      # side-effect free at import
+    from keys import name_norm as name_norm_py
+    if not all(lake_has(con, t) for t in ("lk_avail_units", "lk_xref", "lk_d_project", "lk_d_developer")):
+        raise RuntimeError("needs lk_avail_units (avail_intervals) and the project spine (project_spine)")
+    seg = json.load(open(dna.SEG_FILE, encoding="utf-8"))
+    key_dev = {v: k for k, v in dna.PORT_KEY.items()}
+    tower = re.compile(r"\b(tower|towers|building|block|phase|cluster)\s+[a-z0-9]{1,2}\b", re.I)
+    sheet_units = con.execute("select developer, project, unit_id, unit_type, sqft, last_seen from lk_avail_units").fetchall()
+    projects = sorted({(u[0], u[1]) for u in sheet_units})
+    group_projects = collections.defaultdict(list)
+    for gk, cid, pid, nm, names, area, dn in con.execute("""select substr(x.from_id, 5), p.canonical_id, p.project_id, p.name_en, p.names_en,
+            p.area_name_en, p.developer_number from lk_xref x join lk_d_developer d on d.canonical_id = x.to_id
+            join lk_d_project p on p.developer_number = d.developer_number
+            where x.job = 'developer_group' and x.decision = 'accepted'""").fetchall():
+        group_projects[gk].append((cid, pid, [n for n in [nm] + list(names or []) if n], area))
+    everything = [(cid, pid, [n for n in [nm] + list(names or []) if n], area, dn) for cid, pid, nm, names, area, dn in con.execute(
+        "select canonical_id, project_id, name_en, names_en, area_name_en, developer_number from lk_d_project").fetchall()]
+    now = dt.datetime.now().replace(microsecond=0)
+    run_id = "sheet_units@" + now.isoformat()
+    ufiles, usource = units_files()
+    snapshot = "lk_avail_units; lk_d_project; units " + usource
+
+    def xrow(job, ftype, fid, ttype, tid, rel, method, score, decision, evidence):
+        return [job, ftype, fid, ttype, tid, rel, method, score, decision, "rule", evidence[:400], snapshot, now, None, run_id]
+
+    # --- sheet project -> project_id
+    xp, proj_link, review = [], {}, []
+    memo = {}
+    for dev_key, proj in projects:
+        al = seg["aliases"].get(key_dev.get(dev_key), [dev_key])
+
+        def pn(n, al=al, dev_key=dev_key):
+            k = (dev_key, n)
+            if k not in memo:
+                memo[k] = dna.norm_name(tower.sub(" ", n or ""), al).replace(" ", "")
+            return memo[k]
+        target = pn(proj)
+        mine = group_projects.get(dev_key) or []
+        exact = {c[0]: c for c in mine if target and any(pn(n) == target for n in c[2])}
+        near = {} if exact else {c[0]: c for c in mine if target and any(len(pn(n)) >= 4 and (pn(n) in target or target in pn(n)) for n in c[2])}
+        # outside the developer's own projects: the sheet's name exactly as registered ("IMTIAZ SYMPHONY TOWER"), else the stripped name
+        # ("symphony" - Nshama's Town Square project, never Imtiaz's)
+        plain = {} if (exact or near) else {c[0]: c for c in everything if name_norm_py(proj) and any(name_norm_py(n) == name_norm_py(proj) for n in c[2])}
+        other = {} if (exact or near or plain) else {c[0]: c for c in everything if target and len(target) >= 4 and any(pn(n) == target for n in c[2])}
+        lone = list(plain.values())[0] if len(plain) == 1 else None
+        fid = "sht:%s:%s" % (dev_key, proj)
+        if len(exact) == 1 or (lone and lone[4] is None and lone[1] is not None):
+            # one of the developer's own projects; or the one project in the register carrying the sheet's exact name, with no developer on
+            # record yet (a project only the buildings / land / units registers hold: Arancia Yards 2, Imtiaz Symphony Tower, Inaura)
+            c = list(exact.values())[0] if len(exact) == 1 else lone
+            method = "registered name (developer's own projects)" if len(exact) == 1 else "exact registered name, unique; no developer on record"
+            proj_link[(dev_key, proj)] = (c[0], c[1], "accepted")
+            xp.append(xrow("sheet_project", "sheet_project", fid, "project", c[0], "same project", method, 1.0 if len(exact) == 1 else 0.9,
+                           "accepted", "sheet '%s' = registered '%s' (%s)" % (proj, c[2][0], c[3] or "")))
+        else:
+            outside = {cid: (c, "registered name, a project of DLD developer %s - not linked to this developer" % c[4] if c[4] is not None
+                             else "registered name, carried by several projects") for cid, c in list(plain.items()) + list(other.items())}
+            for c, label in outside.values():
+                proj_link.setdefault((dev_key, proj), (None, None, "review"))
+                xp.append(xrow("sheet_project", "sheet_project", fid, "project", c[0], "same project", label, 0.4, "review",
+                               "sheet '%s' ~ registered '%s' (%s)" % (proj, c[2][0], c[3] or "")))
+                review.append(["project", dev_key, proj, "", c[0], c[2][0], label, ""])
+            for label, found, score in (("registered name (several of the developer's projects)", exact, 0.6),
+                                        ("name inside a registered name (developer's own projects)", near, 0.5)):
+                for c in found.values():
+                    proj_link.setdefault((dev_key, proj), (None, None, "review"))
+                    xp.append(xrow("sheet_project", "sheet_project", fid, "project", c[0], "same project", label, score, "review",
+                                   "sheet '%s' ~ registered '%s' (%s)" % (proj, c[2][0], c[3] or "")))
+                    review.append(["project", dev_key, proj, "", c[0], c[2][0], label, ""])
+
+    # --- sheet unit -> property_id, inside accepted projects
+    pids = sorted({v[1] for v in proj_link.values() if v[2] == "accepted" and v[1] is not None})
+    reg = collections.defaultdict(list)
+    if pids:
+        for pid, prop, unum, bnum, area, balcony in con.execute("""select %s, %s, trim(unit_number), %s, try_cast(actual_area as double),
+                coalesce(try_cast(unit_balcony_area as double), 0) from %s where %s in (%s) and %s is not null""" % (
+                num("project_id"), num("property_id"), num("building_number"), read(ufiles), num("project_id"), ", ".join(str(p) for p in pids),
+                num("property_id"))).fetchall():
+            reg[pid].append((prop, unum or "", bnum, area, balcony))
+    prefixes = collections.defaultdict(set)                 # register project -> the sheets' first unit-id segments
+    for dev_key, proj, uid, *_ in sheet_units:
+        link = proj_link.get((dev_key, proj))
+        seg0 = re.split(r"[-/ ]", uid or "")[0]
+        if link and link[2] == "accepted" and re.match(r"^[A-Za-z]+[A-Za-z0-9]*$", seg0) and seg0 != uid:
+            prefixes[link[1]].add(seg0.upper())
+
+    def block_token(pid, uid):
+        ps = prefixes.get(pid) or set()
+        seg0 = re.split(r"[-/ ]", uid or "")[0].upper()
+        if len(ps) < 2 or seg0 not in ps:
+            return None
+        stem = os.path.commonprefix(sorted(ps))
+        tok = seg0[len(stem):]
+        return tok if len(tok) == 1 else None
+
+    def ordinal(tok):
+        return int(tok) if tok.isdigit() else ord(tok) - 64
+
+    xu, flat, counts = [], [], collections.Counter()
+    for dev_key, proj, uid, utype, sqft, last_seen in sheet_units:
+        cid, pid, pdec = proj_link.get((dev_key, proj), (None, None, None))
+        row = [dev_key, proj, uid, utype, sqft, last_seen, cid, pdec, None, None, None, None, None, 0]
+        if pdec == "accepted" and pid is not None:
+            digits = re.findall(r"\d+", uid or "")
+            un = int(digits[-1]) if digits else None
+            cands = [r for r in reg.get(pid, []) if un is not None and un in {int(x) for x in re.findall(r"\d+", r[1])}]
+            fit = lambda a: bool(sqft) and bool(a) and abs(a - sqft * SQFT_SQM) <= SIZE_TOL * a
+            sized = [r for r in cands if fit(r[3]) or fit((r[3] or 0) + r[4])]
+            tok = block_token(pid, uid)
+            narrowed, how = [], ""
+            if len(sized) > 1:
+                # the whole digit sequence of the register unit number ends the sheet's ("WRDH1-0101" [1, 101] = "1-0101", not "2-0101")
+                seq = [int(x) for x in digits]
+                tail = [r for r in sized if re.findall(r"\d+", r[1]) and [int(x) for x in re.findall(r"\d+", r[1])] == seq[-len(re.findall(r"\d+", r[1])):]]
+                narrowed, how = (tail, "building number in the unit number") if len(tail) == 1 else ([], "")
+                if not narrowed and tok:
+                    pool = tail or sized
+                    # the building letter the register writes first ("C104", "BG01"); where it writes none, the building ordinal
+                    letter = lambda r: (re.match(r"^([A-Za-z])(?=[A-Za-z]?\d)", r[1]) or [None, None])[1]
+                    lettered = [r for r in pool if letter(r)]
+                    pick = [r for r in pool if (letter(r) or "").upper() == tok] if lettered else [r for r in pool if r[2] == ordinal(tok)]
+                    narrowed, how = (pick, "building %s" % tok) if len(pick) == 1 else ([], "")
+            fid = "shu:%s:%s:%s" % (dev_key, proj, uid)
+            if len(sized) == 1 or len(narrowed) == 1:
+                r = sized[0] if len(sized) == 1 else narrowed[0]
+                method = "unit number + size" if len(sized) == 1 else "unit number + size + " + how
+                counts["accepted"] += 1
+                row[8:14] = [r[0], "accepted", method, r[1], r[3], len(sized)]
+                xu.append(xrow("sheet_unit", "sheet_unit", fid, "unit", "unit:%s" % r[0], "same unit", method, 1.0, "accepted",
+                               "sheet %s, %s sq ft = register unit %s, %.1f sq m%s" % (uid, sqft, r[1], r[3] or 0, " (building %s)" % r[2] if r[2] else "")))
+            elif sized or cands:
+                pool = sized or cands
+                label = "unit number + size, several units" if sized else "unit number only, size differs"
+                counts["review"] += 1
+                row[8:14] = [None, "review", label, ", ".join(sorted({r[1] for r in pool}))[:120], None, len(pool)]
+                for r in pool[:6]:
+                    xu.append(xrow("sheet_unit", "sheet_unit", fid, "unit", "unit:%s" % r[0], "same unit", label, 0.5, "review",
+                                   "sheet %s, %s sq ft ~ register unit %s, %.1f sq m (building %s)" % (uid, sqft, r[1], r[3] or 0, r[2])))
+                review.append(["unit", dev_key, proj, uid, cid, "; ".join("%s %.1f sq m b%s" % (r[1], r[3] or 0, r[2]) for r in pool[:6]), label, sqft])
+            else:
+                counts["no register unit"] += 1
+        flat.append(row)
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_sp"))
+    con.execute(XREF_DDL.replace("create table if not exists lk_xref", "create or replace temp table j_xref_su"))
+    if xp:
+        con.executemany("insert into j_xref_sp values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", xp)
+    if xu:
+        con.executemany("insert into j_xref_su values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", xu)
+    con.execute("""create or replace temp table j_sheet_register (developer varchar, project varchar, unit_id varchar, unit_type varchar,
+                   sqft double, last_seen date, project_canonical_id varchar, project_decision varchar, property_id bigint, unit_decision varchar,
+                   unit_method varchar, register_unit_number varchar, register_area_sqm double, candidates integer)""")
+    if flat:
+        con.executemany("insert into j_sheet_register values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", flat)
+    n_proj = len(projects)
+    p_acc = sum(1 for v in proj_link.values() if v[2] == "accepted")
+    p_rev = sum(1 for v in proj_link.values() if v[2] == "review")
+    in_acc = sum(1 for r in flat if r[7] == "accepted")
+    names_acc = sorted({"%s: %s" % (k[0], k[1]) for k, v in proj_link.items() if v[2] == "accepted"})
+    unlinked = sorted("%s: %s" % k for k in projects if k not in proj_link)
+    view = """select s.developer, s.project, s.unit_id, s.unit_type, s.sqft, s.last_seen, s.unit_decision, s.unit_method, s.property_id,
+                     s.register_unit_number, s.register_area_sqm, p.canonical_id project_canonical_id, p.project_id, p.name_en project_name_en,
+                     p.area_name_en, p.developer_number, d.name_en developer_name_en
+              from lk_sheet_register s left join lk_d_project p on p.canonical_id = s.project_canonical_id and s.project_decision = 'accepted'
+              left join lk_d_developer d on d.developer_number = p.developer_number"""
+    return {"tables": [("lk_sheet_register", "select * from j_sheet_register")],
+            "xref": [("sheet_project", "j_xref_sp"), ("sheet_unit", "j_xref_su")],
+            "views": [("v_thread_unit", view)],
+            "keys_in": in_acc, "keys_matched": counts["accepted"], "rows_in": len(flat),
+            "note": "sheet units in register-linked projects matched to one register unit",
+            "review_csv": (SHEET_REVIEW, ["level", "developer", "sheet_project", "unit_id", "project", "register_candidates", "method", "sqft"], review),
+            "report": ["sheet projects: %d - linked to one registered project %d, for review %d, no registered match %d (Aljada is in Sharjah)"
+                       % (n_proj, p_acc, p_rev, n_proj - p_acc - p_rev),
+                       "  linked: " + "; ".join(names_acc)[:900],
+                       "  not linked: " + "; ".join(unlinked)[:900],
+                       "sheet units: %s; in linked projects %s - one register unit %s, for review %s, no register unit %s (units: %s)"
+                       % (format(len(flat), ","), format(in_acc, ","), format(counts["accepted"], ","), format(counts["review"], ","),
+                          format(counts["no register unit"], ","), usource),
+                       "review rows: %d (%s)" % (len(review), os.path.relpath(SHEET_REVIEW, ROOT))]}
+
+
 def job_makani(con):
     C = read(register_files("customers_master_data", "customers_master_data__*.csv"))
     mk = "replace(trim(makani_number), ' ', '')"
@@ -762,11 +1328,12 @@ def job_building_activity(con):
 
 
 JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": job_service_charges,
-        "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings, "makani": job_makani, "resident_mix": job_resident_mix,
+        "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings,
+        "project_spine": job_project_spine, "sheet_units": job_sheet_units, "makani": job_makani, "resident_mix": job_resident_mix,
         "building_activity": job_building_activity}
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"rent_projects", "twin_bindings"}
+NON_BLOCKING = {"rent_projects", "twin_bindings", "project_spine", "sheet_units"}
 
 
 def run(con, name, dry):
@@ -776,12 +1343,14 @@ def run(con, name, dry):
     logged = con.execute("select count(*) from information_schema.tables where table_name = 'lk_join_log'").fetchone()[0]
     prev = con.execute("select rate from lk_join_log where job = ? and status = 'accepted' order by run_at desc limit 1",
                        [name]).fetchone() if logged else None
-    held = prev is not None and rate < HOLD_RATIO * prev[0]
+    held = (prev is not None and rate < HOLD_RATIO * prev[0]) or bool(r.get("hold"))
     print("== %s (%.0fs)" % (name, time.time() - t0))
     for line in r["report"]:
         print("   " + line)
     print("   contract: %s %s%s" % (r["note"], pct(r["keys_matched"], r["keys_in"]),
                                     "; last accepted %.1f%%" % (100 * prev[0]) if prev else "; first run"))
+    if r.get("hold"):
+        print("   gate: " + r["hold"])
     if dry:
         print("   dry run: nothing written")
         return 0
@@ -791,10 +1360,18 @@ def run(con, name, dry):
             w = csv.writer(f)
             w.writerow(["sales_project_name", "sales_area", "name_match_project_id", "register_project_id", "sales_rows"])
             w.writerows(r["review"])
+    if r.get("review_csv"):
+        path, header, rows = r["review_csv"]
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(header)
+            w.writerows(rows)
     if held:
         lake.retry(lambda: con.execute("insert into lk_join_log values (localtimestamp, ?, ?, ?, ?, ?, 'held', ?)",
-                                       [name, r["keys_in"], r["keys_matched"], rate, r["rows_in"], r["note"]]), "join log")
-        print("HELD register join %s: %.1f%% against %.1f%% last accepted - tables left as they were" % (name, 100 * rate, 100 * prev[0]))
+                                       [name, r["keys_in"], r["keys_matched"], rate, r["rows_in"], r.get("hold") or r["note"]]), "join log")
+        print("HELD register join %s: %s - tables left as they were" % (
+            name, r.get("hold") or "%.1f%% against %.1f%% last accepted" % (100 * rate, 100 * prev[0])))
         return 4
 
     def body():
@@ -802,6 +1379,10 @@ def run(con, name, dry):
         try:
             for t, sql in r["tables"]:
                 con.execute("create or replace table %s as %s" % (t, sql))
+            for job, tmp in r.get("xref", []):             # one crosswalk for every job: a job replaces only its own rows
+                con.execute(XREF_DDL)
+                con.execute("delete from lk_xref where job = ?", [job])
+                con.execute("insert into lk_xref (%s) select %s from %s" % (XREF_COLS, XREF_COLS, tmp))
             for v, sql in r.get("views", []):
                 con.execute("create or replace view %s as %s" % (v, sql))
             con.execute("insert into lk_join_log values (localtimestamp, ?, ?, ?, ?, ?, 'accepted', ?)",
@@ -811,7 +1392,8 @@ def run(con, name, dry):
             con.execute("ROLLBACK")
             raise
     lake.retry(body, "joins " + name)
-    print("   published: %s" % ", ".join([t for t, _ in r["tables"]] + [v for v, _ in r.get("views", [])]))
+    print("   published: %s" % ", ".join([t for t, _ in r["tables"]] + ["lk_xref (%s)" % j for j, _ in r.get("xref", [])] +
+                                         [v for v, _ in r.get("views", [])]))
     return 0
 
 

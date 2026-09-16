@@ -12,6 +12,10 @@ data/dev_meta/*
 !data/dld/
 data/dld/*
 !data/dld/area_alias.json
+# 15 Sep 2026 (digital thread P1.2): hand decisions on board developer -> DLD developer entity links win over the rules - tracked
+!data/identity/
+data/identity/*
+!data/identity/developer_group_decisions.json
 .env
 __pycache__/
 public/heatmap_story.png

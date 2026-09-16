@@ -8,7 +8,7 @@ everything we hold, source-stamped:
 Writes data/dev_meta/developer_dna.json + developer_dna.md and pushes KV dev_segments + dev_dna (knowledge-graph feed).
 Every project alias is a SEED until it matches DLD rows - matched aliases are reported, unmatched are flagged, never quoted.
 """
-import datetime as dt, glob, json, os, re, statistics, sys, urllib.request
+import collections, datetime as dt, glob, json, os, re, statistics, sys, urllib.request
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -134,25 +134,77 @@ def partial_match(project, seed, aliases=()):
     return len(s) >= 3 and s in p
 
 
-def developer_numbers(con_, seg):
-    """DLD developer numbers per board developer, from the English developer names in the project register (whole-word alias match).
-    Numbers normalised by keys.norm_number ('2537.00' == '2537')."""
+def spine_links():
+    """15 Sep 2026 (digital thread P1.3): what the lake's project spine knows, for the matcher below. Empty maps when the lake or the spine
+    tables cannot be read - every caller then falls back to names, as before. Import stays side-effect free: nothing opens until called.
+      groups     board developer -> {developer number: {"name", "decision", "method", "score", "projects"}}   lk_xref developer_group
+      key_rows   our sales PROJECT_EN (upper) -> {developer number: sales rows}   each sale paired with ITS register row (or the register's
+                 own name-number pair), the project's developer from lk_d_project - a key, not a name match
+      key_ids    our sales PROJECT_EN (upper) -> {project canonical id: sales rows}, same pairing
+      rent_ids   (rent PROJECT_EN, AREA_EN) -> project canonical id   lk_rent_project, accepted (exact registered name in the rent's own area)"""
+    from keys import norm_number
+    out = {"groups": {}, "key_rows": {}, "key_ids": {}, "rent_ids": {}, "note": ""}
+    try:
+        import lake
+        lk = lake.connect(read_only=True)
+        A = lake.ALIAS
+        have = {r[0] for r in lk.execute("select table_name from information_schema.tables where table_catalog = '%s'" % A).fetchall()}
+        need = {"lk_xref", "lk_d_developer", "lk_d_project", "v_transactions_register_project"}
+        if not need <= have:
+            out["note"] = "project spine unavailable (missing %s) - names only" % ", ".join(sorted(need - have))
+            return out
+        name_of = {v: k for k, v in PORT_KEY.items()}
+        for gid, dn, nm, dec, meth, score, nproj in lk.execute(
+                "select x.from_id, d.developer_number, d.name_en, x.decision, x.method, x.score, d.projects_as_developer "
+                "from %s.lk_xref x join %s.lk_d_developer d on d.canonical_id = x.to_id where x.job = 'developer_group'" % (A, A)).fetchall():
+            dev = name_of.get(gid[4:])
+            if dev and norm_number(dn):
+                out["groups"].setdefault(dev, {})[norm_number(dn)] = {"name": nm, "decision": dec, "method": meth, "score": score, "projects": nproj}
+        for nm, dn, cid, n in lk.execute(
+                "select upper(trim(v.PROJECT_EN)), d.developer_number, d.canonical_id, count(*) from %s.v_transactions_register_project v "
+                "join %s.lk_d_project d on d.project_number = v.project_number "
+                "where v.project_link in ('register row', 'register name') and nullif(trim(v.PROJECT_EN), '') is not null group by all" % (A, A)).fetchall():
+            if norm_number(dn):
+                out["key_rows"].setdefault(nm, collections.Counter())[norm_number(dn)] += n
+            out["key_ids"].setdefault(nm, collections.Counter())[cid] += n
+        if "lk_rent_project" in have:
+            for pe, ae, cid in lk.execute(
+                    "select r.project_en, r.area_en, 'prj:' || cast(r.project_id as varchar) from %s.lk_rent_project r "
+                    "where r.decision = 'accepted' and r.project_id is not null" % A).fetchall():
+                out["rent_ids"][(pe, ae)] = cid
+        out["note"] = "project spine: %d developer groups, %d sales project names keyed to their register rows, %d rent names" % (
+            len(out["groups"]), len(out["key_rows"]), len(out["rent_ids"]))
+    except Exception as e:
+        out = {"groups": {}, "key_rows": {}, "key_ids": {}, "rent_ids": {}, "note": "project spine unavailable: %s - names only" % str(e)[:120]}
+    return out
+
+
+def developer_numbers(con_, seg, spine=None):
+    """DLD developer numbers per board developer. 15 Sep 2026 (digital thread P1.3): the developer entities the lake's project spine
+    accepts for the group (lk_xref developer_group: register name, portfolio projects or a hand decision), plus - as before - the English
+    developer names of the 2026 registrations (whole-word alias match), minus any number rejected by hand for that group (a number held
+    for review keeps its name match: review never removes what was counted). Without the spine, the names alone. Numbers normalised by
+    keys.norm_number ('2537.00' == '2537')."""
     from keys import norm_number
     names = con_.execute("select distinct DEVELOPER_NUMBER, DEVELOPER_EN from projects where DEVELOPER_NUMBER is not null").fetchall()
+    groups = (spine or {}).get("groups") or {}
     out = {}
     for s in seg["segments"]:
         for dev in s["developers"]:
             al = seg["aliases"].get(dev, [dev.lower()])
-            out[dev] = {norm_number(n) for n, en in names if norm_number(n) and any(wmatch(en, a) for a in al)}
+            g = groups.get(dev) or {}
+            held = {n for n, l in g.items() if l["decision"] == "rejected"}      # review is not a rejection: a name match still counts
+            out[dev] = {n for n, l in g.items() if l["decision"] == "accepted"} | {
+                norm_number(n) for n, en in names if norm_number(n) and norm_number(n) not in held and any(wmatch(en, a) for a in al)}
     return out
 
 
-def register_developers(con_=None):
+def register_developers(con_=None, spine=None):
     """Project name (upper) -> DLD developer numbers. Empty when nothing can be read (the veto is then simply not applied, and the
     run says so). 15 Sep 2026 (digital thread Q1/Q3): numbers normalised by keys.norm_number on both sides; the project numbers come
     from lk_project_numbers (register extract + the 2026 registrations, register_joins sales_projects) when the lake has it, else
     from lk_dld_projects; and the 2026 registrations' own English names (naj.duckdb projects) are added directly, so a launch the
-    6 Jul extract lacks can still be vetoed."""
+    6 Jul extract lacks can still be vetoed. P1.3: plus the developer of the register row each of our sales is paired with (spine key_rows)."""
     from keys import norm_number
     reg, notes = {}, []
 
@@ -160,6 +212,11 @@ def register_developers(con_=None):
         n = norm_number(dn)
         if nm and n:
             reg.setdefault(str(nm).strip().upper(), set()).add(n)
+    for nm, rows in ((spine or {}).get("key_rows") or {}).items():
+        for dn in rows:
+            add(nm, dn)
+    if (spine or {}).get("key_rows"):
+        notes.append("sales rows paired with their register rows")
     try:
         import lake
         lk = lake.connect(read_only=True)
@@ -196,30 +253,35 @@ def tx_aggregates(con_):
         "from transactions where PROJECT_EN is not null and trim(PROJECT_EN) <> '' group by 1").fetchall()
 
 
-def match_tx_projects(dev, al, names, reg_names, port, agg, dev_nums, reg_dev, other_aliases=None, strict=False):
+def match_tx_projects(dev, al, names, reg_names, port, agg, dev_nums, reg_dev, other_aliases=None, strict=False, key_rows=None):
     """-> (counted, unconfirmed, vetoed, matched_names). counted rows are the developer's; the other two are listed, never counted.
     A project is a candidate when its title carries the developer's own name, or it matches a registered name / seed whole (name_match),
-    or its master project IS a seed. It is vetoed when the DLD register files it under another board developer, or its title names
-    another board developer and not this one ('COVE EDITION RESIDENCE 6 BY IMTIAZ' is not Ellington's). Strict developers (register
-    known complete) count only rows the portfolio, their own name, a registration or the register confirms."""
+    or its master project IS a seed, or (P1.3) most of its sales rows pair with register rows whose developer is one of this developer's
+    entities (key_rows: PROJECT_EN upper -> {developer number: rows}). It is vetoed when the DLD register files it under another board
+    developer, or its title names another board developer and not this one ('COVE EDITION RESIDENCE 6 BY IMTIAZ' is not Ellington's) -
+    a project the register key gives to this developer is never vetoed on its title. Strict developers (register known complete) count
+    only rows the portfolio, their own name, a registration or the register confirms."""
     mine = dev_nums.get(dev, set())
     others = {d: ids for d, ids in dev_nums.items() if d != dev and ids}
     other_aliases = other_aliases or {}
+    key_rows = key_rows or {}
     counted, unconfirmed, vetoed, matched = [], [], [], []
     for r in agg:
         project, master = (r[0] or "").strip(), (r[8] or "").strip()
         dev_named = any(wmatch(project, a) for a in al)
+        kr = key_rows.get(project.upper()) or {}
+        keyed = bool(mine) and sum(n for d, n in kr.items() if d in mine) * 2 > sum(kr.values())
         by = next((nm for nm in names if nm.strip() and name_match(project, nm, al)), None)
         master_by = None if by else next((nm for nm in names if nm.strip() and master and len(norm_name(nm, al).replace(" ", "")) >= 6
                                           and same(norm_name(master, al), norm_name(nm, al))), None)
-        if not (dev_named or by or master_by):
+        if not (dev_named or by or master_by or keyed):
             near = next((nm for nm in names if nm.strip() and partial_match(project, nm, al)), None)
             if near:                                   # a partial-name hit: listed for review, never counted
                 unconfirmed.append({"project": project, "tx": r[1], "value_aed": round(r[2] or 0), "area": r[7], "matched_by": near,
                                     "reason": "partial name only", "portfolio_unmatched": True})
             continue
-        by = by or master_by or "developer name"
-        if by not in matched and by != "developer name":
+        by = by or master_by or ("developer name" if dev_named else "registered developer")
+        if by not in matched and by not in ("developer name", "registered developer"):
             matched.append(by)
         t = {"project": project, "tx": r[1], "value_aed": round(r[2] or 0), "median_aed_per_sqm": round(r[3]) if r[3] else None,
              "offplan_share": round(r[4], 2) if r[4] is not None else None, "last": str(r[5])[:10], "first": str(r[6])[:10], "area": r[7], "master": r[8], "matched_by": by}
@@ -229,7 +291,7 @@ def match_tx_projects(dev, al, names, reg_names, port, agg, dev_nums, reg_dev, o
             t["registered_to"] = owner
             vetoed.append(t)
             continue
-        named_other = None if dev_named else next((d for d, als in other_aliases.items() if d != dev and any(wmatch(project, a) for a in als)), None)
+        named_other = None if (dev_named or keyed) else next((d for d, als in other_aliases.items() if d != dev and any(wmatch(project, a) for a in als)), None)
         if named_other:
             t["registered_to"] = named_other + " (named in the title)"
             vetoed.append(t)
@@ -259,9 +321,14 @@ def main():
     curated = {os.path.basename(p)[:-5]: json.load(open(p, encoding="utf-8")) for p in glob.glob(os.path.join(ROOT, "data", "dev_meta", "curated", "*.json"))}
     dac_key = os.environ.get("DAC_KEY")
     agg = tx_aggregates(con)                      # every transaction project once; each developer filters it (no per-name LIKE scans)
-    dev_nums = developer_numbers(con, SEG)        # DLD developer numbers per board developer (English names, whole word)
-    reg_dev, reg_note = register_developers(con)  # project -> registered developer numbers (lake + 2026 registrations), for the veto
+    spine = spine_links()                         # P1.3: developer entities per group + each sale's register row, from the lake
+    print(spine["note"])
+    dev_nums = developer_numbers(con, SEG, spine)  # DLD developer numbers per board developer (spine links + English names, whole word)
+    reg_dev, reg_note = register_developers(con, spine)  # project -> registered developer numbers (sales row pairs + lake + 2026), for the veto
     all_aliases = {d: SEG["aliases"].get(d, [d.lower()]) for s in SEG["segments"] for d in s["developers"]}
+    from keys import norm_number
+    all_prj = q("select PROJECT_EN, coalesce(DEVELOPER_EN, ''), PROJECT_STATUS, PERCENT_COMPLETED, CNT_UNIT, AREA_EN, PROJECT_VALUE, START_DATE, "
+                "COMPLETION_DATE, MASTER_PROJECT_EN, DEVELOPER_NUMBER from projects where PROJECT_EN is not null")
     if reg_note:
         print(reg_note)
 
@@ -270,9 +337,17 @@ def main():
             al = SEG["aliases"].get(dev, [dev.lower()])
             pal = SEG.get("project_aliases", {}).get(dev, [])
             rec = {"segment": seg["key"], "segment_label": seg["label"], "segment_rank": seg["rank"], "aliases": al, "sources": []}
-            # --- DLD project register (2026 registrations in the corpus); whole-word developer names ('iman' is not 'soliman')
-            prj = q("select PROJECT_EN, DEVELOPER_EN, PROJECT_STATUS, PERCENT_COMPLETED, CNT_UNIT, AREA_EN, PROJECT_VALUE, START_DATE, COMPLETION_DATE, MASTER_PROJECT_EN from projects where %s" % wlike("DEVELOPER_EN", al))
-            rec["dld_entities"] = sorted({r[1].strip() for r in prj})
+            # --- DLD project register (2026 registrations in the corpus). P1.3: by developer NUMBER - any entity the spine accepts for
+            #     this developer - plus whole-word developer names ('iman' is not 'soliman') unless that number is rejected by hand
+            links = spine["groups"].get(dev) or {}
+            held = {n for n, l in links.items() if l["decision"] == "rejected"}
+            prj = [r[:10] for r in all_prj if norm_number(r[10]) in dev_nums.get(dev, set())
+                   or (norm_number(r[10]) not in held and any(wmatch(r[1], a) for a in al))]
+            acc = sorted(((n, l) for n, l in links.items() if l["decision"] == "accepted"), key=lambda x: (-(x[1]["projects"] or 0), x[1]["name"] or ""))
+            rec["dld_entity_links"] = [{"developer_number": int(n), "name": l["name"], "registered_projects": l["projects"], "method": l["method"],
+                                        "score": l["score"]} for n, l in acc]
+            active = [l["name"] for n, l in acc if (l["projects"] or 0) > 0 and l["name"]]
+            rec["dld_entities"] = (active + [e for e in sorted({r[1].strip() for r in prj}) if e and e not in active])[:8]
             rec["dld_projects_2026"] = [{"project": r[0].strip(), "entity": r[1].strip(), "status": r[2], "pct_complete": num(r[3]), "units": num(r[4]), "area": r[5],
                                          "value_aed": num(r[6]), "start": str(r[7])[:10] if r[7] else None, "completion": str(r[8])[:10] if r[8] else None, "master": r[9]} for r in prj]
             if prj:
@@ -286,7 +361,12 @@ def main():
             #     developer are vetoed. The rest are listed as unconfirmed and left out of every total (15 Sep 2026; was: Imtiaz only).
             port = load_portfolio(dev)
             tx_projects, unconfirmed, vetoed, matched = match_tx_projects(dev, al, names, reg_names, port, agg, dev_nums, reg_dev,
-                                                                          other_aliases=all_aliases, strict=dev in STRICT_PORTFOLIO)
+                                                                          other_aliases=all_aliases, strict=dev in STRICT_PORTFOLIO,
+                                                                          key_rows=spine["key_rows"])
+            for t in tx_projects:                        # register ids for the builders downstream (board, compare, project facts)
+                ids = spine["key_ids"].get(t["project"].upper())
+                if ids:
+                    t["project_ids"] = [c for c, _ in ids.most_common(4)]
             if port:
                 rec["portfolio"] = {"source": port["source"], "fetched": port["fetched"], "count": len(port["properties"]),
                                     "properties": [{"slug": pr["slug"], "name": pr["name"], "area": pr.get("area"), "url": pr["url"], "image": pr.get("image"),
@@ -298,16 +378,22 @@ def main():
                               "areas": sorted({t["area"] for t in tx_projects if t["area"]}), "aliases_matched": matched, "aliases_unmatched": [n for n in pal if n not in matched],
                               "unconfirmed_not_counted": [{"project": t["project"], "tx": t["tx"], "matched_by": t["matched_by"], "reason": t.get("reason", "not confirmed (strict developer)")} for t in sorted(unconfirmed, key=lambda t: -t["tx"])][:50],
                               "registered_to_other_developer": [{"project": t["project"], "tx": t["tx"], "registered_to": t["registered_to"]} for t in sorted(vetoed, key=lambda t: -t["tx"])],
-                              "register_veto": "applied" if reg_dev else (reg_note or "no register rows")}
+                              "register_veto": "applied" if reg_dev else (reg_note or "no register rows"),
+                              "attribution": dict(collections.Counter(t.get("confirmed_by") for t in tx_projects).most_common())}
             if tx_projects:
                 rec["sources"].append("DLD transactions Jan-Aug 2026 (confirmed name match)")
                 vals = [t["median_aed_per_sqm"] for t in tx_projects if t["median_aed_per_sqm"]]
                 rec["tx_2026"]["median_aed_per_sqm_across_projects"] = round(statistics.median(vals)) if vals else None
-            # --- rents on the developer's counted projects only (how the stock lets); exact project names, never substrings
+            # --- rents on the developer's counted projects only (how the stock lets); exact project names, never substrings. P1.3: plus
+            #     the rents whose registered project (lk_rent_project: exact name in the rent's own area) is one of those projects' ids
             kept_names = sorted({t["project"].upper() for t in tx_projects})
-            rn = q("select count(*), median(try_cast(ANNUAL_AMOUNT as double)) from rents where upper(trim(PROJECT_EN)) in (%s)" %
-                   (", ".join("'%s'" % n.replace("'", "''") for n in kept_names) or "''"))
-            rec["rents_2026"] = {"contracts": rn[0][0], "median_annual_aed": round(rn[0][1]) if rn and rn[0][1] else None}
+            kept_ids = {c for t in tx_projects for c in t.get("project_ids", [])}
+            pairs = sorted("%s|%s" % pa for pa, cid in spine["rent_ids"].items() if cid in kept_ids and pa[0] and pa[1])
+            sq = lambda xs: ", ".join("'%s'" % x.replace("'", "''") for x in xs) or "''"
+            rn = q("select count(*), median(try_cast(ANNUAL_AMOUNT as double)), count(*) filter (where upper(trim(PROJECT_EN)) not in (%s)) "
+                   "from rents where upper(trim(PROJECT_EN)) in (%s) or PROJECT_EN || '|' || AREA_EN in (%s)" % (sq(kept_names), sq(kept_names), sq(pairs)))
+            rec["rents_2026"] = {"contracts": rn[0][0], "median_annual_aed": round(rn[0][1]) if rn and rn[0][1] else None,
+                                 "by_registered_project_only": rn[0][2]}
             # --- what WE hold
             ours = {"availability_sheets": [os.path.basename(p) for p in avail_files if os.path.basename(p).lower().startswith(al[0].split(" ")[0])],
                     "curated_buildings": [k for k, v in curated.items() if any(a in json.dumps(v).lower() for a in al)],
@@ -344,7 +430,7 @@ def main():
 
     out = os.path.join(ROOT, "data", "dev_meta", "developer_dna.json")
     json.dump(dna, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    open(out[:-5] + ".md", "w", encoding="utf-8").write("# Developer DNA - %s\n\nSegments and developers per Kendall's table (2 Sep 2026). DLD figures from the naj.duckdb corpus (transactions Jan-Aug 2026, 2026 project registrations); name-matched, so undercounts are possible where a project is registered under an SPV name we do not know yet.\n\n" % today + "\n".join(md))
+    open(out[:-5] + ".md", "w", encoding="utf-8").write("# Developer DNA - %s\n\nSegments and developers per Kendall's table (2 Sep 2026). DLD figures from the naj.duckdb corpus (transactions Jan-Aug 2026, 2026 project registrations). A project counts when a sale's own register row files it under one of the developer's DLD entities (the lake's project spine), or when a confirmed name match does; %s.\n\n" % (today, spine["note"]) + "\n".join(md))
     tok = env_token("INGEST_TOKEN")
     r1 = push("dev_segments", SEG, tok)
     r2 = push("dev_dna", dna, tok)
