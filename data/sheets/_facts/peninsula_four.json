@@ -1,0 +1,31 @@
+{
+  "_source": "Select Group project page for Peninsula Four, The Plaza (select-group.ae), read 16 September 2026. The brochure PDF there is behind a form asking for name, email and phone and was not fetched.",
+  "_assets_from": "data/media/_sources/peninsula_four_the_plaza.json - 19 images published openly on that page.",
+
+  "developer": "Select Group",
+  "completed": "Q2 2026",
+  "apartments": "Two 52-storey towers and 16 waterfront lofts",
+  "strapline": "Select Group, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_f9ea16d44430",
+    "living": "m_eb7c09eaca5f",
+    "kitchen": "m_0d82adb314db",
+    "bedroom": "m_ed7f0b52caf5",
+    "bath": "m_291cce4287ce"
+  },
+  "_override_note": "Roles are taken from the developer's own filenames - '3BD living - dining', '1BD kitchen', 'The Lofts - Master Bedroom', 'Penthouse master bathroom'. Nothing here was inferred from the picture itself. The hero is the first of the four exterior renders on the page.",
+
+  "captions": {
+    "living": "Three-bedroom living and dining",
+    "kitchen": "One-bedroom kitchen",
+    "bedroom": "Lofts master bedroom",
+    "bath": "Penthouse master bathroom"
+  },
+
+  "image_note": "Images are published by Select Group, the developer of Peninsula Four, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+
+  "caveats": [
+    "The floor plans Select publishes for this building are tower floor plates rather than individual apartment layouts, so no unit plan is shown here. Ask and we will request the layout for a specific unit."
+  ]
+}

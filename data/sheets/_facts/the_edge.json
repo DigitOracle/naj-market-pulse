@@ -1,0 +1,30 @@
+{
+  "_source": "Select Group project page for The EDGE (select-group.ae/developments/the-edge), read 16 September 2026. Nothing behind a form was fetched.",
+  "_assets_from": "data/media/_sources/the_edge.json - 11 images published openly on that page.",
+
+  "developer": "Select Group",
+  "apartments": "Two towers, one- and two-bedroom apartments",
+  "strapline": "Select Group, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_17ddb9b041e6",
+    "living": "m_7ff209f7e156",
+    "kitchen": "m_58d598eaf55e",
+    "bedroom": "m_32b4fb5ee1cf",
+    "bath": "m_75076c043510"
+  },
+  "_override_note": "Roles taken from the developer's own filenames - '1BR-KITCHEN', '2 BR-Bedroom', '2 BR-Bathroom', '2BR-LIVING'. Hero is the Canal View exterior, which is the only wide exterior of the towers themselves; 'Untitled design' and 'Exterior 2' are squarer crops.",
+
+  "captions": {
+    "living": "Two-bedroom living",
+    "kitchen": "One-bedroom kitchen",
+    "bedroom": "Two-bedroom master bedroom",
+    "bath": "Two-bedroom bathroom"
+  },
+
+  "image_note": "Images are published by Select Group, the developer of The EDGE, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+
+  "caveats": [
+    "The EDGE is an off-plan development, so no tenancy contracts are registered against it yet and no rent or yield can be shown. The sale prices are registered off-plan sales."
+  ]
+}

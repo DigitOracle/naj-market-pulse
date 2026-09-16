@@ -29,3 +29,9 @@ naj.duckdb
 !data/sheets/
 data/sheets/*
 !data/sheets/_facts/
+
+# The per-project manifests naming which developer URLs a building's pictures came from are the
+# audit trail behind every image on a client sheet - tracked. The images themselves re-fetch.
+!data/media/
+data/media/*
+!data/media/_sources/

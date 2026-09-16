@@ -626,7 +626,8 @@ def page2(rec, today):
             cells = "".join(
                 '<div style="display:flex;flex-direction:column;gap:6px;">%s'
                 '<div style="font-size:12.5px;color:#626B78;">%s</div></div>'
-                % (img_tag(im[k], "width:100%;height:202px;object-fit:cover;display:block;", lbl), esc(lbl))
+                % (img_tag(im[k], "width:100%;height:202px;object-fit:cover;display:block;", lbl),
+                   esc(caps.get(k, lbl)))
                 for k, lbl in rest)
             block += ('<div style="display:grid;grid-template-columns:repeat(%d,minmax(0,1fr));gap:14px;'
                       'margin-top:4px;">%s</div>' % (len(rest), cells))
@@ -657,7 +658,7 @@ def page2(rec, today):
       <div>__PAGENO__</div><div>Prepared %s</div>
     </div>
   </div>
-</div>""" % (esc(rec["name"]), pl, it, esc(note), today)
+</div>""" % (esc(rec["name"]), pl, it, note, today)
 
 
 def page3(rec, today):

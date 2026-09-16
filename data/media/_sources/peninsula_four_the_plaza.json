@@ -1,0 +1,28 @@
+{
+  "project": "Peninsula Four, The Plaza",
+  "developer": "Select Group",
+  "area": "Business Bay",
+  "page": "https://www.select-group.ae/developments/peninsula-four-the-plaza",
+  "_note": "Read 16 September 2026. The brochure PDF on this page is behind a form asking for name, email and phone; it was not fetched. Everything below is published openly on the project page. The developer's own filenames name the rooms, which is why the interiors can be captioned honestly.",
+  "images": [
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c29426d3e27e62f08a0b96_PeninsulaFour-S1.jpg", "note": "Exterior - towers and waterfront plaza" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c2942b1a141560d215f0af_PeninsulaFour-S2.jpg", "note": "Exterior - the Plaza dining and retail" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c29432be9ea586b97c1136_PeninsulaFour-S3.jpg", "note": "Exterior - towers with Burj Khalifa view" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c294426a0062ad840c73d3_PeninsulaFour-S4.jpg", "note": "Exterior - waterfront duplex lofts" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c66558b8051fd46c773a5e_3BD%20living%20-%20dining.jpg", "note": "Three-bedroom living and dining" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c6655dc6c70f0d6a1e1707_1BD%20kitchen.jpg", "note": "One-bedroom kitchen" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c665651eafa45020fb7f6a_The%20Lofts%20-%20Master%20Bedroom.jpg", "note": "Lofts master bedroom" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c6655f2510c171b211945a_Penthouse%20master%20bathroom.jpg", "note": "Penthouse master bathroom" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c6656824667b758d7ed91f_The%20Lofts%20-%20Gym.jpg", "note": "Gym" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c6656df765efee2cf0ba24_Peninsula%20Four%2C%20The%20Plaza%20-%20Pool%20Deck3%20-%20Tower%20B.jpg", "note": "Pool deck, Tower B" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/63c6656b3e158b429ddef7ea_Peninsula%20Four%2C%20The%20Plaza%20-%20Landscape%202.jpg", "note": "Landscaped plaza" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e361d5b9a709fed9a5a_LOFTS%20GR.jpg", "note": "Floor plan - Lofts, ground" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e36ee95456752edb5f4_LOFTS%20L1-L3.jpg", "note": "Floor plan - Lofts, levels 1-3" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e360b75666da529269b_LOFTS%20%20L2-L4.jpg", "note": "Floor plan - Lofts, levels 2-4" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e36928033abb018d41e_TA%20GR.jpg", "note": "Floor plan - Tower A, ground" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e362819cdc2b59d798b_TA%20P2.jpg", "note": "Floor plan - Tower A, podium 2" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e36406eed7ac2e34ed6_TA%20P3.jpg", "note": "Floor plan - Tower A, podium 3" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e37e1c1500e0c73c2f2_TA%20L4-5.jpg", "note": "Floor plan - Tower A, levels 4-5" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/673c2e36d74c3f04b764ac04_TA%20L6.jpg", "note": "Floor plan - Tower A, level 6" }
+  ]
+}

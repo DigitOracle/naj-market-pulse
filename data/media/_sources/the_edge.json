@@ -1,0 +1,20 @@
+{
+  "project": "The EDGE",
+  "developer": "Select Group",
+  "area": "Business Bay",
+  "page": "https://www.select-group.ae/developments/the-edge",
+  "_note": "Read 16 September 2026. Published openly on the project page; no form, no gated PDF fetched. The developer names the interiors by bedroom count, which is why the captions on the sheet can be specific.",
+  "images": [
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64817791e74ac7157cef3b33_Untitled%20design.jpg", "note": "Exterior render" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/643405a573954fec3972e44a_Exterior%202.jpg", "note": "Exterior 2" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/643405a9e186e139c2f9a2dd_Canal%20View.jpg", "note": "Dubai Canal view" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64369830260fae1cf71a19f5_The_Edge-S2.jpg", "note": "Pool deck" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64340601f908202262deb3bb_1BR-KITCHEN.jpg", "note": "One-bedroom kitchen" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64340601f63339178f5e46a6_1BR-LIVING.jpg", "note": "One-bedroom living" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64340601f6aa036c110024e6_2%20BR-Bedroom.jpg", "note": "Two-bedroom master bedroom" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/643406024044367612bdc32e_2%20BR-Bathroom.jpg", "note": "Two-bedroom bathroom" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64340601404436096abdc32c_2BR-LIVING-EDIT%20copy.jpg", "note": "Two-bedroom living" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/643405dbd763b7447cec1a0e_gym.jpg", "note": "Gymnasium" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/643405f7e8f0afe20568f08e_Lobby%20option%2002.jpg", "note": "Lobby" }
+  ]
+}
