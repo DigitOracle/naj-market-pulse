@@ -919,6 +919,60 @@ def to_pdf(html_path, pdf_path):
 # --------------------------------------------------------------------------- cli
 
 
+def picture_kind(rec):
+    """WHICH pictures a sheet has, not just whether it has any.
+
+    has_pictures is a yes/no and some buildings sit between. Churchill Towers publishes three
+    exterior views and no interiors or layouts at all; reported as a plain "true" she could hand a
+    client a sheet expecting to see rooms. A curator who has looked can state it outright in the
+    facts file; otherwise it is derived from which roles were filled."""
+    fx = rec.get("facts") or {}
+    if fx.get("pictures"):
+        return str(fx["pictures"])[:40]
+    im = rec.get("images") or {}
+    plans = any(k.startswith("plan_") for k in im)
+    rooms = any(k in im for k in ("bedroom", "kitchen", "bath", "living"))
+    inner = any(k.startswith("interior_") for k in im)
+    if plans and (rooms or inner):
+        return "layouts and interiors"
+    if plans:
+        return "layouts"
+    if rooms or inner:
+        return "interiors"
+    if "hero" in im:
+        return "exterior only"
+    return "none"
+
+
+def verify_pdf(pdf_path, rec, expected_pages):
+    """"It rendered" and "it rendered right" are different claims.
+
+    The whole document is built from Python strings and handed to Chrome, so a broken string gives
+    a green run and a wrong PDF - and the failure that actually bites is not a crash but a valid,
+    EMPTY page. So assert a floor: the page count we meant, real text on every page, and pictures
+    on the layouts page when we believe we put some there. Returns a list of problems."""
+    bad = []
+    try:
+        import fitz
+        d = fitz.open(pdf_path)
+    except Exception as e:
+        return ["could not reopen the PDF: %s" % e]
+    if d.page_count != expected_pages:
+        bad.append("expected %d pages, got %d" % (expected_pages, d.page_count))
+    for i, page in enumerate(d, 1):
+        text = page.get_text().strip()
+        if len(text) < 120:
+            bad.append("page %d carries almost no text (%d chars) - probably rendered empty" % (i, len(text)))
+        if rec["name"].split()[0].lower() not in text.lower():
+            bad.append("page %d does not name the building" % i)
+    im = rec.get("images") or {}
+    if d.page_count >= 2 and (im.get("plan_1br") or im.get("plan_2br")):
+        if not d[1].get_images():
+            bad.append("page 2 should carry floor plans but holds no images")
+    d.close()
+    return bad
+
+
 def push_sheet(rec, pdf_path, pages):
     """Send a built sheet to the worker so Naj can open and forward it from the app.
 
@@ -934,7 +988,8 @@ def push_sheet(rec, pdf_path, pages):
         print("  push skipped: no INGEST_TOKEN")
         return False
     q = urllib.parse.urlencode({"slug": rec["slug"], "name": rec["name"], "pages": pages,
-                                "pics": "1" if rec["images"] else "0"})
+                                "pics": "1" if rec["images"] else "0",
+                                "pics_kind": picture_kind(rec)})
     body = open(pdf_path, "rb").read()
     req = urllib.request.Request(WORKER + "/ingest_sheet?" + q, data=body, method="POST",
                                  headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/pdf",
@@ -1078,6 +1133,14 @@ def main():
         for r in records:
             print("Client sheet:")
             _h, _p, _n = write([r], r["slug"], "%s \u2014 fact sheet" % r["name"])
+            if _p:
+                _bad = verify_pdf(_p, r, _n)
+                for b in _bad:
+                    print("  CHECK FAILED: %s" % b)
+                if _bad:
+                    print("  not pushed - fix the sheet first")
+                    continue
+                print("  checked: %d pages, %s" % (_n, picture_kind(r)))
             if a.push and _p:
                 push_sheet(r, _p, _n)
     return 0

@@ -1,29 +1,25 @@
 {
   "_source": "Emirates National Investment project page for Churchill Towers (eni.ae/projects/churchill-towers), read 16 September 2026.",
   "_assets_from": "data/media/_sources/churchill_tower.json - 3 images published openly on that page.",
-
   "developer": "Emirates National Investment",
   "completed": "2016",
   "apartments": "Twin towers &mdash; 56 residential floors and 42 commercial",
   "strapline": "Emirates National Investment, Business Bay",
-
   "asset_overrides": {
     "hero": "m_a91a81185531",
     "interior_1": "m_09760d935e58",
     "interior_2": "m_396ac526d36c"
   },
   "_override_note": "The developer publishes three exterior views and nothing else - no interiors, no floor plans. So the hero is the twin towers, and the two supporting pictures are labelled for what they actually are rather than dressed up as interiors.",
-
   "views_heading": "The building",
   "views_note": "The developer publishes no interior views or floor plans for this building.",
   "captions": {
     "interior_1": "The entrance on the podium",
     "interior_2": "Business Bay and the canal, looking toward Downtown"
   },
-
   "image_note": "Images are published by Emirates National Investment, the developer of Churchill Towers, on its own project page, and are reproduced here for a buyer considering the building.",
-
   "caveats": [
     "No interior views or apartment layouts are published for this building, so none are shown. Ask and we will request the layout for a specific unit."
-  ]
+  ],
+  "pictures": "exteriors only"
 }
