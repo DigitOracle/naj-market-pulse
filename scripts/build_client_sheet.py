@@ -919,6 +919,55 @@ def to_pdf(html_path, pdf_path):
 # --------------------------------------------------------------------------- cli
 
 
+def push_sheet(rec, pdf_path, pages):
+    """Send a built sheet to the worker so Naj can open and forward it from the app.
+
+    INGEST_TOKEN, not READ_KEY: a separate secret that the owner-key rotation does not touch, so the
+    pipeline keeps working through it. The PDF goes up as the raw body - base64 would cost a third
+    of the size for nothing, and these are 250-600 KB.
+    """
+    import urllib.error
+    sys.path.insert(0, HERE)
+    from build_avail_index import WORKER, env_token
+    tok = env_token("INGEST_TOKEN")
+    if not tok:
+        print("  push skipped: no INGEST_TOKEN")
+        return False
+    q = urllib.parse.urlencode({"slug": rec["slug"], "name": rec["name"], "pages": pages,
+                                "pics": "1" if rec["images"] else "0"})
+    body = open(pdf_path, "rb").read()
+    req = urllib.request.Request(WORKER + "/ingest_sheet?" + q, data=body, method="POST",
+                                 headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/pdf",
+                                          "User-Agent": "najma-market-pulse/1.0"})
+    try:
+        r = urllib.request.urlopen(req, timeout=900)
+        print("  pushed: %s" % r.read().decode("utf-8", "replace")[:160])
+        return True
+    except urllib.error.HTTPError as e:
+        print("  push failed HTTP %s: %s" % (e.code, e.read().decode("utf-8", "replace")[:160]))
+    except Exception as e:
+        print("  push failed: %s" % e)
+    return False
+
+
+def push_hold(slug, name, reason):
+    """Tell the worker WHY a building has no sheet, so the app greys the button and says which.
+    "No pictures yet" and "only two registered sales" are different problems and she will ask."""
+    sys.path.insert(0, HERE)
+    from build_avail_index import WORKER, env_token
+    tok = env_token("INGEST_TOKEN")
+    if not tok:
+        return False
+    q = urllib.parse.urlencode({"slug": slug, "name": name, "hold": reason})
+    req = urllib.request.Request(WORKER + "/ingest_sheet?" + q, data=b"", method="POST",
+                                 headers={"X-Azimuth-Ingest": tok, "User-Agent": "najma-market-pulse/1.0"})
+    try:
+        urllib.request.urlopen(req, timeout=120)
+        return True
+    except Exception:
+        return False
+
+
 def write(records, name, title, focus=None):
     os.makedirs(SHEETS, exist_ok=True)
     doc, n = render(records, title, focus)
@@ -927,9 +976,8 @@ def write(records, name, title, focus=None):
     pp = os.path.join(SHEETS, "%s.pdf" % name)
     ok = to_pdf(hp, pp)
     size = os.path.getsize(pp) / 1024 if ok else 0
-    print("  %s  -  %d pages, %s%s" % (name, n, "%.0f KB PDF" % size if ok else "HTML only",
-                                       "" if ok else ""))
-    return hp, (pp if ok else None)
+    print("  %s  -  %d pages, %s" % (name, n, "%.0f KB PDF" % size if ok else "HTML only"))
+    return hp, (pp if ok else None), n
 
 
 def main():
@@ -947,6 +995,7 @@ def main():
     ap.add_argument("--at", help="lat,lon for --walk")
     ap.add_argument("--min-sales", type=int, default=20)
     ap.add_argument("--force", action="store_true", help="build even if the building misses the bar")
+    ap.add_argument("--push", action="store_true", help="send the built sheet up to the worker for the app")
     a = ap.parse_args()
 
     if a.medians:
@@ -1009,7 +1058,10 @@ def main():
         if err:
             print("  %s: %s" % (nm, err)); continue
         if not rec["ready"] and not a.force:
-            print("  %s: held - %s" % (nm, "; ".join(rec["not_ready_because"])))
+            why = "; ".join(rec["not_ready_because"])
+            print("  %s: held - %s" % (nm, why))
+            if a.push:
+                push_hold(rec["slug"], rec["name"], why)
             print("    (use --force to build anyway)")
             continue
         records.append(rec)
@@ -1019,11 +1071,15 @@ def main():
     if a.pack and len(records) > 1:
         nm = a.pack_name or "pack_" + "_".join(slugify(r["name"])[:14] for r in records)
         print("Shortlist pack:")
-        write(records, nm, "Shortlist \u2014 " + ", ".join(r["name"] for r in records), a.type)
+        _h, _p, _n = write(records, nm, "Shortlist \u2014 " + ", ".join(r["name"] for r in records), a.type)
+        if a.push and _p:
+            push_sheet({"slug": nm, "name": "Shortlist", "images": {"hero": 1}}, _p, _n)
     else:
         for r in records:
             print("Client sheet:")
-            write([r], r["slug"], "%s \u2014 fact sheet" % r["name"])
+            _h, _p, _n = write([r], r["slug"], "%s \u2014 fact sheet" % r["name"])
+            if a.push and _p:
+                push_sheet(r, _p, _n)
     return 0
 
 
