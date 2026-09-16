@@ -1,0 +1,55 @@
+{
+  "_source": "Dubai Properties project brochure for Bellevue Towers (dp.ae), read 16 September 2026. Every claim on the sheet that is not a Land Department or Ejari figure comes from this document.",
+  "developer": "Dubai Properties",
+  "completed": "July 2020",
+  "apartments": "300 across two towers",
+  "height": "23 residential floors",
+  "strapline": "Two towers by Dubai Properties, completed 2020",
+  "location_cards": [
+    {
+      "icon": "metro",
+      "label": "METRO",
+      "lines": [
+        "Dubai Mall",
+        "Business Bay"
+      ]
+    },
+    {
+      "icon": "shop",
+      "label": "SHOPPING",
+      "lines": [
+        "The Dubai Mall"
+      ]
+    },
+    {
+      "icon": "walk",
+      "label": "ON FOOT",
+      "lines": [
+        "Mohammed Bin Rashid Boulevard"
+      ]
+    },
+    {
+      "icon": "road",
+      "label": "BY ROAD",
+      "lines": [
+        "Sheikh Zayed Road",
+        "Al Khail Road"
+      ]
+    }
+  ],
+  "location_note": "<span style=\"font-weight:600;color:#22262B;\">Location</span> &mdash; the stations and roads named above are those given in the Dubai Properties project brochure for Bellevue Towers.",
+  "plan_areas": {
+    "plan_1br": "878 sq ft total",
+    "plan_2br": "1,293 sq ft total"
+  },
+  "plans_note": "The developer's layouts for the two most traded types. These areas are for the specific unit type shown, and sit within a few square feet of the median size recorded on sale.",
+  "captions": {
+    "bedroom": "Bedroom, looking north over Downtown"
+  },
+  "image_note": "Images and floor plans are published by Dubai Properties, the developer of Bellevue Towers, and are reproduced here for a buyer considering the building. The interior images are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "The three-bedroom rent rests on nine contracts and is indicative only."
+  ],
+  "_brochure_url": "https://www.dp.ae/pdf/Brochure-New-Bellevue-Towers.pdf",
+  "_assets_from": "Pages lifted from the brochure above with the media-register classifier: p01 exterior render (hero), p10 bedroom, p11 kitchen and bathroom, p18 the one- and two-bedroom floor plans."
+}

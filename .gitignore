@@ -22,3 +22,10 @@ public/heatmap_story.png
 public/heatmap_square.png
 naj.duckdb
 *.log
+
+# 16 Sep 2026: client sheets. The _facts files are hand-curated from each developer's own brochure -
+# a decision about what a client sheet may claim, not a rebuildable output - so they are tracked.
+# The rendered sheets, the median cache and the picture assets all rebuild from source and are not.
+!data/sheets/
+data/sheets/*
+!data/sheets/_facts/
