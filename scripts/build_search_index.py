@@ -4,7 +4,7 @@ Sources, in order of authority: the register-backed unit-mix project index (buil
 developer), the register bindings (bind_register_buildings.py: name, master project, units), the anchors (names on the twin), the
 transactions bindings (register names + master project), the eleven developers (developer_dna.json + DEVNAME on the worker) and the
 register projects that are NOT yet on the twin (rent / units register names without a footprint) so a search still answers.
-Output data/board/search_index.json  {"generated", "n", "items": [{n, t (developer|development|building), d (district), i, dev, units, st, m (master), a (area label)}]}
+Output data/board/search_index.json  {"generated", "n", "items": [{n, t (developer|development|building), d (district), i, dev, units, st, m (master), a (area label), sheet (the client-sheet slug, where one could exist)}]}
 Pushed to KV as search_index -> the worker serves /img/search_index and the FIND page filters it client-side.
 Usage: python scripts/build_search_index.py [--dry]
 """
@@ -30,6 +30,59 @@ def title(s):
 def load(p, default):
     try: return json.load(open(p, encoding="utf-8"))
     except Exception: return default
+
+
+# --- the client sheet's address on each row (16 Sep 2026) ----------------------------------------
+# The FIND row carries the action that sends a client a fact sheet, so the row has to know where that
+# sheet lives. It must NOT derive the slug from the display name: the slug comes from the LAND
+# DEPARTMENT project name, and where the two differ the derivation is silently wrong - the Find row
+# says "Peninsula Four, The Plaza" while the sheet is at peninsula_four, so a client-ready building
+# would show as having none.
+#
+# Only the slug goes in. No hold reason, no page count, no has-a-sheet flag: the index is cached in
+# ten-minute buckets and all three of those change the moment the pipeline pushes, so they would go
+# stale and promise her a sheet that is not there. State is fetched on tap from /sheet/<slug>/meta;
+# this is identity, which does not move.
+#
+# A row with no `sheet` key has no Land Department project behind it, so a sheet can never be built
+# for it - the app can grey the action without a round trip.
+def resolve_sheet(sheets, name):
+    """The marketing name is often longer than the registered one - the Find row says "Peninsula
+    Four, The Plaza" where the register says "Peninsula Four". Exact first, then the part before a
+    comma, then the longest registered name that this row's name starts with. The length floor stops
+    a short key swallowing unrelated buildings, and "longest wins" stops Peninsula Four capturing
+    Peninsula Five."""
+    k = nk(name)
+    if k in sheets:
+        return sheets[k]
+    head = nk(str(name).split(",")[0])
+    if head and head in sheets:
+        return sheets[head]
+    best = None
+    for kk, sl in sheets.items():
+        if len(kk) >= 9 and k.startswith(kk) and (best is None or len(kk) > len(best[0])):
+            best = (kk, sl)
+    return best[1] if best else None
+
+
+def sheet_slugs():
+    """nk(project or building name) -> the slug build_client_sheet.py writes."""
+    out = {}
+    for f in sorted(os.listdir(DLD)):
+        if not (f.startswith("tx_buildings_") and f.endswith(".json")):
+            continue
+        for b in load(os.path.join(DLD, f), {}).get("buildings", []):
+            proj = b.get("project")
+            if not proj:
+                continue
+            slug = re.sub(r"[^a-z0-9]+", "_", proj.lower()).strip("_")[:50]
+            for nm in (proj, b.get("building")):
+                k = nk(nm)
+                # A tower ("Bellevue Towers-1") resolves to its development's sheet; the longest
+                # project name wins a collision so "Peninsula Four" does not capture "Peninsula Five".
+                if k and (k not in out or len(slug) > len(out[k])):
+                    out[k] = slug
+    return out
 
 
 def main():
@@ -119,11 +172,22 @@ def main():
             items = {kk: vv for kk, vv in items.items() if vv is not drop}
             seen[k] = keep
         else: seen[k] = v
+    sheets = sheet_slugs()
+    _tagged = 0
+    for v in items.values():
+        if v["t"] == "developer":
+            continue
+        sl = resolve_sheet(sheets, v["n"])
+        if sl:
+            v["sheet"] = sl
+            _tagged += 1
+
     out = sorted(items.values(), key=lambda r: ({"developer": 0, "development": 1, "building": 2}[r["t"]], -(float(r.get("units")) if isinstance(r.get("units"),(int,float)) or str(r.get("units") or "").replace(".","").isdigit() else 0), r["n"]))
     doc = {"generated": time.strftime("%Y-%m-%d %H:%M"), "n": len(out), "items": out}
     json.dump(doc, open(os.path.join(BOARD, "search_index.json"), "w", encoding="utf-8"), ensure_ascii=False)
     c = collections.Counter(r["t"] for r in out)
     print(f"search index: {len(out):,} items | {dict(c)} | {os.path.getsize(os.path.join(BOARD, 'search_index.json')) // 1024} KB")
+    print(f"  client-sheet slugs on {_tagged:,} rows ({len(out) - _tagged:,} rows have no Land Department project behind them)")
     if not dry: print("push ->", push("search_index", doc, env_token("INGEST_TOKEN")))
 
 
