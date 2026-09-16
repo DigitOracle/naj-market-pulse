@@ -1,0 +1,12 @@
+{
+  "project": "CHURCHILL TOWER",
+  "developer": "Emirates National Investment",
+  "area": "Business Bay",
+  "page": "https://www.eni.ae/projects/churchill-towers/",
+  "_note": "Read 16 September 2026. The developer publishes only exterior views for this building - no interiors and no floor plans - so the sheet will be thinner than one built from a full brochure. Exteriors only is still worth having: the numbers are the reason a buyer looks at Churchill, with 3,227 recorded sales.",
+  "images": [
+    { "url": "https://www.eni.ae/wp-content/uploads/2019/04/image-5-1.jpg", "note": "Exterior" },
+    { "url": "https://www.eni.ae/wp-content/uploads/2019/04/image-7.jpg", "note": "Exterior 2" },
+    { "url": "https://www.eni.ae/wp-content/uploads/2019/04/image-8.jpg", "note": "Exterior 3" }
+  ]
+}
