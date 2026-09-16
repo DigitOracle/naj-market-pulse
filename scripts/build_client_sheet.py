@@ -246,10 +246,16 @@ def build_medians():
     return out
 
 
+_MED_CACHE = None
+
+
 def load_medians():
-    if os.path.exists(MEDIANS):
-        return json.load(open(MEDIANS, encoding="utf-8")).get("projects", {})
-    return {}
+    """Cached: --list-ready walks thousands of buildings and this file holds 2,440 projects."""
+    global _MED_CACHE
+    if _MED_CACHE is None:
+        _MED_CACHE = (json.load(open(MEDIANS, encoding="utf-8")).get("projects", {})
+                      if os.path.exists(MEDIANS) else {})
+    return _MED_CACHE
 
 
 def merge_types(rows, project):
@@ -302,6 +308,11 @@ def build_record(name, district=None, min_sales=20):
     slug = slugify(project)
 
     pooled, exact = merge_types(rows, project)
+    if not pooled:
+        # Every transaction in this building is recorded against an unclassified room type, so
+        # there is nothing to quote. Real: plot sales, hotel keys, and a tail of registrations
+        # where rooms_en is blank.
+        return None, "no transactions with a recorded apartment type for %r" % name
     sales_total = (sum(v.get("n", 0) for v in pooled.values()) if exact
                    else sum(r.get("sales", 0) for r in rows))
     rent = rent_for(project, d)
@@ -968,10 +979,24 @@ def main():
                 if not rec:
                     continue
                 (ready if rec["ready"] else held).append((nm, d, rec))
-        print("READY (%d):" % len(ready))
-        for nm, d, r in sorted(ready, key=lambda x: -x[2]["sales_total"])[:40]:
-            print("  %-42s %-18s %5d sales  %d pictures" % (nm[:42], d, r["sales_total"], len(r["images"])))
-        print("\nHELD (%d) - most common reason: no pictures held" % len(held))
+        pics_only = [x for x in held if x[2]["not_ready_because"] == ["no pictures held"]]
+        thin = [x for x in held if x not in pics_only]
+        print("READY (%d) - has the numbers AND the pictures:" % len(ready))
+        for nm, d, r in sorted(ready, key=lambda x: -x[2]["sales_total"]):
+            print("  %-42s %-22s %5d sales  %d pictures" % (nm[:42], d, r["sales_total"], len(r["images"])))
+
+        print()
+        print("WAITING ON PICTURES ONLY (%d) - these clear the sales bar; a brochure pass is the"
+              % len(pics_only))
+        print("only thing between them and a sheet. This is the work queue, deepest first:")
+        for nm, d, r in sorted(pics_only, key=lambda x: -x[2]["sales_total"])[:25]:
+            print("  %-42s %-22s %5d sales" % (nm[:42], d, r["sales_total"]))
+        if len(pics_only) > 25:
+            print("  ... and %d more" % (len(pics_only) - 25))
+
+        print()
+        print("TOO THIN TO QUOTE (%d) - under %d recorded sales, pictures would not help."
+              % (len(thin), a.min_sales))
         return 0
 
     names = a.pack or ([a.building] if a.building else [])
