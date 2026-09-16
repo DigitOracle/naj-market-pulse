@@ -1,0 +1,18 @@
+{
+  "project": "Peninsula Three",
+  "developer": "Select Group",
+  "area": "Business Bay",
+  "page": "https://www.select-group.ae/developments/peninsula-three",
+  "_note": "Read 16 September 2026. Published openly on the project page; nothing behind a form was fetched.",
+  "images": [
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647053481f73f74fa83c4916_1000X100%20(1).jpg", "note": "Exterior render" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647053c95734c9d3a246e41d_1000X100%20(3).jpg", "note": "Exterior render 2" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64705434f5cdd51b8a163f42_2BR-LIVNG.jpg", "note": "Two-bedroom living" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6470543626c55f41bf8fbebd_1BR-LIVING.jpg", "note": "One-bedroom living" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64705433166323a5c31311e1_Kitchen.jpg", "note": "Kitchen" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6470543307d0d5de59089eee_Bathroom.jpg", "note": "Bathroom" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64705433be25d723b58baebd_Studio.jpg", "note": "Studio apartment" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64705438f92693a546960c24_01_Lobby.jpg", "note": "Lobby" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64705434166323a5c313122d_04_Gym_Option%201.jpg", "note": "Gym" }
+  ]
+}

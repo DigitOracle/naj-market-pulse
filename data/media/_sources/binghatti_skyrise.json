@@ -1,0 +1,18 @@
+{
+  "project": "Binghatti Skyrise",
+  "developer": "Binghatti",
+  "area": "Business Bay",
+  "page": "https://www.binghatti.com/en/projects/binghatti-skyrise",
+  "_note": "Read 16 September 2026. Published openly on the developer's project page. First source we have met that names its floor plans by bedroom count, so the plan slots can be filled from the filenames rather than left empty.",
+  "images": [
+    { "url": "https://binghattiweb.imgix.net/skyrise_horizontal.jpg", "note": "Exterior render" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_footer_horizontal.jpg", "note": "Exterior render 2" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_swimming_pool.jpg", "note": "Infinity pool" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_outdoor_sitting_area.jpg", "note": "Outdoor leisure area" },
+    { "url": "https://binghattiweb.imgix.net/ps-new-binghatti-skyrise-one-bedroom.webp", "note": "One-bedroom interior" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_layout_one_bedroom.jpg", "note": "Floor plan - one bedroom" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_layout_two_bedroom.jpg", "note": "Floor plan - two bedroom" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_layout_three_bedroom.jpg", "note": "Floor plan - three bedroom" },
+    { "url": "https://binghattiweb.imgix.net/skyrise_two_d_layout_studio.jpg", "note": "Floor plan - studio" }
+  ]
+}

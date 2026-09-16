@@ -1,0 +1,31 @@
+{
+  "_source": "Binghatti project page for Binghatti Skyrise (binghatti.com/en/projects/binghatti-skyrise), read 16 September 2026.",
+  "_assets_from": "data/media/_sources/binghatti_skyrise.json - 8 images published openly on that page.",
+
+  "developer": "Binghatti",
+  "completed": "Q4 2026 (expected)",
+  "apartments": "Three 48-storey towers, 3,302 apartments",
+  "strapline": "Binghatti, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_22a9e8572386",
+    "plan_1br": "m_c326b2274699",
+    "plan_2br": "m_af141090f594",
+    "plan_3br": "m_759e7e597d1b",
+    "interior_1": "m_d508eb6527d2",
+    "interior_2": "m_1efd73b0f9f5"
+  },
+  "_override_note": "The developer names its floor plans by bedroom count, and each drawing was checked against its filename before being labelled - the three-bedroom plan carries three rooms marked BED ROOM, the one-bedroom carries one. The hero is the wide render of the three towers on the canal.",
+
+  "plans_note": "The developer's layouts, as published on the project page.",
+  "captions": {
+    "interior_1": "The pool deck",
+    "interior_2": "The towers from above"
+  },
+
+  "image_note": "Images and floor plans are published by Binghatti, the developer of Binghatti Skyrise, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+
+  "caveats": [
+    "Binghatti Skyrise is under construction with handover expected in Q4 2026, so no tenancy contracts are registered against it yet and no rent or yield can be shown. The sale prices are registered off-plan sales."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "_source": "Select Group project page for Peninsula Three (select-group.ae/developments/peninsula-three), read 16 September 2026. Nothing behind a form was fetched.",
+  "_assets_from": "data/media/_sources/peninsula_three.json - 9 images published openly on that page.",
+
+  "developer": "Select Group",
+  "completed": "Q4 2025",
+  "apartments": "A single 49-storey waterfront tower",
+  "strapline": "Select Group, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_77105f958f55",
+    "living": "m_80d1a8951080",
+    "kitchen": "m_565cd11b9baa",
+    "bath": "m_f35a3734089a"
+  },
+  "_override_note": "Roles taken from the developer's own filenames - '2BR-LIVNG', 'Kitchen', 'Bathroom'. The hero is the first of the two exterior renders. No image on the page is named as a bedroom, so none is captioned as one.",
+
+  "captions": {
+    "living": "Two-bedroom living",
+    "kitchen": "Kitchen",
+    "bath": "Bathroom"
+  },
+
+  "image_note": "Images are published by Select Group, the developer of Peninsula Three, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
+}
