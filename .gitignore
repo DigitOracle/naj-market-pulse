@@ -60,3 +60,5 @@ data/ev/*
 !data/ev/cityengine/
 data/ev/cityengine/*
 !data/ev/cityengine/EVCharger.cga
+# The rule package is a build output of build_ev_rpk.py, not source.
+data/ev/cityengine/EVCharger.rpk
