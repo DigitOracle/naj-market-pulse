@@ -96,6 +96,16 @@ GENERIC_WORDS = {"the", "at", "by", "of", "and", "a", "in", "on", "l",
                  "residences", "residence", "apartments", "apts", "dubai", "villa", "villas"}
 
 
+# A development's record list includes things nobody lives in. They are sub-records of the same
+# development, so "all the candidates agree" is true of them - and that let "DUBAI HARBOUR
+# RESIDENCES" join an OPERATIONS BUILDING and "Lotus" join "Lotus Lounge". A card on the HOMES page
+# is offering somewhere to live.
+NOT_A_HOME = re.compile(
+    r"\b(operations?|lounge|sales ?(centre|center|office)|gym|clubhouse|club house|substation|"
+    r"terminal|mosque|school|nursery|clinic|retail|parking|car ?park|utility|pump|chiller|"
+    r"guard ?house|security|maintenance|staff accommodation|labour|warehouse)\b", re.I)
+
+
 def distinctive(s):
     return {w for w in re.split(r"[^a-z0-9]+", fold(s).lower())
             if w and w not in GENERIC_WORDS and not w.isdigit()}
@@ -411,6 +421,16 @@ def main():
                 continue
             _hit = _k if _k in slim else None
             if not _hit:
+                # A record whose NAME is the card's name is the answer, whatever the keys look like.
+                # "Belgravia" was refused as ambiguous because five keys begin with it - and one of
+                # those, keyed belgravia2, is named exactly "Belgravia" and carries its sheet. The
+                # ambiguity guard is for cards that name a family; a card that names THIS record is
+                # not one of them, and no count of neighbours should outvote its own name.
+                _exact = [kk for kk in _by_len if nkey(slim[kk].get("name")) == _k]
+                if _exact:
+                    _hit = min(_exact, key=len)
+                    corrected += 1
+            if not _hit:
                 # Longest first. A flat length floor was the wrong instrument here: at 9 it threw
                 # away "Albero At Dubai Creek Harbour" -> Albero, and at 4 it accepted five Four
                 # Seasons cards onto a record called "Four", "Golf Views" onto Golf Tower and "Pearl
@@ -441,10 +461,21 @@ def main():
                 # single distinctive word may only match when it matches exactly ONE key; a card that
                 # names two or more things is specific enough to take the closest.
                 _rev = sorted((kk for kk in slim if kk != _k and kk.startswith(_k)), key=len)
-                if _rev and (len(distinctive(_nm)) >= 2 or len(_rev) == 1):
-                    _hit = next((kk for kk in _rev if same_building(slim[kk].get("name"), _nm)), None)
-                    if _hit:
-                        corrected += 1
+                # Kendall, 17 Sep 2026: a card that matches several sub-buildings of ONE development
+                # may take any of them - Belgravia, Urbana, Acacia, Mulberry, Gardens 2, The
+                # Boulevard are a development against its own blocks, and any of them is roughly the
+                # right place on the map. A card that matches several DIFFERENT buildings still
+                # takes none. So the test is not how MANY match, it is whether they all agree: if
+                # every candidate is a name for the same thing the card names, the choice between
+                # them does not matter; if one of them is a different building, the card is a net
+                # and we cannot tell which fish. That replaces an earlier count-based guard that
+                # refused "Belgravia" while a record named exactly Belgravia sat among the five.
+                _rev = [kk for kk in _rev if not NOT_A_HOME.search(slim[kk].get("name") or "")]
+                if _rev and len(_k) >= 5 and len(_rev) <= 12 \
+                        and all(same_building(slim[kk].get("name"), _nm) for kk in _rev):
+                    # any will do, so prefer one that can actually show her something
+                    _hit = min(_rev, key=lambda kk: (slim[kk].get("client_sheet") is None, len(kk)))
+                    corrected += 1
             if not _hit:
                 continue
             _rec = slim[_hit]
