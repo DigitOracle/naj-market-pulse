@@ -93,7 +93,7 @@ def load_sheets():
 # evidence of a different building; "Ava", "Enara" and "Za'abeel" are.
 GENERIC_WORDS = {"the", "at", "by", "of", "and", "a", "in", "on", "l",
                  "tower", "towers", "building", "buildings", "block", "blocks", "phase",
-                 "residences", "residence", "apartments", "apts", "dubai"}
+                 "residences", "residence", "apartments", "apts", "dubai", "villa", "villas"}
 
 
 def distinctive(s):
@@ -374,6 +374,96 @@ def main():
             o["client_sheet"] = _cs
             _n_cs += 1
         slim[k_] = o
+    # 17 Sep 2026 - the developer card's join, computed HERE and shipped as a dictionary.
+    #
+    # A card used to find its building at read time by normalising the name and, failing that, by
+    # taking a key the name starts with. Both halves went wrong in ways nobody could see from the
+    # card: "One at Palm Jumeirah" opened AVA AT PALM JUMEIRAH BY OMNIYAT, five Madinat Jumeirah
+    # Living towers opened "Madina Tower", and Treppan Serenique opened Treppan Tower's fact sheet
+    # while its own record sat one key away. The card showed another building's prices, its twin and
+    # its map, all three at once, on a document carrying Naj's licence.
+    #
+    # Two rules, applied once, here, where the names and the data are in the same place:
+    #   LONGEST WINS. A short key is not a match just because a name begins with it. Taking the
+    #   first or shortest is what sent Marina Cove, Marina Place 1 and 2 and Oxford Cove to a
+    #   "Marina Tower" and an "Oxford Tower" they have nothing to do with.
+    #   THE NAMES MUST AGREE. same_building() asks whether the record is another NAME for this
+    #   building or another BUILDING. This is the only thing that separates Eden House The Park from
+    #   Eden House Za'abeel, because a prefix cannot.
+    #
+    # Shipping the verdict rather than the rule is deliberate. The worker, the search index and this
+    # file each used to decide it separately, and every time one of us reimplemented another's
+    # matching we got a different and confidently wrong answer. One entry now carries the record,
+    # the twin and the sheet, so those three can no longer disagree about which building a card is.
+    joins, refused, corrected = {}, [], 0
+    try:
+        _cards = json.load(open(os.path.join(BOARD, "board_devs.json"), encoding="utf-8")).get("developers") or []
+    except Exception:
+        _cards = []
+    _by_len = sorted(slim, key=len, reverse=True)
+    for _d in _cards:
+        for _p in (_d.get("properties") or []):
+            _nm = _p.get("name")
+            if not _nm:
+                continue
+            _k = nkey(_nm)
+            if not _k:
+                continue
+            _hit = _k if _k in slim else None
+            if not _hit:
+                # Longest first. A flat length floor was the wrong instrument here: at 9 it threw
+                # away "Albero At Dubai Creek Harbour" -> Albero, and at 4 it accepted five Four
+                # Seasons cards onto a record called "Four", "Golf Views" onto Golf Tower and "Pearl
+                # House" onto The Pearl - the last two carrying a fact sheet. Length was never what
+                # made those wrong; AMBIGUITY was. A key that fronts many records is a word
+                # ("golf" fronts 13, "marina" 54); a key that fronts one or two is a name ("albero"
+                # fronts 1, "sterling" 2). Same rule as the search index's family-prefix refusal.
+                for _kk in _by_len:
+                    if len(_kk) < 4 or not _k.startswith(_kk):
+                        continue
+                    if len({(slim[k2].get("name") or "").strip().lower()
+                            for k2 in slim if k2.startswith(_kk)}) > 2:
+                        continue                      # a family, not a building
+                    if not distinctive(slim[_kk].get("name")):
+                        continue                      # a record with no name of its own to match
+                    _hit = _kk
+                    corrected += 1
+                    break
+            if not _hit:
+                # THE OTHER DIRECTION. A card is often the SHORTER name: the card says "Sobha
+                # SeaHaven" and the register says "SOBHA SEAHAVEN - TOWER A"; "Hillmont Residences"
+                # against "Hillmont Ellington"; "Art Bay" against "Art Bay West". Searching only for
+                # a key the card starts with dropped 30-odd correct joins, several of them onto a
+                # record with the SAME NAME, which is how I noticed.
+                #
+                # This direction needs its own guard, because a one-word card name is a net: "Marina"
+                # is a prefix of dozens of keys and would take whichever came first. A card with a
+                # single distinctive word may only match when it matches exactly ONE key; a card that
+                # names two or more things is specific enough to take the closest.
+                _rev = sorted((kk for kk in slim if kk != _k and kk.startswith(_k)), key=len)
+                if _rev and (len(distinctive(_nm)) >= 2 or len(_rev) == 1):
+                    _hit = next((kk for kk in _rev if same_building(slim[kk].get("name"), _nm)), None)
+                    if _hit:
+                        corrected += 1
+            if not _hit:
+                continue
+            _rec = slim[_hit]
+            if not same_building(_rec.get("name"), _nm):
+                refused.append((_nm, _rec.get("name")))
+                continue
+            _e = {"k": _hit}
+            for _f, _v in (("sheet", _rec.get("client_sheet")), ("d", _rec.get("district")), ("i", _rec.get("i"))):
+                if _v is not None:
+                    _e[_f] = _v
+            joins[_k] = _e
+    _n_cards = sum(len(_d.get("properties") or []) for _d in _cards)
+    print("  card joins: %d of %d cards joined, %d refused because the names name different buildings"
+          % (len(joins), _n_cards, len(refused)))
+    for _a, _b in refused:
+        print("      refused %-42s would have opened %s" % (_a[:42], _b))
+    json.dump({"generated": today, "joins": joins}, open(os.path.join(BOARD, "card_joins.json"), "w", encoding="utf-8"), ensure_ascii=False)
+    if not dry: print("  card_joins ->", push("card_joins", {"generated": today, "joins": joins}, tok).get("ok"))
+
     json.dump({"generated": today, "projects": projects_out}, open(os.path.join(BOARD, "unitmix_projects.json"), "w", encoding="utf-8"), ensure_ascii=False)
     json.dump({"generated": today, "projects": slim}, open(os.path.join(BOARD, "unitmix_projects_slim.json"), "w", encoding="utf-8"), ensure_ascii=False)
     print(f"  client-sheet slugs on {_n_cs:,} projects")
