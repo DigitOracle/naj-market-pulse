@@ -142,6 +142,7 @@ footer{
     <span class="sub" id="masthead">loading…</span>
     <span class="spacer"></span>
     <button class="ghost" id="theme" type="button">Light / dark</button>
+    <button class="ghost" id="fitmode" type="button">Show all UAE</button>
     <button class="ghost" id="reset" type="button">Reset filters</button>
   </header>
 
@@ -334,10 +335,21 @@ footer{
   }
 
   /* ---------- projection / view ---------- */
-  function fit(){
-    var b = DATA.bounds, w = cv.clientWidth, h = cv.clientHeight;
-    var s = Math.min(w / (b[2]-b[0]), h / (b[3]-b[1]));
+  var fitMode = "dubai";            // which frame the page opened on
+  function frameOf(which){
+    return (which === "all" || !DATA.view) ? DATA.bounds : DATA.view;
+  }
+  function scaleFor(b){
+    return Math.min(cv.clientWidth / (b[2]-b[0]), cv.clientHeight / (b[3]-b[1]));
+  }
+  // Zoom-out floor comes from the DATA frame, never the opening one: opening on Dubai must not
+  // fence the other emirates' points off the map.
+  function minScale(){ return scaleFor(DATA.bounds) * 0.9; }
+  function fit(which){
+    var b = frameOf(which || fitMode), w = cv.clientWidth, h = cv.clientHeight;
+    var s = scaleFor(b);
     view = {s:s, x:(w - (b[2]-b[0])*s)/2 - b[0]*s, y:h + b[1]*s - (h - (b[3]-b[1])*s)/2};
+    view.s0 = s;
   }
   function sx(x){ return x * view.s + view.x; }
   function sy(y){ return view.y - y * view.s; }
@@ -441,7 +453,7 @@ footer{
   cv.addEventListener("wheel", function(e){
     e.preventDefault();
     var k = Math.exp(-e.deltaY * 0.0014);
-    var ns = Math.max(view.s0 * 0.85, Math.min(view.s * k, view.s0 * 90));
+    var ns = Math.max(minScale(), Math.min(view.s * k, view.s0 * 90));
     var mx = e.offsetX, my = e.offsetY;
     view.x = mx - (mx - view.x) * (ns / view.s);
     view.y = my - (my - view.y) * (ns / view.s);
@@ -512,7 +524,12 @@ footer{
       document.getElementById("f-kw").value = 0; document.getElementById("kw-val").textContent = "any";
       document.getElementById("f-conn").value = 1; document.getElementById("conn-val").textContent = "any";
       document.getElementById("f-q").value = "";
-      fit(); view.s0 = view.s; apply();
+      fit(); apply();
+    });
+    document.getElementById("fitmode").addEventListener("click", function(){
+      fitMode = (fitMode === "dubai") ? "all" : "dubai";
+      this.textContent = (fitMode === "dubai") ? "Show all UAE" : "Back to Dubai";
+      fit(); draw();
     });
     window.addEventListener("resize", resize);
   }
@@ -542,7 +559,7 @@ footer{
     });
 
     buildChecks(); paintSwatches(); wire();
-    resize(); fit(); view.s0 = view.s;
+    resize(); fit();
     apply();
   }
 

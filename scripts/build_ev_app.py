@@ -38,9 +38,17 @@ HWY = os.path.join(ROOT, "data", "ev", "_overpass_highways.json")
 AREAS = os.path.join(PUB, "mp_areas.json")
 OUT = os.path.join(PUB, "ev_app_data.json")
 
-# Frame: the built-up corridor plus Hatta's approach. Everything outside is still in the payload;
-# the page clamps the view rather than dropping points.
+# Two frames, because they answer different questions.
+#
+# LO/LA is the DATA frame: how much basemap to ship and how far out the page may zoom. It reaches
+# past Dubai because the OCM pull was country-wide (AE) and 49 points sit in Abu Dhabi, Al Ain and
+# the Western Region. Nothing is dropped for being outside Dubai.
+#
+# VIEW_* is the OPENING frame: Dubai only. Opening on the whole country put the emirate in a corner
+# and the map read as mostly empty. The page opens here and zooms out to the data frame on request,
+# so the other emirates are one click away rather than gone.
 LO0, LA0, LO1, LA1 = 54.85, 24.70, 56.20, 25.45
+VIEW_LO0, VIEW_LA0, VIEW_LO1, VIEW_LA1 = 54.88, 24.78, 55.66, 25.36
 ROAD_KEEP = {"motorway": 0, "trunk": 1, "primary": 2, "secondary": 3}   # class -> weight for the page
 
 
@@ -213,8 +221,14 @@ def main():
 
     bx0, by0 = merc(LO0, LA0)
     bx1, by1 = merc(LO1, LA1)
+    vx0, vy0 = merc(VIEW_LO0, VIEW_LA0)
+    vx1, vy1 = merc(VIEW_LO1, VIEW_LA1)
+    outside = sum(1 for p in out_pts
+                  if not (VIEW_LO0 <= p["lon"] <= VIEW_LO1 and VIEW_LA0 <= p["lat"] <= VIEW_LA1))
     payload = {
         "bounds": [round(bx0, 1), round(by0, 1), round(bx1, 1), round(by1, 1)],
+        "view": [round(vx0, 1), round(vy0, 1), round(vx1, 1), round(vy1, 1)],
+        "outside_view": outside,
         "points": out_pts,
         "areas": sorted({p["area"] for p in out_pts if p["area"]}),
         "highways": sorted(hwys),

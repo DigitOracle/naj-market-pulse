@@ -286,6 +286,10 @@ def prt_generate(points, rpk, origin, up):
     square footprint already sitting at the projected coordinate, so the rule only has to build
     upwards. PRT returns an empty model list (no exception) when a rule fails, so that is checked."""
     import pyprt
+    # PRT resolves the rule package itself and needs an ABSOLUTE path: handed a relative one it
+    # reports "RPK/7zip file has invalid header" for the path with the drive letter stripped, which
+    # reads like a corrupt archive rather than the missing file it actually is.
+    rpk = os.path.abspath(rpk)
     shapes, meta = [], []
     for p in points:
         m = MASSING.get(p.get("archetype"), UNKNOWN)
