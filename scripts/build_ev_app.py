@@ -19,7 +19,7 @@ position as render_heatmap.py.
 
     python scripts/build_ev_app.py          # -> public/ev_app_data.json
 """
-import json, math, os, sys
+import io, json, math, os, sys
 
 import duckdb
 import geopandas as gpd
@@ -50,14 +50,42 @@ def merc(lon, lat):
     return x, y
 
 
+GEOJSON = os.path.join(ROOT, "data", "ev", "ev_charge_points.geojson")
+
+
 def points():
-    con = duckdb.connect(DB, read_only=True)
-    df = con.execute("""select point_id, source, authority, operator, location_name, location_address,
-                               latitude, longitude, totalnbofconnectors, connectortype, max_power_kw,
-                               source_url, archetype
-                        from v_ev_charge_points""").fetchdf()
-    con.close()
-    return df
+    """v_ev_charge_points, from DuckDB if it is readable and from the exported GeoJSON if it is not.
+
+    The nightly refresh_runner holds a WRITE lock on najma.duckdb for as long as it runs, and DuckDB
+    lets no other process in while it does -- read_only included. build_ev_union.py --export already
+    writes the same rows to data/ev/ev_charge_points.geojson, so the app can be rebuilt during a
+    refresh instead of waiting it out. The fallback is announced, never silent: rebuilding from an
+    export that predates the current union would quietly publish stale counts."""
+    try:
+        con = duckdb.connect(DB, read_only=True)
+        df = con.execute("""select point_id, source, authority, operator, location_name,
+                                   location_address, latitude, longitude, totalnbofconnectors,
+                                   connectortype, max_power_kw, source_url, archetype
+                            from v_ev_charge_points""").fetchdf()
+        con.close()
+        return df
+    except Exception as e:
+        if not os.path.exists(GEOJSON):
+            raise
+        import datetime as _dt
+        import pandas as pd
+        age = _dt.datetime.fromtimestamp(os.path.getmtime(GEOJSON))
+        print(f"NOTE: DuckDB unavailable ({str(e).splitlines()[0][:80]});")
+        print(f"      reading the export written {age:%Y-%m-%d %H:%M} instead "
+              f"-- re-run build_ev_union.py --export if that is older than your last ingest.")
+        fc = json.load(io.open(GEOJSON, encoding="utf-8"))
+        rows = []
+        for feat in fc["features"]:
+            p = dict(feat["properties"])
+            lon, lat = feat["geometry"]["coordinates"]
+            p["longitude"], p["latitude"] = lon, lat
+            rows.append(p)
+        return pd.DataFrame(rows)
 
 
 def load_areas():
@@ -144,6 +172,13 @@ def main():
 
     # pandas hands back float('nan') for a missing string, and NaN is TRUTHY -- `x or "Unknown"`
     # keeps the NaN and json.dump writes a bare NaN, which is not valid JSON and killed the page.
+    def num(v, cast):
+        """None (GeoJSON) and NaN (DuckDB) both mean not recorded; anything else casts."""
+        if v is None: return None
+        if isinstance(v, float) and v != v: return None
+        try: return cast(v)
+        except (TypeError, ValueError): return None
+
     def s(v, default=None):
         if v is None: return default
         if isinstance(v, float) and v != v: return default
@@ -166,8 +201,10 @@ def main():
             "ad": s(r["location_address"], ""),
             "op": s(r["operator"], "Unknown"),
             "src": s(r["source"]), "auth": s(r["authority"]), "arch": s(r["archetype"]),
-            "c": int(r["totalnbofconnectors"]) if r["totalnbofconnectors"] == r["totalnbofconnectors"] else 0,
-            "kw": (None if kw is None or kw != kw else float(kw)),
+            # null means "not recorded" (21 OSM rows), never "no connectors" -- DuckDB hands that back
+            # as NaN and the GeoJSON path as None, so both have to be caught here.
+            "c": num(r["totalnbofconnectors"], int),
+            "kw": num(kw, float),
             "ct": s(r["connectortype"], ""),
             "url": s(r["source_url"]),
             "area": area, "hwy": ref, "hwyd": dist,
@@ -184,7 +221,8 @@ def main():
         "basemap": basemap(),
         "meta": {
             "total": len(out_pts),
-            "connectors": int(sum(p["c"] for p in out_pts)),
+            "connectors": int(sum(p["c"] for p in out_pts if p["c"] is not None)),
+            "connectors_unrecorded": sum(1 for p in out_pts if p["c"] is None),
             "register": sum(1 for p in out_pts if p["auth"] == "register"),
             "community": sum(1 for p in out_pts if p["auth"] == "community"),
             "dewa_published": 2223,

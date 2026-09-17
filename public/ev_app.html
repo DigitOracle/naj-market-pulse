@@ -315,12 +315,13 @@ footer{
 
   function updateCounts(){
     var conn = 0;
-    shown.forEach(function(p){ conn += p.c || 0; });
+    var unk = 0;
+    shown.forEach(function(p){ if (p.c == null) unk++; else conn += p.c; });
     document.getElementById("ro-n").textContent = shown.length.toLocaleString();
     document.getElementById("ro-s").textContent =
       shown.length === pts.length
-        ? (conn.toLocaleString() + " connectors · everything in the layer")
-        : (conn.toLocaleString() + " connectors · of " + pts.length.toLocaleString() + " total");
+        ? (conn.toLocaleString() + " connectors" + (unk ? " · " + unk + " not recorded" : "") + " · everything in the layer")
+        : (conn.toLocaleString() + " connectors" + (unk ? " · " + unk + " not recorded" : "") + " · of " + pts.length.toLocaleString() + " total");
     // per-facet counts respect every OTHER filter, so a zero tells you the combination is empty
     ARCH.forEach(function(a){
       var el = document.getElementById("n-"+a.k);
@@ -388,7 +389,7 @@ footer{
     list.forEach(function(p){
       var x = sx(p.x), y = sy(p.y);
       if (x < -20 || y < -20 || x > w+20 || y > h+20) return;
-      var r = 3.1 + Math.min(p.c || 1, 6) * 0.72;
+      var r = 3.1 + Math.min(p.c == null ? 1 : p.c, 6) * 0.72;
       var col = css(ARCH.filter(function(a){ return a.k === p.arch; })[0].v);
       ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832);
       if (p.auth === "register"){
@@ -454,7 +455,7 @@ footer{
     var rows = [
       ["Operator", p.op],
       ["Class", (ARCH.filter(function(a){ return a.k === p.arch; })[0] || {}).label],
-      ["Connectors", p.c || "—"],
+      ["Connectors", p.c == null ? "not recorded" : p.c],
       ["Max power", p.kw != null ? p.kw + " kW" : "not recorded"],
       ["Connector types", p.ct || "—"],
       ["Community", p.area || "outside mapped areas"],
