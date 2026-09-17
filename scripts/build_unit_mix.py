@@ -101,6 +101,11 @@ def same_building(primary, alias):
     buildings each carry a word the other does not: "One at Palm Jumeirah" has ONE, "Ava at Palm
     Jumeirah by Omniyat" has AVA, and neither contains the other. A pair with nothing to judge on
     is allowed through, so this can only ever remove a key it has positive reason to doubt."""
+    # Spacing is not identity. "Sea Cliff by Imtiaz" and "Seacliff by Imtiaz" are one building
+    # written two ways, and the word test refuses them because SEA/CLIFF and SEACLIFF share no
+    # token. Compare the letters first.
+    if nkey(primary) == nkey(alias):
+        return True
     a, b = distinctive(primary), distinctive(alias)
     return not a or not b or a <= b or b <= a
 
