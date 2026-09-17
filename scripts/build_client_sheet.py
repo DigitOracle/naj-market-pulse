@@ -109,18 +109,50 @@ def find_building(name, district=None):
     # one median on a sheet a buyer keeps. This is the day's other name-is-not-an-identity bug, and
     # it is the expensive one: a wrong link sends her to the wrong page, a wrong median sends a
     # client a wrong price.
+    # A median may only pool buildings of ONE project IN ONE PLACE. Grouping by project name alone
+    # was not enough: "AG TOWER" is a project name in Jumeirah Lake Towers AND in Business Bay, two
+    # unrelated buildings, and pooling them merged 1,174 JLT sales with 629 Business Bay sales into
+    # a single median. The Land Department reuses a project name across districts; it is a label,
+    # not an identifier.
     groups = {}
     for b in hits:
-        groups.setdefault(slugify(b.get("project")), []).append(b)
+        groups.setdefault((slugify(b.get("project")), b.get("_district")), []).append(b)
+
     if len(groups) > 1:
-        # the project actually asked for, else the deepest - never the union
-        pick = want if want in groups else max(groups, key=lambda g: sum(
-            (x.get("sales") or x.get("n") or 0) for x in groups[g]))
+        def depth(g):
+            return sum((x.get("sales") or x.get("n") or 0) for x in groups[g])
+
+        def score(g):
+            # what the caller actually named beats what merely contains it: a building called
+            # exactly "AG TOWER" beats a project called "AG TOWER" whose building is "Gold Tower".
+            rows_ = groups[g]
+            if any(slugify(x.get("building")) == want for x in rows_):
+                return 2
+            if g[0] == want:
+                return 1
+            return 0
+
+        best = max(groups, key=lambda g: (score(g), depth(g)))
+        # A tie on name is only a tie when the two are comparable. The register puts the SAME
+        # building name under two projects often enough that a strict tie-break refused things
+        # nobody would call ambiguous: "Capital Bay A" is 423 sales under project CAPITAL BAY A and
+        # 10 under CAPITAL BAY B, and "Oxford Terraces" is 202 in JVC against 44 filed under Royal
+        # Manor. One of those is the building; the other is a handful of rows filed oddly. Where the
+        # runner-up is within a third of the leader - Silver Tower at 1,215 against 708, CAPRIA 1 at
+        # 59 against 63 - they really are two buildings and we must not choose.
+        tied = [g for g in groups
+                if score(g) == score(best) and g != best and depth(g) * 3 > depth(best)]
+        if tied and score(best) > 0:
+            # Two different buildings in two different districts answer to this name equally well -
+            # "Silver Tower" is in Business Bay and in JLT. Picking the bigger one would put another
+            # district's prices under the name she typed. She can name the district instead.
+            FIND_EXCLUDED.append((name, "ambiguous: %s" % " / ".join(
+                "%s in %s" % (groups[g][0].get("project"), g[1]) for g in [best] + tied), 0))
+            return []
         for g in groups:
-            if g != pick:
-                FIND_EXCLUDED.append((name, groups[g][0].get("project"),
-                                      sum((x.get("sales") or x.get("n") or 0) for x in groups[g])))
-        hits = groups[pick]
+            if g != best:
+                FIND_EXCLUDED.append((name, "%s in %s" % (groups[g][0].get("project"), g[1]), depth(g)))
+        hits = groups[best]
     return hits
 
 

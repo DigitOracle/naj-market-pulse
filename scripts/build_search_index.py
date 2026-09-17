@@ -88,24 +88,51 @@ def resolve_sheet(sheets, name):
     return None if (best is None or ambiguous) else best[1]
 
 
+# Jumeirah Lake Towers arrives under three tile names for one place. Treating them as different
+# districts would make every JLT project look like a cross-district collision.
+ONE_PLACE = {"althanyahfifth": "jlt", "jltnorth": "jlt", "jltsouth": "jlt"}
+
+
 def sheet_slugs():
-    """nk(project or building name) -> the slug build_client_sheet.py writes."""
-    out = {}
+    """nk(project or building name) -> the slug build_client_sheet.py writes.
+
+    A project NAME is not unique. "AG TOWER" names a tower in Jumeirah Lake Towers and a different
+    one in Business Bay; so do Botanica, Capital One, Imperial Residence and Indigo Tower. Both
+    resolved to the same slug, so a sheet built for one would have been served under the other's
+    address - and whichever was pushed second would silently replace the first. Where a project name
+    is used in more than one place the slug carries the place, and a NAME that would lead to two
+    different buildings leads to neither.
+    """
+    rows, places = [], {}
     for f in sorted(os.listdir(DLD)):
         if not (f.startswith("tx_buildings_") and f.endswith(".json")):
             continue
+        d = f[len("tx_buildings_"):-len(".json")]
         for b in load(os.path.join(DLD, f), {}).get("buildings", []):
             proj = b.get("project")
             if not proj:
                 continue
-            slug = re.sub(r"[^a-z0-9]+", "_", proj.lower()).strip("_")[:50]
-            for nm in (proj, b.get("building")):
-                k = nk(nm)
-                # A tower ("Bellevue Towers-1") resolves to its development's sheet; the longest
-                # project name wins a collision so "Peninsula Four" does not capture "Peninsula Five".
-                if k and (k not in out or len(slug) > len(out[k])):
-                    out[k] = slug
-    return out
+            base = re.sub(r"[^a-z0-9]+", "_", proj.lower()).strip("_")[:50]
+            where = ONE_PLACE.get(d, d)
+            places.setdefault(base, set()).add(where)
+            rows.append((base, where, proj, b.get("building")))
+
+    out, seen = {}, {}
+    for base, where, proj, bld in rows:
+        slug = base if len(places[base]) == 1 else ("%s_%s" % (base, where))[:50]
+        for nm in (proj, bld):
+            k = nk(nm)
+            if not k:
+                continue
+            if k in seen and seen[k] != slug:
+                out[k] = None            # two different buildings answer to this name: neither wins
+                continue
+            # A tower ("Bellevue Towers-1") resolves to its development's sheet; the longest project
+            # name wins a collision so "Peninsula Four" does not capture "Peninsula Five".
+            if k not in out or (out[k] is not None and len(slug) > len(out[k])):
+                out[k] = slug
+                seen[k] = slug
+    return {k: v for k, v in out.items() if v}
 
 
 def main():
