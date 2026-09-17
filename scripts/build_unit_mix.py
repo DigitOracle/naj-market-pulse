@@ -80,6 +80,31 @@ def load_sheets():
     return out
 
 
+# Words that distinguish one building from another, as against the ones every other tower also
+# carries. "Tower", "Building" and a number separate phases of ONE development, so they are not
+# evidence of a different building; "Ava", "Enara" and "Za'abeel" are.
+GENERIC_WORDS = {"the", "at", "by", "of", "and", "a", "in", "on", "l",
+                 "tower", "towers", "building", "buildings", "block", "blocks", "phase",
+                 "residences", "residence", "apartments", "apts", "dubai"}
+
+
+def distinctive(s):
+    return {w for w in re.split(r"[^a-z0-9]+", str(s or "").lower())
+            if w and w not in GENERIC_WORDS and not w.isdigit()}
+
+
+def same_building(primary, alias):
+    """Is `alias` another name for `primary`, or the name of a DIFFERENT building?
+
+    A register name and a marketing name for one building differ by word order, a filler word or a
+    tower number - one name's distinctive words are contained in the other's. Two different
+    buildings each carry a word the other does not: "One at Palm Jumeirah" has ONE, "Ava at Palm
+    Jumeirah by Omniyat" has AVA, and neither contains the other. A pair with nothing to judge on
+    is allowed through, so this can only ever remove a key it has positive reason to doubt."""
+    a, b = distinctive(primary), distinctive(alias)
+    return not a or not b or a <= b or b <= a
+
+
 def main():
     dry = "--dry" in sys.argv; want = [a for a in sys.argv[1:] if not a.startswith("--")]
     slugs = want or sorted(os.path.basename(p)[10:-5] for p in glob.glob(os.path.join(BOARD, "bldgfacts_*.json")))
@@ -283,8 +308,17 @@ def main():
             if not any(r.get("levels") for r in rec["rows"]): rec["needs"].append("floors per type (DLD units register once the footprint is named)")
             if not rec["sheet"]: rec["needs"].append("developer availability sheet for what is on offer now")
             out[i] = rec; tot[rec["status"]] += 1
+            # A footprint is registered under its own name and ONE alias, because a building is
+            # looked up by the name the register carries as well as the name the developer markets.
+            # The alias has to be another name for THIS building. Where it was not, this key handed
+            # out another building's record entirely - and not only its prices: the same lookup
+            # drives "on the twin" and "on the map" on every developer card, so
+            # "One at Palm Jumeirah" opened AVA AT PALM JUMEIRAH BY OMNIYAT, and three Eden Houses
+            # in three different communities all opened the Za'abeel one. No record beats the wrong
+            # record, so an alias that names something else is dropped rather than keyed.
             for nm in cand_names[:2]:
-                if nm: projects_out.setdefault(nkey(nm), dict(rec, district=slug, i=int(i)))
+                if nm and same_building(rec.get("name"), nm):
+                    projects_out.setdefault(nkey(nm), dict(rec, district=slug, i=int(i)))
         json.dump({"district": slug, "generated": today, "buildings_by_id": out}, open(os.path.join(BOARD, f"unitmix_{slug}.json"), "w", encoding="utf-8"), ensure_ascii=False)
         c = collections.Counter(r["status"] for r in out.values())
         print(f"  {slug:<24} {len(out):>5} buildings | verified {c.get('verified',0):>4} partial {c.get('partial',0):>4} placeholder {c.get('placeholder',0):>5}" + ("" if dry else f" -> {push('unitmix_' + slug, {'district': slug, 'generated': today, 'buildings_by_id': out}, tok).get('ok')}"))
