@@ -66,14 +66,17 @@ SENTENCES = [
     (True,  "LOOKED: wide aerial exterior of the whole tower from the street.", "a plain yes"),
     (True,  "LOOKED: FILENAME IS WRONG - not a bedroom. A full-height exterior elevation at dusk.",
      "the negation belongs to the NAME; what follows is the truth"),
+    (True,  "LOOKED: wide exterior PHOTOGRAPH (not a render) of the completed tower from the street.",
+     "a medium clarification is an endorsement, not a negation - this was Boulevard Point's only "
+     "exterior and the 'not a' threw it away"),
 ]
 
 
 def test_sentences():
-    from propose_roles import EXTERIOR, FROM_INSIDE, NEGATED, WEAK, FILENAME_LIE
+    from propose_roles import EXTERIOR, FROM_INSIDE, NEGATED, WEAK, FILENAME_LIE, NOT_MEDIUM
     wrong = 0
     for want, note, why in SENTENCES:
-        n = FILENAME_LIE.sub("", note, count=1)
+        n = NOT_MEDIUM.sub("", FILENAME_LIE.sub("", note, count=1))
         got = bool(EXTERIOR.search(n)) and not (FROM_INSIDE.search(n) or NEGATED.search(n)
                                                 or WEAK.search(n))
         wrong += got != want

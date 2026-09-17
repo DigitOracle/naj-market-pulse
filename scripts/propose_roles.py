@@ -41,16 +41,16 @@ SOURCES = os.path.join(ROOT, "data", "media", "_sources")
 # building disqualifies.
 FROM_INSIDE = re.compile(
     r"(\bbalcony (view|shot|render|photo)|\bon (a|the|its) balcon|\bterrace|"
-    r"\bfrom (a|an|the|its) (balcon|terrace|window|apartment|suite|room|podium|"
-    r"pool|rooftop|lobby|deck)|looking (out|onto)\b|\bview out\b|"
+    r"\bfrom (inside |within )?(a|an|the|its) (balcon|terrace|window|apartment|suite|room|"
+    r"podium|pool|rooftop|lobby|deck|courtyard|atrium)|looking (out|onto)\b|\bview out\b|"
     r"\boverlooking\b|\bwindow\b|\bpodium pool|\bpool deck|lap[- ]pool|rooftop pool|"
-    r"\bcourtyard|\bpromenade\b|\bcommunity context|\blobby\b|\bfoyer\b|\bcorridor\b)", re.I)
+    r"\bpromenade\b|\bcommunity context|\blobby\b|\bfoyer\b|\bcorridor\b)", re.I)
 
 # The scouts write a correction in plain words and often capitalise the NOT. Anything that says the
 # picture is not what it claims, or is a building site rather than a building, is out.
 NEGATED = re.compile(
     r"(\bis not\b|\bare not\b|\bnot the\b|\bnot an?\b|\bno building\b|\bdoes not\b|"
-    r"\brather than\b|\binstead of\b|construction (photo|progress|site)|\bhoarding\b|\bcrane|"
+    r"\binstead of\b|construction (photo|progress|site)|\bhoarding\b|\bcrane|"
     r"\bmislabel|\bwrong\b|\bdifferent building\b|\bcut[- ]?out\b|\blifestyle\b)", re.I)
 
 # Positive evidence only: words that can only describe the building seen from outside. "The building"
@@ -77,6 +77,16 @@ WEAK = re.compile(
     r"(\bbest available\b|\bpartial\b|\bsliver\b|\bglimpse\b|\bbarely\b|\bobscured\b|"
     r"\bframe edge\b|\bedge of (the )?frame\b|\bflagged\b|\btight (exterior )?crop\b|"
     r"\bcropped\b|\bnot ideal\b|\bfragment\b)", re.I)
+
+# "wide exterior PHOTOGRAPH (not a render)" is a scout being PRECISE about the medium, and the
+# sentence is an endorsement. NEGATED read the "not a" and threw the picture away - the only exterior
+# Boulevard Point has. A negation about whether something is a render or a photo says nothing about
+# WHICH BUILDING it shows, which is the only thing NEGATED exists to judge.
+NOT_MEDIUM = re.compile(
+    r"\(?\b(?:not|no)\s+an?\s+(?:render|rendering|cgi|photo|photograph|drawing|illustration|"
+    r"sketch|mock[- ]?up|balcony view|balcony shot|interior|interior shot|community park scene|"
+    r"community shot|community scene|lifestyle shot|lifestyle image|floor ?plan|amenity shot|"
+    r"amenity aerial|close[- ]?up)\b\)?", re.I)
 
 ROOMS = [("bedroom", re.compile(r"\bbed\s?room\b", re.I)),
          ("kitchen", re.compile(r"\bkitchen\b", re.I)),
@@ -122,7 +132,7 @@ def propose(man):
         key = slugify(os.path.splitext(name)[0])[:28]
         return by_key.get(key)
 
-    heroes, rooms, amen, rejected = [], {}, None, []
+    heroes, rooms, amen, rejected, excluded = [], {}, None, [], []
     for im in man.get("images", []):
         note = im.get("note") or ""
         got = find(im["url"])
@@ -141,8 +151,13 @@ def propose(man):
         # sentence threw away Sanctuary Residences' wide aerial on the strength of "not an
         # apartment".
         note = FILENAME_LIE.sub("", note, count=1)
+        note = NOT_MEDIUM.sub("", note)
         body = note
         if FROM_INSIDE.search(note) or NEGATED.search(note) or WEAK.search(note):
+            # Write the disqualification down, not just the refusal to lead with it. The wiring
+            # assigns roles from the media register and has never read these notes, so a picture
+            # this rejected as a hero was still free to turn up as "interior_1".
+            excluded.append(mid)
             if EXTERIOR.search(note):
                 rejected.append((im["url"].rsplit("/", 1)[-1][:34], note.strip()[:70]))
         elif EXTERIOR.search(note):
@@ -165,7 +180,7 @@ def propose(man):
 
     return {"project": project, "developer": man.get("developer"), "area": man.get("area"),
             "page": man.get("page"), "hero": hero, "rooms": rooms, "amenity": amen,
-            "rejected": rejected}
+            "rejected": rejected, "excluded": excluded}
 
 
 def main():
@@ -207,7 +222,11 @@ def write_facts(slug, p):
         over[role] = mid
         caps[role] = {"bedroom": "Bedroom", "kitchen": "Kitchen", "bath": "Bathroom",
                       "living": "Living room"}[role]
-    if p["amenity"] and "amenity" not in over:
+    # A role a picture may never hold is as much a decision as one it does hold, and it belongs in
+    # the tracked facts file so it survives the next rebuild.
+    keep = set(over.values())
+    ex = [m for m in dict.fromkeys(p.get("excluded") or []) if m not in keep]
+    if p["amenity"] and "amenity" not in over and p["amenity"][0] not in over.values():
         over["amenity"] = p["amenity"][0]
         caps["amenity"] = "Amenities"
     d = {
@@ -216,6 +235,10 @@ def write_facts(slug, p):
       "developer": dev,
       "strapline": "%s%s" % (dev, ", " + p["area"] if p.get("area") else ""),
       "asset_overrides": over,
+      "asset_exclude": ex,
+      "_exclude_note": ("Pictures a scout opened and disqualified in writing - shot from a balcony "
+                        "or terrace, a lobby under an exterior's filename, or a different building. "
+                        "They are out of the running for EVERY role, not merely the hero."),
       "_override_note": ("Roles proposed from a scout's written record of what each image ACTUALLY "
                          "SHOWS, after opening it - not from filenames, which misdescribe the picture "
                          "on every developer we have checked. The hero is an exterior of the building "

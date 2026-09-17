@@ -1,0 +1,17 @@
+{
+  "project": "Urbana III",
+  "developer": "Emaar",
+  "area": "Emaar South",
+  "page": "https://www.emaar.com/en/properties/urbana-iii",
+  "_note": "Read 17 Sep 2026 on emaar.com only; no portal or aggregator was opened. Live Emaar pages found via www.emaar.com/sitemap.xml: /en/properties/urbana-iii and /en/properties/urbana (phase I). /en/properties/urbana-ii returns HTTP 200 but renders 'Property Not Found' - Urbana II has NO live Emaar page. Each live page carries exactly ONE property image (its hero) plus a shared five-image 'attraction' strip. Emaar's alt text is worthless ('Property Image 1', 'Strapi image') and its filenames are generic, so every image below was opened full-size in the browser and described from what was on screen. EXCLUDED: the whole Emaar South attraction strip - 291888 (opened and looked at: an aerial CGI render of a landscaped community park with winding paths, with a distant skyline of unrelated mid-rise blocks - this is the Emaar South community masterplan, NOT Urbana, and is exactly the generic community shot we must not let stand in for the building), plus 291891 'Al Maktoum Intl Airport', 292861 '18-Hole Championship Golf Course', 292864 'Kids Play Area' and 292858 'Community Park' - all community amenity imagery reused across every Emaar South project. BROCHURE GATED: the page's 'DOWNLOAD BROCHURE' button opens Emaar's 'Register Your Interest' form asking for name, email and phone. That form was NOT filled in and nothing behind it was fetched, so no brochure, floor plan or payment plan imagery is registered. Net result: 2 images, only 1 of which is a true wide exterior of the development.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/3300_property_Hero_Image_d7317be989.jpg",
+      "note": "LOOKED: EXTERIOR, street-level, CGI RENDER (not a photograph) - Urbana III phase, from the Urbana III page hero. A row of cream two-storey townhouses with dark-framed full-height glazing and flat roofs runs away down the right side of a residential street, each home fronted by an open carport with a car parked under it. A mature broadleaf tree and palms line the kerb, a planted median strip sits in the road, a blue saloon car is on the left carriageway, a man wheels a bicycle and small groups of residents stand by the carports; warm interior lights are on and the sky is at dusk. Genuine wide exterior of the Urbana townhouse product. 2000x1153."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/11659_property_Hero_Image_ddeb3c3f94.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not a hero exterior of the building. This is Urbana phase I's page hero, and it is shot FROM the building, not of it: the camera stands on a private upper-floor balcony/terrace of an Urbana home, looking out over the railing. The foreground is the terrace itself - metal balustrade, a round cafe table set for two with coffee cups, a cake and candles, two cushioned chairs, a potted palm, and a man standing at the rail with his back to us. Beyond the railing and across the road is a row of Urbana townhouses at dusk with lit windows, palms and parked cars. It does show Urbana homes in the middle distance, but it is a balcony/lifestyle view out - NEVER use as the hero. Belongs to Urbana phase I. 1620x832."
+    }
+  ]
+}

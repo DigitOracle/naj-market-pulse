@@ -271,6 +271,24 @@ def main():
         # absurd as the lead image on a fact sheet. Overrides live in the tracked facts file so the
         # decision survives the next rebuild.
         over = (facts_for(slug) or {}).get("asset_overrides") or {}
+        # Some pictures are not merely un-chosen, they are DISQUALIFIED: a scout opened them and
+        # wrote down that the shot is taken from a balcony, or is a different building, or is a
+        # lobby wearing an exterior's filename. The heuristic cannot see any of that and will
+        # happily spend such a picture on interior_1 - Urbana III went out with a cafe table on a
+        # terrace under a heading that said Interiors. An excluded picture is out of the running
+        # for every role, not just the hero.
+        _excl = set((facts_for(slug) or {}).get("asset_exclude") or [])
+        if _excl:
+            _before = len(rows)
+            rows = [r for r in rows if r["media_id"] not in _excl]
+            # The heuristic has already dealt the roles out by this point, so filtering the pool
+            # alone changes nothing - Urbana III kept the balcony shot as interior_1 and printed
+            # "1 picture excluded" in the same breath. Take it off the roles too.
+            for _role in [r for r, v in assigned.items() if v and v.get("media_id") in _excl]:
+                assigned.pop(_role, None)
+                notes.append("%s cleared - the scout disqualified that picture" % _role)
+            if len(rows) != _before:
+                notes.append("%d picture(s) excluded by the scout's note" % (_before - len(rows)))
         by_id = {r["media_id"]: r for r in rows}
         for role, mid in over.items():
             if mid in by_id:

@@ -1,0 +1,16 @@
+{
+  "_source": "Emaar project page, read 17 September 2026 (manifest: data/media/_sources/urbana_iii.json).",
+  "_assets_from": "Images published openly on that page. Anything behind an enquiry form was not fetched.",
+  "developer": "Emaar",
+  "strapline": "Emaar, Emaar South",
+  "asset_overrides": {
+    "hero": "m_7016b70f01be"
+  },
+  "asset_exclude": [
+    "m_b9e1a025b353"
+  ],
+  "_exclude_note": "Pictures a scout opened and disqualified in writing - shot from a balcony or terrace, a lobby under an exterior's filename, or a different building. They are out of the running for EVERY role, not merely the hero.",
+  "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
+  "captions": {},
+  "image_note": "Images are published by Emaar on its own project page, and are reproduced here for a buyer considering the building. Where they are computer renders they show the developer's intended specification, not any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
+}

@@ -1,0 +1,45 @@
+{
+  "project": "Belgravia",
+  "developer": "Ellington",
+  "area": "Jumeirah Village Circle",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/belgravia-jumeirah-village-circle",
+  "_note": "Ellington's own live page for the original Belgravia (Belgravia I, JVC, launched 2015, handed over 2017) is still up and carries its own media. All 9 images below come from that page's hero slider (2 slides), its three-up 'MainSection' widget (3) and its gallery widget (4); every asset path is literally Belgravia-I-*, so they belong to this building and not to a sibling. Every image was opened at full size and looked at before it was described. EXCLUDED: /wp-content/uploads/One-River-Point_Club-House-1.jpg (site-wide enquiry pop-up, a different Ellington project), summer-1.jpg (site-wide promo panel), Belgravia-Heights-I-Inner-600x400.jpg, bulgeria2-600x400.jpg and belgravia3-1-e1716891175817-600x400.jpg (the 'Explore similar properties' cards for Belgravia Heights I, Belgravia II and Belgravia III - explicitly out of scope), plus Ellington logos, footer logo, share/arrow/close SVGs and the Kenyt chatbot icons. No agency or portal source was used or opened. BROCHURE: gated - the page offers only 'ENQUIRE' and 'CONSTRUCTION UPDATE' buttons, both of which open a form demanding name, email and phone. No form was filled and no brochure was requested, so no brochure imagery is included. HONEST WEAKNESS: there is no true street-level elevation or aerial of Belgravia on the developer's page. The only wide exterior photography Ellington publishes here is shot from inside the central courtyard, so both exterior candidates are flagged as partial.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-img_1-1-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, photograph, ground-level view taken from inside the building's own central courtyard - not an aerial and not an elevation. The pool runs across the foreground with loungers and palms on a landscaped deck, and the residential wings rise on the left, right and far side with their dark timber-slatted balcony screens and pale stone piers. BEST AVAILABLE EXTERIOR - flagged: this is a partial exterior (courtyard/pool deck, three facades seen obliquely, no street frontage and no full building massing). 2560x1385."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-img_2-1-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, photograph, ground-level symmetrical view down the same central courtyard - not an aerial, not a render, not a street elevation. A green lawn fills the foreground with flowerbeds and white outdoor seating at the edges; two parallel residential wings frame the shot and a third linking block closes the far end, all showing the dark slatted balconies over beige facades. This is the widest and most complete view of the building Ellington publishes. BEST AVAILABLE EXTERIOR - flagged: still partial, because it is an inward courtyard view and never shows the building from the public road. 2560x1385."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I_MainSection_top-1.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not an exterior or a 'main section' hero. It is the double-height entrance lobby interior: a full-height vertical walnut slat wall down the left, a white upper-level gallery with glass balustrade, a cluster of dark round wall discs as an art installation, an arc floor lamp and a white sofa with rust-coloured cushions. Interior, lobby. 1794x1154."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I_MainSection_left-1.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not an exterior. Portrait crop of the same lobby seating group: white sofa with rust and white cushions, white drum-shade arc floor lamp, dark round side table, the walnut slat wall behind and a small round table with flowers beyond. Interior, lobby detail, not a room in an apartment. 860x1154."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I_MainSection_right-1.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not an exterior. Portrait crop of the lobby art wall: scattered dark bronze discs on a white wall above a curved walnut bench and a round walnut table with a metal vase of pink blossom, pale stone floor. Interior, lobby detail. 860x1154."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-Gallery-1-2.jpg",
+      "note": "LOOKED: interior, bedroom. Staged double bedroom with a breakfast tray on a white bed, upholstered headboard against a grey feature wall, framed art, two table lamps, a grey armchair, and a floor-to-ceiling glazed balcony door on the left letting in daylight. Shot from inside the room looking across it - not shot out from the balcony. 1334x862."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-Gallery-2.jpg",
+      "note": "LOOKED: interior, bathroom. Beige stone-tiled bathroom with a glass-screened walk-in shower and WC on the left, a long vanity with a countertop basin, mirror cabinet, woven storage baskets beneath, folded towels and two white robes hanging on the right. 1334x862."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-Gallery-3-1.jpg",
+      "note": "LOOKED: interior, utility/laundry store - none of the four named rooms. Tall pale-oak storage cupboards opened to show shelved towels, dark woven baskets and a front-loading washing machine, with a framed line drawing and a white floor vase on the wall to the left. This is the 'ample storage' amenity shot. 860x1228."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Belgravia-I-Gallery-4-1.jpg",
+      "note": "LOOKED: interior, living. Staged living room with a long built-in pale-oak media wall carrying a wall-mounted TV, open display niches, framed art and a green vase, a ring-shaped ceiling pendant, a cream armchair and a glass coffee table on a light rug, and a glazed balcony door with a blue curtain on the left. Shot from inside the apartment looking in at the media wall - not a view out. 1814x1228."
+    }
+  ]
+}

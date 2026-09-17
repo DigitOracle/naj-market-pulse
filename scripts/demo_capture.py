@@ -1,34 +1,41 @@
 """Record the screen side of the Najma demo videos (Kendall, 17 Sep 2026).
 
 Video 01 is a Business Bay client journey: "I want to live in Business Bay" -> "budget 2M, two
-bedrooms" -> the filter drill -> a hero building -> its client briefing -> "how far is the nearest
+bedrooms" -> the filter drill -> Peninsula One -> its client briefing -> "how far is the nearest
 school". The beats and the reasoning are in docs/DEMO_VIDEO_01_BUSINESSBAY.md; each one answers a
-question the bank already marks `answered`, so if the app stops answering it the capture breaks
-and we find out.
+question the bank already marks `answered`, so if the app stops answering it the capture breaks and
+we find out.
 
-A HeyGen avatar is overlaid on the output afterwards, so nothing here draws an avatar. It does
-keep the bottom third of the frame clear of anything that matters.
+A HeyGen avatar is overlaid on the output afterwards, so nothing here draws one. It does keep the
+bottom third of the frame clear of anything that matters.
 
-  probe     open each beat's page and dump what is on it (roles, names, test ids) ->
-            data/demo/probe_<beat>.txt, so the selectors below can be filled in from what the app
-            actually renders rather than guessed
-  capture   record every beat to data/demo/raw/<beat>.webm
-  cut       raw beats -> demo01_businessbay_screen.mp4, held on the money shots
-  all       probe + capture + cut
+  probe     dump what each page renders -> data/demo/probe_<beat>.txt, so the selectors below stay
+            answerable to the app rather than to memory
+  capture   record the journey -> data/demo/raw/journey.webm + marks.json, and fetch the fly-through
+  cut       raw -> demo01_businessbay_screen.mp4, with the fly-through spliced in at beat 2
+  all       capture + cut
 
-THE KEY. Read from NAJMA_CLIENT_KEY in the environment; never passed on the command line (it would
-land in shell history) and never printed. It must be a CLIENT_KEY value, not READ_KEY: READ_KEY
-opens ~92 owner paths including ones that message contacts, delete data and spend model budget, and
-these videos are public. The script refuses to run if the key opens /board, which is the cheapest
-test for "you have handed me the owner key by mistake".
+ONE CONTINUOUS TAKE. Beats 1, 3, 4, 5 and 7 all happen on /map and depend on each other - the
+district has to stay picked for the filter to say "37 here". They are recorded as one take with
+`marks.json` recording where each beat ended, and `cut` splits on those marks to splice in beat 2.
+Recording them as separate clips would reset the district every time.
 
-Playwright records the viewport only - no address bar, no tab strip, no chrome - so no URL can
-reach a frame from here. That is a property of this pipeline, not of the key; a manual screen
-recording would not be safe in the same way.
+THE CURSOR IS DRAWN, NOT REAL. Playwright's recorded video has no mouse pointer in it, so a click
+would land with nothing on screen to explain it. `_cursor` injects a dot that follows the real mouse
+and reacts to mousedown; every click is preceded by visible travel. Sliders are dragged rather than
+set, so the band and its label move the way they would under a hand.
 
-Options: --beats 1,3,7 (only these), --headed (watch it run), --slow <ms> (slow the cursor down).
+THE KEY. Read from NAJMA_CLIENT_KEY (environment, or HKCU\\Environment - see `key`); never passed on
+a command line, never printed. It must be a CLIENT_KEY value: READ_KEY opens ~92 owner paths
+including ones that message contacts, delete data and spend model budget, and these videos are
+public. `refuse_owner_key` checks before anything records.
+
+Playwright records the viewport only - no address bar, no tab strip, no chrome - so no URL can reach
+a frame from here. That is a property of this pipeline, not of the key.
+
+Options: --headed (watch it run), --slow <ms>.
 """
-import argparse, os, subprocess, sys, urllib.error, urllib.parse, urllib.request
+import argparse, json, os, subprocess, sys, time, urllib.error, urllib.parse, urllib.request
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -41,44 +48,31 @@ OUT = os.path.join(ROOT, "data", "demo")
 RAW = os.path.join(OUT, "raw")
 
 APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
-W, H = 1080, 1920                  # 9:16
-SAFE_BOTTOM = 0.30                 # the avatar sits here; keep the answer above it
+W, H = 1080, 1920
+DISTRICT = "Business Bay"
+HERO = "Peninsula One"
+FLY = "unreal_businessbay_fly"      # /img/videos: "20 s fly-through", keyless under /video/
+SPLICE_FLY = False                  # Kendall, 17 Sep: pulled. It is daylight aerial and the rest of
+                                    # the video is black-and-champagne; grading got the canal to
+                                    # black but the buildings stayed bright and the Burj lake still
+                                    # flared cyan. Dropping it buys 7s for the client briefing to
+                                    # close on, which is the beat that actually sells. Still fetched
+                                    # - it is a good standalone piece and a good opener for the
+                                    # DAMAC Hills cinematic.
+BUDGET_HI = 14                      # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
+BEDS = 2
+REPORT_ID = os.environ.get("NAJMA_REPORT_ID", "")   # beat 6: the /r/<id> client briefing
 
-# Each beat: the route, what to do on it, and how long to hold the result on screen. `actions` is a
-# list of (kind, argument) filled in from `probe` output - the app's own markup, not a guess.
-BEATS = [
-    {"n": 1, "t": 5.0, "route": "/map",     "q": "Q067", "hold": 1.5,
-     "ask": "I'm thinking about Business Bay - what's it actually like?",
-     "actions": [("goto_area", "Business Bay")]},
-    {"n": 2, "t": 7.0, "route": "/skyline", "q": "Q039", "hold": 2.0,
-     "ask": None,
-     "actions": [("tilt", "3d"), ("colour_by", "status")]},
-    {"n": 3, "t": 8.0, "route": "/home",    "q": "Q074", "hold": 2.0,
-     "ask": "My budget's two million and I need two bedrooms.",
-     "actions": [("filter_budget", 2_000_000), ("filter_beds", 2)]},
-    {"n": 4, "t": 8.0, "route": "/home",    "q": "Q098", "hold": 2.5,
-     "ask": None,
-     "actions": [("apply_filter", None)]},
-    {"n": 5, "t": 10.0, "route": "/skyline", "q": "Q048", "hold": 2.5,
-     "ask": "Show me the best one.",
-     "actions": [("click_building", "<HERO>"), ("open_panel", None)]},
-    {"n": 6, "t": 8.0, "route": "<REPORT>", "q": None, "hold": 2.0,
-     "ask": None,
-     "actions": [("scroll_brief", None)]},
-    {"n": 7, "t": 6.0, "route": "/map",     "q": "Q028", "hold": 2.0,
-     "ask": "And how far is the nearest school?",
-     "actions": [("layer_on", "schools"), ("nearest_card", None)]},
-]
 
+# ---------------------------------------------------------------- the key
 
 def key():
     """NAJMA_CLIENT_KEY, from the environment or, failing that, straight out of the registry.
 
     `setx` writes the user environment to HKCU\\Environment at once, but processes already running
     keep the environment they started with - so a key set after this terminal's parent started is
-    invisible to os.environ until something restarts. Reading the registry directly picks it up
-    immediately, and keeps the value inside this process: it is never printed, never passed on a
-    command line, and never has to be pasted into a chat to reach the capture.
+    invisible to os.environ until something restarts. Reading the registry picks it up immediately
+    and keeps the value inside this process.
     """
     k = os.environ.get("NAJMA_CLIENT_KEY", "").strip()
     if not k and sys.platform == "win32":
@@ -90,8 +84,7 @@ def key():
             k = ""
     if not k:
         sys.exit("NAJMA_CLIENT_KEY is not set (checked the environment and HKCU\\Environment).\n"
-                 "Set it to a CLIENT_KEY value - not READ_KEY - with:\n"
-                 '  setx NAJMA_CLIENT_KEY "<value>"')
+                 "Set it with:  node scripts/set_client_key.js")
     if len(k) < 12:
         sys.exit("NAJMA_CLIENT_KEY is under 12 characters; the worker ignores those (clientKeysOf).")
     return k
@@ -105,111 +98,256 @@ def refuse_owner_key(k):
     except urllib.error.HTTPError as e:
         code = e.code
     except Exception:
-        return          # can't reach it; the capture will fail on its own and say so
+        return
     if code == 200:
         sys.exit("refusing to run: this key opens /board, so it is READ_KEY. Use a CLIENT_KEY value.")
 
 
 def url(route):
-    return "%s%s%s" % (APP, route, "" if route.startswith("/r/") else "?key=" + key())
+    return "%s%s%s" % (APP, route, "" if route.startswith(("/r/", "/video/", "/img/"))
+                       else ("&" if "?" in route else "?") + "key=" + key())
 
 
-def probe(beats):
-    """Dump what each beat's page actually renders, so the selectors above stop being guesses."""
+# ------------------------------------------------------- a cursor you can see
+
+CURSOR_JS = """() => {
+  const d = document.createElement('div');
+  d.id = '__cur';
+  d.style.cssText = 'position:fixed;z-index:2147483647;width:22px;height:22px;margin:-11px 0 0 -11px;'
+    + 'border-radius:50%;pointer-events:none;background:rgba(197,165,106,.28);'
+    + 'border:2px solid rgba(197,165,106,.95);box-shadow:0 0 14px rgba(197,165,106,.55);'
+    + 'transition:transform .12s ease;left:-99px;top:-99px';
+  document.body.appendChild(d);
+  addEventListener('mousemove', e => { d.style.left = e.clientX + 'px'; d.style.top = e.clientY + 'px'; }, true);
+  addEventListener('mousedown', () => { d.style.transform = 'scale(.55)'; }, true);
+  addEventListener('mouseup',   () => { d.style.transform = 'scale(1)'; }, true);
+}"""
+
+
+def glide(pg, x, y, steps=26):
+    """Move the pointer the way a hand would, so the drawn cursor has travel to show."""
+    pg.mouse.move(x, y, steps=steps)
+    pg.wait_for_timeout(140)
+
+
+def glide_click(pg, locator, pause=420):
+    box = locator.bounding_box()
+    if not box:
+        raise RuntimeError("nothing to click - the element has no box")
+    glide(pg, box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    pg.mouse.down(); pg.wait_for_timeout(90); pg.mouse.up()
+    pg.wait_for_timeout(pause)
+
+
+def drag_range(pg, sel, target, hold=260):
+    """Drag a range input's thumb to `target`, so the band and its label move under the hand."""
+    box = pg.locator(sel).bounding_box()
+    lo = float(pg.eval_on_selector(sel, "e => e.min || 0"))
+    hi = float(pg.eval_on_selector(sel, "e => e.max || 100"))
+    cur = float(pg.eval_on_selector(sel, "e => e.value"))
+    y = box["y"] + box["height"] / 2
+    at = lambda v: box["x"] + 8 + (box["width"] - 16) * (v - lo) / (hi - lo)
+    glide(pg, at(cur), y, steps=14)
+    pg.mouse.down()
+    for i in range(1, 13):
+        pg.mouse.move(at(cur + (target - cur) * i / 12.0), y)
+        pg.wait_for_timeout(22)
+    pg.mouse.up()
+    pg.wait_for_timeout(hold)
+
+
+def search_pick(pg, text, pause=2200):
+    """Type into the district/building searchbox and take the first offer."""
+    sb = pg.get_by_role("searchbox").first
+    glide_click(pg, sb, pause=160)
+    pg.keyboard.press("ControlOrMeta+a")
+    pg.keyboard.type(text, delay=85)
+    pg.wait_for_timeout(1200)
+    pg.get_by_text(text, exact=False).first.click()
+    pg.wait_for_timeout(pause)
+
+
+# ---------------------------------------------------------------- the take
+
+def journey(pg, mark):
+    """Beats 1, 3, 4, 5 and 7 - one continuous take on /map."""
+    pg.goto(url("/map"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS)
+    pg.wait_for_timeout(900)
+    mark("open")
+
+    # BEAT 1 - "I'm thinking about Business Bay"                            Q067
+    search_pick(pg, DISTRICT)
+    pg.wait_for_timeout(1500)
+    mark("beat1")            # the fly-through is spliced in here
+
+    # BEAT 3 - "my budget's two million and I need two bedrooms"            Q074
+    # "two million" is a CEILING, so the low handle goes to the floor too - drag only the high one
+    # and the filter silently becomes a 1.5M-2.0M band, which quietly drops every match under 1.5M
+    # (25 instead of 37) and puts a number on screen that answers a question nobody asked.
+    glide_click(pg, pg.locator("#hh"), pause=600)
+    drag_range(pg, "#hhi", BUDGET_HI)
+    drag_range(pg, "#hlo", 0)
+    drag_range(pg, "#hblo", BEDS)
+    drag_range(pg, "#hbhi", BEDS)
+    pg.wait_for_timeout(1400)
+    mark("beat3")
+
+    # BEAT 4 - the count lands                                              Q098
+    pg.wait_for_timeout(3000)
+    mark("beat4")
+
+    # BEAT 5 - "show me the best one"                                       Q048/Q051
+    # collapse the filter first: left open, the building panel slides in over it and the two
+    # overlap down the right-hand side
+    glide_click(pg, pg.locator("#hh"), pause=600)
+    search_pick(pg, HERO, pause=3000)
+    pg.wait_for_timeout(2600)
+    mark("beat5")
+
+    # BEAT 7 - "how far is the nearest school?"                             Q028/Q029
+    try:
+        glide_click(pg, pg.get_by_text("SCHOOLS", exact=False).first, pause=900)
+    except Exception as e:
+        print("   beat 7: could not reach the schools chip (%s)" % str(e).split("\n")[0][:70])
+    pg.wait_for_timeout(2600)
+    mark("beat7")
+
+
+def fetch_flythrough():
+    dst = os.path.join(RAW, "flythrough.mp4")
+    if os.path.exists(dst) and os.path.getsize(dst) > 100_000:
+        return dst
+    # the worker turns away a request with no browser User-Agent (403), so send one
+    req = urllib.request.Request(url("/video/" + FLY), headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
+        "Accept": "video/mp4,video/*;q=0.9,*/*;q=0.8",
+        "Referer": APP + "/map"})
+    with urllib.request.urlopen(req, timeout=120) as r, open(dst, "wb") as f:
+        f.write(r.read())
+    print("fly-through -> %s (%d bytes)" % (os.path.basename(dst), os.path.getsize(dst)))
+    return dst
+
+
+def capture(headed, slow):
+    from playwright.sync_api import sync_playwright
+    os.makedirs(RAW, exist_ok=True)
+    marks = {}
+    with sync_playwright() as p:
+        br = p.chromium.launch(headless=not headed, slow_mo=slow)
+        ctx = br.new_context(viewport={"width": W, "height": H},
+                             record_video_dir=RAW, record_video_size={"width": W, "height": H})
+        pg = ctx.new_page()
+        t0 = time.monotonic()
+
+        def mark(name):
+            marks[name] = round(time.monotonic() - t0, 2)
+            print("   %-7s %6.2fs" % (name, marks[name]))
+
+        print("recording the journey:")
+        try:
+            journey(pg, mark)
+        finally:
+            ctx.close()                       # the video is only written on close
+            src = pg.video.path()
+            dst = os.path.join(RAW, "journey.webm")
+            if os.path.exists(dst):
+                os.remove(dst)
+            os.replace(src, dst)
+            json.dump(marks, open(os.path.join(RAW, "marks.json"), "w"), indent=1)
+            print("journey -> %s" % os.path.basename(dst))
+        br.close()
+    fetch_flythrough()
+
+
+# ---------------------------------------------------------------- the cut
+
+def ff(*args):
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
+
+
+def cut():
+    j = os.path.join(RAW, "journey.webm")
+    fly = os.path.join(RAW, "flythrough.mp4")
+    mk = os.path.join(RAW, "marks.json")
+    if not os.path.exists(j):
+        sys.exit("no journey recorded yet - run `capture` first")
+    marks = json.load(open(mk))
+    parts = []
+    enc = ["-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
+           "-vf", "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (W, H, W, H)]
+
+    if SPLICE_FLY and os.path.exists(fly):
+        split = marks.get("beat1")
+        if not split:
+            sys.exit("marks.json has no beat1 - the take did not get past the district pick")
+        a = os.path.join(RAW, "_a.mp4")
+        ff("-i", j, "-t", str(split), *enc, a); parts.append(a)
+        b = os.path.join(RAW, "_b.mp4")
+        grade = ("scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d,"
+                 "eq=brightness=-0.10:contrast=1.16:saturation=0.78,"
+                 "colorbalance=rs=0.06:gs=0.01:bs=-0.11:rm=0.05:bm=-0.09" % (W, H, W, H))
+        ff("-i", fly, "-t", "7", "-c:v", "libx264", "-crf", "18", "-preset", "medium",
+           "-pix_fmt", "yuv420p", "-an", "-vf", grade, b); parts.append(b)
+        c = os.path.join(RAW, "_c.mp4")
+        ff("-i", j, "-ss", str(split), *enc, c); parts.append(c)
+    else:
+        a = os.path.join(RAW, "_a.mp4")
+        ff("-i", j, *enc, a); parts.append(a)
+
+    # THE CLOSE. Kendall, 17 Sep: the three-pager is "the gold" - so it ends the video rather than
+    # sitting mid-roll. The schools question is the last thing the map answers; the brief is what
+    # the client is left holding.
+    brief = os.path.join(RAW, "brief.mp4")
+    if os.path.exists(brief):
+        d = os.path.join(RAW, "_d.mp4")
+        ff("-i", brief, *enc, d); parts.append(d)
+
+    listing = os.path.join(RAW, "concat.txt")
+    with open(listing, "w", encoding="utf-8") as f:
+        for p in parts:
+            f.write("file '%s'\n" % p.replace("\\", "/"))
+    out = os.path.join(OUT, "demo01_businessbay_screen.mp4")
+    ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
+    secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                 "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
+    print("wrote %s  (%.1fs)" % (out, secs))
+    if not REPORT_ID:
+        print("beat 6 still missing: set NAJMA_REPORT_ID to the /r/<id> once Kendall sends it")
+
+
+# ---------------------------------------------------------------- probe
+
+def probe():
     from playwright.sync_api import sync_playwright
     os.makedirs(OUT, exist_ok=True)
     with sync_playwright() as p:
         br = p.chromium.launch()
         pg = br.new_context(viewport={"width": W, "height": H}).new_page()
-        for b in beats:
-            if b["route"].startswith("<"):
-                print("beat %d: route not decided yet (%s) - skipped" % (b["n"], b["route"]))
-                continue
-            pg.goto(url(b["route"]), wait_until="networkidle", timeout=60_000)
-            path = os.path.join(OUT, "probe_%d.txt" % b["n"])
-            with open(path, "w", encoding="utf-8") as f:
-                f.write("beat %d  %s  %s\n\n" % (b["n"], b["route"], b["q"] or ""))
+        for route in ["/map", "/skyline?d=businessbay", "/home"]:
+            pg.goto(url(route), wait_until="networkidle", timeout=60_000)
+            name = route.strip("/").split("?")[0] or "root"
+            with open(os.path.join(OUT, "probe_%s.txt" % name), "w", encoding="utf-8") as f:
                 f.write(pg.locator("body").aria_snapshot())
-            pg.screenshot(path=os.path.join(OUT, "probe_%d.png" % b["n"]), full_page=False)
-            print("beat %d -> %s" % (b["n"], os.path.basename(path)))
+            print("%s -> probe_%s.txt" % (route, name))
         br.close()
-
-
-def capture(beats, headed, slow):
-    from playwright.sync_api import sync_playwright
-    os.makedirs(RAW, exist_ok=True)
-    with sync_playwright() as p:
-        br = p.chromium.launch(headless=not headed, slow_mo=slow)
-        for b in beats:
-            if b["route"].startswith("<"):
-                print("beat %d: route not decided yet (%s) - skipped" % (b["n"], b["route"]))
-                continue
-            ctx = br.new_context(viewport={"width": W, "height": H},
-                                 record_video_dir=RAW,
-                                 record_video_size={"width": W, "height": H})
-            pg = ctx.new_page()
-            pg.goto(url(b["route"]), wait_until="networkidle", timeout=60_000)
-            for kind, arg in b["actions"]:
-                run_action(pg, kind, arg)
-            pg.wait_for_timeout(int(b["hold"] * 1000))
-            ctx.close()          # the video is only written on close
-            src = pg.video.path()
-            dst = os.path.join(RAW, "beat%02d.webm" % b["n"])
-            os.replace(src, dst)
-            print("beat %d -> %s" % (b["n"], os.path.basename(dst)))
-        br.close()
-
-
-def run_action(pg, kind, arg):
-    """One storyboard action. Filled in from probe output - see docs/DEMO_VIDEO_01_BUSINESSBAY.md.
-
-    Cursor moves are deliberate, not teleported: a click that jumps straight to its target reads as
-    automation on camera, which is the one thing these videos must not look like.
-    """
-    raise NotImplementedError(
-        "action %r is not wired up yet - run `probe` first and fill it in from the app's markup" % kind)
-
-
-def cut(beats):
-    """Raw beats -> one 9:16 file, in order, with the splash grade."""
-    listing = os.path.join(OUT, "concat.txt")
-    have = [b for b in beats if os.path.exists(os.path.join(RAW, "beat%02d.webm" % b["n"]))]
-    if not have:
-        sys.exit("nothing captured yet - run `capture` first")
-    with open(listing, "w", encoding="utf-8") as f:
-        for b in have:
-            f.write("file '%s'\n" % os.path.join(RAW, "beat%02d.webm" % b["n"]).replace("\\", "/"))
-    out = os.path.join(OUT, "demo01_businessbay_screen.mp4")
-    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", listing,
-                    "-vf", "scale=%d:%d,eq=contrast=1.06:saturation=1.04" % (W, H),
-                    "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", out], check=True)
-    print("wrote %s" % out)
-    missing = [b["n"] for b in beats if b not in have]
-    if missing:
-        print("NOTE: beats %s are missing from this cut" % ", ".join(str(m) for m in missing))
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("command", choices=["probe", "capture", "cut", "all"])
-    ap.add_argument("--beats", help="only these, e.g. 1,3,7")
     ap.add_argument("--headed", action="store_true")
-    ap.add_argument("--slow", type=int, default=0, help="ms between actions")
+    ap.add_argument("--slow", type=int, default=0)
     a = ap.parse_args()
-
-    beats = BEATS
-    if a.beats:
-        want = {int(x) for x in a.beats.split(",")}
-        beats = [b for b in BEATS if b["n"] in want]
-
-    if a.command in ("probe", "capture", "all"):
+    if a.command != "cut":
         refuse_owner_key(key())
-    if a.command in ("probe", "all"):
-        probe(beats)
+    if a.command == "probe":
+        probe()
     if a.command in ("capture", "all"):
-        capture(beats, a.headed, a.slow)
+        capture(a.headed, a.slow)
     if a.command in ("cut", "all"):
-        cut(beats)
+        cut()
 
 
 if __name__ == "__main__":

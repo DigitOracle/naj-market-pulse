@@ -283,12 +283,32 @@ def merge_types(rows, project):
     return pooled, False
 
 
+def name_list(buildings, cap=4):
+    """Name the towers a median pools - but a provenance line is a sentence, not an inventory.
+
+    Urbana III pools 55 stacked-house blocks, and the sheet printed all 55 joined by "and": eleven
+    lines of "Urbana Iii Stacked House Block-31 and ..." under the prices. Nobody reads that, and it
+    buried the figure it was there to support. Duplicates are dropped first - the same tower can
+    appear twice through two aliases, which is how Serenia's footer said its three buildings twice.
+    """
+    seen = list(dict.fromkeys(pretty(b) for b in buildings if b))
+    if len(seen) <= cap:
+        return " and ".join(seen)
+    return "%s and %d others" % (", ".join(seen[:cap]), len(seen) - cap)
+
+
+ROMAN = re.compile(r"^(?:I{1,3}|IV|VI{0,3}|IX|XI{0,2})$", re.I)
+
+
 def pretty(name):
-    """DLD writes project names in caps. A client sheet should not shout."""
+    """DLD writes project names in caps. A client sheet should not shout.
+
+    A roman numeral is not a word and capitalize() ruins it: URBANA III went out on a client sheet
+    titled "Urbana Iii"."""
     s = str(name or "").strip()
     if s and s == s.upper():
-        s = " ".join(w.capitalize() if not w.isdigit() else w for w in s.split())
-    return s
+        s = " ".join(w if (w.isdigit() or ROMAN.fullmatch(w)) else w.capitalize() for w in s.split())
+    return " ".join(w.upper() if ROMAN.fullmatch(w) and w.lower() != "i" else w for w in s.split())
 
 
 # What counts as a home. The register mixes shops, offices, stores and even a GYM into the same
@@ -563,7 +583,7 @@ def page1(rec, today):
         '<span style="font-weight:600;color:#22262B;">Sale prices</span> &mdash; Dubai Land Department transaction '
         'records for %s%s, %d registered sales, %s to %s.'
         % (esc(rec["name"]),
-           " (%s)" % esc(" and ".join(pretty(b) for b in rec["buildings"])) if len(rec["buildings"]) > 1 else "",
+           " (%s)" % esc(name_list(rec["buildings"])) if len(rec["buildings"]) > 1 else "",
            rec["sales_total"], rec["first"], rec["last"]),
         '<span style="font-weight:600;color:#22262B;">Rents</span> &mdash; Ejari registered tenancy contracts%s. '
         'Gross yield is median rent divided by median sale price, before service charge.'
@@ -576,11 +596,17 @@ def page1(rec, today):
                "%d %s sales" % (n, t.lower()) for t, n in
                sorted(rec["commercial"].items(), key=lambda x: -x[1])))]
           if sum(rec.get("commercial", {}).values()) > sum(t["sales"] for t in rec["types"]) else [])
-      + ([("%s %s recorded too few sales to quote a median and %s left off this table; page 3 shows "
-           "what the building holds." % (
+      + ([("%s %s recorded too few sales to quote a median and %s left off this table%s" % (
                ", ".join(t["label"] for t in rec["thin_types"]),
                "has" if len(rec["thin_types"]) == 1 else "have",
-               "is" if len(rec["thin_types"]) == 1 else "are"))]
+               "is" if len(rec["thin_types"]) == 1 else "are",
+               # page3() returns None when there is neither a unit mix nor a live list, so a sheet
+               # can be two pages long. The sentence pointed at page 3 regardless: Boulevard Point
+               # went out telling her to turn to a page that was not there. Only promise a page the
+               # sheet is going to have.
+               "; page __HOLDINGSPAGE__ shows what the building holds."
+               if (rec.get("mix") or rec.get("live_units"))
+               else ". Ask us for the register if a client wants them."))]
           if rec.get("thin_types") else [])
       + list(fx.get("caveats") or []))
 
@@ -926,10 +952,18 @@ def render(records, title, focus=None):
     if len(records) > 1:
         pages.append(pack_cover(records, today, focus))
     for rec in records:
-        for fn in (page1, page2, page3):
+        # The holdings page is not always page 3. page2() returns None for a building with an
+        # exterior and no interiors, so on Boulevard Point the holdings landed on page 2 while page 1
+        # told her to turn to page 3. A sheet that misdirects her in front of a client is worse than
+        # one that says less, so the number is filled in from where the page actually lands.
+        at = {}
+        for name, fn in (("p1", page1), ("p2", page2), ("p3", page3)):
             p = fn(rec, today)
             if p:
                 pages.append(p)
+                at[name] = len(pages)
+        if "p1" in at:
+            pages[at["p1"] - 1] = pages[at["p1"] - 1].replace("__HOLDINGSPAGE__", str(at.get("p3", "")))
     total = len(pages)
     out = ""
     for i, p in enumerate(pages, 1):

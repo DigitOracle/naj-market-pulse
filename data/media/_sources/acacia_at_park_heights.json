@@ -1,0 +1,13 @@
+{
+  "project": "Acacia At Park Heights",
+  "developer": "Emaar",
+  "area": "Dubai Hills Estate",
+  "page": "https://www.emaar.com/en/properties/acacia",
+  "_note": "Read 17 Sep 2026. Emaar's page for this building is LIVE despite the project being complete and sold out; it is titled simply 'Acacia' / 'ACACIA AT DUBAI HILLS ESTATE' and the breadcrumb is HOME / DUBAI HILLS ESTATE / ACACIA - Emaar's own copy does not use the words 'Park Heights' anywhere on it. The URL was confirmed against www.emaar.com/sitemap.xml, which contains exactly three matching property URLs in English: /properties/acacia, /properties/mulberry and /properties/park-heights-i. park-heights-i is a DIFFERENT building and nothing from it was used here. No agency or portal site was opened; bayut, propertyfinder, dubizzle, tanami, opr.ae, squareyards and every aggregator were excluded on principle, so no image below is redistributed third-party material. The page's 'DOWNLOAD BROCHURE' control is not a link to a PDF - it has no href and opens Emaar's 'Register Your Interest' form asking for name, email and phone. That form was NOT filled in and nothing behind it was fetched, so no brochure, floor plan or payment plan was obtained. The whole page carries only ONE project image (the hero). Emaar's alt text is worthless ('Property Image 1', 'Strapi image'), so the hero was opened at full resolution and looked at before being described. EXCLUDED: the five 'attraction' images (Dubai Hills Golf Club, Dubai Hills Park, Kids' Play Area, Dubai Hills Mall, Urban Beach) - these are the identical community landmark set that Emaar reuses byte-for-byte on the Mulberry page and on every other Dubai Hills project, so they are pictures of the community, not of Acacia, and a community shot must never stand in for the building.",
+  "images": [
+    {
+      "url": "https://www.emaar.com/cms-media/uploads/1990_property_Hero_Image_7e07f8ae55.jpg",
+      "note": "LOOKED: EXTERIOR, aerial, render, dusk. A cluster of mid-rise apartment blocks of roughly 10-12 storeys, lit up at twilight, arranged around a shared landscaped podium courtyard with a long swimming pool at its centre; palms, walkways and a lawn in the foreground, the flat Dubai skyline on the horizon behind. This is a genuine wide exterior of the subject development and it is the hero Emaar itself publishes on the Acacia page. Honest caveat: the frame is wide enough that neighbouring Park Heights blocks appear along the right-hand edge, and no signage in the render names the building, so the identification rests on Emaar publishing it as Acacia's own hero rather than on anything visible in the image. Not a balcony view, not an interior, not a community park scene. 5500x3443."
+    }
+  ]
+}
