@@ -345,6 +345,61 @@ def main():
             rec = {"k": "beach", "n": it["n"][:60], "lon": it["lon"], "lat": it["lat"], "src": "osm", "acc": it["acc"], "x": BLAB.get(it["acc"], "beach")}
             if it.get("area_ha"): rec["ha"] = it["area_ha"]
             items.append(rec); src_counts["osm"] += 1
+    # EV charging (Kendall, 17 Sep 2026). Added HERE, inside the canonical build, rather than
+    # appended to the pushed image afterwards: this script rewrites `amenities` wholesale, so an
+    # appended layer would survive exactly until the next amenities run. Same lesson as the media
+    # register - a build that owns an image must own every layer in it.
+    #
+    # Three sources, and the map keeps them apart rather than flattening them. DEWA's Green Charger
+    # register is the authority; OpenChargeMap and OpenStreetMap are contributed by the public and
+    # can be stale or wrong. That distinction goes in `src`, in the data, because a provenance that
+    # lives in a conversation is not a provenance.
+    try:
+        import duckdb
+        _con = duckdb.connect(os.path.join(ROOT, "data", "graph", "najma.duckdb"), read_only=True)
+        _ev = _con.execute(
+            "select source, operator, location_name, location_address, latitude, longitude, "
+            "       totalnbofconnectors, connectortype, max_power_kw "
+            "  from v_ev_charge_points "
+            " where latitude is not null and longitude is not null").fetchall()
+        _con.close()
+    except Exception as e:
+        print("  EV chargers SKIPPED - %s" % str(e)[:90])
+        _ev = []
+
+    _SRC = {"DEWA": "dewa", "OpenChargeMap": "ocm", "OpenStreetMap": "osm"}
+    _ev_kept = 0
+    for _src, _op, _nm, _addr, _lat, _lon, _bays, _conn, _kw in _ev:
+        # Keep the layer inside the map's own extent. 57 of the 351 points sit in other emirates,
+        # every one of them community-contributed, and a pin 300 km away is not an amenity of a
+        # Dubai building.
+        if not (24.7 <= _lat <= 25.45 and 54.8 <= _lon <= 56.2):
+            continue
+        _name = (_nm or "").strip()
+        if _name.upper() in ("", "NA", "N/A", "NONE", "UNKNOWN"):
+            _name = (_addr or "").strip() or ("%s charger" % (_op or "EV"))
+        _bits = []
+        if _op and str(_op).strip().lower() not in ("none", "(unknown operator)", "unknown"):
+            _bits.append(str(_op).strip())
+        if _bays:
+            _bits.append("%d bay%s" % (int(_bays), "" if int(_bays) == 1 else "s"))
+        if _kw:
+            _bits.append("%g kW" % float(_kw))
+        if _conn:
+            # "AC Type 2 (Mennekes) , DC CHAdeMO" -> "AC Type 2 \u00b7 DC CHAdeMO"
+            _c = " \u00b7 ".join(sorted({re.sub(r"\s*\(.*?\)", "", x).strip()
+                                         for x in str(_conn).split(",") if x.strip()}))
+            if _c:
+                _bits.append(_c)
+        _rec = {"k": "ev", "n": _name[:60], "lon": round(float(_lon), 5),
+                "lat": round(float(_lat), 5), "src": _SRC.get(_src, str(_src).lower())}
+        if _bits:
+            _rec["x"] = " \u00b7 ".join(_bits)[:80]
+        items.append(_rec)
+        src_counts[_SRC.get(_src, "ev")] += 1
+        _ev_kept += 1
+    print("  EV chargers: %d kept of %d" % (_ev_kept, len(_ev)))
+
     for it in items:
         d = in_district(it["lon"], it["lat"], D)
         if d: it["d"] = d
@@ -354,7 +409,10 @@ def main():
            "note": ("Schools: KHDA register (private) and the Emirates Schools Establishment map (government). Parks and beaches: OpenStreetMap polygons via Overture with access (public / community / hotel / residents). Hospitals and clinics: "
                     "DHA Sheryan licence register, active facilities; positions snapped to a named place where one exists, otherwise "
                     "approximate to about 1 km (the register truncates latitude). Metro and tram: RTA. Parks: Dubai Municipality's major "
-                    "parks plus Overture. Beaches and malls: Overture only - no official list is published."),
+                    "parks plus Overture. Beaches and malls: Overture only - no official list is published. "
+                    "EV charging: DEWA's Green Charger register is the authority (src dewa); points marked ocm or "
+                    "osm are contributed by the public through OpenChargeMap and OpenStreetMap and may be stale "
+                    "or wrong."),
            "items": items}
     json.dump(doc, open(os.path.join(BOARD, "amenities.json"), "w", encoding="utf-8"), ensure_ascii=False)
     print(f"items {len(items):,} | {dict(counts)} | approximate {dict(approx)} | sources {dict(src_counts)} | google lookups paid this run {paid} | {os.path.getsize(os.path.join(BOARD,'amenities.json'))//1024} KB")
