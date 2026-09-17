@@ -1,0 +1,53 @@
+{
+  "project": "ALBA Tower",
+  "developer": "OMNIYAT",
+  "area": "Palm Jumeirah, Dubai",
+  "page": "https://omniyat.com/residential/the-alba-residences-dorchester-collection-dubai",
+  "_note": "Read 17 Sep 2026. Land Department name 'ALBA Tower' matched to OMNIYAT's 'The Alba Residences, Dorchester Collection Dubai' on Palm Jumeirah (OMNIYAT also publishes a separate 'Alba Resorts' page - not used). IMPORTANT: the page's four unit-type galleries (Sky Palace, Sky Residence, Penthouse, Marina Residences) are served from assets whose filenames all begin 'vela-' (vela-palace-01-d, vela-sky-residence-01-d, vela-penthouse-01-d, vela-marina-01-d), i.e. named for OMNIYAT's Vela project. They are NOT registered here because they cannot be verified as ALBA interiors. Only Alba-named assets are registered. Mobile variants and other-project nav cards excluded. No registration form was submitted.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/68876eed4a8f005b5bd6234d_BINYAN_LIV3021_Plot31_S110_EXT_Superman03_Final_3500%20copy.jpg",
+      "note": "filename 'BINYAN_LIV3021_Plot31_S110_EXT_Superman03_Final_3500' - EXT = exterior; full-height exterior render of the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/69c3e37ab0c8136482cc9a5a_BINYAN_LIV3021_Plot31_S380_EXT_Superman1_Final3500.jpg",
+      "note": "filename 'BINYAN_LIV3021_Plot31_S380_EXT_Superman1_Final3500' - EXT = exterior; exterior render of the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/69c114a2911c34b33559b579_BINYAN_LIV3021_S490_Superman01_Final3500.jpg",
+      "note": "filename 'BINYAN_LIV3021_S490_Superman01_Final3500' - exterior / context render"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/68876e346235b19701147fd6_BINYAN_LIV3021_Plot31_S090_EXT_HeroPool_Final3500%20copy.jpg",
+      "note": "filename 'BINYAN_LIV3021_Plot31_S090_EXT_HeroPool_Final3500' - EXT plus HeroPool; exterior view across the pool deck"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/66e988c3a867a0c6a307e610_Expansive%20Swimming%20and%20Vitality%20Pools-desktop.webp",
+      "note": "developer caption 'Expansive Swimming and Vitality Pools' (desktop) - amenity pools"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/66e9894a7cdaf10631cc38d1_Private%20Pools%20in%20Each%20Residence-desktop.webp",
+      "note": "developer caption 'Private Pools in Each Residence' (desktop) - private residence pool terrace"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/66e96676eb9b722c86d56981_THE%20LONGEVITY%20OF%20A%20MODERN%20MASTERPIECE%20mobile%20view.webp",
+      "note": "developer caption 'THE LONGEVITY OF A MODERN MASTERPIECE'; the only variant published for this section is the one the developer named 'mobile view'"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/69afcca29d988aea02dc2bee_fedorenko_lobby_alba_CShading_LightMix_View120000%20copy-gigapixel-lines-scale-2_00x%20copy%204.jpg",
+      "note": "filename contains 'lobby_alba' - the lobby"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/69afb6415b84c0464a8393af_MS4.jpg",
+      "note": "filename 'MS4' - interior / lifestyle render; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/69afcadca440a775f6e4befe_09_CShading_LightMix0100-gigapixel-cgi-2x.png",
+      "note": "filename '09_CShading_LightMix0100' - render output name only; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/66f4fd52085fe41c35741c9e_The%20Alba%20-%20Film%2016x9%20-%2030%20%28WEB%29_1-poster-00001.jpg",
+      "note": "filename 'The Alba - Film 16x9 - 30 (WEB)' poster frame - opening frame of the project film"
+    }
+  ]
+}

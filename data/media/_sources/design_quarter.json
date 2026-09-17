@@ -1,0 +1,45 @@
+{
+  "project": "Design Quarter",
+  "developer": "Meraas",
+  "area": "Dubai Design District (d3)",
+  "page": "https://meraas.com/en/project/designquarter-at-d3",
+  "_note": "Read 17 Sep 2026. Project marked Sold Out on meraas.com; Meraas titles it 'Design Quarter at d3'. NOTE: this page publishes NO marketing render of the buildings - the only photographic material openly published is a July 2026 construction-progress gallery, plus the masterplan and three floor plans. Meraas gates the brochure, floor-plan pack and payment plan behind a 'Register your interest' form asking for name, email and phone. That form was NOT submitted. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC08593.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC08593"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC08699.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC08699"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC08706.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC08706"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC08721.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC08721"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Design%20Quarter%20at%20d3_P_D_1.jpg.webp",
+      "note": "filename 'Design Quarter at d3_P_D_1' under project-masterplans - masterplan (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/Design%20Quarter%20at%20d3_P_M_0.jpg",
+      "note": "filename 'Design Quarter at d3_P_M_0' under project-masterplans - masterplan (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Design%20Quarter%20at%20d3%20-%201%20BR.jpg",
+      "note": "filename 'Design Quarter at d3 - 1 BR' - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Design%20Quarter%20at%20d3%20-%202%20BR.jpg",
+      "note": "filename 'Design Quarter at d3 - 2 BR' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Design%20Quarter%20at%20d3%20-%203%20BR.jpg",
+      "note": "filename 'Design Quarter at d3 - 3 BR' - three-bedroom floor plan"
+    }
+  ]
+}

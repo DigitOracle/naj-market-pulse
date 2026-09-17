@@ -1,0 +1,10 @@
+{
+  "project": "TAMANI ARTS OFFICES",
+  "developer": "IAH Project Development (The Developer Properties)",
+  "area": "Business Bay",
+  "page": "https://iah.co.ae/tamani-arts-offices-1",
+  "_note": "Read 17 September 2026. The developer's own site is a small GoDaddy-hosted brochure site and its Tamani Arts page publishes exactly ONE picture of the building - listed here at the largest srcset variant the page actually serves (w:1240). Everything else on the page is the IAH logo or a favicon. No floor plans, no interiors, no brochure, and no form anywhere. The agency microsites and portals that carry far more Tamani Arts photography were deliberately not used.",
+  "images": [
+    { "url": "https://img1.wsimg.com/isteam/ip/968f8fea-fa88-4b56-b4b6-d85775022150/IAH%20PROJECT%20DEVELOPMENT%20-%20TAMANI%20ARTS-a00e5a2.jpeg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:1240,cg:true", "note": "The tower itself - developer's own filename 'IAH PROJECT DEVELOPMENT - TAMANI ARTS'; names no room" }
+  ]
+}

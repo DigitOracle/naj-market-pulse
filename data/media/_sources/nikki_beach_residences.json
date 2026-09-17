@@ -1,0 +1,77 @@
+{
+  "project": "Nikki Beach Residences",
+  "developer": "Meraas",
+  "area": "Pearl Jumeira, Dubai",
+  "page": "https://meraas.com/en/project/nikki-beach-residences-dubai",
+  "_note": "Read 17 Sep 2026. Project marked Sold Out on meraas.com. The video-section still 'nikki-beach-residences-dubai-video-section_0.jpg' is published at 706x581 and was left out because its short side is under the 600px floor. Meraas gates the brochure, floor-plan pack and payment plan behind a 'Register your interest' form asking for name, email and phone. That form was NOT submitted. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20TG%20-%201_0.jpg",
+      "note": "filename 'NB - TG - 1' - lead project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20TG%20%E2%80%93%202_0.jpg",
+      "note": "filename 'NB - TG - 2' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20TG%20%E2%80%93%203.jpg",
+      "note": "filename 'NB - TG - 3' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20TG%20%E2%80%93%204_0.jpg",
+      "note": "filename 'NB - TG - 4' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20BG%20%E2%80%93%201.jpg",
+      "note": "filename 'NB - BG - 1' - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20BG%20%E2%80%93%202.jpg",
+      "note": "filename 'NB - BG - 2' - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20BG%20%E2%80%93%203.jpg",
+      "note": "filename 'NB - BG - 3' - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20BG%20%E2%80%93%204.jpg",
+      "note": "filename 'NB - BG - 4' - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20-%20BG%20%E2%80%93%205.jpg",
+      "note": "filename 'NB - BG - 5' - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/NB%20%20-%20BG%20%E2%80%93%206.jpg",
+      "note": "filename 'NB  - BG - 6' (developer's own double space) - bottom gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Nikki%20Beach%20Residences_P_D.jpg.webp",
+      "note": "filename 'Nikki Beach Residences_P_D' under project-masterplans - masterplan (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/Nikki%20Beach%20Residences_P_M.jpg",
+      "note": "filename 'Nikki Beach Residences_P_M' under project-masterplans - masterplan (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Nikki%20Beach%201%20Bedroom.jpg",
+      "note": "filename 'Nikki Beach 1 Bedroom' - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Nikki%20Beach%202%20Bedroom.jpg",
+      "note": "filename 'Nikki Beach 2 Bedroom' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Nikki%20Beach%203%20Bedroom.jpg",
+      "note": "filename 'Nikki Beach 3 Bedroom' - three-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Nikki%20Beach%20Penthouse.jpg",
+      "note": "filename 'Nikki Beach Penthouse' - penthouse floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Nikki%20Beach%20Townhouse%20%281%29.jpg",
+      "note": "filename 'Nikki Beach Townhouse (1)' - townhouse floor plan"
+    }
+  ]
+}

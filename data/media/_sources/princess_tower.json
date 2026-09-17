@@ -1,0 +1,10 @@
+{
+  "project": "PRINCESS TOWER",
+  "developer": "Tameer Holding Investment",
+  "area": "Dubai Marina",
+  "page": "http://tameer.net/princess-tower.aspx",
+  "_note": "Read 17 Sep 2026. tameer.net is still up but only over plain HTTP - its TLS certificate is for securedata.net, so HTTPS fetches fail. The site is a legacy 2012-era build: the project page publishes a single 350x566 tower image plus a headline graphic, and the linked 'Photo Gallery' (princess-tower_gallery.aspx) is a Flash/SWF gallery that now renders empty - no image URLs at all. No floor plans, no interiors, no brochure.",
+  "images": [
+    { "url": "http://tameer.net/img/img_princess_tower_n.jpg", "note": "filename 'img_princess_tower_n' - exterior photo of the tower; only 350x566" }
+  ]
+}

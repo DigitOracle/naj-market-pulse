@@ -1,0 +1,57 @@
+{
+  "project": "Peninsula Two",
+  "developer": "Select Group",
+  "area": "Business Bay",
+  "page": "https://www.select-group.ae/developments/peninsula-two",
+  "_note": "Read 17 September 2026. All images published openly on the Select Group project page; the brochure / floor-plan PDFs are gated behind a name, email and phone enquiry form, which was NOT submitted and NOT fetched. No floor plans are published openly on the page. Image contents were checked by eye, not guessed from filenames.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708730cba3fb2b325695d8_R3.jpg",
+      "note": "filename 'R3'; wide EXTERIOR render - the tower and its retail podium at dusk"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708731f92693a546ad16c3_R2.jpg",
+      "note": "filename 'R2'; aerial EXTERIOR render of the Peninsula masterplan on the Dubai Water Canal"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708731f15c29e0fdab560f_lobby_01_View070000.jpg",
+      "note": "filename 'lobby_01_View07' - lobby lounge with feature glazing"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708731f92693a546ad16b4_lobby_01_View090000.jpg",
+      "note": "filename 'lobby_01_View09' - lift lobby corridor"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708731f92693a546ad16d2_lobby_01_View080000.jpg",
+      "note": "filename 'lobby_01_View08' - lobby seating area"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647087324ce0d32e54d2e264_lobby_01_View060000.jpg",
+      "note": "filename 'lobby_01_View06' - lobby lounge with sofa and desk"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708733356451c1c4276bda_lobby_01_View040000.jpg",
+      "note": "filename 'lobby_01_View04' - lobby lounge, wide view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708733cba3fb2b325697cd_lobby_01_View050000.jpg",
+      "note": "filename 'lobby_01_View05' - reception desk in the lobby"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708733356451c1c4276c23_Bedroom_2_final.jpg",
+      "note": "filename 'Bedroom_2'; the image shows a living and dining room with skyline glazing"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64708734f92693a546ad1a34_AE_studio_final.jpg",
+      "note": "filename 'AE_studio' - STUDIO apartment, bed with living and work area"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6470873501cfff3310d7ceda_Kitchen_final.jpg",
+      "note": "filename 'Kitchen' - kitchen with breakfast bar"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647087364ce0d32e54d2e2f2_Bedroom_3_final%2B.jpg",
+      "note": "filename 'Bedroom_3' - bedroom with balcony over the canal"
+    }
+  ]
+}

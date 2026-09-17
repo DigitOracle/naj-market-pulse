@@ -1,0 +1,8 @@
+{
+  "project": "OCEAN HEIGHTS",
+  "developer": "DAMAC Properties",
+  "area": "Dubai Marina",
+  "page": "https://www.damacproperties.com/en/property/ocean-heights",
+  "_note": "Read 17 Sep 2026. NOT SOURCED. damacproperties.com returns HTTP 403 to every automated fetch (confirmed on the Ocean Heights property URL), so the page could not be read and no image URLs could be observed. No images are listed rather than guessed. DAMAC is the only developer-owned publisher for this tower; everything else found was agency/portal redistribution, which is out of bounds.",
+  "images": []
+}

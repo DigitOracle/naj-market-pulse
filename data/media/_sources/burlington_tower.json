@@ -1,0 +1,18 @@
+{
+  "project": "BURLINGTON TOWER",
+  "developer": "Deyaar Development",
+  "area": "Business Bay",
+  "page": "https://www.deyaar.ae/en/properties/burlington/",
+  "_note": "Read 17 September 2026. Deyaar's live domain is deyaar.ae. Published openly - the Burlington PDF is linked directly with no form, so nothing was gated and nothing was submitted. As with Deyaar's other project pages the filenames are raw Figma export names ('Rectangle-143-4'), naming no room; notes describe plainly and invent nothing. This is a commercial office tower, so expect no bedroom or plan material. Icons, favicons and the Deyaar app QR code are excluded.",
+  "images": [
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/bur-1.jpeg", "note": "Page hero image - filename 'bur-1' names nothing beyond the building" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-23-4.jpg", "note": "Project image - filename 'Rectangle-23-4' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-143-4-scaled.jpg", "note": "Project image - filename 'Rectangle-143-4-scaled' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-144-4.jpg", "note": "Project image - filename 'Rectangle-144-4' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-10.jpg", "note": "Gallery image - filename 'Rectangle-15-10' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-1-6.jpg", "note": "Gallery image - filename 'Rectangle-15-1-6' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-2-4.jpg", "note": "Gallery image - filename 'Rectangle-15-2-4' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-3-4.jpg", "note": "Gallery image - filename 'Rectangle-15-3-4' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-4-4.jpg", "note": "Gallery image - filename 'Rectangle-15-4-4' names nothing" }
+  ]
+}

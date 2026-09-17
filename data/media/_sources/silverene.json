@@ -1,0 +1,16 @@
+{
+  "project": "SILVERENE",
+  "developer": "Palma Holding",
+  "area": "Dubai Marina",
+  "page": "https://www.silverenedubai.com/",
+  "_note": "Read 17 Sep 2026. Developer is Palma Holding, not Dubai Properties. Palma's own corporate page (palmadevelopment.ae/project/silverene-tower/) publishes no project imagery at all - only logos and icons - so the images come from Palma's dedicated Silverene project site silverenedubai.com. Its floorplans.html page carries no plan images. Filenames are generic (SilvereneTowers1-6) and name no room or bedroom count.",
+  "images": [
+    { "url": "https://www.silverenedubai.com/img/sliders/SilvereneTowers1.jpg", "note": "filename 'SilvereneTowers1' - homepage slider image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/sliders/SilvereneTowers2.jpg", "note": "filename 'SilvereneTowers2' - homepage slider image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/sliders/SilvereneTowers3.jpg", "note": "filename 'SilvereneTowers3' - homepage slider image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/sliders/SilvereneTowers4.jpg", "note": "filename 'SilvereneTowers4' - homepage slider image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/sliders/SilvereneTowers5.jpg", "note": "filename 'SilvereneTowers5' - homepage slider image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/SilvereneTowers2.jpg", "note": "filename 'SilvereneTowers2' - in-page image of the towers" },
+    { "url": "https://www.silverenedubai.com/img/SilvereneTowers6.jpg", "note": "filename 'SilvereneTowers6' - in-page image of the towers" }
+  ]
+}

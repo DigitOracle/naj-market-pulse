@@ -1,0 +1,29 @@
+{
+  "project": "La Mer",
+  "developer": "Meraas",
+  "area": "Jumeirah 1, Dubai",
+  "page": "https://meraas.com/en/master-development/la-mer",
+  "_note": "Read 17 Sep 2026. La Mer has no /en/project/ page - it is a master development landing page that links out to individual projects (Port de La Mer, Solaya, Asora Bay), so there are no floor plans here. Five 'La Mer Destination 765x560' section images (Beachfront Residences, Marina and Yacht Club, Recreational Facilities, Retail and Dining Options, Beach) are published at 765x560 - the short side is under the 600px floor, so they were left out rather than upscaled. Meraas gates brochures and floor-plan packs behind a 'Register your interest' form asking for name, email and phone. That form was NOT submitted. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/La%20Mer%20-%20TG%20-1.jpg",
+      "note": "filename 'La Mer - TG -1' - lead destination visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/La%20Mer%20-%20TG%20-2.jpg",
+      "note": "filename 'La Mer - TG -2' - destination visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/La%20Mer%20%20-%20TG%20%E2%80%93%203.jpg",
+      "note": "filename 'La Mer  - TG - 3' (developer's own double space) - destination visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/La%20Mer%20%20-%20TG%20-4.jpg",
+      "note": "filename 'La Mer  - TG -4' - destination visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/La%20Mer_M_M_0.jpg",
+      "note": "filename 'La Mer_M_M_0' under project-masterplans - La Mer masterplan"
+    }
+  ]
+}

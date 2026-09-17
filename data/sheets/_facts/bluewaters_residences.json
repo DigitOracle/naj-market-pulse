@@ -1,0 +1,30 @@
+{
+  "_source": "Meraas project page for Bluewaters Residences, read 17 September 2026 (manifest: data/media/_sources/bluewaters_residences.json).",
+  "_assets_from": "10 images published openly. The brochure and the full floor-plan pack are behind a name/email/phone form and were NOT fetched; the four plans below are the ones Meraas publishes on the open page.",
+  "developer": "Meraas",
+  "apartments": "Ten buildings on Bluewaters Island",
+  "strapline": "Meraas, on Bluewaters Island",
+  "asset_overrides": {
+    "hero": "m_2d7adc810d0b",
+    "plan_1br": "m_1b802359b4bb",
+    "plan_2br": "m_94a687440ff3",
+    "plan_3br": "m_a51287194d05"
+  },
+  "_override_note": "Every one of these was opened and looked at before it was labelled, because a scout found Select Group's filenames mislabelled on other buildings and the same trust cannot be extended by developer. The three plans carry their own total areas printed on the drawing and match their filenames. The hero is the one frame showing the residences themselves with Ain Dubai behind - two of the other exteriors are island aerials in which the buildings are incidental, and one file is a masterplan diagram, not a photograph.",
+  "plan_areas": {
+    "plan_1br": "1,155 sq ft total",
+    "plan_2br": "2,077 sq ft total"
+  },
+  "plans_note": "The layouts Meraas publishes openly. The areas shown are printed on the developer's own drawings.",
+  "image_note": "Images and floor plans are published by Meraas, the developer of Bluewaters Residences, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "Meraas publishes no interior views for this building on its open pages, so none are shown."
+  ],
+  "pictures": "layouts and exteriors",
+  "views_heading": "The island",
+  "views_note": "Meraas publishes no interior views for this building.",
+  "captions": {
+    "interior_1": "Bluewaters Island from the air",
+    "interior_3": "The island in its setting, off Jumeirah Beach Residence"
+  }
+}

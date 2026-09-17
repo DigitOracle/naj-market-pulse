@@ -1,0 +1,57 @@
+{
+  "project": "Botanica",
+  "developer": "Select Group",
+  "area": "Dubai Marina",
+  "page": "https://www.select-group.ae/developments/botanica",
+  "_note": "Read 17 September 2026. All images published openly on the Select Group project page; the brochure / floor-plan PDFs are gated behind a name, email and phone enquiry form, which was NOT submitted and NOT fetched. No floor plans are published openly on the page. Image contents were checked by eye, not guessed from filenames. FLAG: no wide exterior render or full elevation of the building is published on this page.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b2a5f27be0fd108736_02-Botanica-Exterior.jpg",
+      "note": "filename '02-Botanica-Exterior' - developer-labelled exterior; shows the Marina tower cluster and shoreline seen from the building, not a full elevation of Botanica itself"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b98549a0e14c0137d1_01-Botanica-Pool.jpg",
+      "note": "filename '01-Botanica-Pool' - podium swimming pool with the building's own facade behind it"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b265117e8733d954ee_06-Botanica-Jacuzzi.jpg",
+      "note": "filename '06-Botanica-Jacuzzi' - outdoor jacuzzi on the podium terrace"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b2a5f27be0fd108720_12-Botanica-View.jpg",
+      "note": "filename '12-Botanica-View' - covered residents terrace lounge looking over Dubai Marina"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b51bd76f098ed2fc7b_13-Botanica-View.jpeg",
+      "note": "filename '13-Botanica-View' - Dubai Marina waterway seen from an upper floor"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b2a5f27be0fd10874e_14-Botanica-View.jpeg",
+      "note": "filename '14-Botanica-View' - JBR beach and coastline seen from an upper floor"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b41bd76f098ed2fc05_DSC5959.jpg",
+      "note": "filename names no room; gymnasium with cardio machines and free weights"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b51bd76f098ed2fc40_DSC6054-Edit.jpg",
+      "note": "filename names no room; covered terrace lounge seating with Marina towers beyond"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b58d627889294ddaa8_DSC5859.jpg",
+      "note": "filename names no room; landscaped podium lawn"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b5b83c408a016c51da_DSC5819.jpg",
+      "note": "filename names no room; reception and lobby lounge with floral feature wall"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b7a25f7ce1d9c905b5_botanica.jpg",
+      "note": "filename names no room; planted podium garden walkway"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647457b8f431ada318f751fb_DSC6046.jpg",
+      "note": "filename names no room; planted podium garden with Marina towers beyond"
+    }
+  ]
+}

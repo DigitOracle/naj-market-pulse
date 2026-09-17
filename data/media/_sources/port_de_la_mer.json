@@ -1,0 +1,81 @@
+{
+  "project": "Port de La Mer",
+  "developer": "Meraas",
+  "area": "La Mer, Jumeirah 1, Dubai",
+  "page": "https://meraas.com/en/project/port-de-la-mer",
+  "_note": "Read 17 Sep 2026. Project marked Sold Out on meraas.com. One further asset, 'PDLM - intro.jpg', is published at 706x581 and was left out because its short side is under the 600px floor. Meraas gates the brochure, floor-plan pack and payment plan behind a 'Register your interest' form asking for name, email and phone. That form was NOT submitted. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/PDLM%20-%20TG%20-%201.jpg",
+      "note": "filename 'PDLM - TG - 1' - lead project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/PDLM%20-%20TG%20-%202.jpg",
+      "note": "filename 'PDLM - TG - 2' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/PDLM%20-%20TG%20-%203.jpg",
+      "note": "filename 'PDLM - TG - 3' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/PDLM%20-%20TG%20-%204.jpg",
+      "note": "filename 'PDLM - TG - 4' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/PDLM%20LA%20VOILE%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'PDLM LA VOILE PHASE HEADER - 1' - wide header render for the La Voile phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-04/PDLM%20LE%20SOLEIL%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'PDLM LE SOLEIL PHASE HEADER - 1' - wide header render for the Le Soleil phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/PDLM%20LA%20RIVE%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'PDLM LA RIVE PHASE HEADER - 1' - wide header render for the La Rive phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/PDLM%20LE%20PONT%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'PDLM LE PONT PHASE HEADER - 1' - wide header render for the Le Pont phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Bottom%20Gallery%201.jpg",
+      "note": "filename 'Bottom Gallery 1' - foot-of-page gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Bottom%20Gallery%202.jpg",
+      "note": "filename 'Bottom Gallery 2' - foot-of-page gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Bottom%20Gallery%203.jpg",
+      "note": "filename 'Bottom Gallery 3' - foot-of-page gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Bottom%20Gallery%204.jpg",
+      "note": "filename 'Bottom Gallery 4' - foot-of-page gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Bottom%20Gallery%205.jpg",
+      "note": "filename 'Bottom Gallery 5' - foot-of-page gallery slide; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Port%20de%20La%20Mer_P_D.jpg.webp",
+      "note": "filename 'Port de La Mer_P_D' under project-masterplans - masterplan (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/Port%20de%20La%20Mer_P_M.jpg",
+      "note": "filename 'Port de La Mer_P_M' under project-masterplans - masterplan (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Port%20de%20la%20Mer%20-%201%20BR.jpg",
+      "note": "filename 'Port de la Mer - 1 BR' - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Port%20de%20la%20Mer%20-%202%20BR.jpg",
+      "note": "filename 'Port de la Mer - 2 BR' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Port%20de%20la%20Mer%20-%203%20BR.jpg",
+      "note": "filename 'Port de la Mer - 3 BR' - three-bedroom floor plan"
+    }
+  ]
+}

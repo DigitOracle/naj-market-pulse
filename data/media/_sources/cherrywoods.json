@@ -1,0 +1,41 @@
+{
+  "project": "Cherrywoods",
+  "developer": "Meraas",
+  "area": "Al Qudra Road / Dubai Land",
+  "page": "https://meraas.com/en/master-development/cherrywoods",
+  "_note": "Read 17 Sep 2026. Cherrywoods has no /en/project/ page - Meraas publishes it as a master development, and that page is the one used here; it does carry renders, a masterplan and two townhouse floor plans. Marked Sold Out. One further asset, 'Cherrywoods intro 706x581 (2).jpg', is published at 706x581 and was left out because its short side is under the 600px floor. Meraas gates brochures and floor-plan packs behind a 'Register your interest' form asking for name, email and phone. That form was NOT submitted. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Cherrywoods%20-%20TG%20-1.jpg",
+      "note": "filename 'Cherrywoods - TG -1' - lead community visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Cherrywoods%20-%20TG%20-2.jpg",
+      "note": "filename 'Cherrywoods - TG -2' - community visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Cherrywoods%20%20-%20TG%20%E2%80%93%203.jpg",
+      "note": "filename 'Cherrywoods  - TG - 3' (developer's own double space) - community visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/Cherrywoods%20%20-%20TG%20-4.jpg",
+      "note": "filename 'Cherrywoods  - TG -4' - community visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Cherrywoods_M_D.jpg.webp",
+      "note": "filename 'Cherrywoods_M_D' under project-masterplans - masterplan (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/Cherrywoods_M_M.jpg",
+      "note": "filename 'Cherrywoods_M_M' under project-masterplans - masterplan (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Cherrywoods%20-%203%20BR.jpg",
+      "note": "filename 'Cherrywoods - 3 BR' - three-bedroom townhouse floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Cherrywoods%20-%204%20BR.jpg",
+      "note": "filename 'Cherrywoods - 4 BR' - four-bedroom townhouse floor plan"
+    }
+  ]
+}

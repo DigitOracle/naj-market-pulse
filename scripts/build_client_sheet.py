@@ -291,9 +291,18 @@ def pretty(name):
     return s
 
 
-TYPE_ORDER = {"1 B/R": 1, "2 B/R": 2, "3 B/R": 3, "4 B/R": 4, "5 B/R": 5}
-TYPE_LABEL = {"1 B/R": "1 bedroom", "2 B/R": "2 bedroom", "3 B/R": "3 bedroom",
-              "4 B/R": "4 bedroom", "5 B/R": "5 bedroom"}
+# What counts as a home. The register mixes shops, offices, stores and even a GYM into the same
+# by-rooms breakdown as apartments, and a sheet headed "by apartment type" must not list them: Bay
+# Square's live sheet carried a "Shop" row at a 17.4% yield under a column headed APARTMENT, which a
+# client would read as an apartment yield. A building's commercial floorspace is not what she is
+# selling, and where it is ALL a building has, there is no client sheet to build.
+RESIDENTIAL = {"Studio", "PENTHOUSE", "Single Room"} | {"%d B/R" % n for n in range(1, 10)}
+NON_RESIDENTIAL = {"Shop", "Office", "Store", "GYM"}
+
+TYPE_ORDER = {"Studio": 0, "1 B/R": 1, "2 B/R": 2, "3 B/R": 3, "4 B/R": 4, "5 B/R": 5,
+              "6 B/R": 6, "7 B/R": 7, "8 B/R": 8, "9 B/R": 9, "PENTHOUSE": 10}
+TYPE_LABEL = dict({"%d B/R" % n: "%d bedroom" % n for n in range(1, 10)},
+                  **{"Studio": "Studio", "PENTHOUSE": "Penthouse", "Single Room": "Single room"})
 
 
 MIN_TYPE_SALES = 4   # below this a "median" is one person's deal, not the market
@@ -313,6 +322,16 @@ def build_record(name, district=None, min_sales=20):
         # there is nothing to quote. Real: plot sales, hotel keys, and a tail of registrations
         # where rooms_en is blank.
         return None, "no transactions with a recorded apartment type for %r" % name
+    commercial = {t: v for t, v in pooled.items() if t in NON_RESIDENTIAL}
+    pooled = {t: v for t, v in pooled.items() if t in RESIDENTIAL}
+    if not pooled:
+        sold = ", ".join("%s (%d sales)" % (t, v.get("n", 0)) for t, v in
+                         sorted(commercial.items(), key=lambda x: -x[1].get("n", 0)))
+        return None, ("%r is not residential - every recorded sale is %s. A client fact sheet prices "
+                      "homes; there is nothing here to price." % (name, sold or "non-residential"))
+
+    # the headline count must be HOMES sold, not every transaction in a mixed-use block - Bay Square
+    # reads 2,148 sales of which 1,426 are offices and shops
     sales_total = (sum(v.get("n", 0) for v in pooled.values()) if exact
                    else sum(r.get("sales", 0) for r in rows))
     rent = rent_for(project, d)
@@ -327,6 +346,7 @@ def build_record(name, district=None, min_sales=20):
         except Exception:
             pass
     units, units_src = live_units(project)
+
 
     types = []
     for t in sorted(pooled, key=lambda x: TYPE_ORDER.get(x, 99)):
@@ -368,6 +388,7 @@ def build_record(name, district=None, min_sales=20):
         "last": (max(v["last"] for v in pooled.values()) if exact
                  else max(r.get("last", "") for r in rows)),
         "types": types, "thin_types": thin,
+        "commercial": {t: v.get("n", 0) for t, v in commercial.items()},
         "rent_window": (rent or {}).get("window"),
         "rent_total": (rent or {}).get("n"),
         "mix": mix, "facts": fx, "images": imgs,
@@ -544,7 +565,12 @@ def page1(rec, today):
     ] + ([fx["location_note"]] if fx.get("location_note") else []) + [
         'All figures are medians of recorded transactions &mdash; a guide to the market, not a valuation, an asking '
         'price or an offer.'
-    ] + ([("%s %s recorded too few sales to quote a median and %s left off this table; page 3 shows "
+    ] + ([("This building is mostly commercial: the register also records %s, which are not shown "
+           "here because this sheet prices homes." % ", ".join(
+               "%d %s sales" % (n, t.lower()) for t, n in
+               sorted(rec["commercial"].items(), key=lambda x: -x[1])))]
+          if sum(rec.get("commercial", {}).values()) > sum(t["sales"] for t in rec["types"]) else [])
+      + ([("%s %s recorded too few sales to quote a median and %s left off this table; page 3 shows "
            "what the building holds." % (
                ", ".join(t["label"] for t in rec["thin_types"]),
                "has" if len(rec["thin_types"]) == 1 else "have",

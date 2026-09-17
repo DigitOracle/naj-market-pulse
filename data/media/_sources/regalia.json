@@ -1,0 +1,18 @@
+{
+  "project": "Regalia",
+  "developer": "Deyaar Development",
+  "area": "Business Bay",
+  "page": "https://www.deyaar.ae/en/properties/regalia/",
+  "_note": "Read 17 September 2026. Deyaar's live domain is deyaar.ae (deyaar.com does not resolve). Everything here is published openly - the Regalia brochure PDF is linked directly with no form, so nothing was gated and nothing was submitted. The filenames are the raw Figma export names ('Rectangle-143-7'), so they name no room at all; the notes therefore describe plainly and invent nothing, and the later captioning step should treat every one of these as unlabelled. No floor plans are published as images on the page. Icons, favicons and the Deyaar app QR code are excluded.",
+  "images": [
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/aa.jpeg", "note": "Page hero image - filename 'aa' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-23-7.jpg", "note": "Project image - filename 'Rectangle-23-7' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-143-7.jpg", "note": "Project image - filename 'Rectangle-143-7' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-144-7.jpg", "note": "Project image - filename 'Rectangle-144-7' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-12.jpg", "note": "Gallery image - filename 'Rectangle-15-12' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-1-8.jpg", "note": "Gallery image - filename 'Rectangle-15-1-8' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-2-6.jpg", "note": "Gallery image - filename 'Rectangle-15-2-6' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-3-6.jpg", "note": "Gallery image - filename 'Rectangle-15-3-6' names nothing" },
+    { "url": "https://www.deyaar.ae/wp-content/uploads/2023/07/Rectangle-15-4-8.jpg", "note": "Gallery image - filename 'Rectangle-15-4-8' names nothing" }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "project": "Verve City Walk",
+  "developer": "Meraas",
+  "area": "City Walk, Dubai",
+  "page": "https://meraas.com/en/project/verve-city-walk",
+  "_note": "Read 17 Sep 2026. Meraas gates the brochure, floor-plan pack, payment plan and masterplan download behind a 'Register Your Interest' form asking for name, email, phone and country. That form was NOT submitted and nothing behind it was fetched; only images published openly on the page are listed. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was then confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20-%20TG%20-%201.jpg",
+      "note": "filename 'Verve - TG - 1' - lead project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20-%20TG%20%E2%80%93%202.jpg",
+      "note": "filename 'Verve - TG - 2' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20-%20TG%20%E2%80%93%203.jpg",
+      "note": "filename 'Verve - TG - 3' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01239.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC01239"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01240.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC01240"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01256.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC01256"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01269.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC01269"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01287.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC01287"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/City%20Walk_M_D_5.jpg.webp",
+      "note": "filename 'City Walk_M_D_5' under project-masterplans - City Walk masterplan (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/City%20Walk_M_M_2.jpg",
+      "note": "filename 'City Walk_M_M_2' under project-masterplans - City Walk masterplan (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20CIty%20Walk%20-%201%20BR.jpg",
+      "note": "filename 'Verve CIty Walk - 1 BR' (developer's own spelling) - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20CIty%20Walk%20-%202%20BR.jpg",
+      "note": "filename 'Verve CIty Walk - 2 BR' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20CIty%20Walk%20-%203%20BR.jpg",
+      "note": "filename 'Verve CIty Walk - 3 BR' - three-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Verve%20CIty%20Walk%20-%204%20BR.jpg",
+      "note": "filename 'Verve CIty Walk - 4 BR' - four-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-04/PART%20OF%20A%20BIGGER%20VISION%20-%20City%20Walk_0.jpg",
+      "note": "filename 'PART OF A BIGGER VISION - City Walk' - City Walk district context view"
+    }
+  ]
+}

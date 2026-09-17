@@ -1,0 +1,145 @@
+{
+  "project": "THE Sterling WEST House",
+  "developer": "OMNIYAT",
+  "area": "Business Bay / Burj Khalifa District, Dubai",
+  "page": "https://omniyat.com/residential/sterling",
+  "_note": "Read 17 Sep 2026. OMNIYAT publishes ONE page for The Sterling covering both towers (page copy says 'two Sterling towers'); it does not name them East and West, so these images are the Sterling development, not West-tower-specific. Webflow CDN; responsive -p-1080/-p-1600 variants and mobile '-m' duplicates were dropped in favour of the '-d' desktop masters. No alt text is published on any image, so notes come from the developer's own filenames plus the section each sits in. No registration form was submitted.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6543cc8f04534468eb38fe97_sterling-hero-d-poster-00001.jpg",
+      "note": "filename 'sterling-hero-d-poster' - desktop hero poster frame; wide exterior view of the two Sterling towers"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6543ca751e68eae6adc37837_sterling-overview-01-d.webp",
+      "note": "filename 'sterling-overview-01-d' - Overview section image 1 (desktop); building/architecture view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6543cab85e24f81e7b12b6a9_sterling-overview-02-d.webp",
+      "note": "filename 'sterling-overview-02-d' - Overview section image 2 (desktop); building/architecture view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6543caf604534468eb37d4e5_sterling-overview-03-d.webp",
+      "note": "filename 'sterling-overview-03-d' - Overview section image 3 (desktop)"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6543cb2987a0a631d8d62ea3_sterling-overview-04-d.webp",
+      "note": "filename 'sterling-overview-04-d' - Overview section image 4 (desktop)"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6565921a23d86a36211cdf4b_Sterling-amenities-01-d.webp",
+      "note": "filename 'Sterling-amenities-01-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/656592a5177b556295a7963c_Sterling-amenities-03-d.webp",
+      "note": "filename 'Sterling-amenities-03-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/656592d4f085a9bb9c3433f3_Sterling-amenities-04-d.webp",
+      "note": "filename 'Sterling-amenities-04-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e6c631890f2ce04a18cd_penthouse-01-d.webp",
+      "note": "filename 'penthouse-01-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e6e012d6e087c03d5a2f_penthouse-02-d.webp",
+      "note": "filename 'penthouse-02-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e70c8b23bbfd2ed61651_penthouse-03-d.webp",
+      "note": "filename 'penthouse-03-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e72a9196d471619a3589_penthouse-04-d.webp",
+      "note": "filename 'penthouse-04-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e7549196d471619a52ec_penthouse-05-d.webp",
+      "note": "filename 'penthouse-05-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e783519c8603e6795713_penthouse-06-d.webp",
+      "note": "filename 'penthouse-06-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e7a80a9cea45a8805c6b_penthouse-07-d.webp",
+      "note": "filename 'penthouse-07-d' - Residences > Penthouses gallery (four-bedroom, double-height living room per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e7d03801955ba12c7d51_residence-01-d.webp",
+      "note": "filename 'residence-01-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e8a483b79d399425091a_residence-02-d.webp",
+      "note": "filename 'residence-02-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e8c1a141aa06ec3f61fd_residence-03-d.webp",
+      "note": "filename 'residence-03-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e8ea3801955ba12d73ff_residence-04-d.webp",
+      "note": "filename 'residence-04-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e907a56d89afe8e3ceda_residence-05-d.webp",
+      "note": "filename 'residence-05-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e9243801955ba12dbbab_residence-06-d.webp",
+      "note": "filename 'residence-06-d' - Residences > Lofts gallery (two-level lofts up to 1,445 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e955dadd223b3492dc71_townhouse-01-d.webp",
+      "note": "filename 'townhouse-01-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e97883b79d399425cbd2_townhouse-02-d.webp",
+      "note": "filename 'townhouse-02-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e9a0f2c475b5f3d6bfec_townhouse-03-d.webp",
+      "note": "filename 'townhouse-03-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e9c8dadd223b3493562e_townhouse-04-d.webp",
+      "note": "filename 'townhouse-04-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577e9ff2be4e616cd4bef0b_townhouse-05-d.webp",
+      "note": "filename 'townhouse-05-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577ea4ca56d89afe8e4e67f_townhouse-06-d.webp",
+      "note": "filename 'townhouse-06-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577eb1052988ddeb3c3af71_townhouse-07-d.webp",
+      "note": "filename 'townhouse-07-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6577eb89147f1c9501cb8c0a_townhouse-08-d.webp",
+      "note": "filename 'townhouse-08-d' - Residences > Townhouses gallery (three-floor, four-bedroom units up to 3,290 sq ft per the page copy); filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6573341833552f99318c3f42_sterling-residence-2x.webp",
+      "note": "filename 'sterling-residence-2x' - residence selector base image"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/657334163abcabeae8d5c237_sterling-residence-overlay-01.webp",
+      "note": "filename 'sterling-residence-overlay-01' - residence-type overlay graphic on the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/65733416e3207b1aa3f2ae7e_sterling-residence-overlay-02.webp",
+      "note": "filename 'sterling-residence-overlay-02' - residence-type overlay graphic on the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/65733416c1cd342e7d858e6c_sterling-residence-overlay-03.webp",
+      "note": "filename 'sterling-residence-overlay-03' - residence-type overlay graphic on the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6850262cf6f10af5a7887c1c_location-img.jpg",
+      "note": "filename 'location-img' - Location section image (Burj Khalifa District setting)"
+    }
+  ]
+}

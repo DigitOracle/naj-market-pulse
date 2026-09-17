@@ -35,6 +35,11 @@ GENERIC = r"^(tower|towers|residences?|residence|building|podium|block|phase|[ab
 # 15 Sep 2026: what a SHEET name may add to a register name - generic words only, never a block/tower/phase letter or number. With the
 # letters allowed, 'Soulever Tower B' took the whole of "Soulever' By Beyond" (517 launched units) as if the block were the project.
 GENERIC_SHEET = r"^(tower|towers|residences?|residence|building|podium|by[a-z]+)*$"
+# 16 Sep 2026: a sheet project whose WHOLE name is a block label ('Building C', 'Tower B', 'Block 2') is the extractor having read a
+# block header as a project - it names no project, and by name matching it takes every building of that label in the register: the
+# 14 Sep Beyond sheet's one-unit "Building C" took 143 unrelated off-plan sales from across Dubai. Same spirit as build_board.py's
+# unknown|untitled|n/a placeholder guard - never match it by name. A crosswalk link by project_id is unaffected.
+BLOCK_ONLY = re.compile(r"^(building|bldg|tower|block|phase)([a-z]|\d{1,2})?$")
 REGISTRY_MATCHER = "2026-09-15"   # register_fallback.MATCHER: only registry blocks made by the current matcher are carried forward
 
 
@@ -48,6 +53,7 @@ def canon(k):
 def same(sheet_key, reg_name):
     """the register name is the sheet's project, or the sheet's project plus only generic words (Tower A, Residences, Podium, by X)"""
     raw_r, raw_s = nk(reg_name), sheet_key
+    if BLOCK_ONLY.fullmatch(raw_s): return False                                    # a block label is not a project name: it matches nothing
     r = canon(raw_r); sheet_key = canon(sheet_key)
     if not r or not sheet_key: return False
     if r == sheet_key: return True
@@ -134,7 +140,9 @@ def main():
     pids = ", ".join(str(int(v["project_id"])) for v in XW.values()) or "null"
     pnums = ", ".join(str(int(n)) for v in XW.values() for n in v["numbers"]) or "null"
     bigint = lambda c: f"try_cast(try_cast({c} as double) as bigint)"
-    stems = {canon(k)[:6] for k in keys if len(canon(k)) >= 4}
+    stems = {canon(k)[:6] for k in keys if len(canon(k)) >= 4 and not BLOCK_ONLY.fullmatch(k)}
+    for k in sorted(k for k in keys if BLOCK_ONLY.fullmatch(k)):
+        print("  BLOCK-LABEL project not matched by name: %r (a block header read as a project - fix the sheet's extraction)" % k)
     like = " or ".join(f"regexp_replace(lower(coalesce(project_name_en, '')), '[^a-z0-9]', '', 'g') like '%{k}%'" for k in stems)
     con.execute(f"create table u as select project_name_en, rooms_en, floor, {bigint('property_id')} property_id, {bigint('project_id')} pid, {bigint('building_number')} bld from read_csv_auto({json.dumps([f.replace(chr(92), '/') for f in UNITS])}, sample_size=50000, all_varchar=true, union_by_name=true) where {like} or {bigint('project_id')} in ({pids})")
     liketx = " or ".join(f"regexp_replace(lower(coalesce(building_name_en, project_name_en, '')), '[^a-z0-9]', '', 'g') like '%{k}%' or regexp_replace(lower(coalesce(project_name_en, '')), '[^a-z0-9]', '', 'g') like '%{k}%'" for k in stems)

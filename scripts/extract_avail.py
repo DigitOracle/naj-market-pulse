@@ -70,6 +70,17 @@ for _c in ("PASA/G/001", "PASB/G/016", "AYA2B/G/G01", "PASA/12/001", "HADO/P1/10
         raise AssertionError("Beyond unit-code pattern rejects %r - a floor code it must accept" % _c)
 BEY_TYPE_RX = re.compile(r"^(\d(BR|BD|B)\+?|studio|penthouse|retail|office|townhouse|villa)$", re.I)
 BEY_DATE_RX = re.compile(r"^(\d{2})-([A-Za-z]{3})-(\d{4})\s")
+# A block header ("Building C", "Tower B", "Block 2") names a part of a project, never a project. Beyond prints it in the first
+# column beneath the project's own name, so it is normally a line of its own. Where the last unit of a sheet overflows onto a page
+# that carries no project line - AYA2C/G/G12 on 14 Sep 2026 - the label is all that precedes the unit code on the row, and it used
+# to be read as the project: a one-unit "Building C" that then took 143 unrelated "Building C" sales across Dubai by name.
+BLOCK_LABEL_RX = re.compile(r"(?i)^(?:building|bldg|tower|block|phase)\s*[-:]?\s*(?:[a-z]\d{0,2}|\d{1,2})$")
+for _b in ("Building C", "Building B", "BUILDING C1", "Tower B", "Block 2", "Phase 1"):
+    if not BLOCK_LABEL_RX.match(_b):
+        raise AssertionError("block-label pattern misses %r - it would be read as a project name" % _b)
+for _b in ("Arancia Yards 2 By Beyond", "Hado Tower A", "Tower Residences", "Building", "Talea"):
+    if BLOCK_LABEL_RX.match(_b):
+        raise AssertionError("block-label pattern swallows %r - a project name" % _b)
 INV_TITLE_RX = re.compile(r"^(?P<title>.+?)\s*-\s*INVENTORY\s*as\s*\(?\s*(?P<m>\d{1,2})/(?P<d>\d{1,2})/(?P<y>\d{4})\s*\)?", re.I)
 INV_HEADER = "unitcodeviewunitnofloorunittypetotalareasalevalue"
 
@@ -341,6 +352,20 @@ def parse_inventory_row(cells):
     return [uid, norm_type(typ) if typ else "Unit", total, price, view, mid[u], floor or None]
 
 
+def bey_stem(code):
+    """The project stem of a Beyond unit code: 'AYA2C/G/G12' -> 'AYA2', 'HADB/1/102' -> 'HAD'. The block is the last letter of the
+    prefix, so units of one project differ only in it (AYA2B / AYA2C)."""
+    return re.sub(r"(?<=.{3})[A-Z]$", "", str(code or "").split("/")[0].upper())
+
+
+def bey_project_of(projects, code):
+    """The project already holding this unit's siblings, by unit-code stem: AYA2C/G/G12 belongs with the sheet's AYA2B units."""
+    s = bey_stem(code)
+    if len(s) < 3:
+        return None
+    return next((p["p"] for p in reversed(projects) if any(bey_stem(u[0]) == s for u in p["units"])), None)
+
+
 def parse_beyond_row(cells):
     """building words | CODE | type | area | sub-type tokens | orientation words | price  -> [uid, type, total, price, view, building]"""
     ci = next((i for i, c in enumerate(cells) if BEY_CODE_RX.match(c.strip())), None)
@@ -465,16 +490,21 @@ def parse_pdf(path):
                 rec = parse_beyond_row(cells)
                 if os.environ.get('AVAIL_DEBUG'): print('DBG', repr(line[:50]), '| rec', bool(rec), '| bld', bey_building)
                 if rec:
+                    sib = None
+                    if rec[5] and BLOCK_LABEL_RX.match(rec[5].strip()):
+                        # the row leads with a block label alone ("Building C  AYA2C/G/G12  2BR ..."): its project line is back on
+                        # the previous page. The unit code is the strong signal - give the unit to the project holding its siblings.
+                        sib = bey_project_of(projects, rec[0]); rec[5] = None
                     if not rec[5] and bey_building: rec[5] = bey_building
                     if pending_view and not rec[4]: rec[4] = pending_view
                     pending_view = None
-                    pname = canonical_project(rec[5] or fallback_project, dev)
+                    pname = sib or canonical_project(rec[5] or fallback_project, dev)
                     if cur is None or cur["p"] != pname:
                         cur = {"p": pname, "completion": completion, "plan": plan, "units": [], "_mode": mode, "_sheet_date": bey_date}
                         projects.append(cur)
                     cur["units"].append(rec[:5]); continue
                 sl = line.strip()
-                if re.fullmatch(r"Building [A-Z0-9]{1,2}", sl):                       # "Building B": a sub-label, not a name
+                if BLOCK_LABEL_RX.match(sl):                                          # "Building B", "Tower C": a sub-label, not a name
                     continue
                 if re.search(r"\bby\s+beyond\b", sl, re.I) or (re.fullmatch(r"[A-Za-z][A-Za-z0-9 ']{2,40}", sl) and sl.split()[0][0].isupper() and len(sl.split()) <= 5 and not re.search(r"\d", sl) and sl.lower().split()[0] not in ("beach","ocean","sea","garden","zen","skyline","forest","botanical","evermore","marjan","dubai","cove","park","green","sunset","villa","golf","marina","community","the","bedroom","selling","total","unit","created","building","type","price","area")):
                     bey_building = re.sub(r"\s+by\s+beyond", "", sl, flags=re.I).replace("'", "").strip(); continue   # a name-only row names the building for the rows that follow

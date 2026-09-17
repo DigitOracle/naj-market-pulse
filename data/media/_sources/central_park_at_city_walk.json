@@ -1,0 +1,77 @@
+{
+  "project": "Central Park at City Walk",
+  "developer": "Meraas",
+  "area": "City Walk, Dubai",
+  "page": "https://meraas.com/en/project/citywalk-central-park",
+  "_note": "Read 17 Sep 2026. The project page slug is 'citywalk-central-park', not 'central-park-city-walk' (that URL 404s). The page is organised by phase (Plaza, Thyme, Erin, Fern, Laurel, Castleton, Myrtle), each with a three-image header set and a construction gallery; the first header of each phase and two sample construction frames are registered. One further asset, 'City Walk Central Park Video BG.jpg', is published at 706x581 and was left out because its short side is under the 600px floor. Meraas gates the brochure, floor-plan pack, payment plan and masterplan download behind a 'Register Your Interest' form asking for name, email, phone and country. That form was NOT submitted and nothing behind it was fetched; only images published openly on the page are listed. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was then confirmed to return HTTP 200 before being registered.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20TG%20-%201.jpg",
+      "note": "filename 'CP - TG - 1' - lead project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20TG%20%E2%80%93%202.jpg",
+      "note": "filename 'CP - TG - 2' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20TG%20%E2%80%93%203.jpg",
+      "note": "filename 'CP - TG - 3' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20PLAZA%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - PLAZA PHASE HEADER - 1' - wide header render for the Plaza phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20THYME%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - THYME PHASE HEADER - 1' - wide header render for the Thyme phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20ERIN%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - ERIN PHASE HEADER - 1' - wide header render for the Erin phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20FERN%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - FERN PHASE HEADER - 1' - wide header render for the Fern phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20LAUREL%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - LAUREL PHASE HEADER - 1' - wide header render for the Laurel phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20CASTLETON%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - CASTLETON PHASE HEADER - 1' - wide header render for the Castleton phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-03/CP%20-%20MYRTLE%20PHASE%20HEADER%20%E2%80%93%201.jpg",
+      "note": "filename 'CP - MYRTLE PHASE HEADER - 1' - wide header render for the Myrtle phase"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/JAV03854.jpg",
+      "note": "construction progress photograph in the Plaza phase gallery (July 2026), developer's camera filename JAV03854"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC01186.jpg",
+      "note": "construction progress photograph in the Thyme phase gallery (July 2026), developer's camera filename DSC01186"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/City%20Walk%20Central%20Park_P_M.jpg",
+      "note": "filename 'City Walk Central Park_P_M' under project-masterplans - masterplan / site layout"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Central%20Park%20-%201%20BR.jpg",
+      "note": "filename 'Central Park - 1 BR' - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Central%20Park%20-%202%20BR.jpg",
+      "note": "filename 'Central Park - 2 BR' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Central%20Park%20-%203%20BR.jpg",
+      "note": "filename 'Central Park - 3 BR' - three-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Central%20Park%20-%204%20BR.jpg",
+      "note": "filename 'Central Park - 4 BR' - four-bedroom floor plan"
+    }
+  ]
+}

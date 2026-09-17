@@ -1,0 +1,177 @@
+{
+  "project": "One at Palm Jumeirah",
+  "developer": "OMNIYAT",
+  "area": "Palm Jumeirah, Dubai",
+  "page": "https://omniyat.com/residential/one-at-palm-jumeirah",
+  "_note": "Read 17 Sep 2026. Webflow CDN. No alt text is published on any image, so notes come from OMNIYAT's own filenames and the section each image sits in. Mobile '-m' duplicates and responsive -p-1080/-p-1600 variants dropped; '-d' desktop masters kept. Nav cards for other OMNIYAT projects and generic Dorchester Collection brand imagery excluded. No registration form was submitted.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c5aaad45d8be8fb49ef37_opj-hero-video-d-poster-00001.jpg",
+      "note": "filename 'opj-hero-video-d-poster' - desktop hero film poster frame; wide exterior view of One at Palm Jumeirah"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654b7c000bc636abb682d060_opj-overview-01-d.webp",
+      "note": "filename 'opj-overview-01-d' - Overview section image 1 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654b83337976a6ec28f66396_opj-overview-02-d.webp",
+      "note": "filename 'opj-overview-02-d' - Overview section image 2 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654b855266ab09af5d93dbaa_opj-overview-03-d.webp",
+      "note": "filename 'opj-overview-03-d' - Overview section image 3 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657dc4c29f74b2032d0b23_opj-amenities-01-d.webp",
+      "note": "filename 'opj-amenities-01-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657e6626e44171f6f6f2f9_opj-amenities-02-d.webp",
+      "note": "filename 'opj-amenities-02-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657efc388cb365510fad24_opj-amenities-03-d.webp",
+      "note": "filename 'opj-amenities-03-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657f3e087bf9cdf8b0828b_opj-amenities-04-d.webp",
+      "note": "filename 'opj-amenities-04-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657f693c5549aef486700a_opj-amenities-05-d.webp",
+      "note": "filename 'opj-amenities-05-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657f8fbd64786849cb5e66_opj-amenities-06-d.webp",
+      "note": "filename 'opj-amenities-06-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657fac75ba35a1684f25c1_opj-amenities-07-d.webp",
+      "note": "filename 'opj-amenities-07-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d62ed1c3b69286c694b9_penthouse-01-d.webp",
+      "note": "filename 'penthouse-01-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d67b4e8ab4bf02df09ad_penthouse-02-d.webp",
+      "note": "filename 'penthouse-02-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d7d146b62c30e1e7fd9c_penthouse-03-d.webp",
+      "note": "filename 'penthouse-03-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d7f926175e673178a8eb_penthouse-04-d.webp",
+      "note": "filename 'penthouse-04-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d831ccda6081df710ec7_penthouse-05-d.webp",
+      "note": "filename 'penthouse-05-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d86af2b6c3135671b8be_penthouse-06-d.webp",
+      "note": "filename 'penthouse-06-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d88852dd82034780df67_penthouse-07-d.webp",
+      "note": "filename 'penthouse-07-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d8a8e6c27904f899b831_penthouse-08-d.webp",
+      "note": "filename 'penthouse-08-d' - Residences > Penthouse gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572d9fc52dd820347822132_duplex-01-d.webp",
+      "note": "filename 'duplex-01-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572dc0e56439c048f4e6359_duplex-02-d.webp",
+      "note": "filename 'duplex-02-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572ddd9a28a414b2967cf97_duplex-03-d.webp",
+      "note": "filename 'duplex-03-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572deccb9dc4aa928efd121_duplex-04-d.webp",
+      "note": "filename 'duplex-04-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572df6e6fca1b842d26ff76_duplex-05-d.webp",
+      "note": "filename 'duplex-05-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572dfa3ccda6081df779616_duplex-06-d.webp",
+      "note": "filename 'duplex-06-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572dfdaccda6081df77c844_duplex-07-d.webp",
+      "note": "filename 'duplex-07-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572dffbad8cc215422f3e64_duplex-08-d.webp",
+      "note": "filename 'duplex-08-d' - Residences > Duplex gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e0eeccda6081df78d65a_residence-01-d.webp",
+      "note": "filename 'residence-01-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e17cd70a25a9af9f59bb_residence-02-d.webp",
+      "note": "filename 'residence-02-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e1a1884df6b0aab4333c_residence-03-d.webp",
+      "note": "filename 'residence-03-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e1c3a28a414b296b13b4_residence-04-d.webp",
+      "note": "filename 'residence-04-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e1e80fe9da6da4639912_residence-05-d.webp",
+      "note": "filename 'residence-05-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e20ab9dc4aa928f26bd8_residence-06-d.webp",
+      "note": "filename 'residence-06-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572e23867a12fff58fce9e7_residence-07-d.webp",
+      "note": "filename 'residence-07-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/653164b56ea8081ca10c7be4_opj-residence-01-d.webp",
+      "note": "filename 'opj-residence-01-d' - residence-type selector image 1"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c4908ed3443430db90565_opj-residence-02-d.webp",
+      "note": "filename 'opj-residence-02-d' - residence-type selector image 2"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c49094e33d016c120cd76_opj-residence-03-d.webp",
+      "note": "filename 'opj-residence-03-d' - residence-type selector image 3"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6572f710720cb8a64cf336fa_opj-residence-2x.webp",
+      "note": "filename 'opj-residence-2x' - residence selector base image of the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6572f71024eb541290e833f4_opj-residence-overlay-01.webp",
+      "note": "filename 'opj-residence-overlay-01' - residence-type overlay graphic on the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6572f70f9e1e8b4b2b04fe5a_opj-residence-overlay-02.webp",
+      "note": "filename 'opj-residence-overlay-02' - residence-type overlay graphic on the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6572f70f90e99f8d915a8bb0_opj-residence-overlay-03.webp",
+      "note": "filename 'opj-residence-overlay-03' - residence-type overlay graphic on the tower"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c68b6141eecc755af9f6e_opj-dorchester-d-poster-00001.jpg",
+      "note": "filename 'opj-dorchester-d-poster' - Dorchester Collection film poster frame (desktop)"
+    }
+  ]
+}

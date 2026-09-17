@@ -1,0 +1,69 @@
+{
+  "project": "Bluewaters Bay",
+  "developer": "Meraas",
+  "area": "Bluewaters Island, Dubai",
+  "page": "https://meraas.com/en/project/bluewaters-bay",
+  "_note": "Read 17 Sep 2026. Meraas gates the brochure, floor-plan pack, payment plan and masterplan download behind a 'Register Your Interest' form asking for name, email, phone and country. That form was NOT submitted and nothing behind it was fetched; only images published openly on the page are listed. meraas.com returns HTTP 403 to a browser user-agent, so the page was read via WebFetch and every URL below was then confirmed to return HTTP 200 before being registered. Meraas also publishes 'Bluewaters Residences PART OF A BIGGER VISION.jpg' on this page, but it is byte-identical to the asset already registered under Bluewaters Residences, so the register rejects it as a duplicate media_id; it is intentionally left out here.",
+  "images": [
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/BWB%20-%20TG%20-%201.png",
+      "note": "filename 'BWB - TG - 1' - lead project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/BWB%20-%20TG%20%E2%80%93%202.png",
+      "note": "filename 'BWB - TG - 2' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/BWB%20-%20TG%20%E2%80%93%203.png",
+      "note": "filename 'BWB - TG - 3' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-05/BWB%20-%20TG%20%E2%80%93%204.png",
+      "note": "filename 'BWB - TG - 4' - project visual; filename names no room"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC00472.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC00472"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC00477.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC00477"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC00478.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC00478"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC00483.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC00483"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2026-07/DSC00490.jpg",
+      "note": "construction progress photograph (July 2026 gallery), developer's camera filename DSC00490"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Bluewaters%20Bay_P_D.jpg.webp",
+      "note": "filename 'Bluewaters Bay_P_D' under project-masterplans - masterplan / site layout (desktop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/project-masterplans/Bluewaters%20Bay_P_M.jpg",
+      "note": "filename 'Bluewaters Bay_P_M' under project-masterplans - masterplan / site layout (mobile crop)"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Bay%20-%201%20BR.jpg",
+      "note": "filename 'Bluewaters Bay - 1 BR' - one-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Bay%20-%202%20BR.jpg",
+      "note": "filename 'Bluewaters Bay - 2 BR' - two-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Bay%20-%203%20BR.jpg",
+      "note": "filename 'Bluewaters Bay - 3 BR' - three-bedroom floor plan"
+    },
+    {
+      "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Bay%20-%204%20BR.jpg",
+      "note": "filename 'Bluewaters Bay - 4 BR' - four-bedroom floor plan"
+    }
+  ]
+}

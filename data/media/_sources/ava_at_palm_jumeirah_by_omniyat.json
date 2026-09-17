@@ -1,0 +1,137 @@
+{
+  "project": "AVA AT PALM Jumeirah BY Omniyat",
+  "developer": "OMNIYAT",
+  "area": "Palm Jumeirah, Dubai",
+  "page": "https://omniyat.com/residential/ava-at-palm-jumeirah",
+  "_note": "Read 17 Sep 2026. Webflow CDN. No alt text published; notes come from OMNIYAT's own filenames and the section each image sits in. The Sky Palace gallery runs to 17 images on the page - the first 10 are registered here. Mobile '-m' duplicates and responsive -p variants dropped. There is no ava-amenities-05-d on the page (the developer's own numbering skips it). Other-project nav cards excluded. No registration form was submitted.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c7db92c7235d1d0732138_ava-hero-video-d-poster-00001.jpg",
+      "note": "filename 'ava-hero-video-d-poster' - desktop hero film poster frame; wide exterior view of AVA at Palm Jumeirah"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654c695767c97be01db943a3_ava-overview-01-d.webp",
+      "note": "filename 'ava-overview-01-d' - Overview section image 1 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654c6a59bfee4c627c960b37_ava-overview-02-d.webp",
+      "note": "filename 'ava-overview-02-d' - Overview section image 2 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654c6af0bfee4c627c969769_ava-overview-03-d.webp",
+      "note": "filename 'ava-overview-03-d' - Overview section image 3 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/654c6cb3a11bc8739910bd79_ava-overview-04-d.webp",
+      "note": "filename 'ava-overview-04-d' - Overview section image 4 (desktop); building / setting view"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657bc45ddc5c05845a86b4_ava-amenities-01-d.webp",
+      "note": "filename 'ava-amenities-01-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657bf917ff5093cb14dba1_ava-amenities-02-d.webp",
+      "note": "filename 'ava-amenities-02-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657c85036996950da54b70_ava-amenities-03-d.webp",
+      "note": "filename 'ava-amenities-03-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657cfdc1bc7d13fb61f4e1_ava-amenities-04-d.webp",
+      "note": "filename 'ava-amenities-04-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/65657d688ab54c037efcaefa_ava-amenities-06-d.webp",
+      "note": "filename 'ava-amenities-06-d' - Amenities section; filename names no room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aa17271ac5da578ffb76_sky-palace-01-d.webp",
+      "note": "filename 'sky-palace-01-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aa55faf01eabe597672a_sky-palace-02-d.webp",
+      "note": "filename 'sky-palace-02-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aa9707a3a091b20fa1fe_sky-palace-03-d.webp",
+      "note": "filename 'sky-palace-03-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aac55c7bbd7146ebd4d3_sky-palace-04-d.webp",
+      "note": "filename 'sky-palace-04-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aafca455cf750a0a3c18_sky-palace-05-d.webp",
+      "note": "filename 'sky-palace-05-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572ab36f826b1cf1f82c959_sky-palace-06-d.webp",
+      "note": "filename 'sky-palace-06-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572ab7b643d89221522819e_sky-palace-07-d.webp",
+      "note": "filename 'sky-palace-07-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572abb65771ecf253c10adc_sky-palace-08-d.webp",
+      "note": "filename 'sky-palace-08-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572abe918fbd2596d26c380_sky-palace-09-d.webp",
+      "note": "filename 'sky-palace-09-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572ac1ffeeb80b48eb28e5f_sky-palace-10-d.webp",
+      "note": "filename 'sky-palace-10-d' - Residences > Sky Palace gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aeee25503667d18a708c_Residence-01-d.webp",
+      "note": "filename 'Residence-01-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572af295ac26e85cca2f38c_Residence-02-d.webp",
+      "note": "filename 'Residence-02-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572aff53682ee2243fecc09_Residence-04-d.webp",
+      "note": "filename 'Residence-04-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572b02b9d737b8dc6292a82_Residence-05-d.webp",
+      "note": "filename 'Residence-05-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64d10d152d5483b843123d85/6572b0643682ee2243ff24bf_Residence-06-d.webp",
+      "note": "filename 'Residence-06-d' - Residences > Residence gallery; filename names no specific room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c2d2e366dfe6f5e969b65_ava-residence-01-d.webp",
+      "note": "filename 'ava-residence-01-d' - residence-type selector image 1"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c2d2ee96be8f37550d24d_ava-residence-02-d.webp",
+      "note": "filename 'ava-residence-02-d' - residence-type selector image 2"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c2d2e5ef679a6f8962d09_ava-residence-03-d.webp",
+      "note": "filename 'ava-residence-03-d' - residence-type selector image 3"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6571f48d2a42b97d799ea240_ava-residence-2x.webp",
+      "note": "filename 'ava-residence-2x' - residence selector base image of the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6571f48a63f27ba71f40e651_ava-residence-overlay-01.webp",
+      "note": "filename 'ava-residence-overlay-01' - residence-type overlay graphic on the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/6571f48ab237f0d27b53a2dc_ava-residence-overlay-02.webp",
+      "note": "filename 'ava-residence-overlay-02' - residence-type overlay graphic on the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/64cd0df1806781d956403b26/651c87bd0c5a7f3854110465_ava-dorchester-d-poster-00001.jpg",
+      "note": "filename 'ava-dorchester-d-poster' - Dorchester Collection film poster frame (desktop)"
+    }
+  ]
+}

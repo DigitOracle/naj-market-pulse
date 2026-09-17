@@ -1,0 +1,57 @@
+{
+  "project": "The Point",
+  "developer": "Select Group",
+  "area": "Dubai Marina",
+  "page": "https://www.select-group.ae/developments/the-point",
+  "_note": "Read 17 September 2026. All images published openly on the Select Group project page; the brochure / floor-plan PDFs are gated behind a name, email and phone enquiry form, which was NOT submitted and NOT fetched. No floor plans are published openly on the page. Image contents were checked by eye, not guessed from filenames. FLAG: no exterior render or photograph of the building itself is published on this page - every image is an interior, an amenity deck or a view out.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a74d54604da3d1c504_01-Point.jpg",
+      "note": "filename '01-Point' - main entrance lobby"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a6b6bc0af3499f86cb_03-Point.jpg",
+      "note": "filename '03-Point' - lobby lounge with marble floor"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a637c039df410c8194_04-Point.jpg",
+      "note": "filename '04-Point' - podium swimming pool with the Marina skyline"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a637c039df410c81a3_05-Point.jpg",
+      "note": "filename '05-Point' - covered pool at podium level"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a39f9bc6ad29610b1d_06-Point.jpg",
+      "note": "filename '06-Point' - billiards and games room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a61f0b7dd7cda06324_08-Point.jpg",
+      "note": "filename '08-Point' - landscaped podium terrace with lawn and skyline"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a3c384bf0fb2ad899f_09-Point.jpg",
+      "note": "filename '09-Point' - shaded podium terrace with dining furniture"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a3c384bf0fb2ad89c8_12-Point.jpg",
+      "note": "filename '12-Point' - terrace seating with parasols overlooking the Marina"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a2c384bf0fb2ad88f3_14-Point.jpg",
+      "note": "filename '14-Point' - gymnasium"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a23afdcbd3a8ee0818_ThePoint-10.jpg",
+      "note": "filename names no room; gym equipment by a window over the Marina"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a2c384bf0fb2ad88b6_ThePoint-3.jpg",
+      "note": "filename names no room; Dubai Marina waterfront promenade seen from the building"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647469a29f9bc6ad29610a8d_The%20Point%203.jpg",
+      "note": "filename names no room; shaded terrace with dining table over the Marina"
+    }
+  ]
+}

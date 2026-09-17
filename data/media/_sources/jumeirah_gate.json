@@ -1,0 +1,57 @@
+{
+  "project": "Jumeirah Gate",
+  "developer": "Emaar (Address Hotels + Resorts / Emaar Hospitality Group)",
+  "area": "Dubai Marina",
+  "page": "https://www.addresshotels.com/en/resorts/address-beach-resort/residences/",
+  "_note": "Read 17 Sep 2026. Jumeirah Gate is the twin-tower development at the end of JBR holding Address Beach Resort and Address Residences Jumeirah Resort + Spa, by Emaar. Emaar's own sales page (properties.emaar.com/en/properties/address-residences-jumeirah-resort-and-spa/) now 301-redirects to the emaar.com homepage - the project is complete and sold out, so no residential project page survives. Images therefore come from Emaar Hospitality's own Address Hotels site, both the Residences page (listed as 'page') and the parent Address Beach Resort page. No floor plans published; no form encountered. The page references its images on the azureedge CDN mirror (www-addresshotels-com.azureedge.net), which returns HTTP 403 to the fetcher's user agent; the identical wp-content path on the site's own host www.addresshotels.com serves the same files and is used here (verified byte-for-byte fetchable, not a guessed URL).",
+  "images": [
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/Res_1.jpg",
+      "note": "filename 'Res_1' - Address Residences image; filename names no room"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/Res_2.jpg",
+      "note": "filename 'Res_2' - Address Residences image; filename names no room"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/Res_3.jpg",
+      "note": "filename 'Res_3' - Address Residences image; filename names no room"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/Res_4.jpg",
+      "note": "filename 'Res_4' - Address Residences image; filename names no room"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/Res_5.jpg",
+      "note": "filename 'Res_5' - Address Residences image; filename names no room"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2020/10/Lounge-1-Point.jpg",
+      "note": "filename 'Lounge-1-Point' - residences lounge"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2020/10/200203_2BD_Service_Apertment_02_Living.jpg",
+      "note": "filename '2BD_Service_Apertment_02_Living' - living room of a TWO-BEDROOM serviced apartment"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2026/02/Address-Beach-Resort-I-Jacuzzi-1BRSuites-I-AJPG-8-scaled.jpg",
+      "note": "filename 'Jacuzzi-1BRSuites' - jacuzzi in a ONE-BEDROOM suite"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2021/04/Address-Beach-Resort-floor-77-3.jpg",
+      "note": "filename 'floor-77' - the 77th-floor infinity pool level"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2021/03/Rooms-on-home-page-2048x1538-1.jpg",
+      "note": "filename 'Rooms-on-home-page' - guest room interior"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2021/05/ADBCH-Spa-04-1.jpg",
+      "note": "filename 'ADBCH-Spa-04' - spa"
+    },
+    {
+      "url": "https://www.addresshotels.com/wp-content/uploads/2025/08/TBG_Homepage.jpg",
+      "note": "filename 'TBG_Homepage' - resort restaurant/venue image"
+    }
+  ]
+}

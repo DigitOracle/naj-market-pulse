@@ -266,6 +266,8 @@ def gov_weekly(a):
         S("dewa_views", py("scripts/build_dewa_views.py"), needs=["register_joins"]),       # twin colours + the internal resident mix (14 Sep)
         S("push_building_activity", fn=push_building_activity, needs=["dewa_views"], retry=1),
         S("push_resident_mix", fn=push_resident_mix, needs=["dewa_views"], retry=1),        # private route, v152.1 (15 Sep)
+        # 16 Sep: Naj's logged questions (worker v153 /questions/export) -> bank match -> weekly list to Kendall -> bank to the private store
+        S("question_bank", py("scripts/question_bank.py", "weekly"), retry=1),
     ]
 
 

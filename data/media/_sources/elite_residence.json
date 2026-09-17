@@ -1,0 +1,10 @@
+{
+  "project": "ELITE RESIDENCE",
+  "developer": "Tameer Holding Investment",
+  "area": "Dubai Marina",
+  "page": "http://tameer.net/elite-residence.aspx",
+  "_note": "Read 17 Sep 2026. Same legacy Tameer site as Princess Tower - plain HTTP only (cert mismatch on HTTPS). The page publishes a single 350x535 GIF of the tower plus a 'luxury living' headline graphic; the linked elite-residence_gallery.aspx Flash gallery renders empty. No interiors, no floor plans, no brochure.",
+  "images": [
+    { "url": "http://tameer.net/img/img_elite_residence_n.gif", "note": "filename 'img_elite_residence_n' - exterior image of the tower; only 350x535" }
+  ]
+}

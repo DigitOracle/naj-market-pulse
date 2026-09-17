@@ -1,0 +1,85 @@
+{
+  "project": "Eden House The PARK",
+  "developer": "H&H",
+  "area": "Al Wasl / Jumeirah (Dubai Water Canal), Dubai",
+  "page": "https://www.edenhousethepark.ae/",
+  "_note": "Read 17 Sep 2026. H&H Development's real corporate domain is h-h.ae (not hhdevelopment.com, which is an unrelated site). Images come from two H&H-owned pages: the official project site https://www.edenhousethepark.ae/ and the developer's own development page https://www.h-h.ae/development/eden-house-the-park - each image's note says which. No agency or portal source was used. The project site carries a 'Register Your Interest' form; it was NOT filled in and nothing gated behind it was fetched. No floor plans are published openly on either page.",
+  "images": [
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a71e36eadb6330f640a20ce_Exterior%2015.jpg",
+      "note": "filename 'Exterior 15', alt 'house-img' - despite the filename this is NOT a building elevation: it is a looking-down photograph of the canal-side promenade with a cyclist. Checked visually 17 Sep 2026."
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c0d4fd38463ce552c5fc_EHTP%20-%20Hero%20Image.webp",
+      "note": "filename 'EHTP - Hero Image', alt 'Banner Image main' on the h-h.ae development page - wide exterior render of three of the low-rise buildings seen across the Dubai Water Canal. Confirmed visually 17 Sep 2026; this is the sheet exterior."
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c35d8ce9508f25edb95e_EHTP%20-%20Sideview.webp",
+      "note": "filename 'EHTP - Sideview' (h-h.ae development page) - exterior side elevation"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a71e5c14a73bf6608dee995_Balcony%20Shot%20-%20Eden%20House%20The%20Park.jpg",
+      "note": "filename 'Balcony Shot - Eden House The Park' - view from a balcony"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72c7c21382013d68977a90_EHTP_B6_LIFT%20LOBBY%20CORRIDOR.jpg",
+      "note": "filename 'EHTP_B6_LIFT LOBBY CORRIDOR' - lift lobby corridor, Building 6"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d50f7e88e9246e903e37_1.jpg",
+      "note": "Interiors slider image 1; developer alt text 'slider living room' - living room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d567a4a1fc448742103e_2.jpg",
+      "note": "Interiors slider image 2; developer alt text 'slider bedroom img' - bedroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d57aef1bb7f853a97ef6_3.jpg",
+      "note": "Interiors slider image 3; developer alt text 'slider living room' - living room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5a21382013d689c184d_4.jpg",
+      "note": "Interiors slider image 4; developer alt text 'slider living room' - living room"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5cffd5837637d955b40_5.jpg",
+      "note": "Interiors slider image 5; developer alt text 'slider bedroom 2 img' - second bedroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5cf5a15034264ebcb3e_6.jpg",
+      "note": "Interiors slider image 6; developer alt text 'slider bathroom img' - bathroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5cf7e8b2ee88c25df89_7.jpg",
+      "note": "Interiors slider image 7; developer alt text 'slider bathroom img' - bathroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5cfd78393736ab690fb_8.jpg",
+      "note": "Interiors slider image 8; developer alt text 'slider bathroom img' - bathroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5cf9cfb47ff3da6390e_9.jpg",
+      "note": "Interiors slider image 9; developer alt text 'slider bathroom img' - bathroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/67a5aae58fe950adeff7c8d9/6a72d5ceb603c22c9d3340df_10.jpg",
+      "note": "Interiors slider image 10; developer alt text 'slider bathroom img' - bathroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c3071af67635a98c316e_Lounge.webp",
+      "note": "filename 'Lounge' (h-h.ae development page slider) - lounge"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c3832a5541075d6cdb65_kitchen.webp",
+      "note": "filename 'kitchen' (h-h.ae development page slider) - kitchen"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c3e4813a541b54c9ff25_bedroom.webp",
+      "note": "filename 'bedroom' (h-h.ae development page slider) - bedroom"
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/659fbf11b07c7a18d54a6cf9/6731c3f37e702fd59f92da42_terrace.webp",
+      "note": "filename 'terrace' (h-h.ae development page slider) - terrace"
+    }
+  ]
+}

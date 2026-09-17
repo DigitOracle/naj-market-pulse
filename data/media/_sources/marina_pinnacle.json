@@ -1,0 +1,10 @@
+{
+  "project": "MARINA PINNACLE",
+  "developer": "Tiger Group (Tiger Properties)",
+  "area": "Dubai Marina",
+  "page": "https://www.tigergroup.ae/dubai/towers/marina-pinnacle-tower",
+  "_note": "Read 17 Sep 2026. Tiger Group's own tower page carries no project photography or renders at all - its only non-logo image is a single unnamed 593x576 S3 asset, below the 600px floor. The page's banner/background images (/Bannerimage.webp, /bg.webp) are site-wide chrome, not the building. A brochure is offered but behind a name/email/phone form, so not fetched. Effectively no developer-published exterior render for this tower.",
+  "images": [
+    { "url": "https://s3.amazonaws.com/attachments.website.tigergroup.ae/17E03241-0B0C-4C7C-A101-7B65AE2AD6C7", "note": "the page's only content image; filename is a bare GUID and names nothing - 593x576, below the size floor" }
+  ]
+}

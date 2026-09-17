@@ -303,6 +303,17 @@ def main():
                 "median_rent", "gross_yield_pct", "ask_med", "ask_min", "ask_max", "ask_n", "basis")
     DLD_KEEP = ("project", "property_id", "community", "plot_no", "master", "plot_area_sqm", "buildings_on_plot", "freehold")
     DM_KEEP = ("floors_label", "basements", "floors_above", "lifts", "indoor_parking", "completed", "dm_status", "height_m")
+    # 17 Sep 2026: the developer cards carry the client-fact-sheet action, and they resolve a card to
+    # a building through this dataset, not the search index. So the slug rides here too.
+    #
+    # NOT called `sheet`. That name is taken on these records and means the DEVELOPER's availability
+    # sheet - a count of units the developer has listed - and two different "sheets" on one card would
+    # be misread, most likely by us. Resolution is the same rule the search index uses, so a card and
+    # a Find row can never disagree about where a building's sheet lives.
+    from build_search_index import sheet_slugs, resolve_sheet
+    _slugs = sheet_slugs()
+    _n_cs = 0
+
     slim = {}
     for k_, r_ in projects_out.items():
         o = {x: r_.get(x) for x in ("name", "district", "i", "status", "total_units", "asset_classes", "floors", "car_parks",
@@ -311,9 +322,14 @@ def main():
         if r_.get("dld"): o["dld"] = {x: r_["dld"].get(x) for x in DLD_KEEP if r_["dld"].get(x) is not None}
         if r_.get("dm"): o["dm"] = {x: r_["dm"].get(x) for x in DM_KEEP if r_["dm"].get(x) is not None}
         if r_.get("remaining"): o["remaining"] = {x: y for x, y in r_["remaining"].items() if x != "basis" and y is not None}
+        _cs = resolve_sheet(_slugs, r_.get("name") or "")
+        if _cs:
+            o["client_sheet"] = _cs
+            _n_cs += 1
         slim[k_] = o
     json.dump({"generated": today, "projects": projects_out}, open(os.path.join(BOARD, "unitmix_projects.json"), "w", encoding="utf-8"), ensure_ascii=False)
     json.dump({"generated": today, "projects": slim}, open(os.path.join(BOARD, "unitmix_projects_slim.json"), "w", encoding="utf-8"), ensure_ascii=False)
+    print(f"  client-sheet slugs on {_n_cs:,} projects")
     print(f"unitmix_projects: {len(projects_out):,} projects | full {os.path.getsize(os.path.join(BOARD, 'unitmix_projects.json'))//1024} KB -> hover index {os.path.getsize(os.path.join(BOARD, 'unitmix_projects_slim.json'))//1024} KB")
     if not dry: print("unitmix_projects ->", push("unitmix_projects", {"generated": today, "projects": slim}, tok).get("ok"))
     print(f"TOTAL {dict(tot)} | projects indexed {len(projects_out)}")
