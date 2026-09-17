@@ -1,0 +1,19 @@
+{
+  "_source": "BEYOND project page, read 17 September 2026 (manifest: data/media/_sources/orise.json).",
+  "_assets_from": "Images published openly on that page. Anything behind an enquiry form was not fetched.",
+  "developer": "BEYOND",
+  "strapline": "BEYOND, Dubai Maritime City",
+  "asset_overrides": {
+    "hero": "m_9f897d0cfa16",
+    "living": "m_3a56853bcff9",
+    "bedroom": "m_e1258678a099",
+    "amenity": "m_9f897d0cfa16"
+  },
+  "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
+  "captions": {
+    "living": "Living room",
+    "bedroom": "Bedroom",
+    "amenity": "Amenities"
+  },
+  "image_note": "Images are published by BEYOND on its own project page, and are reproduced here for a buyer considering the building. Where they are computer renders they show the developer's intended specification, not any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
+}

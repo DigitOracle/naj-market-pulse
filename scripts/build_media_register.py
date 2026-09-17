@@ -311,10 +311,18 @@ def main():
 
     import duckdb
     con = duckdb.connect(DB)
-    con.execute("""create or replace table media (media_id varchar primary key, kind varchar, developer varchar, project varchar, area varchar,
+    # A scan of ONE source must never delete another source's rows. This scanner owns exactly what it
+    # reads - the WhatsApp developer group and the brochure folder - and nothing else. `create or
+    # replace` owned the whole table, so one run of this wiped ~800 images the developer-website
+    # fetcher had registered across 86 projects. The pictures were untouched on disk; the index of
+    # them was not, and the index is what a sheet reads.
+    con.execute("""create table if not exists media (media_id varchar primary key, kind varchar, developer varchar, project varchar, area varchar,
                    path varchar, bytes integer, w integer, h integer, orient varchar, source_file varchar, source varchar, page integer,
                    image_cover double, text_chars integer, reuse_basis varchar, sha1 varchar, registered_at varchar, worker_key varchar,
                    saturation double, whiteness double, detail double, edge_density double)""")
+    con.execute("delete from media where source like 'developer group%' or source like 'brochure folder%'")
+    rows = [r for r in rows
+            if r["media_id"] not in {x[0] for x in con.execute("select media_id from media").fetchall()}]
     con.executemany("insert into media values (" + ",".join("?" * 23) + ")",
                     [(r["media_id"], r["kind"], r["developer"], r["project"], r["area"], r["path"], r["bytes"], r["w"], r["h"], r["orient"],
                       r["source_file"], r["source"], r["page"], r["image_cover"], r["text_chars"], r["reuse_basis"], r["sha1"], r["registered_at"], None, r["sat"], r["white"], r["detail"], r["edges"]) for r in rows])

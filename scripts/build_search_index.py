@@ -46,6 +46,15 @@ def load(p, default):
 #
 # A row with no `sheet` key has no Land Department project behind it, so a sheet can never be built
 # for it - the app can grey the action without a round trip.
+FILLER = ("at", "by", "the", "in", "on", "of", "and", "a")
+
+
+def strip_filler(s):
+    """Drop joining words that carry no identity. Used only as a FALLBACK, after the exact and
+    before-comma lookups, so it can never turn a correct exact match into something else."""
+    return " ".join(w for w in re.split(r"[^A-Za-z0-9]+", str(s or "")) if w and w.lower() not in FILLER)
+
+
 def resolve_sheet(sheets, name):
     """The marketing name is often longer than the registered one - the Find row says "Peninsula
     Four, The Plaza" where the register says "Peninsula Four". Exact first, then the part before a
@@ -58,11 +67,25 @@ def resolve_sheet(sheets, name):
     head = nk(str(name).split(",")[0])
     if head and head in sheets:
         return sheets[head]
-    best = None
+    # Filler words only. "Palace Residences AT Dubai Hills Estate" lost its own sheet - which was
+    # registered, exactly, as palace_residences_dubai_hills_estate - over the single word "at", and
+    # fell through to the prefix rule, which handed a Dubai Hills buyer Creek Harbour prices. Try
+    # the name again without the joining words before resorting to a prefix.
+    for cand in (nk(strip_filler(name)), nk(strip_filler(str(name).split(",")[0]))):
+        if cand and cand in sheets:
+            return sheets[cand]
+    best, ambiguous = None, False
     for kk, sl in sheets.items():
         if len(kk) >= 9 and k.startswith(kk) and (best is None or len(kk) > len(best[0])):
             best = (kk, sl)
-    return best[1] if best else None
+    if best:
+        # A prefix that fronts SEVERAL different sheets names a family, not a building: "Palace
+        # Residences" is registered in its own right and points at Creek Harbour, so every
+        # "Palace Residences <somewhere>" that missed above landed on the wrong community's prices.
+        # Where the prefix cannot tell them apart, refuse - no sheet beats the wrong sheet.
+        kin = {sl for kk, sl in sheets.items() if kk.startswith(best[0])}
+        ambiguous = len(kin) > 1
+    return None if (best is None or ambiguous) else best[1]
 
 
 def sheet_slugs():

@@ -1,0 +1,17 @@
+{
+  "_source": "Emaar project page, read 17 September 2026 (manifest: data/media/_sources/the_cove.json).",
+  "_assets_from": "Images published openly on that page. Anything behind an enquiry form was not fetched.",
+  "developer": "Emaar",
+  "strapline": "Emaar, Dubai Creek Harbour",
+  "asset_overrides": {
+    "hero": "m_ebeeb9dd9220",
+    "bedroom": "m_43c77bfa4ae9",
+    "amenity": "m_58acc47dbfa1"
+  },
+  "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
+  "captions": {
+    "bedroom": "Bedroom",
+    "amenity": "Amenities"
+  },
+  "image_note": "Images are published by Emaar on its own project page, and are reproduced here for a buyer considering the building. Where they are computer renders they show the developer's intended specification, not any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
+}

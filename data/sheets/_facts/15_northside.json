@@ -1,0 +1,23 @@
+{
+  "_source": "Select Group project page, read 17 September 2026 (manifest: data/media/_sources/15_northside.json).",
+  "_assets_from": "Images published openly on that page. Anything behind an enquiry form was not fetched.",
+  "developer": "Select Group",
+  "strapline": "Select Group, Business Bay",
+  "asset_overrides": {
+    "hero": "m_656dcf027aa3",
+    "living": "m_e01ad406edd5",
+    "kitchen": "m_760f87c96a5b",
+    "bath": "m_f330b482db26",
+    "bedroom": "m_ac95e9bce0b7",
+    "amenity": "m_783ded023be4"
+  },
+  "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
+  "captions": {
+    "living": "Living room",
+    "kitchen": "Kitchen",
+    "bath": "Bathroom",
+    "bedroom": "Bedroom",
+    "amenity": "Amenities"
+  },
+  "image_note": "Images are published by Select Group on its own project page, and are reproduced here for a buyer considering the building. Where they are computer renders they show the developer's intended specification, not any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
+}

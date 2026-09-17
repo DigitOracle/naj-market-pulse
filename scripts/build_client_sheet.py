@@ -398,6 +398,12 @@ def build_record(name, district=None, min_sales=20):
     }
 
     why = []
+    # Kendall, 17 Sep 2026: no exterior, no sheet. Fifteen buildings across seven developers turned
+    # out to publish no plain photograph of themselves - only balconies, pool decks and views looking
+    # OUT. A sheet whose first page is a grey rectangle where the building should be reads as broken,
+    # and she will not send it; "no exterior published" is a sentence she can say to a client.
+    if "hero" not in imgs:
+        why.append("no exterior picture published by the developer")
     if sales_total < min_sales:
         why.append("only %d recorded sales (bar is %d)" % (sales_total, min_sales))
     if not imgs:
