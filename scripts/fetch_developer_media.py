@@ -117,14 +117,40 @@ def main():
     if a.dry or not rows:
         return 0
 
+    # DuckDB takes a single writer lock on the file. Several scouts fetching different developers at
+    # once is the whole point of running them in parallel, and without this they collide and one loses
+    # its work after doing all the downloading. Wait for the writer rather than fail.
+    import random
     import duckdb
-    con = duckdb.connect(DB)
+    for attempt in range(12):
+        try:
+            con = duckdb.connect(DB)
+            break
+        except Exception as e:
+            if "lock" not in str(e).lower() and "being used" not in str(e).lower():
+                raise
+            wait = min(20, 2 ** attempt * 0.4) + random.random()
+            print("  media table busy (another fetch is writing); waiting %.1fs" % wait)
+            time.sleep(wait)
+    else:
+        print("could not get the media table after 12 tries - the images are on disk, re-run this slug")
+        return 1
+
     cols = [c[0] for c in con.execute("describe media").fetchall()]
+    # One image published on two projects shares a sha1, so the media_id collides and the whole batch
+    # rolls back. Drop rows already registered elsewhere rather than lose the fetch.
+    have = {r[0] for r in con.execute("select media_id from media where project <> ?", [project]).fetchall()}
+    clash = [r for r in rows if r["media_id"] in have]
+    if clash:
+        rows = [r for r in rows if r["media_id"] not in have]
+        print("  %d image(s) already registered under another project - skipped: %s"
+              % (len(clash), ", ".join(c["source_file"][:40] for c in clash[:3])))
     con.execute("delete from media where project = ? and source not like 'developer group%'", [project])
-    con.executemany("insert into media (%s) values (%s)" % (", ".join(cols), ", ".join("?" * len(cols))),
-                    [[r.get(c) for c in cols] for r in rows])
+    if rows:
+        con.executemany("insert into media (%s) values (%s)" % (", ".join(cols), ", ".join("?" * len(cols))),
+                        [[r.get(c) for c in cols] for r in rows])
     con.close()
-    print("media table updated for %s" % project)
+    print("media table updated for %s (%d rows)" % (project, len(rows)))
     return 0
 
 
