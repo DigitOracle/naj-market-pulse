@@ -61,7 +61,6 @@ SPLICE_FLY = False                  # Kendall, 17 Sep: pulled. It is daylight ae
                                     # DAMAC Hills cinematic.
 BUDGET_HI = 14                      # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
-REPORT_ID = os.environ.get("NAJMA_REPORT_ID", "")   # beat 6: the /r/<id> client briefing
 
 
 # ---------------------------------------------------------------- the key
@@ -181,6 +180,16 @@ def journey(pg, mark):
     pg.wait_for_timeout(1500)
     mark("beat1")            # the fly-through is spliced in here
 
+    # BEAT 2 - "what are the schools like?"                                 Q028/Q029
+    # Asked here, with the district up, rather than after the building: clicking an amenity chip
+    # clears the building selection, which would take the panel's "on the twin" link with it.
+    try:
+        glide_click(pg, pg.get_by_text("SCHOOLS", exact=False).first, pause=900)
+    except Exception as e:
+        print("   beat 2: could not reach the schools chip (%s)" % str(e).split("\n")[0][:70])
+    pg.wait_for_timeout(2400)
+    mark("beat2")
+
     # BEAT 3 - "my budget's two million and I need two bedrooms"            Q074
     # "two million" is a CEILING, so the low handle goes to the floor too - drag only the high one
     # and the filter silently becomes a 1.5M-2.0M band, which quietly drops every match under 1.5M
@@ -205,13 +214,17 @@ def journey(pg, mark):
     pg.wait_for_timeout(2600)
     mark("beat5")
 
-    # BEAT 7 - "how far is the nearest school?"                             Q028/Q029
-    try:
-        glide_click(pg, pg.get_by_text("SCHOOLS", exact=False).first, pause=900)
-    except Exception as e:
-        print("   beat 7: could not reach the schools chip (%s)" % str(e).split("\n")[0][:70])
-    pg.wait_for_timeout(2600)
-    mark("beat7")
+    # BEAT 6 - the twin (Kendall, 17 Sep: "the digital twin is pretty important")     Q038/Q039
+    # Go through the building panel's own "on the twin" link (-> /skyline/businessbay), not the TWIN
+    # tab in the nav: the nav goes to /skyline?all=1, the whole-of-Dubai view, and the district would
+    # have to be picked again. The panel link carries the building across, and clicking it is what a
+    # client would actually do. The twin's own searchbox is no use here - the 3D canvas swallows
+    # keystrokes, so typing into it times out.
+    glide_click(pg, pg.get_by_text("on the twin", exact=False).first, pause=1500)
+    pg.wait_for_load_state("networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS)                       # a new document - the drawn cursor went with the old one
+    pg.wait_for_timeout(7000)                    # the CityEngine scene streams in
+    mark("beat6")
 
 
 def fetch_flythrough():
@@ -267,6 +280,39 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
+SHEET_PDF = os.path.join(ROOT, "data", "sheets", "peninsula_one.pdf")
+PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
+
+
+def close_clip(seconds_per_page=4.0):
+    """The three-pager, page by page - the close. Kendall, 17 Sep: "that's like the gold".
+
+    Built by scripts/build_client_sheet.py, which is the same PDF Naj forwards to a client, so the
+    video ends on the actual artefact rather than a picture of one.
+
+    Each page is fitted into the TOP of the frame, not the middle: the avatar takes the bottom third,
+    and page 1's bottom is the provenance block - where every figure came from - which is the whole
+    argument for the document and must not end up behind her head.
+    """
+    if not os.path.exists(SHEET_PDF):
+        print("NOTE: no client sheet at %s - build it with:" % SHEET_PDF)
+        print("      python scripts/build_client_sheet.py --building \"%s\"" % HERO)
+        return None
+    import fitz
+    doc = fitz.open(SHEET_PDF)
+    clips = []
+    for i, page in enumerate(doc):
+        png = os.path.join(RAW, "sheet_p%d.png" % (i + 1))
+        page.get_pixmap(dpi=200).save(png)
+        clip = os.path.join(RAW, "_close%d.mp4" % (i + 1))
+        ff("-loop", "1", "-framerate", "30", "-i", png, "-t", str(seconds_per_page),
+           "-vf", "scale=950:1344:flags=lanczos,pad=%d:%d:65:60:%s,format=yuv420p" % (W, H, PAPER),
+           "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", clip)
+        clips.append(clip)
+    print("close: %d pages x %.1fs" % (len(clips), seconds_per_page))
+    return clips
+
+
 def cut():
     j = os.path.join(RAW, "journey.webm")
     fly = os.path.join(RAW, "flythrough.mp4")
@@ -293,16 +339,23 @@ def cut():
         c = os.path.join(RAW, "_c.mp4")
         ff("-i", j, "-ss", str(split), *enc, c); parts.append(c)
     else:
+        # Trim to the marks. Playwright starts recording when the context opens and stops when it
+        # closes, so the raw take carries a blank head while the app loads and a tail after the last
+        # beat - about 17s of nothing between them.
+        head = max(0.0, marks.get("open", 0) - 0.6)
+        last = max(marks.values()) if marks else None
+        # -ss AFTER -i: before it, ffmpeg seeks to the nearest keyframe, and a Playwright webm has
+        # them far enough apart to leave ~10s of the blank head still in the cut. After it, the seek
+        # is frame-accurate. Slower, and this is re-encoding anyway.
         a = os.path.join(RAW, "_a.mp4")
-        ff("-i", j, *enc, a); parts.append(a)
+        span = ["-ss", str(head)] + (["-t", str(last + 1.5 - head)] if last else [])
+        ff("-i", j, *span, *enc, a); parts.append(a)
 
     # THE CLOSE. Kendall, 17 Sep: the three-pager is "the gold" - so it ends the video rather than
-    # sitting mid-roll. The schools question is the last thing the map answers; the brief is what
-    # the client is left holding.
-    brief = os.path.join(RAW, "brief.mp4")
-    if os.path.exists(brief):
-        d = os.path.join(RAW, "_d.mp4")
-        ff("-i", brief, *enc, d); parts.append(d)
+    # sitting mid-roll. The app answers the questions; the PDF is what the client walks away with.
+    closing = close_clip()
+    if closing:
+        parts.extend(closing)
 
     listing = os.path.join(RAW, "concat.txt")
     with open(listing, "w", encoding="utf-8") as f:
@@ -313,8 +366,6 @@ def cut():
     secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
     print("wrote %s  (%.1fs)" % (out, secs))
-    if not REPORT_ID:
-        print("beat 6 still missing: set NAJMA_REPORT_ID to the /r/<id> once Kendall sends it")
 
 
 # ---------------------------------------------------------------- probe
