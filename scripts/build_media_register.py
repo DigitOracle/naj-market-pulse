@@ -201,6 +201,21 @@ def page_is_picture(page):
     return min(cover, 1.0), len(text), (cover >= MIN_IMAGE_COVER and len(text) <= MAX_TEXT_CHARS)
 
 
+# The developer's own material only. Agency and portal sites redistribute images we have no right
+# to publish, and a client sheet carries a real broker's licence. This is a standing rule and it was
+# not enforced anywhere in code: a brochure named ...Brochure_PropertyFinder.pdf was scanned like any
+# other and supplied all four pictures on a LIVE sheet - of a different building, as it turned out.
+# A rule that lives only in a conversation gets broken by the next run.
+PORTAL_SOURCE = re.compile(
+    r"(propertyfinder|property[-_ ]finder|bayut|dubizzle|squareyards|square[-_ ]yards|tanami|"
+    r"opr\.ae|zoopla|rightmove|houza|driven properties|allsopp)", re.I)
+
+
+def portal_sourced(path):
+    """True when a document's own name says it came from a portal rather than the developer."""
+    return bool(PORTAL_SOURCE.search(str(path or "")))
+
+
 def classify(im):
     """render, or plan. A floor plan is image-dominant and low-text too, so page shape cannot separate
     them - but a plan is drawn on white and barely coloured, and a render is neither. The Archive's
@@ -228,18 +243,35 @@ def classify(im):
 
 
 def sources():
+    """Documents this scanner may read.
+
+    A portal-sourced document is refused here rather than filtered later, because everything
+    downstream treats a registered row as usable. The old code built the provenance string as
+    "brochure folder (" + the last underscore-separated word - so it wrote "brochure folder
+    (PropertyFinder)" into the register and carried on. It knew where the file came from and
+    registered it anyway.
+    """
     out = []
     if os.path.isdir(CAPTURE):
         for f in sorted(os.listdir(CAPTURE)):
             if f.lower().endswith(".pdf"):
+                if portal_sourced(f):
+                    print("  REFUSED %s - portal-sourced; the developer's own material only" % f[:70])
+                    continue
                 out.append((os.path.join(CAPTURE, f), "developer group (DEVELOPER AVAILABILITY)", "developer-supplied: posted to the broker group for broker use"))
     if os.path.isdir(BROCHURE):
         for f in sorted(os.listdir(BROCHURE)):
             if f.lower().endswith(".pdf"):
+                if portal_sourced(f):
+                    print("  REFUSED %s - portal-sourced; the developer's own material only" % f[:70])
+                    continue
                 out.append((os.path.join(BROCHURE, f), "brochure folder (" + f.split("_")[-1].replace(".pdf", "") + ")", "published brochure: public marketing material"))
     if os.path.isdir(INBOX):
         for f in sorted(os.listdir(INBOX)):
             if f.lower().endswith(".pdf"):
+                if portal_sourced(f):
+                    print("  REFUSED %s - portal-sourced; the developer's own material only" % f[:70])
+                    continue
                 out.append((os.path.join(INBOX, f), "sent by Naj on WhatsApp", "developer-supplied: given to her as a broker, for broker use"))
     return out
 

@@ -77,20 +77,50 @@ def districts():
         yield os.path.basename(p)[len("tx_buildings_"):-len(".json")]
 
 
+# Projects a pooling refused, so --list-ready and the build log can say so out loud rather than
+# silently returning a smaller number than last time.
+FIND_EXCLUDED = []
+
+
 def find_building(name, district=None):
     """Locate a building across the per-district Land Department extracts.
 
     Returns every matching row - a two-tower development registers as two buildings (Bellevue
     Towers-1 and -2) and the caller decides whether to merge them or take the deepest one."""
     want = slugify(name)
-    hits = []
+    hits, seen = [], set()
     for d in ([district] if district else districts()):
         p = os.path.join(DLD, "tx_buildings_%s.json" % d)
         if not os.path.exists(p):
             continue
         for b in json.load(open(p, encoding="utf-8")).get("buildings", []):
             if want in slugify(b.get("project")) or want in slugify(b.get("building")):
+                # The same building can be reached through two district extracts, and Serenia
+                # District - East named its three towers twice on the sheet because of it.
+                k = (slugify(b.get("project")), slugify(b.get("building")))
+                if k in seen:
+                    continue
+                seen.add(k)
                 hits.append(dict(b, _district=d))
+
+    # A median may only pool buildings of ONE Land Department project. The test above is substring
+    # containment, so "symphony" also matched the project "Symphony by Chaimaa" - a different
+    # developer's scheme - and its eight sales were merged into Symphony's figures and printed as
+    # one median on a sheet a buyer keeps. This is the day's other name-is-not-an-identity bug, and
+    # it is the expensive one: a wrong link sends her to the wrong page, a wrong median sends a
+    # client a wrong price.
+    groups = {}
+    for b in hits:
+        groups.setdefault(slugify(b.get("project")), []).append(b)
+    if len(groups) > 1:
+        # the project actually asked for, else the deepest - never the union
+        pick = want if want in groups else max(groups, key=lambda g: sum(
+            (x.get("sales") or x.get("n") or 0) for x in groups[g]))
+        for g in groups:
+            if g != pick:
+                FIND_EXCLUDED.append((name, groups[g][0].get("project"),
+                                      sum((x.get("sales") or x.get("n") or 0) for x in groups[g])))
+        hits = groups[pick]
     return hits
 
 
