@@ -379,8 +379,15 @@ def main():
         if _name.upper() in ("", "NA", "N/A", "NONE", "UNKNOWN"):
             _name = (_addr or "").strip() or ("%s charger" % (_op or "EV"))
         _bits = []
-        if _op and str(_op).strip().lower() not in ("none", "(unknown operator)", "unknown"):
-            _bits.append(str(_op).strip())
+        # Seen rendered on the live map, which is the only place it was visible: the app prefixes a
+        # community-sourced row with "community listing, unverified" and then prints this line, so
+        # "Tesla (Tesla-only charging)" made the row read "unverified Tesla (Tesla-only charging)".
+        # That doubts TESLA rather than the listing, and she reads these to a client standing in
+        # front of her. Drop the parenthetical, and drop the connector when it only repeats the
+        # operator - 69 rows said "Tesla ... Tesla".
+        _opn = re.sub(r"\s*\(.*?\)", "", str(_op or "")).strip()
+        if _opn and _opn.lower() not in ("none", "unknown", ""):
+            _bits.append(_opn)
         if _bays:
             _bits.append("%d bay%s" % (int(_bays), "" if int(_bays) == 1 else "s"))
         if _kw:
@@ -389,7 +396,7 @@ def main():
             # "AC Type 2 (Mennekes) , DC CHAdeMO" -> "AC Type 2 \u00b7 DC CHAdeMO"
             _c = " \u00b7 ".join(sorted({re.sub(r"\s*\(.*?\)", "", x).strip()
                                          for x in str(_conn).split(",") if x.strip()}))
-            if _c:
+            if _c and _c.lower() != _opn.lower():
                 _bits.append(_c)
         _rec = {"k": "ev", "n": _name[:60], "lon": round(float(_lon), 5),
                 "lat": round(float(_lat), 5), "src": _SRC.get(_src, str(_src).lower())}
