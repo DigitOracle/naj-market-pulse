@@ -6,7 +6,8 @@ key, no watermark, commercial-safe (OSM ODbL, attribution shown). Reads `v_ev_ch
 
 Two things this map refuses to do, both because the data will not support them:
 
-1. It never claims to show Dubai's charging network. DEWA published 2,223 charge points for Q1 2026;
+1. It never claims to show Dubai's charging network. DEWA told WAM on 23 June 2026 that Dubai has
+   2,223 EV charging STATIONS (their word; our rows are device-level charge points);
    this layer holds 308. The subtitle carries the real coverage so the picture cannot be read as
    complete. See docs/DDA_PRODUCTION_CREDENTIALS_REQUEST_17SEP2026.md for why.
 
@@ -143,7 +144,7 @@ def render(df, W, H, out, bbox):
     fig.text(0.055, 0.958, "Dubai — where you can charge", color=CREAM, fontsize=18,
              fontweight=600, fontfamily=F_TITLE, zorder=10)
     fig.text(0.055, 0.933, f"{len(df)} charge points · {conn} connectors · a documented subset of "
-                           f"DEWA's 2,223 (Q1 2026)", color=GOLD, fontsize=10, zorder=10)
+                           f"DEWA's 2,223 stations (23 Jun 2026)", color=GOLD, fontsize=10, zorder=10)
 
     # Legend: charging class, then the provenance distinction. Both matter; neither is decoration.
     handles = [Line2D([], [], marker="o", linestyle="none", markersize=6, markerfacecolor=c,

@@ -1,7 +1,8 @@
 """ocm_pull.py -- OpenChargeMap ingestion for the Azimuth EV charging map.
 
 Why this exists: DEWA's register reaches us only through the data.dubai STAGING tier, which serves 177
-charge points against DEWA's published 2,223 for Q1 2026, with row timestamps frozen at Oct 2025.
+charge points against the 2,223 EV charging stations DEWA reported to WAM on 23 June 2026, with row
+timestamps frozen at Oct 2025.
 Production credentials are requested (docs/DDA_PRODUCTION_CREDENTIALS_REQUEST_17SEP2026.md) but even
 production is DEWA-only. OpenChargeMap carries every operator -- DEWA, UAEV, ADNOC E2GO, Tesla,
 private -- across the whole UAE.
@@ -251,7 +252,7 @@ def compare():
     print(f"{'DEWA register (data.dubai staging)':<38} {dewa[0]:>8} {dewa[1] or 0:>11}")
     print(f"{'OpenChargeMap, Dubai':<38} {ocm_dxb[0]:>8} {ocm_dxb[1] or 0:>11}")
     print(f"{'OpenChargeMap, all pulled countries':<38} {ocm_all[0]:>8} {ocm_all[1] or 0:>11}")
-    print("\nDEWA published 2,223 charge points for Dubai, Q1 2026.")
+    print('\nDEWA told WAM on 23 June 2026: "Dubai has 2,223 EV charging stations" (stations, not points).')
     print("OCM is community-contributed: treat it as reported, not registered.")
 
 

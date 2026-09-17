@@ -1,0 +1,558 @@
+<meta charset="utf-8">
+<title>Azimuth Charge Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Light palette is the complete set; the two dark blocks redefine only tokens.
+   The house identity (Najma/Azimuth) is dark-first, so dark is the richer of the two. */
+:root{
+  --ink:#F3EFE4; --ground:#E7E0CE; --panel:#FBF8F0; --edge:#D6CDB6;
+  --text:#14201E; --text-dim:#5C6B66; --water:#CBDBE0;
+  --road-0:#B9AE93; --road-1:#C3B99F; --road-2:#CFC5AC; --road-3:#DAD1BA;
+  --teal:#2F6F66; --teal-lt:#57A092; --amber:#B8752A; --hot:#8A5E12;
+  --accent:#2F6F66; --gold:#8A6A22;
+  --shadow:0 1px 2px rgba(20,32,30,.08), 0 8px 24px rgba(20,32,30,.07);
+  --focus:#2F6F66;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#0C1413; --ground:#0B1F1D; --panel:#101D1B; --edge:#1F3631;
+    --text:#EDE7D6; --text-dim:#8FA39F; --water:#0A1A22;
+    --road-0:#2A4742; --road-1:#22403B; --road-2:#1C3833; --road-3:#152E2A;
+    --teal:#3E8A7E; --teal-lt:#6FC3B0; --amber:#D9913F; --hot:#EFD9A7;
+    --accent:#6FC3B0; --gold:#C5A56A;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+    --focus:#6FC3B0;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#0C1413; --ground:#0B1F1D; --panel:#101D1B; --edge:#1F3631;
+  --text:#EDE7D6; --text-dim:#8FA39F; --water:#0A1A22;
+  --road-0:#2A4742; --road-1:#22403B; --road-2:#1C3833; --road-3:#152E2A;
+  --teal:#3E8A7E; --teal-lt:#6FC3B0; --amber:#D9913F; --hot:#EFD9A7;
+  --accent:#6FC3B0; --gold:#C5A56A;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+  --focus:#6FC3B0;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--ink); color:var(--text);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.45; -webkit-font-smoothing:antialiased;
+}
+:focus-visible{outline:2px solid var(--focus); outline-offset:2px; border-radius:3px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important; transition:none!important}}
+
+.app{display:grid; grid-template-rows:auto 1fr; height:100%}
+
+/* ---- masthead ---- */
+header{
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+  padding:14px 20px 12px; border-bottom:1px solid var(--edge); background:var(--panel);
+}
+h1{
+  font-family:Fraunces,Georgia,serif; font-weight:600; font-size:20px; margin:0;
+  letter-spacing:-.01em; text-wrap:balance;
+}
+.sub{color:var(--gold); font-size:12.5px; font-variant-numeric:tabular-nums}
+.spacer{flex:1 1 auto}
+.ghost{
+  background:transparent; border:1px solid var(--edge); color:var(--text-dim);
+  font:inherit; font-size:12px; padding:5px 11px; border-radius:6px; cursor:pointer;
+}
+.ghost:hover{color:var(--text); border-color:var(--text-dim)}
+
+/* ---- body: rail + map ---- */
+.main{display:grid; grid-template-columns:268px 1fr; min-height:0}
+.rail{
+  border-right:1px solid var(--edge); background:var(--panel);
+  overflow-y:auto; padding:16px 16px 28px; display:flex; flex-direction:column; gap:18px;
+}
+.stage{position:relative; min-width:0; background:var(--ground)}
+canvas{display:block; width:100%; height:100%; touch-action:none; cursor:grab}
+canvas.drag{cursor:grabbing}
+
+fieldset{border:0; margin:0; padding:0; display:flex; flex-direction:column; gap:7px}
+legend{
+  padding:0; font-size:10.5px; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--text-dim); margin-bottom:3px;
+}
+label.row{display:flex; align-items:center; gap:9px; cursor:pointer; font-size:13px; padding:1px 0}
+label.row input{accent-color:var(--accent); width:15px; height:15px; margin:0; flex:none}
+.swatch{width:10px; height:10px; border-radius:50%; flex:none}
+.swatch.hollow{background:transparent!important; border:1.5px solid currentColor}
+.count{margin-left:auto; color:var(--text-dim); font-size:11.5px; font-variant-numeric:tabular-nums}
+select,input[type=search]{
+  width:100%; font:inherit; font-size:13px; padding:7px 9px; color:var(--text);
+  background:var(--ink); border:1px solid var(--edge); border-radius:6px;
+}
+input[type=range]{width:100%; accent-color:var(--accent)}
+.rangewrap{display:flex; align-items:center; gap:10px}
+.rangeval{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px; color:var(--gold);
+  min-width:54px; text-align:right; font-variant-numeric:tabular-nums;
+}
+.hint{font-size:11px; color:var(--text-dim); margin:0}
+
+/* ---- readout + detail ---- */
+.readout{
+  position:absolute; left:14px; top:14px; background:var(--panel); border:1px solid var(--edge);
+  border-radius:8px; padding:9px 13px; box-shadow:var(--shadow); pointer-events:none; max-width:min(300px,60vw);
+}
+.readout b{font-size:17px; font-family:Fraunces,Georgia,serif; font-variant-numeric:tabular-nums}
+.readout span{color:var(--text-dim); font-size:11.5px; display:block; margin-top:1px}
+
+.detail{
+  position:absolute; right:14px; top:14px; width:min(292px,calc(100% - 28px));
+  background:var(--panel); border:1px solid var(--edge); border-radius:8px;
+  padding:14px 15px; box-shadow:var(--shadow);
+}
+.detail h2{margin:0 4px 2px 0; font-family:Fraunces,Georgia,serif; font-size:15.5px; font-weight:600; text-wrap:balance}
+.detail .addr{color:var(--text-dim); font-size:12px; margin:0 0 10px}
+.close{position:absolute; top:9px; right:10px; background:none; border:0; color:var(--text-dim); font-size:17px; cursor:pointer; line-height:1; padding:2px 4px}
+.close:hover{color:var(--text)}
+dl{display:grid; grid-template-columns:auto 1fr; gap:5px 12px; margin:0; font-size:12.5px}
+dt{color:var(--text-dim)}
+dd{margin:0; text-align:right; font-variant-numeric:tabular-nums}
+.tag{display:inline-block; font-size:10.5px; padding:2px 7px; border-radius:99px; border:1px solid currentColor; letter-spacing:.02em}
+.detail a{color:var(--accent); font-size:11.5px; display:inline-block; margin-top:10px}
+
+footer{
+  padding:9px 20px; border-top:1px solid var(--edge); background:var(--panel);
+  font-size:10.5px; color:var(--text-dim);
+}
+.warn{color:var(--gold)}
+
+@media (max-width:820px){
+  .main{grid-template-columns:1fr; grid-template-rows:auto 1fr}
+  .rail{
+    border-right:0; border-bottom:1px solid var(--edge); max-height:44vh;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:16px; align-items:start;
+  }
+  .stage{min-height:52vh}
+  .detail{position:absolute; left:14px; right:14px; width:auto}
+}
+</style>
+
+<div class="app">
+  <header>
+    <h1>Azimuth Charge Finder</h1>
+    <span class="sub" id="masthead">loading…</span>
+    <span class="spacer"></span>
+    <button class="ghost" id="theme" type="button">Light / dark</button>
+    <button class="ghost" id="reset" type="button">Reset filters</button>
+  </header>
+
+  <div class="main">
+    <aside class="rail">
+      <fieldset id="fs-class">
+        <legend>Charging class</legend>
+      </fieldset>
+
+      <fieldset id="fs-src">
+        <legend>Source</legend>
+      </fieldset>
+
+      <fieldset>
+        <legend>Community</legend>
+        <select id="f-area"><option value="">All communities</option></select>
+        <p class="hint" id="area-hint"></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Highway corridor</legend>
+        <select id="f-hwy"><option value="">Any road</option></select>
+        <div class="rangewrap">
+          <input type="range" id="f-hwyd" min="250" max="10000" step="250" value="10000">
+          <span class="rangeval" id="hwyd-val">any</span>
+        </div>
+        <p class="hint">Straight-line distance to the nearest stretch of that road.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Minimum power</legend>
+        <div class="rangewrap">
+          <input type="range" id="f-kw" min="0" max="250" step="10" value="0">
+          <span class="rangeval" id="kw-val">any</span>
+        </div>
+        <p class="hint">Only OpenChargeMap rows carry power; DEWA's register has no power field.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Minimum connectors</legend>
+        <div class="rangewrap">
+          <input type="range" id="f-conn" min="1" max="8" step="1" value="1">
+          <span class="rangeval" id="conn-val">any</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Search</legend>
+        <input type="search" id="f-q" placeholder="Site, address or operator" autocomplete="off">
+      </fieldset>
+    </aside>
+
+    <div class="stage">
+      <canvas id="map"></canvas>
+      <div class="readout"><b id="ro-n">—</b> <span id="ro-s"></span></div>
+      <div class="detail" id="detail" hidden>
+        <button class="close" id="detail-close" type="button" aria-label="Close">×</button>
+        <h2 id="d-name"></h2>
+        <p class="addr" id="d-addr"></p>
+        <dl id="d-list"></dl>
+        <a id="d-link" href="#" target="_blank" rel="noopener noreferrer" hidden>View source record →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span class="warn" id="coverage"></span>
+    Sources: DEWA EV Green Charger via Dubai Pulse (staging) · OpenChargeMap contributors (CC-BY-SA),
+    community-reported · roads &amp; water © OpenStreetMap contributors · highway refs from OSM.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var ARCH = [
+    {k:"wallbox_ac",     label:"Wall-box 22 kW AC",     v:"--teal"},
+    {k:"public_ac_dual", label:"Public 2×22 kW AC", v:"--teal-lt"},
+    {k:"fast_dc",        label:"Fast 43–90 kW DC",  v:"--amber"},
+    {k:"ultra_fast_dc",  label:"Ultra-fast 150 kW+ DC",  v:"--hot"}
+  ];
+  var SRC = [
+    {k:"register",  label:"DEWA register",       hollow:false},
+    {k:"community", label:"OpenChargeMap",       hollow:true}
+  ];
+
+  var HWYD_MAX = 10000;
+  var DATA = null, view = null, pts = [], shown = [], sel = null, hoverId = null;
+  var cv = document.getElementById("map"), ctx = cv.getContext("2d"), dpr = 1;
+
+  function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  /* ---------- theme ---------- */
+  function currentDark(){
+    var t = document.documentElement.getAttribute("data-theme");
+    if (t === "dark") return true;
+    if (t === "light") return false;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  document.getElementById("theme").addEventListener("click", function(){
+    document.documentElement.setAttribute("data-theme", currentDark() ? "light" : "dark");
+    try{ localStorage.setItem("azimuth-ev-theme", currentDark() ? "dark" : "light"); }catch(e){}
+    paintSwatches(); draw();
+  });
+  try{
+    var saved = localStorage.getItem("azimuth-ev-theme");
+    if (saved === "dark" || saved === "light") document.documentElement.setAttribute("data-theme", saved);
+  }catch(e){}
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function(){
+    if (!document.documentElement.getAttribute("data-theme")) { paintSwatches(); draw(); }
+  });
+
+  /* ---------- filter state ---------- */
+  var F = {
+    arch:{}, src:{}, area:"", hwy:"", hwyd:10000, kw:0, conn:1, q:""
+  };
+  ARCH.forEach(function(a){ F.arch[a.k] = true; });
+  SRC.forEach(function(s){ F.src[s.k] = true; });
+
+  function buildChecks(){
+    var fc = document.getElementById("fs-class");
+    ARCH.forEach(function(a){
+      var l = document.createElement("label"); l.className = "row";
+      l.innerHTML = '<input type="checkbox" id="c-'+a.k+'" checked>' +
+                    '<span class="swatch" data-var="'+a.v+'"></span>' +
+                    '<span>'+a.label+'</span><span class="count" id="n-'+a.k+'"></span>';
+      l.querySelector("input").addEventListener("change", function(e){
+        F.arch[a.k] = e.target.checked; apply();
+      });
+      fc.appendChild(l);
+    });
+    var fs = document.getElementById("fs-src");
+    SRC.forEach(function(s){
+      var l = document.createElement("label"); l.className = "row";
+      l.innerHTML = '<input type="checkbox" id="s-'+s.k+'" checked>' +
+                    '<span class="swatch'+(s.hollow?" hollow":"")+'" data-var="--text-dim"></span>' +
+                    '<span>'+s.label+'</span><span class="count" id="ns-'+s.k+'"></span>';
+      l.querySelector("input").addEventListener("change", function(e){
+        F.src[s.k] = e.target.checked; apply();
+      });
+      fs.appendChild(l);
+    });
+  }
+  function paintSwatches(){
+    Array.prototype.forEach.call(document.querySelectorAll(".swatch"), function(el){
+      var c = css(el.getAttribute("data-var"));
+      if (el.classList.contains("hollow")) el.style.color = c; else el.style.background = c;
+    });
+  }
+
+  /* ---------- filtering ---------- */
+  function apply(){
+    var q = F.q.toLowerCase();
+    shown = pts.filter(function(p){
+      if (!F.arch[p.arch]) return false;
+      if (!F.src[p.auth]) return false;
+      if (F.area && p.area !== F.area) return false;
+      if (F.hwy){ if (p.hwy !== F.hwy) return false; }
+      // The slider's top stop means "no limit", not "10 km" — 39 points sit further than that from
+      // any named road and must not vanish while the control still reads "any".
+      if (F.hwyd < HWYD_MAX && p.hwyd != null && p.hwyd > F.hwyd) return false;
+      if (F.kw > 0 && !(p.kw != null && p.kw >= F.kw)) return false;
+      if (F.conn > 1 && !(p.c >= F.conn)) return false;
+      if (q && (p.n + " " + p.ad + " " + p.op).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    if (sel && shown.indexOf(sel) === -1) closeDetail();
+    updateCounts(); draw();
+  }
+
+  function updateCounts(){
+    var conn = 0;
+    shown.forEach(function(p){ conn += p.c || 0; });
+    document.getElementById("ro-n").textContent = shown.length.toLocaleString();
+    document.getElementById("ro-s").textContent =
+      shown.length === pts.length
+        ? (conn.toLocaleString() + " connectors · everything in the layer")
+        : (conn.toLocaleString() + " connectors · of " + pts.length.toLocaleString() + " total");
+    // per-facet counts respect every OTHER filter, so a zero tells you the combination is empty
+    ARCH.forEach(function(a){
+      var el = document.getElementById("n-"+a.k);
+      if (el) el.textContent = pts.filter(function(p){ return p.arch === a.k; }).length;
+    });
+    SRC.forEach(function(s){
+      var el = document.getElementById("ns-"+s.k);
+      if (el) el.textContent = pts.filter(function(p){ return p.auth === s.k; }).length;
+    });
+  }
+
+  /* ---------- projection / view ---------- */
+  function fit(){
+    var b = DATA.bounds, w = cv.clientWidth, h = cv.clientHeight;
+    var s = Math.min(w / (b[2]-b[0]), h / (b[3]-b[1]));
+    view = {s:s, x:(w - (b[2]-b[0])*s)/2 - b[0]*s, y:h + b[1]*s - (h - (b[3]-b[1])*s)/2};
+  }
+  function sx(x){ return x * view.s + view.x; }
+  function sy(y){ return view.y - y * view.s; }
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width  = Math.max(1, Math.round(cv.clientWidth  * dpr));
+    cv.height = Math.max(1, Math.round(cv.clientHeight * dpr));
+    if (!view) fit();
+    draw();
+  }
+
+  /* ---------- draw ---------- */
+  function draw(){
+    if (!DATA || !view) return;
+    var w = cv.clientWidth, h = cv.clientHeight;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = css("--ground"); ctx.fillRect(0,0,w,h);
+
+    var bm = DATA.basemap || {};
+    if (bm.water){
+      ctx.fillStyle = css("--water");
+      bm.water.forEach(function(f){
+        ctx.beginPath();
+        for (var i=0;i<f.xy.length;i++){ var p=f.xy[i]; i?ctx.lineTo(sx(p[0]),sy(p[1])):ctx.moveTo(sx(p[0]),sy(p[1])); }
+        ctx.closePath(); ctx.fill();
+      });
+    }
+    if (bm.roads){
+      var widths = [2.0,1.6,1.1,0.6], cols = ["--road-0","--road-1","--road-2","--road-3"];
+      for (var wt=3; wt>=0; wt--){
+        ctx.strokeStyle = css(cols[wt]);
+        ctx.lineWidth = widths[wt] * Math.max(1, Math.min(view.s / (view.s0 || view.s), 3));
+        ctx.lineCap = "round"; ctx.lineJoin = "round";
+        ctx.beginPath();
+        bm.roads.forEach(function(f){
+          if (f.w !== wt) return;
+          for (var i=0;i<f.xy.length;i++){ var p=f.xy[i]; i?ctx.lineTo(sx(p[0]),sy(p[1])):ctx.moveTo(sx(p[0]),sy(p[1])); }
+        });
+        ctx.stroke();
+      }
+    }
+
+    // points, slow classes first so rapid sites stay on top in a cluster
+    var order = {wallbox_ac:0, public_ac_dual:1, fast_dc:2, ultra_fast_dc:3};
+    var list = shown.slice().sort(function(a,b){ return order[a.arch]-order[b.arch]; });
+    var inkc = css("--ink");
+    list.forEach(function(p){
+      var x = sx(p.x), y = sy(p.y);
+      if (x < -20 || y < -20 || x > w+20 || y > h+20) return;
+      var r = 3.1 + Math.min(p.c || 1, 6) * 0.72;
+      var col = css(ARCH.filter(function(a){ return a.k === p.arch; })[0].v);
+      ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832);
+      if (p.auth === "register"){
+        ctx.fillStyle = col; ctx.fill();
+        ctx.lineWidth = 0.9; ctx.strokeStyle = inkc; ctx.stroke();
+      } else {
+        ctx.lineWidth = 1.5; ctx.strokeStyle = col; ctx.stroke();
+      }
+      if (p === sel || p.id === hoverId){
+        ctx.beginPath(); ctx.arc(x, y, r + 4.5, 0, 6.2832);
+        ctx.lineWidth = 1.6; ctx.strokeStyle = css("--gold"); ctx.stroke();
+      }
+    });
+  }
+
+  /* ---------- interaction ---------- */
+  function hit(mx, my){
+    var best = null, bd = 13;
+    for (var i = shown.length - 1; i >= 0; i--){
+      var p = shown[i], d = Math.hypot(sx(p.x) - mx, sy(p.y) - my);
+      if (d < bd){ bd = d; best = p; }
+    }
+    return best;
+  }
+  var drag = null;
+  cv.addEventListener("pointerdown", function(e){
+    cv.setPointerCapture(e.pointerId);
+    drag = {x:e.offsetX, y:e.offsetY, ox:view.x, oy:view.y, moved:false};
+    cv.classList.add("drag");
+  });
+  cv.addEventListener("pointermove", function(e){
+    if (drag){
+      var dx = e.offsetX - drag.x, dy = e.offsetY - drag.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+      view.x = drag.ox + dx; view.y = drag.oy + dy; draw();
+    } else {
+      var h2 = hit(e.offsetX, e.offsetY), id = h2 ? h2.id : null;
+      if (id !== hoverId){ hoverId = id; cv.style.cursor = id ? "pointer" : "grab"; draw(); }
+    }
+  });
+  cv.addEventListener("pointerup", function(e){
+    cv.classList.remove("drag");
+    var wasDrag = drag && drag.moved; drag = null;
+    if (wasDrag) return;
+    var p = hit(e.offsetX, e.offsetY);
+    if (p) openDetail(p); else closeDetail();
+  });
+  cv.addEventListener("pointercancel", function(){ drag = null; cv.classList.remove("drag"); });
+  cv.addEventListener("wheel", function(e){
+    e.preventDefault();
+    var k = Math.exp(-e.deltaY * 0.0014);
+    var ns = Math.max(view.s0 * 0.85, Math.min(view.s * k, view.s0 * 90));
+    var mx = e.offsetX, my = e.offsetY;
+    view.x = mx - (mx - view.x) * (ns / view.s);
+    view.y = my - (my - view.y) * (ns / view.s);
+    view.s = ns; draw();
+  }, {passive:false});
+
+  function openDetail(p){
+    sel = p;
+    document.getElementById("d-name").textContent = p.n;
+    document.getElementById("d-addr").textContent = p.ad || "";
+    var rows = [
+      ["Operator", p.op],
+      ["Class", (ARCH.filter(function(a){ return a.k === p.arch; })[0] || {}).label],
+      ["Connectors", p.c || "—"],
+      ["Max power", p.kw != null ? p.kw + " kW" : "not recorded"],
+      ["Connector types", p.ct || "—"],
+      ["Community", p.area || "outside mapped areas"],
+      ["Nearest road", p.hwy ? (p.hwy + " · " + fmtM(p.hwyd)) : "—"],
+      ["Source", p.src + (p.auth === "community" ? " (community)" : " (register)")]
+    ];
+    document.getElementById("d-list").innerHTML = rows.map(function(r){
+      return "<dt>" + r[0] + "</dt><dd>" + String(r[1]) + "</dd>";
+    }).join("");
+    var a = document.getElementById("d-link");
+    if (p.url){ a.href = p.url; a.hidden = false; } else { a.hidden = true; }
+    document.getElementById("detail").hidden = false;
+    draw();
+  }
+  function closeDetail(){ sel = null; document.getElementById("detail").hidden = true; draw(); }
+  document.getElementById("detail-close").addEventListener("click", closeDetail);
+
+  function fmtM(m){
+    if (m == null) return "—";
+    return m < 1000 ? (m + " m") : ((m/1000).toFixed(m < 10000 ? 1 : 0) + " km");
+  }
+
+  /* ---------- controls ---------- */
+  function wire(){
+    document.getElementById("f-area").addEventListener("change", function(e){ F.area = e.target.value; apply(); });
+    document.getElementById("f-hwy").addEventListener("change", function(e){ F.hwy = e.target.value; apply(); });
+    document.getElementById("f-hwyd").addEventListener("input", function(e){
+      F.hwyd = +e.target.value;
+      document.getElementById("hwyd-val").textContent = F.hwyd >= HWYD_MAX ? "any" : ("≤ " + fmtM(F.hwyd));
+      apply();
+    });
+    document.getElementById("f-kw").addEventListener("input", function(e){
+      F.kw = +e.target.value;
+      document.getElementById("kw-val").textContent = F.kw === 0 ? "any" : ("≥ " + F.kw + " kW");
+      apply();
+    });
+    document.getElementById("f-conn").addEventListener("input", function(e){
+      F.conn = +e.target.value;
+      document.getElementById("conn-val").textContent = F.conn <= 1 ? "any" : ("≥ " + F.conn);
+      apply();
+    });
+    var qt;
+    document.getElementById("f-q").addEventListener("input", function(e){
+      clearTimeout(qt); var v = e.target.value;
+      qt = setTimeout(function(){ F.q = v; apply(); }, 110);
+    });
+    document.getElementById("reset").addEventListener("click", function(){
+      ARCH.forEach(function(a){ F.arch[a.k] = true; document.getElementById("c-"+a.k).checked = true; });
+      SRC.forEach(function(s){ F.src[s.k] = true; document.getElementById("s-"+s.k).checked = true; });
+      F.area = ""; F.hwy = ""; F.hwyd = HWYD_MAX; F.kw = 0; F.conn = 1; F.q = "";
+      document.getElementById("f-area").value = "";
+      document.getElementById("f-hwy").value = "";
+      document.getElementById("f-hwyd").value = HWYD_MAX; document.getElementById("hwyd-val").textContent = "any";
+      document.getElementById("f-kw").value = 0; document.getElementById("kw-val").textContent = "any";
+      document.getElementById("f-conn").value = 1; document.getElementById("conn-val").textContent = "any";
+      document.getElementById("f-q").value = "";
+      fit(); view.s0 = view.s; apply();
+    });
+    window.addEventListener("resize", resize);
+  }
+
+  /* ---------- boot ---------- */
+  function start(d){
+    DATA = d; pts = d.points; shown = pts.slice();
+    var m = d.meta;
+    document.getElementById("masthead").textContent =
+      m.total + " charge points · " + m.connectors + " connectors";
+    document.getElementById("coverage").textContent =
+      "A documented subset: " + m.register + " from DEWA's register and " + m.community +
+      " community-reported, against DEWA's published " + m.dewa_published.toLocaleString() +
+      " EV charging stations for Dubai (DEWA to WAM, 23 June 2026). ";
+
+    var ar = document.getElementById("f-area");
+    d.areas.forEach(function(a){
+      var o = document.createElement("option"); o.value = a; o.textContent = a; ar.appendChild(o);
+    });
+    var placed = pts.filter(function(p){ return p.area; }).length;
+    document.getElementById("area-hint").textContent =
+      placed + " of " + pts.length + " points fall inside a mapped community polygon; the rest sit outside them.";
+
+    var hw = document.getElementById("f-hwy");
+    d.highways.forEach(function(r){
+      var o = document.createElement("option"); o.value = r; o.textContent = r; hw.appendChild(o);
+    });
+
+    buildChecks(); paintSwatches(); wire();
+    resize(); fit(); view.s0 = view.s;
+    apply();
+  }
+
+  var inline = document.getElementById("ev-data");
+  if (inline){
+    start(JSON.parse(inline.textContent));
+  } else {
+    fetch("ev_app_data.json").then(function(r){ return r.json(); }).then(start).catch(function(e){
+      document.getElementById("masthead").textContent = "could not load ev_app_data.json — run scripts/build_ev_app.py";
+      console.error(e);
+    });
+  }
+})();
+</script>

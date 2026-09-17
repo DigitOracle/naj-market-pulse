@@ -35,3 +35,28 @@ data/sheets/*
 !data/media/
 data/media/*
 !data/media/_sources/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
+
+# 17 Sep 2026: Azimuth EV charging map. The scripts, the page source and the credentials request are
+# tracked; everything they emit rebuilds from them and is not. Rebuild with:
+#   python scripts/ocm_pull.py pull && python scripts/ocm_pull.py load
+#   python scripts/osm_pull.py pull && python scripts/osm_pull.py load
+#   python scripts/supercharge_pull.py pull && python scripts/supercharge_pull.py load
+#   python scripts/build_ev_union.py --export && python scripts/build_ev_app.py
+#   python scripts/render_ev_map.py
+public/ev_app_data.json
+public/ev_app_standalone.html
+public/ev_map_square.png
+public/ev_map_story.png
+dist_ev/
+# The CGA rule is hand-written source for CityEngine, not a rebuildable output - tracked.
+!data/ev/
+data/ev/*
+!data/ev/cityengine/
+data/ev/cityengine/*
+!data/ev/cityengine/EVCharger.cga

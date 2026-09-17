@@ -1,0 +1,236 @@
+/**
+ * File:    EVCharger.cga
+ * Project: Azimuth EV -- 3D track -- DigitAlchemy(R) Tech Limited
+ * Created: 17 Sep 2026
+ *
+ * Procedural massing for one Dubai EV charge point. Driven entirely by the three attributes
+ * the Azimuth union view already carries per row (v_ev_charge_points, built by
+ * scripts/build_ev_union.py and exported to data/ev/ev_charge_points.geojson):
+ *
+ *     archetype            wallbox_ac | public_ac_dual | fast_dc | ultra_fast_dc
+ *     totalnbofconnectors  sockets at the site (DEWA register field; OCM sums its Connections)
+ *     max_power_kw         kW -- OpenChargeMap only. The DEWA register carries NO power field, so
+ *                          this arrives null/0 for 186 of the 308 points. It is therefore reported
+ *                          but never allowed to drive the massing: `archetype` already encodes the
+ *                          class, and it was derived with the null case handled (see build_ev_union.py).
+ *
+ * The four archetypes are DEWA's four published Green Charger classes:
+ *     wallbox_ac      22 kW AC,            1 x Type 2,         wall-mounted box
+ *     public_ac_dual  2 x 22 kW AC,        2 x Type 2,         free-standing pedestal
+ *     fast_dc         43 kW AC / 50 kW DC, CHAdeMO + CCS,      floor unit
+ *     ultra_fast_dc   150 kW DC (OCM reports up to 250 kW for Tesla), cabinet
+ *
+ * ---------------------------------------------------------------------------------------------
+ * STATUS: WRITTEN, NOT COMPILED. Read this before trusting a single line of it.
+ *
+ * CGA source is compiled to .cgb and packed into an .rpk by CityEngine. PyPRT ships the PRT
+ * runtime (com.esri.prt.core.dll) but NO CGA compiler, and PRT's resolve map refuses a raw .cga
+ * outright -- measured on this machine, see the docstring of scripts/ev_cityengine.py. So this
+ * file has been written against the Esri example rules in C:\Dev\cga-library\01_ago_official for
+ * idiom and syntax, but it has never been through the CGA compiler and must be assumed to contain
+ * compile errors until someone opens it in CityEngine.
+ *
+ * TO COMPLETE THE PIPELINE (CityEngine 2025.1 is installed at
+ * C:\Program Files\ArcGIS\CityEngine2025.1):
+ *     1. New CityEngine project; copy this file into its rules/ folder.
+ *     2. Open it -- the CGA editor compiles on save and lists every error inline. Fix.
+ *     3. Right-click the .cga > Share As... > Rule Package (.rpk); set the start rule to `Point`.
+ *     4. Save the .rpk next to this file as data/ev/cityengine/EVCharger.rpk.
+ *     5. python scripts/ev_cityengine.py build --rpk data/ev/cityengine/EVCharger.rpk
+ *        -- that flag switches the script off its pure-Python mesh writer and onto PyPRT.
+ *
+ * The pure-Python fallback in scripts/ev_cityengine.py reproduces the massing below part for part
+ * and dimension for dimension. If you change a number here, change it there (MASSING dict).
+ * ---------------------------------------------------------------------------------------------
+ */
+
+version "2019.0"
+
+
+##############################################
+# Attributes -- supplied per feature by PyPRT / the CityEngine attribute mapping
+#
+
+@Group("CHARGE POINT", 1) @Order(1)
+@Enum("wallbox_ac", "public_ac_dual", "fast_dc", "ultra_fast_dc")
+attr archetype = "public_ac_dual"
+
+@Group("CHARGE POINT", 1) @Order(2) @Range(min=1, max=12, restricted=false)
+attr totalnbofconnectors = 2
+
+@Group("CHARGE POINT", 1) @Order(3) @Range(min=0, max=250, restricted=false)
+attr max_power_kw = 0
+
+
+##############################################
+# Constants
+#
+
+# Geometry is capped so one pathological row (OCM sites report up to 12 sockets) cannot dominate
+# the scene. The cap is cosmetic only -- the true count stays in the report and in the GeoJSON.
+const maxConnectors  = 6
+
+const padMargin      = 0.60      # apron of pad visible around the unit, each side
+const padH           = 0.10      # pad slab thickness
+
+const plateT         = 0.03      # faceplate / screen proud of the cabinet front
+const supportW       = 0.28      # wall plate behind a wall-box, width
+const supportT       = 0.06      # wall plate behind a wall-box, thickness
+
+const cableR         = 0.025     # cable radius
+const cableSides     = 8         # cylinder tessellation -- low on purpose, 300+ instances
+const headW          = 0.09      # connector head, plan size
+const headH          = 0.13      # connector head, height
+
+const colPad         = "#b4b4b4"
+const colScreen      = "#1a1a1a"
+const colCable       = "#2b2b2b"
+const colHead        = "#f2f2f2"
+
+
+##############################################
+# Functions -- archetype drives every dimension and the colour
+#
+
+unitW =
+	case archetype == "wallbox_ac"     : 0.40
+	case archetype == "public_ac_dual" : 0.40
+	case archetype == "fast_dc"        : 0.70
+	case archetype == "ultra_fast_dc"  : 1.20
+	else                               : 0.40
+
+unitD =
+	case archetype == "wallbox_ac"     : 0.20
+	case archetype == "public_ac_dual" : 0.30
+	case archetype == "fast_dc"        : 0.40
+	case archetype == "ultra_fast_dc"  : 0.60
+	else                               : 0.30
+
+unitH =
+	case archetype == "wallbox_ac"     : 0.60
+	case archetype == "public_ac_dual" : 1.40
+	case archetype == "fast_dc"        : 1.60
+	case archetype == "ultra_fast_dc"  : 2.00
+	else                               : 1.40
+
+# Only the wall box is mounted off the ground; the other three stand on the pad.
+mountH = case archetype == "wallbox_ac" : 1.00 else : 0.00
+
+colUnit =
+	case archetype == "wallbox_ac"     : "#8cc63f"
+	case archetype == "public_ac_dual" : "#00a651"
+	case archetype == "fast_dc"        : "#0072bc"
+	case archetype == "ultra_fast_dc"  : "#e8452c"
+	else                               : "#999999"
+
+padW = unitW + 2 * padMargin
+padD = unitD + 2 * padMargin
+
+plateW = unitW * 0.60
+plateH = unitH * 0.28
+plateY = padH + mountH + unitH * 0.55
+
+# Clamp to [1, maxConnectors]; rint() guards against the attribute arriving as a float.
+nConnectors = max(1, min(rint(totalnbofconnectors), maxConnectors))
+
+# Connectors sit evenly across the cabinet front; cable length scales with the unit.
+connFrac(i)  = (i - 0.5) / nConnectors
+cableLen     = unitH * 0.30
+connY        = padH + mountH + unitH * 0.45
+
+
+##############################################
+# Start rules
+#
+# `Point` is the one to set when packing the .rpk: the Azimuth initial shapes are point features
+# (one charge point = one coordinate). `Lot` and `Shape` are kept so the same rule still works if
+# the layer is ever re-imported as small footprint polygons.
+#
+
+@StartRule
+Point --> Charger
+
+@StartRule
+Lot --> Charger
+
+@StartRule
+Shape --> Charger
+
+
+##############################################
+# Rules
+#
+
+Charger -->
+	report("connectors_drawn", nConnectors)
+	report("connectors_source", totalnbofconnectors)
+	report("max_power_kw", max_power_kw)
+	alignScopeToAxes(y)
+	s(padW, 0, padD)
+	center(xz)
+	Pad
+	Support
+	Cabinet
+	Faceplate
+	ConnectorRow(nConnectors)
+
+# Ground slab. Everything below is placed from this slab's min corner, so the whole station is
+# positioned by the initial shape and nothing depends on the feature having an orientation --
+# which it does not: neither the DEWA register nor OCM carries a bearing.
+Pad -->
+	s('1, padH, '1)
+	primitiveCube()
+	color(colPad)
+	Pad.
+
+# Wall plate. A wall box hangs at mountH, so without this it would float.
+Support -->
+	case archetype == "wallbox_ac" :
+		t(padMargin + (unitW - supportW) / 2, padH, padMargin + unitD)
+		s(supportW, mountH + unitH, supportT)
+		primitiveCube()
+		color(colPad)
+		Support.
+	else :
+		NIL
+
+Cabinet -->
+	t(padMargin, padH + mountH, padMargin)
+	s(unitW, unitH, unitD)
+	primitiveCube()
+	color(colUnit)
+	Cabinet.
+
+# Screen / faceplate, proud of the cabinet's front face.
+Faceplate -->
+	t(padMargin + (unitW - plateW) / 2, plateY, padMargin + unitD)
+	s(plateW, plateH, plateT)
+	primitiveCube()
+	color(colScreen)
+	Faceplate.
+
+ConnectorRow(n) -->
+	case n > 0 :
+		Connector(n)
+		ConnectorRow(n - 1)
+	else :
+		NIL
+
+Connector(i) -->
+	t(padMargin + unitW * connFrac(i) - cableR, connY, padMargin + unitD + plateT)
+	Cable
+	ConnectorHead
+
+Cable -->
+	t(0, -cableLen, 0)
+	s(cableR * 2, cableLen, cableR * 2)
+	primitiveCylinder(cableSides)
+	color(colCable)
+	Cable.
+
+ConnectorHead -->
+	t(cableR - headW / 2, -cableLen - headH, cableR - headW / 2)
+	s(headW, headH, headW)
+	primitiveCube()
+	color(colHead)
+	Connector.
