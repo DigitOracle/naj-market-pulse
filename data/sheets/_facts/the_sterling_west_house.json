@@ -1,0 +1,14 @@
+{
+  "_source": "OMNIYAT page for Sterling, read 17 September 2026. One page covers both Sterling houses; OMNIYAT does not name them East and West, so this describes the development.",
+  "_assets_from": "34 images published openly (manifest: data/media/_sources/the_sterling_west_house.json).",
+  "developer": "OMNIYAT",
+  "strapline": "OMNIYAT, Business Bay",
+  "asset_overrides": {
+    "hero": "m_98d402c68b2b"
+  },
+  "_override_note": "Hero is sterling-residence-2x, the full-height towers, confirmed by looking. NOT sterling-hero-d-poster, which is named as if it were the building.",
+  "image_note": "Images are published by OMNIYAT, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "OMNIYAT publishes no apartment layouts openly for this building, so none are shown."
+  ]
+}

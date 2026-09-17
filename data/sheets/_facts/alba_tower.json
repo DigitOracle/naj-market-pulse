@@ -1,0 +1,19 @@
+{
+  "_source": "OMNIYAT page for The Alba Residences, Dorchester Collection, read 17 September 2026.",
+  "_assets_from": "9 images published openly (manifest: data/media/_sources/alba_tower.json).",
+  "developer": "OMNIYAT",
+  "strapline": "OMNIYAT, Palm Jumeirah",
+  "asset_overrides": {
+    "hero": "m_5b7af712f0c9",
+    "interior_1": "m_fb868dccc6ab"
+  },
+  "_override_note": "Hero is the elevation from the water, confirmed by looking. The page's four unit-type galleries are served entirely from files named for OMNIYAT's separate Vela project (vela-palace-*, vela-sky-residence-*), so they cannot be shown to be ALBA interiors and are not registered or used. Two amenity images the developer publishes fall below the size floor and were not upscaled.",
+  "views_heading": "The building",
+  "captions": {
+    "interior_1": "The lobby"
+  },
+  "image_note": "Images are published by OMNIYAT, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "OMNIYAT publishes no apartment layouts openly for this building, so none are shown."
+  ]
+}

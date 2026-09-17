@@ -1,0 +1,14 @@
+{
+  "_source": "OMNIYAT page for One at Palm Jumeirah, read 17 September 2026.",
+  "_assets_from": "42 images published openly (manifest: data/media/_sources/one_at_palm_jumeirah.json).",
+  "developer": "OMNIYAT",
+  "strapline": "OMNIYAT, Palm Jumeirah",
+  "asset_overrides": {
+    "hero": "m_a346c39d5f6e"
+  },
+  "_override_note": "Hero is opj-residence-2x, the building at blue hour across the water, confirmed by looking. NOT opj-hero-video-d-poster, which despite its name is an arrival water feature at dusk with no building in it.",
+  "image_note": "Images are published by OMNIYAT, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "OMNIYAT publishes no apartment layouts openly for this building, so none are shown."
+  ]
+}

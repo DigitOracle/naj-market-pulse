@@ -1,0 +1,14 @@
+{
+  "_source": "OMNIYAT page for AVA at Palm Jumeirah, read 17 September 2026.",
+  "_assets_from": "32 images published openly (manifest: data/media/_sources/ava_at_palm_jumeirah_by_omniyat.json).",
+  "developer": "OMNIYAT",
+  "strapline": "OMNIYAT, Palm Jumeirah",
+  "asset_overrides": {
+    "hero": "m_692699258711"
+  },
+  "_override_note": "Hero is ava-residence-2x, the full-height tower, confirmed by looking. NOT ava-hero-video-d-poster, which is a pool terrace looking at the Marina skyline.",
+  "image_note": "Images are published by OMNIYAT, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "OMNIYAT publishes no apartment layouts openly for this building, so none are shown."
+  ]
+}

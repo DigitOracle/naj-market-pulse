@@ -1,0 +1,24 @@
+{
+  "_source": "H&H project site edenhousethepark.ae and h-h.ae/development/eden-house-the-park, read 17 September 2026.",
+  "_assets_from": "19 images published openly (manifest: data/media/_sources/eden_house_the_park.json).",
+  "developer": "H&H",
+  "strapline": "H&H, Eden House The Park",
+  "asset_overrides": {
+    "hero": "m_f258e87a6b54",
+    "living": "m_b4fd33d6eb55",
+    "kitchen": "m_ebb50c03dde6",
+    "bedroom": "m_19ce4bd928a1",
+    "amenity": "m_f9e284af1579"
+  },
+  "_override_note": "H&H names its interiors in single unambiguous words - Lounge, kitchen, bedroom, terrace - and all four were opened and confirmed before being captioned. The hero is EHTP - Hero Image, the buildings seen across the water. NOT the file named 'Exterior 15': that is a photograph looking down at the canal promenade with a cyclist on it, and is the clearest example yet of why a filename is not evidence.",
+  "captions": {
+    "living": "The lounge",
+    "kitchen": "Kitchen",
+    "bedroom": "Bedroom",
+    "amenity": "A terrace over the water"
+  },
+  "image_note": "Images are published by H&H, the developer of Eden House The Park, on its own project site, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "H&H publishes no apartment layouts openly for this building, so none are shown."
+  ]
+}
