@@ -19,6 +19,7 @@ REC = {status: verified|partial|placeholder, name, total_units, asset_classes:{r
        indicative_homes, sources:[...], needs:[...], as_of}
 Usage: python scripts/build_unit_mix.py [--dry] [slug ...]
 """
+import unicodedata
 import csv, glob, json, os, re, sys, collections, datetime as dt
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -32,7 +33,14 @@ TILE_TWIN = {"jltnorth": "jltsouth"}   # a DLD area that maps to a tile pair is 
 TYPE_LABEL = {"studio": "Studio", "1 b/r": "1 bedroom", "2 b/r": "2 bedroom", "3 b/r": "3 bedroom", "4 b/r": "4 bedroom", "5 b/r": "5 bedroom", "penthouse": "Penthouse", "office": "Office", "retail": "Retail", "shop": "Retail", "duplex": "Duplex"}
 
 
-def norm(s): return re.sub(r"[^a-z0-9]", "", str(s or "").lower())
+def fold(s):
+    """Strip accents. "Treppan Tower Residences at JVT" is the same building as "Treppan Tower",
+    and dropping the accented letter outright made TREPPAN into TRPPAN, which shares no word with
+    it - so the card was refused its own building. An accent is a spelling, not an identity."""
+    return unicodedata.normalize("NFKD", str(s or "")).encode("ascii", "ignore").decode()
+
+
+def norm(s): return re.sub(r"[^a-z0-9]", "", fold(s).lower())
 def stem(s): return re.sub(r"\b(by|the|tower|towers|residences?|residence|building|bldg|apartments?)\b", "", str(s or "").lower())
 def nkey(s): return norm(stem(s))
 
@@ -89,7 +97,7 @@ GENERIC_WORDS = {"the", "at", "by", "of", "and", "a", "in", "on", "l",
 
 
 def distinctive(s):
-    return {w for w in re.split(r"[^a-z0-9]+", str(s or "").lower())
+    return {w for w in re.split(r"[^a-z0-9]+", fold(s).lower())
             if w and w not in GENERIC_WORDS and not w.isdigit()}
 
 
