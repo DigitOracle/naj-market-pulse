@@ -1,0 +1,22 @@
+{
+  "project": "AL HABTOOR CITY",
+  "developer": "Al Habtoor Group",
+  "area": "Business Bay",
+  "page": "https://www.alhabtoorcity.com/en",
+  "_note": "Read 17 September 2026. Two pages on the developer's own site were read: https://www.alhabtoorcity.com/en (home) and https://www.alhabtoorcity.com/en/the-residences. The site is a Next.js app that serves its pictures from the developer's own CDN bucket al-habtoor-city.fra1.cdn.digitaloceanspaces.com; the originals are listed here rather than the /_next/image resizer URLs. Everything is published openly - no form anywhere. Nothing on either page is a floor plan. The developer's filenames are mostly generic ('residence-1', '001'), so notes describe plainly and no room is invented. Deliberately excluded: logos, the loyalty-programme banner, and the photographs of nearby attractions the site uses as a neighbourhood guide (Burj Khalifa, Dubai Mall fountains, Museum of the Future, Green Planet, Dubai Garden Glow, Jumeirah Beach, Dubai Canal, La Perle) - those are not this development.",
+  "images": [
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/aboutalhabtoorcity-y281na_1699546671.avif", "note": "About Al Habtoor City - development view, filename 'aboutalhabtoorcity'" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/habtoor-boulevard-heaja2_1699466882.avif", "note": "Habtoor Boulevard - filename 'habtoor-boulevard'" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/residence-1-naqk3c_1716394371.avif", "note": "The Residences 1 - filename 'residence-1', no room named" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/ahc-residence-2-nlbgwe_1716394371.avif", "note": "The Residences 2 - filename 'ahc-residence-2', no room named" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/ahc-residence-3-h10gvt_1716394371.avif", "note": "The Residences 3 - filename 'ahc-residence-3', no room named" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/rc-overview-ztsbjb_1699560458.avif", "note": "Residence Collection overview (on /en/the-residences) - filename 'rc-overview'" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/residendce-collection-bg-tbzsf9_1699560425.avif", "note": "Residence Collection page hero background (on /en/the-residences) - developer's own spelling 'residendce-collection-bg'" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/picture-3-xfmfgd_1699982720.avif", "note": "Residences page image (on /en/the-residences) - filename 'picture-3' names nothing" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/fitness-habtoorpalace-ryq0pk_1699565709.avif", "note": "Fitness facility at Habtoor Palace - filename 'fitness-habtoorpalace'" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/001_1731053952078.avif", "note": "Home-page slide - filename '001' names nothing" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/002_1731053956200.avif", "note": "Home-page slide - filename '002' names nothing" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/003_1731053960896.avif", "note": "Home-page slide - filename '003' names nothing" },
+    { "url": "https://al-habtoor-city.fra1.cdn.digitaloceanspaces.com/images/default/004_1731053964983.avif", "note": "Home-page slide - filename '004' names nothing" }
+  ]
+}

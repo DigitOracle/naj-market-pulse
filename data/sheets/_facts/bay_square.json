@@ -1,0 +1,31 @@
+{
+  "_source": "Dubai Properties page for Bay Square, read 17 September 2026 (manifest: data/media/_sources/bay_square.json).",
+  "_assets_from": "5 images published openly. These are PHOTOGRAPHS of a completed development, not renders - the note says so rather than repeating the render wording used for off-plan buildings.",
+
+  "developer": "Dubai Properties",
+  "completed": "2014–16, in phases",
+  "apartments": "Thirteen mid-rise buildings, 10–14 floors",
+  "strapline": "Dubai Properties, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_54249d5b2d4a",
+    "interior_1": "m_2a006bf0466e",
+    "interior_2": "m_eef4b19c6717"
+  },
+  "_override_note": "Dubai Properties names these files only Bay-Square1..4, so nothing can be captioned as a named room from the filename. I looked at them: the hero is the cluster seen across the water, and the two supporting pictures are the colonnade and a shopfront on it. They are captioned as what they are rather than given room names they do not have.",
+
+  "views_heading": "The place",
+  "views_note": "Photographs of the completed development.",
+  "captions": {
+    "interior_1": "The colonnade at street level",
+    "interior_2": "Retail on the square"
+  },
+
+  "image_note": "Images are published by Dubai Properties, the developer of Bay Square, and are reproduced here for a buyer considering the development. They are photographs of the completed buildings rather than computer renders.",
+
+  "pictures": "exteriors only",
+
+  "caveats": [
+    "Bay Square is a mixed-use cluster and most of its floorspace is offices and retail rather than homes, so the apartment figures above describe a small part of what was built. No apartment layouts are published; ask and we will request the plan for a specific unit."
+  ]
+}

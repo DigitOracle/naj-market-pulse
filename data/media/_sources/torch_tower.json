@@ -1,0 +1,25 @@
+{
+  "project": "TORCH TOWER",
+  "developer": "Select Group",
+  "area": "Dubai Marina",
+  "page": "https://www.select-group.ae/developments/the-torch",
+  "_note": "Read 17 Sep 2026. Developer lists the building as 'The Torch'. Gallery filenames name the room but not bedroom counts. No floor plans published openly on the page; no brochure form encountered.",
+  "images": [
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528b88e7c0368a8673f9_05-Torch-Living-1.jpg", "note": "filename '05-Torch-Living' - living room interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528a375359ce3af89743_06-Torch-Dining-1.jpg", "note": "filename '06-Torch-Dining' - dining area interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528aca204a482f59d0c8_04-Torch-Bedroom-1.jpg", "note": "filename '04-Torch-Bedroom' - bedroom interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64745290ec978e6b93e436c0_08-Torch-Kitchen-1.jpg", "note": "filename '08-Torch-Kitchen' - kitchen interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528a375359ce3af89752_03-Torch-Bedroom-1.jpg", "note": "filename '03-Torch-Bedroom' - bedroom interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528df97d3ba377a89a80__DSC2168.jpg", "note": "photograph, filename gives no room name" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528e732c9f5e01d2c40a_DSC2153-1.jpg", "note": "photograph, filename gives no room name" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528bf783fa3b46a421f3_07-Torch-Kitchen-1.jpg", "note": "filename '07-Torch-Kitchen' - kitchen interior" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528b375359ce3af897b1_DSC2162-1.jpg", "note": "photograph, filename gives no room name" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64745290f783fa3b46a4267e_02-Torch-Pool-1.jpg", "note": "filename '02-Torch-Pool' - swimming pool amenity" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64745289ec978e6b93e435c1_torch-pool-1.jpg", "note": "filename 'torch-pool' - pool deck" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528b375359ce3af8976a_13-Torch-Pool-1.jpg", "note": "filename '13-Torch-Pool' - pool facility" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528ca5f27be0fd0e3bfb_21-Torch-Gym-1.jpg", "note": "filename '21-Torch-Gym' - gymnasium" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/64745289ec978e6b93e435a2_the%20torch4.jpg", "note": "filename 'the torch4' - exterior view of the tower" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/647452901b721e33faf9f219_15-Torch-Views-1.jpg", "note": "filename '15-Torch-Views' - view out from the tower" },
+    { "url": "https://cdn.prod.website-files.com/63bd7443c5c4c66606ad6362/6474528e375359ce3af89848_16-Torch-Views-1.jpg", "note": "filename '16-Torch-Views' - view out from the tower" }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "project": "Bluewaters Residences",
+  "developer": "Meraas",
+  "area": "Dubai Marina",
+  "page": "https://meraas.com/en/project/bluewaters-residences",
+  "_note": "Read 17 Sep 2026. meraas.com returns HTTP 403 to plain curl; read via WebFetch. Brochure and full floor-plan pack are gated behind a registration form (name, email, phone) - not fetched. The per-bedroom plan images below are published openly on the page itself.",
+  "images": [
+    { "url": "https://meraas.com/sites/default/files/2024-05/BWR%20-%20TG%20-%201.png", "note": "filename 'BWR - TG - 1' - project lifestyle/interior visual; filename names no room" },
+    { "url": "https://meraas.com/sites/default/files/2024-06/BWR%20-%20TG%20%E2%80%93%202-%20Waterfront%20Living.jpg", "note": "filename '2 - Waterfront Living' - waterfront living outlook" },
+    { "url": "https://meraas.com/sites/default/files/2024-05/BWR%20-%20TG%20%E2%80%93%203.png", "note": "filename 'BWR - TG - 3' - amenity visual; filename names no room" },
+    { "url": "https://meraas.com/sites/default/files/2024-05/BWR%20-%20TG%20%E2%80%93%204.png", "note": "filename 'BWR - TG - 4' - amenity/interior visual; filename names no room" },
+    { "url": "https://meraas.com/sites/default/files/styles/webp/public/project-masterplans/Bluewaters%20Residences_P_D.jpg.webp", "note": "filename 'Bluewaters Residences_P_D' under project-masterplans - masterplan / site layout" },
+    { "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Residences%201%20Bedroom.jpg", "note": "filename 'Bluewaters Residences 1 Bedroom' - one-bedroom floor plan" },
+    { "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Residences%202%20Bedroom.jpg", "note": "filename 'Bluewaters Residences 2 Bedroom' - two-bedroom floor plan" },
+    { "url": "https://meraas.com/sites/default/files/2024-06/BluewatersResidences%203%20Bedroom.jpg", "note": "filename 'BluewatersResidences 3 Bedroom' - three-bedroom floor plan" },
+    { "url": "https://meraas.com/sites/default/files/2024-06/Bluewaters%20Residences%20Penthouse.jpg", "note": "filename 'Bluewaters Residences Penthouse' - penthouse floor plan" },
+    { "url": "https://meraas.com/sites/default/files/2024-03/Bluewaters%20Residences%20PART%20OF%20A%20BIGGER%20VISION.jpg", "note": "filename 'PART OF A BIGGER VISION' - island / development context view" }
+  ]
+}

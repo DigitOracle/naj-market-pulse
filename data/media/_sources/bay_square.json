@@ -1,0 +1,15 @@
+{
+  "project": "BAY SQUARE",
+  "developer": "Dubai Properties",
+  "area": "Business Bay",
+  "page": "https://www.dp.ae/our-portfolio/all-projects/14/bay-square/",
+  "_note": "Read 17 September 2026. The retail-spaces URL for Bay Square now 301s to the dp.ae home page; the live project page is under all-projects/14. Images taken without the site's resizing query string so the full-size original is fetched. Filenames are generic (Bay-Square1..4) and name no room, so notes describe plainly and invent nothing. No floor plans and no interiors published on the page; no brochure offered, so nothing gated.",
+  "images": [
+    { "url": "https://www.dp.ae/pictures/25bdaf9f-d51e-4518-a459-947a8680eb3aBay-Square.jpg", "note": "Hero banner image of the Bay Square development - filename 'Bay-Square' names no room" },
+    { "url": "https://www.dp.ae/pictures/bcb30176-8f2d-4563-a5bd-8edd27090848Bay-Square1.jpg", "note": "Gallery image 1 - filename 'Bay-Square1' names no room" },
+    { "url": "https://www.dp.ae/pictures/ee6f3c7d-08cc-46aa-9384-d82d0db4ae2fBay-Square2.jpg", "note": "Gallery image 2 - filename 'Bay-Square2' names no room" },
+    { "url": "https://www.dp.ae/pictures/1865a3dc-d538-40f0-9444-54464bdea9e6Bay-Square3.jpg", "note": "Gallery image 3 - filename 'Bay-Square3' names no room" },
+    { "url": "https://www.dp.ae/pictures/3c7794ed-fc99-442c-bbc5-f3b6e68012b4Bay-Square4.jpg", "note": "Gallery image 4 - filename 'Bay-Square4' names no room" },
+    { "url": "https://www.dp.ae/videos/img/baysquare.jpg", "note": "Poster frame for the Bay Square video on the page - filename 'baysquare'" }
+  ]
+}

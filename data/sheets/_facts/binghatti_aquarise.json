@@ -1,0 +1,28 @@
+{
+  "_source": "Binghatti project page for Binghatti Aquarise, read 17 September 2026 (manifest: data/media/_sources/binghatti_aquarise.json).",
+  "_assets_from": "19 images published openly on that page. Binghatti names every file by what it shows - exterior 1-6, lobby 1-3, living-room 1-2, bedroom 1-3, swimming pool, artificial beach - so every caption below is the developer's own word for the room, not a guess from looking at the picture.",
+
+  "developer": "Binghatti",
+  "apartments": "Business Bay, on the Dubai Canal",
+  "strapline": "Binghatti, on the Dubai Canal in Business Bay",
+
+  "asset_overrides": {
+    "hero": "m_853863000015",
+    "bedroom": "m_8940b9b142b7",
+    "living": "m_abb55dff425a",
+    "amenity": "m_467df276a986"
+  },
+  "_override_note": "Roles from the developer's own filenames: aquarise-horizontal (the wide exterior), aquarise-bedroom-1, aquarise-living-room-1, aquarise-swimming-pool. Nothing here was inferred from the picture itself.",
+
+  "captions": {
+    "bedroom": "Bedroom",
+    "living": "Living room",
+    "amenity": "The pool deck"
+  },
+
+  "image_note": "Images are published by Binghatti, the developer of Binghatti Aquarise, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+
+  "caveats": [
+    "Binghatti publishes no apartment layouts for this building, so none are shown. Ask and we will request the plan for a specific unit."
+  ]
+}

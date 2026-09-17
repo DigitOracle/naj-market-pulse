@@ -1,0 +1,34 @@
+{
+  "_source": "Select Group project page for The Torch, read 17 September 2026 (manifest: data/media/_sources/torch_tower.json).",
+  "_assets_from": "16 images published openly on that page. Unlike the off-plan buildings, these are PHOTOGRAPHS of a finished tower, not renders - the lobby shots are camera files (DSC....jpg) and the interiors are of built rooms. The image note says so.",
+
+  "developer": "Select Group",
+  "completed": "2011",
+  "apartments": "86 floors on Dubai Marina",
+  "strapline": "Select Group, Dubai Marina",
+
+  "asset_overrides": {
+    "hero": "m_eda4aef502d1",
+    "living": "m_03e3b4dc7b2e",
+    "bedroom": "m_844fe06eae98",
+    "kitchen": "m_4de5810bb307",
+    "amenity": "m_fc02fde202f9"
+  },
+  "_override_note": "Roles from the developer's own filenames - 05-Torch-Living, 04-Torch-Bedroom, 08-Torch-Kitchen, 02-Torch-Pool. The hero is the tower seen from the street; the two files named -Views- are the view FROM the building (the marina, and the golf course inland), not pictures of it, so they are not used as the hero.",
+
+  "captions": {
+    "living": "Living room",
+    "bedroom": "Bedroom",
+    "kitchen": "Kitchen",
+    "amenity": "The pool deck"
+  },
+
+  "views_heading": "Inside",
+  "views_note": "Photographs of the finished building.",
+
+  "image_note": "Images are published by Select Group, the developer of The Torch, on its own project page, and are reproduced here for a buyer considering the building. They are photographs of the completed building rather than computer renders, but they show show apartments and common areas &mdash; the finish of an individual unit may differ. Ask to view before relying on them.",
+
+  "caveats": [
+    "Select Group publishes no apartment layouts for this building, so none are shown. Ask and we will request the plan for a specific unit."
+  ]
+}

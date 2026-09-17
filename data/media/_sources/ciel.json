@@ -1,0 +1,24 @@
+{
+  "project": "Ciel",
+  "developer": "The First Group",
+  "area": "Dubai Marina",
+  "page": "https://www.thefirstgroup.com/en/our-properties/ciel/",
+  "_note": "Read 17 Sep 2026. Gallery images are lazy-loaded; URLs taken from the page's own HTML source. 'Hotel Ownership Report' brochure is gated behind a form, not fetched. No floor plans published openly.",
+  "images": [
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655474/exterior-day.jpg", "note": "filename 'exterior-day' - exterior of the tower by day" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655475/exterior-night.jpg", "note": "filename 'exterior-night' - exterior of the tower at night" },
+    { "url": "https://prodtfgstrg.blob.core.windows.net/media/5655642/ciel_architecture.jpg", "note": "filename 'ciel_architecture' - architectural render of the tower" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655476/king-suite-with-view.jpg", "note": "filename 'king-suite-with-view' - King Suite interior with view" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655477/one-bedroom-suite.jpg", "note": "filename 'one-bedroom-suite' - one-bedroom suite interior" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655473/deluxe-room-with-view.jpg", "note": "filename 'deluxe-room-with-view' - Deluxe Room interior with view" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655479/room-sofa.jpg", "note": "filename 'room-sofa' - guest room seating area" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655471/11th-floor-pool.jpg", "note": "filename '11th-floor-pool' - 11th floor swimming pool" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655472/11th-floor-pool-view.jpg", "note": "filename '11th-floor-pool-view' - view from the 11th floor pool" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655478/palm-view.jpg", "note": "filename 'palm-view' - view toward Palm Jumeirah" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655480/sea-view.jpg", "note": "filename 'sea-view' - sea view from the tower" },
+    { "url": "https://prodtfgstrg.blob.core.windows.net/media/5655826/ciel_hotel_dining.jpg", "note": "filename 'ciel_hotel_dining' - hotel dining area" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655482/east-14-dining-area-marina-ciel-dubai-marina-1.jpg", "note": "filename 'east-14-dining-area' - East 14 restaurant dining area" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655483/nuage-night-ciel-dubai-marina-1.jpg", "note": "filename 'nuage-night' - Nuage venue at night" },
+    { "url": "https://prodtfgendpoint.azureedge.net/media/5655484/risen-cafe-and-artisanal-bakery-ciel-dubai-marina-1.jpg", "note": "filename 'risen-cafe-and-artisanal-bakery' - Risen cafe and bakery" }
+  ]
+}

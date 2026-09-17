@@ -1,0 +1,93 @@
+{
+  "project": "Binghatti Aquarise",
+  "developer": "Binghatti",
+  "area": "Business Bay",
+  "page": "https://www.binghatti.com/en/projects/binghatti-aquarise",
+  "_note": "Read 17 September 2026. Published openly on the developer's project page; no form anywhere in the path. Binghatti's filenames name the room, so the notes carry the developer's own wording. Note that unlike Binghatti Skyrise, Aquarise publishes no 2D layout/floor-plan images on this page - only the two 'ps-new' unit stills, which are interiors, not plans. The digital brochure PDF (aquarise-digital-brochure.pdf) is linked openly but is a PDF, not an image, so it is out of scope here. Two older assets, binghatti-aquarise-one-bedroom.webp and binghatti-aquarise-two-bedrooms.webp, were dropped from this manifest because they are byte-identical (same sha1) to aquarise-bedroom-1.webp and aquarise-bedroom-2.webp respectively - which tells us aquarise-bedroom-1 is the one-bedroom and aquarise-bedroom-2 is the two-bedroom. The two 'ps-new-' unit stills referenced in the page markup 404 at the CDN.",
+  "images": [
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-horizontal.webp",
+      "note": "Exterior render - hero, filename 'aquarise-horizontal'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-vertical.webp",
+      "note": "Exterior render - vertical crop, filename 'aquarise-vertical'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-footer-horizontal.webp",
+      "note": "Exterior render - footer band, filename 'aquarise-footer-horizontal'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-1.webp",
+      "note": "Exterior render 1 - filename 'aquarise-exterior-1'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-2.webp",
+      "note": "Exterior render 2 - filename 'aquarise-exterior-2'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-3.webp",
+      "note": "Exterior render 3 - filename 'aquarise-exterior-3'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-4.webp",
+      "note": "Exterior render 4 - filename 'aquarise-exterior-4'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-5.webp",
+      "note": "Exterior render 5 - filename 'aquarise-exterior-5'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-exterior-6.webp",
+      "note": "Exterior render 6 - filename 'aquarise-exterior-6'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-swimming-pool.webp",
+      "note": "Swimming pool - filename 'aquarise-swimming-pool'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-artificial-beach.webp",
+      "note": "Artificial beach amenity - filename 'aquarise-artificial-beach'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-lobby-1.webp",
+      "note": "Lobby 1 - filename 'aquarise-lobby-1'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-lobby-2.webp",
+      "note": "Lobby 2 - filename 'aquarise-lobby-2'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-lobby-3.webp",
+      "note": "Lobby 3 - filename 'aquarise-lobby-3'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-living-room-1.webp",
+      "note": "Living room 1 - filename 'aquarise-living-room-1'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-living-room-2.webp",
+      "note": "Living room 2 - filename 'aquarise-living-room-2'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-bedroom-1.webp",
+      "note": "Bedroom 1 - filename 'aquarise-bedroom-1'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-bedroom-2.webp",
+      "note": "Bedroom 2 - filename 'aquarise-bedroom-2'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/aquarise-bedroom-3.webp",
+      "note": "Bedroom 3 - filename 'aquarise-bedroom-3'"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/ps-new-binghatti-aquarise-one-bedroom.webp",
+      "note": "One-bedroom interior - filename 'ps-new-binghatti-aquarise-one-bedroom' names the bedroom count"
+    },
+    {
+      "url": "https://binghattiweb.imgix.net/ps-new-binghatti-aquarise-two-bedrooms.webp",
+      "note": "Two-bedroom interior - filename 'ps-new-binghatti-aquarise-two-bedrooms' names the bedroom count"
+    }
+  ]
+}

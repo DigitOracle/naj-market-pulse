@@ -1,0 +1,22 @@
+{
+  "project": "Al Habtoor Tower",
+  "developer": "Al Habtoor Real Estate (Al Habtoor Group)",
+  "area": "Business Bay",
+  "page": "https://www.alhabtoorrealestate.com/properties/al-habtoor-tower",
+  "_note": "Read 17 September 2026. Published openly; no form in the path to any of these images. Two filenames name a bedroom count outright ('apt-3b-bedroom', 'apt-1b-livingroom') and are the most useful things on the page. The page also links a fact-sheet PDF (aht-factsheet.pdf) openly - not an image, out of scope here. Caution for the later step: this page publishes no clean exterior render of the tower itself; 'harbour_view', 'be_view' and 'view-4' are views OUT from the building, and the site-wide banners (home_web_ahr2, uae-banner-2026) are corporate, not this building, so they are deliberately not listed. Logos, the 128x128 amenity icons and the neighbouring-hotel photographs (St Regis, Westin, W, La Perle, Blind Dragon, The Atrium) are excluded.",
+  "images": [
+    { "url": "https://www.alhabtoorrealestate.com/media/3290/apt-1b-livingroom.jpg", "note": "Living room of a one-bedroom apartment - developer filename 'apt-1b-livingroom' names the bedroom count and the room" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3288/apt-3b-bedroom.jpg", "note": "Bedroom of a three-bedroom apartment - developer filename 'apt-3b-bedroom' names the bedroom count and the room" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3274/bedroom_canal-2.jpg", "note": "Bedroom looking over the Dubai Water Canal - filename 'bedroom_canal-2' names the room but no bedroom count" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3289/aht_lobby-1.jpg", "note": "Lobby - filename 'aht_lobby-1'" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3287/aht_pool2b.jpg", "note": "Pool - filename 'aht_pool2b'" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3284/slide-pool.jpg", "note": "Pool, hero slide - filename 'slide-pool'" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3285/slide-terrace_canal.jpg", "note": "Terrace over the canal, hero slide - filename 'slide-terrace_canal' names the terrace" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3428/aht_gym.jpg", "note": "Gym - filename 'aht_gym'" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3429/aht_kids_area.jpg", "note": "Kids area - filename 'aht_kids_area'" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3273/harbour_view.jpg", "note": "View out towards the harbour, hero slide - filename 'harbour_view'; a view from the building, not of it" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3272/be_view.jpg", "note": "Hero slide background - filename 'be_view'; a view, no room named" },
+    { "url": "https://www.alhabtoorrealestate.com/media/3286/view-4.jpg", "note": "Hero slide background - filename 'view-4'; no room named" },
+    { "url": "https://www.alhabtoorrealestate.com/media/1064/leisure-collection1.jpg", "note": "Leisure deck / amenity collection - filename 'leisure-collection1'" }
+  ]
+}
