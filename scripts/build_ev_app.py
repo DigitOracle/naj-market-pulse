@@ -37,6 +37,7 @@ GPKG = os.path.join(ROOT, "assets", "dubai_basemap.gpkg")
 HWY = os.path.join(ROOT, "data", "ev", "_overpass_highways.json")
 AREAS = os.path.join(PUB, "mp_areas.json")
 OUT = os.path.join(PUB, "ev_app_data.json")
+ARCH_IMG = os.path.join(PUB, "ev_archetypes")
 
 # Two frames, because they answer different questions.
 #
@@ -50,6 +51,27 @@ OUT = os.path.join(PUB, "ev_app_data.json")
 LO0, LA0, LO1, LA1 = 54.85, 24.70, 56.20, 25.45
 VIEW_LO0, VIEW_LA0, VIEW_LO1, VIEW_LA1 = 54.88, 24.78, 55.66, 25.36
 ROAD_KEEP = {"motorway": 0, "trunk": 1, "primary": 2, "secondary": 3}   # class -> weight for the page
+
+
+def archetype_images():
+    """The four class renders, inlined as data URIs.
+
+    There is no licence-clean photography of Dubai's chargers -- OCM carries zero MediaItems for the
+    UAE, Commons has none, DEWA's pages carry only logos -- so the app shows its own spec-derived
+    massing instead of a stock photo of somebody else's hardware. Produced by
+    scripts/render_ev_archetypes.py; ~11 KB each, so inlining beats a second request."""
+    import base64
+    out = {}
+    if not os.path.isdir(ARCH_IMG):
+        print("NOTE: no archetype renders; run scripts/render_ev_archetypes.py")
+        return out
+    for f in sorted(os.listdir(ARCH_IMG)):
+        if not f.endswith(".png"): continue
+        with open(os.path.join(ARCH_IMG, f), "rb") as fh:
+            out[f[:-4]] = "data:image/png;base64," + base64.b64encode(fh.read()).decode("ascii")
+    print(f"  archetype renders: {len(out)} inlined "
+          f"({sum(len(v) for v in out.values())/1024:.0f} KB of data URI)")
+    return out
 
 
 def merc(lon, lat):
@@ -233,6 +255,7 @@ def main():
         "areas": sorted({p["area"] for p in out_pts if p["area"]}),
         "highways": sorted(hwys),
         "basemap": basemap(),
+        "archetype_img": archetype_images(),
         "meta": {
             "total": len(out_pts),
             "connectors": int(sum(p["c"] for p in out_pts if p["c"] is not None)),

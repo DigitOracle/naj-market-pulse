@@ -111,6 +111,14 @@ input[type=range]{width:100%; accent-color:var(--accent)}
 }
 .detail h2{margin:0 4px 2px 0; font-family:Fraunces,Georgia,serif; font-size:15.5px; font-weight:600; text-wrap:balance}
 .detail .addr{color:var(--text-dim); font-size:12px; margin:0 0 10px}
+.shot{
+  display:block; width:100%; max-width:150px; margin:0 auto 4px; height:auto;
+  background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 7%, transparent), transparent);
+  border-radius:8px;
+}
+.shot-cap{
+  text-align:center; color:var(--text-dim); font-size:10.5px; margin:0 0 11px; line-height:1.35;
+}
 .close{position:absolute; top:9px; right:10px; background:none; border:0; color:var(--text-dim); font-size:17px; cursor:pointer; line-height:1; padding:2px 4px}
 .close:hover{color:var(--text)}
 dl{display:grid; grid-template-columns:auto 1fr; gap:5px 12px; margin:0; font-size:12.5px}
@@ -202,6 +210,8 @@ footer{
         <button class="close" id="detail-close" type="button" aria-label="Close">×</button>
         <h2 id="d-name"></h2>
         <p class="addr" id="d-addr"></p>
+        <img class="shot" id="d-shot" alt="" hidden>
+        <p class="shot-cap" id="d-shot-cap" hidden></p>
         <dl id="d-list"></dl>
         <a id="d-link" href="#" target="_blank" rel="noopener noreferrer" hidden>View source record →</a>
       </div>
@@ -477,6 +487,18 @@ footer{
     document.getElementById("d-list").innerHTML = rows.map(function(r){
       return "<dt>" + r[0] + "</dt><dd>" + String(r[1]) + "</dd>";
     }).join("");
+    // The picture is our own massing for this CLASS, not a photo of this site -- no licence-clean
+    // photography of these chargers exists, and the caption has to say so rather than imply one.
+    var shot = document.getElementById("d-shot"), cap = document.getElementById("d-shot-cap");
+    var src = (DATA.archetype_img || {})[p.arch];
+    if (src){
+      var lab = (ARCH.filter(function(x){ return x.k === p.arch; })[0] || {}).label || p.arch;
+      shot.src = src; shot.alt = lab + " — generic massing"; shot.hidden = false;
+      cap.textContent = "Generic " + lab + " massing, from DEWA's published specification — not a photograph of this site.";
+      cap.hidden = false;
+    } else {
+      shot.hidden = true; cap.hidden = true; shot.removeAttribute("src");
+    }
     var a = document.getElementById("d-link");
     if (p.url){ a.href = p.url; a.hidden = false; } else { a.hidden = true; }
     document.getElementById("detail").hidden = false;
