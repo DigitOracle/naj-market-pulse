@@ -1,0 +1,24 @@
+{
+  "_source": "Select Group project page, read 17 September 2026 (manifest: data/media/_sources/peninsula_one.json).",
+  "_assets_from": "Images published openly on that page. Brochure and floor plans are behind an enquiry form and were NOT fetched.",
+  "developer": "Select Group",
+  "strapline": "Select Group, Business Bay",
+  "asset_overrides": {
+    "hero": "m_6b00d703c6c0",
+    "living": "m_cfbe2e8229f6",
+    "bedroom": "m_e94485aa0a17",
+    "kitchen": "m_1207dc11ccf2",
+    "bath": "m_de028d36a46a"
+  },
+  "_override_note": "Hero is the wide dusk render of the towers - the file is named 'pool_view', which it is not. The interiors are unnamed camera files and were identified by looking at them. The file named 'bedroom2_AK10' is a living and dining room and is NOT used as the bedroom.  Every one of these was identified from a scout's record of what the image ACTUALLY SHOWS, after opening it - not from its filename. Select mislabels rooms often enough that the name is treated as a hint and never as evidence.",
+  "captions": {
+    "living": "Living and dining",
+    "bedroom": "Bedroom",
+    "kitchen": "Kitchen",
+    "bath": "Bathroom"
+  },
+  "image_note": "Images are published by Select Group, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "Select Group publishes no apartment layouts openly for this building &mdash; its floor plans sit behind an enquiry form, which we do not fill in. Ask and we will request the plan for a specific unit."
+  ]
+}

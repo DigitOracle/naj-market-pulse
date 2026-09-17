@@ -1,0 +1,24 @@
+{
+  "_source": "Select Group project page for West Avenue, read 17 September 2026 (manifest: data/media/_sources/west_avenue.json).",
+  "_assets_from": "16 images published openly. Brochure and floor plans sit behind an enquiry form and were NOT fetched.",
+  "developer": "Select Group",
+  "strapline": "Select Group, Dubai Marina",
+  "asset_overrides": {
+    "hero": "m_25ad2cac8f4e",
+    "bedroom": "m_67900a43abd8",
+    "living": "m_7371c2fbe74b",
+    "kitchen": "m_20d97406441f",
+    "bath": "m_91826886e1b7"
+  },
+  "_override_note": "Every image was identified from a scout's record of what it ACTUALLY SHOWS, after opening it. Select mislabels rooms here more than on any other building: the files named '05-West-Avenue-Bedroom', '12-West-Avenue-Bedroom' and '13-West-Avenue-Bedroom' are all living spaces, and none is used as the bedroom. Two different images share the prefix 15720_Apartments - one is the tower, one is the gym - so the hero is pinned by its full asset id, not by name.",
+  "captions": {
+    "bedroom": "Bedroom",
+    "living": "Living room",
+    "kitchen": "Kitchen and dining",
+    "bath": "Bathroom"
+  },
+  "image_note": "Images are published by Select Group, the developer of West Avenue, on its own project page, and are reproduced here for a buyer considering the building. The exterior is a photograph of the completed tower; the interiors show show apartments and common areas, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "Select Group publishes no apartment layouts openly for this building &mdash; its floor plans sit behind an enquiry form, which we do not fill in. Ask and we will request the plan for a specific unit."
+  ]
+}

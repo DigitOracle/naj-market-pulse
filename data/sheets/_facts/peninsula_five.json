@@ -1,0 +1,24 @@
+{
+  "_source": "Select Group project page, read 17 September 2026 (manifest: data/media/_sources/peninsula_five.json).",
+  "_assets_from": "Images published openly on that page. Brochure and floor plans are behind an enquiry form and were NOT fetched.",
+  "developer": "Select Group",
+  "strapline": "Select Group, Business Bay",
+  "asset_overrides": {
+    "hero": "m_4d75c5441459",
+    "bedroom": "m_8dd120c32cce",
+    "living": "m_046b19742c91",
+    "kitchen": "m_bd018c03871c",
+    "bath": "m_af7a6ef0f118"
+  },
+  "_override_note": "Hero is the waterfront render showing the full tower elevation. The file named 'BEDROOM2_05' is a living and dining room and is NOT used; the bedroom is BEDROOM_06, which is one.  Every one of these was identified from a scout's record of what the image ACTUALLY SHOWS, after opening it - not from its filename. Select mislabels rooms often enough that the name is treated as a hint and never as evidence.",
+  "captions": {
+    "bedroom": "Bedroom",
+    "living": "Living room",
+    "kitchen": "Kitchen",
+    "bath": "Bathroom"
+  },
+  "image_note": "Images are published by Select Group, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "Select Group publishes no apartment layouts openly for this building &mdash; its floor plans sit behind an enquiry form, which we do not fill in. Ask and we will request the plan for a specific unit."
+  ]
+}

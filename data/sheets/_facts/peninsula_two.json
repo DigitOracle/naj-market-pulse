@@ -1,0 +1,24 @@
+{
+  "_source": "Select Group project page, read 17 September 2026 (manifest: data/media/_sources/peninsula_two.json).",
+  "_assets_from": "Images published openly on that page. Brochure and floor plans are behind an enquiry form and were NOT fetched.",
+  "developer": "Select Group",
+  "strapline": "Select Group, Business Bay",
+  "asset_overrides": {
+    "hero": "m_b49d25ceeb35",
+    "living": "m_32930e651760",
+    "kitchen": "m_ce9d6295cbff",
+    "bedroom": "m_1ee42666c64c",
+    "amenity": "m_aa74c852347f"
+  },
+  "_override_note": "The file named 'Bedroom_2' is a living and dining room and is captioned as such; 'Bedroom_3' is a real bedroom. Hero is R3, the tower and its podium at dusk.  Every one of these was identified from a scout's record of what the image ACTUALLY SHOWS, after opening it - not from its filename. Select mislabels rooms often enough that the name is treated as a hint and never as evidence.",
+  "captions": {
+    "living": "Living and dining",
+    "kitchen": "Kitchen",
+    "bedroom": "Bedroom",
+    "amenity": "The residents' lobby"
+  },
+  "image_note": "Images are published by Select Group, the developer, on its own project page, and are reproduced here for a buyer considering the building. They are computer renders showing the developer's intended specification &mdash; they are not photographs of any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them.",
+  "caveats": [
+    "Select Group publishes no apartment layouts openly for this building &mdash; its floor plans sit behind an enquiry form, which we do not fill in. Ask and we will request the plan for a specific unit."
+  ]
+}

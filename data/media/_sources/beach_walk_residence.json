@@ -1,0 +1,109 @@
+{
+  "project": "Beach Walk Residence",
+  "developer": "Imtiaz",
+  "area": "Dubai Islands",
+  "page": "https://imtiaz.ae/property/beach-walk-residence-by-imtiaz",
+  "_note": "Read 17 September 2026 from imtiaz.ae. No form filled. I LOOKED at Cam 1-01, at two interiors and at one floor plan. This is the only one of the four Imtiaz pages that publishes floor plans as images (/uploads/plan/). Note the page <title> is the generic 'Imtiaz - Properties', a template slip on their side; the body content is Beach Walk Residence on Dubai Islands.",
+  "images": [
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-01.jpg",
+      "note": "LOOKED: wide daylight exterior render of the whole tower - white sculpted balcony bands, podium signed IMTIAZ, pool deck on the podium roof, sea and neighbouring blocks behind. 1115x1080. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-02.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-03.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-04.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-05.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-06.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-07.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-08.jpg",
+      "note": "Exterior render; the same file is also served as the description banner from /uploads/property/description_banner/15/Cam 1-08.jpg - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-09.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-10.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/15/Cam%201-11.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/main_banner/15/Cam2.jpg",
+      "note": "Page top banner render"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/15/IMTIAZ%20-%20Beach%20Walk_Bedroom%201.jpg",
+      "note": "LOOKED: bedroom - bed with blue throw, round rug, wall-mounted TV, marble-panelled wall. Matches its filename. 4000x2250"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/15/IMTIAZ%20-%20Beach%20Walk_Living%20room.jpg",
+      "note": "LOOKED: living room - cream sofa, blue armchairs, round blue rug, glazing to a balcony. Matches its filename. 4000x2250"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/15/IMTIAZ%20-%20Beach%20Walk_Lobby1.jpg",
+      "note": "Lobby render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/15/IMTIAZ%20-%20Beach%20Walk_Lobby2.jpg",
+      "note": "Lobby render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/25/Studio-04.png",
+      "note": "Floor plan - studio"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/26/Studio-05.png",
+      "note": "Floor plan - studio"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/27/1%20Bedroom-06.png",
+      "note": "LOOKED: floor plan line drawing, one bedroom with dress, bath, study, kitchen, living and dining and a curved balcony. Matches its filename. 3335x2251"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/28/1%20Bedroom-07.png",
+      "note": "Floor plan - one bedroom"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/29/1%20Bedroom-08.png",
+      "note": "Floor plan - one bedroom"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/30/1%20Bedroom-09.png",
+      "note": "Floor plan - one bedroom"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/31/2nd%20Floor-01.png",
+      "note": "Floor plan - second floor"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/32/2nd%20Floor-02.png",
+      "note": "Floor plan - second floor"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/plan/33/2nd%20Floor-03.png",
+      "note": "Floor plan - second floor"
+    }
+  ]
+}

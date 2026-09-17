@@ -1,0 +1,69 @@
+{
+  "project": "Pearl House",
+  "developer": "Imtiaz",
+  "area": "Jumeirah Village Circle",
+  "page": "https://imtiaz.ae/property/pearl-house-by-imtiaz",
+  "_note": "Read 17 September 2026 from imtiaz.ae. No form filled, nothing gated opened. I LOOKED at 16Exterior and at three interiors; on this page the exterior filenames are honest. No floor plans are published as images. Facility icons under /uploads/facility/ are excluded.",
+  "images": [
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/8/16Exterior.jpg",
+      "note": "LOOKED: wide daylight exterior render of the whole tower, curved balconies over a dark glazed podium carrying a circular Pearl House by Imtiaz sign. 2500x1312. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/8/17Exterior.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/8/18Exterior.jpg",
+      "note": "Exterior render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/exterior_gallery/8/20Exterior.jpg",
+      "note": "Exterior render; the same file is also served as the page hero from /uploads/property/8/20Exterior.jpg - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/8/pearl_house_main.png",
+      "note": "Page hero image"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/1Lobby.jpg",
+      "note": "LOOKED: lobby lounge, curved beige sofa and low tables under fluted wall panels and pendant lights. Matches its filename. 2500x1312"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/2Lobby.jpg",
+      "note": "Lobby render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/21Club%20house.jpg",
+      "note": "LOOKED: club house BAR - copper honeycomb-clad counter, bar stools, backlit bottle display. It is specifically a bar. 2500x1312"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/23Club%20house.jpg",
+      "note": "Club house render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/111bedroom.jpg",
+      "note": "LOOKED: bedroom - bed, dresser with round mirror, timber panelling. Matches its filename. 2500x1312"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/61bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/71bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/91bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/131bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/8/141bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    }
+  ]
+}
