@@ -379,7 +379,20 @@ def main():
         if r_.get("dld"): o["dld"] = {x: r_["dld"].get(x) for x in DLD_KEEP if r_["dld"].get(x) is not None}
         if r_.get("dm"): o["dm"] = {x: r_["dm"].get(x) for x in DM_KEEP if r_["dm"].get(x) is not None}
         if r_.get("remaining"): o["remaining"] = {x: y for x, y in r_["remaining"].items() if x != "basis" and y is not None}
+        # A footprint's display name is the name Naj sees; the sheet is built from the LAND
+        # DEPARTMENT project name, and the two often differ. Torch Tower has a finished sheet in the
+        # store and its record is called "The Torch", so resolve_sheet found nothing and the card
+        # offered no document at all - a delivered sheet with no signpost to it.
+        #
+        # The DLD project is only used when it AGREES with the record's own name, or when the record
+        # has no name to disagree with. Taken on trust it would have pointed "Miracle Residence" at
+        # SAMANA SKYROS and "Al Waleed Paradise" at MBL Signature, which is the day's whole lesson
+        # in one field: a binding is not an identity either.
         _cs = resolve_sheet(_slugs, r_.get("name") or "")
+        if not _cs:
+            _dp = (r_.get("dld") or {}).get("project")
+            if _dp and (not r_.get("name") or same_building(_dp, r_.get("name"))):
+                _cs = resolve_sheet(_slugs, _dp)
         if _cs:
             o["client_sheet"] = _cs
             _n_cs += 1
