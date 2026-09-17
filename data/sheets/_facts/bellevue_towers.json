@@ -53,5 +53,6 @@
   "_brochure_url": "https://www.dp.ae/pdf/Brochure-New-Bellevue-Towers.pdf",
   "_assets_from": "Pages lifted from the brochure above with the media-register classifier: p01 exterior render (hero), p10 bedroom, p11 kitchen and bathroom, p18 the one- and two-bedroom floor plans.",
   "_walk_note": "Kendall walked it (16 Sep 2026): about 5 minutes to Business Bay metro. Public map data could not settle this - Bellevue Towers is not in OpenStreetMap and no source publishes a street address, so every routed estimate came out at 8-13 minutes from a guessed pin. The observed figure wins.",
-  "_dropped_claim": "The brochure calls Mohammed Bin Rashid Boulevard \"walking distance\". Pedestrian routing puts it at about 24 minutes, so it is not repeated here. Bay Avenue, which is opposite the building, replaces it."
+  "_dropped_claim": "The brochure calls Mohammed Bin Rashid Boulevard \"walking distance\". Pedestrian routing puts it at about 24 minutes, so it is not repeated here. Bay Avenue, which is opposite the building, replaces it.",
+  "location_verified": "Walked by Kendall Wilson, 16 September 2026. About five minutes from Business Bay metro."
 }

@@ -944,6 +944,35 @@ def picture_kind(rec):
     return "none"
 
 
+TIME_CLAIM_RX = re.compile(r"\b\d+\s*(?:min|mins|minute|minutes|hour|hours)\b", re.I)
+
+
+def check_location_claims(rec):
+    """A walking time is the one number on the sheet with nothing behind it.
+
+    Everything else is sourced: prices and rents come from the Land Department and Ejari, sizes from
+    the register, pictures and station names from the developer. A walk time comes from a router
+    reading a pin, and for Bellevue every routed estimate said 8-13 minutes from a pin that turned
+    out to be wrong. The truth was 5, and it was only known because Kendall had walked it.
+
+    That matters more than a wrong picture because there is no correction between a confident wrong
+    number and a client acting on it - she reads the sheet aloud. So: a time may appear on a sheet
+    only where a person has checked it and said so in `location_verified`. Station NAMES need no such
+    proof and scale to every building; times do not scale and should not pretend to.
+
+    Returns a list of problems."""
+    fx = rec.get("facts") or {}
+    verified = fx.get("location_verified")
+    bad = []
+    for card in (fx.get("location_cards") or []):
+        for line in card.get("lines", []):
+            if TIME_CLAIM_RX.search(str(line)) and not verified:
+                bad.append("location card says %r but nothing records who checked it - "
+                           "set location_verified in the facts file, or drop the time and keep the name"
+                           % line)
+    return bad
+
+
 def verify_pdf(pdf_path, rec, expected_pages):
     """"It rendered" and "it rendered right" are different claims.
 
@@ -1131,6 +1160,12 @@ def main():
             push_sheet({"slug": nm, "name": "Shortlist", "images": {"hero": 1}}, _p, _n)
     else:
         for r in records:
+            _lc = check_location_claims(r)
+            for b in _lc:
+                print("  CHECK FAILED: %s" % b)
+            if _lc:
+                print("  not built - fix the facts file first")
+                continue
             print("Client sheet:")
             _h, _p, _n = write([r], r["slug"], "%s \u2014 fact sheet" % r["name"])
             if _p:
