@@ -1,0 +1,41 @@
+{
+  "project": "Hillmont Residences",
+  "developer": "Ellington",
+  "area": "Jumeirah Village Circle",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/hillmont-residences-jumeirah-village-circle",
+  "_note": "NO WIDE FULL-BUILDING EXTERIOR ON THIS PAGE - FLAGGED. The filename lies in the worst possible place: Hillmont-Residences-MainSection_top-scaled.jpg sits in the hero slot where every sister project puts its exterior, but it is a LOBBY INTERIOR. The left/right main-section images are a living room and a bedroom. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-BottomSlider-4-scaled.jpg",
+      "note": "LOOKED: BEST AVAILABLE EXTERIOR - podium pool deck with the tower flank and the glazed entrance behind. Partial facade only; no massing render exists on this page."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-Gallery-2-scaled.jpg",
+      "note": "LOOKED: near-identical view of the podium pool deck and tower flank, slightly wider framing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-Gallery-1-scaled.jpg",
+      "note": "LOOKED: looking down onto the podium pool from above - amenity deck, no building massing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-MainSection_top-scaled.jpg",
+      "note": "LOOKED: FILENAME LIES - this is the LOBBY: marble reception desk with the ELLINGTON PROPERTIES sign and blue armchairs. NOT the exterior its hero position implies."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-MainSection_left.jpg",
+      "note": "LOOKED: apartment living/dining in greys and blues."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-MainSection_right.jpg",
+      "note": "LOOKED: bedroom with an upholstered headboard and a wave wall sculpture."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-Gallery-3.jpg",
+      "note": "LOOKED: lobby seating corner - two blue armchairs by full-height glazing onto palms."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Hillmont-Residences-Gallery-4-scaled.jpg",
+      "note": "LOOKED: apartment living room with a travertine TV wall and shelving."
+    }
+  ]
+}

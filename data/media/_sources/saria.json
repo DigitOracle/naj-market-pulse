@@ -1,0 +1,23 @@
+{
+  "project": "Saria",
+  "developer": "BEYOND",
+  "area": "Dubai Maritime City",
+  "page": "https://beyonddevelopments.ae/Projects/saria/",
+  "_note": "Read 17 Sep 2026. NOTE ON THE DOMAIN: beyond.ae is NOT the developer's site - it is parked for sale on GoDaddy, and bybeyond.com is parked too. BEYOND's own site is beyonddevelopments.ae, which carries the whole project list (saria, orise, mural, sensia, soulever, passo, talea, hado, arancia and others) and the BEYOND logo. Images are plain files under /assets/Projects/<project>/{Exterior,Interior,Amenities}/. Every image was downloaded and looked at - which caught that the folder name 'Exterior' is not reliable (see Exterior/3 below). Excluded after looking: 'Screenshot 2025-06-18 at 4.30.51 AM.webp' (a SARIA location map graphic), theproject.webp (443x550, under the 600px floor), a hero aerial that belongs to a different BEYOND project (Arancia) and sits in the page nav, and /assets/mural/sunset.webp which is filed under The Mural's folder, not Saria's. No floor plans published on the page.",
+  "images": [
+    { "url": "https://beyonddevelopments.ae/Projects/saria/Banner.webp", "note": "LOOKED: wide EXTERIOR render (1920x1080) - the tower standing on the Maritime City waterfront at dusk with the Burj Khalifa skyline across the water. Best hero exterior on the page" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Exterior/1.webp", "note": "LOOKED: EXTERIOR - the tower with its open crown, seen against the Downtown skyline at sunset. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Exterior/2.webp", "note": "LOOKED: EXTERIOR - the tower from below against an open sky, showing the facade and the crown. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Exterior/4.webp", "note": "LOOKED: EXTERIOR aerial at dusk - the tower among the Maritime City waterfront blocks, marina below. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Exterior/3.webp", "note": "LOOKED - FOLDER LIES: filed under 'Exterior' but it is NOT a shot of the building. It is a private terrace with a long lap pool and planting, looking out to the skyline across the water" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Amenities/3.webp", "note": "LOOKED: amenity - pool deck with sun loungers and palms, skyline on the horizon" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Amenities/4.webp", "note": "LOOKED: amenity - rooftop terrace lounge at dusk with fire tables and seating" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Amenities/1.webp", "note": "LOOKED: amenity - residents' gym, a run of cardio machines along full-height glazing with a sea view" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Amenities/2.webp", "note": "LOOKED: filed as an amenity but it is the ARRIVAL / porte-cochere - a sports car parked under the building's undercroft beside the lobby glazing" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Interior/1.webp", "note": "LOOKED: interior - bedroom with a wall-mounted TV and a window to the water" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Interior/2.webp", "note": "LOOKED: interior - open living, dining and kitchen with a marble island, glazing on two sides" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Interior/3.webp", "note": "LOOKED: interior - bedroom with a corner of full-height glazing onto the marina" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/Interior/4.webp", "note": "LOOKED: interior - double-height living room with tall windows, seating and a dining table" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/saria/res.webp", "note": "LOOKED: interior - living room with curved seating and open shelving, glazing to the terrace (878x674)" }
+  ]
+}

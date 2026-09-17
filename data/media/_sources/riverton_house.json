@@ -1,0 +1,37 @@
+{
+  "project": "Riverton House",
+  "developer": "Ellington",
+  "area": "Mohammed Bin Rashid City",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/riverton-house-mohammed-bin-rashid-city",
+  "_note": "NO WIDE FULL-BUILDING EXTERIOR on this page - FLAGGED. The two 'MainSection' images are an aerial of the amenity terrace and a tight facade crop; everything else is interior or community context. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Riverton-House-MainSection_left.jpg",
+      "note": "LOOKED: BEST AVAILABLE EXTERIOR - aerial of the podium terrace (fire pit, dining, planting) with the tower flank above, the ELLINGTON sign on the wall and the crystal lagoon behind. Partial building only."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Riverton-House-MainSection_right.jpg",
+      "note": "LOOKED: tight exterior crop - balconies, planted terrace edge and a metal-mesh screen wall. No massing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/mbr-city-community.jpg",
+      "note": "LOOKED: two people on a balcony overlooking the MBR City lagoon at sunset - community context, NOT the building."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Riverton-House-Gallery_01.jpg",
+      "note": "LOOKED: lobby - marble reception desk with ELLINGTON PROPERTIES lettering against a fluted bronze screen."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Riverton-House-Gallery_02.jpg",
+      "note": "LOOKED: lobby lounge with green artworks, mesh screens and a bench."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/r2.jpg",
+      "note": "LOOKED: residents' club lounge with a pool table and a lagoon view."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/r1.jpg",
+      "note": "LOOKED: spa - plunge pool behind fluted white curtain columns, with a lounger."
+    }
+  ]
+}

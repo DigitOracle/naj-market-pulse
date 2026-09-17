@@ -1,0 +1,41 @@
+{
+  "project": "Everly Place",
+  "developer": "Ellington",
+  "area": "Mohammed Bin Rashid City",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/everly-place-mohammed-bin-rashid-city",
+  "_note": "FILENAME LIES: mbr-2.jpg reads like 'master bedroom' but is the wide hero exterior across the lagoon. ext2.jpg is named 'ext' but is an outdoor cinema deck, not the building. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/mbr-2.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - whole building at dusk across a lagoon, two stepped blocks over a louvred podium carrying the ELLINGTON sign, beach cabanas in front. Filename suggests a bedroom; it is not."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/ext1-1.jpg",
+      "note": "LOOKED: wide exterior render of a mid-rise block at sunset over a glazed retail podium with an ELLINGTON sign, street and palms in front. Genuine exterior, but a different setting from mbr-2 (street vs lagoon), so treat mbr-2 as the primary."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/ext3.jpg",
+      "note": "LOOKED: tight exterior facade elevation at dusk, lit apartments and planted balconies. Exterior, but a crop rather than a massing shot."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/ext2.jpg",
+      "note": "LOOKED: NOT a building exterior despite the 'ext' name - an outdoor cinema on a sand pit with bean bags, on a landscaped podium deck."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/int2.jpg",
+      "note": "LOOKED: lobby - reception desk with ELLINGTON PROPERTIES lettering on travertine, seating pod to the right."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/int1-1.jpg",
+      "note": "LOOKED: gymnasium with treadmills under a DON'T QUIT neon ceiling ring, full-height glazing onto the pool deck."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/int3.jpg",
+      "note": "LOOKED: two-lane private bowling alley with neon signage and a score screen."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/int4.jpg",
+      "note": "LOOKED: apartment kitchen - pale oak cabinetry, stone backsplash, three stools at the island."
+    }
+  ]
+}

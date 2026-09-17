@@ -1,0 +1,33 @@
+{
+  "project": "Nurai Island",
+  "developer": "ZAYA",
+  "area": "Nurai Island, Abu Dhabi (not Dubai - flagged because the rest of this batch is Dubai stock)",
+  "page": "https://www.zaya.com/project/nurai",
+  "_note": "DOMAIN FINDING, read 17 September 2026: zaya.ae is DEAD - it resolves to 208.91.112.55 (a parking/placeholder host), returns HTTP 403 over http and presents an untrusted certificate over https. ZAYA's live site is zaya.com (zayaliving.com also redirects there), and the content confirms it is the right company - Hameni, Nurai, Al Barari and Zuhha are all on it. The site is built on Wix, so every image in the page HTML is a resized derivative such as .../v1/fill/w_353,h_470,q_90,enc_avif,.../<id>~mv2.jpg. The URLs listed below are the untransformed originals behind those same media ids; I did not guess them - I requested each one and recorded the pixel size it returned, which is what the notes quote. CAUTION FOR THE WHOLE SITE: the two page-header photographs carry the display names ARW09486-HDR_edited.jpg and ARW09402-HDR_edited.jpg on ALL FOUR project pages, but each page has its own media id behind those names. The display filename therefore tells you nothing about which project an image belongs to. No form was filled and nothing gated was fetched. FLAG: this page publishes NO conventional exterior elevation of a building. Every architectural image is a drone aerial of the island as a whole; the nearest thing to a building shot is the top-down aerial of the beachfront villa row. The page describes 65 private villas and an operating resort, so these are photographs of a completed asset, not renders.",
+  "images": [
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_2e19f279fe61477d9e1e3846875a378a~mv2.jpg",
+      "note": "LOOKED: top-down aerial of the beachfront villa row - each villa with its own pool, the beach and reef alongside. The closest thing to a building exterior on this page, but it is a plan-view aerial, not an elevation. 2173x1417"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_c881066cb0d7409cb5a4d60385288bc3~mv2.png",
+      "note": "LOOKED: wide aerial of the whole island at golden hour - the crescent beach, the jetty and the villas along the shore. 2362x1312. Also used as the page-header image."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_69a3288b08f646308b34c1bb59f100e9~mv2.jpg",
+      "note": "LOOKED: aerial of the beach club end of the island - pools, parasols, boats on the reef. Not a building shot. 3000x1688"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_71920fc88d9f4554903eed52fca0328f~mv2.jpg",
+      "note": "LOOKED: aerial of the beach with cabanas, swings in the shallows and people in the water. Lifestyle, not architecture. 3000x1688 Byte-identical (sha1 fa58263e764f) to the second page-header image at .../9e79da_34817fb5aa7e4d799ca5e87f6ab95f38~mv2.jpg, which carries the display name ARW09402-HDR_edited.jpg - the same photo published twice under two names, so only this one is registered."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_664d00c4e5a74e5dbfc91dec8505ae5b~mv2.jpg",
+      "note": "LOOKED: a person on a swing standing in the sea at sunset. Lifestyle image, no building. 2248x3000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_ef0c9c034e2a414c9340ae032290a28d~mv2.jpg",
+      "note": "LOOKED: a covered waterfront restaurant terrace at dusk, laid tables and festoon lighting, the island beyond. 2356x1573"
+    }
+  ]
+}

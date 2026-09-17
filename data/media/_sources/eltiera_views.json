@@ -1,0 +1,41 @@
+{
+  "project": "Eltiera Views",
+  "developer": "Ellington",
+  "area": "Jumeirah Islands",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/eltiera-views-jumeirah-islands",
+  "_note": "Good exterior coverage. The renders show high-rise towers beside a landscaped waterway; that is what Ellington publishes on this page. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/s1-2.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - several towers seen across the podium pool, full massing, daylight."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/s3-2.jpg",
+      "note": "LOOKED: full-height exterior of one tower from the pool deck, whole building in frame."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/s2-2.jpg",
+      "note": "LOOKED: wide exterior of the tower cluster along a landscaped waterway with the podium in front."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/s4-2.jpg",
+      "note": "LOOKED: from an apartment balcony along the tower flank over the pool and community - part exterior, part context."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w1-1.jpg",
+      "note": "LOOKED: residents' club lounge/bar with a large ringed pendant."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w2-1.jpg",
+      "note": "LOOKED: yoga/wellness studio with hanging hammocks and a mirrored wall."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w4.jpg",
+      "note": "LOOKED: apartment dining/living with a shell chandelier opening onto a terrace."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w3.jpg",
+      "note": "LOOKED: guest bathroom - wall-hung WC and travertine vanity."
+    }
+  ]
+}

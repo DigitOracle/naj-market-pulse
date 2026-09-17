@@ -1,0 +1,53 @@
+{
+  "project": "The Cove",
+  "developer": "Emaar",
+  "area": "Dubai Creek Harbour",
+  "page": "https://www.emaar.com/en/properties/the-cove",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. Best-documented Emaar project found: it is one of only two in this batch where Emaar populates the 'exteriorGallery' and 'interiorGallery' CMS fields. All three files named 'exterior_*' were checked and all three genuinely ARE exteriors, and all three 'interior_*' genuinely ARE interiors - on this project the filenames are honest. 'hero_slide_1' is the same render as the hero image (not byte-identical, different file), so only the hero is registered from that pair.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274213_property_Hero_Image_2952a43dc2.jpg",
+      "note": "LOOKED: wide exterior render - The Cove's mid-rise blocks along the creek edge seen from the water (the bow of a yacht and a woman in the left foreground), Downtown skyline with Burj Khalifa on the far shore. Genuine wide exterior. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274513_exterior_0_7c332621b1.jpg",
+      "note": "LOOKED: exterior render - the end block of The Cove from the water, balconies with planting, a superyacht moored at the quay, turquoise creek in the foreground. Filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274516_exterior_1_84ccd7fafb.jpg",
+      "note": "LOOKED: exterior render - the full waterfront run of The Cove's stepped blocks with roof gardens, reflected in the creek, yacht and sailing boat moored. Filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274519_exterior_2_e65ab1c623.jpg",
+      "note": "LOOKED: exterior render - The Cove blocks from further out on the water, a speedboat crossing, taller Creek Harbour towers at left and mangroves at right. Filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274533_hero_slide_0_9e40a748a2.jpg",
+      "note": "LOOKED: aerial exterior render looking down on The Cove's blocks, podium gardens, pools and the quayside, boats on the turquoise creek. Genuine exterior, aerial. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274539_hero_slide_2_40f2002899.jpg",
+      "note": "LOOKED: exterior render - the development seen along the creek in daylight, a speedboat passing, taller towers behind at left. Genuine exterior. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274522_interior_0_a79e9668b1.jpg",
+      "note": "LOOKED: interior - living room with open kitchen at right, cream sofa, round rattan coffee table, creek and Burj Khalifa through the glazing. A living room; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274527_interior_1_fc5da496e6.jpg",
+      "note": "LOOKED: interior - bedroom, upholstered bed with a rust throw, dressing table and mirror at left, olive tree, balcony and skyline beyond. A bedroom; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/274530_interior_2_cb4e29616d.jpg",
+      "note": "LOOKED: interior - kitchen and dining area, pale cabinetry, three pendant lamps over a timber table with tan chairs, creek and Burj Khalifa at left. A kitchen/dining room; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/271959_feature_block_0_6607ab22a1.jpg",
+      "note": "LOOKED: interior - bedroom, low bed with a fur throw, floating console and mirror at left, full-height glazing onto the water with a neighbouring block opposite. A bedroom. 1200x655."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/271956_feature_block_1_b50920d052.jpg",
+      "note": "LOOKED: podium garden terrace render - a family on outdoor sofas on a landscaped deck above the creek, the building's balconies rising at left. An amenity terrace. 1200x655."
+    }
+  ]
+}

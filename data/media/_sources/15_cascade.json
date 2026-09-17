@@ -1,0 +1,53 @@
+{
+  "project": "15 Cascade",
+  "developer": "Iman",
+  "area": "Dubai Motor City",
+  "page": "https://www.imandevelopers.com/iman-properties/15-cascade",
+  "_note": "Read 17 September 2026 from imandevelopers.com. The site pops up a name/email/phone enquiry form on load and the brochure is behind it - I did not fill it in and did not fetch anything behind it; the popup artwork /assets/images/popup/popupimg.jpg is excluded as furniture. Images are served from the developer's own WordPress backend at api.imandevelopers.com. The small amenity PNGs under /uploads/2025/04/ and /2025/05/ (Rooftop-Gym.png etc.) were measured at around 90x68 and are pictogram icons, so they are excluded. I downloaded and LOOKED at every image listed here. Careful with the filenames on this page: 15 Cascade's gallery files are exterior-1-2.JPG, exterior-2-2.JPG, exterior-3-3.JPG, while One Park Central publishes exterior-1-2.WEBP and exterior-2-2.WEBP - same stems, different files, different projects. FILENAME WARNINGS: exterior-3-3 is a sunset pool deck, not a building exterior; and 15-cascade.jpg, the file named after the project, is a photograph of the live construction site (raft pour, concrete pumps, rebar), not a render. No floor plans are published as images on this page.",
+  "images": [
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-1.webp",
+      "note": "LOOKED: wide daylight exterior render of the whole building - stacked white terraces stepping down to a retail base signed IMAN DEVELOPERS. 1265x963. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-1-2.jpg",
+      "note": "LOOKED: wide aerial exterior render showing the whole scheme, both wings, the podium pool and the road layout, IMAN sign on the base. 913x625. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-2-2.jpg",
+      "note": "LOOKED: street-level view of the retail colonnade under the building with shopfronts and planting. A part elevation, not a whole-building shot. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-3-3.jpg",
+      "note": "LOOKED: NOT a building exterior despite the name - sunset pool deck with sun loungers, parasols and palms. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/15-cascade.jpg",
+      "note": "LOOKED: a CONSTRUCTION SITE PHOTOGRAPH, not a render - a raft slab with starter bars and two concrete placing booms at dusk. 1046x652"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-2.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-3.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-1.webp",
+      "note": "LOOKED: kitchen and dining - pale timber cabinetry, integrated ovens, round table with four chairs. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-2.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-3.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-4.webp",
+      "note": "Interior render - not individually opened"
+    }
+  ]
+}

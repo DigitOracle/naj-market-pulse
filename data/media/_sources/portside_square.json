@@ -1,0 +1,37 @@
+{
+  "project": "Portside Square",
+  "developer": "Ellington",
+  "area": "Mina Rashid",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/portside-square-mina-rashid",
+  "_note": "FILENAME/CONTENT MISMATCH RISK: w1.jpg is the facade of a curvaceous gold-balcony tower whose architecture does not match the towers in the site render 8-3.jpg; it may be a sister-project render. Recorded as seen. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/8-3.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - the development at dusk from a boat in the marina: four residential towers plus a faceted glass landmark building, yachts in front. A woman on a fly-bridge occupies the left foreground."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w2.jpg",
+      "note": "LOOKED: exterior of the faceted glass landmark building (the one at left in 8-3), creek and towers behind."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/w1.jpg",
+      "note": "LOOKED: exterior facade close-up of a tower with curved gold balcony slabs. Genuine exterior, but the architecture does not match the towers in 8-3 - flagged as possibly a different Ellington building."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i3-1.jpg",
+      "note": "LOOKED: lobby - vaulted bronze/plaster arches, Ellington-branded reception desk, tree under a bronze drum light."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i1-3.jpg",
+      "note": "LOOKED: residents' lounge with arched alcoves and green ceiling discs, marina through the glazing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i2-2.jpg",
+      "note": "LOOKED: games room - pool table, foosball and arcade cabinets, sea view through the far window."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i4-1.jpg",
+      "note": "LOOKED: gymnasium under a glazed canopy with city skyline beyond."
+    }
+  ]
+}

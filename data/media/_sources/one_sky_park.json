@@ -1,0 +1,73 @@
+{
+  "project": "One Sky Park",
+  "developer": "Iman",
+  "area": "Jumeirah Village Circle",
+  "page": "https://www.imandevelopers.com/iman-properties/one-sky-park",
+  "_note": "Read 17 September 2026 from imandevelopers.com. The site pops up a name/email/phone enquiry form on load and the brochure is behind it - I did not fill it in and did not fetch anything behind it; the popup artwork /assets/images/popup/popupimg.jpg is excluded as furniture. Images are served from the developer's own WordPress backend at api.imandevelopers.com. The small amenity PNGs under /uploads/2025/04/ and /2025/05/ (Rooftop-Gym.png etc.) were measured at around 90x68 and are pictogram icons, so they are excluded. I downloaded and LOOKED at every image listed here. FILENAME WARNINGS: exterior-4-1 is an aerial of the amenity pool deck and exterior-5-1 is a view OUT from a resident's terrace over the skyline - neither is a picture of the building. And one-sky-park-2.jpg, the file named after the project, is a photograph of the live construction site with tower cranes, not a render. No floor plans are published as images on this page.",
+  "images": [
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-1-2.webp",
+      "note": "LOOKED: wide dusk exterior render of the whole scheme - two slab towers joined by a high-level bridge over a lit podium signed IMAN. 1265x963. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-1-1.webp",
+      "note": "LOOKED: wide dusk exterior render of the same twin towers and bridge from the road. 913x625. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-2-1.webp",
+      "note": "LOOKED: ground-level close-up of the sculpted podium entrance with an IMAN DEVELOPERS sign and people walking. A facade detail, not a whole-building shot. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-3-1.webp",
+      "note": "LOOKED: dusk view into the archway between the two towers with the IMAN DEVELOPERS sign. Part elevation only. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-4-1.webp",
+      "note": "LOOKED: NOT a building exterior despite the name - aerial of the amenity deck, a long pool and a canopied lounge on the podium roof. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-5-1.webp",
+      "note": "LOOKED: NOT a picture of the building - a view OUT from a planted resident terrace across Dubai towards the Marina skyline. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/one-sky-park-2.jpg",
+      "note": "LOOKED: a CONSTRUCTION SITE PHOTOGRAPH, not a render - substructure works, two tower cranes, contractor board and site traffic. 1046x652"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-2-2.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-3-2.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-4-1.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/Entrance-lobby-View-2-scaled-1.jpg",
+      "note": "LOOKED: entrance lobby - double-height space, marble floor medallion, a large ring chandelier and a sculptural water feature. Matches its filename. 2560x1920, the largest image on the page."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-1-2.webp",
+      "note": "LOOKED: kitchen and dining - timber cabinetry, curved island with stools, corridor beyond. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-2-2.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-3-2.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-4-2.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-5.webp",
+      "note": "Interior render - not individually opened"
+    }
+  ]
+}

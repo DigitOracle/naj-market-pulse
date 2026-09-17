@@ -1,0 +1,45 @@
+{
+  "project": "Hameni",
+  "developer": "ZAYA",
+  "area": "Jumeirah Village Circle, Dubai (the page says JVC; the coordinates it prints, 25 06 00.0 N 55 18 49.7 E, plot nearer Business Bay - I am reporting both, not resolving it)",
+  "page": "https://www.zaya.com/project/hameni",
+  "_note": "DOMAIN FINDING, read 17 September 2026: zaya.ae is DEAD - it resolves to 208.91.112.55 (a parking/placeholder host), returns HTTP 403 over http and presents an untrusted certificate over https. ZAYA's live site is zaya.com (zayaliving.com also redirects there), and the content confirms it is the right company - Hameni, Nurai, Al Barari and Zuhha are all on it. The site is built on Wix, so every image in the page HTML is a resized derivative such as .../v1/fill/w_353,h_470,q_90,enc_avif,.../<id>~mv2.jpg. The URLs listed below are the untransformed originals behind those same media ids; I did not guess them - I requested each one and recorded the pixel size it returned, which is what the notes quote. CAUTION FOR THE WHOLE SITE: the two page-header photographs carry the display names ARW09486-HDR_edited.jpg and ARW09402-HDR_edited.jpg on ALL FOUR project pages, but each page has its own media id behind those names. The display filename therefore tells you nothing about which project an image belongs to. No form was filled and nothing gated was fetched. HAMENI-SPECIFIC FLAG: the six gallery images do not all show the same building. Four of them are a large rectilinear slab tower with a long podium pool; one is a completely different curved white tower standing on splayed columns with wavy planted balconies. I looked at every one and have described what I saw rather than assuming the page is internally consistent. The page describes a 33-storey, 498-home tower.",
+  "images": [
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_cdc6eb1963d24ce7b26a9c4b88565fd2~mv2.jpg",
+      "note": "LOOKED: full-height exterior PHOTOGRAPH of a slab residential tower shot from the podium pool, palms in the foreground. 2250x3000. Best exterior on this page, but see the page-level flag - it is not the same building as the curved tower below."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_e41f721773814d89adad0d56cc91255c~mv2.jpg",
+      "note": "LOOKED: aerial exterior looking down on the landscaped pool deck and villas/cabanas, cars on the road beyond. Amenity aerial, not a building elevation. 2540x1694"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_aa62b53b194346fdb1652403e7d1d514~mv2.jpg",
+      "note": "LOOKED: exterior PHOTOGRAPH of a curved white tower on splayed V-columns with wavy planted balconies and a dark glazed lobby at its base. This is a DIFFERENT building from the slab tower in the other gallery shots. 2001x3000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_befff4e701ee49198d1d30f7f115aa60~mv2.jpg",
+      "note": "LOOKED: exterior photograph of the slab tower from below, framed by palms, long pool at its foot. 2001x3000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_ef1041e14b4f4a78b2a7fb07303859e2~mv2.jpg",
+      "note": "LOOKED: living/dining interior - pale curved sofa, dining table, black artwork, strong daylight from a full-height window. 1334x2001"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_b284d4964122461582c0c7ed9bf223d2~mv2.jpg",
+      "note": "LOOKED: seating room - two round tub chairs, a low round table, framed pictures and a small dining set behind. 3000x2001"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_bc97ad4d648d40389a5784e72eb1bd23~mv2.jpg",
+      "note": "LOOKED: exterior photograph of the slab tower from ground level looking up, trees in the foreground. Published only as a 92x62 blurred navigation thumbnail; the original behind it is 3000x2002."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_61488fbd100a4aae9a49b1b1f933cb85~mv2.jpg",
+      "note": "LOOKED: black-and-white aerial exterior of the slab tower and its pool deck with the Dubai skyline behind. This is the page-header image; the same display name (ARW09486-HDR_edited.jpg) is used on all four project pages with different media ids. 1695x2540"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_e5c58e34d9424377b7e80ad6c43319a4~mv2.jpg",
+      "note": "LOOKED: dusk aerial exterior of the same slab tower, lit roads and city beyond. Page-header image, display name ARW09402-HDR_edited.jpg reused site-wide. 1695x2540"
+    }
+  ]
+}

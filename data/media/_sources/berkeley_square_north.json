@@ -1,0 +1,29 @@
+{
+  "project": "Berkeley Square North",
+  "developer": "Prestige One",
+  "area": "Jumeirah Village Circle",
+  "page": "https://prestigeone.ae/projects/berkeley-square-north",
+  "_note": "Read 17 September 2026 from prestigeone.ae. No form was filled - the site's 'Register for interest' and the /project-documents page ask for name, email and phone, and I did not touch them. Two families of image are excluded as page furniture, not project media: /assets/images/v3/amenities-sliders/... which are stock views of Dubai landmarks (Burj Khalifa, Palm Jumeirah, the airport) used as a location strip on every project page, and /assets/project-featured-images/sliders/... which are thumbnail cards advertising OTHER projects at the foot of the page. Every render on this site carries a PRESTIGE ONE watermark. 2B+G+5+ROOF, studio to 3-bedroom, a low-rise in a classical English idiom. I downloaded and LOOKED at all four gallery images and the featured image. FILENAME WARNING: three of the four gallery files are labelled 'Night' but two of them are plainly not night scenes - the courtyard pool view and the pool retreat view both read as bright daylight or early evening under a blue sky. Treat the word Night in these names as unreliable. No floor plans are published as images.",
+  "images": [
+    {
+      "url": "https://prestigeone.ae/assets/project-featured-images/berkeley/Berkeley-Square-North.webp",
+      "note": "LOOKED: wide exterior render of the whole block from the street - five storeys of stone facade with wrought balconies, a PRESTIGE ONE sign on the parapet, hedging and palms in front. 2000x1334. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/berkeley-square-north/gallery/Berkeley%20Square%20Bird's%20Eye%20Night%20View.webp",
+      "note": "LOOKED: aerial exterior of the whole scheme - two wings around a central courtyard pool, roads and neighbouring blocks around it. The light reads as dusk rather than night. 1280x709"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/berkeley-square-north/gallery/Berkeley%20Square%20Courtyard%20Pool%20Night.webp",
+      "note": "LOOKED: courtyard pool with parasols and loungers against the building's balconied elevation. NOT a night scene despite the filename - bright daylight, blue sky. 1280x853"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/berkeley-square-north/gallery/Berkeley%20Square%20Pool%20Retreat%20Night.webp",
+      "note": "LOOKED: pool retreat - a couple seated on a bench beside the pool with palms and the stone elevation behind. Again NOT a night scene; daylight with a blue sky. 1280x853"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/berkeley-square-north/gallery/Berkeley%20Square%20Outdoor%20Cinema%20Night%20View.webp",
+      "note": "LOOKED: a landscaped courtyard at dusk with pod-shaped seats under the building. I could not see a screen, so the 'Outdoor Cinema' label is not borne out by what is in frame. 1280x853"
+    }
+  ]
+}

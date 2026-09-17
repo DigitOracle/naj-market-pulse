@@ -1,0 +1,41 @@
+{
+  "project": "Windsor House II",
+  "developer": "Ellington",
+  "area": "Dubai South",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/windsor-house-ii-dubai-south",
+  "_note": "IMPORTANT: this page publishes ONE image of its own (Windsor-House-II-MainSection_top.jpg). Every other image on it is the SAME FILE as on the Windsor House (phase I) page - identical left/right main-section renders and identical four gallery images. Recorded as published; do not present them as distinct phase II material. NO WIDE MASSING RENDER OF PHASE II ITSELF - FLAGGED. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-II-MainSection_top.jpg",
+      "note": "LOOKED: the page's only phase II specific image - landscaped courtyard between two residential blocks, table tennis and a pergola, people seated. Exterior, but a courtyard view, not a massing render."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-MainSection_right-min.jpg",
+      "note": "LOOKED: wide aerial exterior of the whole building with the ELLINGTON sign. SAME FILE as on the Windsor House phase I page."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-MainSection_left-min.jpg",
+      "note": "LOOKED: wide aerial exterior from the other side. SAME FILE as phase I."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/community-page-2-scaled.jpg",
+      "note": "LOOKED: courtyard pool between the blocks. SAME FILE as phase I."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_03-min.jpg",
+      "note": "LOOKED: lobby reception with the ELLINGTON sign. SAME FILE as phase I."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_04-min.jpg",
+      "note": "LOOKED: residents' lounge. SAME FILE as phase I."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_01-min-1.jpg",
+      "note": "LOOKED: apartment living/dining. SAME FILE as phase I."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_02-min.jpg",
+      "note": "LOOKED: apartment living room onto a terrace. SAME FILE as phase I."
+    }
+  ]
+}

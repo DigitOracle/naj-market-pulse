@@ -1,0 +1,23 @@
+{
+  "project": "Orise",
+  "developer": "BEYOND",
+  "area": "Dubai Maritime City",
+  "page": "https://beyonddevelopments.ae/Projects/orise/",
+  "_note": "Read 17 Sep 2026. BEYOND's own site is beyonddevelopments.ae (beyond.ae is parked for sale on GoDaddy and is not the developer). Every image was downloaded and looked at. Excluded after looking: 'Dark lines 1.webp', which despite the name is a stylised MAP of the Dubai coastline with Orise marked on it; 'muralInt.webp', whose name suggests a Mural interior but which is actually a night EXTERIOR of two towers, and is only 514x641, under the 600px floor; the Arancia hero aerial that sits in the page nav and belongs to another BEYOND project; and 'Group 2147205760.webp', which is referenced by the page but returns 404. No floor plans published on the page.",
+  "images": [
+    { "url": "https://beyonddevelopments.ae/Projects/orise/Banner.webp", "note": "LOOKED: wide EXTERIOR render (1920x1290) - the tower on the Maritime City shoreline seen along the coast, beach and sea in front, city skyline behind. Best hero exterior on the page" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Exterior/1.webp", "note": "LOOKED: EXTERIOR aerial - the towers and their podium pool deck projecting over the water. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Exterior/4.webp", "note": "LOOKED: EXTERIOR aerial at dusk - the towers, pool deck and landscaped podium lit up. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Exterior/2.webp", "note": "LOOKED: EXTERIOR - the towers seen at sunset across the palm-fringed lagoon pool. Folder name matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Exterior/3.webp", "note": "LOOKED - folder is only half right: filed under 'Exterior' but it is mostly a ROOFTOP TERRACE shot, a timber-clad pavilion and planted deck looking across the marina to the Burj Khalifa skyline. The building itself is only the edge of the frame" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Amenities/pool.webp", "note": "LOOKED: amenity - the main pool at dusk with sun loungers and the Downtown skyline behind. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Amenities/sunrise.webp", "note": "LOOKED: amenity - infinity pool at sunrise, a lounger on the deck, the building's facade to one side. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Amenities/retail.webp", "note": "LOOKED: the low-rise retail pavilion at dusk among palms with the tower behind. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Amenities/lounge.webp", "note": "LOOKED: an OUTDOOR garden lounge, not an indoor one - hanging chairs and daybeds under mature trees at the base of the tower" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Interior/1.webp", "note": "LOOKED: interior - living room opening onto a terrace with a green wall, sea beyond" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Interior/2.webp", "note": "LOOKED: interior - bedroom with an armchair at full-height glazing looking out to the sea" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Interior/3.webp", "note": "LOOKED: interior - large living room with pale sofas and the sea horizon across the whole window wall" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/orise/Interior/4.webp", "note": "LOOKED: interior - living and dining opening to a planted terrace with a daybed and the sea beyond" },
+    { "url": "https://beyonddevelopments.ae/assets/images/oriseRes.webp", "note": "LOOKED: interior - living room with curved sofas and a rug, full-height glazing to the sea (1067x820)" }
+  ]
+}

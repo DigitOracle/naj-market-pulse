@@ -1,0 +1,19 @@
+{
+  "project": "Armani Beach Residences",
+  "developer": "Arada",
+  "area": "Palm Jumeirah",
+  "page": "https://www.arada.com/en/armani-beach-residences/",
+  "_note": "Read 17 Sep 2026. Images are served from Arada's own blob store (aradawebcontent.blob.core.windows.net/arada-com/...). The page publishes a small set - 16 files in total, several of them 490x220 thumbnails - and NO floor plans; the floor-plan material sits behind a register-your-interest form, which was not filled in. Every image was downloaded and looked at, which caught two filename lies (see notes below). Excluded: three 490x220 banner thumbnails (2BR-propeerty-banner-v1, Armani-prd-banner-4, Armani-prd-banner-5 - interiors, but under the 600px floor), main-bnr-1-mbl.jpg (600x450 mobile crop, under the floor), and two portrait photographs of people.",
+  "images": [
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/main-bnr-1.jpg", "note": "LOOKED: wide EXTERIOR render (1920x760) - the building's stacked curved terraces with the large illuminated arched opening at its centre, reflected in the water in front. Best hero exterior on the page" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/gallery-1.jpg", "note": "LOOKED: EXTERIOR - the whole building seen from the sea at dusk, pool deck and beach in front" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/gal-2.jpg", "note": "LOOKED: EXTERIOR - the building from the water at dusk, the arched opening lit from within" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/Aramni-lp-banner-2.jpg", "note": "LOOKED: EXTERIOR - wide letterbox render (1636x480) of the building across the beach and shallow water" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/gal-3.jpg", "note": "LOOKED: amenity - infinity pool at dusk looking out to the Dubai skyline on the horizon" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/231203-spa-pool-03.jpg", "note": "LOOKED: interior amenity - indoor pool between tall columns with full-height glazing to the sea. Filename 'spa-pool' matches the content" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/Lobby-first-floor-01-1.jpg", "note": "LOOKED: interior - lounge with a large arched window and a curved ribbed ceiling, low armchairs around a table, city on the horizon. Consistent with the 'first floor lobby' filename" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/Spa-entrance-3.jpg", "note": "LOOKED: interior - a white glass-block room, almost empty, with a single rounded vessel at the far end. Reads as the spa entrance vestibule; consistent with the filename but it shows no spa" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/231116-terrace-pool-view.jpg", "note": "LOOKED - FILENAME LIES: called 'terrace-pool-view' but there is no terrace and no pool in it. It is a wide seascape at sunset with the Dubai skyline low on the horizon across open water" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2023/12/Armani-Beach-Residences-gallery66.jpg", "note": "LOOKED - FILENAME LIES: named as a residences gallery image but it is the UNDERGROUND CAR PARK / arrival level - concrete columns, a lit ceiling strip and parked cars. Not a residence" }
+  ]
+}

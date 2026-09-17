@@ -1,0 +1,97 @@
+{
+  "project": "Sierra by Iman",
+  "developer": "Iman",
+  "area": "Dubai Motor City",
+  "page": "https://www.imandevelopers.com/iman-properties/sierra-by-iman",
+  "_note": "Read 17 September 2026 from imandevelopers.com. The site pops up a name/email/phone enquiry form on load and the brochure is behind it - I did not fill it in and did not fetch anything behind it; the popup artwork /assets/images/popup/popupimg.jpg is excluded as furniture. Images are served from the developer's own WordPress backend at api.imandevelopers.com. The small amenity PNGs under /uploads/2025/04/ and /2025/05/ (Rooftop-Gym.png etc.) were measured at around 90x68 and are pictogram icons, so they are excluded. I downloaded and LOOKED at the elevations, the arrival drive and three interiors. This is the best-photographed of the four Iman pages - it publishes a genuine 3018x1694 wide elevation. FILENAME WARNING: 06_Living-rom.jpg is NOT an apartment living room - I looked at it and it is a double-height entrance LOBBY with a marble reception desk and a linear chandelier. No floor plans are published as images on this page.",
+  "images": [
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/1.-Elevation-v1-1.jpg",
+      "note": "LOOKED: wide sunrise exterior render of the whole tower seen across parkland with the Dubai skyline behind. 3018x1694, the largest and best exterior Iman publishes. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/1.-Elevation_v1.jpg",
+      "note": "LOOKED: wide exterior render, the whole tower from a low angle at sunset, crown signed IMAN. 1012x770. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/2.-Elevation_v1.jpg",
+      "note": "LOOKED: night exterior render, the whole tower head-on above its lit retail podium (shopfronts read Fashion Avenue, Bread Corner and similar). 1012x770. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/01_elevation-1-1.jpg",
+      "note": "LOOKED: wide exterior render of the whole tower over the Motor City low-rise, sunset. 730x500. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/02_elevation-2-1.jpg",
+      "note": "LOOKED: wide exterior render, the whole tower with its podium pool deck and the skyline behind. 730x500. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/03_Gran-Drive.jpg",
+      "note": "LOOKED: the arrival drive and porte-cochere, stone wall lettered SIERRA by IMAN, a car pulling in. Matches its filename. 730x500"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/04_Lobby.jpg",
+      "note": "Lobby render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/05_Amenity-Deck.jpg",
+      "note": "Amenity deck render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/06_Living-rom.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - this is not an apartment living room. It is a double-height entrance lobby: marble reception desk, a long low sofa, a linear cluster chandelier and a full-height glazed wall. 730x500"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/07_kitchen.jpg",
+      "note": "Kitchen render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/08_Bedroom.jpg",
+      "note": "Bedroom render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/09_Bathroom.jpg",
+      "note": "LOOKED: bathroom - twin basins on a floating vanity, book-matched marble, WC to the right. Matches its filename. 730x500"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/3.Double-Height-Signature-Lobby.jpg",
+      "note": "LOOKED: double-height signature lobby - reception desk lettered SIERRA by IMAN, armchairs, artwork, a dense pendant-light ceiling. Matches its filename. 1012x770"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/1.-75000-sq-ft-Amenity-Deck.jpg",
+      "note": "Amenity deck render - not individually opened. 678x479"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/2.-Double-Height-Signature-Lobby.jpg",
+      "note": "Lobby render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/3.-Leisure-Pool-Area.jpg",
+      "note": "Leisure pool render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/4.-Water-Gardens.jpg",
+      "note": "Water gardens render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/6.-Clubhouse.jpg",
+      "note": "Clubhouse render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/7.-Fitness-Centre.jpg",
+      "note": "Fitness centre render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/8.-Yoga-Zone.jpg",
+      "note": "Yoga zone render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/9.-Indoor-Kids-Play-Area.jpg",
+      "note": "Indoor kids play area render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/08/5.-Kids-Play-Area.jpg",
+      "note": "Kids play area render - not individually opened"
+    }
+  ]
+}

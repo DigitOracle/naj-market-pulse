@@ -1,0 +1,25 @@
+{
+  "project": "Coastal Haven",
+  "developer": "Prestige One",
+  "area": "Dubai Islands",
+  "page": "https://prestigeone.ae/projects/coastal-haven-by-prestige-one",
+  "_note": "Read 17 September 2026 from prestigeone.ae. No form was filled - the site's 'Register for interest' and the /project-documents page ask for name, email and phone, and I did not touch them. Two families of image are excluded as page furniture, not project media: /assets/images/v3/amenities-sliders/... which are stock views of Dubai landmarks (Burj Khalifa, Palm Jumeirah, the airport) used as a location strip on every project page, and /assets/project-featured-images/sliders/... which are thumbnail cards advertising OTHER projects at the foot of the page. Every render on this site carries a PRESTIGE ONE watermark. BRAND NOTE: the page title and the 'Brand' field both say Prestige HARBOUR, not Prestige One, although the scheme sits on prestigeone.ae; I have kept the developer field as Prestige One and flagged the sub-brand here. G+2P+12 floors, 1- to 3-bedroom plus penthouses. THIN PAGE: only four project images are published, and none of them is a wide exterior of the whole building. FILENAME WARNING: '03 Main Entrance.webp' is NOT an entrance elevation or a lobby - I looked at it and it is a tight close-up of a pair of timber LIFT DOORS in a lift lobby. No floor plans are published as images.",
+  "images": [
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/coastal-haven/gallery/02%20Facade(1).webp",
+      "note": "LOOKED: exterior render of the building's corner - planted balconies above a ribbed podium with a PRESTIGE ONE RESIDENCES sign and street planting. It is a part elevation from close range, NOT a wide exterior of the whole building. 1280x984. This is the only exterior on the page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/coastal-haven/gallery/03%20Main%20Entrance.webp",
+      "note": "LOOKED: FILENAME IS WRONG - this is not a main entrance. It is a close-up of two timber lift doors with a console table beside them in a panelled lift lobby. 1280x1280"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/coastal-haven/gallery/01%20Game%20Room%20View.webp",
+      "note": "LOOKED: games room - foosball table in the foreground, pool table and armchairs behind. Matches its filename. 1280x905"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/coastal-haven/gallery/02%20Game%20Room%20View.webp",
+      "note": "Second games room view - not individually opened"
+    }
+  ]
+}

@@ -56,6 +56,133 @@ def bind(name):
     return None, None, None
 
 
+# --- binding by what the document SAYS, not what it is called (17 Sep 2026) -----------------------
+# The filename rule above kept four documents and skipped fifty. The one that mattered most was
+# "IMTIAZ - Corporate Profile 2026 V2.pdf" - 168 pages, 75 of them pictures, covering a developer who
+# builds nineteen of the buildings we track - dropped because its name mentions no project.
+#
+# A corporate profile is also why this binds PER PAGE rather than per document. One file can carry a
+# dozen projects; binding the whole thing to whichever name appears first would file every picture
+# under one building. Instead each page inherits the last project named on or before it, which is how
+# these documents are actually laid out: a title page, then that project's renders.
+#
+# Names come from the register itself, so nothing is invented here: if the Land Department does not
+# know a project, we do not bind to it.
+
+_PIDX = None
+
+
+def project_index():
+    """nk(project name) -> (canonical name, developer, area), from the search index we already build."""
+    global _PIDX
+    if _PIDX is not None:
+        return _PIDX
+    out = {}
+    try:
+        idx = json.load(open(os.path.join(ROOT, "data", "board", "search_index.json"), encoding="utf-8"))
+    except Exception:
+        _PIDX = {}
+        return _PIDX
+    DEVNAME = {"omniyat": "OMNIYAT", "hh": "H&H", "meraas": "Meraas", "select": "Select Group",
+               "ellington": "Ellington", "arada": "Arada", "zaya": "ZAYA", "palma": "Palma",
+               "fakhruddin": "Fakhruddin", "beyond": "BEYOND", "imtiaz": "Imtiaz", "emaar": "Emaar",
+               "sobha": "Sobha", "iman": "Iman", "prestige one": "Prestige One", "damac": "DAMAC",
+               "binghatti": "Binghatti", "danube": "Danube", "azizi": "Azizi", "nakheel": "Nakheel",
+               "deyaar": "Deyaar", "samana": "Samana", "mag": "MAG"}
+    # A brochure page names the district and the road it sits on, and the register carries some of
+    # those as "projects" - so "Sheikh Zayed Road" matched eleven pages of the Imtiaz profile and
+    # "DownTown Dubai" twelve. Anything the index itself uses as an AREA or MASTER PROJECT is
+    # geography, not a building, and must never win a page.
+    geo = set()
+    for it in idx.get("items", []):
+        for f in ("m", "a"):
+            v = (it.get(f) or "").strip().lower()
+            if v:
+                geo.add(re.sub(r"[^a-z0-9 ]+", " ", v).strip())
+    # ...and these name nothing on their own.
+    GENERIC = re.compile(
+        r"^(building|plot|tower|block|phase|zone|cluster|parcel|waterfront|marina|downtown|"
+        r"boulevard|promenade|residences?|apartments?|villas?|penthouses?)"
+        r"(\s+[a-z0-9]{1,3})?$")
+
+    for it in idx.get("items", []):
+        if it.get("t") == "developer":
+            continue
+        nm = (it.get("n") or "").strip()
+        k = re.sub(r"[^a-z0-9 ]+", " ", nm.lower()).strip()
+        # Short names collide with ordinary words on a brochure page ("One", "The Cove", "Grande").
+        # Eight characters is enough to keep "Symphony" and "Botanica" while dropping the noise.
+        if len(k) < 8 or k in geo or GENERIC.match(k):
+            continue
+        dev = DEVNAME.get((it.get("dev") or "").lower())
+        area = it.get("m") or it.get("a")
+        prev = out.get(k)
+        if prev is None or (dev and not prev[1]):
+            out[k] = (nm, dev, area)
+    _PIDX = out
+    return _PIDX
+
+
+def names_on_page(text, idx):
+    """Every known project named in this page's text, longest first so a longer name wins."""
+    low = re.sub(r"[^a-z0-9 ]+", " ", (text or "").lower())
+    low = re.sub(r"\s+", " ", low)
+    hits = []
+    for k, v in idx.items():
+        if k in low:
+            hits.append((len(k), v))
+    hits.sort(reverse=True, key=lambda h: h[0])
+    return [v for _, v in hits]
+
+
+DEV_IN_NAME = [("imtiaz", "Imtiaz"), ("omniyat", "OMNIYAT"), ("meraas", "Meraas"),
+               ("select", "Select Group"), ("ellington", "Ellington"), ("arada", "Arada"),
+               ("sobha", "Sobha"), ("emaar", "Emaar"), ("beyond", "BEYOND"), ("palma", "Palma"),
+               ("fakhruddin", "Fakhruddin"), ("binghatti", "Binghatti"), ("danube", "Danube"),
+               ("damac", "DAMAC"), ("nakheel", "Nakheel"), ("deyaar", "Deyaar"), ("iman", "Iman"),
+               ("prestige one", "Prestige One"), ("zaya", "ZAYA")]
+
+
+def developer_of(filename, doc):
+    """Whose book is this? The filename usually says; failing that, the first two pages do."""
+    low = (filename or "").lower()
+    for k, dev in DEV_IN_NAME:
+        if k in low:
+            return dev
+    try:
+        head = " ".join(doc[i].get_text() for i in range(min(2, doc.page_count))).lower()
+    except Exception:
+        return None
+    for k, dev in DEV_IN_NAME:
+        if k in head:
+            return dev
+    return None
+
+
+def bind_by_content(doc, fallback, only_dev=None):
+    """Per page: (developer, project, area). A page with no name inherits the last one seen, which is
+    how a brochure reads - a project's title page followed by its pictures."""
+    idx = project_index()
+    if only_dev:
+        # A developer's own document can only be about that developer's buildings. This is what stops
+        # a generic name belonging to someone else claiming a page.
+        narrowed = {k: v for k, v in idx.items() if v[1] == only_dev}
+        if narrowed:
+            idx = narrowed
+    out, carried = [], fallback
+    for page in doc:
+        try:
+            text = page.get_text()
+        except Exception:
+            text = ""
+        hits = names_on_page(text, idx)
+        if hits:
+            nm, dev, area = hits[0]
+            carried = (dev or (fallback[0] if fallback else None), nm, area)
+        out.append(carried)
+    return out
+
+
 def slug(t):
     return re.sub(r"[^a-z0-9]+", "_", str(t or "").lower()).strip("_")[:40]
 
@@ -133,16 +260,20 @@ def main():
             continue
         seen_pdf.add(h)
         dev, proj, area = bind(os.path.basename(path))
-        if not dev:
-            print("  unbound, skipped:", os.path.basename(path)[:70])
-            continue
         try:
             doc = fitz.open(path)
         except Exception as e:
             print("  cannot open:", os.path.basename(path)[:60], e)
             continue
-        outdir = os.path.join(MEDIA, slug(dev), slug(proj))
-        os.makedirs(outdir, exist_ok=True)
+        # The filename rule is curated and right where it fires; content binding covers the rest.
+        doc_dev = dev or developer_of(os.path.basename(path), doc)
+        page_bind = ([(dev, proj, area)] * doc.page_count if dev
+                     else bind_by_content(doc, None, only_dev=doc_dev))
+        if not any(b and b[1] for b in page_bind):
+            print("  no project named anywhere inside, skipped:", os.path.basename(path)[:60])
+            doc.close()
+            continue
+        # outdir now varies per page, because one document can carry several projects
         kept = 0
         for i, page in enumerate(doc):
             cover, ntext, ok = page_is_picture(page)
@@ -158,15 +289,22 @@ def main():
             seen_sha.add(ih)
             kind, sat, white, detail, edges = classify(im)
             mid = "m_" + ih[:12]
+            pdev, pproj, parea = page_bind[i] if page_bind[i] else (None, None, None)
+            if not pproj:
+                continue                      # a picture before any project is named belongs to none
+            outdir = os.path.join(MEDIA, slug(pdev or "unknown"), slug(pproj))
+            os.makedirs(outdir, exist_ok=True)
             fn = os.path.join(outdir, "%s_p%02d.jpg" % (mid, i + 1))
             open(fn, "wb").write(b)
-            rows.append({"media_id": mid, "kind": kind, "sat": sat, "white": white, "detail": detail, "edges": edges, "developer": dev, "project": proj, "area": area,
+            rows.append({"media_id": mid, "kind": kind, "sat": sat, "white": white, "detail": detail, "edges": edges, "developer": pdev, "project": pproj, "area": parea,
                          "path": os.path.relpath(fn, ROOT).replace("\\", "/"), "bytes": len(b), "w": im.width, "h": im.height,
                          "orient": "landscape" if im.width >= im.height else "portrait",
                          "source_file": os.path.basename(path), "source": source, "page": i + 1, "image_cover": round(cover, 2), "text_chars": ntext,
                          "reuse_basis": basis, "sha1": ih, "registered_at": dt.datetime.now().isoformat(timespec="seconds")})
             kept += 1
-        print("  %-14s %-26s %3d pages -> %2d pictures   %s" % (dev, proj, len(doc), kept, os.path.basename(path)[:48]))
+        _projs = sorted({b[1] for b in page_bind if b and b[1]})
+        print("  %-3d pages -> %2d pictures across %d project(s): %-38s  %s"
+              % (len(doc), kept, len(_projs), ", ".join(_projs)[:38], os.path.basename(path)[:40]))
 
     json.dump({"updated": dt.datetime.now().isoformat(timespec="seconds"), "n": len(rows), "items": rows},
               open(os.path.join(MEDIA, "manifest.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)

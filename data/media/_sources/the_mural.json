@@ -1,0 +1,25 @@
+{
+  "project": "The Mural",
+  "developer": "BEYOND",
+  "area": "Dubai Maritime City",
+  "page": "https://beyonddevelopments.ae/Projects/mural/",
+  "_note": "Read 17 Sep 2026. Taken from BEYOND's own site beyonddevelopments.ae (beyond.ae is parked for sale; there is also a separate project microsite themuralbybeyond.com which links back to omniyat.com, but the developer's own corporate site was used). Every image was downloaded and looked at, which caught that the 'Exterior' folder here contains two balcony shots and that bbq.webp and gym.webp do not show a barbecue or a gym. Excluded: mural-map.webp (a location map), mural-building.webp (a genuine tower exterior but only 485x645, under the 600px floor), the Arancia hero aerial in the page nav, and 'Group 2147205760.webp' which the page references but which returns 404. No floor plans published on this page.",
+  "images": [
+    { "url": "https://beyonddevelopments.ae/Projects/mural/Banner.webp", "note": "LOOKED: wide EXTERIOR aerial (1920x1200) - the towers and their landscaped podium on the Maritime City waterfront, boat wake in the sea below. Best hero exterior on the page" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Exterior/The%20Mural%20-%20Hero%20Shot%20-%20The%20Forest.webp", "note": "LOOKED: EXTERIOR - the full tower seen rising through the dense 'forest' planting at its base. Filename and folder both match" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Exterior/Hero:Maisonettes%20Shot.webp", "note": "LOOKED: EXTERIOR - the tower from ground level looking up past palm trees. Filename says 'Maisonettes' but what is shown is the whole tower, not the maisonette units" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Exterior/The%20Mural%20-%20Balcony%20-%20Forest%20View.webp", "note": "LOOKED - FOLDER LIES: filed under 'Exterior' but it is a BALCONY shot - the curved planted balconies looking down over the forest podium. The filename is the honest one" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Exterior/Penthouse%20-%20Sea%20View.webp", "note": "LOOKED - FOLDER LIES: filed under 'Exterior' but it is a penthouse BALCONY looking out at the sunset over the sea. Almost none of the building is visible" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/lobby.webp", "note": "LOOKED: interior - double-height lobby with a cloud-like cluster light installation and the 'mural' wordmark on the wall. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Interior.webp", "note": "LOOKED: interior - the same double-height lobby with the cloud installation, slightly different framing" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Interior/The%20Mural%20-%20Living%20Room.webp", "note": "LOOKED: interior - living room with pale curved furniture and full-height glazing to the sea. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Interior/The%20Mural%20-%20Living%20and%20Dining.webp", "note": "LOOKED: interior - open living and dining with a pendant over the table, sea horizon across the glazing. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Interior/The%20Mural%20-%20Bedroom.webp", "note": "LOOKED: interior - bedroom with a round rug and full-height glazing to the sea. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/mural/Interior/Penthouse%20-%20Terrace.webp", "note": "LOOKED: filed as interior but it is the penthouse OUTDOOR TERRACE at sunset - loungers, a fire pit and mature trees under a pergola" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/pool.webp", "note": "LOOKED: amenity - the podium pool at dusk, loungers and cabanas along its edge. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/sunset.webp", "note": "LOOKED: amenity - rooftop terrace at sunset with a jacuzzi and daybeds, sea beyond. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/skyline.webp", "note": "LOOKED: the building's upper balconies at night looking out over the lit Dubai skyline. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/bbq.webp", "note": "LOOKED - FILENAME LIES: called 'bbq' but there is no barbecue in it. It is the landscaped podium garden - lawn, mature trees and planting with the curved balconies of the building above" },
+    { "url": "https://beyonddevelopments.ae/assets/mural/gym.webp", "note": "LOOKED - FILENAME MISLEADS: called 'gym' but there is no gym equipment. It is a YOGA / wellness studio - a timber-lined room with floor cushions and a slatted ceiling, glazing to the greenery" }
+  ]
+}

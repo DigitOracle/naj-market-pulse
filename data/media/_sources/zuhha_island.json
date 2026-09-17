@@ -1,0 +1,41 @@
+{
+  "project": "Zuhha Island",
+  "developer": "ZAYA",
+  "area": "Zuhha Island, Dubai (the page prints 25 15 11.6 N 55 10 37.0 E and says 12 minutes from Jumeirah)",
+  "page": "https://www.zaya.com/project/zuhha",
+  "_note": "DOMAIN FINDING, read 17 September 2026: zaya.ae is DEAD - it resolves to 208.91.112.55 (a parking/placeholder host), returns HTTP 403 over http and presents an untrusted certificate over https. ZAYA's live site is zaya.com (zayaliving.com also redirects there), and the content confirms it is the right company - Hameni, Nurai, Al Barari and Zuhha are all on it. The site is built on Wix, so every image in the page HTML is a resized derivative such as .../v1/fill/w_353,h_470,q_90,enc_avif,.../<id>~mv2.jpg. The URLs listed below are the untransformed originals behind those same media ids; I did not guess them - I requested each one and recorded the pixel size it returned, which is what the notes quote. CAUTION FOR THE WHOLE SITE: the two page-header photographs carry the display names ARW09486-HDR_edited.jpg and ARW09402-HDR_edited.jpg on ALL FOUR project pages, but each page has its own media id behind those names. The display filename therefore tells you nothing about which project an image belongs to. No form was filled and nothing gated was fetched. The page describes a 2.5 million sq ft private island with a boutique retreat and 29 private residences. I looked at every image listed here; two of them are genuine building exteriors.",
+  "images": [
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_17ef6e8458604eb98b4f7302e3f7c3f2~mv2.jpg",
+      "note": "LOOKED: exterior PHOTOGRAPH of the curved white residence/clubhouse seen across its infinity pool, sun loungers along the edge, palms planted on the terraces. 1610x2000. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_c243db1ec7814f05a770fc6d8fd9bc31~mv2.jpg",
+      "note": "LOOKED: exterior photograph of the same curved building from the arrival driveway, palms in front, swooping roof. 1693x2540. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_4c2f3bc14bc34aef84d4e31eb97aa145~mv2.jpg",
+      "note": "LOOKED: dining room - long table with cream moulded chairs, ribbon chandelier, full-height glazing onto the sea. 3000x2000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_c54e8ff34c7d4332a0e481176bf1c69e~mv2.jpg",
+      "note": "LOOKED: living room - deep cream sofa, a large blue painting, a looping light fitting, sea view through the glazing. 3000x2000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_7c500af763b24491aff043cd9906c291~mv2.jpg",
+      "note": "LOOKED: dining room - dark timber table, patterned rug, artwork, opening to a terrace and the sea. 3000x2000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_be7499eb54c04748af1c3ae731700539~mv2.jpg",
+      "note": "LOOKED: bedroom with a freestanding bathtub set against the glazing, terrace and sea beyond. 3000x2000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_8986fdf248a84b08be800f681bad1b0c~mv2.jpg",
+      "note": "LOOKED: black-and-white aerial of the island's jetty and its fan-shaped timber structure on the sand. Page-header image, display name ARW09486-HDR_edited.jpg reused site-wide. 1815x2268"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_9fca4ae6ca25455980042304655f1f1d~mv2.jpg",
+      "note": "Second page-header image, display name ARW09402-HDR_edited.jpg reused site-wide - not individually opened"
+    }
+  ]
+}

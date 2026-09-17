@@ -1,0 +1,21 @@
+{
+  "project": "The Residence Burj Khalifa",
+  "developer": "Emaar",
+  "area": "Downtown Dubai",
+  "page": "https://www.emaar.com/en/properties/the-residence-burj-khalifa",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. The hero is a genuine verified exterior photograph. One feature block is a generic Downtown skyline photograph rather than this building.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/276654_property_Hero_Image_3df5752b4b.jpg",
+      "note": "LOOKED: wide exterior PHOTOGRAPH of the completed building - the low-rise, curved, fully glazed residential block with its sweeping tapered end, seen from the road with palms and landscaping in front and the Address Downtown behind. Genuine exterior of the subject building. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/276664_feature_block_0_897bc189f5.jpg",
+      "note": "LOOKED: Downtown Dubai skyline photograph at night - Burj Khalifa centre, the Address Downtown at left, the whole lit Downtown grid below. A district photograph, NOT this building. 3375x1733."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/276667_feature_block_1_2540c38fab.jpg",
+      "note": "LOOKED: interior - a very large formal living and dining room, two long navy sofas facing each other, stone coffee tables, a long dining table beyond, round columns, city view at right. A living/dining room. 1200x655."
+    }
+  ]
+}

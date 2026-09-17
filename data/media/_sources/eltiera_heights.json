@@ -1,0 +1,37 @@
+{
+  "project": "Eltiera Heights",
+  "developer": "Ellington",
+  "area": "Jumeirah Islands",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/eltiera-heights-jumeirah-islands",
+  "_note": "FILENAME WARNING: every file here is numbered (1-4, 3-1, 4-2, 7-1) or 'Untitled-2' - the names carry no information. 1-4.jpg shows a Dubai Marina-style skyline out of the window, which sits oddly with a Jumeirah Islands address; recorded as seen. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/4-2.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - the tower's upper half and crown at sunset above the Jumeirah Islands lakes and villas, city skyline behind."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/sd.jpg",
+      "note": "LOOKED: exterior facade of the tower at dusk, lit apartments, neighbouring tower at right. Tight crop."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/3-1.jpg",
+      "note": "LOOKED: aerial of the podium - lagoon pool, cabanas and the louvred podium wing running into the tower. Part exterior."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/7-1.jpg",
+      "note": "LOOKED: exterior arrival - porte-cochere under the louvred podium with cars at the entrance."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/as-1.jpg",
+      "note": "LOOKED: landscaped pool terrace with palms and lounge seating under a pergola."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/1-4.jpg",
+      "note": "LOOKED: bedroom with wardrobe, window onto a dense high-rise skyline (reads as Dubai Marina, not Jumeirah Islands) - flagged."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Untitled-2.jpg",
+      "note": "LOOKED: bathroom - wall-hung WC, twin vanity in travertine."
+    }
+  ]
+}

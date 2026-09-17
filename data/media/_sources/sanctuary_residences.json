@@ -1,0 +1,61 @@
+{
+  "project": "Sanctuary Residences",
+  "developer": "Prestige One",
+  "area": "Meydan Horizon (overlooking Ras Al Khor Wildlife Sanctuary)",
+  "page": "https://prestigeone.ae/projects/sanctuary-residences-by-prestige-one",
+  "_note": "Read 17 September 2026 from prestigeone.ae. No form was filled - the site's 'Register for interest' and the /project-documents page ask for name, email and phone, and I did not touch them. Two families of image are excluded as page furniture, not project media: /assets/images/v3/amenities-sliders/... which are stock views of Dubai landmarks (Burj Khalifa, Palm Jumeirah, the airport) used as a location strip on every project page, and /assets/project-featured-images/sliders/... which are thumbnail cards advertising OTHER projects at the foot of the page. Every render on this site carries a PRESTIGE ONE watermark. The page states B+G+2P+20+R, 1-, 2- and 3-bedroom. I downloaded and LOOKED at the exteriors and several interiors. FILENAME WARNING 1: sanctuary-aprtment.webp is NOT an apartment interior - it is a wide aerial EXTERIOR of the whole tower in its creek-side setting. FILENAME WARNING 2: sanctuary-hive-2.webp is published on this residential page but it shows a DIFFERENT building - Sanctuary Hive, which prestigeone.ae lists separately as a commercial office scheme. The two projects also share gallery files (gym, kids play area, rooftop pool, residential lobby all appear on both pages), so do not treat a shared file as evidence about either one. No floor plans are published as images.",
+  "images": [
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/Sanctuary%20Facade%20Angle%204.webp",
+      "note": "LOOKED: wide dusk exterior render of the whole tower head-on, stacked white balcony bands over a lit retail podium, palms either side, title overlay reads SANCTUARY BY PRESTIGE ONE. 1280x1132. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/sanctuary-aprtment.webp",
+      "note": "LOOKED: FILENAME IS WRONG - not an apartment. A wide aerial EXTERIOR render of the whole tower standing over low-rise blocks with the creek and the Dubai skyline behind. 2000x1379, the largest file on the page. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v2/project-featured-images/sanctuary/sanctuary-hive-2.webp",
+      "note": "LOOKED: a DIFFERENT BUILDING - a lower, curvier block with banded cantilevers and lit retail beneath, Burj Khalifa in the distance. This is Sanctuary Hive, the separate commercial scheme, published on the Sanctuary Residences page. 1280x844"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/1.-Residential-Lobby.webp",
+      "note": "LOOKED: residential lobby - curved reception desk, a rippled white feature wall and a water wall. Matches its filename. 1280x857"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/Rooftop-Pool.webp",
+      "note": "LOOKED: rooftop pool at dusk with loungers and the Burj Khalifa skyline beyond. Matches its filename. 1280x828"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/8.-Residential-Amenities---Gym---Level-9---Option-2.webp",
+      "note": "LOOKED: gym - free weights, treadmills, marble feature wall with a screen. Matches its filename. 1280x792. NOTE this same file is also published on the Sanctuary Hive office page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/Residential-Amenities---Spa---Roof-Level.webp",
+      "note": "Spa render - not individually opened. Also published on the Sanctuary Hive page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/10.-Residential-Amenities---Cinema---Level-9.webp",
+      "note": "Cinema render - not individually opened. Also published on the Sanctuary Hive page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/Kids-Play-Area.webp",
+      "note": "Kids play area render - not individually opened. Also published on the Sanctuary Hive page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/indoor-kids-area.webp",
+      "note": "Indoor kids area render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/Rooftop-FLoor-Barbeque.webp",
+      "note": "Rooftop barbecue render - not individually opened. Also published on the Sanctuary Hive page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/RoofTop-Floor-Sitting-Area.webp",
+      "note": "Rooftop sitting area render - not individually opened. Also published on the Sanctuary Hive page."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/Sanctuary/gallery/9th-floor-water-feature.webp",
+      "note": "Ninth-floor water feature render - not individually opened"
+    }
+  ]
+}

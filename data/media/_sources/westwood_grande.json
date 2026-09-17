@@ -3,19 +3,15 @@
   "developer": "Imtiaz",
   "area": "Jumeirah Village Circle",
   "page": "https://imtiaz.ae/property/westwood-grande-by-imtiaz",
-  "_note": "Read 17 September 2026 from imtiaz.ae. Nothing gated was opened and no form was filled. I downloaded and LOOKED at the main render, the GanderExterior file and the three exterior_gallery files. FILENAME WARNING: /uploads/property/10/GanderExterior.jpg is not a project called Gander - it is a wide dusk aerial of Westwood Grande itself, podium signage reads WESTWOOD GRANDE. SECOND WARNING: the folder named exterior_gallery is unreliable here - 2.jpg is a planted roof terrace and 3.jpg is a covered indoor pool, neither is a building exterior. No floor plans are published as images on this page. Facility icons under /uploads/facility/ are excluded. NOTE ON REGISTRATION: Imtiaz names this project's interior files 1.jpg, 2.jpg, 3.jpg - the same basenames as the exterior_gallery files - and the fetcher derives its media_id from the basename, so registering both sets collided on the primary key. The three interior renders were therefore left out of this file; they exist at /uploads/property/interior_gallery/10/1.jpg, 2.jpg and 3.jpg (1.jpg and 2.jpg are living rooms, LOOKED at).",
+  "_note": "Read 17 September 2026 from imtiaz.ae. Nothing gated was opened and no form was filled. I downloaded and LOOKED at every image listed here. FILENAME WARNING 1: /uploads/property/10/GanderExterior.jpg is not a project called Gander - it is a wide dusk aerial of Westwood Grande itself, podium signage reads WESTWOOD GRANDE. FILENAME WARNING 2: /uploads/property/10/westwood_main.png and /uploads/property/exterior_gallery/10/1.jpg are byte-identical (sha1 47cdc4fafa21) - the same JPEG served twice, once under a .png extension. Only one is listed here. FILENAME WARNING 3: the folder named exterior_gallery is unreliable - 2.jpg is a planted roof terrace and 3.jpg is a covered indoor pool, neither is a building exterior. No floor plans are published as images on this page. Facility icons under /uploads/facility/ are excluded.",
   "images": [
     {
-      "url": "https://imtiaz.ae/uploads/property/10/westwood_main.png",
-      "note": "LOOKED: wide daylight exterior render of the whole tower, curved balcony bands over a podium carrying the WESTWOOD GRANDE sign. 1200x631. Verified exterior."
-    },
-    {
       "url": "https://imtiaz.ae/uploads/property/10/GanderExterior.jpg",
-      "note": "LOOKED: wide dusk aerial exterior of the same tower, WESTWOOD GRANDE signage on the podium, highway and low-rise context. 2500x1312 - the highest-resolution exterior on the page. Filename says Gander, content is Westwood Grande."
+      "note": "LOOKED: wide dusk aerial exterior of the whole tower, WESTWOOD GRANDE signage on the podium, highway and low-rise context. 2500x1312 - the highest-resolution exterior on the page. Filename says Gander, content is Westwood Grande. VERIFIED EXTERIOR."
     },
     {
       "url": "https://imtiaz.ae/uploads/property/exterior_gallery/10/1.jpg",
-      "note": "LOOKED: same wide daylight tower exterior as the main render. 1200x631"
+      "note": "LOOKED: wide daylight exterior render of the whole tower, curved balcony bands over a podium carrying the WESTWOOD GRANDE sign. 1200x631. Byte-identical to /uploads/property/10/westwood_main.png. VERIFIED EXTERIOR."
     },
     {
       "url": "https://imtiaz.ae/uploads/property/exterior_gallery/10/2.jpg",
@@ -24,6 +20,18 @@
     {
       "url": "https://imtiaz.ae/uploads/property/exterior_gallery/10/3.jpg",
       "note": "LOOKED: NOT an exterior despite the folder - a covered indoor pool with a swimmer, columns and oval ceiling lights. 1265x631"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/10/1.jpg",
+      "note": "LOOKED: living room, pale sofa and daybed against full-height glazing. 1200x631"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/10/2.jpg",
+      "note": "LOOKED: living room, grey sectional, round glass coffee table, patterned rug. 1200x631"
+    },
+    {
+      "url": "https://imtiaz.ae/uploads/property/interior_gallery/10/3.jpg",
+      "note": "Interior render - not individually opened"
     }
   ]
 }

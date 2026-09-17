@@ -1,0 +1,65 @@
+{
+  "project": "One Park Central",
+  "developer": "Iman",
+  "area": "Jumeirah Village Circle",
+  "page": "https://www.imandevelopers.com/iman-properties/one-park-central",
+  "_note": "Read 17 September 2026 from imandevelopers.com. The site pops up a name/email/phone enquiry form on load and the brochure is behind it - I did not fill it in and did not fetch anything behind it; the popup artwork /assets/images/popup/popupimg.jpg is excluded as furniture. Images are served from the developer's own WordPress backend at api.imandevelopers.com. The small amenity PNGs under /uploads/2025/04/ and /2025/05/ (Rooftop-Gym.png etc.) were measured at around 90x68 and are pictogram icons, so they are excluded. I downloaded and LOOKED at every image listed here. BIG FILENAME WARNING: the folder-style prefix 'exterior-' is wrong on three of the five - exterior-2-2 is an aerial of podium sports courts, exterior-4-2 is an INDOOR planted garden lounge, exterior-5-2 is a rooftop pool at night. Only exterior-1-2 is a building exterior. SECOND WARNING: one-park-central-2.jpg, the file named after the project, is not a render at all - it is a photograph of the live construction site with tower cranes and IMAN hoarding. No floor plans are published as images on this page.",
+  "images": [
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-1-5.webp",
+      "note": "LOOKED: wide daylight exterior render of the whole tower seen across a park, planted terraces, arched retail podium signed IMAN. 1265x963. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-1-2.webp",
+      "note": "LOOKED: wide dusk exterior render of the whole tower from the street, lit arched podium, city behind. 913x625. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-2-2.webp",
+      "note": "LOOKED: NOT a building exterior despite the name - aerial down onto the podium sports deck, two blue courts and a pool, with the tower flank at the edge of frame. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-3-2.webp",
+      "note": "LOOKED: NOT a building exterior - the podium pool deck lined with palms, swimmers in the water. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-4-2.webp",
+      "note": "LOOKED: NOT an exterior at all - an INDOOR planted garden room with olive trees, a sculpted ceiling and a fluted feature wall. The filename is plainly wrong. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/exterior-5-2.webp",
+      "note": "LOOKED: NOT a building exterior - rooftop infinity pool at dusk with the city lights beyond and a woman doing yoga. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/one-park-central-2.jpg",
+      "note": "LOOKED: a CONSTRUCTION SITE PHOTOGRAPH, not a render - concrete frame under scaffold, tower cranes, IMAN site hoarding. Useful as progress evidence, wrong as a hero image. 1046x652"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-2-5.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-3-5.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/top-slider-4-4.webp",
+      "note": "Hero slider image - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-1-3.webp",
+      "note": "LOOKED: open-plan kitchen with a stone island running into a living and dining area. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-2-3.webp",
+      "note": "LOOKED: living room, pale sofa, round coffee table, marble feature wall, glazing to a balcony. 913x625"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-3-3.webp",
+      "note": "Interior render - not individually opened"
+    },
+    {
+      "url": "https://api.imandevelopers.com/wp-content/uploads/2025/03/interior-4-3.webp",
+      "note": "Interior render - not individually opened"
+    }
+  ]
+}

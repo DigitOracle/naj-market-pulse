@@ -1,0 +1,41 @@
+{
+  "project": "Belgravia Gardens",
+  "developer": "Ellington",
+  "area": "Dubailand",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/belgravia-gardens-dubailand",
+  "_note": "FILENAME LIES: dubailand.jpg reads like a community/area graphic but is actually a wide street-level EXTERIOR RENDER of the buildings with the ELLINGTON sign. i3.jpg is a bedroom looking onto a dense high-rise skyline, which does not read as Dubailand - recorded as seen and flagged. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/l1.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - the courtyard between the residential blocks with the lagoon pool, full massing of several blocks in daylight."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/dubailand.jpg",
+      "note": "LOOKED: wide street-level exterior render of two blocks at dusk around a drop-off with an ELLINGTON sign on the ground. Filename suggests a community graphic; it is a building exterior."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/l3-1.jpg",
+      "note": "LOOKED: exterior corner elevation at dusk, ELLINGTON PROPERTIES sign near the top, supermarket retail at street level, car in front."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/l2.jpg",
+      "note": "LOOKED: exterior elevation of one block seen across the swimming pool in daylight."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i1-2.jpg",
+      "note": "LOOKED: lobby - double-height space with hanging sculptural columns and cast metal chairs."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i5.jpg",
+      "note": "LOOKED: children's playroom with a tree, monkey wall hooks and soft play mounds."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i4.jpg",
+      "note": "LOOKED: games room - pool table, table tennis, dartboard and a putting green."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/i3.jpg",
+      "note": "LOOKED: bedroom with skateboard wall art and a window onto a dense high-rise skyline - flagged, does not read as Dubailand."
+    }
+  ]
+}

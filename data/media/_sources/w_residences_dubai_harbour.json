@@ -1,0 +1,16 @@
+{
+  "project": "W Residences Dubai Harbour",
+  "developer": "Arada",
+  "area": "Dubai Harbour",
+  "page": "https://www.arada.com/en/w-residences-dubai-harbour/",
+  "_note": "Read 17 Sep 2026. Images served from Arada's own blob store. Every image was downloaded and looked at. Excluded: W-Residences-En-1.png (460x107 wordmark), W-Residences-hero-banner-mobile (600x450 mobile crop) and three genuine but undersized files at 829x415 / 812x441 - W-residences-feature-11 (distant exterior of the towers beside Ain Dubai), W-home-page.jpg (a living-room interior despite the 'home page' filename) and W-new-feature-6.jpg (a CHILDREN'S PLAYROOM with a teddy bear and play furniture - the filename gives no hint of that). No floor plans are published; the brochure sits behind a register-your-interest form and was not fetched.",
+  "images": [
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-hero-banner-jpg.webp", "note": "LOOKED: wide EXTERIOR render (1920x759) - the three towers rising above the lit podium and the marina at dusk, skyline behind. Best hero exterior on the page" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/06/front-view-1-jpg.webp", "note": "LOOKED: EXTERIOR (1280x1080) - front view of the three towers above the pink-lit podium, yachts moored in the foreground. Filename matches content" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-at-Dubai-Harbour-Tower26-1.jpg", "note": "LOOKED: EXTERIOR amenity - aerial of the podium deck, with a large 'W' graphic set into the swimming pool and people on the terrace" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-at-Dubai-Harbour-Tower25.jpg", "note": "LOOKED: EXTERIOR - the podium's outdoor dining terrace at dusk, umbrellas and a crowd, tower glazing above" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-at-Dubai-Harbour-Tower27.jpg", "note": "LOOKED: EXTERIOR at night - the podium's illuminated media facade with crowds along the promenade" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-at-Dubai-Harbour-Tower22.jpg", "note": "LOOKED: interior - living room with a curved sofa and a floor lamp against double-height glazing, planted corner" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/07/W-Residences-at-Dubai-Harbour-Tower28.jpg", "note": "LOOKED: interior - living room with sculptural curved seating, ring pendant light and fitted joinery wall" }
+  ]
+}

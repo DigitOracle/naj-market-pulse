@@ -1,0 +1,41 @@
+{
+  "project": "Claydon House",
+  "developer": "Ellington",
+  "area": "Mohammed Bin Rashid City",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/claydon-house-mohammed-bin-rashid-city",
+  "_note": "NO WIDE FULL-BUILDING EXTERIOR ON THIS PAGE - FLAGGED. Same template trap as Hillmont: Claydon-House-MainSection_top-scaled.jpg occupies the hero slot but is a LOBBY INTERIOR (it even carries the CLAYDON HOUSE sign on the marble wall). Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-Gallery-4-scaled.jpg",
+      "note": "LOOKED: BEST AVAILABLE EXTERIOR - podium pool deck at sunset with the curved glass tower rising at the right. Partial facade; no full massing render on this page."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-Gallery-2-scaled.jpg",
+      "note": "LOOKED: pool deck with the tower flank and its glazed amenity level, open country beyond. Partial exterior."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-Gallery-1-scaled.jpg",
+      "note": "LOOKED: podium pool and shade canopies with the tower at the right and the MBR City lagoon behind. Partial exterior."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/claydonhouse-1-1.jpg",
+      "note": "LOOKED: covered terrace with barbecue and planting between two white columns, creek and skyline beyond. Exterior space; the building appears only as a frame."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-MainSection_top-scaled.jpg",
+      "note": "LOOKED: FILENAME LIES - LOBBY interior, ELLINGTON / CLAYDON HOUSE lettering on a marble wall, long sofa and shelving. NOT the exterior its hero position implies."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-MainSection_right.jpg",
+      "note": "LOOKED: residents' library/lounge with a tall shelving wall and a tree over a stone table."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-Gallery-3.jpg",
+      "note": "LOOKED: apartment terrace under a timber-batten soffit, planting and barbecue, skyline beyond."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Claydon-House-MainSection_left.jpg",
+      "note": "LOOKED: residential corridor with apartment doors (unit 829) and an artwork at the end."
+    }
+  ]
+}

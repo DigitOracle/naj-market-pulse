@@ -1,0 +1,25 @@
+{
+  "project": "Sunrise Bay",
+  "developer": "Emaar",
+  "area": "Emaar Beachfront",
+  "page": "https://www.emaar.com/en/properties/sunrise-bay",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. NO WIDE EXTERIOR. The hero is a downward balcony crop; the rest are interiors.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/1551_property_Hero_Image_bad5dd354c.jpg",
+      "note": "LOOKED: facade/balcony fragment, NOT a wide exterior - looking steeply down the stacked balconies and glazing of the tower at the left of frame onto the beach club, cabanas, palms and turquoise sea. Shows part of one elevation only. 7000x3939."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/1555_feature_block_0_b3ef53b6ff.jpg",
+      "note": "LOOKED: interior - living room and open kitchen, pale modular sofa, marble island, dining table, Dubai Marina skyline through full-height glazing. A living/kitchen room. 5000x3100."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/1557_feature_block_1_26a20da9ed.jpg",
+      "note": "LOOKED: interior - kitchen island in the foreground with dining table behind, sofa at left, Dubai Marina towers and the harbour through the glass. A kitchen/dining room. 5000x3100."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/1561_feature_block_2_0cef28cbf6.jpg",
+      "note": "LOOKED: interior - bedroom, double bed against a grey feature wall, two framed prints, wardrobes at right, balcony and sea at left. A bedroom. 5000x3000."
+    }
+  ]
+}

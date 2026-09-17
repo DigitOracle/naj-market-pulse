@@ -1,0 +1,41 @@
+{
+  "project": "Windsor House",
+  "developer": "Ellington",
+  "area": "Dubai South",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/windsor-house-dubai-south",
+  "_note": "Strong exterior coverage: three wide renders, two of them full aerials. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-MainSection_right-min.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - aerial of the whole building, two wings around a central core, ELLINGTON sign on the flank, road and green space around it."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-MainSection_left-min.jpg",
+      "note": "LOOKED: wide aerial exterior from the opposite side, whole building over a colonnaded street edge."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-MainSection_top-min.jpg",
+      "note": "LOOKED: wide exterior - courtyard elevation of the blocks across a lawn and play area."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/community-page-2-scaled.jpg",
+      "note": "LOOKED: courtyard swimming pool between the residential blocks - exterior amenity, not a massing shot."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_03-min.jpg",
+      "note": "LOOKED: lobby - marble reception desk against a gold-fluted wall with the ELLINGTON sign."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_04-min.jpg",
+      "note": "LOOKED: residents' lounge - blue armchairs, round rug, planting through the glazing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_01-min-1.jpg",
+      "note": "LOOKED: apartment living/dining with a linear brass pendant and a view over open land."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/Windsor-House-Gallery_02-min.jpg",
+      "note": "LOOKED: apartment living room opening onto a barbecue terrace."
+    }
+  ]
+}

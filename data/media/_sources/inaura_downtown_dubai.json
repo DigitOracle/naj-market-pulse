@@ -1,0 +1,13 @@
+{
+  "project": "Inaura Downtown Dubai",
+  "developer": "Arada",
+  "area": "Downtown Dubai",
+  "page": "https://www.arada.com/en/inaura-downtown/",
+  "_note": "Read 17 Sep 2026. Page title is 'Inaura by Arada | Downtown Dubai Luxury Apartments for Sale'. Only eight images are published, all from Arada's own blob store, and all of them are named 'inaura-hotels-...' even though this page is the residential tower - the 'hotels' in the filename is not a description of the content. Every image was downloaded and looked at. Excluded: Arada-logo-8.png, and the three 'featured' interiors (inaura-hotels-featured-01/02/03) which are genuine apartment interiors but only 1062x549 - under the 600px floor. No floor plans published; brochure behind a contact form, not fetched.",
+  "images": [
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2026/02/inaura-hotels-hero-01.jpg", "note": "LOOKED: wide EXTERIOR render (1920x850) - the tower standing in the Downtown Dubai skyline at dusk with the Dubai Fountain jets in front. Best hero exterior on the page" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2026/02/inaura-hotels-gallery-03.jpg", "note": "LOOKED: EXTERIOR - clean full-height render of the tower alone against an open sky, showing the stepped, terraced massing. The clearest read of the building itself" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2026/02/inaura-hotels-gallery-01.jpg", "note": "LOOKED: EXTERIOR at night - the tower lit up among the surrounding Downtown towers" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2026/02/inaura-hotels-gallery-02.jpg", "note": "LOOKED: EXTERIOR at dusk - the tower seen behind the Dubai Fountain water jets" }
+  ]
+}

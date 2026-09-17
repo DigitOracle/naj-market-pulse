@@ -1,0 +1,13 @@
+{
+  "project": "Creek Rise",
+  "developer": "Emaar",
+  "area": "Dubai Creek Harbour",
+  "page": "https://www.emaar.com/en/properties/creek-rise",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. Only one usable image, but it is a genuine verified wide exterior.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/11946_property_Hero_Image_b354625294.jpg",
+      "note": "LOOKED: wide exterior render at dusk - the two Creek Rise towers (EMAAR name board on the shorter one) above their podium, surrounding Creek Harbour blocks and the creek at right. Genuine wide exterior of the subject towers. 2000x1027."
+    }
+  ]
+}

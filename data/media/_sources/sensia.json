@@ -1,0 +1,23 @@
+{
+  "project": "Sensia",
+  "developer": "BEYOND",
+  "area": "Dubai Maritime City",
+  "page": "https://beyonddevelopments.ae/Projects/sensia/",
+  "_note": "Read 17 Sep 2026. From BEYOND's own site beyonddevelopments.ae (beyond.ae is parked for sale and is not the developer's site). Every image was downloaded and looked at. That caught Interior/3, which is an outdoor terrace, and lobby.webp, which is shot from outside the building rather than inside. Excluded: sensiaMap.webp (a location map), eleveSensia.webp (a genuine tower exterior but only 536x640, under the 600px floor), and the Arancia hero aerial that sits in the page nav and belongs to a different BEYOND project. No floor plans published on the page.",
+  "images": [
+    { "url": "https://beyonddevelopments.ae/Projects/sensia/Banner.webp", "note": "LOOKED: wide EXTERIOR render (1920x1216) - the full tower on the shoreline with the sea and coast stretching away behind it. Best hero exterior on the page" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Exterior/3.webp", "note": "LOOKED: EXTERIOR - the tower in portrait format seen across the swimming pool, palms either side, showing the stacked curved balconies. Folder matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Exterior/2.webp", "note": "LOOKED: EXTERIOR facade detail at dusk - lit apartments and projecting balconies, open sea behind. Folder matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Exterior/4.webp", "note": "LOOKED: EXTERIOR at dusk - the low podium / clubhouse building projecting over the water, lit from within, marina behind" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Exterior/1.webp", "note": "LOOKED: filed as 'Exterior' and it is one, but note what it actually shows - a top-down aerial of the pool deck, lagoon and shoreline. The tower itself is barely in frame" },
+    { "url": "https://beyonddevelopments.ae/assets/sensia/pool.webp", "note": "LOOKED: amenity - aerial over the pool deck and landscaped terraces with the building alongside. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/sensia/deck.webp", "note": "LOOKED: amenity - landscaped garden deck at dusk with a pergola, water feature and planting, the building behind. Filename matches content" },
+    { "url": "https://beyonddevelopments.ae/assets/sensia/gym.webp", "note": "LOOKED: the wellness pavilion seen FROM OUTSIDE at dusk - a two-storey glass box with gym equipment visible inside. The filename is right about the use but this is an exterior shot, not a gym interior" },
+    { "url": "https://beyonddevelopments.ae/assets/sensia/lobby.webp", "note": "LOOKED - FILENAME MISLEADS: called 'lobby' but it is shot from OUTSIDE the building - the lit entrance and podium colonnade seen across the landscaping at dusk. You never get inside the lobby" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Interior/2.webp", "note": "LOOKED: interior - living room with curved seating on a round blue rug, double-height glazing to the sea" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Interior/1.webp", "note": "LOOKED: interior - bedroom with a wall TV and full-height glazing to the sea" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Interior/4.webp", "note": "LOOKED: interior - living and dining with arched openings through to a kitchen and bar" },
+    { "url": "https://beyonddevelopments.ae/assets/Projects/sensia/Interior/3.webp", "note": "LOOKED - FOLDER LIES: filed under 'Interior' but it is an OUTDOOR TERRACE at dusk - a long dining table set under the sky with planting either side and an infinity edge to the sea" },
+    { "url": "https://beyonddevelopments.ae/assets/images/sensiaInt.webp", "note": "LOOKED: interior - living room with curved sofas, hanging pendants and the sea beyond (1067x820)" }
+  ]
+}

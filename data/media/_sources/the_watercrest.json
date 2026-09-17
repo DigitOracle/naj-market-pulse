@@ -1,0 +1,37 @@
+{
+  "project": "The Watercrest",
+  "developer": "Ellington",
+  "area": "Mohammed Bin Rashid City",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/the-watercrest-mohammed-bin-rashid-city",
+  "_note": "This is a villa/townhouse product, not an apartment tower - the exteriors are of individual homes and the street between them. Read 17 Sep 2026 off Ellington's own project page. Images taken only from the page's own gallery/main-section image widgets; the page also carries a site-wide CSS background slider and pop-up images belonging to OTHER Ellington projects, which were excluded. The brochure sits behind a name/email/phone form and was NOT requested. Ellington's upload filenames are near-meaningless (ext1-1, w1, mbr-2, MainSection_top) and several misdescribe the content, so every image below was downloaded and looked at.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-MainSection_top-scaled.jpg",
+      "note": "LOOKED: WIDE EXTERIOR HERO - a row of contemporary villas across a landscaped lawn and walkway in daylight, several homes in frame."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-MainSection_right.jpg",
+      "note": "LOOKED: full front elevation of one villa at dusk, three storeys, lit interiors, pool in the foreground."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-MainSection_left.jpg",
+      "note": "LOOKED: villa side elevation at dusk along its private pool and deck."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-Gallery-1-scaled.jpg",
+      "note": "LOOKED: double-height living/dining opening through sliding glass to the private pool."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-Gallery-2-scaled.jpg",
+      "note": "LOOKED: living room and open kitchen with a marble island under a double-height void."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-Gallery-4-scaled.jpg",
+      "note": "LOOKED: dining and lounge beside the staircase, open kitchen behind."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The-Watercrest-Gallery-3.jpg",
+      "note": "LOOKED: detail only - dark timber shelving wall with a yellow swivel chair."
+    }
+  ]
+}

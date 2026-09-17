@@ -1,0 +1,53 @@
+{
+  "project": "Vida Residences Dubai Hills Estate",
+  "developer": "Emaar",
+  "area": "Dubai Hills Estate",
+  "page": "https://www.emaar.com/en/properties/vida-residences",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. NOTE ON IDENTITY: this page is titled simply 'Vida Residences' but its community is Dubai Hills Estate (its own neighbourhood images are Dubai Hills Golf Club, Dubai Hills Park and Dubai Hills Mall), so it is recorded here as Vida Residences Dubai Hills Estate - it is NOT Vida Residences Downtown, which has no page in Emaar's sitemap. FILENAME LIE FOUND: the file named 'exterior_1' is NOT an exterior - it is a balcony view shot from inside the building looking out (see its note). Two other pairs are the same render at different crops: 'exterior_2' / 'hero_slide_3' (tower over the playground) and 'exterior_1' / 'hero_slide_2' (the balcony scene). 'hero_slide_0' is byte-identical (same MD5) to the hero image and is therefore left out of this manifest.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381498_property_Hero_Image_7cdc169a0d.jpg",
+      "note": "LOOKED: wide exterior render - the slim Vida Residences tower with its timber-toned crown rising beyond a large green park where families are picnicking, lower Dubai Hills blocks at right. Genuine wide exterior of the subject tower. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381543_exterior_0_b1a89c958a.jpg",
+      "note": "LOOKED: wide exterior render of the same tower across the park lawn, framed by tree foliage at the top, people on the grass, a kite flying. Genuine exterior; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381561_exterior_2_6d7514af8e.jpg",
+      "note": "LOOKED: exterior render - the tower seen past a children's playground with white shade sails. Genuine exterior; filename honest. Same render as 'hero_slide_3', different crop. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381570_exterior_3_998b1572b7.jpg",
+      "note": "LOOKED: exterior render at close range - the tower's balcony stack filling the left of frame above the residents' pool deck with loungers, a neighbouring block opposite. Genuine exterior, close elevation; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381552_exterior_1_10ec5bf65c.jpg",
+      "note": "LOOKED: FILENAME LIE - named 'exterior' but it is NOT an exterior of the building. It is a render shot FROM a balcony (balcony floor, rail, armchair and a planter in the foreground) of a woman in a red dress looking out over the Dubai Hills park, pool deck and low-rise blocks. A balcony view. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381579_interior_0_26174fc4b1.jpg",
+      "note": "LOOKED: interior - the double-height residential lobby, long stone reception table, olive trees, a large textured artwork and a revolving door at right. A lobby; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381588_interior_1_00a2fe7925.jpg",
+      "note": "LOOKED: interior - living room, deep beige sofa, green ottoman, stone coffee table, corner floor-to-ceiling glazing onto the park and Dubai Hills blocks. A living room; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381597_interior_2_7b3ef16e35.jpg",
+      "note": "LOOKED: interior - bedroom, foot of the bed in the foreground, full-height sliding doors onto a balcony with two chairs, neighbouring blocks and parkland beyond. A bedroom; filename honest. 1024x768."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381507_hero_slide_1_0cc01ef9ef.jpg",
+      "note": "LOOKED: aerial amenity render - the residents' pool deck in the foreground and the wider Dubai Hills Estate park and low-rise blocks stretching to the horizon. A community view, not the tower. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381525_feature_block_1_aa77830c14.jpg",
+      "note": "LOOKED: amenity render - the long residents' pool at podium level, a woman in a sun hat in the water, loungers, the building's balconies at the far left. A pool deck. 1200x655."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/381516_feature_block_0_1adfe340ce.jpg",
+      "note": "LOOKED: amenity render - the children's playground with shade sails and colourful equipment, adults and children playing, Dubai Hills blocks behind. The tower is NOT in this crop. 1200x655."
+    }
+  ]
+}

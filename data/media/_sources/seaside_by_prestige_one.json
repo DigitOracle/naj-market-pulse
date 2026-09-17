@@ -1,0 +1,61 @@
+{
+  "project": "Seaside",
+  "developer": "Prestige One",
+  "area": "Dubai Islands",
+  "page": "https://prestigeone.ae/projects/seaside-by-prestige-one",
+  "_note": "Read 17 September 2026 from prestigeone.ae. No form was filled - the site's 'Register for interest' and the /project-documents page ask for name, email and phone, and I did not touch them. Two families of image are excluded as page furniture, not project media: /assets/images/v3/amenities-sliders/... which are stock views of Dubai landmarks (Burj Khalifa, Palm Jumeirah, the airport) used as a location strip on every project page, and /assets/project-featured-images/sliders/... which are thumbnail cards advertising OTHER projects at the foot of the page. Every render on this site carries a PRESTIGE ONE watermark. G+12, 1- to 3-bedroom. I downloaded and LOOKED at the four exteriors and three interiors. FILENAME WARNINGS: 'Night - Front Side.webp' is a DAYLIGHT render under a blue sky, not a night scene; and 'Changing Room 2.webp' is not a changing room at all - it is a washroom with urinals and a vanity. The genuinely nocturnal files are 'Night - Rear Side' (dusk) and 'Seaside_Building Night' (a night aerial). No floor plans are published as images.",
+  "images": [
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Exterior%201.webp",
+      "note": "LOOKED: wide dusk exterior render of the whole building from the road - stone-banded balconies over a curved lit podium signed PRESTIGE ONE. 1280x853. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Night%20-%20Front%20Side.webp",
+      "note": "LOOKED: wide exterior render of the whole building from the front, framed by trees. FILENAME SAYS NIGHT BUT IT IS DAYLIGHT - blue sky, no artificial lighting reading. 1280x853. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Night%20-%20Rear%20Side.webp",
+      "note": "LOOKED: wide exterior render from the rear at dusk, lit podium and cars on the road. Genuinely an evening scene. 1280x853. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Seaside_Building%20Night.webp",
+      "note": "LOOKED: night aerial of the building lit up among the surrounding Dubai Islands blocks, lit pool deck visible. Genuinely night. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Retail%20Shop.webp",
+      "note": "LOOKED: not a shop interior - the podium retail frontage seen from outside, ribbed canopy, a PRESTIGE ONE sign and shopfronts under the balconies. A part elevation. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Lobby_.webp",
+      "note": "LOOKED: lobby - polished stone floor, a large white sculptural artwork, a metallic feature wall and seating. Matches its filename. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Changing%20Room%202.webp",
+      "note": "LOOKED: FILENAME IS WRONG - this is a washroom, not a changing room: three cubicle doors, two urinals and a vanity console. 1280x869"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/swimming%20pool.webp",
+      "note": "Swimming pool render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Spapool.webp",
+      "note": "Spa pool render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Gym-1.webp",
+      "note": "Gym render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Kids%20Play%20Area.webp",
+      "note": "Kids play area render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/Mini%20Putt%20Golf.webp",
+      "note": "Mini putting green render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/seaside/gallery/ev-charging.webp",
+      "note": "EV charging bay render - not individually opened"
+    }
+  ]
+}

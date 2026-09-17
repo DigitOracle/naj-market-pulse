@@ -1,0 +1,25 @@
+{
+  "project": "Palace Residences",
+  "developer": "Emaar",
+  "area": "Dubai Creek Harbour",
+  "page": "https://www.emaar.com/en/properties/palace-residences",
+  "_note": "Read 17 Sep 2026. properties.emaar.com now 301-redirects to www.emaar.com; the live page is the www.emaar.com/en/properties/ URL above, found via www.emaar.com/sitemap.xml. Emaar gates the brochure, floor plans and payment plan behind a 'Register Your Interest' form asking for name, email and phone - that form was NOT filled in and nothing behind it was fetched, so NO floor plans are registered for any Emaar project. Emaar's own alt text is worthless ('Strapi image', 'Property Image 1') and its filenames are generic ('feature_block_0'), so EVERY image below was downloaded and looked at; the notes describe what was actually on screen, not the filename. Images the page also carries but which are excluded here: the shared 'attraction' set (Burj Khalifa, The Dubai Mall, Dubai Fountain, Dubai Opera, Ras Al Khor, Creek Marina etc) - these are generic neighbourhood landmark photos reused verbatim across every Emaar project in the same community and are not this building; and any 'brochure_Image' thumbnail, which is 300x210 and under the size floor. Good set: two genuine wide exteriors. Note the page also serves 'feature_block_3' which is byte-identical (same MD5) to 'feature_block_1', so it is deliberately left out of this manifest.",
+  "images": [
+    {
+      "url": "https://uae-cms.emaar.com/uploads/383989_property_Hero_Image_93b3a7645f.jpg",
+      "note": "LOOKED: wide exterior render - the Palace Residences tower rising above its waterfront podium on the Creek Harbour marina, sailing boats and swimmers in the foreground water, Burj Khalifa small on the far horizon. Genuine wide exterior of the subject tower. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/384016_feature_block_1_f42a5a26ae.jpg",
+      "note": "LOOKED: second wide exterior render of the same tower from a slightly different angle along the creek, EMAAR-signed tower at right, marina and promenade below. Genuine exterior. 1200x655."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/384007_feature_block_0_5cec36d700.jpg",
+      "note": "LOOKED: community amenity render - an infinity pool with children at the edge, looking across the creek to the Creek Beach/Island District blocks and a tall white tower. A pool deck, not this building. 1620x832."
+    },
+    {
+      "url": "https://uae-cms.emaar.com/uploads/384025_feature_block_2_1ff100df07.jpg",
+      "note": "LOOKED: the same infinity-pool render as feature_block_0, wider crop with more tree canopy at the top. Duplicate scene, different framing. 1200x655."
+    }
+  ]
+}

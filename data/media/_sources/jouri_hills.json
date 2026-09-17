@@ -1,0 +1,26 @@
+{
+  "project": "Jouri Hills",
+  "developer": "Arada",
+  "area": "Jumeirah Golf Estates",
+  "page": "https://www.arada.com/en/jouri-hills/",
+  "_note": "Read 17 Sep 2026. Images served from Arada's own blob store. Half the gallery is named 11.jpg ... 17.jpg, so the filenames say nothing - every image was downloaded and looked at. Two files named 'smart-living' turned out to be a children's playground and a villa-and-pool shot, and 'nature-1' is the golf clubhouse; noted individually. No floor plans are published on the page - the brochure is behind a register-your-interest form and was not fetched. Excluded: jouri-map-dubai.jpg (a location map) and jouri-hills-main-banner-mobile.jpg (600x450, under the 600px floor).",
+  "images": [
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/jouri-hills-main-banner.jpg", "note": "LOOKED: wide EXTERIOR aerial (1920x800) over the whole villa community - flat-roofed villas, private pools and mature trees. Best hero exterior on the page" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/12.jpg", "note": "LOOKED: EXTERIOR - a white modern villa with cantilevered upper floor and terrace, set among trees" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/15.jpg", "note": "LOOKED: EXTERIOR - dark-framed fully glazed villa elevation seen through the trees" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/16.jpg", "note": "LOOKED: EXTERIOR - street view of a row of villas with a car on the road, showing the streetscape" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-5.jpg", "note": "LOOKED: EXTERIOR - villa seen across its pool/water terrace, low afternoon light" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-6.jpg", "note": "LOOKED: EXTERIOR - villa corner with a figure walking past on the landscaped path" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/smart-living.jpg", "note": "LOOKED - filename is meaningless: 'smart-living' is actually an EXTERIOR villa shot, the house seen across its swimming pool" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/14.jpg", "note": "LOOKED: EXTERIOR detail - the cantilevered upper floor overhanging the swimming pool, trees behind" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-4.jpg", "note": "LOOKED: EXTERIOR - villa terrace and pool with the glazed living wing beside it" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/13.jpg", "note": "LOOKED: interior - living room with sofa and open kitchen behind, full-height glazing onto the pool terrace. The only interior published on the page" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/11.jpg", "note": "LOOKED: amenity - curved outdoor amphitheatre steps with people seated, planted green roof above" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-3.jpg", "note": "LOOKED: amenity - the same amphitheatre/community steps from further back, people on the terraces" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/17.jpg", "note": "LOOKED: amenity - fenced tennis/padel courts under mature trees" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-2.jpg", "note": "LOOKED: amenity - padel courts in use, players and spectators under the trees" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2024/01/jouri-hills-arada-1.jpg", "note": "LOOKED: amenity - children's playground with yellow slides and play structures, children playing" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/smart-living-2.jpg", "note": "LOOKED - filename is meaningless: 'smart-living-2' is actually the community PLAYGROUND - coloured winding paths, play equipment and people, seen from above" },
+    { "url": "https://aradawebcontent.blob.core.windows.net/arada-com/2022/11/nature-1.jpg", "note": "LOOKED - filename misleads: 'nature-1' is not a landscape shot, it is an aerial of the GOLF CLUBHOUSE building on the golf course, with the Dubai skyline faint on the horizon" }
+  ]
+}

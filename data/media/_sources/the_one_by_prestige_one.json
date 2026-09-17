@@ -1,0 +1,49 @@
+{
+  "project": "The One by Prestige One",
+  "developer": "Prestige One",
+  "area": "Barsha Heights",
+  "page": "https://prestigeone.ae/projects/the-one-by-prestige-one",
+  "_note": "Read 17 September 2026 from prestigeone.ae. No form was filled - the site's 'Register for interest' and the /project-documents page ask for name, email and phone, and I did not touch them. Two families of image are excluded as page furniture, not project media: /assets/images/v3/amenities-sliders/... which are stock views of Dubai landmarks (Burj Khalifa, Palm Jumeirah, the airport) used as a location strip on every project page, and /assets/project-featured-images/sliders/... which are thumbnail cards advertising OTHER projects at the foot of the page. Every render on this site carries a PRESTIGE ONE watermark. IMPORTANT SCOPE FLAG: The One is NOT a residential scheme. The page's own data reads 'Unit Types: Commercial Offices, Half Floors, Full Floors', configuration 3B+G+14+R, and the meta description is 'Modern workspaces for today's professionals'. That is also why every interior file is named 'Prestige Offices Tower_...' - those names are accurate, the interiors really are an office reception, office floors, a cafe, a spa and a gym. Recorded here because the exteriors are strong and correctly named, but do not use this project as residential comparable stock. Prestige One's other office scheme, Sanctuary Hive at Meydan Horizon, is likewise commercial and it republishes Sanctuary Residences' residential gallery images. No floor plans are published as images.",
+  "images": [
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/the-one-farcade-full.webp",
+      "note": "LOOKED: wide daylight exterior render of the whole tower head-on - faceted glass facade, PRESTIGE ONE lettering at the crown, planted forecourt. 1672x941. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/the-one-outside.webp",
+      "note": "LOOKED: aerial exterior render of the whole tower and its landscaped plaza, roads and neighbouring blocks around it. 1280x1189. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/One-outside.webp",
+      "note": "LOOKED: night exterior render of the tower seen across a park with a figure walking in the foreground. 1280x853. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_Reception%20Lobby2.webp",
+      "note": "LOOKED: office reception lobby - backlit onyx wall lettered PRESTIGE ONE, seating and a glazed meeting room beyond. Matches its filename. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_9th%20flr%20Left%20Wing.webp",
+      "note": "LOOKED: ninth-floor business lounge - pale curved seating under a large crystal-drop ceiling, full-height glazing to the city. Matches its filename. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_GYM%20View%203.webp",
+      "note": "LOOKED: gym - cable machine, free weights, a screen and a stone-clad wall, glazing to the skyline. Matches its filename. 1280x720"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_Reception%20Cafe.webp",
+      "note": "Reception cafe render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_9th%20flr%20Cafe%20Area.webp",
+      "note": "Ninth-floor cafe render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_9th%20Flr%20SPA%20view1.webp",
+      "note": "Ninth-floor spa render - not individually opened"
+    },
+    {
+      "url": "https://prestigeone.ae/assets/images/v3/project-amenities/the-one/gallery/Prestige%20Offices%20Tower_9th%20flr%20Reception%20opt%201.webp",
+      "note": "Ninth-floor reception render - not individually opened"
+    }
+  ]
+}

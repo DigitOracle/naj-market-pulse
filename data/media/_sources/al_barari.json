@@ -1,0 +1,41 @@
+{
+  "project": "Al Barari",
+  "developer": "ZAYA",
+  "area": "Al Barari, Dubai",
+  "page": "https://www.zaya.com/project/al-barari",
+  "_note": "DOMAIN FINDING, read 17 September 2026: zaya.ae is DEAD - it resolves to 208.91.112.55 (a parking/placeholder host), returns HTTP 403 over http and presents an untrusted certificate over https. ZAYA's live site is zaya.com (zayaliving.com also redirects there), and the content confirms it is the right company - Hameni, Nurai, Al Barari and Zuhha are all on it. The site is built on Wix, so every image in the page HTML is a resized derivative such as .../v1/fill/w_353,h_470,q_90,enc_avif,.../<id>~mv2.jpg. The URLs listed below are the untransformed originals behind those same media ids; I did not guess them - I requested each one and recorded the pixel size it returned, which is what the notes quote. CAUTION FOR THE WHOLE SITE: the two page-header photographs carry the display names ARW09486-HDR_edited.jpg and ARW09402-HDR_edited.jpg on ALL FOUR project pages, but each page has its own media id behind those names. The display filename therefore tells you nothing about which project an image belongs to. No form was filled and nothing gated was fetched. Al Barari is a low-density community rather than a single building, so the gallery is mostly landscape - lagoons, planting and streams - with three architectural shots. I looked at every image listed here.",
+  "images": [
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_33842e4c5de44ed1b3d9a69293c823e0~mv2.jpg",
+      "note": "LOOKED: wide exterior PHOTOGRAPH of the low-rise apartment blocks at sunset - stepped white terraces, cars parked along the frontage. 3000x1688. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_8c757e0e8f8844f8b65052beccb6ba52~mv2.jpg",
+      "note": "LOOKED: wide aerial exterior of the same stepped apartment blocks set in dense planting, seen from above. 3000x2001. VERIFIED EXTERIOR."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_b2c6e4ba22ea45beb26137237e4ea05b~mv2.jpg",
+      "note": "LOOKED: exterior photograph of a white villa - angular cantilevered upper storey, full-height glazing, private pool in the foreground. 2000x3000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_e69dede166a644e4b993efa099ee3ef5~mv2.jpg",
+      "note": "LOOKED: NOT a building - a lagoon through dense trees, sunlight on the water. Landscape photograph. 3000x1999"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_20f1939eef5c4c2caa94afdb439002b0~mv2.jpg",
+      "note": "LOOKED: NOT a building - lagoon at sunset framed by palms and bougainvillea. 8192x5464, the largest file on the ZAYA site."
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_a40d19519d05409bb52db01ad3967814~mv2.jpg",
+      "note": "LOOKED: NOT a building - a planted stream with boulders and flowering shrubs. 2000x3000"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/9e79da_ccf180dae0114e26a04bb650cf921f2a~mv2.jpg",
+      "note": "LOOKED: black-and-white view down a palm-lined terrace between two low apartment blocks. Page-header image, display name ARW09486-HDR_edited.jpg reused site-wide. 3000x1688"
+    },
+    {
+      "url": "https://static.wixstatic.com/media/95d3dc_bd284967ece8448a8e2086d4b8a52a3b~mv2.jpg",
+      "note": "LOOKED: a green lagoon with a glass sculpture on the far bank - landscape, no building. Page-header image, display name ARW09402-HDR_edited.jpg reused site-wide. 3543x2363"
+    }
+  ]
+}
