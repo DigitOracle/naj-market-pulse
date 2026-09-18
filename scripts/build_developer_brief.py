@@ -207,6 +207,44 @@ def bar_chart(pts, w=690, h=150, colour=NAVY):
     return '<svg width="%d" height="%d" role="img">%s</svg>' % (w, h, "".join(g))
 
 
+DONUT = ["#17283F", "#A8814A", "#5B7A99", "#C9B08A", "#7A8B6F", "#8E6C8A", "#B5B9C0", "#D8CFC0", "#4E3B2A", "#9FB7C9"]
+# DLD district -> DEWA community, where the names differ. Silicon Oasis is part of the Nadd Hessa
+# community in DEWA's register, and the page says so rather than presenting it as Silicon Oasis.
+DEWA_COMMUNITY = {"SILICON OASIS": "NADD HESSA"}
+
+
+def resident_mix(area):
+    """District resident mix from DEWA's customer register (data/internal/community_resident_mix.json).
+
+    That file is marked 'Kendall and Naj only'. Kendall chose, on 18 Sep 2026 before the Ellington
+    meeting, to show it in a developer brief. It is shown at DISTRICT level only, labelled as what it
+    measures - the nationality of electricity ACCOUNT HOLDERS, not every resident and not buyers - and
+    never for a single building."""
+    p = os.path.join(ROOT, "data", "internal", "community_resident_mix.json")
+    try:
+        d = json.load(io.open(p, encoding="utf-8"))
+    except Exception:
+        return None
+    want = DEWA_COMMUNITY.get(str(area).upper().strip(), str(area).upper().strip())
+    return next((c for c in d.get("communities", []) if c.get("name", "").upper() == want), None)
+
+
+def donut(regions, size=132):
+    w = 22
+    r = size / 2 - w / 2 - 1
+    cx = cy = size / 2
+    tot = sum(x["pct"] for x in regions) or 1
+    a0, g = -math.pi / 2, []
+    for n, x in enumerate(regions):
+        a1 = a0 + 2 * math.pi * x["pct"] / tot
+        large = 1 if a1 - a0 > math.pi else 0
+        g.append('<path d="M%.2f %.2f A%.2f %.2f 0 %d 1 %.2f %.2f" fill="none" stroke="%s" stroke-width="%d"/>'
+                 % (cx + r * math.cos(a0), cy + r * math.sin(a0), r, r, large,
+                    cx + r * math.cos(a1 - 0.012), cy + r * math.sin(a1 - 0.012), DONUT[n % len(DONUT)], w))
+        a0 = a1
+    return '<svg width="%d" height="%d" role="img">%s</svg>' % (size, size, "".join(g))
+
+
 def hbar_chart(pts, w=690, row=26, colour=NAVY, fmt=lambda v: "{:,}".format(v)):
     if not pts:
         return ""
@@ -280,9 +318,9 @@ def market_page(rec, st, pos, today):
              '<span style="color:%s;">&#9632;</span> %s &nbsp; <span style="color:%s;">&#9632;</span> rest of %s</div>%s</div>'
              % (MUTED, NAVY, S.esc(name), GOLD, S.esc(S.pretty(st["area"])),
                 line_chart([(name, NAVY, [(m, p) for m, n, p in st["m_bld"] if n >= 3]),
-                            ("district", GOLD, [(m, p) for m, n, p in st["m_area"]])])))
+                            ("district", GOLD, [(m, p) for m, n, p in st["m_area"]])], h=110)))
     body += ('<div><div class="lbl" style="margin-bottom:4px;">SALES PER MONTH</div>%s</div>'
-             % bar_chart([(dt.date(int(m[:4]), int(m[5:]), 1).strftime("%b"), n) for m, n, p in st["m_bld"]], h=118))
+             % bar_chart([(dt.date(int(m[:4]), int(m[5:]), 1).strftime("%b"), n) for m, n, p in st["m_bld"]], h=70))
     if pos:
         a = around(pos)
         walks = []
@@ -295,7 +333,8 @@ def market_page(rec, st, pos, today):
         row = lambda cards: '<div style="display:flex;gap:7px;">%s</div>' % "".join(cards)
         # Metro: a ROUTED walking distance where the router answers, straight-line otherwise, and each
         # card says which. Never minutes - a walking time needs someone who has walked it.
-        mcards = [icard("walk", "%d m" % w["walk_m"], w["name"][:32], "walking route") for w in walks[:2]]
+        # A routed walk over 2 km is not a walk (Hillgate routed 27 km to Creek): fall back to straight line.
+        mcards = [icard("walk", "%d m" % w["walk_m"], w["name"][:32], "walking route") for w in walks[:2] if w["walk_m"] <= 2000]
         if not mcards:
             mcards = [icard("metro", "%.1f km" % d, i["n"][:32], "straight line") for d, i in a["metro"]]
         body += '<div><div class="lbl" style="margin-bottom:4px;">GETTING AROUND</div>%s</div>' % row(
@@ -311,11 +350,34 @@ def market_page(rec, st, pos, today):
             body += ('<div style="font-size:11.5px;color:%s;">Top-rated nearby: %s</div>'
                      % (MUTED, " &middot; ".join("<b style='color:%s'>%s</b> (%s, %.1f km)"
                                                  % (INK, S.esc(i["n"][:38]), S.esc(i.get("x") or ""), d) for d, i in top)))
-        body += row([icard("beach", near_km(a["beach"]), "Nearest beach", "within 5 km") if a["beach"] else "",
-                     icard("ev", str(a["ev"]), "EV charging points", "within 1.5 km")])
-        loc_note = ("Metro walking distances are routed along paths from the building (OpenStreetMap foot router), "
-                    "not timed on foot. Other distances are straight-line. Schools and ratings: KHDA. Metro: RTA. "
-                    "Hospitals: DHA. Grocers: named stores in the register. EV: DEWA, OpenChargeMap, OpenStreetMap.")
+        extra = [icard("beach", near_km(a["beach"]), "Nearest beach", "within 5 km") if a["beach"] else "",
+                 icard("ev", str(a["ev"]), "EV charging points", "within 1.5 km")]
+    else:
+        extra = []
+    # Who lives in the district: DEWA account holders by nationality. District-wide, never this building or its buyers.
+    rm = resident_mix(st["area"])
+    if rm:
+        comm = rm["name"]
+        leg = "".join('<div style="display:flex;gap:6px;align-items:baseline;font-size:11px;margin:1px 0;">'
+                      '<span style="color:%s;font-size:12px;">&#9632;</span><b style="color:%s;min-width:30px;">%d%%</b>'
+                      '<span style="color:%s;">%s <span style="color:%s;">%s</span></span></div>'
+                      % (DONUT[i % len(DONUT)], INK, round(r["pct"]), INK, S.esc(r["name"]), MUTED,
+                         S.esc(", ".join(c for c, p in (r.get("countries") or [])[:3])))
+                      for i, r in enumerate(rm["regions"]))
+        alias = "" if comm.upper() == str(st["area"]).upper() else " %s is part of the %s community." % (
+            S.esc(S.pretty(st["area"])), S.esc(S.pretty(comm)))
+        body += ('<div><div class="lbl" style="margin-bottom:4px;">WHO LIVES IN %s</div>'
+                 '<div style="display:flex;gap:12px;align-items:center;">%s<div style="flex:1;">%s'
+                 '<div style="font-size:9.5px;color:%s;margin-top:3px;">DEWA electricity account holders by nationality, '
+                 'district-wide (%s accounts) - not this building, not its buyers.%s</div></div>%s</div></div>'
+                 % (S.esc(S.pretty(comm).upper()), donut(rm["regions"], size=108), leg, MUTED,
+                    "{:,}".format(rm.get("accounts") or 0), alias,
+                    '<div style="display:flex;flex-direction:column;gap:6px;width:170px;">%s</div>' % "".join(extra)))
+    elif extra:
+        body += '<div style="display:flex;gap:7px;">%s</div>' % "".join(extra)
+    if pos:
+        loc_note = ("Walks routed on OpenStreetMap paths, not timed; other distances straight-line. "
+                    "KHDA, RTA, DHA, DEWA, OpenChargeMap.")
     else:
         real = lambda v: v if v and any(c.isalpha() for c in str(v)) else None
         facts = [("nearest metro", real(st["dld_metro"])), ("nearest mall", real(st["dld_mall"]))]
