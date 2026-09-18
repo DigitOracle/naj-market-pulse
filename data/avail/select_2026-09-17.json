@@ -1,0 +1,554 @@
+{
+ "source_file": [
+  "1789632990783_Inventory Artistry 1.pdf",
+  "1789632991304_Inventory Artistry 2.pdf"
+ ],
+ "sheet_date": "2026-09-17",
+ "received": "2026-09-18",
+ "channel": "manual inbox",
+ "developer": "Select",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Artistry One Residences",
+   "block": "A1",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "A1-2303",
+     "1 B/R",
+     741.09,
+     2347000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2403",
+     "1 B/R",
+     741.09,
+     2362000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2603",
+     "1 B/R",
+     741.09,
+     2397000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2802",
+     "1 B/R",
+     741.09,
+     2429000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2803",
+     "1 B/R",
+     741.09,
+     2429000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2902",
+     "1 B/R",
+     741.09,
+     2446000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-2903",
+     "1 B/R",
+     741.09,
+     2446000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-3102",
+     "1 B/R",
+     741.09,
+     2479000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A1-106",
+     "2 B/R",
+     1698.65,
+     4975000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-107",
+     "2 B/R",
+     1471.21,
+     4465000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-1506",
+     "2 B/R",
+     1701.66,
+     5334000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-1806",
+     "2 B/R",
+     1701.66,
+     5411000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-201",
+     "2 B/R",
+     1701.55,
+     5197000.0,
+     ""
+    ],
+    [
+     "A1-206",
+     "2 B/R",
+     1701.66,
+     5002000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-301",
+     "2 B/R",
+     1701.55,
+     5223000.0,
+     ""
+    ],
+    [
+     "A1-306",
+     "2 B/R",
+     1701.66,
+     5028000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-506",
+     "2 B/R",
+     1701.66,
+     5079000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-606",
+     "2 B/R",
+     1701.66,
+     5104000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-706",
+     "2 B/R",
+     1701.66,
+     5130000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-806",
+     "2 B/R",
+     1701.66,
+     5155000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-108",
+     "2 B/R",
+     1471.32,
+     4477000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-207",
+     "2 B/R",
+     1468.52,
+     4497000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-208",
+     "2 B/R",
+     1468.52,
+     4497000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-308",
+     "2 B/R",
+     1468.52,
+     4519000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-708",
+     "2 B/R",
+     1468.52,
+     4607000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-2304",
+     "3 B/R",
+     1988.09,
+     6029000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-2501",
+     "3 B/R",
+     1988.09,
+     6435000.0,
+     ""
+    ],
+    [
+     "A1-2601",
+     "3 B/R",
+     1988.09,
+     6480000.0,
+     ""
+    ],
+    [
+     "A1-2704",
+     "3 B/R",
+     1988.09,
+     6206000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-3602",
+     "4 B/R",
+     7755.61,
+     26968000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A1-3401",
+     "4 B/R",
+     4662.93,
+     17434000.0,
+     ""
+    ],
+    [
+     "A1-3301",
+     "4 B/R",
+     6207.33,
+     21989000.0,
+     ""
+    ]
+   ],
+   "struck_by_developer": [
+    "A1-2602"
+   ]
+  },
+  {
+   "p": "Artistry Two Residences",
+   "block": "A2",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "A2-2402",
+     "1 B/R",
+     741.1,
+     2382000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-2403",
+     "1 B/R",
+     741.1,
+     2372000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-3002",
+     "1 B/R",
+     741.1,
+     2483000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-3302",
+     "1 B/R",
+     741.1,
+     2533000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-3303",
+     "1 B/R",
+     741.1,
+     2521000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-1101",
+     "2 B/R",
+     1701.56,
+     5567000.0,
+     ""
+    ],
+    [
+     "A2-1106",
+     "2 B/R",
+     1701.67,
+     5369000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1306",
+     "2 B/R",
+     1701.67,
+     5420000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1406",
+     "2 B/R",
+     1701.67,
+     5445000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1506",
+     "2 B/R",
+     1701.67,
+     5471000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1606",
+     "2 B/R",
+     1701.67,
+     5496000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1706",
+     "2 B/R",
+     1701.67,
+     5522000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-2001",
+     "2 B/R",
+     1701.56,
+     5793000.0,
+     ""
+    ],
+    [
+     "A2-501",
+     "2 B/R",
+     1701.56,
+     5414000.0,
+     ""
+    ],
+    [
+     "A2-506",
+     "2 B/R",
+     1701.67,
+     5216000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-601",
+     "2 B/R",
+     1701.56,
+     5439000.0,
+     ""
+    ],
+    [
+     "A2-606",
+     "2 B/R",
+     1701.67,
+     5241000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-906",
+     "2 B/R",
+     1701.67,
+     5318000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1108",
+     "2 B/R",
+     1468.52,
+     4814000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1307",
+     "2 B/R",
+     1468.52,
+     4858000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1308",
+     "2 B/R",
+     1468.52,
+     4858000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1407",
+     "2 B/R",
+     1468.52,
+     4880000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1408",
+     "2 B/R",
+     1468.52,
+     4880000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1507",
+     "2 B/R",
+     1468.52,
+     4902000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1607",
+     "2 B/R",
+     1468.52,
+     4924000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1807",
+     "2 B/R",
+     1468.52,
+     4968000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-2007",
+     "2 B/R",
+     1468.52,
+     5010000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-2008",
+     "2 B/R",
+     1468.52,
+     5010000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-2107",
+     "2 B/R",
+     1469.49,
+     5038000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-2108",
+     "2 B/R",
+     1469.49,
+     5038000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-507",
+     "2 B/R",
+     1468.52,
+     4682000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-607",
+     "2 B/R",
+     1468.52,
+     4704000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-1504",
+     "2 B/R",
+     909.55,
+     2895000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-1604",
+     "2 B/R",
+     909.55,
+     2909000.0,
+     "D3 and Ras Al Khor View"
+    ],
+    [
+     "A2-2401",
+     "3 B/R",
+     1988.09,
+     6501000.0,
+     ""
+    ],
+    [
+     "A2-3001",
+     "3 B/R",
+     1988.09,
+     6769000.0,
+     ""
+    ],
+    [
+     "A2-3004",
+     "3 B/R",
+     1988.09,
+     6452000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-3301",
+     "3 B/R",
+     1988.09,
+     6900000.0,
+     ""
+    ],
+    [
+     "A2-3304",
+     "3 B/R",
+     1988.09,
+     6583000.0,
+     "Corner Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-3006",
+     "3 B/R",
+     1965.06,
+     6664000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-3305",
+     "3 B/R",
+     1963.77,
+     6797000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ],
+    [
+     "A2-3306",
+     "3 B/R",
+     1965.06,
+     6802000.0,
+     "Panoramic Canal and Burj Khalifa View"
+    ]
+   ],
+   "struck_by_developer": [
+    "A2-3003",
+    "A2-2101"
+   ]
+  }
+ ]
+}

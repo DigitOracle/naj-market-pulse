@@ -318,6 +318,16 @@ def ar_field(line, label):
 
 
 INV_CODE_RX = re.compile(r"^[A-Z]{2,6}(-[A-Z0-9]+){1,4}$")
+# Select Group row: A1-2303 <view> <beds> <type> <unit area> <internal> <external> <list price> Yes|No
+SEL_ROW_RX = re.compile(r"^([A-Z]\d{1,2}-\d{3,5})\s+(.*?)\b(\d)\b.*?(\d[\d,]*\.\d{2})\s+\d[\d,]*\.\d{2}\s+"
+                        r"\d[\d,]*\.\d{2}\s+(.*?)(?<!\S)()(\d{1,3}(?:,\d{3}){1,3}\.\d{2})\s+(?:Yes|No)\b", re.I)
+
+
+def num_(s):
+    try:
+        return float(str(s).replace(",", ""))
+    except Exception:
+        return None
 INV_TYPE_START = re.compile(r"^(\d|studio|duplex|retail|office|penthouse|p\.house|shop|villa|townhouse)", re.I)
 
 
@@ -397,12 +407,19 @@ def parse_pdf(path):
     bey_date, bey_building, pending_view = None, None, None
     ar_mode, ar_pending, ar_master, ar_cluster, ar_project = False, None, None, None, None
     ar_plan, ar_plan_pcts = None, None
+    struck_units = []
     for page in doc:
         words = words_text_layer(page)
         mode = "text"
         if len(words) < 8:
             words = words_ocr(page); mode = "ocr"
         rows = rows_from_words(words)
+        # Select strikes a unit off its table with a filled RED rectangle drawn over the row. The text
+        # is still in the text layer underneath, so a reader that only reads text counts sold units as
+        # available. Where each unit code sits, and where the red bars are, lets the row be dropped.
+        red_rects = [d["rect"] for d in page.get_drawings()
+                     if d.get("fill") and d["fill"][0] > 0.7 and d["fill"][1] < 0.45 and d["fill"][2] < 0.45]
+        code_y = {w[4].strip(): (w[1] + w[3]) / 2 for w in words}
         for row in rows:
             line = " ".join(t for _, t in row)
             low = line.lower()
@@ -457,6 +474,36 @@ def parse_pdf(path):
                 cur["units"].append([unit, typ, total, price, view]); continue
             if dev is None:
                 dev = dev_from_text(low)
+            # --- Select Group image table (18 Sep 2026). "Inventory Artistry 1/2.pdf" are floor-plan books
+            #     whose page 3 is a PICTURE of the availability table - unit, view, bedrooms, type, three
+            #     areas, list price, furnished. Every Select sheet read as zero units because no pattern
+            #     here matched that row. The tower prefix (A1 / A2) names the project: the Land
+            #     Department registers Artistry One and Artistry Two Residences separately, and a tower
+            #     is never pooled with its sibling (W Residences compared two towers as one).
+            ms = SEL_ROW_RX.match(line.strip())
+            if ms:
+                code, beds, uarea, price = ms.group(1), int(ms.group(3)), ms.group(4), ms.group(7)
+                if any(r.y0 <= code_y.get(code, -1) <= r.y1 for r in red_rects):
+                    struck_units.append(code)          # struck through by the developer: not available
+                    continue
+                tower = code.split("-")[0]
+                num = {"1": "One", "2": "Two", "3": "Three", "4": "Four"}.get(tower[1:], tower[1:])
+                base = re.sub(r"(?i)^inventory\s+|\s*\d+$", "", fallback_project or "").strip() or "Select"
+                pname = "%s %s" % (base.title(), num)
+                # Snap to the register's name only when exactly ONE project starts with it: "Artistry
+                # One" -> "Artistry One Residences", which is also the developer card's name. The
+                # shared fuzzy matcher misses it (Select's projects don't carry "Select", and the
+                # suffix pulls the score under its threshold) and is not loosened for everyone.
+                canonical_project(pname, dev)                   # loads the register's names
+                _pre = [c for c in (_canon or []) if nkey(c).startswith(nkey(pname))]
+                if len({nkey(c) for c in _pre}) == 1:
+                    pname = " ".join(w.capitalize() for w in _pre[0].split())
+                if cur is None or cur["p"] != pname or cur.get("block") != tower:
+                    cur = {"p": pname, "block": tower, "completion": completion, "plan": plan, "units": [], "_mode": mode}
+                    projects.append(cur)
+                cur["units"].append([code, "%d B/R" % beds, num_(uarea), num_(price), ms.group(2).strip()])
+                dev = dev or "select"
+                continue
             # --- inventory format (Fakhruddin et al.): "<PROJECT> - INVENTORY as (m/d/yyyy)", sections, a fixed column header
             mt = INV_TITLE_RX.match(line.strip())
             if mt:
@@ -548,6 +595,13 @@ def parse_pdf(path):
                 seen.add(u[0]); uniq.append(u)
         p["units"] = uniq
     out = [p for p in projects if p["units"]]
+    # Say which units the developer struck off, on the tower they belong to - dropped from the count,
+    # never silently: a board that shows 32 when the sheet prints 33 rows should say why.
+    for code in struck_units:
+        tower = code.split("-")[0]
+        p = next((q for q in out if q.get("block") == tower), None)
+        if p is not None:
+            p.setdefault("struck_by_developer", []).append(code)
     if inv_date:
         for p in out: p.setdefault("_sheet_date", inv_date)
     return dev, out

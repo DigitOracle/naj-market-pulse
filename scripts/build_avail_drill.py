@@ -25,6 +25,8 @@ TARGETS = [
     # never LIKE '%sanctuary%': that matches Sobha Sanctuary and Sanctuary Falls and would show another building's
     # sales on this page. The page carries the developer's claimed units and an honestly empty sales mix.
     ("prestigeone",      "PROJECT_EN = 'SANCTUARY BY PRESTIGE ONE'",           "Prestige One (Sanctuary)"),
+    # Select Group posts its Artistry towers only. Exact names: the register holds One and Two as separate projects.
+    ("select",           "trim(PROJECT_EN) IN ('Artistry One Residences','Artistry Two Residences')", "Select Group (Artistry)"),
 ]
 
 def main():

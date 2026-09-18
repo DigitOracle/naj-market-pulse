@@ -19,7 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 AVAIL = os.path.join(ROOT, "data", "avail")
 WORKER = "https://azimuth-2.digitalchemy.workers.dev"
-DRILL_KEY = {"imtiaz": "imtiaz", "arada": "arada", "beyond": "beyond", "fakhruddin": "fakhruddin", "binghatti": "binghatti", "prestigeone": "prestigeone"}
+DRILL_KEY = {"imtiaz": "imtiaz", "arada": "arada", "beyond": "beyond", "fakhruddin": "fakhruddin", "binghatti": "binghatti", "prestigeone": "prestigeone", "select": "select"}
 DEV_NAME = {}   # filename slug -> the developer's own name, filled from each sheet as it is read          # developer slug -> drill_<key>; extend as developers join the group
 
 
