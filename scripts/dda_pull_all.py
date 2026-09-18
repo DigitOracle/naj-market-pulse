@@ -86,10 +86,16 @@ def main():
             # once the initial token turns over every remaining page in the run pays a 401 + forced-refresh round trip forever
             # (that ran two PROD pulls into an hour-long stall on 18 Sep before this fix).
             code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
-            # a deep page often times out once (408) and serves in 2-4 s on the next ask; retry the page, not the dataset
-            for attempt in range(3):
-                if code not in (408, 502, 503, 504): break
-                time.sleep(10 * (attempt + 1)); code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
+            # a deep page often times out once (408) and serves in 2-4 s on the next ask; retry the page, not the dataset.
+            # code 0 = transport error (link down). 18 Sep 19:42: one drop threw away 1,030,139 rows of dm_building_floor_level_information
+            # (an hour of pages, all in memory) and then failed five more datasets at 2.5 min each, so a dead link gets far more
+            # patience than a slow page: up to 8 rounds of 20-120 s waits (~15 min plus auth_get's own retries) before giving up.
+            n_wait = 0
+            while code in (0, 408, 502, 503, 504) and n_wait < (8 if code == 0 else 3):
+                n_wait += 1
+                if code == 0: api.log(f"{r['dataset']} page {page}: link down, waiting (round {n_wait}/8, {len(rows):,} rows held)")
+                time.sleep((20 if code == 0 else 10) * min(n_wait, 6))
+                code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
             if code != 200 or raw[:1] not in (b"{", b"["):
                 status = "blocked" if b"Request Rejected" in raw else f"http_{code}"; note = raw[:160].decode(errors="replace"); break
             try: j = json.loads(raw)
