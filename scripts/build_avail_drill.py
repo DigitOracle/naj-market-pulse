@@ -18,6 +18,9 @@ TARGETS = [
     ("arada",            "(lower(PROJECT_EN) LIKE '%inaura%' OR lower(PROJECT_EN) LIKE '%akala%' OR lower(PROJECT_EN) LIKE '%w residences at dubai harbour%')", "Arada (Dubai projects)"),
     ("beyond",           "(lower(PROJECT_EN) LIKE '%soulever%' OR lower(PROJECT_EN) LIKE '%kanyon%' OR lower(PROJECT_EN) LIKE '%talea%' OR lower(PROJECT_EN) LIKE '%hado%' OR lower(PROJECT_EN) LIKE '%passo%' OR lower(PROJECT_EN) LIKE '%le chateau%')", "Beyond (all projects)"),
     ("fakhruddin",       "(PROJECT_EN IN ('TREPPAN TOWER','TREPPAN SERENIQUE RESIDENCES','Maimoon Gardens','HATIMI RESIDENCES BY FAKHRUDDIN'))", "Fakhruddin (all projects)"),
+    # 18 Sep 2026: Binghatti posts spreadsheets, which nothing read until extract_avail_xlsx.py. Its Maybach and
+    # Vision Iconic towers do not carry the Binghatti name, so they are named here rather than missed.
+    ("binghatti",        "(lower(PROJECT_EN) LIKE '%binghatti%' OR lower(PROJECT_EN) LIKE '%maybach%' OR lower(PROJECT_EN) LIKE '%vision iconic%')", "Binghatti (all projects)"),
 ]
 
 def main():

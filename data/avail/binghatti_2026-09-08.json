@@ -1,0 +1,3618 @@
+{
+ "source_file": [
+  "1789385992532_DLD Registered Units Availability as of 8th September 2026.xlsx",
+  "1789385993134_Completed Projects Availability as of 8th September 2026.xlsx",
+  "1789385995532_All Commercial Units availability as of 8th September 2026.xlsx"
+ ],
+ "sheet_date": "2026-09-08",
+ "received": "2026-09-14",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Binghatti",
+ "extraction": "auto: xlsx",
+ "projects": [
+  {
+   "p": "Binghatti Elite",
+   "block": "Binghatti Elite",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BELT-212",
+     "Studio",
+     376.31,
+     650000,
+     "Binghatti Elite"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Ghost",
+   "block": "BINGHATTI GHOST",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BGST-1538",
+     "1 B/R",
+     862.73,
+     1250000,
+     "BINGHATTI GHOST"
+    ],
+    [
+     "BGST-705",
+     "3 B/R",
+     1897.25,
+     4212499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-605",
+     "3 B/R",
+     1903.06,
+     4199999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-505",
+     "3 B/R",
+     1903.06,
+     4187499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-405",
+     "3 B/R",
+     1903.06,
+     4174999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-305",
+     "3 B/R",
+     1903.06,
+     4162499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-205",
+     "3 B/R",
+     1902.85,
+     4162499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1831",
+     "3 B/R",
+     1647.85,
+     4099999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1930",
+     "3 B/R",
+     1602.64,
+     4062499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1631",
+     "3 B/R",
+     1647.85,
+     4049999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1830",
+     "3 B/R",
+     1602.64,
+     4037499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1531",
+     "3 B/R",
+     1647.85,
+     4037499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1431",
+     "3 B/R",
+     1647.96,
+     4012499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1530",
+     "3 B/R",
+     1645.05,
+     3999999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1331",
+     "3 B/R",
+     1647.85,
+     3987499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1430",
+     "3 B/R",
+     1604.14,
+     3974999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1231",
+     "3 B/R",
+     1647.85,
+     3974999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1131",
+     "3 B/R",
+     1647.85,
+     3949999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1330",
+     "3 B/R",
+     1602.64,
+     3937499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1031",
+     "3 B/R",
+     1647.85,
+     3924999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1230",
+     "3 B/R",
+     1602.64,
+     3912499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1130",
+     "3 B/R",
+     1602.64,
+     3899999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-1030",
+     "3 B/R",
+     1602.64,
+     3874999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-731",
+     "3 B/R",
+     1647.96,
+     3862499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-129",
+     "3 B/R",
+     1754.62,
+     3862499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-930",
+     "3 B/R",
+     1602.64,
+     3849999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-830",
+     "3 B/R",
+     1645.05,
+     3849999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-730",
+     "3 B/R",
+     1604.14,
+     3824999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-531",
+     "3 B/R",
+     1647.85,
+     3824999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-431",
+     "3 B/R",
+     1647.85,
+     3812499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-331",
+     "3 B/R",
+     1647.85,
+     3799999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-231",
+     "3 B/R",
+     1647.96,
+     3799999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-630",
+     "3 B/R",
+     1602.64,
+     3787499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-530",
+     "3 B/R",
+     1602.64,
+     3762499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-430",
+     "3 B/R",
+     1602.64,
+     3762499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-330",
+     "3 B/R",
+     1602.64,
+     3762499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-230",
+     "3 B/R",
+     1602.74,
+     3749999,
+     "BINGHATTI GHOST AVAILABILITY"
+    ],
+    [
+     "BGST-121",
+     "2 B/R",
+     1413.09,
+     2612499,
+     "BINGHATTI GHOST AVAILABILITY"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Starlight",
+   "block": "Binghatti Starlight",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BSTL-1802",
+     "2 B/R",
+     1370.78,
+     2075520,
+     "Binghatti Starlight"
+    ],
+    [
+     "BSTL-1422",
+     "1 B/R",
+     758.1,
+     1350000,
+     "Binghatti Starlight"
+    ],
+    [
+     "BSTL-RETAIL1",
+     "Retail",
+     3866.4,
+     13532000,
+     "BINGHATTI STARLIGHT"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Aquarise",
+   "block": "Binghatti Aquarise",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BAQR-C942",
+     "Studio",
+     426.04,
+     1200000,
+     "Binghatti Aquarise"
+    ],
+    [
+     "BAQR-RET16",
+     "Retail",
+     6263.63,
+     27021491,
+     "BINGHATTI AQUARISE"
+    ],
+    [
+     "BAQR-RET13",
+     "Retail",
+     8697.13,
+     42980172,
+     "BINGHATTI AQUARISE"
+    ],
+    [
+     "BAQR-RET19",
+     "Retail",
+     3197.96,
+     15803788,
+     "BINGHATTI AQUARISE"
+    ],
+    [
+     "BAQR-RET22",
+     "Retail",
+     3979.74,
+     19819806,
+     "BINGHATTI AQUARISE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Ruby",
+   "block": "Binghatti Ruby",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BRBY-1135",
+     "2 B/R",
+     1461.52,
+     2200000,
+     "Binghatti Ruby"
+    ],
+    [
+     "BRBY-1701",
+     "1 B/R",
+     1001.37,
+     1300000,
+     "Binghatti Ruby"
+    ],
+    [
+     "BRBY-1801",
+     "1 B/R",
+     1001.37,
+     1300000,
+     "Binghatti Ruby"
+    ],
+    [
+     "BRBY-OF112",
+     "Office",
+     1351.41,
+     4594794,
+     "BINGHATTI RUBY"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Haven",
+   "block": "BINGHATTI HAVEN",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BHVN-920",
+     "2 B/R",
+     1166.96,
+     1739999,
+     "BINGHATTI HAVEN"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Grove",
+   "block": "BINGHATTI GROVE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BGRV-1310",
+     "1 B/R",
+     914.93,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1306",
+     "1 B/R",
+     908.26,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1305",
+     "1 B/R",
+     914.93,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1301",
+     "1 B/R",
+     908.26,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1210",
+     "1 B/R",
+     914.93,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1206",
+     "1 B/R",
+     908.26,
+     2079749,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1205",
+     "1 B/R",
+     915.04,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1201",
+     "1 B/R",
+     908.26,
+     2079749,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1110",
+     "1 B/R",
+     914.93,
+     2094499,
+     "BINGHATT GROVE AVAILABILITY"
+    ],
+    [
+     "BGRV-1106",
+     "1 B/R",
+     908.26,
+     2064999,
+     "BINGHATT GROVE AVAILABILITY"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Ivory",
+   "block": "BINGHATTI IVORY",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BIVR-104",
+     "2 B/R",
+     1460.02,
+     2887499,
+     "BINGHATTI IVORY"
+    ],
+    [
+     "BIVR-103",
+     "2 B/R",
+     1459.27,
+     2887499,
+     "BINGHATTI IVORY"
+    ],
+    [
+     "BIVR-RETAIL1",
+     "Retail",
+     5214.9,
+     24249999,
+     "BINGHATTI IVORY"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Phantom",
+   "block": "BINGHATTI PHANTOM",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BPHA-3403",
+     "1 B/R",
+     792.33,
+     1869999,
+     "BINGHATTI PHANTOM"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Pinnacle",
+   "block": "BINGHATTI PINNACLE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BPNL-101",
+     "2 B/R",
+     1078.44,
+     2324999,
+     "BINGHATTI PINNACLE"
+    ],
+    [
+     "BPNL-RET-1",
+     "Retail",
+     7571.44,
+     41642920,
+     "BINGHATTI PINNACLE"
+    ],
+    [
+     "BPNL-RET-2",
+     "Retail",
+     2769.44,
+     15231920,
+     "BINGHATTI PINNACLE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Royale",
+   "block": "BINGHATTI ROYALE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BROY-1509",
+     "1 B/R",
+     806.51,
+     1699999,
+     "BINGHATTI ROYALE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Flare 01",
+   "block": "BINGHATTI FLARE 01",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BFLR1-2519",
+     "2 B/R",
+     2673.24,
+     2649999,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P12-RET",
+     "Retail",
+     2206.39,
+     7722365,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P11-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P10-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P09-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P08-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P07-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P06-RET",
+     "Retail",
+     1454.2,
+     5089700,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P05-RET",
+     "Retail",
+     1382.41,
+     4838435,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P04-RET",
+     "Retail",
+     1409.64,
+     4933740,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P03-RET",
+     "Retail",
+     1456.25,
+     5096875,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P02-RET",
+     "Retail",
+     1411.04,
+     4938640,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-P01-RET",
+     "Retail",
+     3797.62,
+     13291670,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G29-RET",
+     "Retail",
+     2057.2,
+     7200200,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G28-RET",
+     "Retail",
+     2518.86,
+     8816010,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G27-RET",
+     "Retail",
+     2511.54,
+     8790390,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G26-RET",
+     "Retail",
+     2332.75,
+     8175265,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G24-RET",
+     "Retail",
+     1921.25,
+     6724375,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G23-RET",
+     "Retail",
+     2667.62,
+     9336670,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G22-RET",
+     "Retail",
+     3454.57,
+     12090995,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G21-RET",
+     "Retail",
+     2570.31,
+     8996085,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G19-RET",
+     "Retail",
+     2681.72,
+     9386020,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G18-RET",
+     "Retail",
+     3015.51,
+     10554285,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G17-RET",
+     "Retail",
+     3437.13,
+     12029955,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G16-RET",
+     "Retail",
+     4426.01,
+     15491035,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G15-RET",
+     "Retail",
+     3606.56,
+     12622963,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G11-RET",
+     "Retail",
+     1658.07,
+     5803245,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G07-RET",
+     "Retail",
+     1649.78,
+     5774230,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G06-RET",
+     "Retail",
+     1709.2,
+     5982200,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G05-RET",
+     "Retail",
+     2110.05,
+     7385175,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G04-RET",
+     "Retail",
+     2152.78,
+     7534730,
+     "BINGHATTI FLARE 01"
+    ],
+    [
+     "BFLR1-G01-RET",
+     "Retail",
+     1697.04,
+     5982620,
+     "BINGHATTI FLARE 01"
+    ]
+   ]
+  },
+  {
+   "p": "One By Binghatti",
+   "block": "ONE BY BINGHATTI",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "ONEB-103",
+     "3 B/R",
+     4154.33,
+     9722222,
+     "ONE BY BINGHATTI AVAILABILITY"
+    ],
+    [
+     "ONEB-RETAIL-10",
+     "Retail",
+     3796.11,
+     21827632,
+     "ONE BY BINGHATTI"
+    ],
+    [
+     "ONEB-RETAIL-03",
+     "Retail",
+     7694.47,
+     42270606,
+     "ONE BY BINGHATTI"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Spectre",
+   "block": "BINGHATTI SPECTRE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BSPC-RET-G12",
+     "Retail",
+     5371.41,
+     19470999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP207",
+     "Retail",
+     4254.54,
+     15574999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP204",
+     "Retail",
+     3811.39,
+     13952999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP206",
+     "Retail",
+     3411.73,
+     12489999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP201",
+     "Retail",
+     3289.24,
+     12040999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP203",
+     "Retail",
+     2889.46,
+     10904999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G11",
+     "Retail",
+     2433.5,
+     9457999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G10",
+     "Retail",
+     2215.54,
+     8610999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G03",
+     "Retail",
+     2155.04,
+     8132999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G09",
+     "Retail",
+     1960.22,
+     7617999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G02",
+     "Retail",
+     2074.85,
+     7829999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RETP202",
+     "Retail",
+     1606.08,
+     6060999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-RET-G07",
+     "Retail",
+     1399.63,
+     5439999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF101",
+     "Office",
+     4017.52,
+     10060999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF211",
+     "Office",
+     2528.23,
+     6727999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF106",
+     "Office",
+     2528.23,
+     6724999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1512",
+     "Office",
+     2377.42,
+     6366999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1412",
+     "Office",
+     2377.42,
+     6363999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1212",
+     "Office",
+     2377.42,
+     6357999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1112",
+     "Office",
+     2377.42,
+     6354999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1012",
+     "Office",
+     2377.42,
+     6351999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF912",
+     "Office",
+     2377.42,
+     6347999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF712",
+     "Office",
+     2378.61,
+     6344999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF612",
+     "Office",
+     2378.61,
+     6341999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF512",
+     "Office",
+     2378.61,
+     6338999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF412",
+     "Office",
+     2378.61,
+     6335999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF312",
+     "Office",
+     2378.61,
+     6332999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1410",
+     "Office",
+     1693.92,
+     4488999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF910",
+     "Office",
+     1693.92,
+     4477999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF610",
+     "Office",
+     1692.09,
+     4465999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF510",
+     "Office",
+     1692.09,
+     4463999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF410",
+     "Office",
+     1692.09,
+     4461999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF310",
+     "Office",
+     1692.09,
+     4459999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF210",
+     "Office",
+     1691.01,
+     4454999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1504",
+     "Office",
+     1829.43,
+     4804999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1404",
+     "Office",
+     1829.43,
+     4802999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1304",
+     "Office",
+     1829.43,
+     4799999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1204",
+     "Office",
+     1829.43,
+     4797999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1104",
+     "Office",
+     1829.43,
+     4794999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1004",
+     "Office",
+     1829.43,
+     4792999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF904",
+     "Office",
+     1829.43,
+     4790999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1511",
+     "Office",
+     1787.13,
+     4785999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1411",
+     "Office",
+     1787.13,
+     4783999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF204",
+     "Office",
+     1832.88,
+     4782999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1211",
+     "Office",
+     1787.13,
+     4778999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF404",
+     "Office",
+     1829.11,
+     4777999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1111",
+     "Office",
+     1787.13,
+     4776999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF304",
+     "Office",
+     1829.11,
+     4775999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF911",
+     "Office",
+     1787.13,
+     4771999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF611",
+     "Office",
+     1788.75,
+     4769999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF511",
+     "Office",
+     1788.75,
+     4766999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF411",
+     "Office",
+     1788.75,
+     4764999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF311",
+     "Office",
+     1788.75,
+     4762999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1513",
+     "Office",
+     1567.76,
+     4155999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1413",
+     "Office",
+     1567.76,
+     4153999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1313",
+     "Office",
+     1567.76,
+     4151999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1213",
+     "Office",
+     1567.76,
+     4149999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1113",
+     "Office",
+     1567.76,
+     4147999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1013",
+     "Office",
+     1567.76,
+     4145999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF913",
+     "Office",
+     1567.76,
+     4143999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF713",
+     "Office",
+     1563.78,
+     4130999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF613",
+     "Office",
+     1563.78,
+     4128999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF513",
+     "Office",
+     1563.78,
+     4126999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF413",
+     "Office",
+     1563.78,
+     4124999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF313",
+     "Office",
+     1563.78,
+     4122999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1502",
+     "Office",
+     1457.33,
+     3869999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1402",
+     "Office",
+     1457.33,
+     3867999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1302",
+     "Office",
+     1457.33,
+     3865999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1202",
+     "Office",
+     1457.33,
+     3863999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1102",
+     "Office",
+     1457.33,
+     3862999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1002",
+     "Office",
+     1457.33,
+     3860999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF902",
+     "Office",
+     1457.33,
+     3858999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF702",
+     "Office",
+     1450.87,
+     3832999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF602",
+     "Office",
+     1450.87,
+     3830999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF502",
+     "Office",
+     1450.87,
+     3828999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF402",
+     "Office",
+     1450.87,
+     3826999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF302",
+     "Office",
+     1450.87,
+     3825999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF703",
+     "Office",
+     1310.18,
+     3410999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF603",
+     "Office",
+     1310.18,
+     3408999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF503",
+     "Office",
+     1310.18,
+     3406999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1515",
+     "Office",
+     1234.41,
+     3274999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1415",
+     "Office",
+     1234.41,
+     3272999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1315",
+     "Office",
+     1234.41,
+     3271999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1215",
+     "Office",
+     1234.41,
+     3269999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1115",
+     "Office",
+     1234.41,
+     3268999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1015",
+     "Office",
+     1234.41,
+     3266999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF915",
+     "Office",
+     1234.41,
+     3265999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF504",
+     "Office",
+     1648.17,
+     3568999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF715",
+     "Office",
+     1232.36,
+     3255999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF615",
+     "Office",
+     1232.36,
+     3253999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF515",
+     "Office",
+     1232.36,
+     3252999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF415",
+     "Office",
+     1232.36,
+     3250999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF315",
+     "Office",
+     1232.36,
+     3248999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1503",
+     "Office",
+     1154.86,
+     3017999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1403",
+     "Office",
+     1154.86,
+     3016999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1303",
+     "Office",
+     1154.86,
+     3014999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1203",
+     "Office",
+     1154.86,
+     3013999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1103",
+     "Office",
+     1154.86,
+     3011999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1003",
+     "Office",
+     1154.86,
+     3010999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF903",
+     "Office",
+     1154.86,
+     3008999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF704",
+     "Office",
+     1144.96,
+     2994999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF403",
+     "Office",
+     1139.58,
+     2961999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF303",
+     "Office",
+     1139.58,
+     2960999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF203",
+     "Office",
+     1139.58,
+     2958999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1514",
+     "Office",
+     995.88,
+     2648999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1414",
+     "Office",
+     995.88,
+     2646999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1314",
+     "Office",
+     995.88,
+     2645999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1214",
+     "Office",
+     995.88,
+     2644999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1114",
+     "Office",
+     995.88,
+     2643999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1014",
+     "Office",
+     995.88,
+     2641999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF914",
+     "Office",
+     995.88,
+     2640999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF714",
+     "Office",
+     993.4,
+     2623999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF514",
+     "Office",
+     993.4,
+     2621999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF414",
+     "Office",
+     993.4,
+     2620999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF314",
+     "Office",
+     993.4,
+     2618999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1516",
+     "Office",
+     921.61,
+     2443999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1416",
+     "Office",
+     921.61,
+     2442999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1116",
+     "Office",
+     921.61,
+     2439999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1016",
+     "Office",
+     921.61,
+     2437999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF916",
+     "Office",
+     921.61,
+     2436999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF716",
+     "Office",
+     918.92,
+     2427999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF616",
+     "Office",
+     918.92,
+     2426999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF416",
+     "Office",
+     918.92,
+     2423999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF316",
+     "Office",
+     918.92,
+     2422999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1501",
+     "Office",
+     907.18,
+     2382999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1401",
+     "Office",
+     907.18,
+     2380999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1101",
+     "Office",
+     907.18,
+     2377999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1001",
+     "Office",
+     907.18,
+     2376999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF901",
+     "Office",
+     907.18,
+     2375999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF701",
+     "Office",
+     905.14,
+     2367999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF501",
+     "Office",
+     905.14,
+     2365999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF401",
+     "Office",
+     905.14,
+     2363999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF301",
+     "Office",
+     905.14,
+     2362999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF201",
+     "Office",
+     905.14,
+     2361999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF104",
+     "Office",
+     1077.47,
+     2302999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1505",
+     "Office",
+     753.15,
+     1997999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1405",
+     "Office",
+     753.15,
+     1996999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1205",
+     "Office",
+     753.15,
+     1994999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF905",
+     "Office",
+     753.15,
+     1991999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF405",
+     "Office",
+     753.15,
+     1986999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF305",
+     "Office",
+     753.15,
+     1985999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF205",
+     "Office",
+     749.38,
+     1974999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1506",
+     "Office",
+     738.94,
+     1959999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1406",
+     "Office",
+     738.94,
+     1958999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1206",
+     "Office",
+     738.94,
+     1956999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1106",
+     "Office",
+     738.94,
+     1955999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1006",
+     "Office",
+     738.94,
+     1954999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF906",
+     "Office",
+     738.94,
+     1953999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF706",
+     "Office",
+     738.94,
+     1951999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF606",
+     "Office",
+     738.94,
+     1950999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF506",
+     "Office",
+     738.94,
+     1949999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF406",
+     "Office",
+     738.94,
+     1948999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF306",
+     "Office",
+     738.94,
+     1947999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1409",
+     "Office",
+     727.43,
+     1929999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF909",
+     "Office",
+     727.43,
+     1924999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF609",
+     "Office",
+     727.43,
+     1922999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF509",
+     "Office",
+     727.43,
+     1921999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF409",
+     "Office",
+     727.43,
+     1920999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF309",
+     "Office",
+     727.43,
+     1919999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF209",
+     "Office",
+     727.43,
+     1918999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1408",
+     "Office",
+     718.17,
+     1903999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1008",
+     "Office",
+     718.17,
+     1899999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF908",
+     "Office",
+     718.17,
+     1898999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF708",
+     "Office",
+     718.17,
+     1896999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF508",
+     "Office",
+     718.17,
+     1894999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF408",
+     "Office",
+     718.17,
+     1894999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF308",
+     "Office",
+     718.17,
+     1893999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF208",
+     "Office",
+     718.17,
+     1892999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF1407",
+     "Office",
+     704.71,
+     1867999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF607",
+     "Office",
+     704.71,
+     1860999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF507",
+     "Office",
+     704.71,
+     1859999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF407",
+     "Office",
+     704.71,
+     1858999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF307",
+     "Office",
+     704.71,
+     1857999,
+     "BINGHATTI SPECTRE"
+    ],
+    [
+     "BSPC-OF207",
+     "Office",
+     704.71,
+     1856999,
+     "BINGHATTI SPECTRE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Amberhall",
+   "block": "BINGHATTI AMBERHALL",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BAMH-114",
+     "Office",
+     1281.28,
+     3203208,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-113",
+     "Office",
+     954.97,
+     2864922,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-112",
+     "Office",
+     1857.63,
+     4086786,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-124",
+     "Office",
+     953.04,
+     2382592,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-123",
+     "Office",
+     1188.27,
+     2970673,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-122",
+     "Office",
+     1339.46,
+     3348653,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-121",
+     "Office",
+     1546.24,
+     3865589,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-120",
+     "Office",
+     1361.66,
+     3405701,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-117",
+     "Office",
+     1364.76,
+     4075230,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-105",
+     "Office",
+     1552.8,
+     3882004,
+     "BINGHATTI AMBERHALL"
+    ],
+    [
+     "BAMH-102",
+     "Office",
+     850.49,
+     2126236,
+     "BINGHATTI AMBERHALL"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Circle",
+   "block": "BINGHATTI CIRCLE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BCRL-OFP405",
+     "Office",
+     1124.5,
+     2811250,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP404",
+     "Office",
+     1074.24,
+     2685600,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP403",
+     "Office",
+     1086.08,
+     2715200,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP402",
+     "Office",
+     1074.24,
+     2685600,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP401",
+     "Office",
+     1164.65,
+     2911625,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP205",
+     "Office",
+     1124.5,
+     2811250,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP203",
+     "Office",
+     1086.08,
+     2715200,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP202",
+     "Office",
+     1074.24,
+     2685600,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP201",
+     "Office",
+     1164.65,
+     2911625,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP104",
+     "Office",
+     1124.5,
+     2811250,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP103",
+     "Office",
+     1089.52,
+     2723800,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP102",
+     "Office",
+     1089.52,
+     2723800,
+     "BINGHATTI CIRCLE"
+    ],
+    [
+     "BCRL-OFP101",
+     "Office",
+     1167.67,
+     2919175,
+     "BINGHATTI CIRCLE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Cullinan",
+   "block": "BINGHATTI CULLINAN",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BCLN-RET6",
+     "Retail",
+     6969.52,
+     28157045,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET14",
+     "Retail",
+     2418.76,
+     10158672,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET1",
+     "Retail",
+     4802.64,
+     19403007,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET7",
+     "Retail",
+     5477.75,
+     22129870,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET2",
+     "Retail",
+     3666.4,
+     14812556,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET8",
+     "Retail",
+     1633.21,
+     7422526,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET4",
+     "Retail",
+     1534.61,
+     6974425,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET20",
+     "Retail",
+     1829.65,
+     8316265,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET19",
+     "Retail",
+     1308.25,
+     5945490,
+     "BINGHATTI CULLINAN"
+    ],
+    [
+     "BCLN-RET13",
+     "Retail",
+     5694.54,
+     28582745,
+     "BINGHATTI CULLINAN"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Etherea",
+   "block": "BINGHATTI ETHEREA",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BETH-RET1",
+     "Retail",
+     4417.94,
+     19439999,
+     "BINGHATTI ETHEREA"
+    ],
+    [
+     "BETH-RET5",
+     "Retail",
+     1677.56,
+     6709999,
+     "BINGHATTI ETHEREA"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Flare 02",
+   "block": "BINGHATTI FLARE 02",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BFLR2-G05",
+     "Retail",
+     4329.24,
+     15152340,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P01",
+     "Retail",
+     5476.68,
+     19168380,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G14",
+     "Retail",
+     3246.29,
+     11362015,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G01",
+     "Retail",
+     3789.86,
+     13264510,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G06",
+     "Retail",
+     2993.44,
+     10477040,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G13",
+     "Retail",
+     2923.48,
+     10232180,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G18",
+     "Retail",
+     1919.96,
+     6719860,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P14",
+     "Retail",
+     2336.52,
+     8177820,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G07",
+     "Retail",
+     2382.59,
+     8339065,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G17",
+     "Retail",
+     1843.32,
+     6451620,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G08",
+     "Retail",
+     2067.1,
+     7234850,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G12",
+     "Retail",
+     1895.09,
+     6632815,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G16",
+     "Retail",
+     1901.01,
+     6653535,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G02",
+     "Retail",
+     2043.2,
+     7151200,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P03",
+     "Retail",
+     1398.12,
+     4893420,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G03",
+     "Retail",
+     1931.37,
+     6759795,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P05",
+     "Retail",
+     1329.99,
+     4654965,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-G04",
+     "Retail",
+     1499.74,
+     5249090,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P02",
+     "Retail",
+     1127.63,
+     3946705,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P04",
+     "Retail",
+     972.3,
+     3403050,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P12",
+     "Retail",
+     759.61,
+     2658635,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P11",
+     "Retail",
+     758.53,
+     2654855,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P10",
+     "Retail",
+     757.56,
+     2651460,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P09",
+     "Retail",
+     757.46,
+     2651110,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P07",
+     "Retail",
+     757.13,
+     2649955,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P08",
+     "Retail",
+     757.46,
+     2651110,
+     "BINGHATTI FLARE 02"
+    ],
+    [
+     "BFLR2-P06",
+     "Retail",
+     746.8,
+     2613800,
+     "BINGHATTI FLARE 02"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Hillcrest",
+   "block": "BINGHATTI HILLCREST",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BHCR-RET27",
+     "Retail",
+     1243.23,
+     4732199,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET26",
+     "Retail",
+     1357.87,
+     5168899,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET25",
+     "Retail",
+     1037.96,
+     3951608,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET24",
+     "Retail",
+     1018.59,
+     3877846,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET21",
+     "Retail",
+     1018.59,
+     3877846,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET20",
+     "Retail",
+     1018.59,
+     4180706,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET18",
+     "Retail",
+     1018.59,
+     4181998,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET8",
+     "Retail",
+     2113.39,
+     8043837,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET5",
+     "Retail",
+     1911.24,
+     7316818,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET2",
+     "Retail",
+     1396.19,
+     5314680,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET19",
+     "Retail",
+     1018.59,
+     4183165,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET17",
+     "Retail",
+     1751.72,
+     7045864,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET14",
+     "Retail",
+     10323.77,
+     42375583,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET7",
+     "Retail",
+     2275.49,
+     8661041,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET6",
+     "Retail",
+     1626.21,
+     6189566,
+     "BINGHATTI HILLCREST"
+    ],
+    [
+     "BHCR-RET4",
+     "Retail",
+     1477.13,
+     5622590,
+     "BINGHATTI HILLCREST"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Hillside",
+   "block": "BINGHATTI HILLSIDE",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BHLS-RET-2",
+     "Retail",
+     1268.2,
+     5619600,
+     "BINGHATTI HILLSIDE"
+    ],
+    [
+     "BHLS-RET-5",
+     "Retail",
+     1250.23,
+     5539200,
+     "BINGHATTI HILLSIDE"
+    ],
+    [
+     "BHLS-RET-3",
+     "Retail",
+     1250.23,
+     5539200,
+     "BINGHATTI HILLSIDE"
+    ],
+    [
+     "BHLS-RET-4",
+     "Retail",
+     1245.71,
+     5520000,
+     "BINGHATTI HILLSIDE"
+    ],
+    [
+     "BHLS-RET-1",
+     "Retail",
+     1109.44,
+     4916400,
+     "BINGHATTI HILLSIDE"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Luxuria",
+   "block": "BINGHATTI LUXURIA",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BLXR-RET12",
+     "Retail",
+     2711.43,
+     7337999,
+     "BINGHATTI LUXURIA"
+    ],
+    [
+     "BLXR-RET11",
+     "Retail",
+     1840.31,
+     6898999,
+     "BINGHATTI LUXURIA"
+    ],
+    [
+     "BLXR-RET9",
+     "Retail",
+     1610.17,
+     6035999,
+     "BINGHATTI LUXURIA"
+    ],
+    [
+     "BLXR-RET10",
+     "Retail",
+     1404.8,
+     5212999,
+     "BINGHATTI LUXURIA"
+    ],
+    [
+     "BLXR-RET8",
+     "Retail",
+     1373.26,
+     5147999,
+     "BINGHATTI LUXURIA"
+    ]
+   ]
+  },
+  {
+   "p": "Maybach 6",
+   "block": "MAYBACH 6",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "MYB6-BRET27",
+     "Retail",
+     2197.67,
+     16262758,
+     "MAYBACH 6"
+    ],
+    [
+     "MYB6-BRET17",
+     "Retail",
+     679.31,
+     5026894,
+     "MAYBACH 6"
+    ],
+    [
+     "MYB6-BRET14",
+     "Retail",
+     1316.21,
+     9739954,
+     "MAYBACH 6"
+    ],
+    [
+     "MYB6-BRET13",
+     "Retail",
+     1099.53,
+     8136522,
+     "MAYBACH 6"
+    ],
+    [
+     "MYB6-BRET11",
+     "Retail",
+     834.42,
+     6174708,
+     "MAYBACH 6"
+    ],
+    [
+     "MYB6-ARET6",
+     "Retail",
+     902.55,
+     6678870,
+     "MAYBACH 6"
+    ]
+   ]
+  },
+  {
+   "p": "Maybach Ultimate Luxury",
+   "block": "MAYBACH ULTIMATE LUXURY",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "MBUL-BRET2",
+     "Retail",
+     1102.98,
+     8162052,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-BRET6",
+     "Retail",
+     913.64,
+     6760936,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-BRET3",
+     "Retail",
+     885.65,
+     6553810,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-BRET5",
+     "Retail",
+     839.15,
+     6209710,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-BRET4",
+     "Retail",
+     829.57,
+     6138818,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET14",
+     "Retail",
+     837.65,
+     6198610,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET8",
+     "Retail",
+     1006.75,
+     7449950,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET16",
+     "Retail",
+     1049.7,
+     8292630,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET15",
+     "Retail",
+     1191.24,
+     9410796,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET9",
+     "Retail",
+     891.47,
+     6596878,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET12",
+     "Retail",
+     885.12,
+     6549888,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET10",
+     "Retail",
+     864.88,
+     6400112,
+     "MAYBACH ULTIMATE LUXURY"
+    ],
+    [
+     "MBUL-ARET11",
+     "Retail",
+     829.57,
+     6138818,
+     "MAYBACH ULTIMATE LUXURY"
+    ]
+   ]
+  },
+  {
+   "p": "Project Maybach",
+   "block": "PROJECT MAYBACH",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "PMYB-RET-3",
+     "Retail",
+     807.29,
+     5812999,
+     "PROJECT MAYBACH"
+    ],
+    [
+     "PMYB-RET-2",
+     "Retail",
+     802.45,
+     5777999,
+     "PROJECT MAYBACH"
+    ],
+    [
+     "PMYB-RET-1",
+     "Retail",
+     730.33,
+     5694999,
+     "PROJECT MAYBACH"
+    ],
+    [
+     "PMYB-RET-13",
+     "Retail",
+     703.64,
+     5205999,
+     "PROJECT MAYBACH"
+    ],
+    [
+     "PMYB-RET-10",
+     "Retail",
+     680.06,
+     5031999,
+     "PROJECT MAYBACH"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Moonlight",
+   "block": "BINGHATTI MOONLIGHT",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BMNL-RET-1",
+     "Retail",
+     13511.71,
+     54046840,
+     "BINGHATTI MOONLIGHT"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Skyterraces",
+   "block": "BINGHATTI SKYTERRACES",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BSKT-RET9",
+     "Retail",
+     1640.53,
+     6561999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET8",
+     "Retail",
+     2153.0,
+     8611999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET7",
+     "Retail",
+     2153.0,
+     8611999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET6",
+     "Retail",
+     2153.0,
+     8611999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET5",
+     "Retail",
+     2152.89,
+     8610999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET4",
+     "Retail",
+     2153.0,
+     8611999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET3",
+     "Retail",
+     1640.53,
+     6561999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET2",
+     "Retail",
+     2482.7,
+     9930999,
+     "BINGHATTI SKYTERRACES"
+    ],
+    [
+     "BSKT-RET11",
+     "Retail",
+     1423.1,
+     5691999,
+     "BINGHATTI SKYTERRACES"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Skyflame 1",
+   "block": "BINGHATTI SKYFLAME 1",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BSKF1-RET1",
+     "Retail",
+     1835.57,
+     8257999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET8",
+     "Retail",
+     1743.32,
+     7409999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET7",
+     "Retail",
+     1532.24,
+     6893999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET13",
+     "Retail",
+     1308.03,
+     5559999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET29",
+     "Retail",
+     1234.73,
+     5247999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET14",
+     "Retail",
+     1034.09,
+     4394999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET3",
+     "Retail",
+     1030.21,
+     4634999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET25",
+     "Retail",
+     1003.84,
+     4266999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET6",
+     "Retail",
+     977.26,
+     4396999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET5",
+     "Retail",
+     976.82,
+     4394999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET15",
+     "Retail",
+     937.54,
+     3984999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET18",
+     "Retail",
+     882.43,
+     3750999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET28",
+     "Retail",
+     875.0,
+     3718999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET27",
+     "Retail",
+     875.0,
+     3718999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET24",
+     "Retail",
+     872.2,
+     3706999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET26",
+     "Retail",
+     868.54,
+     3691999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET23",
+     "Retail",
+     778.02,
+     3306999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET17",
+     "Retail",
+     749.81,
+     3186999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET2",
+     "Retail",
+     741.63,
+     3336999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET22",
+     "Retail",
+     697.39,
+     2963999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET10",
+     "Retail",
+     661.23,
+     2810999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET19",
+     "Retail",
+     594.28,
+     2525999,
+     "BINGHATTI SKYFLAME 1"
+    ],
+    [
+     "BSKF1-RET20",
+     "Retail",
+     589.86,
+     2506999,
+     "BINGHATTI SKYFLAME 1"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Skyflame 2",
+   "block": "BINGHATTI SKYFLAME 2",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BSKF2-RET19",
+     "Retail",
+     1649.68,
+     7093999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET7",
+     "Retail",
+     1364.97,
+     6141999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET1",
+     "Retail",
+     901.15,
+     4054999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET12",
+     "Retail",
+     850.67,
+     3657999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET18",
+     "Retail",
+     733.35,
+     3152999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET13",
+     "Retail",
+     732.48,
+     3149999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET3",
+     "Retail",
+     720.32,
+     3240999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET5",
+     "Retail",
+     664.67,
+     2990999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET2",
+     "Retail",
+     664.67,
+     2990999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET17",
+     "Retail",
+     628.07,
+     2700999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET4",
+     "Retail",
+     541.75,
+     2437999,
+     "BINGHATTI SKYFLAME 2"
+    ],
+    [
+     "BSKF2-RET15",
+     "Retail",
+     541.32,
+     2327999,
+     "BINGHATTI SKYFLAME 2"
+    ]
+   ]
+  },
+  {
+   "p": "Binghatti Twilight",
+   "block": "BINGHATTI TWILIGHT",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "BTWL-RET-1",
+     "Retail",
+     13173.0,
+     46105500,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-O404",
+     "Office",
+     862.0,
+     3017000,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-O403",
+     "Office",
+     862.0,
+     3017000,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-305",
+     "Office",
+     808.05,
+     2828175,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-304",
+     "Office",
+     857.35,
+     3000725,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-303",
+     "Office",
+     899.22,
+     3147270,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-205",
+     "Office",
+     808.05,
+     2828175,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-204",
+     "Office",
+     857.35,
+     3000725,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-203",
+     "Office",
+     899.22,
+     3147270,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-202",
+     "Office",
+     1073.0,
+     3755500,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-110",
+     "Office",
+     878.0,
+     3073000,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-108",
+     "Office",
+     901.0,
+     3153500,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-107",
+     "Office",
+     1570.0,
+     5495000,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-106",
+     "Office",
+     1185.64,
+     4149740,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-105",
+     "Office",
+     745.29,
+     2608515,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-104",
+     "Office",
+     794.91,
+     2782185,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-103",
+     "Office",
+     837.32,
+     2930620,
+     "BINGHATTI TWILIGHT"
+    ],
+    [
+     "BTWL-102",
+     "Office",
+     1099.0,
+     3846500,
+     "BINGHATTI TWILIGHT"
+    ]
+   ]
+  },
+  {
+   "p": "Vision Iconic",
+   "block": "VISION ICONIC",
+   "master": null,
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "MBVI-RET14",
+     "Retail",
+     3935.18,
+     29809000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET13",
+     "Retail",
+     3943.36,
+     29871000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET2",
+     "Retail",
+     3509.47,
+     27517000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET8",
+     "Retail",
+     2707.98,
+     20513000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET4",
+     "Retail",
+     3195.8,
+     24208000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET19",
+     "Retail",
+     2694.42,
+     20410000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET23",
+     "Retail",
+     2901.84,
+     22753000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET6",
+     "Retail",
+     2675.69,
+     20268000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET24",
+     "Retail",
+     2305.63,
+     18078000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET21",
+     "Retail",
+     2660.09,
+     20150000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET11",
+     "Retail",
+     2110.05,
+     15984000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET10",
+     "Retail",
+     2110.26,
+     15985000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET17",
+     "Retail",
+     2091.1,
+     15840000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET16",
+     "Retail",
+     2091.21,
+     15841000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET18",
+     "Retail",
+     1162.5,
+     8806000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET15",
+     "Retail",
+     1162.5,
+     8806000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET12",
+     "Retail",
+     1162.61,
+     8807000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET9",
+     "Retail",
+     1162.72,
+     8808000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET5",
+     "Retail",
+     1162.5,
+     8806000,
+     "VISION ICONIC"
+    ],
+    [
+     "MBVI-RET22",
+     "Retail",
+     1162.39,
+     8805000,
+     "VISION ICONIC"
+    ]
+   ]
+  }
+ ]
+}

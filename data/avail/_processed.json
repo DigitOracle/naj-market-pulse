@@ -280,5 +280,170 @@
   "out": "imtiaz_2026-09-14.json",
   "when": "2026-09-14T15:02:21",
   "units": 47
+ },
+ "e065758c9893c510922d92b4ccfaa948e344198e": {
+  "file": "1789477521088_ImportInventoriesVFP.pdf",
+  "out": "beyond_2026-09-14.json",
+  "when": "2026-09-16T07:20:09",
+  "units": 49
+ },
+ "2747b7dfa3fc84e4943ed7293b583d17d4a3093f": {
+  "file": "1789477521176_ImportInventoriesVFP.pdf",
+  "out": "beyond_2026-09-14.json",
+  "when": "2026-09-16T07:20:12",
+  "units": 22
+ },
+ "2d5a1d43db53b1356740cd1e0ef75ce02fc9305c": {
+  "file": "1789477521234_ImportInventoriesVFP.pdf",
+  "out": "beyond_2026-09-14.json",
+  "when": "2026-09-16T07:20:15",
+  "units": 23
+ },
+ "7699d20fd2dcb44e31ced3a1ebe25f4261f7d664": {
+  "file": "1789477521295_ImportInventoriesVFP.pdf",
+  "out": "beyond_2026-09-14.json",
+  "when": "2026-09-16T07:20:20",
+  "units": 23
+ },
+ "692d3a863cbfc14e755aa64f834da53e0038a0b4": {
+  "file": "1789477521394_ImportInventoriesVFP.pdf",
+  "out": "beyond_2026-09-14.json",
+  "when": "2026-09-16T07:20:22",
+  "units": 22
+ },
+ "bb2d7a0fd69396035918443d73aa70f0aa192c9b": {
+  "file": "1789477521700_Sales Offer Sanctuary 205.pdf",
+  "out": "prestige one_2026-09-15.json",
+  "when": "2026-09-15T19:39:29",
+  "units": 0
+ },
+ "3cde9a60d55bb68f3170b39e226bda99ae326448": {
+  "file": "1789477522112_Sanctuary.pdf",
+  "out": "prestige one_2026-09-15.json",
+  "when": "2026-09-15T19:39:29",
+  "units": 43
+ },
+ "301baac10479f343b8583082385f72e3b745fac1": {
+  "file": "Sanctuary Brief.pdf",
+  "out": "prestige one_2026-09-15.json",
+  "when": "2026-09-15T19:41:33",
+  "units": 0
+ },
+ "99f27e59dd879acafcf13368d103634df0f907b2": {
+  "file": "1789547190828_Inventory Artistry 1.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:06:58",
+  "units": 0
+ },
+ "5af5c1a87dadb7169f704413941315dbda154ab2": {
+  "file": "1789547208003_Inventory Artistry 2.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:15:38",
+  "units": 0
+ },
+ "146ad91023c6008b9c8284ef3b18758821ee0a48": {
+  "file": "1789547217475_Edge Tower A.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:18:02",
+  "units": 0
+ },
+ "594385682bd37a9852dd0bd16ce3563ff539e3b1": {
+  "file": "1789547221553_Inventory Six Senses Residences Dubai Marina.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:26:12",
+  "units": 0
+ },
+ "bd1ab91ac657ddd2c2f33b4277c208119636516e": {
+  "file": "1789547225681_Inventory Artistry 1.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:34:48",
+  "units": 0
+ },
+ "1c770bb0f32b30a6535e9fe4b2de1a0dfd730b40": {
+  "file": "1789547228206_Inventory Artistry 2.pdf",
+  "out": "select_2026-09-16.json",
+  "when": "2026-09-16T13:43:50",
+  "units": 0
+ },
+ "669d5f1203af1e9f2e45f05806e8fd97ebe72cf2": {
+  "file": "1789632727227_W Residences T3 - Availability - -17.09.2026.pdf",
+  "out": "arada_2026-09-17.json",
+  "when": "2026-09-17T12:13:42",
+  "units": 26
+ },
+ "1efc2a98fca93084d82fa19ff7881c2aacc3b5f1": {
+  "file": "1789632727383_Akala - Availability  -17.09.2026.pdf",
+  "out": "arada_2026-09-17.json",
+  "when": "2026-09-17T12:13:51",
+  "units": 25
+ },
+ "d496f9ae012845eff8d6a5120278cc7158589989": {
+  "file": "1789632727682_Inaura - Availability - 17.09.2026.pdf",
+  "out": "arada_2026-09-17.json",
+  "when": "2026-09-17T12:14:01",
+  "units": 16
+ },
+ "bf67bcb2258264ad32f2f0dfb1abeecc6e713693": {
+  "file": "1789632727992_W Residences T1 _ T2 - Availability - 17.09.2026.pdf",
+  "out": "arada_2026-09-17.json",
+  "when": "2026-09-17T12:14:10",
+  "units": 51
+ },
+ "de598fb4892f3dd2c3604cc88dcde7c140d5c44c": {
+  "file": "1789632773095_ImportInventoriesVFP 327.pdf",
+  "out": "beyond_2026-09-17.json",
+  "when": "2026-09-17T12:14:10",
+  "units": 22
+ },
+ "239489a5331aa2d1ccef771e713023461b486f84": {
+  "file": "1789632988596_ImportInventoriesVFP 329.pdf",
+  "out": "beyond_2026-09-17.json",
+  "when": "2026-09-17T12:19:26",
+  "units": 21
+ },
+ "7255b29e6c2fde5b3664f57b5e98e119070ae25b": {
+  "file": "1789632989672_ImportInventoriesVFP 330.pdf",
+  "out": "beyond_2026-09-17.json",
+  "when": "2026-09-17T12:19:26",
+  "units": 19
+ },
+ "aa4f3b011f8554947945af0daadf0c6425273f4d": {
+  "file": "1789632989725_ImportInventoriesVFP 331.pdf",
+  "out": "beyond_2026-09-17.json",
+  "when": "2026-09-17T12:19:26",
+  "units": 23
+ },
+ "034f461c37ed0f2fefb76726f0f44cf381f3c057": {
+  "file": "1789632989779_ImportInventoriesVFP 332.pdf",
+  "out": "beyond_2026-09-17.json",
+  "when": "2026-09-17T12:19:26",
+  "units": 54
+ },
+ "bcffb9b84d2a2bfe926a6e0e9291eb8b12d01150": {
+  "file": "1789632989870_IMTIAZ Availability 17-09-26.pdf",
+  "out": "imtiaz_2026-09-17.json",
+  "when": "2026-09-17T12:19:26",
+  "units": 49
+ },
+ "d98f66f286e7738f4712027c3cd63162dfa838a5": {
+  "file": "1789385992532_DLD Registered Units Availability as of 8th September 2026.xlsx",
+  "dest": "binghatti_2026-09-08.json",
+  "units": 8,
+  "at": "2026-09-18T07:17:31",
+  "reader": "xlsx"
+ },
+ "f4e8adc80d489a31dabdfe4e4c692b7d02465766": {
+  "file": "1789385993134_Completed Projects Availability as of 8th September 2026.xlsx",
+  "dest": "binghatti_2026-09-08.json",
+  "units": 55,
+  "at": "2026-09-18T07:17:31",
+  "reader": "xlsx"
+ },
+ "b43175af1d49ef4a11d86c196040761bb8b93534": {
+  "file": "1789385995532_All Commercial Units availability as of 8th September 2026.xlsx",
+  "dest": "binghatti_2026-09-08.json",
+  "units": 412,
+  "at": "2026-09-18T07:17:31",
+  "reader": "xlsx"
  }
 }
