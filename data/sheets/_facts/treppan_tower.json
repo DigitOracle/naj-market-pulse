@@ -1,7 +1,25 @@
 {
-  "_source": "Fakhruddin broker pack for Treppan Vision, posted to the DEVELOPER AVAILABILITY group.",
+  "_source": "Fakhruddin project page, read 17 September 2026 (manifest: data/media/_sources/treppan_tower.json).",
+  "_assets_from": "Images published openly on that page. Anything behind an enquiry form was not fetched.",
+  "developer": "Fakhruddin",
+  "strapline": "Fakhruddin, Jumeirah Village Triangle",
   "asset_overrides": {
-    "hero": "m_db65c24e9593"
+    "hero": "m_54bfad7e329f",
+    "bath": "m_1e390dafbe73"
   },
-  "_override_note": "Automatic hero pick was a lifestyle render (a robot serving a drink by the pool, p5). Set to the developer cover render of the building itself, p1."
+  "asset_exclude": [
+    "m_fd4bdd5bd86b",
+    "m_606da1bcdbfe",
+    "m_5e166e32c2fa",
+    "m_d4208da29b11",
+    "m_0488e9a0443c",
+    "m_146711b58a29",
+    "m_178bce1c54bb"
+  ],
+  "_exclude_note": "Pictures a scout opened and disqualified in writing - shot from a balcony or terrace, a lobby under an exterior's filename, or a different building. They are out of the running for EVERY role, not merely the hero.",
+  "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
+  "captions": {
+    "bath": "Bathroom"
+  },
+  "image_note": "Images are published by Fakhruddin on its own project page, and are reproduced here for a buyer considering the building. Where they are computer renders they show the developer's intended specification, not any particular apartment, and the finish of an individual unit may differ. Ask to view before relying on them."
 }

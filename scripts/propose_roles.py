@@ -40,7 +40,7 @@ SOURCES = os.path.join(ROOT, "data", "media", "_sources")
 # rejecting them cost Sobha SeaHaven its hero on the first pass. Only a vantage INSIDE or ON the
 # building disqualifies.
 FROM_INSIDE = re.compile(
-    r"(\bbalcony (view|shot|render|photo)|\bon (a|the|its) balcon|\bterrace|"
+    r"(\b(balcony|terrace) (view|shot|render|photo)|\bon (a|the|its) (balcon|terrace)|"
     r"\bfrom (inside |within )?(a|an|the|its) (balcon|terrace|window|apartment|suite|room|"
     r"podium|pool|rooftop|lobby|deck|courtyard|atrium)|looking (out|onto)\b|\bview out\b|"
     r"\boverlooking\b|\bwindow\b|\bpodium pool|\bpool deck|lap[- ]pool|rooftop pool|"
@@ -56,7 +56,8 @@ NEGATED = re.compile(
 # Positive evidence only: words that can only describe the building seen from outside. "The building"
 # on its own is NOT evidence - it appears in "the building lobby" and "NOT the building" alike.
 EXTERIOR = re.compile(
-    r"(\bexterior\b|\belevation\b|\baerial\b|\bstreet[- ]level\b|\bfull[- ]height\b|\bmassing\b|"
+    r"(\bexterior\b(?!\s+(space|area|areas|spaces))|\belevation\b|\baerial\b|\bstreet[- ]level\b|"
+    r"\bfull[- ]height\b|\bmassing\b|"
     r"(tower|towers|building|buildings|blocks?)\s+(standing|rising|seen against|across the water|"
     r"on the waterfront|from the (water|street|waterfront))|\bfrom below against\b)", re.I)
 
@@ -70,11 +71,11 @@ EXTERIOR = re.compile(
 # The scouts flag a misleading filename in a standard way, and the clause that flags it carries a
 # negation that belongs to the name rather than the photograph.
 FILENAME_LIE = re.compile(
-    r"^\s*(LOOKED:\s*)?(FILE ?NAME (IS WRONG|LIES|IS A LIE)|MISLABELLED|MISLABELED)\b[^.]*\.\s*",
-    re.I)
+    r"(FILE ?NAME (IS WRONG|LIES|IS A LIE)|MISLABELLED|MISLABELED)\b[^.]*\.\s*", re.I)
 
 WEAK = re.compile(
     r"(\bbest available\b|\bpartial\b|\bsliver\b|\bglimpse\b|\bbarely\b|\bobscured\b|"
+    r"\bappears only\b|\bonly as a\b|\bas a backdrop\b|"
     r"\bframe edge\b|\bedge of (the )?frame\b|\bflagged\b|\btight (exterior )?crop\b|"
     r"\bcropped\b|\bnot ideal\b|\bfragment\b)", re.I)
 
@@ -86,7 +87,7 @@ NOT_MEDIUM = re.compile(
     r"\(?\b(?:not|no)\s+an?\s+(?:render|rendering|cgi|photo|photograph|drawing|illustration|"
     r"sketch|mock[- ]?up|balcony view|balcony shot|interior|interior shot|community park scene|"
     r"community shot|community scene|lifestyle shot|lifestyle image|floor ?plan|amenity shot|"
-    r"amenity aerial|close[- ]?up)\b\)?", re.I)
+    r"amenity aerial|close[- ]?up)\b\)?|\bnot the (subject|focus|point|main thing)\b", re.I)
 
 ROOMS = [("bedroom", re.compile(r"\bbed\s?room\b", re.I)),
          ("kitchen", re.compile(r"\bkitchen\b", re.I)),
@@ -150,7 +151,7 @@ def propose(man):
         # the image; what follows the full stop is the truth about the picture. Judging the whole
         # sentence threw away Sanctuary Residences' wide aerial on the strength of "not an
         # apartment".
-        note = FILENAME_LIE.sub("", note, count=1)
+        note = FILENAME_LIE.sub("", note)
         note = NOT_MEDIUM.sub("", note)
         body = note
         if FROM_INSIDE.search(note) or NEGATED.search(note) or WEAK.search(note):
