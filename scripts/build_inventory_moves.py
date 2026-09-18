@@ -60,7 +60,38 @@ def main():
              pairs as (select developer, project, sheet_date,
                               lag(sheet_date) over (partition by developer, project order by sheet_date) prev
                        from dates),
-             p as (select * from pairs where prev is not null),
+             -- Two sheets are comparable only where they describe THE SAME STOCK. W Residences at
+             -- Dubai Harbour is one project and three towers, and every drop captured a different
+             -- subset: 7 Sep towers 1-2, 9 Sep tower 3, 17 Sep towers 1-2 again. Compared by project
+             -- that read as 22 one-beds "taken up" down to 11 in two days, and a 3-bed count RISING
+             -- in the same two days - four phantom sales and a phantom release, and the morning
+             -- feed was about to tell her followers half a tower sold. Nothing sold. The block field
+             -- is identical across the towers, so the tower only survives in the unit code.
+             --
+             -- The rule is general, not a W Residences patch: real movement is the same units with
+             -- some gone, so the two sheets must SHARE units. Zero overlap means a different tower,
+             -- a partial document or a re-coded sheet - different stock, not a change in it.
+             -- Type-level sheets carry no unit codes at all, so they keep the old comparison.
+             coded as (select developer, project, sheet_date, unit_code from dev_sheet_unit
+                       where unit_code is not null and trim(unit_code) <> ''),
+             overlap as (select pr.developer, pr.project, pr.prev, pr.sheet_date,
+                                count(distinct b.unit_code) shared,
+                                (select count(*) from coded c1 where c1.developer = pr.developer
+                                    and c1.project = pr.project and c1.sheet_date = pr.prev) coded_before,
+                                (select count(*) from coded c2 where c2.developer = pr.developer
+                                    and c2.project = pr.project and c2.sheet_date = pr.sheet_date) coded_after
+                         from pairs pr
+                         left join coded a on a.developer = pr.developer and a.project = pr.project
+                                          and a.sheet_date = pr.prev
+                         left join coded b on b.developer = pr.developer and b.project = pr.project
+                                          and b.sheet_date = pr.sheet_date and b.unit_code = a.unit_code
+                         where pr.prev is not null
+                         group by 1, 2, 3, 4),
+             p as (select pr.* from pairs pr
+                   join overlap o on o.developer = pr.developer and o.project = pr.project
+                                 and o.prev = pr.prev and o.sheet_date = pr.sheet_date
+                   where pr.prev is not null
+                     and (o.shared > 0 or o.coded_before = 0 or o.coded_after = 0)),
              types as (select distinct p.developer, p.project, p.prev, p.sheet_date, x.unit_type
                        from p join t x on x.developer = p.developer and x.project = p.project
                                       and x.sheet_date in (p.prev, p.sheet_date))
