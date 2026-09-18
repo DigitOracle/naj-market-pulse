@@ -21,7 +21,7 @@ ENV = os.environ.get("DDA_ENV_FILE", r"C:\Users\kwils\digitalchemy-dda.env")
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 OUT = os.path.join(ROOT, "data", "raw_downloads", "dda")
 CACHE = os.path.join(OUT, ".token.json")
-RATE_S = 1.05                       # 60 requests per minute
+RATE_S = float(os.environ.get("DDA_RATE_S", "1.05"))   # 60 requests per minute for one process; parallel pulls share that budget, so each sets DDA_RATE_S higher
 _last = [0.0]
 
 

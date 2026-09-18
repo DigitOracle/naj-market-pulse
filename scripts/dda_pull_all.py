@@ -79,7 +79,32 @@ def main():
             partial = len(todo) - i + 1; break
         base = f"{c['DDA_BASE_URL']}/secure/ddads/openapi/1.0.0/{r['entity']}/{r['dataset']}"
         rows = []; status = "ok"; note = ""; t0 = time.time(); seen = set(); first_h = None
-        for page in range(1, a.max_pages + 1):
+        # 18 Sep 2026 checkpointing. A dataset used to be saved only when it finished, so a timeout, a link drop or a power cut threw
+        # away everything held in memory (~6 h of pulling that day: 1.49M, 1.73M and 1.03M rows in three datasets). Every page's new rows
+        # are now appended to <file>.part (one JSON record a line) and <file>.part.state records the last complete page and the wrap
+        # marker; a dataset that is not ok resumes from there next run, and the .part files go only when the final file is written.
+        fn = f"{r['entity']}__{r['dataset']}.json"
+        part = os.path.join(out_dir, fn + ".part"); pstate = part + ".state"
+        start_page = 1
+        if not a.force and os.path.exists(part) and os.path.exists(pstate):
+            try:
+                st = json.load(open(pstate, encoding="utf-8"))
+                with open(part, encoding="utf-8") as pf:
+                    for line in pf:
+                        try: rows.append(json.loads(line))
+                        except Exception: break                     # a torn last line from a power cut: keep what parsed
+                if st.get("page_size") != a.page_size:              # page N means different records at a different page size: a resume would skip rows
+                    raise ValueError(f"page size changed ({st.get('page_size')} -> {a.page_size})")
+                first_h = st.get("first_h"); start_page = int(st["page"]) + 1
+                for rec in rows: seen.add(hashlib.sha1(json.dumps(rec, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest())
+                api.log(f"{key}: resuming at page {start_page} with {len(rows):,} rows checkpointed")
+            except Exception as e:
+                rows = []; seen = set(); first_h = None; start_page = 1
+                api.log(f"{key}: checkpoint unreadable ({str(e)[:60]}), starting over")
+        if start_page == 1:                                        # fresh start (or --force): no stale checkpoint may survive
+            for p_ in (part, pstate):
+                if os.path.exists(p_): os.remove(p_)
+        for page in range(start_page, a.max_pages + 1):
             if a.dataset_minutes and time.time() - t0 > a.dataset_minutes * 60:
                 status = "timeout"; note = f"stopped after {a.dataset_minutes} min at page {page}"; break
             # 18 Sep (PROD): auth_get returns the token it actually succeeded with - `tok` MUST be reassigned from every call, or
@@ -117,13 +142,20 @@ def main():
                 if h in seen: continue
                 seen.add(h); new.append(rec)
             rows += new
+            if new:                                                # checkpoint: rows first, then the state that says they are complete
+                with open(part, "a", encoding="utf-8") as pf:
+                    for rec in new: pf.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            with open(pstate + ".tmp", "w", encoding="utf-8") as sf: json.dump({"page": page, "first_h": first_h, "page_size": a.page_size}, sf)
+            os.replace(pstate + ".tmp", pstate)
             if wrapped or len(got) < a.page_size: break
         cols = sorted({k for row in rows[:200] for k in (row or {}).keys()}) if rows else []
-        fn = f"{r['entity']}__{r['dataset']}.json"
         if status == "ok":
-            json.dump({"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
-                       "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "results": rows},
-                      open(os.path.join(out_dir, fn), "w", encoding="utf-8"), ensure_ascii=False)
+            with open(os.path.join(out_dir, fn + ".tmp"), "w", encoding="utf-8") as of:
+                json.dump({"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
+                           "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "results": rows}, of, ensure_ascii=False)
+            os.replace(os.path.join(out_dir, fn + ".tmp"), os.path.join(out_dir, fn))   # never a half-written final file
+            for p_ in (part, pstate):
+                if os.path.exists(p_): os.remove(p_)
             n_ok += 1
         else:
             n_fail += 1
