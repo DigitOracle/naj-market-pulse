@@ -65,11 +65,18 @@ if VIDEO == 2:
     DISTRICT = "DAMAC Hills"; HERO = "LORETO 3 - A"; HERO_LONLAT = None      # no twin here; the block is picked from the list. Loreto replaced Carson 18 Sep: DAMAC still publishes a gallery for it
     BUDGET_HI = 12                  # #hhi: 12 reads "from AED 250k to 1.8M" -> 13 here (1.8M / 13 was the recommendation)
     NATIONALITY = "United Kingdom"; SHARE = "10%+"; REGION = "Europe"
+elif VIDEO == 3:
+    # video 03 - "I've heard Emaar and Sobha are good developers": COMPARE two developers on two-beds,
+    # then VERSUS - "why Dubai and not London / New York / Monaco" - then the two-bed plan she asked for.
+    # Starts on a developer, not the map or the twin (Kendall, 18 Sep).
+    DEV_A, DEV_B = "Emaar", "Sobha"; CITIES = ["London", "New York", "Monaco"]; BUDGET_TILE = "2m"
+    PLAN_PROJECT, PLAN_TYPE = "Marina Cove", "2 BED"; PLAN_PROJECT_PARAM = "Marina%20Cove%20at%20Dubai%20Marina"; BUDGET_HI = 14
 else:
     BUDGET_HI = 14                  # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
 TAIL_HOLD = 7.0                     # extra seconds on the LAST page of the sheet, so the sign-off lands
 TWIN_TARGET = 9.0                   # seconds the twin beat should PLAY for - see the orbit note in cut()
+ORBIT_TARGET = 11.0                 # video 03's opening turn of the whole city - long enough for the line that opens the film
 FPS = 30                            # Playwright records ~25fps and the close clips were built at 30;
                                     # `concat -c copy` across that mismatch writes a container whose
                                     # duration runs well past the last frame (79s for 66s of video).
@@ -511,6 +518,72 @@ def fetch_flythrough():
     return dst
 
 
+def scroll_through(pg, ticks, step=380, pause=650):
+    """Read down a long page the way a hand would - a few wheel ticks with a beat between them."""
+    pg.mouse.move(540, 1000)
+    for _ in range(ticks):
+        pg.mouse.wheel(0, step); pg.wait_for_timeout(pause)
+
+
+def to_top(pg):
+    pg.evaluate("() => window.scrollTo({top: 0, behavior: 'smooth'})"); pg.wait_for_timeout(900)
+
+
+def journey3(pg, mark):
+    """Video 03 - the developers, then the world. Starts on COMPARE, not the map.
+
+    "I've heard Emaar and Sobha are the good developers - put them side by side, two bedrooms" ->
+    COMPARE re-cuts every row. "I'm also looking at London - why Dubai?" -> VERSUS, then New York,
+    then Monaco, back and forth. "Fine - Emaar. Show me the two-bed." -> PLANS, Marina Cove, 2 BED.
+    Every beat asserts on what is visible, not on what was clicked.
+    """
+    # BEAT 0 - the whole city, turning. "Dubai is a big place - when you move here it feels
+    # overwhelming - let me walk you through how Azimuth guides you." (Kendall, 18 Sep.) The all-Dubai
+    # twin: 64,238 buildings, 41 districts, coloured by district; the drag orbit from video 01, which
+    # records in slow motion and is played back at speed by cut() (marks orbit_start / orbit_end).
+    pg.goto(url("/skyline?all=1"), wait_until="networkidle", timeout=120_000)
+    pg.wait_for_timeout(6500)                    # the city builds in; a turn before it is drawn is a turn of nothing
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(600); mark("open")
+    n_bld = pg.evaluate("() => (document.body.innerText.match(/([0-9,]+) BUILDINGS/) || [])[1] || ''")
+    print("   beat 0: all-Dubai twin -> %s" % (("%s buildings on screen" % n_bld) if n_bld else "NOT DRAWN - re-run, do not ship"))
+    mark("orbit_start"); orbit(pg, dx=360, at=(300, 1100)); mark("orbit_end"); pg.wait_for_timeout(600)
+
+    # BEAT 1 - COMPARE: Emaar vs Sobha, two-beds                                 Q063/Q103
+    pg.goto(url("/compare"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(900)
+    glide_click(pg, pg.get_by_text(DEV_A, exact=True).first, pause=1300)
+    glide_click(pg, pg.get_by_text(DEV_B, exact=True).first, pause=2600)
+    glide_click(pg, pg.get_by_text("2 bed", exact=True).first, pause=2200)
+    ok = ("a=%s" % DEV_A.lower()) in pg.url and ("b=%s" % DEV_B.lower()) in pg.url and "bed=2" in pg.url
+    print("   beat 1: compare %s vs %s, two-beds -> %s" % (DEV_A, DEV_B, "on" if ok else "NOT ON - re-run, do not ship"))
+    scroll_through(pg, 5); pg.wait_for_timeout(1400); to_top(pg); pg.wait_for_timeout(1200); mark("b1_compare")
+
+    # BEATS 2-4 - VERSUS: London at the budget, then New York, then Monaco
+    pg.goto(url("/versus"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(700)
+    for n, city in enumerate(CITIES):
+        to_top(pg)
+        glide_click(pg, pg.get_by_text(city, exact=True).first, pause=1800)
+        if n == 0:
+            glide_click(pg, pg.get_by_text(BUDGET_TILE, exact=True).first, pause=1600)
+        body = pg.evaluate("() => document.body.innerText")
+        print("   beat %d: versus %s -> %s" % (n + 2, city, "on" if ("%s costs" % city) in body else "NOT ON - re-run, do not ship"))
+        scroll_through(pg, 7 if n == 0 else 4, pause=700 if n == 0 else 600)
+        pg.wait_for_timeout(1500); mark("b%d_%s" % (n + 2, city.lower().replace(" ", "")))
+
+    # BEAT 5 - PLANS: Emaar -> Marina Cove -> the two-bed. The close.                        Q050
+    # Straight to the project's own page: Emaar's list opens on its first project (ALVA), whose brochure
+    # pages sit off-centre, and Kendall does not want them in frame (18 Sep) - one project, one plan.
+    pg.goto(url("/plans?d=%s&p=%s" % (DEV_A.lower(), PLAN_PROJECT_PARAM)), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(1800)
+    two = pg.get_by_text(PLAN_TYPE, exact=False).first
+    two.scroll_into_view_if_needed(timeout=10_000); pg.wait_for_timeout(700)
+    glide_click(pg, two, pause=3000)
+    big = pg.evaluate("() => [...document.querySelectorAll('img')].some(i => i.getBoundingClientRect().width > 500 && /2 BED/i.test(i.alt || ''))")
+    print("   beat 5: %s two-bed plan -> %s" % (PLAN_PROJECT, "open" if big else "NOT OPEN - re-run, do not ship"))
+    pg.wait_for_timeout(2500); mark("b5_plan")
+
+
 def capture(headed, slow):
     from playwright.sync_api import sync_playwright
     os.makedirs(RAW, exist_ok=True)
@@ -528,7 +601,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            (journey2 if VIDEO == 2 else journey)(pg, mark)
+            {2: journey2, 3: journey3}.get(VIDEO, journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -548,7 +621,7 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
-SHEET_PDF = os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
+SHEET_PDF = None if VIDEO == 3 else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 
@@ -562,7 +635,7 @@ def close_clip(seconds_per_page=4.0):
     and page 1's bottom is the provenance block - where every figure came from - which is the whole
     argument for the document and must not end up behind her head.
     """
-    if not os.path.exists(SHEET_PDF):
+    if not SHEET_PDF or not os.path.exists(SHEET_PDF):
         print("NOTE: no client sheet at %s - build it with:" % SHEET_PDF)
         print("      python scripts/build_client_sheet.py --building \"%s\"" % HERO)
         return None
@@ -587,6 +660,17 @@ def close_clip(seconds_per_page=4.0):
     print("close: %d pages x %.1fs, last held +%.1fs for the sign-off"
           % (len(clips), seconds_per_page, TAIL_HOLD))
     return clips
+
+
+def freeze_close(last_part):
+    """Video 03 ends on the two-bed plan, not a PDF: hold its last frame for TAIL_HOLD so the sign-off lands."""
+    png = os.path.join(RAW, "_last.png")
+    ff("-sseof", "-0.2", "-i", last_part, "-frames:v", "1", "-update", "1", png)
+    clip = os.path.join(RAW, "_close_hold.mp4")
+    ff("-loop", "1", "-framerate", str(FPS), "-i", png, "-t", str(TAIL_HOLD + 2.0), "-vf", "format=yuv420p",
+       "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", "-r", str(FPS), clip)
+    print("close: the last frame held %.1fs for the sign-off" % (TAIL_HOLD + 2.0))
+    return [clip]
 
 
 def cut():
@@ -625,7 +709,21 @@ def cut():
         # them far enough apart to leave ~10s of the blank head still in the cut. After it, the seek
         # is frame-accurate. Slower, and this is re-encoding anyway.
         b5, b6 = marks.get("beat5"), marks.get("beat6")
-        if b5 and b6 and (b6 - b5) > TWIN_TARGET * 2:
+        o1, o2 = marks.get("orbit_start"), marks.get("orbit_end")
+        if o1 and o2 and (o2 - o1) > ORBIT_TARGET * 2:
+            # video 03 opens on the all-Dubai twin turning: the orbit is the FIRST span, so the parts are
+            # [orbit at speed] + [everything after at 1x]. Same seek rules as the twin branch below.
+            factor = (o2 - o1) / ORBIT_TARGET
+            a0 = os.path.join(RAW, "_a0.mp4")
+            ff("-ss", str(max(0.0, o1 - 0.3)), "-t", str(o2 + 0.4 - o1), "-i", j,
+               "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
+               "-fps_mode", "cfr", "-r", str(FPS),
+               "-vf", "setpts=PTS/%.3f,scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (factor, W, H, W, H), a0)
+            parts.append(a0)
+            a1 = os.path.join(RAW, "_a1.mp4")
+            ff("-i", j, "-ss", str(o2 + 0.4), "-t", str(last + 1.5 - (o2 + 0.4)), *enc, a1); parts.append(a1)
+            print("orbit open: %.1fs recorded -> %.1fs at %.1fx" % (o2 - o1, ORBIT_TARGET, factor))
+        elif b5 and b6 and (b6 - b5) > TWIN_TARGET * 2:
             # THE ORBIT RUNS IN SLOW MOTION AND HAS TO BE SPED UP. Dragging the twin's canvas costs
             # over a second per mouse move however the moves are batched - the 3D redraws and
             # Playwright waits for it - so a 7-second orbit records as about 105. The frames are all
@@ -656,7 +754,7 @@ def cut():
 
     # THE CLOSE. Kendall, 17 Sep: the three-pager is "the gold" - so it ends the video rather than
     # sitting mid-roll. The app answers the questions; the PDF is what the client walks away with.
-    closing = close_clip()
+    closing = close_clip() if SHEET_PDF else freeze_close(parts[-1])
     if closing:
         parts.extend(closing)
 
@@ -664,7 +762,7 @@ def cut():
     with open(listing, "w", encoding="utf-8") as f:
         for p in parts:
             f.write("file '%s'\n" % p.replace("\\", "/"))
-    out = os.path.join(OUT, "demo02_damachills_screen.mp4" if VIDEO == 2 else "demo01_businessbay_screen.mp4")
+    out = os.path.join(OUT, {2: "demo02_damachills_screen.mp4", 3: "demo03_compare_versus_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4"))
     ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
     secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
