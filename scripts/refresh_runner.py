@@ -252,12 +252,15 @@ def gov_weekly(a):
         # 15 Sep 2026: without --force the pull skipped every dataset it had ever pulled, so the week refreshed nothing; a full pull is
         # ~13.6 h of API time. Rotate instead: re-pull what is 6+ days old, stalest first, start nothing new after 150 min, give up on
         # one dataset after 80 min (at most ~230 min, inside the 4 h timeout); exit 3 = PARTIAL, recorded as a warning so the load runs.
-        S("dda_pull", py("scripts/dda_pull_all.py", "--stale-days", "6", "--budget-minutes", "150", "--dataset-minutes", "80"),
+        # 18 Sep 2026: production credentials live - the weekly rotation now refreshes PROD; load_gov takes PROD first, STG as fallback.
+        S("dda_pull", py("scripts/dda_pull_all.py", "--prod", "--stale-days", "6", "--budget-minutes", "150", "--dataset-minutes", "80"),
           timeout=4 * 3600, warn=(3,)),
         S("load_gov", py("scripts/load_gov_datasets.py"), needs=["dda_pull"], timeout=2 * 3600),
         S("gov_contract", py("scripts/gov_contract_check.py", "--full"), needs=["load_gov"], held=(4,)),
         S("realness_gate", py("scripts/gate_gov_realness.py"), needs=["load_gov"]),
         S("lake_publish", py("scripts/lake.py", "publish", "--note", "gov-weekly after the realness gate"), needs=["realness_gate"], held=(4,)),
+        # 18 Sep 2026: the freshly published g_* tables onto the digital thread (spine keys, licence spine, dataset links)
+        S("gov_thread", py("scripts/register_joins.py", "gov_thread"), needs=["lake_publish"], held=(4,)),
         # 14 Sep 2026: the registers the key joins read, every part of each newest extract, before the contract counts parts
         S("portal_pull_joined", py("scripts/datadubai_pull_all.py", "--only", JOINED_REGISTERS), timeout=2 * 3600, env={"DD_PAUSE": "5"}),
         S("portal_contract", py("scripts/portal_manifest_check.py"), held=(4,)),

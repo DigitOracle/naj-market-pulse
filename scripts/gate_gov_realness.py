@@ -58,9 +58,13 @@ MACROS = [
          s is not null and length(s) >= 12
          and regexp_full_match(s, '[A-Z0-9]+')
          and _vowel_share(s) < 0.34)""",
+    # 18 Sep 2026: run over PROD rows (not obfuscated) the word signature caught real values - month abbreviations in DEWA's
+    # monthly tables, DEWA's units MIGD / MIG, tender status CLOSED - and would have dropped those rows. They are exempt.
     """create or replace macro _is_word_fake(s) as (
          s is not null and regexp_full_match(s, '[A-Z]{3,8}')
-         and _vowel_share(s) < 0.34)""",
+         and _vowel_share(s) < 0.34
+         and s not in ('JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'SEPT', 'OCT', 'NOV', 'DEC',
+                       'MIGD', 'MIG', 'CLOSED'))""",
 ]
 
 

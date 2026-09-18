@@ -96,6 +96,7 @@ def read(paths):
 # 15 Sep 2026 (digital thread Q1): the number and parcel-key normalisers moved to scripts/keys.py so every script joins register
 # numbers the same way; the names num / parcel_key are kept here for the jobs below.
 from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql  # noqa: E402
+import gov_thread  # noqa: E402
 
 
 def one(con, sql):
@@ -1767,10 +1768,11 @@ def job_building_activity(con):
 JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": job_service_charges,
         "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings,
         "project_spine": job_project_spine, "sheet_units": job_sheet_units, "place_spine": job_place_spine, "sub_communities": job_sub_communities, "stations": job_stations, "districts": job_districts, "makani": job_makani, "resident_mix": job_resident_mix,
-        "building_activity": job_building_activity}
+        "building_activity": job_building_activity,
+        "gov_thread": gov_thread.job_gov_thread}      # 18 Sep 2026: every DDA API dataset on the spines (scripts/gov_thread.py)
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
+NON_BLOCKING = {"gov_thread", "rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
 
 
 def run(con, name, dry):
@@ -1837,7 +1839,8 @@ def run(con, name, dry):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dry = "--dry" in sys.argv
-    names = list(JOBS) if not args or args == ["all"] else args
+    # gov_thread runs as its own gov-weekly step right after the g_* tables publish, so 'all' leaves it out
+    names = [n for n in JOBS if n != "gov_thread"] if not args or args == ["all"] else args
     unknown = [n for n in names if n not in JOBS]
     if unknown:
         raise SystemExit("unknown job(s): %s - choose from %s" % (", ".join(unknown), ", ".join(JOBS)))

@@ -104,7 +104,10 @@ def main():
     ap.add_argument("--max-pages", type=int, default=50); ap.add_argument("--prod", action="store_true")
     a = ap.parse_args()
     c = cfg()
-    if a.prod: c["DDA_BASE_URL"] = c["DDA_BASE_URL_PROD"]
+    if a.prod:                                        # PROD has its own credential set (issued 18 Sep 2026)
+        c["DDA_BASE_URL"] = c["DDA_BASE_URL_PROD"]; c["DDA_ENV"] = "PROD"
+        for k in ("APP_ID", "SECURITY_APP_IDENTIFIER", "CLIENT_ID", "CLIENT_SECRET"):
+            c["DDA_" + k] = c["DDA_PROD_" + k]
     if a.cmd == "token":
         token(c, force=True); return
     if a.cmd == "health":

@@ -34,8 +34,11 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 STG = os.path.join(ROOT, "data", "raw_downloads", "dda", "stg")
+PROD = os.path.join(ROOT, "data", "raw_downloads", "dda", "prod")     # production credentials live 18 Sep 2026
 DB = os.path.join(ROOT, "data", "graph", "najma.duckdb")
-MAX_ROWS = 2_000_000          # a single dataset above this is left on disk and flagged, not loaded
+# a single dataset above this is left on disk and flagged, not loaded. 18 Sep: 2M -> 6M for PROD, whose DLD transaction register
+# alone runs past 900k rows at page 900 (STG served it as 5 rows); anything over BIG_BYTES streams through the NDJSON sidecar.
+MAX_ROWS = 6_000_000
 
 
 def tname(entity, dataset):
@@ -84,16 +87,37 @@ def ndjson_sidecar(path):
     os.replace(tmp, side)
     return side
 
+def read_manifest(d):
+    p = os.path.join(d, "MANIFEST.json")
+    return json.load(io.open(p, encoding="utf-8")) if os.path.exists(p) else {}
+
+
+def merged_manifest(env):
+    """key -> (entry, directory, env). 18 Sep 2026: production credentials arrived. PROD serves the real registers, STG serves
+    samples and scrambled fill, so 'best' takes a dataset from PROD whenever PROD landed it and falls back to STG otherwise;
+    a dataset neither landed is registered with the PROD failure when there is one. Table names do not change with the source."""
+    stg, prod = read_manifest(STG), read_manifest(PROD)
+    if env == "stg": return {k: (v, STG, "stg") for k, v in stg.items()}
+    if env == "prod": return {k: (v, PROD, "prod") for k, v in prod.items()}
+    out = {}
+    for k in set(stg) | set(prod):
+        p, s = prod.get(k), stg.get(k)
+        if p and p.get("status") == "ok": out[k] = (p, PROD, "prod")
+        elif s and s.get("status") == "ok": out[k] = (s, STG, "stg")
+        else: out[k] = (p, PROD, "prod") if p else (s, STG, "stg")
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--registry-only", action="store_true")
     ap.add_argument("--entity", help="limit materialising to one entity, e.g. dld")
+    ap.add_argument("--env", choices=["best", "prod", "stg"], default="best", help="best = PROD where it landed, else STG")
     a = ap.parse_args()
 
-    mpath = os.path.join(STG, "MANIFEST.json")
-    if not os.path.exists(mpath):
-        sys.exit("no manifest at " + mpath)
-    man = json.load(io.open(mpath, encoding="utf-8"))
+    man = merged_manifest(a.env)
+    if not man:
+        sys.exit("no manifest under " + os.path.dirname(STG))
     now = dt.datetime.now().isoformat(timespec="seconds")
 
     con = duckdb.connect(DB)
@@ -105,22 +129,22 @@ def main():
                      key varchar primary key, dataset_id bigint, entity varchar, dataset varchar, title varchar,
                      status varchar, rows_reported bigint, columns_reported integer, file varchar, path varchar,
                      bytes bigint, pulled varchar, table_name varchar, materialised boolean, rows_loaded bigint,
-                     note varchar, registered_at varchar)""")
+                     note varchar, registered_at varchar, env varchar)""")
 
     reg, to_load = [], []
-    for key, v in sorted(man.items()):
+    for key, (v, src, env) in sorted(man.items()):
         ent, ds = v.get("entity") or "", v.get("dataset") or ""
         f = v.get("file") or ""
-        p = os.path.join(STG, f) if f else ""
+        p = os.path.join(src, f) if f else ""
         sz = os.path.getsize(p) if p and os.path.exists(p) else 0
         tn = tname(ent, ds) if v.get("status") == "ok" else None
         reg.append([key, v.get("id"), ent, ds, v.get("title"), v.get("status"), v.get("rows") or 0,
                     v.get("columns") or 0, f, p if sz else "", sz, v.get("pulled"), tn, False, 0,
-                    v.get("note") or "", now])
+                    v.get("note") or "", now, env])
         if v.get("status") == "ok" and sz and not a.registry_only and (not a.entity or ent == a.entity):
             to_load.append((key, ent, ds, tn, p, v.get("rows") or 0))
 
-    con.executemany("insert into gov_dataset values (" + ",".join("?" * 17) + ")", reg)
+    con.executemany("insert into gov_dataset values (" + ",".join("?" * 18) + ")", reg)
     print("gov_dataset: %d datasets registered" % len(reg))
 
     ok = loaded = skipped = failed = 0

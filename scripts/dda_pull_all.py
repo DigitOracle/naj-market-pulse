@@ -30,9 +30,15 @@ def main():
     # Stalest first, so every dataset comes round in turn.
     ap.add_argument("--stale-days", type=int, default=0); ap.add_argument("--budget-minutes", type=int, default=0)
     ap.add_argument("--dataset-minutes", type=int, default=0)
+    # 18 Sep: run one big register (dld_transactions) in its own process beside the main pull
+    ap.add_argument("--datasets", default="", help="only these dataset names, comma-separated")
+    ap.add_argument("--skip-datasets", default="", help="leave these dataset names to another process")
     a = ap.parse_args()
     c = api.cfg()
-    if a.prod: c["DDA_BASE_URL"] = c["DDA_BASE_URL_PROD"]
+    if a.prod:                                        # PROD has its own credential set (issued 18 Sep 2026)
+        c["DDA_BASE_URL"] = c["DDA_BASE_URL_PROD"]; c["DDA_ENV"] = "PROD"
+        for k in ("APP_ID", "SECURITY_APP_IDENTIFIER", "CLIENT_ID", "CLIENT_SECRET"):
+            c["DDA_" + k] = c["DDA_PROD_" + k]
     env = "prod" if a.prod else c["DDA_ENV"].lower()
     out_dir = os.path.join(ROOT, "data", "raw_downloads", "dda", env); os.makedirs(out_dir, exist_ok=True)
     man_path = os.path.join(out_dir, "MANIFEST.json")
@@ -40,6 +46,16 @@ def main():
     cat = json.load(open(CAT, encoding="utf-8"))["rows"]
     todo = [r for r in cat if r["endpoints"]]
     if a.only: todo = [r for r in todo if r["entity"] in set(a.only.split(","))]
+    if a.datasets: todo = [r for r in todo if r["dataset"] in set(a.datasets.split(","))]
+    if a.skip_datasets: todo = [r for r in todo if r["dataset"] not in set(a.skip_datasets.split(","))]
+    touched = set()
+
+    def save():
+        # Two pulls may share this manifest: merge this run's entries into what is on disk instead of overwriting the other's
+        disk = json.load(open(man_path, encoding="utf-8")) if os.path.exists(man_path) else {}
+        disk.update({k: man[k] for k in touched})
+        json.dump(disk, open(f"{man_path}.{os.getpid()}.part", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        os.replace(f"{man_path}.{os.getpid()}.part", man_path)
     today = time.strftime("%Y-%m-%d")
 
     def age_days(e):
@@ -67,6 +83,10 @@ def main():
             if a.dataset_minutes and time.time() - t0 > a.dataset_minutes * 60:
                 status = "timeout"; note = f"stopped after {a.dataset_minutes} min at page {page}"; break
             code, raw = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
+            # 18 Sep (PROD): a deep page often times out once (408) and serves in 2-4 s on the next ask; retry the page, not the dataset
+            for attempt in range(3):
+                if code not in (408, 502, 503, 504): break
+                time.sleep(10 * (attempt + 1)); code, raw = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
             if code != 200 or raw[:1] not in (b"{", b"["):
                 status = "blocked" if b"Request Rejected" in raw else f"http_{code}"; note = raw[:160].decode(errors="replace"); break
             try: j = json.loads(raw)
@@ -105,9 +125,10 @@ def main():
             man[key] = dict(prev, last_refresh_attempt={k: entry[k] for k in ("status", "pulled", "seconds", "note")})
         else:
             man[key] = entry
+        touched.add(key)
         api.log(f"[{i}/{len(todo)}] {key}: {status} rows={len(rows)} cols={len(cols)}")
-        if i % 10 == 0: json.dump(man, open(man_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    json.dump(man, open(man_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+        if i % 10 == 0: save()
+    save()
     api.log(f"done: ok {n_ok}, skipped {n_skip}, failed {n_fail} -> {man_path}")
     if partial:
         print(f"PARTIAL budget of {a.budget_minutes} min reached: {partial} dataset(s) left for the next run (stalest first)")
