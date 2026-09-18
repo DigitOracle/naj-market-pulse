@@ -1,0 +1,17 @@
+{
+ "_source": "DAMAC Properties website (blog post 'Carson Towers Damac Hills', read 18 September 2026); Dubai Municipality building record 615974 via the DLD parcel bridge (data/dld/dm_buildings_damachills.json).",
+ "_assets_from": "One photograph published openly on DAMAC's own site. DAMAC publishes no exterior render or floor plans for Carson openly; nothing was fetched from behind a form.",
+ "developer": "DAMAC Properties",
+ "strapline": "DAMAC Properties, DAMAC Hills",
+ "completed": "2021",
+ "completed_note": "Dubai Municipality: completion certified 29 November 2021; permit 275828-1-3 of June 2016; G+34+2R, 125 m.",
+ "caveats": [
+  "Carson is three towers (A, B and C) on one plot; the sales, rents and unit counts on this sheet are the register's figures across all three.",
+  "The parking figure is the plot-wide count from the municipality record; the record lists 199 indoor spaces for the Carson building itself."
+ ],
+ "captions": {
+  "hero": "Carson, DAMAC Hills",
+  "amenity": "Residents' pool deck, with the tower behind"
+ },
+ "image_note": "The photograph is published by DAMAC Properties, the developer, on its own website, and is reproduced here for a buyer considering the building. It shows the pool deck with the tower behind it; it is not a picture of any particular apartment. DAMAC publishes no floor plans for Carson openly - ask and we will request the plan for a specific unit."
+}

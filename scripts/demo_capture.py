@@ -51,6 +51,7 @@ APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev"
 W, H = 1080, 1920
 DISTRICT = "Business Bay"
 HERO = "Peninsula One"
+HERO_LONLAT = (55.266267, 25.184666)   # from /img/map_prices - used to click the tower on the map
 FLY = "unreal_businessbay_fly"      # /img/videos: "20 s fly-through", keyless under /video/
 SPLICE_FLY = False                  # Kendall, 17 Sep: pulled. It is daylight aerial and the rest of
                                     # the video is black-and-champagne; grading got the canal to
@@ -61,6 +62,12 @@ SPLICE_FLY = False                  # Kendall, 17 Sep: pulled. It is daylight ae
                                     # DAMAC Hills cinematic.
 BUDGET_HI = 14                      # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
+TAIL_HOLD = 7.0                     # extra seconds on the LAST page of the sheet, so the sign-off lands
+TWIN_TARGET = 9.0                   # seconds the twin beat should PLAY for - see the orbit note in cut()
+FPS = 30                            # Playwright records ~25fps and the close clips were built at 30;
+                                    # `concat -c copy` across that mismatch writes a container whose
+                                    # duration runs well past the last frame (79s for 66s of video).
+                                    # Everything is re-encoded to one framerate before concat.
 
 
 # ---------------------------------------------------------------- the key
@@ -155,6 +162,56 @@ def drag_range(pg, sel, target, hold=260):
     pg.wait_for_timeout(hold)
 
 
+def orbit(pg, seconds=7.0, dx=360, at=(300, 1200)):
+    """Rotate the twin by dragging it, the way a hand would.
+
+    The twin draws into its own canvas with the camera in a closure - there is no maplibregl, Cesium
+    or THREE on window, and no object with easeTo/getBearing - so the camera cannot be driven from
+    JavaScript. Dragging is the only way in, and it is also what a client does. Left drag rotates
+    (checked against right drag; both move, left is the orbit).
+
+    Slow and eased: a constant-speed drag reads as a machine, and the whole point of the beat is
+    that a person is turning the building around to look at it.
+    """
+    x, y = at
+    SEGMENTS = 6
+    pg.mouse.move(x, y)
+    pg.wait_for_timeout(300)
+    pg.mouse.down()
+    # One mouse.move per segment, letting Playwright interpolate inside it. Moving a pixel at a time
+    # from Python is one round trip each, and against this canvas a single move costs well over a
+    # second - an 84-step orbit took 149s. Six batched moves take about as long as the 3D needs to
+    # redraw anyway.
+    for i in range(1, SEGMENTS + 1):
+        t = i / SEGMENTS
+        eased = t * t * (3 - 2 * t)                  # smoothstep: ease in, ease out
+        pg.mouse.move(x + dx * eased, y, steps=10)
+    pg.mouse.up()
+    pg.wait_for_timeout(1200)
+
+
+def amenity(pg, k, label):
+    """Turn on one amenity layer by its data-k, and check it actually came on.
+
+    Matching these by their visible text does not work. The chip row scrolls horizontally and only
+    six of the nine fit, so EV charging - the ninth - sits off the right edge at x=912 in a 1080-wide
+    frame. A text match finds it in the DOM and clicks something else; the run reports success and
+    the layer never comes on. That is what put a school detail card in the EV beat of the 18 Sep cut.
+
+    So: address the chip by attribute, scroll the row until it is really on screen, click, and then
+    assert the chip carries "on" - the click landing is not the same as the layer being lit.
+    """
+    chip = pg.locator('#am .a[data-k="%s"]' % k)
+    try:
+        chip.scroll_into_view_if_needed(timeout=10_000)
+        pg.wait_for_timeout(700)                 # the row eases; clicking mid-scroll misses
+        glide_click(pg, chip, pause=1000)
+        on = pg.eval_on_selector('#am .a[data-k="%s"]' % k, "e => e.className.includes('on')")
+        print("   %s: %s layer -> %s" % (label, k, "on" if on else "NOT ON - re-run, do not ship"))
+    except Exception as e:
+        print("   %s: could not reach the %s chip (%s)" % (label, k, str(e)[:60]))
+
+
 def search_pick(pg, text, pause=2200):
     """Type into the district/building searchbox and take the first offer."""
     sb = pg.get_by_role("searchbox").first
@@ -183,12 +240,18 @@ def journey(pg, mark):
     # BEAT 2 - "what are the schools like?"                                 Q028/Q029
     # Asked here, with the district up, rather than after the building: clicking an amenity chip
     # clears the building selection, which would take the panel's "on the twin" link with it.
-    try:
-        glide_click(pg, pg.get_by_text("SCHOOLS", exact=False).first, pause=900)
-    except Exception as e:
-        print("   beat 2: could not reach the schools chip (%s)" % str(e).split("\n")[0][:70])
+    amenity(pg, "school", "beat 2")
     pg.wait_for_timeout(2400)
     mark("beat2")
+
+    # BEAT 2b - "and can I charge a car?"                                   Q015
+    # The ninth amenity chip, live since v171-172 (17 Sep). 297 points: 186 from DEWA's Green
+    # Charger register, 80 OpenChargeMap, 31 OpenStreetMap - and the contributed rows say so on the
+    # row, which is the part worth having on camera. Business Bay reads 22 nearby, 5 in community.
+    # The bank had Q015 as `held` until this; it is `answered` now.
+    amenity(pg, "ev", "beat 2b")
+    pg.wait_for_timeout(3400)                    # the charger list is long - give it a beat to read
+    mark("beat2b")
 
     # BEAT 3 - "my budget's two million and I need two bedrooms"            Q074
     # "two million" is a CEILING, so the low handle goes to the floor too - drag only the high one
@@ -206,12 +269,43 @@ def journey(pg, mark):
     pg.wait_for_timeout(3000)
     mark("beat4")
 
-    # BEAT 5 - "show me the best one"                                       Q048/Q051
-    # collapse the filter first: left open, the building panel slides in over it and the two
-    # overlap down the right-hand side
-    glide_click(pg, pg.locator("#hh"), pause=600)
-    search_pick(pg, HERO, pause=3000)
-    pg.wait_for_timeout(2600)
+    # BEAT 5 - "so which one's the best?"                                   Q096/Q098
+    # Reached from the LIST, not the searchbox. Kendall, 17 Sep: the filter should drive a list and
+    # the building should be picked out of it - searching by name implies you already knew the
+    # answer. "list them ->" (#hlist) sits in the filter footer; it opens the matches, sorted by
+    # price, and since 2.0M is the ceiling Peninsula One is at the far end of the list. Scrolling
+    # to the top of the budget and finding it there is the whole point of the beat.
+    #
+    # This needs v171 (commit 19cc3ab, live 17 Sep). Before it, #hlist listed all 1010 city-wide
+    # while the header said "37 here", and the two disagreed inside one frame.
+    glide_click(pg, pg.locator("#hlist"), pause=1800)
+    rows = pg.locator("text=Peninsula One")
+    box = pg.locator("#hp").bounding_box()
+    pg.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] + 420)
+    for _ in range(7):                       # scroll the list visibly, even where it nearly fits
+        pg.mouse.wheel(0, 320)
+        pg.wait_for_timeout(260)
+    pg.wait_for_timeout(900)
+    try:
+        glide_click(pg, rows.last, pause=3200)
+    except Exception as e:
+        print("   beat 5: could not click the list row (%s)" % str(e).split("\n")[0][:70])
+        search_pick(pg, HERO, pause=3000)    # fall back to the searchbox rather than lose the beat
+    # The filter panel used to stay open on top of the building card it had just opened, and this
+    # collapsed it by hand. Fixed in 5a378ba (17 Sep): clicking a row closes the filter behind it.
+    pg.wait_for_timeout(1800)
+
+    # Then click the tower itself on the map. This looks like a flourish and is not: the twin link
+    # is the SAME url from either route (/skyline/businessbay, no building parameter), and which
+    # building the twin opens on is carried in page state rather than the URL. A list row alone does
+    # not set it, so the twin arrives on the district with nothing selected - which is what the last
+    # cut did, and it quietly drops the one thing this beat exists to show. Clicking the tower sets
+    # it. Checked end to end: the twin comes up with the Peninsula One panel.
+    xy = pg.evaluate("([lon,lat]) => { const p = window.__najmap2.project([lon,lat]); return [p.x,p.y]; }",
+                     list(HERO_LONLAT))
+    glide(pg, xy[0], xy[1])
+    pg.mouse.down(); pg.wait_for_timeout(90); pg.mouse.up()
+    pg.wait_for_timeout(3000)
     mark("beat5")
 
     # BEAT 6 - the twin (Kendall, 17 Sep: "the digital twin is pretty important")     Q038/Q039
@@ -220,10 +314,49 @@ def journey(pg, mark):
     # have to be picked again. The panel link carries the building across, and clicking it is what a
     # client would actually do. The twin's own searchbox is no use here - the 3D canvas swallows
     # keystrokes, so typing into it times out.
-    glide_click(pg, pg.get_by_text("on the twin", exact=False).first, pause=1500)
+    # Go through the panel's own "on the twin" link, which carries the building across. A building
+    # reached from the homes list briefly did not carry it while one reached from the searchbox did;
+    # fixed in 5a378ba (17 Sep). The fallback below navigates to the same route by hand, but it
+    # arrives with nothing selected - Business Bay in general rather than this tower - which is not
+    # the beat. If it ever fires, the take is worth re-running rather than shipping.
+    try:
+        glide_click(pg, pg.get_by_text("on the twin", exact=False).first, pause=1500)
+    except Exception:
+        print("   beat 6: NO 'on the twin' LINK - falling back, and the twin will not show the "
+              "building. Re-run rather than ship this take.")
+        pg.goto(url("/skyline/businessbay"), wait_until="domcontentloaded", timeout=90_000)
     pg.wait_for_load_state("networkidle", timeout=90_000)
     pg.evaluate(CURSOR_JS)                       # a new document - the drawn cursor went with the old one
-    pg.wait_for_timeout(7000)                    # the CityEngine scene streams in
+    # Wait for the scene rather than for a number: networkidle does not mean the GLB has streamed in,
+    # and mesh matching cannot start until it has.
+    try:
+        pg.wait_for_function("() => document.querySelectorAll('#rail .c').length > 1", timeout=60_000)
+    except Exception:
+        pass
+    pg.wait_for_timeout(6000)
+
+    # Open the building's card on the twin by clicking its own rail card. This is what gives the beat
+    # its point: Peninsula One with 525 units, the DLD unit mix by type with levels and rents, 36
+    # floors, 558 car parks - and the tower ringed in gold in the 3D. Arriving without it shows
+    # Business Bay in general, which is not what this beat is for.
+    #
+    # It writes #panel, the chrome's bottom sheet, NOT #ppanel - those are different panels built by
+    # different functions, and checking the wrong one is how this was nearly cut as broken.
+    try:
+        idx = pg.evaluate("""() => Array.from(document.querySelectorAll('#rail .c'))
+            .findIndex(c => /%s/i.test(c.textContent || ''))""" % HERO)
+        if idx >= 0:
+            pg.locator("#rail .c").nth(idx).click()
+            pg.wait_for_timeout(2500)            # easeTo runs 700ms
+            got = pg.evaluate("""() => { const e=document.getElementById('panel');
+                return !!e && e.className.includes('on') && e.childElementCount > 0; }""")
+            print("   beat 6: building card on the twin -> %s" % ("open" if got else "NOT OPEN"))
+        else:
+            print("   beat 6: %s is not in the twin's rail" % HERO)
+    except Exception as e:
+        print("   beat 6: could not open the building card (%s)" % str(e).split("\n")[0][:70])
+
+    orbit(pg)                                    # turn it, or it could be a photograph
     mark("beat6")
 
 
@@ -301,15 +434,23 @@ def close_clip(seconds_per_page=4.0):
     import fitz
     doc = fitz.open(SHEET_PDF)
     clips = []
+    last = doc.page_count - 1
     for i, page in enumerate(doc):
         png = os.path.join(RAW, "sheet_p%d.png" % (i + 1))
         page.get_pixmap(dpi=200).save(png)
+        # The final page holds for TAIL_HOLD longer so the sign-off - "Welcome to Azimuth. Complexity
+        # into clarity." - has somewhere to land. Without it the line runs past the end of the footage
+        # and HeyGen either pads or slows the whole video to fit, and slowing it makes the app look
+        # sluggish. Holding page three is also the right image to end on: it is what she is welcoming
+        # them to.
+        secs = seconds_per_page + (TAIL_HOLD if i == last else 0)
         clip = os.path.join(RAW, "_close%d.mp4" % (i + 1))
-        ff("-loop", "1", "-framerate", "30", "-i", png, "-t", str(seconds_per_page),
+        ff("-loop", "1", "-framerate", str(FPS), "-i", png, "-t", str(secs),
            "-vf", "scale=950:1344:flags=lanczos,pad=%d:%d:65:60:%s,format=yuv420p" % (W, H, PAPER),
-           "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", clip)
+           "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", "-r", str(FPS), clip)
         clips.append(clip)
-    print("close: %d pages x %.1fs" % (len(clips), seconds_per_page))
+    print("close: %d pages x %.1fs, last held +%.1fs for the sign-off"
+          % (len(clips), seconds_per_page, TAIL_HOLD))
     return clips
 
 
@@ -322,6 +463,7 @@ def cut():
     marks = json.load(open(mk))
     parts = []
     enc = ["-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
+           "-r", str(FPS),        # every part at one framerate - see FPS
            "-vf", "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (W, H, W, H)]
 
     if SPLICE_FLY and os.path.exists(fly):
@@ -347,9 +489,35 @@ def cut():
         # -ss AFTER -i: before it, ffmpeg seeks to the nearest keyframe, and a Playwright webm has
         # them far enough apart to leave ~10s of the blank head still in the cut. After it, the seek
         # is frame-accurate. Slower, and this is re-encoding anyway.
-        a = os.path.join(RAW, "_a.mp4")
-        span = ["-ss", str(head)] + (["-t", str(last + 1.5 - head)] if last else [])
-        ff("-i", j, *span, *enc, a); parts.append(a)
+        b5, b6 = marks.get("beat5"), marks.get("beat6")
+        if b5 and b6 and (b6 - b5) > TWIN_TARGET * 2:
+            # THE ORBIT RUNS IN SLOW MOTION AND HAS TO BE SPED UP. Dragging the twin's canvas costs
+            # over a second per mouse move however the moves are batched - the 3D redraws and
+            # Playwright waits for it - so a 7-second orbit records as about 105. The frames are all
+            # there and the recording is a real 30fps throughout; only the clock is wrong. So the
+            # twin beat is cut out and played back at speed, which is what the orbit was meant to
+            # look like. Everything before it stays at 1x.
+            a1 = os.path.join(RAW, "_a1.mp4")
+            ff("-i", j, "-ss", str(head), "-t", str(b5 - head), *enc, a1); parts.append(a1)
+            factor = (b6 - b5) / TWIN_TARGET
+            a2 = os.path.join(RAW, "_a2.mp4")
+            # -ss and -t go BEFORE -i here - the opposite of the trim above, and the opposite is
+            # load-bearing. An input seek rebases timestamps to zero, which is what setpts needs;
+            # with an output seek they still start at ~41s, dividing them puts the segment past the
+            # window -t keeps, and ffmpeg writes a 261-byte file with no frames. Frame-accuracy does
+            # not matter for this beat the way it does for the head trim, so the keyframe-aligned
+            # input seek costs nothing. -fps_mode cfr keeps the timebase sane through the concat.
+            ff("-ss", str(b5), "-t", str(b6 + 1.0 - b5), "-i", j,
+               "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
+               "-fps_mode", "cfr", "-r", str(FPS),
+               "-vf", "setpts=PTS/%.3f,scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d"
+                      % (factor, W, H, W, H), a2)
+            parts.append(a2)
+            print("twin beat: %.1fs recorded -> %.1fs at %.1fx" % (b6 - b5, TWIN_TARGET, factor))
+        else:
+            a = os.path.join(RAW, "_a.mp4")
+            span = ["-ss", str(head)] + (["-t", str(last + 1.5 - head)] if last else [])
+            ff("-i", j, *span, *enc, a); parts.append(a)
 
     # THE CLOSE. Kendall, 17 Sep: the three-pager is "the gold" - so it ends the video rather than
     # sitting mid-roll. The app answers the questions; the PDF is what the client walks away with.

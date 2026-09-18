@@ -144,16 +144,24 @@ come from, where UAE nationals are settling, and, from the second extract on, wh
   nationality and no national/expatriate split: a villa's Makani number is one household.
 - **Size.** No figure below 20 accounts leaves the store; smaller groups are pooled or dropped
   (`v_dewa_new_residents_nationality`, `v_dewa_flows_nationality` apply this).
-- **Framing.** In anything published or shown to a client, nationality is where new residents come from. It is
-  never a reason to buy or rent somewhere, never linked to a home or a listing, and never a filter a client uses.
+- **Framing (Kendall's decision, 17 Sep 2026, replacing the 14 Sep rule below).** Community nationality shares may
+  now appear on a client-facing surface — a card, a post, a client link, a demo video — as demographic information
+  about a community. Asked whether this should stay internal, Kendall: "nationality is okay if it's on a card or a
+  post or anything like that... it's important demographic information." DEWA is named as the source and the extract
+  date stated, as for any other figure.
+  Two limits survive the change, neither of them policy: it is **never tied to a specific home or listing**, because
+  the data has no building grain to support that (see Grain), and it is **never offered as a filter a client uses to
+  choose where to live**, because selecting housing by who already lives there is the shape of unlawful steering in
+  most jurisdictions and is not a claim this data can carry.
 - **Internal resident mix (Kendall's decision, 14 Sep 2026 afternoon).** For Kendall and Naj only: each community's
   largest nationality groups among current residential accounts, and a filter by group and minimum share, for market
   understanding and for planning where her content in a given language should focus (`register_joins.py resident_mix`,
   `lk_community_resident_mix`, `lk_community_resident_bands`, `data/internal/community_resident_mix.json`). Only
   communities with at least 500 residential accounts carrying a nationality; only groups at 5% or more, shares rounded
-  to the whole percent, the rest pooled; no counts per nationality stored; nothing below community level. It is never
-  in a link, page, card, post or answer a client can see. Kendall chose where it lives: the app's MAP tab, behind a
-  private link for him and Naj only, so these rounded shares may be stored with the app on Cloudflare, outside the UAE.
+  to the whole percent, the rest pooled; no counts per nationality stored; nothing below community level. Kendall chose
+  where it lives: the app's MAP tab, so these rounded shares may be stored with the app on Cloudflare, outside the UAE.
+  **No longer internal-only** — superseded by the 17 Sep decision under Framing. The page itself still sits behind the
+  residents key (`rk`); what changed is that its figures may be published, not that the page became public.
 - **Regions view (Kendall, 15 Sep 2026: "continents, then a further breakdown").** Each community's residents by region
   (Arab world, South Asia, Europe, Russia & Central Asia, Iran & Türkiye, East & Southeast Asia, Sub-Saharan Africa,
   Americas, Oceania, Rest of the world), each region opening onto its countries at 1% or more
