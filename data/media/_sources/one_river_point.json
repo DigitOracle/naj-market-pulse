@@ -1,0 +1,45 @@
+{
+  "project": "One River Point",
+  "developer": "Ellington",
+  "area": "Business Bay",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/one-river-point-business-bay",
+  "_note": "Read the page's slider, main-section and gallery images (the gallery was lazy-loaded). Excluded site-wide pop-ups and 'similar properties' cards. The brochure is gated behind a name/email/phone form - not requested. Two genuine exterior renders with the tower as the subject; Gallery-3 also shows a neighbouring tower beside it.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Slider-1-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, elevation render at dusk of the slender tower seen across Dubai Canal; the building is the subject."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Gallery-3.jpg",
+      "note": "LOOKED: EXTERIOR, elevation render from across the canal; the One River Point tower is the subject, with a neighbouring tower (pointed crown) to its left."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Slider-2-scaled.jpg",
+      "note": "LOOKED: EXTERIOR aerial render of the Business Bay skyline with Burj Khalifa; the tower appears only as a cut-off facade at the right edge. BEST AVAILABLE EXTERIOR - flagged, the building is not the subject."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Gallery-4-scaled.jpg",
+      "note": "LOOKED: EXTERIOR render of the lower podium/base of the tower at dusk with the skyline behind. BEST AVAILABLE EXTERIOR - partial."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-MainSection_top-scaled.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not a view of the building. Shot FROM the building: podium infinity pool deck looking out over the canal to the Business Bay towers."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-MainSection_left.jpg",
+      "note": "LOOKED: lift lobby corridor with planters - common-area interior."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-MainSection_right.jpg",
+      "note": "LOOKED: double-height living room / lounge with sofas and full-height glazing."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Gallery-1-scaled.jpg",
+      "note": "LOOKED: FILENAME IS WRONG - not a unit. Lobby lounge with sofa, reception counter and artwork."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/One-River-Point-Gallery-2-scaled.jpg",
+      "note": "LOOKED: lounge/lobby seating area with a round table and artwork - common area."
+    }
+  ]
+}

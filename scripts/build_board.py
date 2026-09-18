@@ -14,6 +14,37 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 sys.path.insert(0, HERE)
 from build_avail_index import env_token, push, WORKER  # noqa: E402
 
+# The "mix" on a portfolio card is scraped off the developer's own page, and the scrape picks up the
+# site NAVIGATION: nearly every Emaar card carries one identical ten-word list, and Ellington tags
+# almost every tower "villa" because the word sits in its menu. Eltiera Views read ["villa"] with 617
+# registered sales, every one an apartment - and Naj was about to sit with Ellington's own team.
+# Where a project has 20+ registered sales and EVERY one is an apartment ("Unit"), the register
+# contradicts villa / townhouse / mansion and those words are dropped. Villa communities register as
+# LAND plots (Eden Hills, Jouri Hills, Sidra), so they are left alone. A missing word is a gap she
+# can live with; a wrong one said to a developer's own team is not.
+_PROP_TYPES = None
+
+
+def honest_mix(name, mix):
+    global _PROP_TYPES
+    if not mix:
+        return mix
+    if _PROP_TYPES is None:
+        _PROP_TYPES = {}
+        try:
+            import duckdb
+            con = duckdb.connect(os.path.join(ROOT, "naj.duckdb"), read_only=True)
+            for p, t, n in con.execute("select upper(trim(PROJECT_EN)), PROP_TYPE_EN, count(*) "
+                                       "from transactions group by 1, 2").fetchall():
+                _PROP_TYPES.setdefault(p, {})[t] = n
+            con.close()
+        except Exception as e:
+            print("  honest_mix: register unavailable (%s) - mix left as scraped" % str(e)[:60])
+    t = _PROP_TYPES.get(str(name or "").upper().strip()) or {}
+    if sum(t.values()) >= 20 and set(t) == {"Unit"}:
+        return [m for m in mix if m.lower().rstrip("s") not in ("villa", "townhouse", "mansion")]
+    return mix
+
 SEG = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_segments.json"), encoding="utf-8"))
 DNA = json.load(open(os.path.join(ROOT, "data", "dev_meta", "developer_dna.json"), encoding="utf-8"))
 KEY = {"OMNIYAT": "omniyat", "H&H": "hh", "Meraas": "meraas", "Select Group": "select", "Ellington": "ellington", "Arada": "arada",
@@ -127,7 +158,7 @@ for seg in SEG["segments"]:
                 r, t, sh = find(reg, nn), find(trd, nn), find_sheet(nn, pr["name"])
                 props.append({"kind": "portfolio", "name": pr["name"], "slug": pr["slug"], "url": pr["url"], "image": pr.get("image"), "area": pr.get("area") or (r or {}).get("area") or (t or {}).get("area"),
                               "location": pr.get("location"), "structure": pr.get("structure"), "storeys": pr.get("storeys"), "units": pr.get("units") or ((r or {}).get("units")),
-                              "handover": pr.get("handover"), "plans": pr.get("payment_plans") or [], "mix": pr.get("mix") or [],
+                              "handover": pr.get("handover"), "plans": pr.get("payment_plans") or [], "mix": honest_mix(pr["name"], pr.get("mix") or []),
                               "dld": {"status": (r or {}).get("status"), "pct": (r or {}).get("pct_complete"), "value_aed": (r or {}).get("value_aed")} if r else None,
                               "tx": (t or {}).get("tx"), "median_aed_per_sqm": (t or {}).get("median_aed_per_sqm"), "last": (t or {}).get("last"),
                               "sheet": sh, "gated": pr.get("downloads_gated") or []})

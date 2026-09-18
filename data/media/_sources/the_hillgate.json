@@ -1,0 +1,45 @@
+{
+  "project": "The Hillgate",
+  "developer": "Ellington",
+  "area": "Dubai Silicon Oasis",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/the-hillgate-dubai-silicon-oasis",
+  "_note": "Read the page's own slider, main-section and gallery widgets. Excluded: amenity icons (png pictograms), site-wide pop-ups and 'similar properties' cards. The brochure is gated behind a name/email/phone form - not requested. Three genuine exterior renders with the building as the subject.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-Slider_01-min-1-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, street-level/slightly raised render at dusk of The Hillgate - two towers side by side; the building is the subject."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-MainSection_left-min-768x1031.jpg",
+      "note": "LOOKED: EXTERIOR, street-level render (portrait) of the full tower from the road with a car in front; the building is the subject."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-MainSection_right-min-768x1031.jpg",
+      "note": "LOOKED: EXTERIOR, street-level render (portrait) of the full tower from landscaped gardens at sunset; the building is the subject."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-Slider_02-min-768x415.jpg",
+      "note": "LOOKED: pool deck with loungers, tower flanks behind. BEST AVAILABLE EXTERIOR - partial."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-Gallery_01-min-768x496.jpg",
+      "note": "LOOKED: landscaped podium courtyard with seating, tower flank behind. BEST AVAILABLE EXTERIOR - partial."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-BottomSlider_02-min-768x426.jpg",
+      "note": "LOOKED: amenity music room / stage with a drum kit and neon signs - amenity interior, not a unit."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-Gallery_03-min-768x1097.jpg",
+      "note": "LOOKED: living room with sofa and floor-to-ceiling window onto trees."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-BottomSlider_03-min-scaled.jpg",
+      "note": "LOOKED: kitchen with island and bar stools."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/The_Hillgate-BottomSlider_04-min-scaled.jpg",
+      "note": "LOOKED: bathroom with vanity, mirrors and walk-in shower."
+    }
+  ]
+}

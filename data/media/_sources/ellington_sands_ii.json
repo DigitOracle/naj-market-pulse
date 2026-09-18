@@ -1,0 +1,25 @@
+{
+  "project": "Ellington Sands II",
+  "developer": "Ellington",
+  "area": "Dubai Islands",
+  "page": "https://ellingtonproperties.ae/en/property-for-sale/ellington-sands-dubai-islands",
+  "_note": "Ellington publishes ONE page for 'Ellington Sands' (Dubai Islands); the board and the site have no separate Sands I or Sands II page, and nothing on the page says which building is I or II. The only wide exteriors (Slider_01 aerial, Slider_02 from the sea) show the WHOLE multi-building development in one frame, so no image can be attributed to Sands II alone. The close facade renders (MainSection_left/right) show one block but the page does not say which. Recorded as partial/flagged only. The same four images appear in the Sands I and Sands II files because they come from the one shared page. Excluded: site-wide pop-ups (One-River-Point_Club-House-1.jpg in the brochure/email pop-ups, summer-1.jpg promo), 'similar properties' cards (Quayside lobby, Highgrove, Ellington Beach House), interiors (MainSection_top = lobby, c1/c2 = kitchen/living, Soto-Grande-Gallery_03 = kitchen whose filename names another project, Gallery_01 = lobby lounge, BottomSlider 04-06 = kitchen / kitchen-dining / indoor pool). Filenames on this page say 'EllingtonCove' (an old project name). The brochure is gated behind a name/email/phone form - not requested. Keep the sheet HELD until the developer confirms which block is Sands II.",
+  "images": [
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/EllingtonCove-Slider_01-min-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, aerial render from over the sea of the whole Ellington Sands development - several mid-rise blocks behind a private beach with loungers and palm gardens. BEST AVAILABLE EXTERIOR, flagged: several buildings in one frame (probably both Sands I and II); the page does not identify Sands II."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/EllingtonCove-Slider_02-min-scaled.jpg",
+      "note": "LOOKED: EXTERIOR, low render from a yacht bow on the water showing the row of blocks along the beach. BEST AVAILABLE EXTERIOR, flagged: whole development in one frame, Sands II cannot be identified."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/EllingtonCove-MainSection_left-min.png",
+      "note": "LOOKED: EXTERIOR close render of one block's facade with deep balconies at sunset, sea to the right. Partial (facade crop, not the whole building) and flagged: the page does not say which Sands building this is."
+    },
+    {
+      "url": "https://ellingtonproperties.ae/wp-content/uploads/EllingtonCove-MainSection_right-min.png",
+      "note": "LOOKED: EXTERIOR close render of a facade corner with balconies, sea and trees below at sunset. Partial and flagged: which Sands building is not stated."
+    }
+  ]
+}

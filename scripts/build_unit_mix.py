@@ -418,7 +418,7 @@ def main():
     # file each used to decide it separately, and every time one of us reimplemented another's
     # matching we got a different and confidently wrong answer. One entry now carries the record,
     # the twin and the sheet, so those three can no longer disagree about which building a card is.
-    joins, refused, corrected = {}, [], 0
+    joins, refused, corrected, sheet_only = {}, [], 0, 0
     try:
         _cards = json.load(open(os.path.join(BOARD, "board_devs.json"), encoding="utf-8")).get("developers") or []
     except Exception:
@@ -490,6 +490,18 @@ def main():
                     _hit = min(_rev, key=lambda kk: (slim[kk].get("client_sheet") is None, len(kk)))
                     corrected += 1
             if not _hit:
+                # No footprint record - the building is outside every modelled district, so there
+                # is no twin or map link to give. It can still have a fact sheet: Windsor House
+                # (Dubai South, 395 sales) is built and live, and without this its card on
+                # Ellington's page offered no PDF at all.
+                #
+                # EXACT name only. The sheet's own Land Department project name must equal the
+                # card's. A prefix or family match would hang Windsor House's sheet on Windsor
+                # House II's card - the wrong building, which is precisely why phase II is held.
+                _cs = resolve_sheet(_slugs, _nm)
+                if _cs and _cs == re.sub(r"[^a-z0-9]+", "_", fold(_nm).lower()).strip("_")[:50]:
+                    joins[_k] = {"sheet": _cs}
+                    sheet_only += 1
                 continue
             _rec = slim[_hit]
             if not same_building(_rec.get("name"), _nm):
