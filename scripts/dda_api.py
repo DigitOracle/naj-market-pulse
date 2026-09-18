@@ -72,20 +72,35 @@ def token(c, force=False):
         sys.exit(f"token failed HTTP {code}: {raw[:300].decode(errors='replace')}")
     j = json.loads(raw)
     os.makedirs(OUT, exist_ok=True)
-    json.dump({"access_token": j["access_token"], "expires_at": time.time() + int(j.get("expires_in", 3600)), "base": c["DDA_BASE_URL"]}, open(CACHE, "w"))
+    tmp = CACHE + f".{os.getpid()}.part"               # atomic write: two processes must never see a half-written cache
+    json.dump({"access_token": j["access_token"], "expires_at": time.time() + int(j.get("expires_in", 3600)), "base": c["DDA_BASE_URL"]}, open(tmp, "w"))
+    os.replace(tmp, CACHE)
     log(f"token ok, valid {j.get('expires_in')} s, scope {j.get('scope')}")
     return j["access_token"]
 
 
 def auth_get(c, url, tok=None):
+    """Returns (code, raw, tok): the caller MUST keep using the returned tok for its next call. A caller that discards it and
+    keeps passing its original tok will 401 on every single request once that token turns over (18 Sep 2026: dda_pull_all.py
+    did exactly this - the per-dataset page loop held one `tok` captured before the loop and never picked up a refreshed one,
+    so once the token expired every remaining page cost two round trips - one 401, one forced refresh - forever)."""
     tok = tok or token(c)
     code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
     for attempt in range(4):                          # transport drops: retry the same page with backoff
         if code != 0: break
         time.sleep(15 * (attempt + 1)); code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
-    if code == 401:                                   # expired mid-run
-        tok = token(c, force=True); code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
-    return code, raw
+    if code == 401:                                   # expired mid-run, or another process already rotated it - re-read the
+        cached = None                                 # cache first (cheap) before paying for a brand-new server token
+        if os.path.exists(CACHE):
+            try:
+                t = json.load(open(CACHE))
+                if t.get("expires_at", 0) - 60 > time.time() and t.get("base") == c["DDA_BASE_URL"] and t.get("access_token") != tok:
+                    cached = t["access_token"]
+            except Exception:
+                pass
+        tok = cached or token(c, force=True)
+        code, raw = _req(url, None, {"Authorization": "Bearer " + tok})
+    return code, raw, tok
 
 
 def data_url(c, entity, dataset, **q):
@@ -111,20 +126,20 @@ def main():
     if a.cmd == "token":
         token(c, force=True); return
     if a.cmd == "health":
-        code, raw = auth_get(c, c["DDA_BASE_URL"] + "/secure/ddads/healthcheck/1.0.0/health")
+        code, raw, _ = auth_get(c, c["DDA_BASE_URL"] + "/secure/ddads/healthcheck/1.0.0/health")
         log(f"health HTTP {code}: {raw[:400].decode(errors='replace')}"); return
     if a.cmd == "url":
         u = a.args[0]; u = u if u.startswith("http") else c["DDA_BASE_URL"] + u
-        code, raw = auth_get(c, u); log(f"HTTP {code} {len(raw)} bytes"); print(raw[:2000].decode(errors="replace")); return
+        code, raw, _ = auth_get(c, u); log(f"HTTP {code} {len(raw)} bytes"); print(raw[:2000].decode(errors="replace")); return
     entity, dataset = a.args[0], a.args[1]
     if a.cmd == "get":
         u = data_url(c, entity, dataset, page=a.page, pageSize=a.page_size, filter=a.filter, column=a.columns, order_by=a.order_by, order_dir=a.order_dir)
-        code, raw = auth_get(c, u); log(f"HTTP {code} {len(raw)} bytes"); print(raw[:3000].decode(errors="replace")); return
+        code, raw, _ = auth_get(c, u); log(f"HTTP {code} {len(raw)} bytes"); print(raw[:3000].decode(errors="replace")); return
     # pull: every page into one file
     os.makedirs(OUT, exist_ok=True); rows = []; tok = token(c)
     for page in range(1, a.max_pages + 1):
         u = data_url(c, entity, dataset, page=page, pageSize=a.page_size, filter=a.filter, column=a.columns)
-        code, raw = auth_get(c, u, tok)
+        code, raw, tok = auth_get(c, u, tok)          # pick up any refreshed token for the next page
         if code != 200:
             log(f"page {page} HTTP {code}: {raw[:200].decode(errors='replace')}"); break
         j = json.loads(raw); got = j.get("results") or j.get("data") or []

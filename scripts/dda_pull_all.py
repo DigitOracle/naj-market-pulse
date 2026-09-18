@@ -82,11 +82,14 @@ def main():
         for page in range(1, a.max_pages + 1):
             if a.dataset_minutes and time.time() - t0 > a.dataset_minutes * 60:
                 status = "timeout"; note = f"stopped after {a.dataset_minutes} min at page {page}"; break
-            code, raw = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
-            # 18 Sep (PROD): a deep page often times out once (408) and serves in 2-4 s on the next ask; retry the page, not the dataset
+            # 18 Sep (PROD): auth_get returns the token it actually succeeded with - `tok` MUST be reassigned from every call, or
+            # once the initial token turns over every remaining page in the run pays a 401 + forced-refresh round trip forever
+            # (that ran two PROD pulls into an hour-long stall on 18 Sep before this fix).
+            code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
+            # a deep page often times out once (408) and serves in 2-4 s on the next ask; retry the page, not the dataset
             for attempt in range(3):
                 if code not in (408, 502, 503, 504): break
-                time.sleep(10 * (attempt + 1)); code, raw = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
+                time.sleep(10 * (attempt + 1)); code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
             if code != 200 or raw[:1] not in (b"{", b"["):
                 status = "blocked" if b"Request Rejected" in raw else f"http_{code}"; note = raw[:160].decode(errors="replace"); break
             try: j = json.loads(raw)
