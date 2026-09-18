@@ -304,15 +304,39 @@ def developer_cover(dev, stats, ranked, today):
     return shell(dev, "DEVELOPER BRIEF", body, today)
 
 
+def ready_vs_offplan(area):
+    """2026 district sales per sq ft, ready (Existing Properties) vs off-plan, from the full DLD register
+    (najma.duckdb g_dld__transactions, PROD pull 18 Sep 2026). None if either side has under 20 sales."""
+    import duckdb
+    a = DEWA_COMMUNITY.get(str(area).upper().strip(), str(area).upper().strip())
+    try:
+        c = duckdb.connect(os.path.join(ROOT, "data", "graph", "najma.duckdb"), read_only=True)
+        rows = dict((r[0], (r[1], r[2])) for r in c.execute(
+            "select reg_type_en, count(*), median(meter_sale_price)/10.7639 from g_dld__transactions "
+            "where trans_group_en='Sales' and year(instance_date)=2026 and upper(area_name_en)=? "
+            "and meter_sale_price > 0 group by 1", [a]).fetchall())
+        c.close()
+    except Exception as e:
+        print("  ready/off-plan unavailable: %s" % e)
+        return None
+    r, o = rows.get("Existing Properties"), rows.get("Off-Plan Properties")
+    if not r or not o or r[0] < 20 or o[0] < 20:
+        return None
+    return {"ready": r[1], "ready_n": r[0], "off": o[1], "off_n": o[0], "area": a}
+
+
 def market_page(rec, st, pos, today):
     name = rec["name"]
     prem = (st["psf"] / st["area_psf"] - 1) * 100 if st["psf"] and st["area_psf"] else None
-    body = '<div style="display:flex;gap:10px;">%s%s%s</div>' % (
+    body = '<div style="display:flex;gap:10px;">%s%s%s%s</div>' % (
         stat("Price per sq ft, 2026", "AED {:,.0f}".format(st["psf"]), "median of %d off-plan sales" % st["n"]),
         stat("Against its district", ("%+d%%" % round(prem)) if prem is not None else "-",
              "vs the rest of %s, AED {:,.0f}".format(st["area_psf"] or 0) % S.pretty(st["area"])),
         stat("Selling at", "%.0f a month" % (st["n"] / max(1, len(st["m_bld"]))),
-             "average, since its first 2026 sale on %s" % st["first"]))
+             "average, since its first 2026 sale on %s" % st["first"]),
+        (lambda rv: stat("Ready vs off-plan", "%+d%%" % round((rv["off"] / rv["ready"] - 1) * 100),
+                         "{} 2026: ready AED {:,.0f} ({:,} sales), off-plan AED {:,.0f} ({:,})".format(
+                             S.pretty(rv["area"]), rv["ready"], rv["ready_n"], rv["off"], rv["off_n"])) if rv else "")(ready_vs_offplan(st["area"])))
     body += ('<div><div class="lbl" style="margin-bottom:4px;">PRICE PER SQ FT, MONTH BY MONTH</div>'
              '<div style="font-size:11px;color:%s;margin-bottom:2px;">'
              '<span style="color:%s;">&#9632;</span> %s &nbsp; <span style="color:%s;">&#9632;</span> rest of %s</div>%s</div>'
