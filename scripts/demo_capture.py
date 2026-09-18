@@ -60,7 +60,13 @@ SPLICE_FLY = False                  # Kendall, 17 Sep: pulled. It is daylight ae
                                     # close on, which is the beat that actually sells. Still fetched
                                     # - it is a good standalone piece and a good opener for the
                                     # DAMAC Hills cinematic.
-BUDGET_HI = 14                      # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
+VIDEO = int(os.environ.get("NAJMA_VIDEO", "1"))   # 1 = Business Bay (video 01), 2 = DAMAC Hills, a British family (video 02)
+if VIDEO == 2:
+    DISTRICT = "DAMAC Hills"; HERO = "LORETO 3 - A"; HERO_LONLAT = None      # no twin here; the block is picked from the list. Loreto replaced Carson 18 Sep: DAMAC still publishes a gallery for it
+    BUDGET_HI = 12                  # #hhi: 12 reads "from AED 250k to 1.8M" -> 13 here (1.8M / 13 was the recommendation)
+    NATIONALITY = "United Kingdom"; SHARE = "10%+"; REGION = "Europe"
+else:
+    BUDGET_HI = 14                  # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
 TAIL_HOLD = 7.0                     # extra seconds on the LAST page of the sheet, so the sign-off lands
 TWIN_TARGET = 9.0                   # seconds the twin beat should PLAY for - see the orbit note in cut()
@@ -81,7 +87,7 @@ def key():
     and keeps the value inside this process.
     """
     k = os.environ.get("NAJMA_CLIENT_KEY", "").strip()
-    if not k and sys.platform == "win32":
+    if (not k or k.startswith("<") or len(k) < 12) and sys.platform == "win32":   # a stale inherited value must not shadow the registry
         try:
             import winreg
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as h:
@@ -114,6 +120,26 @@ def url(route):
                        else ("&" if "?" in route else "?") + "key=" + key())
 
 
+def rkey():
+    """NAJMA_RESIDENTS_KEY - the private residents page. Same registry fallback as key(); same rule:
+    never printed, never on a command line. Recovered 18 Sep from the browser history of this machine."""
+    k = os.environ.get("NAJMA_RESIDENTS_KEY", "").strip()
+    if (not k or k.startswith("<") or len(k) < 24) and sys.platform == "win32":   # inherited placeholder from yesterday's paste
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as h:
+                k = str(winreg.QueryValueEx(h, "NAJMA_RESIDENTS_KEY")[0]).strip()
+        except OSError:
+            k = ""
+    if not k or k.startswith("<") or len(k) < 24:
+        sys.exit("NAJMA_RESIDENTS_KEY is missing or still the placeholder. node scripts/set_residents_key.js")
+    return k
+
+
+def rurl():
+    return "%s/residents?rk=%s" % (APP, urllib.parse.quote(rkey()))
+
+
 # ------------------------------------------------------- a cursor you can see
 
 CURSOR_JS = """() => {
@@ -141,8 +167,20 @@ def glide_click(pg, locator, pause=420):
     if not box:
         raise RuntimeError("nothing to click - the element has no box")
     glide(pg, box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
-    pg.mouse.down(); pg.wait_for_timeout(90); pg.mouse.up()
+    # click through Playwright, which re-resolves the position at click time. A raw mouse click at
+    # the measured box put "list them" onto the APARTMENT button twice: the panel grew a line between
+    # the measurement and the click.
+    locator.click(timeout=15_000)
     pg.wait_for_timeout(pause)
+
+
+def glide_click_scrolled(pg, locator, pause=420):
+    """glide_click for things that may sit below a panel's fold: scroll into view first, then travel.
+    Playwright's own click auto-scrolls, but bounding_box() does not - it times out on a row that
+    is attached and visible but scrolled out of its list. That cost 30s of the first video-02 take."""
+    locator.scroll_into_view_if_needed(timeout=15_000)
+    pg.wait_for_timeout(400)
+    glide_click(pg, locator, pause=pause)
 
 
 def drag_range(pg, sel, target, hold=260):
@@ -159,6 +197,14 @@ def drag_range(pg, sel, target, hold=260):
         pg.mouse.move(at(cur + (target - cur) * i / 12.0), y)
         pg.wait_for_timeout(22)
     pg.mouse.up()
+    # a drag can land a notch short (1.5M for a target of 1.8M, twice). Read where it landed and
+    # finish with the arrow keys - exact, and it still reads as a hand adjusting.
+    got = float(pg.eval_on_selector(sel, "e => e.value"))
+    for _ in range(8):
+        if got == target: break
+        pg.locator(sel).press("ArrowRight" if got < target else "ArrowLeft"); pg.wait_for_timeout(120)
+        got = float(pg.eval_on_selector(sel, "e => e.value"))
+    print("   slider %s -> %s (wanted %s)%s" % (sel, got, target, "" if got == target else "  NOT EXACT"))
     pg.wait_for_timeout(hold)
 
 
@@ -360,6 +406,95 @@ def journey(pg, mark):
     mark("beat6")
 
 
+def journey2(pg, mark):
+    """Video 02 - DAMAC Hills, a British family: "stores, schools and people that remind me of home".
+
+    Beat order is deliberate. Schools and shops answer the client first; the budget shortlists;
+    Carson is picked from the list; and only then does the residents page answer "and who lives
+    here?" for the community already on the table. The residents page says on its own face that it
+    is "not for recommending homes", and section 11 keeps nationality off the list of things a
+    client filters by to choose where to live - so the video shows it as context about a community,
+    never as the thing that chose it. Kendall's 17 Sep decision is what lets it appear on camera at
+    all; this order is what keeps the screen and the storyline from contradicting each other.
+    """
+    pg.goto(url("/map"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(900); mark("open")
+
+    # BEAT 1 - "I'm thinking about DAMAC Hills"                                Q067
+    search_pick(pg, DISTRICT); pg.wait_for_timeout(1500); mark("b1_district")
+
+    # BEAT 2 - "are there British schools?" -> the list, curriculum and KHDA rating on every row   Q028/Q029
+    amenity(pg, "school", "beat 2"); pg.wait_for_timeout(2600); mark("b2_schools")
+
+    # BEAT 3 - tap Ranches Primary -> phone, email, website, directions, WhatsApp, QR. Everything clickable.
+    try:
+        glide_click(pg, pg.get_by_text("Ranches Primary", exact=False).first, pause=1200)
+        for label in ("PHONE", "EMAIL", "WEBSITE", "SCAN"):          # the cursor visits each line
+            try: glide(pg, *_centre(pg.get_by_text(label, exact=False).first)); pg.wait_for_timeout(500)
+            except Exception: pass
+        print("   beat 3: school card -> %s" % ("open" if pg.get_by_text("SCAN TO EMAIL", exact=False).count() else "NOT OPEN - re-run"))
+    except Exception as e:
+        print("   beat 3: could not open the school card (%s)" % str(e)[:60])
+    pg.wait_for_timeout(1800); mark("b3_card")
+
+    # BEAT 4 - "is there a Spinneys?" -> 804 m, 924 m                          Q001
+    amenity(pg, "supermarket", "beat 4"); pg.wait_for_timeout(2600); mark("b4_shops")
+
+    # BEAT 5 - "two bedrooms, up to one point eight million" -> 13 here         Q074/Q098
+    glide_click(pg, pg.locator("#hh"), pause=600)
+    # floor first, then the ceiling. The two thumbs share one track and #hhi sits on top: once #hhi
+    # is at 12 the #hlo thumb at 10 is seven pixels away, and the second drag grabs #hhi instead and
+    # pulls it to 0 (takes 3-6 all read "from AED 250k to ..." with the ceiling gone). With #hhi still
+    # at 30 the floor drag has the track to itself.
+    drag_range(pg, "#hlo", 0); drag_range(pg, "#hhi", BUDGET_HI); drag_range(pg, "#hblo", BEDS); drag_range(pg, "#hbhi", BEDS)
+    pg.wait_for_timeout(1400); mark("b5_filter"); pg.wait_for_timeout(2600); mark("b5_count")
+
+    # BEAT 6 - "which one?" -> list them, scroll, Carson                        Q096/Q051
+    glide_click(pg, pg.locator("#hlist"), pause=1800)
+    box = pg.locator("#hp").bounding_box(); pg.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] + 420)
+    for _ in range(5): pg.mouse.wheel(0, 320); pg.wait_for_timeout(260)
+    pg.wait_for_timeout(800)
+    # the list row, not the rail chip: "Damac Hills - Carson" also sits in the sub-community strip at
+    # the top and text= matches it. The row is the match inside the right-hand panel, below the filter.
+    row = None
+    for i in range(pg.locator("text=%s" % HERO).count()):
+        b = pg.locator("text=%s" % HERO).nth(i).bounding_box()
+        if b and b["x"] > 680 and b["y"] > 360: row = pg.locator("text=%s" % HERO).nth(i); break
+    try:
+        if row is None: raise RuntimeError("no list row for %s in the panel" % HERO)
+        glide_click(pg, row, pause=3200)
+    except Exception as e: print("   beat 6: could not click the list row (%s)" % str(e)[:60]); search_pick(pg, HERO, pause=3000)
+    pg.wait_for_timeout(2400)
+    card = pg.evaluate("""() => [...document.querySelectorAll('*')].some(e => e.children.length && e.getBoundingClientRect().x > 600 && /%s/i.test(e.innerText||'') && /units/i.test(e.innerText||'') && /floors|car park|register/i.test(e.innerText||''))""" % HERO)
+    print("   beat 6: %s card -> %s" % (HERO, "open" if card else "NOT OPEN - re-run, do not ship"))
+    mark("b6_carson")
+
+    # BEAT 7 - "and who lives here?" -> the residents page: United Kingdom, 10%+, DAMAC Hills, Europe > UK   Q040
+    pg.goto(rurl(), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(2500)
+    if pg.get_by_role("button", name="India", exact=True).get_attribute("aria-pressed") == "true":
+        glide_click(pg, pg.get_by_role("button", name="India", exact=True), pause=700)     # the default chip; off, so only the UK is lit
+    glide_click(pg, pg.get_by_role("button", name=NATIONALITY, exact=True), pause=1400)
+    glide_click(pg, pg.get_by_role("button", name=SHARE, exact=True), pause=2200)
+    pg.wait_for_timeout(1200); mark("b7_map")
+    # the list row reads "DAMAC HILLS" in capitals; exact match keeps it off "DAMAC HILLS 2" and the map labels
+    glide_click_scrolled(pg, pg.get_by_text(DISTRICT.upper(), exact=True).first, pause=2200)
+    try:
+        # the region rows are div.bar.reg whose text node reads "▸Europe" - caret glued on, so an
+        # exact text match never finds it; match the row by contained text instead
+        region = pg.locator("div.bar.reg", has_text=REGION).first
+        glide_click_scrolled(pg, region, pause=1800)
+        ok = pg.get_by_text(NATIONALITY, exact=True).count() > 1     # the chip AND the country row
+        print("   beat 7: DAMAC Hills card, %s expanded -> %s" % (REGION, "countries shown" if ok else "NOT EXPANDED - re-run"))
+    except Exception as e:
+        print("   beat 7: could not expand %s (%s)" % (REGION, str(e)[:60]))
+    pg.wait_for_timeout(3500); mark("b7_people")
+
+
+def _centre(loc):
+    b = loc.bounding_box(); return (b["x"] + b["width"] / 2, b["y"] + b["height"] / 2)
+
+
 def fetch_flythrough():
     dst = os.path.join(RAW, "flythrough.mp4")
     if os.path.exists(dst) and os.path.getsize(dst) > 100_000:
@@ -393,7 +528,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            journey(pg, mark)
+            (journey2 if VIDEO == 2 else journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -413,7 +548,7 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
-SHEET_PDF = os.path.join(ROOT, "data", "sheets", "peninsula_one.pdf")
+SHEET_PDF = os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 
@@ -529,7 +664,7 @@ def cut():
     with open(listing, "w", encoding="utf-8") as f:
         for p in parts:
             f.write("file '%s'\n" % p.replace("\\", "/"))
-    out = os.path.join(OUT, "demo01_businessbay_screen.mp4")
+    out = os.path.join(OUT, "demo02_damachills_screen.mp4" if VIDEO == 2 else "demo01_businessbay_screen.mp4")
     ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
     secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)

@@ -1,0 +1,24 @@
+{
+ "_source": "DAMAC Properties website (project page 'Loreto at DAMAC Hills', read 18 September 2026); Dubai Municipality building record 431615 via the DLD parcel bridge (data/dld/dm_buildings_damachills.json).",
+ "_assets_from": "DAMAC's own project page for Loreto: the hero photograph and the six-picture gallery (living, bedroom, bath, pool pergola, the blocks from the fairway, the clubhouse). Nothing was fetched from behind a form. The CDN serves the gallery at 434x326 pixels; fine on screen, soft in print.",
+ "developer": "DAMAC Properties",
+ "strapline": "DAMAC Properties, DAMAC Hills",
+ "completed": "2016",
+ "completed_note": "Dubai Municipality: completion certified 5 December 2016; permit 251231-3-2 of February 2015; G+7+1R, 30 m, two lifts. Sold furnished.",
+ "caveats": [
+  "Loreto is six wings (1A to 3B) in nine low-rise blocks on one plot, registered as one Land Department project; the sales, rents and unit counts on this sheet are the register's figures across all six. The client's block is Loreto 3 - A.",
+  "The municipality holds one building record for the plot (G+7+1R, 30 m, certified 5 December 2016) and counts 84 flats in each of the six Loreto blocks - 504, the same count the Land Department's register carries."
+ ],
+ "captions": {
+  "hero": "Loreto, DAMAC Hills - the blocks over the golf course",
+  "living": "A furnished living room - Loreto was sold furnished",
+  "bedroom": "A furnished bedroom",
+  "bath": "Bathroom",
+  "amenity": "The pool-deck pergola, looking over the course",
+  "interior_1": "The blocks from the fairway",
+  "interior_2": "Trump International golf clubhouse, across the course"
+ },
+ "image_note": "The photographs are published by DAMAC Properties, the developer, on its own project page for Loreto, and are reproduced here for a buyer considering the building. They show the developer's furnished show apartment and the community's amenities, not any particular unit. DAMAC publishes no floor plans for Loreto openly - ask and we will request the plan for a specific unit.",
+ "apartments": "504 units",
+ "height": "G+7+1R, 30 m"
+}
