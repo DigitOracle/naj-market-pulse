@@ -41,7 +41,10 @@ CASES = {
     "windsor_house": ("PASS",
         "'aerial of the whole building ... ELLINGTON sign on the flank'. Rejected while 'flank' was "
         "disqualifying on its own - it is the hedge that disqualifies, not the anatomy."),
-    "windsor_house_ii": ("PASS", "Same as Windsor House."),
+    "windsor_house_ii": ("HELD",
+        "Its page publishes ONE image of its own, a courtyard. Every exterior on it is phase I's file, "
+        "marked 'SAME FILE as phase I' by the scout. This line used to expect PASS 'same as Windsor "
+        "House' - which was the error: phase II's sheet would have shown phase I."),
     "hameni": ("PASS",
         "Every clean exterior here is PORTRAIT - a tower is a tall subject - and the hero test "
         "required landscape. Also lost the word 'exterior' to a semicolon used as ordinary "

@@ -51,7 +51,12 @@ FROM_INSIDE = re.compile(
 NEGATED = re.compile(
     r"(\bis not\b|\bare not\b|\bnot the\b|\bnot an?\b|\bno building\b|\bdoes not\b|"
     r"\binstead of\b|construction (photo|progress|site)|\bhoarding\b|\bcrane|"
-    r"\bmislabel|\bwrong\b|\bdifferent building\b|\bcut[- ]?out\b|\blifestyle\b)", re.I)
+    r"\bmislabel|\bwrong\b|\bdifferent building\b|\bcut[- ]?out\b|\blifestyle\b|"
+    # A picture the page borrows from ANOTHER project is that project's picture. Windsor House II's
+    # page publishes one image of its own; the scout marked every other one "SAME FILE as phase I",
+    # and without this the phase-II sheet was wired with phase I's hero and living room.
+    r"\bsame file as\b|\bsame image as\b|\bshared with (the )?\w+ (page|phase|project)|"
+    r"\breused from\b|\bborrowed from\b)", re.I)
 
 # Positive evidence only: words that can only describe the building seen from outside. "The building"
 # on its own is NOT evidence - it appears in "the building lobby" and "NOT the building" alike.

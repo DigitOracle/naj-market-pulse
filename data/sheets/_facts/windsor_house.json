@@ -4,10 +4,15 @@
   "developer": "Ellington",
   "strapline": "Ellington, Dubai South",
   "asset_overrides": {
-    "hero": "m_504215eaa32a",
+    "hero": "m_25f0d782d320",
     "living": "m_bea90be29cb8",
     "amenity": "m_59071b7d9427"
   },
+  "asset_exclude": [
+    "m_d8c9f9a218b9",
+    "m_59071b7d9427"
+  ],
+  "_exclude_note": "Pictures a scout opened and disqualified in writing - shot from a balcony or terrace, a lobby under an exterior's filename, or a different building. They are out of the running for EVERY role, not merely the hero.",
   "_override_note": "Roles proposed from a scout's written record of what each image ACTUALLY SHOWS, after opening it - not from filenames, which misdescribe the picture on every developer we have checked. The hero is an exterior of the building itself; anything shot from a balcony, terrace or window was refused.",
   "captions": {
     "living": "Living room",
