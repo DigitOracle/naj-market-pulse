@@ -19,7 +19,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
 AVAIL = os.path.join(ROOT, "data", "avail")
 WORKER = "https://azimuth-2.digitalchemy.workers.dev"
-DRILL_KEY = {"imtiaz": "imtiaz", "arada": "arada", "beyond": "beyond", "fakhruddin": "fakhruddin", "binghatti": "binghatti"}          # developer slug -> drill_<key>; extend as developers join the group
+DRILL_KEY = {"imtiaz": "imtiaz", "arada": "arada", "beyond": "beyond", "fakhruddin": "fakhruddin", "binghatti": "binghatti", "prestigeone": "prestigeone"}
+DEV_NAME = {}   # filename slug -> the developer's own name, filled from each sheet as it is read          # developer slug -> drill_<key>; extend as developers join the group
 
 
 def env_token(name):
@@ -69,6 +70,7 @@ def latest_sheets():
             continue
         m = re.match(r"([a-z0-9]+)_(\d{4}-\d{2}-\d{2})(_auto)?\.json$", b)
         if not m:
+            print("  ! SKIPPED %s - name is not <developer>_<date>.json" % b)   # never again in silence
             continue
         dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
         if held:                                          # 13 Sep 2026: a sheet whose every inventory project is held cannot win
@@ -109,15 +111,22 @@ def latest_projects():
         if b.startswith("_"):
             continue
         m = re.match(r"([a-z0-9]+)_(\d{4}-\d{2}-\d{2})(_auto)?\.json$", b)
-        if not m:
-            continue
-        dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
-        # inventory means unit rows OR a type-level summary (a broker pack's "Prices & Availability"
-        # table). A sheet with neither is a brochure or a floor-plan set and carries nothing.
         try:
             _d = json.load(open(p, encoding="utf-8"))
         except Exception:
             continue
+        if not m:
+            # Only a file that IS a sheet is worth a warning - group_links.json is not, and a warning
+            # that fires on every run teaches people to stop reading it.
+            if isinstance(_d, dict) and "projects" in _d:
+                print("  ! SKIPPED %s - a sheet whose name is not <developer>_<date>.json" % b)
+            continue
+        dev, date, auto = m.group(1), m.group(2), bool(m.group(3))
+        # The filename carries a slug ("prestigeone"); the strip should say what the developer is called.
+        if isinstance(_d, dict) and _d.get("developer"):
+            DEV_NAME[dev] = _d["developer"]
+        # inventory means unit rows OR a type-level summary (a broker pack's "Prices & Availability"
+        # table). A sheet with neither is a brochure or a floor-plan set and carries nothing.
         if not any((pr.get("units") or pr.get("types")) for pr in _d.get("projects") or []):
             continue
         by_dev.setdefault(dev, []).append(((date, 0 if auto else 1), p, auto, date))
@@ -162,7 +171,7 @@ def claimed_for_dev(dev):
     auto = info["auto"]
     d = {"projects": info["projects"], "sheet_date": info["as_of"],
          "received": max((m.get("received") or "") for m in info["meta"].values()) or None,
-         "developer": dev.title()}
+         "developer": DEV_NAME.get(dev, dev.title())}
     rooms = collections.OrderedDict()
     for p in d["projects"]:
         for u in p["units"]:
@@ -196,7 +205,7 @@ def main():
         note = "%d units · %d projects" % (n_units, len(info["projects"]))
         if n_type:
             note += " · +%d in %d type-level" % (n_type, len(tl))
-        out.append({"sheet": "%s %s" % (dev.title(), info["as_of"]),
+        out.append({"sheet": "%s %s" % (DEV_NAME.get(dev, dev.title()), info["as_of"]),
                     "note": note + (" · auto-read" if info["auto"] else ""),
                     "mapped": bool(key), "d": key})
     idx = {"updated": dt.date.today().isoformat(), "sheets": out}

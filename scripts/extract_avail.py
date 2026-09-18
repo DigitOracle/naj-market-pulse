@@ -581,11 +581,15 @@ def process(path, received=None, force=False):
            "channel": "DEVELOPER AVAILABILITY group (listener capture)" if path.lower().startswith(LISTENER_DOCS.lower()) else "manual inbox",
            "developer": (dev or "unknown").title(), "extraction": "auto: " + ("ocr" if any(p.get("_mode") == "ocr" for p in projects) else "text"),
            "projects": [{k: v for k, v in p.items() if not k.startswith("_")} for p in projects]}
-    fname = "%s_%s.json" % ((dev or "unknown"), sheet_date)
+    # The developer key in the FILENAME is a slug. "Prestige One" wrote "prestige one_2026-09-15.json",
+    # and the loader and the index both match [a-z0-9]+_date - so 43 Sanctuary units were extracted
+    # correctly and then skipped by both, in silence, for three days.
+    dkey = re.sub(r"[^a-z0-9]", "", (dev or "unknown").lower()) or "unknown"
+    fname = "%s_%s.json" % (dkey, sheet_date)
     dest = os.path.join(AVAIL, fname)
     if os.path.exists(dest) and not json.load(open(dest, encoding="utf-8")).get("extraction", "").startswith("auto"):
         # NEVER overwrite a hand-verified file (even with --force): write alongside as _auto
-        dest = os.path.join(AVAIL, "%s_%s_auto.json" % ((dev or "unknown"), sheet_date))
+        dest = os.path.join(AVAIL, "%s_%s_auto.json" % (dkey, sheet_date))
     # Fakhruddin posts one PDF per project: the developer's sheet for the day is the union of them, never the last one to land
     if os.path.exists(dest):
         try:

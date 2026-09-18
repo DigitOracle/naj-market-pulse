@@ -1,0 +1,322 @@
+{
+ "source_file": [
+  "1789477521700_Sales Offer Sanctuary 205.pdf",
+  "1789477522112_Sanctuary.pdf",
+  "Sanctuary Brief.pdf"
+ ],
+ "sheet_date": "2026-09-15",
+ "received": "2026-09-15",
+ "channel": "manual inbox",
+ "developer": "Prestige One",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Sanctuary",
+   "completion": null,
+   "plan": null,
+   "units": [
+    [
+     "101",
+     "2 B/R",
+     1463.46,
+     3388000.0,
+     "Park / Sanctuary / Burj Khalifa"
+    ],
+    [
+     "102",
+     "1 B/R",
+     1074.24,
+     2475000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "103",
+     "2 B/R",
+     2471.72,
+     3795000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "104",
+     "1 B/R",
+     999.32,
+     2255000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "105",
+     "1 B/R",
+     999.54,
+     2255000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "106",
+     "2 B/R",
+     1560.77,
+     3245000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "201",
+     "2 B/R",
+     1017.73,
+     2970000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "203",
+     "2 B/R",
+     1215.46,
+     3135000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "205",
+     "1 B/R",
+     653.91,
+     1859000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "206",
+     "2 B/R",
+     1051.31,
+     2805000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "301",
+     "2 B/R",
+     1053.68,
+     2992000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "302",
+     "1 B/R",
+     650.57,
+     2112000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "303",
+     "2 B/R",
+     1227.95,
+     3157000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "304",
+     "1 B/R",
+     656.92,
+     1936000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "306",
+     "2 B/R",
+     1104.59,
+     2827000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "501",
+     "2 B/R",
+     1053.68,
+     3036000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "503",
+     "2 B/R",
+     1228.81,
+     3201000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "506",
+     "2 B/R",
+     1703.17,
+     2871000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "601",
+     "2 B/R",
+     1017.51,
+     3058000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "602",
+     "1 B/R",
+     699.33,
+     2178000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "605",
+     "1 B/R",
+     654.34,
+     1903000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "606",
+     "2 B/R",
+     1381.12,
+     2893000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1001",
+     "2 B/R",
+     1010.19,
+     3146000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1002",
+     "1 B/R",
+     696.53,
+     2266000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1003",
+     "2 B/R",
+     1213.95,
+     3311000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "1004",
+     "1 B/R",
+     720.43,
+     2013000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1005",
+     "2 B/R",
+     2195.95,
+     3498000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1006",
+     "1 B/R",
+     1516.53,
+     2200000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ],
+    [
+     "1007",
+     "1 B/R",
+     952.18,
+     2145000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ],
+    [
+     "1101",
+     "2 B/R",
+     1053.89,
+     3168000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1102",
+     "1 B/R",
+     666.29,
+     2288000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1103",
+     "2 B/R",
+     1231.28,
+     3333000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "1104",
+     "1 B/R",
+     693.41,
+     2024000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1105",
+     "2 B/R",
+     2180.66,
+     3520000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1106",
+     "1 B/R",
+     1115.79,
+     2211000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ],
+    [
+     "1107",
+     "1 B/R",
+     979.62,
+     2156000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ],
+    [
+     "1701",
+     "2 B/R",
+     1053.89,
+     3366000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1702",
+     "1 B/R",
+     649.17,
+     2420000.0,
+     "PARK / SANCTURAY / BURJ KHALIFA"
+    ],
+    [
+     "1703",
+     "3 B/R",
+     2046.76,
+     5280000.0,
+     "PARK / SANCTURAY / CREEK HARBOUR"
+    ],
+    [
+     "1704",
+     "2 B/R",
+     1197.38,
+     3201000.0,
+     "PARK / CREEK HARBOUR"
+    ],
+    [
+     "1705",
+     "1 B/R",
+     816.55,
+     2123000.0,
+     "INTERNAL ROAD / COMMUNITY"
+    ],
+    [
+     "1706",
+     "1 B/R",
+     1066.06,
+     2310000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ],
+    [
+     "1707",
+     "1 B/R",
+     979.52,
+     2277000.0,
+     "COMMUNITY / PARTIAL BURJ KHALIFA"
+    ]
+   ]
+  }
+ ]
+}

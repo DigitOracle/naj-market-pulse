@@ -1,7 +1,21 @@
 {
- "updated": "2026-09-15T13:54:04",
- "n": 10,
+ "updated": "2026-09-18T07:00:05",
+ "n": 11,
  "links": [
+  {
+   "ts": "2026-09-15T12:43:32.000Z",
+   "msg_id": "A5659BD037EAD0824BCDEF72EBAAC096",
+   "group": "DEVELOPER AVAILABILITY",
+   "sender": "174737271615567@lid",
+   "sender_name": "Najjuko",
+   "url": "https://maps.app.goo.gl/5tZwDyngj8qGPYJt7",
+   "title": "",
+   "description": "",
+   "text": "*Sanctuary By Prestige One* \n\n📍*Location :*\nhttps://maps.app.goo.gl/5tZwDyngj8qGPYJt7",
+   "captured_at": "2026-09-15T13:05:19.418Z",
+   "host": "maps.app.goo.gl",
+   "first_seen": "2026-09-15T17:05:42"
+  },
   {
    "ts": "2026-09-10T20:17:38.000Z",
    "msg_id": "2A62FA242B78A70B3664",

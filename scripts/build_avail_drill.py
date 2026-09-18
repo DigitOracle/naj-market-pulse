@@ -21,6 +21,10 @@ TARGETS = [
     # 18 Sep 2026: Binghatti posts spreadsheets, which nothing read until extract_avail_xlsx.py. Its Maybach and
     # Vision Iconic towers do not carry the Binghatti name, so they are named here rather than missed.
     ("binghatti",        "(lower(PROJECT_EN) LIKE '%binghatti%' OR lower(PROJECT_EN) LIKE '%maybach%' OR lower(PROJECT_EN) LIKE '%vision iconic%')", "Binghatti (all projects)"),
+    # Prestige One's only sheet is Sanctuary (Meydan Horizon), which has NO registered sales yet. An exact name,
+    # never LIKE '%sanctuary%': that matches Sobha Sanctuary and Sanctuary Falls and would show another building's
+    # sales on this page. The page carries the developer's claimed units and an honestly empty sales mix.
+    ("prestigeone",      "PROJECT_EN = 'SANCTUARY BY PRESTIGE ONE'",           "Prestige One (Sanctuary)"),
 ]
 
 def main():

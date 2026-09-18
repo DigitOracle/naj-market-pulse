@@ -83,10 +83,13 @@ def sheet_files():
         if b.startswith("_"):
             continue
         m = SHEET_RX.match(b)
-        if not m:
-            continue
         d = jload(p)
         if not isinstance(d, dict) or "projects" not in d:
+            continue
+        if not m:
+            # Say so - for a SHEET only. A silent skip is how 43 Prestige One units sat unloaded for
+            # three days; a warning on group_links.json every run would teach people to ignore it.
+            print("  ! SKIPPED %s - a sheet whose name is not <developer>_<date>.json" % b)
             continue
         out.append({"file": b, "path": p, "dev": m.group(1), "date": m.group(2), "auto": bool(m.group(3)), "doc": d})
     return out

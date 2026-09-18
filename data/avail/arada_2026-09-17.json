@@ -1,0 +1,686 @@
+{
+ "source_file": [
+  "1789632727227_W Residences T3 - Availability - -17.09.2026.pdf",
+  "1789632727383_Akala - Availability  -17.09.2026.pdf",
+  "1789632727682_Inaura - Availability - 17.09.2026.pdf",
+  "1789632727992_W Residences T1 _ T2 - Availability - 17.09.2026.pdf"
+ ],
+ "sheet_date": "2026-09-17",
+ "received": "2026-09-17",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Arada",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Akala Hotels And Residences",
+   "block": "Akala Hotels and Residences",
+   "master": "Zabeel Second",
+   "completion": "31-Oct-2029",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "AKAR1-0404",
+     "2 B/R",
+     1950.53,
+     8680000,
+     "2 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-0407",
+     "1 B/R",
+     1043.99,
+     3830000,
+     "1 BR - Type B Street View"
+    ],
+    [
+     "AKAR1-0408",
+     "1 B/R",
+     1035.91,
+     3799000,
+     "1 BR - Type A Street View"
+    ],
+    [
+     "AKAR1-0505",
+     "1 B/R",
+     1406.73,
+     4905000,
+     "1 BR - Type D Zabeel View"
+    ],
+    [
+     "AKAR1-0506",
+     "2 B/R",
+     1722.55,
+     6020000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-0507",
+     "1 B/R",
+     1043.99,
+     3835000,
+     "1 BR - Type B Street View"
+    ],
+    [
+     "AKAR1-0604",
+     "2 B/R",
+     1950.53,
+     8700000,
+     "2 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-0705",
+     "1 B/R",
+     1406.73,
+     4925000,
+     "1 BR - Type D Zabeel View"
+    ],
+    [
+     "AKAR1-1206",
+     "2 B/R",
+     1723.52,
+     6090000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-1904",
+     "3 B/R",
+     3664.92,
+     16760000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-2204",
+     "3 B/R",
+     3664.92,
+     16865000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-2504",
+     "3 B/R",
+     3664.92,
+     16970000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-3002",
+     "3 B/R",
+     3126.14,
+     15150000,
+     "3 BR - Type C Burj View"
+    ],
+    [
+     "AKAR1-3101",
+     "3 B/R",
+     2647.0,
+     12705000,
+     "3 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-3105",
+     "2 B/R",
+     2089.58,
+     8510000,
+     "2 BR - Type F Street View"
+    ],
+    [
+     "AKAR1-3702",
+     "3 B/R",
+     3126.14,
+     15395000,
+     "3 BR - Type C Burj View"
+    ],
+    [
+     "AKAR1-3703",
+     "3 B/R",
+     3654.04,
+     17385000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-4301",
+     "3 B/R",
+     2586.71,
+     12445000,
+     "3 BR - Type A Burj View"
+    ],
+    [
+     "AKAR1-4302",
+     "3 B/R",
+     2605.75,
+     12580000,
+     "3 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-4503",
+     "4 B/R",
+     4697.8,
+     23770000,
+     "4 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-4505",
+     "2 B/R",
+     2091.04,
+     8665000,
+     "2 BR - Type F Street View"
+    ],
+    [
+     "AKAR1-4801",
+     "4 B/R",
+     3647.94,
+     18380000,
+     "4 BR - Type A Burj View"
+    ],
+    [
+     "AKAR1-4802",
+     "5 B/R",
+     6256.59,
+     34545000,
+     "5 BR - Type A Burj View"
+    ],
+    [
+     "AKAR1-4903",
+     "2 B/R",
+     1724.8,
+     6605000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-5001",
+     "6 B/R",
+     14628.4,
+     88000000,
+     "PH 6 BR - Type Burj View"
+    ]
+   ]
+  },
+  {
+   "p": "Inaura Hotels & Residences",
+   "block": "Inaura Hotels & Residences",
+   "master": "Downtown Dubai",
+   "completion": "30-Jun-2030",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "INAR-1607",
+     "1 B/R",
+     714.72,
+     3665000,
+     "B Building"
+    ],
+    [
+     "INAR-1704",
+     "2 B/R",
+     1296.41,
+     6475000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-1806",
+     "1 B/R",
+     704.93,
+     3625000,
+     "A Building"
+    ],
+    [
+     "INAR-1905",
+     "2 B/R",
+     1281.87,
+     6425000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-2006",
+     "1 B/R",
+     704.93,
+     3640000,
+     "A Building"
+    ],
+    [
+     "INAR-2103",
+     "1 B/R",
+     779.74,
+     3955000,
+     "B Building"
+    ],
+    [
+     "INAR-2205",
+     "2 B/R",
+     1279.61,
+     6455000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-2305",
+     "2 B/R",
+     1344.2,
+     6660000,
+     "D Building"
+    ],
+    [
+     "INAR-2702",
+     "2 B/R",
+     1644.73,
+     7960000,
+     "B Building"
+    ],
+    [
+     "INAR-2705",
+     "2 B/R",
+     1426.22,
+     7120000,
+     "C Building"
+    ],
+    [
+     "INAR-2803",
+     "2 B/R",
+     1291.88,
+     6595000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3102",
+     "2 B/R",
+     1684.55,
+     8220000,
+     "B Building"
+    ],
+    [
+     "INAR-3104",
+     "2 B/R",
+     1271.76,
+     6530000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3105",
+     "2 B/R",
+     1426.22,
+     7175000,
+     "C Building"
+    ],
+    [
+     "INAR-3702",
+     "4 B/R",
+     4037.22,
+     20730000,
+     "Burj Khalifa"
+    ],
+    [
+     "INAR-3902",
+     "5 B/R",
+     6780.94,
+     41050000,
+     "Duplex Burj Khalifa"
+    ]
+   ]
+  },
+  {
+   "p": "W Residences At Dubai Harbour",
+   "block": "W Residences at Dubai Harbour",
+   "master": "Dubai Harbour",
+   "completion": "31-Dec-2028",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "WRDH2-0201",
+     "2 B/R",
+     1943.0,
+     7246000,
+     "+ 2 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH2-0401",
+     "2 B/R",
+     2040.0,
+     7599000,
+     "+ 2 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH2-0407",
+     "1 B/R",
+     1086.0,
+     3911000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-0501",
+     "2 B/R",
+     2064.0,
+     7684000,
+     "+ 2 BR - Type D Partial Sea"
+    ],
+    [
+     "WRDH2-0808",
+     "1 B/R",
+     1086.0,
+     3966000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-0908",
+     "1 B/R",
+     1084.0,
+     3960000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-1008",
+     "1 B/R",
+     1084.0,
+     3960000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-1101",
+     "3 B/R",
+     5731.0,
+     30172000,
+     "3 BR - Type Sea View"
+    ],
+    [
+     "WRDH2-1104",
+     "2 B/R",
+     2555.0,
+     15040000,
+     "2 BR - Type Sea View"
+    ],
+    [
+     "WRDH2-1502",
+     "1 B/R",
+     1179.0,
+     4793000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1601",
+     "1 B/R",
+     1060.0,
+     3988000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH2-1602",
+     "1 B/R",
+     1151.0,
+     4747000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1606",
+     "3 B/R",
+     2479.0,
+     11701000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-1702",
+     "1 B/R",
+     1123.0,
+     4632000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1802",
+     "1 B/R",
+     1096.0,
+     4520000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-2201",
+     "2 B/R",
+     2051.0,
+     8048000,
+     "+ 2 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH2-2205",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2305",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2505",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2903",
+     "4 B/R",
+     4177.0,
+     18603000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3001",
+     "3 B/R",
+     3317.0,
+     14158000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH2-3201",
+     "3 B/R",
+     3173.0,
+     13746000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH2-3802",
+     "4 B/R",
+     4180.0,
+     19034000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3901",
+     "5 B/R",
+     5113.0,
+     27114000,
+     "+ 5 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3902",
+     "4 B/R",
+     4180.0,
+     19034000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-4001",
+     "5 B/R",
+     5041.0,
+     26733000,
+     "+ 5 BR - Type A Sea View"
+    ],
+    [
+     "WRDH1-0101",
+     "1 B/R",
+     1135.0,
+     4136000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0201",
+     "1 B/R",
+     1231.0,
+     4412000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0207",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0301",
+     "1 B/R",
+     1317.0,
+     4689000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0307",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0401",
+     "1 B/R",
+     1404.0,
+     4965000,
+     "+ 1 BR - Type F City View"
+    ],
+    [
+     "WRDH1-0407",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0507",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0601",
+     "2 B/R",
+     1577.0,
+     5845000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-0607",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0701",
+     "2 B/R",
+     1663.0,
+     6162000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-0707",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0801",
+     "2 B/R",
+     1749.0,
+     6480000,
+     "+ 2 BR - Type B City View"
+    ],
+    [
+     "WRDH1-0807",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0906",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-1006",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-1601",
+     "2 B/R",
+     1623.0,
+     6237000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-1701",
+     "2 B/R",
+     1579.0,
+     6068000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-2901",
+     "4 B/R",
+     3953.0,
+     17572000,
+     "+ 4 BR - Type B Sea View"
+    ],
+    [
+     "WRDH1-3001",
+     "4 B/R",
+     3836.0,
+     17007000,
+     "+ 4 BR - Type C Sea View"
+    ],
+    [
+     "WRDH1-3401",
+     "4 B/R",
+     3383.0,
+     15107000,
+     "+ 4 BR - Type D Sea View"
+    ],
+    [
+     "WRDH1-3701",
+     "3 B/R",
+     3037.0,
+     14289000,
+     "Type E Sea View"
+    ],
+    [
+     "WRDH1-3802",
+     "4 B/R",
+     4364.0,
+     20090000,
+     "Type A Sea View"
+    ],
+    [
+     "WRDH1-3901",
+     "3 B/R",
+     2805.0,
+     13199000,
+     "Type E Sea View"
+    ],
+    [
+     "WRDH1-4101",
+     "5 B/R",
+     11795.0,
+     65000000,
+     "5 BR - Type Sea View"
+    ]
+   ]
+  }
+ ]
+}
