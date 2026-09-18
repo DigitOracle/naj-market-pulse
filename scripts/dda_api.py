@@ -23,6 +23,8 @@ OUT = os.path.join(ROOT, "data", "raw_downloads", "dda")
 CACHE = os.path.join(OUT, ".token.json")
 RATE_S = float(os.environ.get("DDA_RATE_S", "1.05"))   # 60 requests per minute for one process; parallel pulls share that budget, so each sets DDA_RATE_S higher
 _last = [0.0]
+RATE_FILE = os.path.join(OUT, ".rate.json")
+RATE_MAX = int(os.environ.get("DDA_RATE_MAX", "40"))    # requests per rolling 60 s across EVERY process using this module
 
 
 def cfg():
@@ -45,8 +47,43 @@ def _throttle():
     _last[0] = time.time()
 
 
+def _shared_wait():
+    """Block until this process may send one request without taking the total over RATE_MAX in any rolling 60 s, counted across all
+    processes on this machine (a timestamp list in .rate.json under a create-exclusive lock file). 19 Sep 2026 00:59: three streams,
+    each throttling only itself, together broke the gateway's per-minute quota (HTTP 429 'exceeded per minute Quota') and the giant
+    queues abandoned every dataset in seconds. The documented limit is 60/min; the default cap leaves a third of it as headroom."""
+    os.makedirs(OUT, exist_ok=True)
+    lock = RATE_FILE + ".lock"
+    while True:
+        try:
+            fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+        except FileExistsError:
+            try:
+                if time.time() - os.path.getmtime(lock) > 10: os.remove(lock)      # left by a killed process
+            except OSError: pass
+            time.sleep(0.05); continue
+        wait = 0.0
+        try:
+            now = time.time()
+            try: ts = [t for t in json.load(open(RATE_FILE)) if now - t < 60]
+            except Exception: ts = []
+            if len(ts) < RATE_MAX:
+                ts.append(now)
+                tmp = RATE_FILE + f".{os.getpid()}.tmp"
+                with open(tmp, "w") as f: json.dump(ts, f)
+                os.replace(tmp, RATE_FILE)
+                return
+            wait = ts[0] + 60 - now
+        finally:
+            os.close(fd)
+            try: os.remove(lock)
+            except OSError: pass
+        time.sleep(max(wait, 0.05) + 0.05)
+
+
 def _req(url, data=None, headers=None, timeout=35):
     _throttle()
+    _shared_wait()
     r = urllib.request.Request(url, data=data, headers=headers or {}, method="POST" if data else "GET")
     try:
         with urllib.request.urlopen(r, timeout=timeout) as h:

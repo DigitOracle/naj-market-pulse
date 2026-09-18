@@ -115,11 +115,13 @@ def main():
             # code 0 = transport error (link down). 18 Sep 19:42: one drop threw away 1,030,139 rows of dm_building_floor_level_information
             # (an hour of pages, all in memory) and then failed five more datasets at 2.5 min each, so a dead link gets far more
             # patience than a slow page: up to 8 rounds of 20-120 s waits (~15 min plus auth_get's own retries) before giving up.
+            # 429 = the gateway's per-minute quota. It must never end a dataset (19 Sep 00:59: it ended eleven in seconds, each queue
+            # abandoning every remaining dataset): wait out the minute and ask again.
             n_wait = 0
-            while code in (0, 408, 502, 503, 504) and n_wait < (8 if code == 0 else 3):
+            while code in (0, 408, 429, 502, 503, 504) and n_wait < {0: 8, 429: 12}.get(code, 3):
                 n_wait += 1
-                if code == 0: api.log(f"{r['dataset']} page {page}: link down, waiting (round {n_wait}/8, {len(rows):,} rows held)")
-                time.sleep((20 if code == 0 else 10) * min(n_wait, 6))
+                if code in (0, 429): api.log(f"{r['dataset']} page {page}: {'link down' if code == 0 else 'rate limited (429)'}, waiting (round {n_wait}, {len(rows):,} rows held)")
+                time.sleep(65 if code == 429 else (20 if code == 0 else 10) * min(n_wait, 6))
                 code, raw, tok = api.auth_get(c, f"{base}?page={page}&pageSize={a.page_size}", tok)
             if code != 200 or raw[:1] not in (b"{", b"["):
                 status = "blocked" if b"Request Rejected" in raw else f"http_{code}"; note = raw[:160].decode(errors="replace"); break
