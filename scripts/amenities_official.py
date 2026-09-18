@@ -145,6 +145,38 @@ def snap(name, lon, lat, idx):
     return None
 
 
+# Dubai, and only Dubai. A bounding box cannot do this: the Dubai/Sharjah border runs diagonally
+# through Al Nahda, so any rectangle that holds Deira also holds Sharjah and the Ajman corniche.
+# Kendall found Fairmont Ajman on the map, and there were twelve more like it.
+#
+# The coordinates alone will not settle it either, and the address alone is worse: Hatta is a Dubai
+# exclave whose address reads "Sharjah Kalba Road", and the Al Maha reserve sits on Al Ain Road -
+# both genuinely Dubai. What works is the LAST component of the address, which is the emirate:
+# "... Al Nakheel, Ajman" is Ajman; "... Sharjah Kalba Road, Dubai" is Dubai.
+OTHER_EMIRATE = re.compile(
+    r"\b(ajman|sharjah|umm al quwain|ras al khaimah|fujairah|abu dhabi|al ain)\b", re.I)
+
+
+# Dubai's northern extent, measured rather than drawn: of 2,416 points in this very file that come
+# from Dubai government registers - KHDA schools, DHA clinics, RTA metro, DM parks, DEWA chargers -
+# not one sits above 25.30. DEWA's own charger network stops at 25.2976, at Al Mamzar, because that
+# is where the emirate stops. A community-contributed point north of that is in Sharjah or Ajman,
+# and an unnamed one with no address gives us nothing else to judge it by.
+DUBAI_MAX_LAT = 25.31
+
+
+def not_dubai(name, address, lat=None, src=None):
+    """True when this point belongs to another emirate."""
+    if lat is not None and lat > DUBAI_MAX_LAT and src != "DEWA":
+        return True
+    tail = [x.strip() for x in str(address or "").split(",") if x.strip()]
+    if tail and re.fullmatch(r"dubai|dubai emirate|uae|united arab emirates", tail[-1], re.I):
+        return False                      # the address says which emirate, and it says Dubai
+    if tail and OTHER_EMIRATE.search(tail[-1]):
+        return True
+    return bool(OTHER_EMIRATE.search(str(name or "")))
+
+
 def in_district(lon, lat, D):
     for d in D:
         b = d["bbox"]
@@ -368,12 +400,15 @@ def main():
         _ev = []
 
     _SRC = {"DEWA": "dewa", "OpenChargeMap": "ocm", "OpenStreetMap": "osm"}
-    _ev_kept = 0
+    _ev_kept = _ev_other = 0
     for _src, _op, _nm, _addr, _lat, _lon, _bays, _conn, _kw in _ev:
         # Keep the layer inside the map's own extent. 57 of the 351 points sit in other emirates,
         # every one of them community-contributed, and a pin 300 km away is not an amenity of a
         # Dubai building.
         if not (24.7 <= _lat <= 25.45 and 54.8 <= _lon <= 56.2):
+            continue
+        if not_dubai(_nm, _addr, _lat, _src):
+            _ev_other += 1
             continue
         _name = (_nm or "").strip()
         if _name.upper() in ("", "NA", "N/A", "NONE", "UNKNOWN"):
@@ -405,7 +440,7 @@ def main():
         items.append(_rec)
         src_counts[_SRC.get(_src, "ev")] += 1
         _ev_kept += 1
-    print("  EV chargers: %d kept of %d" % (_ev_kept, len(_ev)))
+    print("  EV chargers: %d kept of %d (%d in another emirate)" % (_ev_kept, len(_ev), _ev_other))
 
     for it in items:
         d = in_district(it["lon"], it["lat"], D)
