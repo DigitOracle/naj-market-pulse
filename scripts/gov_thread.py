@@ -83,8 +83,13 @@ CODE_MAX_DISTINCT = 300_000
 # a city-wide statistics table: small, keyed by time only (fleet sizes, crime counts, monthly index, airport throughput)
 TIME_COL = re.compile(r"(^|_)(year|month|date|day|period)$|report_date|first_date_of_month", re.I)
 CITY_MAX_ROWS = 20_000
-LAT = re.compile(r"(^|_)(lat|latitude|latitiude)$|latitude$|latitiude$", re.I)
-LON = re.compile(r"(^|_)(lon|lng|longitude|longitiude)$|longitude$|longitiude$", re.I)
+# 19 Sep 2026 audit: KHDA school_search names its pair lat / long and the DHA facility register xcoordinate / ycoordinate (degrees:
+# x = longitude 55.x, y = latitude 25.x) - both sat off the thread as catalogue_only. The Dubai bounding box below still rejects
+# anything that is not WGS84 degrees, so a projected x/y can never be placed by mistake.
+LAT = re.compile(r"(^|_)(lat|latitude|latitiude)$|latitude$|latitiude$|^ycoordinate$|^y_coordinate$", re.I)
+LON = re.compile(r"(^|_)(lon|lng|long|longitude|longitiude)$|longitude$|longitiude$|^xcoordinate$|^x_coordinate$", re.I)
+# a bare "code" column beside a community-name column is the DM community number (stats: 'Sector & Community' + 'Code', 226 of 226 met)
+COMMUNITY_NAME_COL = re.compile(r"community", re.I)
 
 
 def q(con, sql):
@@ -147,8 +152,9 @@ def job_gov_thread(con):
         n = q(con, "select count(*) from %s" % t)[0][0]
         dkey = reg.get(t, (t[2:].replace("__", "/", 1), t[2:].split("__")[0], "", ""))[0]
         per[t] = {"rows": n, "links": []}
+        comm_code = any(COMMUNITY_NAME_COL.search(x) for x in cols)
         for c in cols:
-            for rx, lk, norm in RULES:
+            for rx, lk, norm in RULES + ([(r"^code$", "community", num("{c}"))] if comm_code else []):
                 if not re.search(rx, c, re.I):
                     continue
                 expr = "cast(%s as varchar)" % norm.replace("{c}", '"%s"' % c)   # replace, not format: parcel_key_sql carries regex braces
@@ -166,7 +172,11 @@ def job_gov_thread(con):
         lat = next((c for c in cols if LAT.search(c)), None)
         lon = next((c for c in cols if LON.search(c)), None)
         if lat and lon:
-            pts = """(select * from (select distinct try_cast("%s" as double) lat, try_cast("%s" as double) lon from %s)
+            # a swapped pair (DHA: xcoordinate holds the latitude) is put back the right way round: Dubai's latitude (24.6-25.5)
+            # and longitude (54.8-56.0) ranges do not overlap, so the swap can only be read one way
+            pts = """(select * from (select distinct case when a between 54.8 and 56.0 and b between 24.6 and 25.5 then b else a end lat,
+                                                   case when a between 54.8 and 56.0 and b between 24.6 and 25.5 then a else b end lon
+                                     from (select try_cast("%s" as double) a, try_cast("%s" as double) b from %s))
                      where lat between 24.6 and 25.5 and lon between 54.8 and 56.0) p""" % (lat, lon, t)
             k_in = q(con, "select count(*) from %s" % pts)[0][0]
             con.execute("""insert into j_keymap select '%s', '%s,%s', 'district', null, d.canonical_id, 'point in district box'

@@ -57,7 +57,11 @@ MACROS = [
     """create or replace macro _is_long_fill(s) as (
          s is not null and length(s) >= 12
          and regexp_full_match(s, '[A-Z0-9]+')
+         and length(regexp_replace(s, '[^A-Z]', '', 'g')) >= 4
          and _vowel_share(s) < 0.34)""",
+    # 19 Sep 2026: an all-digit run is a barcode, an HS commodity code or a phone number, not fill - the fill signature is random
+    # LETTERS then digits. Without letters the vowel share was 0 and 415,904 of 443,481 real DM cosmetics rows, every 12-digit
+    # customs commodity code and the DM detergent / supplement / biocide registers (~680k rows) were dropped as fabricated.
     # 18 Sep 2026: run over PROD rows (not obfuscated) the word signature caught real values - month abbreviations in DEWA's
     # monthly tables, DEWA's units MIGD / MIG, tender status CLOSED - and would have dropped those rows. They are exempt.
     """create or replace macro _is_word_fake(s) as (
@@ -100,7 +104,11 @@ def main():
         tests = []
         for c in text_cols:
             q = '"%s"' % c
-            tests.append("_is_long_fill(%s)" % q)
+            # 19 Sep 2026: a reference-number column (building_number, pre_registration_number, voucher_no, plot_no, barcode, imonumber)
+            # legitimately holds vowel-poor runs like AFSBDMOTHB0180 or WIFBP1611474 - on PROD that dropped 4,775 DLD land-registry and
+            # 3,335 DLD building rows (Al Furjan, JVT) off the parcel spine and 90,909 real DM vouchers. Only non-code columns are tested.
+            if not CODE_COL_RX.search(c):
+                tests.append("_is_long_fill(%s)" % q)
             if WORD_COL_RX.search(c) and not CODE_COL_RX.search(c):
                 try:
                     n_all, n_fake = con.execute(
