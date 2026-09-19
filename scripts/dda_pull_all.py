@@ -18,6 +18,28 @@ try: sys.stdout.reconfigure(encoding="utf-8")
 except Exception: pass
 
 
+WRAP_K = 10        # a wrap is the first K records of page 1 coming round again as an unbroken run - never one repeated record
+STALL_PAGES = 5    # fallback: this many consecutive pages with nothing new means the API is only lapping the dataset
+
+
+def rec_hash(rec):
+    return hashlib.sha1(json.dumps(rec, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def split_page(got, page, first_k):
+    """(hashes, cut, wrapped): where this page's own records end. The API never returns a short last page: past the end it laps back
+    to record 1 and keeps serving (dld_brokers: 8,425 records, page 9 = the last 425 + the first 575 again), so the end is where the
+    first K records of page 1 come round again as a run. 19 Sep 2026: the old test - 'the FIRST record of page 1 seen again' - ended
+    ded_license_master at 137,648 rows although pages 138, 139 and 250 still held new records: real registers repeat rows, and one
+    exact repeat of record 1 was read as the lap. A single repeated record must never end a dataset."""
+    hs = [rec_hash(r) for r in got]
+    if page > 1 and first_k:
+        k = len(first_k)
+        for i in range(len(hs) - k + 1):
+            if hs[i:i + k] == first_k: return hs, i, True
+    return hs, len(hs), False
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--prod", action="store_true"); ap.add_argument("--force", action="store_true")
@@ -78,7 +100,7 @@ def main():
         if a.budget_minutes and time.time() - run_t0 > a.budget_minutes * 60:
             partial = len(todo) - i + 1; break
         base = f"{c['DDA_BASE_URL']}/secure/ddads/openapi/1.0.0/{r['entity']}/{r['dataset']}"
-        rows = []; status = "ok"; note = ""; t0 = time.time(); seen = set(); first_h = None
+        rows = []; status = "ok"; note = ""; t0 = time.time(); seen = set(); first_k = None; dry = 0; ended_by = ""; last_page = 0
         # 18 Sep 2026 checkpointing. A dataset used to be saved only when it finished, so a timeout, a link drop or a power cut threw
         # away everything held in memory (~6 h of pulling that day: 1.49M, 1.73M and 1.03M rows in three datasets). Every page's new rows
         # are now appended to <file>.part (one JSON record a line) and <file>.part.state records the last complete page and the wrap
@@ -95,11 +117,13 @@ def main():
                         except Exception: break                     # a torn last line from a power cut: keep what parsed
                 if st.get("page_size") != a.page_size:              # page N means different records at a different page size: a resume would skip rows
                     raise ValueError(f"page size changed ({st.get('page_size')} -> {a.page_size})")
-                first_h = st.get("first_h"); start_page = int(st["page"]) + 1
-                for rec in rows: seen.add(hashlib.sha1(json.dumps(rec, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest())
+                start_page = int(st["page"]) + 1; last_page = int(st["page"])
+                for rec in rows: seen.add(rec_hash(rec))
+                # checkpoints written before 19 Sep 02:00 carry only first_h; their run of first records is rebuilt from the rows held
+                first_k = st["first_k"] if "first_k" in st else [rec_hash(x) for x in rows[:WRAP_K]]
                 api.log(f"{key}: resuming at page {start_page} with {len(rows):,} rows checkpointed")
             except Exception as e:
-                rows = []; seen = set(); first_h = None; start_page = 1
+                rows = []; seen = set(); first_k = None; start_page = 1; last_page = 0
                 api.log(f"{key}: checkpoint unreadable ({str(e)[:60]}), starting over")
         if start_page == 1:                                        # fresh start (or --force): no stale checkpoint may survive
             for p_ in (part, pstate):
@@ -130,26 +154,26 @@ def main():
             got = j.get("results") if isinstance(j, dict) else j
             got = got or []
             if not isinstance(got, list): status = "odd_shape"; note = str(j)[:160]; break
-            # The governed API never returns a short last page: past the end it wraps round to record 1 and keeps serving
-            # (dld_brokers: 8,425 records, page 9 = the last 425 + the first 575 again). Stopping on a short page pulled
-            # 2,252,220 duplicate rows across 28 datasets and 42 laps of customs airway bills (13 Sep). Stop at the first
-            # record already seen and keep only the unseen ones.
-            # A wrap restarts at record 1, so the end is the first record of page 1 coming round again. Identical rows
-            # elsewhere are dropped (they carry no information) but do not end the pull.
-            new = []; wrapped = False
-            for rec in got:
-                h = hashlib.sha1(json.dumps(rec, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
-                if page == 1 and not seen: first_h = h
-                elif page > 1 and h == first_h: wrapped = True; break
-                if h in seen: continue
+            hs, cut, wrapped = split_page(got, page, first_k)
+            if page == 1 and first_k is None:
+                first_k = hs[:WRAP_K]
+                if len(set(first_k)) < min(3, len(first_k)): first_k = None   # a page 1 that starts with one repeated row cannot identify a lap: rely on STALL_PAGES
+            new = []
+            for rec, h in zip(got[:cut], hs[:cut]):
+                if h in seen: continue                             # identical rows carry no information: dropped, they never end the pull
                 seen.add(h); new.append(rec)
-            rows += new
+            rows += new; last_page = page
+            dry = 0 if new else dry + 1
             if new:                                                # checkpoint: rows first, then the state that says they are complete
                 with open(part, "a", encoding="utf-8") as pf:
                     for rec in new: pf.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            with open(pstate + ".tmp", "w", encoding="utf-8") as sf: json.dump({"page": page, "first_h": first_h, "page_size": a.page_size}, sf)
+            with open(pstate + ".tmp", "w", encoding="utf-8") as sf: json.dump({"page": page, "first_k": first_k, "page_size": a.page_size}, sf)
             os.replace(pstate + ".tmp", pstate)
-            if wrapped or len(got) < a.page_size: break
+            if wrapped: ended_by = "lap"; break
+            if len(got) < a.page_size: ended_by = "short_page"; break
+            if page > 1 and dry >= STALL_PAGES: ended_by = "no_new_rows"; break
+        if status == "ok" and not ended_by:                        # the loop ran out of pages without reaching the end of the dataset
+            status = "max_pages"; note = f"stopped at the --max-pages ceiling ({a.max_pages}) with {len(rows):,} rows; the checkpoint keeps them"
         cols = sorted({k for row in rows[:200] for k in (row or {}).keys()}) if rows else []
         if status == "ok":
             with open(os.path.join(out_dir, fn + ".tmp"), "w", encoding="utf-8") as of:
@@ -162,7 +186,8 @@ def main():
         else:
             n_fail += 1
         entry = {"id": r["id"], "title": r["title"], "entity": r["entity"], "dataset": r["dataset"], "status": status, "rows": len(rows), "columns": len(cols),
-                 "file": fn if status == "ok" else "", "seconds": round(time.time() - t0, 1), "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "note": note}
+                 "file": fn if status == "ok" else "", "seconds": round(time.time() - t0, 1), "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "note": note,
+                 "pages": last_page, "ended_by": ended_by if status == "ok" else status}
         if status != "ok" and prev.get("status") == "ok":
             # 15 Sep: a failed REFRESH (503, block, timeout) keeps the last good pull and its file; the attempt is recorded beside it
             man[key] = dict(prev, last_refresh_attempt={k: entry[k] for k in ("status", "pulled", "seconds", "note")})
@@ -170,7 +195,7 @@ def main():
             man[key] = entry
         touched.add(key)
         api.log(f"[{i}/{len(todo)}] {key}: {status} rows={len(rows)} cols={len(cols)}")
-        if i % 10 == 0: save()
+        save()                                                     # every dataset: the loader reads the manifest, and a giant can be hours between flushes
     save()
     api.log(f"done: ok {n_ok}, skipped {n_skip}, failed {n_fail} -> {man_path}")
     if partial:
