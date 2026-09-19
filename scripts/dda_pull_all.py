@@ -218,7 +218,11 @@ def main():
                     if ok_ is None: status, note = err
                     elif not ok_:
                         order = None
-                        for cand in key_candidates(got1)[:6]:
+                        # 19 Sep: no single column is a key for some registers (DM floor levels: building x floor x usage); the gateway
+                        # takes a comma list, and ordering by EVERY column leaves ties only between identical rows, which are
+                        # interchangeable - so the full-row order is the last candidate (4,212 pages reproducible, 4,211,807 rows).
+                        full_row = ",".join(got1[0].keys())
+                        for cand in key_candidates(got1)[:6] + [full_row]:
                             ok2, tok, err = stable_at(c, base, a.page_size, cand, sample_pages, tok, label)
                             if ok2 is None: status, note = err; break
                             if ok2: order = cand; break

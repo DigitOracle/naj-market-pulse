@@ -74,6 +74,9 @@ for n in IMGS:
         im = im.resize((1400, round(im.height * 1400 / im.width)), Image.LANCZOS)
     im.save(os.path.join(OUT, "img", n + ".jpg"), quality=80, optimize=True, progressive=True)
 
+pdf = os.path.join(os.environ["TEMP"], "sanctuary_brief.pdf")   # built by build_sanctuary_brief.py
+if os.path.exists(pdf):
+    import shutil; shutil.copyfile(pdf, os.path.join(OUT, "Sanctuary_Brief_PrestigeOne.pdf"))
 html = io.open(os.path.join(HERE, "sanctuary_web_template.html"), encoding="utf-8").read()
 html = html.replace("/*__DATA__*/null", json.dumps(DATA, ensure_ascii=False, default=str).replace("</", "<\\/"))
 io.open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(html)

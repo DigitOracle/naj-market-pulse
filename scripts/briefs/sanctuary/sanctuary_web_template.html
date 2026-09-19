@@ -21,6 +21,7 @@ a{color:var(--gold)}
 .wrap{max-width:860px;margin:0 auto;padding:0 16px 64px}
 .bar{position:sticky;top:0;z-index:20;background:rgba(12,20,19,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--soft)}
 .bar-in{max-width:860px;margin:0 auto;padding:9px 16px;display:flex;align-items:center;gap:10px}
+.dl{display:inline-block;font:600 13px "IBM Plex Sans";background:var(--gold);color:var(--ink);text-decoration:none;padding:9px 14px;border-radius:8px;margin-top:12px}
 .mark{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
@@ -100,7 +101,7 @@ footer{color:var(--dim);font-size:12px;margin-top:48px;border-top:1px solid var(
 <div class="wrap">
   <div class="hero"><img src="img/cover.jpg" alt="Sanctuary, developer render"><div class="t">
     <div class="eye">Meydan Horizon · Dubai · Prestige One</div><h1>Sanctuary</h1>
-    <div class="sub" style="margin:6px 0 0">125 apartments on the edge of the Ras Al Khor Wildlife Sanctuary</div></div></div>
+    <div class="sub" style="margin:6px 0 0">125 apartments on the edge of the Ras Al Khor Wildlife Sanctuary</div><a class="dl" href="Sanctuary_Brief_PrestigeOne.pdf" download>Download the brief (PDF, 17 pages)</a></div></div>
   <div class="facts" id="facts"></div>
   <div class="tw"><table id="t-cover"></table></div>
   <div class="src">Prestige One price list, 15 Sep 2026 (43 of 125 priced). Indoor = suite area; total includes the balcony, the basis the Land Department records. Asking prices, not registered sales.</div>
@@ -182,7 +183,7 @@ footer{color:var(--dim);font-size:12px;margin-top:48px;border-top:1px solid var(
     <img src="img/sanctuary_map.jpg" alt="Site plan" style="border-radius:10px;cursor:zoom-in" data-zoom>
   </section>
 
-  <footer>Sources: Dubai Land Department register via data.dubai (lake snapshot 298; project register 19 Sep 2026), KHDA, DHA, RTA, OpenStreetMap; Prestige One's Sanctuary Brief and 15 Sep 2026 price list. Working brief for sales, not investment advice. Prepared <span id="today"></span> · DigitAlchemy® Tech Limited · contact@digitalabbot.io</footer>
+  <footer><a href="Sanctuary_Brief_PrestigeOne.pdf" download>Download the full brief as a PDF</a><br><br>Sources: Dubai Land Department register via data.dubai (lake snapshot 298; project register 19 Sep 2026), KHDA, DHA, RTA, OpenStreetMap; Prestige One's Sanctuary Brief and 15 Sep 2026 price list. Working brief for sales, not investment advice. Prepared <span id="today"></span> · DigitAlchemy® Tech Limited · contact@digitalabbot.io</footer>
 </div>
 <div class="lb" id="lb" hidden><img alt=""></div>
 
