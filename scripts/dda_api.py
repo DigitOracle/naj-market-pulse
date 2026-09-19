@@ -23,6 +23,7 @@ OUT = os.path.join(ROOT, "data", "raw_downloads", "dda")
 CACHE = os.path.join(OUT, ".token.json")
 RATE_S = float(os.environ.get("DDA_RATE_S", "1.05"))   # 60 requests per minute for one process; parallel pulls share that budget, so each sets DDA_RATE_S higher
 _last = [0.0]
+_limiter_warned = []
 RATE_FILE = os.path.join(OUT, ".rate.json")
 RATE_MAX = int(os.environ.get("DDA_RATE_MAX", "40"))    # requests per rolling 60 s across EVERY process using this module
 
@@ -57,7 +58,9 @@ def _shared_wait():
     while True:
         try:
             fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-        except FileExistsError:
+        except (FileExistsError, PermissionError):
+            # Windows reports a lock file another process is deleting at that instant as ACCESS DENIED, not "exists" (19 Sep 2026
+            # 05:2x: that killed a giants stream with five processes contending); either way the lock is busy - wait and retry
             try:
                 if time.time() - os.path.getmtime(lock) > 10: os.remove(lock)      # left by a killed process
             except OSError: pass
@@ -71,7 +74,9 @@ def _shared_wait():
                 ts.append(now)
                 tmp = RATE_FILE + f".{os.getpid()}.tmp"
                 with open(tmp, "w") as f: json.dump(ts, f)
-                os.replace(tmp, RATE_FILE)
+                for attempt in range(8):                            # a virus scanner or indexer can hold the file for a moment
+                    try: os.replace(tmp, RATE_FILE); break
+                    except PermissionError: time.sleep(0.05 * (attempt + 1))
                 return
             wait = ts[0] + 60 - now
         finally:
@@ -83,7 +88,10 @@ def _shared_wait():
 
 def _req(url, data=None, headers=None, timeout=35):
     _throttle()
-    _shared_wait()
+    try: _shared_wait()
+    except Exception as e:                                          # the limiter protects the quota; it must never be what kills a multi-hour pull
+        if not _limiter_warned: log(f"rate limiter error ({type(e).__name__}: {str(e)[:60]}), continuing on the per-process spacing"); _limiter_warned.append(1)
+        time.sleep(1.0)
     r = urllib.request.Request(url, data=data, headers=headers or {}, method="POST" if data else "GET")
     try:
         with urllib.request.urlopen(r, timeout=timeout) as h:
