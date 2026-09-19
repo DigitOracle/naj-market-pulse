@@ -88,6 +88,9 @@ def cmd_work(args):
     end_hit = args.end
     for page in range(first, args.end + 1):
         code, raw, tok = fetch_page(c, base, page, args.page_size, args.order_by, tok, f"{ds} {args.start}-{args.end}")
+        while code == 0:                                    # link down: a range worker waits it out however long it lasts
+            api.log(f"range {args.start}-{args.end}: page {page} link still down, waiting 120 s"); time.sleep(120)   # 19 Sep 06:23-08:3x outage outlived 8 rounds
+            code, raw, tok = fetch_page(c, base, page, args.page_size, args.order_by, tok, f"{ds} {args.start}-{args.end}")
         got, st_, nt_ = parse_page(code, raw)
         if got is None:
             api.log(f"range {args.start}-{args.end}: page {page} failed ({st_}: {nt_[:60]}); checkpoint kept, re-run to resume"); sys.exit(2)

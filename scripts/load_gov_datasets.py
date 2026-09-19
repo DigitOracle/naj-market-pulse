@@ -102,7 +102,13 @@ def merged_manifest(env):
     out = {}
     for k in set(stg) | set(prod):
         p, s = prod.get(k), stg.get(k)
+        # 19 Sep 2026: marking PROD dld_transactions 'truncated' (1.26M of ~1.78M rows, awaiting re-pull) made this fall back to the
+        # 5-row STG sample and overwrite the table the developer brief reads. A PROD file that is on disk and larger than STG's is kept
+        # (as 'prod_partial') until the re-pull replaces it: an incomplete real register beats a sample.
+        p_file = p and p.get("file") and os.path.exists(os.path.join(PROD, p["file"]))
         if p and p.get("status") == "ok": out[k] = (p, PROD, "prod")
+        elif p_file and (p.get("rows") or 0) > ((s or {}).get("rows") or 0):
+            out[k] = (dict(p, status="ok", note=f"PROD partial ({p.get('status')}), re-pull pending: " + (p.get("note") or "")), PROD, "prod_partial")
         elif s and s.get("status") == "ok": out[k] = (s, STG, "stg")
         else: out[k] = (p, PROD, "prod") if p else (s, STG, "stg")
     return out
