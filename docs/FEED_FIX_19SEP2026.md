@@ -1,5 +1,7 @@
 # Naj's morning feed: what must change so 19 Sep never repeats
 
+> **Superseded, 19 Sep 2026.** Azimuth Rings built this as worker v184 (the five-floor, the 2-3/2-3 split, plan facts exempt from the repeat locks, content guards) and v185 (daily scene cards with style_ref_21, `fbg_<n>` saved, off switch `FEED_SCENES`) on dewa-screens. Both await Kendall's go to deploy. This file is kept as the record of the 19 Sep diagnosis only.
+
 **For:** the Azimuth Rings session (sole deployer of azimuth-2). Deploy with Kendall's own go.
 **From:** the data session, 19 Sep 2026. Line numbers are from `C:\Dev\azimuth-worker-dewa\src\index.js` (branch dewa-screens) as read that day.
 

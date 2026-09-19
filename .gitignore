@@ -63,3 +63,6 @@ data/ev/cityengine/*
 # The rule package is a build output of build_ev_rpk.py, not source.
 data/ev/cityengine/EVCharger.rpk
 public/ev_archetypes/
+
+# one-off sends to Naj: they read the READ key from the listener .env; keep out of git (Azimuth Rings, 19 Sep 2026)
+scripts/send_naj_*.py

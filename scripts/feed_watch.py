@@ -52,8 +52,31 @@ def main():
         gen = ""
     if gen[:10] != now.astimezone(dt.timezone.utc).strftime("%Y-%m-%d"):
         problems.append("market data is from %s, not today (did the 05:00 refresh run?)" % (gen[:10] or "unknown"))
+    # v184/v185 (Azimuth Rings, 19 Sep): the QA note ends "five-floor: N sent (P plan, R real estate)" and feed_scenes_last
+    # counts the scene cards queued. Read both when present; older workers simply lack them.
+    try:
+        qa = (json.loads(kv("mkt_feed_qa") or "null") or {}).get("note") or ""
+    except Exception:
+        qa = ""
+    if "five-floor:" in qa:
+        tail = qa.split("five-floor:", 1)[1].strip()
+        try:
+            sent = int(tail.split()[0])
+            if sent < 5:
+                problems.append("QA says only %d sent (%s)" % (sent, tail[:60]))
+        except ValueError:
+            pass
+    scenes = kv("feed_scenes_last")
+    if scenes:
+        try:
+            sc = json.loads(scenes)
+            q = sc.get("queued") if isinstance(sc, dict) else sc
+            if isinstance(q, int) and q < 5:
+                problems.append("only %d scene pictures queued" % q)
+        except Exception:
+            pass
     if not problems:
-        print("feed ok: %d angles, data %s" % (n, gen[:16])); return 0
+        print("feed ok: %d angles, data %s%s" % (n, gen[:16], (" | " + qa[-60:]) if qa else "")); return 0
     line = "Naj's morning feed, %s: %s. Say 'rebuild her feed' to redo today's five." % (today, "; ".join(problems))
     print(line)
     if "--dry" not in sys.argv:
