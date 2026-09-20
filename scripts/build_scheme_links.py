@@ -29,7 +29,9 @@ GENERIC = set("the by of and a at in to residence residences tower towers buildi
 
 
 def words(x):
-    return [w for w in re.findall(r"[a-z0-9]+", str(x or "").lower()) if w not in GENERIC and len(w) > 1]
+    """Single letters and digits COUNT: "Binghatti Aquarise" and "Binghatti Aquarise - TOWER C" are different buildings of one
+    scheme, and the C is the whole difference."""
+    return [w for w in re.findall(r"[a-z0-9]+", str(x or "").lower()) if len(w) == 1 or w not in GENERIC]
 
 
 def same(a, b):
@@ -116,6 +118,69 @@ def land_for(umx_rec, by_prop, by_parcel):
             "project": row.get("project_name_en")}
 
 
+def makani_of(district, slug):
+    """The Makani entrance points, already bound to our duid by the DDA session - the one register that touches a building
+    rather than a community, and the address a client actually navigates to."""
+    f = load("makani_%s.json" % slug) or {}
+    out = {}
+    for p in f.get("points") or []:
+        d = p.get("duid")
+        if not d:
+            continue
+        cur = out.get(d)
+        if cur is None or (p.get("dist_m") or 999) < (cur.get("dist_m") or 999):
+            out[d] = p
+    return out
+
+
+def duids_of(district):
+    p = os.path.join(ROOT, "data", "identity", "identity_%s.json" % district)
+    if not os.path.exists(p):
+        return {}
+    return {i: v.get("duid") for i, v in (json.load(open(p, encoding="utf-8")).get("by_index") or {}).items() if v.get("duid")}
+
+
+def sales_for(rec, umx_rec, by_name):
+    """The DLD transaction register carries NO property id, no parcel, no land number - only a building name (DDA session,
+    20 Sep). So this binds by OUR strict rule, the same one the rents use: the name must match on its distinctive words. The
+    card says the sales are registered against that NAME, not that they are provably this footprint's."""
+    # only this building's own name: the transaction register names towers, so the scheme name would match a sibling's sales
+    names = [rec.get("name")]
+    for key, rows in by_name.items():
+        if not any(same(n, key) for n in names if n):
+            continue
+        rows = sorted(rows, key=lambda r: r.get("date") or "")
+        px = sorted([r["price_per_sqm"] for r in rows if r.get("price_per_sqm")])
+        recent = [{"date": r.get("date"), "rooms": r.get("rooms"), "sqft": round((r.get("area_sqm") or 0) * 10.764) or None,
+                   "price": round(r["price"]) if r.get("price") else None,
+                   "offplan": (r.get("reg_type") or "").lower().startswith("off")} for r in rows[-6:]][::-1]
+        return {"name": key, "n": len(rows),
+                "first": (rows[0].get("date") or "")[:10], "last": (rows[-1].get("date") or "")[:10],
+                "psf": round(px[len(px) // 2] / 10.764) if px else None,
+                "offplan_pct": round(100 * sum(1 for r in rows if (r.get("reg_type") or "").lower().startswith("off")) / len(rows)),
+                "recent": recent}
+    return None
+
+
+def permit_for(umx_rec, by_parcel):
+    """The plot's building permit. DM permits carry parcel_id and project_no, never a building id, so this is the PLOT's
+    permit - on a shared plot it may belong to a neighbour, and the card says so."""
+    d = umx_rec.get("dld") or {}
+    try:
+        key = str(int(float(d.get("parcel"))))
+    except (TypeError, ValueError):
+        return None
+    rows = by_parcel.get(key) or []
+    new = [r for r in rows if str(r.get("application_type") or "").startswith("Final-New Building")]
+    pick = sorted(new or rows, key=lambda r: r.get("permit_date") or "")[-1:]
+    if not pick:
+        return None
+    r = pick[0]
+    return {"type": r.get("application_type"), "no": r.get("permit_no"), "date": (r.get("permit_date") or "")[:10],
+            "status": r.get("status"), "buildings": r.get("building_count"), "area": r.get("total_area"),
+            "permits_on_plot": len(rows), "new_on_plot": len(new)}
+
+
 def build(district, push_tok):
     path = os.path.join(BOARD, "stack_%s.json" % district)
     if not os.path.exists(path):
@@ -129,12 +194,19 @@ def build(district, push_tok):
     projects = pfile.get("projects") or []
     by_building = {str(x.get("parent_property_id")): x for x in (pfile.get("building_to_project") or [])}
     amen = load("amenities_%s.json" % slug)
+    mak = makani_of(district, slug)
+    duid = duids_of(district)
+    tx = (load("transactions_%s.json" % slug) or {}).get("by_building_name") or {}
+    perm = {}
+    for r in (load("permits_%s.json" % slug) or {}).get("permits") or []:
+        if r.get("parcel_id") is not None:
+            perm.setdefault(str(int(float(r["parcel_id"]))), []).append(r)
     lfile = load("land_registry_%s.json" % slug) or {}
     lrows = lfile.get("plots") or []
     by_prop = {str(x.get("property_id")): x for x in lrows}
     by_parcel = {str(int(float(x["parcel_id"]))): x for x in lrows if x.get("parcel_id") is not None}
     fh_yes = sum(1 for x in lrows if x.get("is_free_hold"))
-    nr = np = nl = 0
+    nr = np = nl = nm = nt = npm = 0
     for i, rec in doc["buildings_by_id"].items():
         u = umx.get(i) or {}
         r = rent_for(rec, u, schemes)
@@ -142,6 +214,11 @@ def build(district, push_tok):
         rec["rent"] = r
         rec["project"] = p
         rec["land"] = land_for(u, by_prop, by_parcel)
+        mp = mak.get(duid.get(i) or "")
+        rec["makani"] = {"makani": mp.get("makani"), "dist_m": mp.get("dist_m")} if mp else None
+        rec["sales"] = sales_for(rec, u, tx)
+        rec["permit"] = permit_for(u, perm)
+        nm += bool(rec["makani"]); nt += bool(rec["sales"]); npm += bool(rec["permit"])
         nr += bool(r)
         np += bool(p)
         nl += bool(rec["land"])
@@ -161,8 +238,8 @@ def build(district, push_tok):
         "DLD land registry: the plot's zoning, area, freehold and registration, joined by the plot's property id"]
     json.dump(doc, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     n = len(doc["buildings_by_id"])
-    print("%s: rent on %d of %d buildings (%d Ejari schemes), project register on %d, plot on %d, schools %s%s"
-          % (district, nr, n, len(schemes), np, nl, len((doc.get("district_amenities") or {}).get("schools") or []),
+    print("%s: %d of %d buildings - rent %d, project %d, plot %d, makani %d, sales %d, permit %d%s"
+          % (district, n, n, nr, np, nl, nm, nt, npm,
              ("; district plots %d of %d freehold" % (fh_yes, len(lrows))) if lrows else ""))
     if push_tok:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
