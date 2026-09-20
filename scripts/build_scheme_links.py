@@ -95,6 +95,27 @@ def project_for(umx_rec, projects, by_building):
             "master": row.get("master_project_en") or row.get("master_project_en_units")}
 
 
+def land_for(umx_rec, by_prop, by_parcel):
+    """The plot this building stands on, from the DLD land registry, joined by the plot's own property id (and by DM parcel id
+    where that is all we have). We already carry a freehold flag per building; what the registry adds is the plot's ZONING -
+    a residential tower on a commercially zoned plot is a real thing a buyer should see - its registered area and its status."""
+    d = umx_rec.get("dld") or {}
+    row = by_prop.get(str(d.get("plot_property_id") or ""))
+    if row is None and d.get("parcel"):
+        try:
+            row = by_parcel.get(str(int(float(d["parcel"]))))
+        except (TypeError, ValueError):
+            row = None
+    if row is None:
+        return None
+    return {"land": row.get("land_number"), "parcel": int(row["parcel_id"]) if row.get("parcel_id") else None,
+            "zoned": row.get("land_type_en"), "use": row.get("property_sub_type_en"),
+            "area_sqm": round(row["actual_area"]) if row.get("actual_area") else None,
+            "freehold": None if row.get("is_free_hold") is None else bool(row["is_free_hold"]),
+            "registered": None if row.get("is_registered") is None else bool(row["is_registered"]),
+            "project": row.get("project_name_en")}
+
+
 def build(district, push_tok):
     path = os.path.join(BOARD, "stack_%s.json" % district)
     if not os.path.exists(path):
@@ -108,15 +129,22 @@ def build(district, push_tok):
     projects = pfile.get("projects") or []
     by_building = {str(x.get("parent_property_id")): x for x in (pfile.get("building_to_project") or [])}
     amen = load("amenities_%s.json" % slug)
-    nr = np = 0
+    lfile = load("land_registry_%s.json" % slug) or {}
+    lrows = lfile.get("plots") or []
+    by_prop = {str(x.get("property_id")): x for x in lrows}
+    by_parcel = {str(int(float(x["parcel_id"]))): x for x in lrows if x.get("parcel_id") is not None}
+    fh_yes = sum(1 for x in lrows if x.get("is_free_hold"))
+    nr = np = nl = 0
     for i, rec in doc["buildings_by_id"].items():
         u = umx.get(i) or {}
         r = rent_for(rec, u, schemes)
         p = project_for(u, projects, by_building)
         rec["rent"] = r
         rec["project"] = p
+        rec["land"] = land_for(u, by_prop, by_parcel)
         nr += bool(r)
         np += bool(p)
+        nl += bool(rec["land"])
     if amen:
         doc["district_amenities"] = {
             "centre": amen.get("centre"), "radius_km": amen.get("radius_km"),
@@ -124,14 +152,18 @@ def build(district, push_tok):
             "health_n": len(amen.get("health") or []),
             "health_top": sorted(amen.get("health") or [], key=lambda s: (s.get("km") if s.get("km") is not None else 99))[:12],
         }
+    if lrows:
+        doc["district_land"] = {"plots": len(lrows), "freehold": fh_yes}      # before the file is written, not after it
     doc["sources"] = [x for x in (doc.get("sources") or []) if not x.startswith(("Ejari", "DLD project", "KHDA"))] + [
         "Ejari rent contracts since 2024, registered per SCHEME and shown as the scheme's, never as this tower's alone",
         "DLD project register: escrow agent, percent complete, end date",
-        "KHDA schools and DHA facilities within %s km of the district centre" % (amen or {}).get("radius_km", 5)]
+        "KHDA schools and DHA facilities within %s km of the district centre" % (amen or {}).get("radius_km", 5),
+        "DLD land registry: the plot's zoning, area, freehold and registration, joined by the plot's property id"]
     json.dump(doc, open(path, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     n = len(doc["buildings_by_id"])
-    print("%s: rent on %d of %d buildings (%d Ejari schemes in the district), project register on %d, schools %s"
-          % (district, nr, n, len(schemes), np, len((doc.get("district_amenities") or {}).get("schools") or [])))
+    print("%s: rent on %d of %d buildings (%d Ejari schemes), project register on %d, plot on %d, schools %s%s"
+          % (district, nr, n, len(schemes), np, nl, len((doc.get("district_amenities") or {}).get("schools") or []),
+             ("; district plots %d of %d freehold" % (fh_yes, len(lrows))) if lrows else ""))
     if push_tok:
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         from build_avail_index import push
