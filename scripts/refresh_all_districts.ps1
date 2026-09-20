@@ -8,5 +8,13 @@ foreach ($s in @("scripts\dld_units_buildings.py","scripts\dld_tx_buildings.py",
   "=== $s $(Get-Date -Format HH:mm:ss)" | Out-File $log -Append -Encoding utf8
   & python $s 2>&1 | Out-File $log -Append -Encoding utf8
 }
+# 19 Sep 2026: the floor stack of every register-bound building (the twin's Floor layout), after the unit mix it reads.
+# The view pass merges the open sides into the same file, so it is the one that publishes.
+$fs = "scripts\build_floor_stack.py"
+$vw = "scripts\build_view_openness.py"
+"=== $fs $(Get-Date -Format HH:mm:ss)" | Out-File $log -Append -Encoding utf8
+& python $fs businessbay damachills 2>&1 | Out-File $log -Append -Encoding utf8
+"=== $vw $(Get-Date -Format HH:mm:ss)" | Out-File $log -Append -Encoding utf8
+& python $vw businessbay damachills --push 2>&1 | Out-File $log -Append -Encoding utf8
 & python -c "import json,sys; sys.path.insert(0,'scripts'); from build_avail_index import env_token, push; d=json.load(open('data/board/twin_audit.json',encoding='utf-8')); print('twin_audit ->', push('twin_audit', {'generated': d['generated'], 'districts': d['districts']}, env_token('INGEST_TOKEN')))" 2>&1 | Out-File $log -Append -Encoding utf8
 "done $(Get-Date -Format s)" | Out-File $log -Append -Encoding utf8
