@@ -181,6 +181,34 @@ def permit_for(umx_rec, by_parcel):
             "permits_on_plot": len(rows), "new_on_plot": len(new)}
 
 
+def anchors_of(district):
+    p = os.path.join(ROOT, "data", "names", "anchors_%s.json" % district)
+    if not os.path.exists(p):
+        return {}
+    return {str(x["i"]): x for x in (json.load(open(p, encoding="utf-8")).get("anchors") or []) if x.get("i") is not None}
+
+
+def names_of(slug):
+    """Names derived by id, never by string: DM building -> parcel -> DLD land registry project_name_en (DDA session, 20 Sep).
+    Where one of these disagrees with the name we bound by string matching, this one is the evidence."""
+    f = load("names_%s.json" % slug) or {}
+    return {str(x.get("building_id")): x for x in (f.get("buildings_list") or []) if x.get("name")}
+
+
+def name_check(rec, anchor_name, by_id):
+    """Does the id-derived name back our binding, or the map? For the one footprint where the register and the map disagree,
+    this is what decides it - and it decided against us: the register bound Enara to the footprint the map calls The Binary."""
+    row = by_id.get(str(rec.get("dm") or ""))
+    if not row:
+        return None
+    n = row.get("name")
+    ours, theirs, mapped = set(words(rec.get("name"))), set(words(n)), set(words(anchor_name))
+    return {"name": n, "plot_code": row.get("plot_code"), "source": row.get("source"),
+            "backs_register": bool(ours and ours == theirs),
+            "backs_map": bool(mapped and mapped == theirs and ours != theirs),
+            "broader": bool(theirs and theirs < ours)}      # the scheme rather than the tower: Golf Panorama, not Tower A
+
+
 def build(district, push_tok):
     path = os.path.join(BOARD, "stack_%s.json" % district)
     if not os.path.exists(path):
@@ -194,6 +222,8 @@ def build(district, push_tok):
     projects = pfile.get("projects") or []
     by_building = {str(x.get("parent_property_id")): x for x in (pfile.get("building_to_project") or [])}
     amen = load("amenities_%s.json" % slug)
+    names_id = names_of(slug)
+    anchors = anchors_of(district)
     mak = makani_of(district, slug)
     duid = duids_of(district)
     tx = (load("transactions_%s.json" % slug) or {}).get("by_building_name") or {}
@@ -217,6 +247,9 @@ def build(district, push_tok):
         mp = mak.get(duid.get(i) or "")
         rec["makani"] = {"makani": mp.get("makani"), "dist_m": mp.get("dist_m")} if mp else None
         rec["sales"] = sales_for(rec, u, tx)
+        rec["name_id"] = name_check(rec, (anchors.get(i) or {}).get("name"), names_id)
+        if rec.get("conflict") and (rec["name_id"] or {}).get("backs_map"):
+            rec["conflict_verdict"] = "map"      # the id-derived name agrees with the map: our register binding is the wrong one
         rec["permit"] = permit_for(u, perm)
         nm += bool(rec["makani"]); nt += bool(rec["sales"]); npm += bool(rec["permit"])
         nr += bool(r)
