@@ -21,7 +21,7 @@ How a dataset is pulled (19 Sep 2026, after two silent-truncation bugs):
 The end is an empty or short page (or, on an environment that laps forever such as STG, five pages with nothing new); it is never
 "a record I have seen before", which a real register with repeated rows trips over.
 """
-import argparse, hashlib, json, os, re, sys, time
+import argparse, hashlib, json, os, re, sys, time, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dda_api as api
 
@@ -45,7 +45,9 @@ def fetch_page(c, base, page, page_size, order, tok, label=""):
     A deep page often times out once (408) and serves in a few seconds on the next ask. code 0 is a transport error (link down): 18 Sep
     19:42 one drop threw away an hour of pages, so a dead link gets up to 8 rounds of 20-120 s waits. 429 is the gateway's per-minute quota
     and must never end a dataset (19 Sep 00:59 it ended eleven in seconds): wait out the minute and ask again."""
-    url = f"{base}?page={page}&pageSize={page_size}" + (f"&order_by={order}&order_dir=asc" if order else "")
+    # 21 Sep 2026: a full-row order_by can name columns carrying Arabic or a stray newline, which urllib cannot put in a URL
+    # ('ascii' codec / "URL can't contain control characters") - four stats datasets died that way. Percent-encode the value.
+    url = f"{base}?page={page}&pageSize={page_size}" + (f"&order_by={urllib.parse.quote(order, safe=',')}&order_dir=asc" if order else "")
     code, raw, tok = api.auth_get(c, url, tok)
     n = 0
     while code in TRANSIENT and n < {0: 8, 429: 12}.get(code, 3):
