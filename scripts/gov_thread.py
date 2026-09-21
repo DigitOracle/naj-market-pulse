@@ -131,8 +131,60 @@ def build_licence(con):
         names, num("license_number"), num("trade_name_serial_number"), num("license_number"), tn))
 
 
+def load_community_polygons(con):
+    """The DM community boundaries (data/board/communities.geojson, from the portal KML) as a temp table of vertices.
+
+    21 Sep 2026: before this, a dataset carrying coordinates was attached to whichever community CENTRE lay within 3 km. That is
+    wrong in both directions - it misses a point at the far end of a long community (Jabal Ali, Hadaeq Sheikh Mohammed Bin Rashid)
+    and it claims a point that sits just outside a small dense one. With the boundary we can say whether the point is actually IN
+    the community; the centre rule stays as the fallback for points inside no polygon at all.
+    Returns True when polygons are available; everything still works without the file."""
+    import io, json, os
+    p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "board", "communities.geojson")
+    if not os.path.exists(p):
+        return False
+    feats = json.load(io.open(p, encoding="utf-8"))["features"]
+    rows = []
+    for f in feats:
+        num = f["properties"].get("comm_num")
+        if not num:
+            continue
+        for ri, ring in enumerate(f["geometry"]["coordinates"]):
+            for vi, (lon, lat) in enumerate(ring):
+                rows.append((int(num), ri, vi, float(lon), float(lat)))
+    if not rows:
+        return False
+    con.execute("create or replace temp table j_comm_poly (comm_num bigint, ring int, v int, lon double, lat double)")
+    con.executemany("insert into j_comm_poly values (?, ?, ?, ?, ?)", rows)
+    con.execute("""create or replace temp table j_comm_box as
+                   select comm_num, min(lon) w, max(lon) e, min(lat) s, max(lat) n from j_comm_poly group by 1""")
+    return True
+
+
+def points_in_communities(con, pts_sql):
+    """Ray casting in SQL: a point is inside a ring when an odd number of its edges cross the ray east of the point.
+    The bounding box narrows the candidates first, so this stays cheap even with 223 polygons."""
+    return """
+        with pt as (select distinct lat, lon from %s),
+             cand as (select pt.lat, pt.lon, b.comm_num from pt join j_comm_box b
+                      on pt.lon between b.w and b.e and pt.lat between b.s and b.n),
+             edge as (select p.comm_num, p.ring, p.lon x1, p.lat y1,
+                             lead(p.lon) over (partition by p.comm_num, p.ring order by p.v) x2,
+                             lead(p.lat) over (partition by p.comm_num, p.ring order by p.v) y2
+                      from j_comm_poly p),
+             cross_count as (
+                 select c.lat, c.lon, c.comm_num,
+                        sum(case when ((e.y1 > c.lat) <> (e.y2 > c.lat))
+                                  and (c.lon < (e.x2 - e.x1) * (c.lat - e.y1) / nullif(e.y2 - e.y1, 0) + e.x1)
+                                 then 1 else 0 end) crossings
+                 from cand c join edge e on e.comm_num = c.comm_num and e.x2 is not null
+                 group by 1, 2, 3)
+        select lat, lon, comm_num from cross_count where crossings %% 2 = 1""" % pts_sql
+
+
 def job_gov_thread(con):
     build_licence(con)
+    have_poly = load_community_polygons(con)
     has_esc = q(con, "select count(*) from information_schema.tables where table_name = 'g_dld__accredited_escrow_agents'")[0][0]
     con.execute("create or replace temp table j_escrow as select %s escrow_agent_number, %s name_en from %s" % (
         (num("escrow_agent_number"), "any_value(escrow_agent_name_en)", "g_dld__accredited_escrow_agents group by 1")
@@ -190,13 +242,20 @@ def job_gov_thread(con):
             con.execute("""insert into j_keymap select '%s', '%s,%s', 'district', null, d.canonical_id, 'point in district box'
                            from %s join lk_d_district d on p.lon between d.bbox_w and d.bbox_e and p.lat between d.bbox_s and d.bbox_n""" % (
                 t, lat, lon, pts))
+            if have_poly:
+                con.execute("""insert into j_keymap select '%s', '%s,%s', 'community', null, c.canonical_id, 'point in community polygon'
+                               from (%s) ip join lk_d_community c on c.comm_num = ip.comm_num""" % (
+                    t, lat, lon, points_in_communities(con, pts)))
+            # whatever no boundary claims still gets the old rule, so coverage never goes backwards
             con.execute("""insert into j_keymap select '%s', '%s,%s', 'community', null, canonical_id, 'nearest community centre <= %g km'
                            from (select p.lat, p.lon, c.canonical_id, row_number() over (partition by p.lat, p.lon order by
                                  (p.lat - c.lat)^2 + ((p.lon - c.lon) * 0.906)^2) r,
                                  111.2 * sqrt((p.lat - c.lat)^2 + ((p.lon - c.lon) * 0.906)^2) km
-                                 from %s, lk_d_community c where c.lat is not null) where r = 1 and km <= %g""" % (
-                t, lat, lon, NEAR_KM, pts, NEAR_KM))
-            k_m = q(con, "select count(*) from j_keymap where table_name = '%s' and spine = 'community' and method like 'nearest%%'" % t)[0][0]
+                                 from %s, lk_d_community c where c.lat is not null) where r = 1 and km <= %g
+                           and not exists (select 1 from j_keymap k where k.table_name = '%s'
+                                           and k.method = 'point in community polygon')""" % (
+                t, lat, lon, NEAR_KM, pts, NEAR_KM, t))
+            k_m = q(con, "select count(*) from j_keymap where table_name = '%s' and spine = 'community'" % t)[0][0]
             rate = k_m / k_in if k_in else 0.0
             con.execute("insert into j_link values (?, ?, ?, ?, ?, ?, ?, ?, ?)", [t, dkey, lat + "," + lon, "community", n, k_in, k_m, rate, "point"])
             per[t]["links"].append(("community", rate, k_m))
