@@ -33,6 +33,15 @@ def kv(key):
 def main():
     now = dt.datetime.now(GST); today = now.strftime("%Y-%m-%d")
     problems = []
+    # v186 (21 Sep): a morning can be HELD because her 24-hour WhatsApp window is shut. That is not a failure -
+    # it flushes on her next message - but Kendall should know it is waiting, so it is reported on its own.
+    pending = kv("mkt_feed_pending")
+    if pending:
+        line = "Naj's morning feed, %s: HELD - her 24-hour WhatsApp window is shut, so it waits for her next message (v186 nudge sent)." % today
+        print(line)
+        if "--dry" not in sys.argv:
+            subprocess.run([sys.executable, os.path.join(HERE, "notify_owner.py"), line], timeout=120)
+        return 0
     marker = kv("mktfeed_" + today)
     if marker != "done":
         problems.append("the feed did not complete (marker %r)" % (marker or "none"))
@@ -66,15 +75,16 @@ def main():
                 problems.append("QA says only %d sent (%s)" % (sent, tail[:60]))
         except ValueError:
             pass
-    scenes = kv("feed_scenes_last")
-    if scenes:
-        try:
-            sc = json.loads(scenes)
-            q = sc.get("queued") if isinstance(sc, dict) else sc
-            if isinstance(q, int) and q < 5:
-                problems.append("only %d scene pictures queued" % q)
-        except Exception:
-            pass
+    if "CHECK FAILED" in qa:
+        problems.append("the feed's own check failed (%s)" % qa.split("CHECK FAILED", 1)[1][:80].strip(": "))
+    try:
+        audit = json.loads(kv("mkt_feed_audit") or "null") or {}
+    except Exception:
+        audit = {}
+    for f in (audit.get("failures") or audit.get("problems") or [])[:3]:
+        problems.append("morning audit: %s" % str(f)[:80])
+    # v186: pictures are no longer made automatically - the morning ends with "Make all five / I'll choose",
+    # so zero scene jobs is normal. feed_scenes_last is read for the record only, never as a fault.
     if not problems:
         print("feed ok: %d angles, data %s%s" % (n, gen[:16], (" | " + qa[-60:]) if qa else "")); return 0
     line = "Naj's morning feed, %s: %s. Say 'rebuild her feed' to redo today's five." % (today, "; ".join(problems))
