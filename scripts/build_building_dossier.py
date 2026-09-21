@@ -386,6 +386,28 @@ def sections(G):
                     '<div class=src>Ejari contracts registered against the scheme <b>%s</b> (%s contracts). Ejari registers at '
                     'scheme level, never per tower.</div>' % (E(rent.get("scheme")), fmt(rent.get("n")))))
 
+    # who designed it and who built it - the Municipality's contractor and consultant registers, reached through the
+    # crosswalk. A team is the PARCEL's: where a plot holds several buildings the firm built something on that plot and
+    # not necessarily this tower, so it is labelled the way the permit already is.
+    tm = r.get("team")
+    if tm and (tm.get("contractor") or tm.get("consultant")):
+        many = (tm.get("on_plot") or 1) > 1
+        body = (row("Built by", tm.get("contractor")) + row("Designed by", tm.get("consultant"))
+                + row("Project type", tm.get("type")) + row("Recorded as", tm.get("building_type"))
+                + row("First building permit", tm.get("permit")) + row("Project status", tm.get("status")))
+        st = r.get("stage") or {}
+        if st.get("stage"):
+            body += row("Municipality's stage", st["stage"])
+        if st.get("cost"):
+            body += row("Declared building cost", "AED " + fmt(st["cost"]))
+        out.append(("Designed and built by", body +
+                    '<div class=src>Dubai Municipality contractor and consultant registers, joined by parcel through the Land '
+                    "Department's building crosswalk.%s%s</div>"
+                    % (" This plot carries %d buildings, so the firms are the plot's and not necessarily this one's."
+                       % tm["on_plot"] if many else "",
+                       " The stage is the Municipality's own record of how far construction has got - a second opinion beside "
+                       "the developer's percent complete below, not a correction to it." if st.get("stage") else "")))
+
     # construction
     p = r.get("project")
     if p:
