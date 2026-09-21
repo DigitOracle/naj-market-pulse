@@ -48,6 +48,9 @@ COMM = {
     "Madinat Dubai Almelaheyah": 321,          # MADINAT DUBAI AL MELAHEYAH
     "Me'Aisem First": 685,                     # ME`AISEM FIRST
     "Palm Deira": None, "Al Yelayiss 1": None, "Al Yelayiss 2": None,
+    # 21 Sep 2026: the twin added Bu Kadra and Liwan 1. Both checked BY PARCEL, not by name - the land registry's plots for
+    # Bukadra land in DM community 611 (178 of 226) and for Wadi Al Safa 2 in 643 (1,064 of 2,190), and the name match agrees.
+    "Bukadra": 611, "Wadi Al Safa 2": 643,
 }
 ALIAS = {"businessbay": "business_bay", "damachills": "damac_hills"}   # the two hand-cut districts keep their original filenames too
 
