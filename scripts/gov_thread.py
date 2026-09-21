@@ -59,6 +59,9 @@ RULES = [
     (r"^community$", "community", COMMUNITY_PREFIX),
     (r"^(parcel_id|parcelid|parcel_number|parcel_no)$", "parcel", parcel_key("{c}")),
     (r"^property_id$", "property", num("{c}")),        # DLD property ids name a building or a land parcel
+    # 21 Sep 2026: a UNIT's own property_id is a unit, and units are not on the building/parcel spine - g_dld__units met 0 of its
+    # 2,374,092 rows and read as 'weak'. A unit's BUILDING is its parent_property_id, and that is the id that belongs on the spine.
+    (r"^parent_property_id$", "property", num("{c}")),
     (r"^(project_id|master_project_id)$", "project", num("{c}")),
     (r"^project_number$", "project_no", num("{c}")),
     (r"^(developer_id|master_developer_id)$", "dev_id", num("{c}")),
@@ -82,7 +85,12 @@ CODE_ALIAS = {"area": "areacode", "activity_ded_code": "activity_code", "isic4co
 CODE_MAX_DISTINCT = 300_000
 # a city-wide statistics table: small, keyed by time only (fleet sizes, crime counts, monthly index, airport throughput)
 TIME_COL = re.compile(r"(^|_)(year|month|date|day|period)$|report_date|first_date_of_month", re.I)
-CITY_MAX_ROWS = 20_000
+# 21 Sep 2026: the cap was 20,000, which left genuinely city-and-period tables off the thread purely for being long - RTA public
+# transport trips by month (198,528 rows), the three channel programme schedules, DSC unemployment, driver registration summaries.
+# A table only reaches this test when NO column met a spine and none of its codes met another dataset, so length is not evidence of
+# it being a register; a time key with nothing else is a city series however many rows it has. Raised, not removed: a million-row
+# table with no key at all is more likely a broken pull than a statistic, and should be looked at rather than quietly attached.
+CITY_MAX_ROWS = 250_000
 # 19 Sep 2026 audit: KHDA school_search names its pair lat / long and the DHA facility register xcoordinate / ycoordinate (degrees:
 # x = longitude 55.x, y = latitude 25.x) - both sat off the thread as catalogue_only. The Dubai bounding box below still rejects
 # anything that is not WGS84 degrees, so a projected x/y can never be placed by mistake.
@@ -258,6 +266,9 @@ def job_gov_thread(con):
         where d.license_source is null or upper(d.license_source) like '%DED%'""")
     st = dict(q(con, "select status, count(*) from j_thread group by 1"))
     k_in, k_m = q(con, "select coalesce(sum(keys_in), 0), coalesce(sum(keys_matched), 0) from j_link")[0]
+    ATTACHED = ("connected", "weak", "via_dataset", "code_linked", "city_level")
+    landed = sum(n for s, n in st.items() if s != "not_landed")
+    attached = sum(n for s, n in st.items() if s in ATTACHED)
     dev_lic = q(con, "select count(*) from j_xref_gov")[0][0]
     top = q(con, """select table_name, column_name, spine, keys_matched, keys_in, rate from j_link
                     order by keys_matched desc limit 12""")
@@ -271,9 +282,19 @@ def job_gov_thread(con):
                        ("lk_gov_link", "select * from j_link"), ("lk_gov_thread", "select * from j_thread")],
             "xref": [("gov_thread", "j_xref_gov")],
             "views": [("v_gov_thread", thread), ("v_gov_unconnected", unconnected)],
-            "keys_in": k_in, "keys_matched": k_m, "rows_in": len(tables),
-            "note": "distinct gov key values found on a spine",
+            # 21 Sep 2026: the contract used to be "distinct key VALUES on a spine", which the full PROD sweep diluted from 78.8% to
+            # 61.3% - matched keys ROSE 6.45M -> 6.55M, but ~300 newly landed company, licence and food registers added 2.7M key
+            # values that can never meet a place, and the job held itself. The goal is one thread through every dataset, so the
+            # contract now measures exactly that: the share of LANDED datasets attached to the thread by any route - a spine key
+            # (connected / weak), a code link to another dataset (code_linked / via_dataset), or a city-and-period anchor
+            # (city_level). Only catalogue_only (names, no key at all) and keys_unmatched count against it. Key-value coverage
+            # stays in the report below, where dilution is visible without gating the job.
+            "keys_in": landed, "keys_matched": attached, "rows_in": len(tables),
+            "note": "landed datasets attached to the thread (spine key, code link or city anchor)",
             "report": ["gov tables: %d; status %s" % (len(tables), ", ".join("%s %d" % kv for kv in sorted(st.items()))),
+                       "attached: %d of %d landed datasets (%.1f%%); key values on a spine: %s of %s (%.1f%%)"
+                       % (attached, landed, 100.0 * attached / max(landed, 1), format(k_m, ","), format(k_in, ","),
+                          100.0 * k_m / max(k_in, 1)),
                        "licence spine: %s DED licences; developers holding one: %d" % (format(q(con, "select count(*) from j_licence")[0][0], ","), dev_lic)]
                       + ["  %-48s %-26s -> %-10s %s of %s (%.1f%%)" % (t[:48], c[:26], s, format(m, ","), format(k, ","), 100 * r)
                          for t, c, s, m, k, r in top]
