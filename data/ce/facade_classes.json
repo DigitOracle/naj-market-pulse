@@ -828,9 +828,41 @@
     "overture": 682
    },
    "generated": "2026-09-09T07:59:49"
+  },
+  "liwan1": {
+   "n": 1827,
+   "counts": {
+    "glassblue": 1,
+    "glassclear": 1,
+    "glassbronze": 2,
+    "stone": 305,
+    "render": 1480,
+    "concrete": 38,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1827
+   },
+   "generated": "2026-09-21T13:11:20"
+  },
+  "bukadra": {
+   "n": 658,
+   "counts": {
+    "glassblue": 3,
+    "glassclear": 3,
+    "glassbronze": 5,
+    "stone": 110,
+    "render": 519,
+    "concrete": 18,
+    "brick": 0
+   },
+   "sources": {
+    "default": 658
+   },
+   "generated": "2026-09-21T13:24:22"
   }
  },
- "updated": "2026-09-09T07:59:49",
+ "updated": "2026-09-21T13:24:22",
  "rule_v3": "rules/najma_v3.cga",
  "v3_textures": {
   "library": "/ESRI.lib/assets/Facades/International/Upperfloors/<name>.jpg (CityEngine workspace, Esri texture library); name encodes u_f<storeys>_t<bays>",

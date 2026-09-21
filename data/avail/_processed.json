@@ -354,16 +354,16 @@
   "units": 0
  },
  "bd1ab91ac657ddd2c2f33b4277c208119636516e": {
-  "file": "1789547225681_Inventory Artistry 1.pdf",
-  "out": "select_2026-09-16.json",
-  "when": "2026-09-16T13:34:48",
-  "units": 0
+  "file": "1789632990783_Inventory Artistry 1.pdf",
+  "out": "select_2026-09-17.json",
+  "when": "2026-09-18T09:44:16",
+  "units": 32
  },
  "1c770bb0f32b30a6535e9fe4b2de1a0dfd730b40": {
-  "file": "1789547228206_Inventory Artistry 2.pdf",
-  "out": "select_2026-09-16.json",
-  "when": "2026-09-16T13:43:50",
-  "units": 0
+  "file": "1789632991304_Inventory Artistry 2.pdf",
+  "out": "select_2026-09-17.json",
+  "when": "2026-09-18T09:46:35",
+  "units": 42
  },
  "669d5f1203af1e9f2e45f05806e8fd97ebe72cf2": {
   "file": "1789632727227_W Residences T3 - Availability - -17.09.2026.pdf",
