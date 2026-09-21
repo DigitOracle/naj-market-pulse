@@ -112,6 +112,28 @@ then `osm_heights.py --force`, `build_anchors.py`, and the CityEngine massing â€
 CityEngine 2025.1 open on Kendall's machine with the Python bridge on 25333 (`ce_batch_v2.py --v3 bukadra`). After that Bu Kadra
 joins the ordinary roll-out and needs nothing special.
 
+## Where it stands, 21 Sep 2026, evening
+
+**38 districts scored, 1,916 buildings, median 13 of 16 sections.** (`python scripts/audit_pages.py --all`.) Two districts are
+skipped and should stay skipped: Al Thanyah Fifth is the same DLD area as JLT North under a second slug, and the industrial
+districts hold no building that meets both registers.
+
+Citywide mean coverage, worst first â€” this is the whole to-do list, in order of what it would buy:
+
+| Section | Citywide | What would move it |
+|---|---|---|
+| The plans | **7%** | the plan library reaches almost nothing. The developers' own sites carry them; the video session owns that harvest |
+| The flats on the floor | **40%** | the units register's `parent_property_id`. Nothing to fix - the 80% coverage guard is doing its job |
+| What it lets for | 50% | Ejari binds at scheme level and our name rule is strict on purpose |
+| Who lives here | 65% | the disclosure floor: communities under 500 homes are not published |
+| What has sold here | 66% | strict name binding again; the transaction register carries no property id |
+| Construction | 72% | a building with no row in the project register, mostly older completed stock |
+| The plot | 79% | a parcel the land registry has no row for |
+| Around it | 87% | four districts have no DM community, so no amenities cut exists for them |
+
+Everything else - name, model, floors reachable, the plate, what it sells for, the building facts, what it sees over, sourcing -
+is at or near 100%.
+
 ## Order of work
 
 1. **Now:** run the roll-out over all 40 rail districts. Floors, open sides, rents, units, plates, published.
