@@ -199,21 +199,31 @@ def anchors_of(district):
 
 
 def names_of(slug):
-    """Names derived by id, never by string: DM building -> parcel -> DLD land registry project_name_en (DDA session, 20 Sep).
-    Where one of these disagrees with the name we bound by string matching, this one is the evidence."""
+    """Names derived by id, never by string (DDA session, 20-21 Sep). Two registers, keyed differently:
+
+      by_dm    DM building_id -> parcel -> DLD land registry project_name_en
+      by_dld   DLD property_id -> the units register's project for that building, or the register's own building number
+
+    The DM side is thin where the growth is - Al Barsha South Fourth holds 6 DM buildings against 3,825 in the DLD register, so
+    a DM-only read named nothing at all in JVC. The DLD side binds straight onto the property_id our unitmix already carries."""
     f = load("names_%s.json" % slug) or {}
-    return {str(x.get("building_id")): x for x in (f.get("buildings_list") or []) if x.get("name")}
+    by_dm = {str(x.get("building_id")): x for x in (f.get("buildings_list") or []) if x.get("name")}
+    by_dld = {idstr(x.get("property_id")): x for x in (f.get("dld_buildings_list") or []) if x.get("name")}
+    return {"dm": by_dm, "dld": by_dld}
 
 
-def name_check(rec, anchor_name, by_id):
+def name_check(rec, anchor_name, by_id, umx_rec=None):
     """Does the id-derived name back our binding, or the map? For the one footprint where the register and the map disagree,
     this is what decides it - and it decided against us: the register bound Enara to the footprint the map calls The Binary."""
-    row = by_id.get(str(rec.get("dm") or ""))
+    row = (by_id.get("dm") or {}).get(str(rec.get("dm") or ""))
+    if row is None and umx_rec is not None:
+        row = (by_id.get("dld") or {}).get(idstr((umx_rec.get("dld") or {}).get("property_id")))
     if not row:
         return None
     n = row.get("name")
     ours, theirs, mapped = set(words(rec.get("name"))), set(words(n)), set(words(anchor_name))
-    return {"name": n, "plot_code": row.get("plot_code"), "source": row.get("source"),
+    return {"name": n, "plot_code": row.get("plot_code") or row.get("building_number"), "source": row.get("source"),
+            "code_only": row.get("source") == "dld_building_number",   # e.g. JVC12T2TH030: the register's own reference, not a name anybody uses
             "backs_register": bool(ours and ours == theirs),
             "backs_map": bool(mapped and mapped == theirs and ours != theirs),
             "broader": bool(theirs and theirs < ours)}      # the scheme rather than the tower: Golf Panorama, not Tower A
@@ -257,7 +267,7 @@ def build(district, push_tok):
         mp = mak.get(duid.get(i) or "")
         rec["makani"] = {"makani": mp.get("makani"), "dist_m": mp.get("dist_m")} if mp else None
         rec["sales"] = sales_for(rec, u, tx)
-        rec["name_id"] = name_check(rec, (anchors.get(i) or {}).get("name"), names_id)
+        rec["name_id"] = name_check(rec, (anchors.get(i) or {}).get("name"), names_id, u)
         if rec.get("conflict") and (rec["name_id"] or {}).get("backs_map"):
             rec["conflict_verdict"] = "map"      # the id-derived name agrees with the map: our register binding is the wrong one
         rec["permit"] = permit_for(u, perm)
