@@ -96,7 +96,8 @@ def read(paths):
 # 15 Sep 2026 (digital thread Q1): the number and parcel-key normalisers moved to scripts/keys.py so every script joins register
 # numbers the same way; the names num / parcel_key are kept here for the jobs below.
 from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql  # noqa: E402
-import gov_thread  # noqa: E402
+import gov_thread
+import key_bridge  # noqa: E402
 
 
 def one(con, sql):
@@ -1769,10 +1770,13 @@ JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": j
         "sales_projects": job_sales_projects, "rent_projects": job_rent_projects, "twin_bindings": job_twin_bindings,
         "project_spine": job_project_spine, "sheet_units": job_sheet_units, "place_spine": job_place_spine, "sub_communities": job_sub_communities, "stations": job_stations, "districts": job_districts, "makani": job_makani, "resident_mix": job_resident_mix,
         "building_activity": job_building_activity,
-        "gov_thread": gov_thread.job_gov_thread}      # 18 Sep 2026: every DDA API dataset on the spines (scripts/gov_thread.py)
+        "gov_thread": gov_thread.job_gov_thread,
+        # 22 Sep 2026: one canonical crosswalk between property_id, parcel, DM building and the project ids
+        # (scripts/key_bridge.py) - every consumer was re-deriving the same joins and getting different answers
+        "key_bridge": key_bridge.job_key_bridge}      # 18 Sep 2026: every DDA API dataset on the spines (scripts/gov_thread.py)
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"gov_thread", "rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
+NON_BLOCKING = {"gov_thread", "key_bridge", "rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
 
 
 def run(con, name, dry):

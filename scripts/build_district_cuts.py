@@ -10,6 +10,9 @@ data/board/<cut>_<slug>.json - replaced in place at the same path, so a reader r
   amenities_<slug>         KHDA schools (curriculum, rating) and active DHA facilities within 5 km of the district centre
   makani_<slug>            DM Makani entrance points with lon/lat and the twin duid
   permits_<slug>           DM building permits on the district's parcels
+  dld_buildings_<slug>     DLD building register: property_id + parcel_id, the key bridge between the two spines
+  project_team_<slug>      who designed it and who built it, by parcel (DM contractor + consultant registers)
+  project_buildings_<slug> DM project -> building, with construction stage and declared cost
   usages_<slug>            DM building usages per building_id - the independent second opinion on what a building is for
   parcel_buildings_<slug>  buildings per parcel with floors, basements, units, floor area, use mix
 
@@ -250,6 +253,108 @@ def cut_usages(con, d):
             "by_building": dict(by_b)}
 
 
+DLDB_COLS = ("property_id", "parcel_id", "parent_property_id", "building_number", "floors", "bld_levels", "flats", "offices",
+             "shops", "car_parks", "elevators", "swimming_pools", "built_up_area", "actual_area", "common_area", "land_number",
+             "land_sub_number", "land_type_en", "project_id", "project_name_en", "master_project_en", "property_sub_type_en",
+             "is_free_hold", "is_registered", "area_id", "area_name_en")
+
+
+def cut_dld_buildings(con, d):
+    """The DLD building register for one district: the KEY BRIDGE between the two spines.
+
+    22 Sep 2026, measured by the twin on its own stacks: of 1,918 buildings, 84% carry a DLD property_id, 37% a DM building id
+    and only 5% a parcel key - so every parcel-keyed register (contractor, consultant, permits, usages, project information)
+    could reach a twentieth of them. This file carries property_id AND parcel_id on the same row, which turns the key the twin
+    has into the key those registers need. It is also an id-only path from a footprint to its units:
+    parcel -> property_id -> units.parent_property_id, with no name matching anywhere in the chain.
+    Citywide 110,720 of 257,039 rows (43%) carry a parcel_id the DM building register also knows; the rest carry a DLD parcel
+    number with no DM counterpart, so the bridge is real but partial, and each district's file reports its own share."""
+    like = d["area"].replace("'", "''")
+    rows = con.execute("select %s from g_dld__buildings where upper(coalesce(area_name_en,'')) = upper('%s')"
+                       % (", ".join(DLDB_COLS), like)).fetchall()
+    ID = {"property_id", "parcel_id", "parent_property_id", "project_id", "area_id", "land_number", "land_sub_number"}
+    docs = [{k: (idstr(v) if k in ID else v) for k, v in zip(DLDB_COLS, r)} for r in rows]
+    dm = set()
+    if d["comm"]:
+        dm = {str(x[0]) for x in con.execute(
+            "select distinct cast(parcel_key as varchar) from lk_dm_buildings where comm_num = ?", [d["comm"]]).fetchall()}
+    on_dm = sum(1 for x in docs if x.get("parcel_id") and x["parcel_id"] in dm)
+    return {"area": d["area"], "columns": list(DLDB_COLS), "buildings": len(docs),
+            "with_parcel_id": sum(1 for x in docs if x.get("parcel_id")),
+            "parcel_id_on_dm_spine": on_dm,
+            "note": "THE KEY BRIDGE: property_id (the key the twin holds on ~84% of its buildings) and parcel_id (what the "
+                    "Municipality registers are keyed on) on the same row. Use it to reach contractor, consultant, permits, "
+                    "usages and project information from a property_id, and as an id-only path footprint -> parcel -> "
+                    "property_id -> units.parent_property_id. parcel_id_on_dm_spine counts this district's rows whose parcel "
+                    "the DM building register also knows; the remainder carry a DLD parcel number with no DM counterpart.",
+            "buildings_list": docs}
+
+
+TEAM_COLS = ("project_no", "parcel_id", "contractor_english", "contractor_license_no", "consultant_english",
+             "consultant_license_no", "project_type", "building_type", "building_count", "first_building_permit_date",
+             "last_app_submission_date", "project_status", "project_closing_date", "community_name")
+
+TEAM_SQL = """
+    with p as (select distinct cast(parcel_key as varchar) k from lk_dm_buildings where comm_num = ?),
+    c as (select cast(cast(try_cast(trim(cast(parcel_id as varchar)) as double) as bigint) as varchar) pk, project_no,
+                 contractor_english, contractor_license_no, consultant_english, null consultant_license_no, project_type,
+                 building_type, building_count, first_building_permit_date, last_app_submission_date, project_status,
+                 project_closing_date, community_name
+          from g_dm__contractor_projects
+          union all
+          select cast(cast(try_cast(trim(cast(parcel_id as varchar)) as double) as bigint) as varchar), project_no,
+                 contractor_english, null, consultant_english, consultant_license_no, project_type, building_type,
+                 building_count, first_building_permit_date, last_app_submission_date, project_status,
+                 project_closing_date, community_name
+          from g_dm__consultant_projects)
+    select c.project_no, c.pk, c.contractor_english, c.contractor_license_no, c.consultant_english, c.consultant_license_no,
+           c.project_type, c.building_type, c.building_count, cast(c.first_building_permit_date as varchar),
+           cast(c.last_app_submission_date as varchar), c.project_status, cast(c.project_closing_date as varchar),
+           c.community_name
+    from c join p on p.k = c.pk"""
+
+
+def cut_project_team(con, d):
+    """Who designed it and who built it, by parcel: the DM contractor and consultant registers, merged.
+    Each register names the other party, so a row from either side carries both where the Municipality recorded both."""
+    rows = con.execute(TEAM_SQL, [d["comm"]]).fetchall()
+    seen, out = set(), []
+    for r in rows:
+        key = (r[0], r[1], r[2], r[4])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append({k: (idstr(v) if k in ("project_no", "parcel_id") else v) for k, v in zip(TEAM_COLS, r)})
+    return {"area": d["area"], "comm_num": d["comm"], "columns": list(TEAM_COLS), "rows": len(out),
+            "with_contractor": sum(1 for x in out if x.get("contractor_english")),
+            "with_consultant": sum(1 for x in out if x.get("consultant_english")),
+            "note": "DM contractor and consultant project registers, joined to this district by parcel (95.1% of their rows "
+                    "carry a parcel the spine knows). 'Designed by X, built by Y' per parcel: join parcel -> "
+                    "parcel_buildings_<slug>.json to choose the building, or arrive from a property_id through "
+                    "dld_buildings_<slug>.json. A parcel with several projects has several rows, oldest permit first.",
+            "projects": out}
+
+
+def cut_project_buildings(con, d):
+    """The Municipality's own project -> building mapping, with construction stage and declared building cost.
+    A second route from a project to its buildings that never touches the DLD project_id."""
+    rows = con.execute("""select cast(cast(i.project_no as bigint) as varchar), cast(cast(i.building_id as bigint) as varchar),
+                                 i.building_construction_stage_e, i.building_cost, cast(b.parcel_key as varchar)
+                          from g_dm__project_building_information i
+                          join lk_dm_buildings b on b.building_id = i.building_id
+                          where b.comm_num = ?""", [d["comm"]]).fetchall()
+    keys = ("project_no", "building_id", "construction_stage", "building_cost", "parcel_key")
+    out = [dict(zip(keys, r)) for r in rows]
+    return {"area": d["area"], "comm_num": d["comm"], "columns": list(keys), "rows": len(out),
+            "with_cost": sum(1 for x in out if x.get("building_cost")),
+            "with_stage": sum(1 for x in out if x.get("construction_stage")),
+            "note": "DM project -> building mapping; every one of its 208,946 citywide rows meets the DM building spine. Carries "
+                    "the Municipality's own construction stage (Site organizing, Internal finishes, Final finishes, Work "
+                    "completed) and the declared building cost. This is the project-to-building route that does NOT depend on "
+                    "the DLD project_id.",
+            "buildings": out}
+
+
 def centre(con, comm):
     r = con.execute("select avg(lat), avg(lon), count(*) from lk_makani_entrances where comm_num = ?", [comm]).fetchone()
     if r and r[2]:
@@ -303,6 +408,9 @@ def main():
                 except Exception: pass
         made = {}
         want = lambda c: (only is None or c in only)
+        if want("dld_buildings"):
+            doc = cut_dld_buildings(con, d); write("dld_buildings", d["slug"], doc)
+            made["dld_buildings"] = "%d (%d on DM parcels)" % (doc["buildings"], doc["parcel_id_on_dm_spine"])
         if want("land_registry"):
             write("land_registry", d["slug"], cut_land(d, rows)); made["land_registry"] = len(rows)
         if d["comm"]:
@@ -314,6 +422,12 @@ def main():
                 doc = cut_makani(con, d); write("makani", d["slug"], doc); made["makani"] = len(doc["points"])
             if want("usages"):
                 doc = cut_usages(con, d); write("usages", d["slug"], doc); made["usages"] = doc["buildings"]
+            if want("project_team"):
+                doc = cut_project_team(con, d); write("project_team", d["slug"], doc)
+                made["project_team"] = "%d (%d contractor, %d consultant)" % (doc["rows"], doc["with_contractor"], doc["with_consultant"])
+            if want("project_buildings"):
+                doc = cut_project_buildings(con, d); write("project_buildings", d["slug"], doc)
+                made["project_buildings"] = "%d (%d cost, %d stage)" % (doc["rows"], doc["with_cost"], doc["with_stage"])
             if want("permits"):
                 doc = cut_permits(con, d); write("permits", d["slug"], doc); made["permits"] = len(doc["permits"])
             if want("amenities"):
