@@ -80,7 +80,7 @@ Harness: `NAJMA_VIDEO=3 python scripts/demo_capture.py capture` then `cut` (`jou
 PDF). Assertions per beat: the COMPARE URL carries `a=emaar&b=sobha&bed=2`; each VERSUS page contains
 "<city> costs"; a plan image over 500 px wide with "2 BED" in its alt is on screen.
 
-## As cut - take 3, 18 Sep, 1:20 (`NAJMA_DEMO03_COMPARE_VERSUS_SCREEN_9x16_18SEP2026.mp4`)
+## As cut - take 5, 18 Sep, 1:23 (`NAJMA_DEMO03_COMPARE_VERSUS_SCREEN_9x16_18SEP2026.mp4`)
 
 Take 1 (1:07) opened straight on COMPARE and a word-card variant tried a four-second hook; Kendall
 asked instead for the whole map turning - *Dubai is a big place, it seems overwhelming, let me walk you
@@ -93,14 +93,31 @@ speed wherever it sits in the take (`orbit_start` / `orbit_end`, `ORBIT_TARGET` 
 |---|---|---|---|
 | 0:00-0:11 | the city turning | the all-Dubai twin, camera drawing in over the districts | buildings count read off the page |
 | 0:11-0:30 | COMPARE | Emaar, Sobha, *2 bed* - every row re-cut; the table scrolled | URL carries a=emaar&b=sobha&bed=2 |
-| 0:30-0:44 | VERSUS London | budget 2m; money, the door, every year, living, London's own card | page contains 'London costs' |
-| 0:44-0:52 | New York | the same lines re-answer | 'New York costs' |
-| 0:52-0:59 | Monaco | 5.3x per sq ft; nine square metres for two million | 'Monaco costs' |
-| 0:59-1:10 | PLANS | straight to Marina Cove's page (no ALVA grid), then 2 BED inline | plan image > 500 px with '2 BED' alt |
-| 1:10-1:20 | the close | the plan held 9 s for the sign-off | frame |
+| 0:30-0:50 | VERSUS London | budget 2m; the *Tax and fees* and *Top rate of income tax* lines tapped open - the drawer with the working and the source - then money, the door, every year, living | 'London costs'; drawer open x2; 'Say it' below the frame |
+| 0:50-0:57 | New York | the same lines re-answer | 'New York costs' |
+| 0:57-1:04 | Monaco | 5.3x per sq ft; nine square metres for two million | 'Monaco costs' |
+| 1:04-1:14 | PLANS | straight to Marina Cove's page (no ALVA grid), then 2 BED inline | plan image > 500 px with '2 BED' alt |
+| 1:14-1:23 | the close | the plan held 9 s for the sign-off | frame |
 
 Take 3 replaced take 2 on Kendall's note that the ALVA brochure pages in Emaar's default list sat
 off-centre: the PLANS beat now opens Marina Cove's page directly, so the only plans in frame are its own.
+
+Takes 4-5 (Kendall, 18 Sep): *show that you can click on some of these and get a bit more out of it*, and
+*that bottom part that says "Say it" is for her only*. The London beat now taps two rows - each opens a drawer
+at the foot of the frame with the working and its source; the first drawer scrims the page, so it is closed
+on its x before the next tap (take 4 timed out behind it). Every VERSUS scroll is capped at three ticks and
+the harness asserts "Say it" is below the frame before marking the beat.
+
+**Floor plan cut (Kendall, 18 Sep):** *I don't think the floor plans tie into what we're trying to do - maybe
+end with the list.* The filed cut is take 5 re-cut to end on Monaco, held nine seconds (1:12). The harness's
+beat 5 now ends on Emaar's own project list, `/dev?d=emaar` - but that page, and Sobha's, threw Cloudflare
+1101 "Worker threw exception" on every request on 18 Sep (Ellington's and Imtiaz's load). Reported to the
+Azimuth session; the beat refuses to mark if it gets the error page. Re-film once it is fixed.
+
+**Take 6 - the list ending (18 Sep, ~13:05, on v181.1).** The Azimuth session fixed `/dev?d=emaar` and
+`/dev?d=sobha`; take 6 ends on Emaar's project list - the header (10,483 sales, AED 53.08 bn, 415 projects)
+and six wheel-ticks through the photo cards - held nine seconds. 1:33. Cues: city 0:00, COMPARE 0:11,
+London 0:30, New York 0:51, Monaco 0:58, Emaar's list 1:05, held 1:23-1:33.
 
 ## Open items
 

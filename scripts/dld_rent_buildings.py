@@ -18,6 +18,11 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, ".."))
 OUT = os.path.join(ROOT, "data", "dld"); os.makedirs(OUT, exist_ok=True)
 DLD_AREA = {
+    # 21 Sep 2026: the two districts the twin could not draw until today. Their DLD area names are the register's own -
+    # 'Bukadra' (the Meydan / Sobha Hartland corridor) and 'Wadi Al Safa 2' (Liwan / Queue Point), both confirmed against
+    # g_dld__transactions rather than guessed, after Liwan was first placed by inference and came back as Nad Al Sheba.
+    'Bukadra': ['bukadra'],
+    'Wadi Al Safa 2': ['liwan1'],
     'Marsa Dubai': ['dubaimarina'],
     'Business Bay': ['businessbay'],
     'Burj Khalifa': ['burjkhalifa'],

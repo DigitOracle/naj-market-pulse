@@ -28,7 +28,7 @@ spelled out, "AED" written as "dirhams".
 > twenty-three communities light up. DAMAC Hills: Europe twenty-six percent, and inside that, British
 > thirteen — the largest group from Europe. And then the sheet she takes away: what Loreto sells and
 > rents for, seven hundred and fifty registered sales, the furnished interiors, completed in twenty
-> sixteen. Welcome to Azimuth. Complexity into clarity.
+> sixteen. Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity.
 
 ---
 

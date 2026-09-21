@@ -77,7 +77,7 @@ def num(x):
 
 def type_key(t):
     """The register's type string -> the filter's chip: studio, 1..4 (4 = four or more), office, retail, other."""
-    t = (t or "").strip().lower()
+    t = str(t if t is not None else "").strip().lower()   # a units row can carry a number here, and a float has no .strip()
     if t.startswith("studio"):
         return "studio"
     m = re.match(r"(\d+)\s*b", t)

@@ -13,6 +13,7 @@ GLB = os.path.join(CEDIR, "_glb")
 
 from cityengine import CE, GLTFExportModelSettings  # noqa: E402
 
+WANT = {a for a in sys.argv[1:] if not a.startswith("-")}   # ce_batch.py liwan1 -> just that one
 ce = CE()
 ws = ce.toFSPath("/")
 proj = os.path.join(ws, "najma")
@@ -35,7 +36,9 @@ areas = [d for d in sorted(os.listdir(CEDIR))
 print("areas with footprints:", areas)
 
 for a in areas:
-    if os.path.exists(os.path.join(GLB, f"sky_{a}_0.glb")):
+    if WANT and a not in WANT:
+        continue
+    if not WANT and os.path.exists(os.path.join(GLB, f"sky_{a}_0.glb")):
         print(f"SKIP {a} (GLB exists)"); continue
     print(f"=== {a}", flush=True)
     for f in os.listdir(os.path.join(CEDIR, a)):
@@ -88,5 +91,5 @@ print("\nGLBs:")
 for f in sorted(os.listdir(GLB)):
     if f.endswith(".glb"):
         sz = os.path.getsize(os.path.join(GLB, f))
-        print(" ", f, sz // 1024, "KB", "⚠️ OVER 5MB KV CAP" if sz > 5*1024*1024 else "")
+        print(" ", f, sz // 1024, "KB", "!! OVER 5MB KV CAP" if sz > 5 * 1024 * 1024 else "")   # the console here is cp1252
 print("next: python scripts/push_assets.py --skylines")

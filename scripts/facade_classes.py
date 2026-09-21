@@ -93,7 +93,12 @@ def overpass(q):
 
 
 def fetch_osm_facade(slug, feats):
-    """OSM facade-relevant tags for the district, matched by centroid. Cached in data/names."""
+    """OSM facade-relevant tags for the district, matched by centroid. Cached in data/names.
+
+    Overpass is a third party and it goes down: it 504'd through every mirror on 21 Sep and took Bu Kadra's whole facade run
+    with it. It is source 1 of 3 here and the other two stand on their own, so an outage now costs the OSM-tagged buildings
+    their real material and nothing else - the district still gets its facades from Overture and from the height/district
+    defaults. The empty result is NOT cached, so the next run tries again."""
     out = os.path.join(NAMES, f"osm_facade_{slug}.json")
     if os.path.exists(out):
         return json.load(open(out, encoding="utf-8"))
@@ -257,7 +262,11 @@ def run(slug):
         print(slug, "no buildings.geojson"); return None
     feats = json.load(open(gj, encoding="utf-8"))["features"]
     print(f"== {slug}: {len(feats)} footprints")
-    osm = fetch_osm_facade(slug, feats)
+    try:
+        osm = fetch_osm_facade(slug, feats)
+    except Exception as e:                       # Overpass down: the other two sources still classify the district
+        print("  overpass unavailable (%s) - facades from Overture and the height/district defaults only" % str(e)[:60])
+        osm = {}
     ovt = load_overture(slug, feats)
     if ovt: print(f"  overture records matched: {len(ovt)}")
     bld = {}

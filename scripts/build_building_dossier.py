@@ -144,7 +144,10 @@ def plate_svg(G, level):
     k = W / (x1 - x0 + 2 * pad)
     H = (y1 - y0 + 2 * pad) * k
     T = lambda a: " ".join("%.1f,%.1f" % ((a[i] - x0 + pad) * k, (y1 - a[i + 1] + pad) * k) for i in range(0, len(a), 2))
+    # a floor's labels are a map of cell index -> unit number, or a plain list in the same order; the twin reads both
     lab = (b.get("labels") or {}).get(str(level)) or {}
+    if isinstance(lab, list):
+        lab = {str(i): v for i, v in enumerate(lab) if v}
     out = ['<svg viewBox="0 0 %d %d" xmlns="http://www.w3.org/2000/svg" class=plate>' % (W, H)]
     out.append('<polygon points="%s" fill="#F4F1EA" stroke="%s" stroke-width="2"/>' % (T(o), NAVY))
     for c in p["cells"]:
@@ -438,7 +441,9 @@ def sections(G):
         body += "</table>"
     if body:
         out.append(("Around it", body +
-                    '<div class=src>Landmarks are the Land Department\'s own nearest-to fields. Schools are KHDA, within %s km '
+                    '<div class=src>Stops and stations are the RTA\'s own layers, measured straight-line from this building. '
+                    'Landmarks are the Land Department\'s own nearest-to fields, which describe the project and carry no '
+                    'distance. Schools are KHDA, within %s km '
                     'of the centre of %s with their inspection rating - district context, not a distance from this door.'
                     '</div>' % (E((G["amen"] or {}).get("radius_km") or 5), E(G["district_name"]))))
 
@@ -671,13 +676,17 @@ def main():
     ap.add_argument("--district", required=True)
     ap.add_argument("--id")
     ap.add_argument("--top", type=int, help="the N tallest buildings in the district instead of one id")
+    ap.add_argument("--all", action="store_true", help="every building in the district that meets both registers")
     ap.add_argument("--push", action="store_true")
     a = ap.parse_args()
-    if a.top:
+    if a.top or a.all:
         stack = rd("stack_%s.json" % a.district) or {}
-        ids = sorted((stack.get("buildings_by_id") or {}).items(), key=lambda kv: -len(kv[1].get("floors") or []))[:a.top]
+        rows = sorted((stack.get("buildings_by_id") or {}).items(), key=lambda kv: -len(kv[1].get("floors") or []))
+        ids = rows if a.all else rows[:a.top]
+        n = 0
         for i, _ in ids:
-            one(a.district, i, a.push)
+            n += 1 if one(a.district, i, a.push) else 0
+        print("%d of %d buildings in %s" % (n, len(ids), a.district))
         return 0
     if not a.id:
         ap.error("--id or --top")

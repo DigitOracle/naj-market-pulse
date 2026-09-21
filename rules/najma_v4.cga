@@ -86,7 +86,8 @@ attr unitBay       = 7.5          // one apartment per bay along the long faces
 attr returnT       = 0.2          // balcony return wall thickness
 attr paneW         = 1.5          // glazing pane rhythm
 attr louvreP       = 0.35         // podium louvre pitch
-attr gableMax      = 30           // faces narrower than this are solid gable ends
+attr gableMax      = 12           // faces narrower than this are solid gable ends (30 made every notched OSM face a gable: the
+                                  //   Akoya outlines are split into 15-28 m segments, and the balcony faces came out as punched walls, 15 Sep)
 attr balconyContinuous = 0        // 1 = one balcony slab + glass balustrade across the whole facade on every floor (DAMAC Hills
                                   //     Akoya apartment blocks, matched to photos 14 Sep); 0 = every other bay
 attr retailH       = 4.50

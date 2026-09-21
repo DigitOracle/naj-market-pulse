@@ -66,3 +66,10 @@ public/ev_archetypes/
 
 # one-off sends to Naj: they read the READ key from the listener .env; keep out of git (Azimuth Rings, 19 Sep 2026)
 scripts/send_naj_*.py
+
+# 22 Sep 2026: rebuildable outputs, kept out of the tree. dist_dossier alone is 99 MB of PDFs that
+# build_building_dossier.py regenerates from the registers in minutes; the briefs and logs likewise.
+dist_dossier/
+dist_brief/
+logs/
+.metadata/

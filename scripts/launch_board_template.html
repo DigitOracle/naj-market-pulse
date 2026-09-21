@@ -1,0 +1,116 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dubai 2026 launch board</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0B1412;--panel:#121C19;--line:rgba(197,165,106,.3);--gold:#C5A56A;--text:#E8E4D8;--mut:#8FA39B;--warn:#E8C4A8}
+*{box-sizing:border-box}body{margin:0;background:var(--ink);color:var(--text);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:15px;-webkit-text-size-adjust:100%}
+.wrap{max-width:860px;margin:0 auto;padding:18px 14px 60px}
+h1{font:600 1.5rem/1.15 Fraunces,Georgia,serif;margin:0}
+.sub{color:var(--mut);font-size:.74rem;font-family:"IBM Plex Mono",monospace;letter-spacing:.04em;margin-top:5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:9px;margin:16px 0 4px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.kpi b{display:block;font:600 1.3rem/1 Fraunces,Georgia,serif;color:var(--gold)}
+.kpi span{display:block;font-size:.64rem;color:var(--mut);margin-top:5px;line-height:1.4}
+.note{background:rgba(197,165,106,.08);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin:14px 0;font-size:.79rem;line-height:1.55;color:var(--mut)}
+.note b{color:var(--text)}
+.tools{position:sticky;top:0;z-index:5;background:var(--ink);padding:12px 0 9px;margin-top:6px}
+#q{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px 12px;font:inherit;font-size:.86rem;outline:none}
+#q:focus{border-color:var(--gold)}
+.chips{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:.68rem;font-family:"IBM Plex Mono",monospace;color:var(--mut);cursor:pointer;user-select:none;background:var(--panel)}
+.chip.on{background:var(--gold);color:#0E1613;font-weight:600;border-color:var(--gold)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-top:10px;overflow:hidden}
+.hd{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer}
+.rk{font:600 1rem/1 Fraunces,Georgia,serif;color:var(--gold);min-width:26px;text-align:right}
+.nm{flex:1;min-width:0}
+.nm b{display:block;font-weight:600;font-size:.98rem;line-height:1.25}
+.nm span{display:block;font-size:.66rem;color:var(--mut);font-family:"IBM Plex Mono",monospace;margin-top:3px}
+.rt{text-align:right;white-space:nowrap}
+.rt b{display:block;font:600 1.05rem/1 Fraunces,Georgia,serif}
+.rt span{font-size:.62rem;color:var(--mut)}
+.tag{display:inline-block;max-width:max-content;font-size:.58rem;font-family:"IBM Plex Mono",monospace;letter-spacing:.06em;padding:2px 7px;border-radius:99px;margin-left:6px;vertical-align:1px}
+.tag.no{background:rgba(232,196,168,.16);color:var(--warn)}
+.tag.yes{background:rgba(197,165,106,.16);color:var(--gold)}
+.tag.new{background:var(--gold);color:#0E1613;font-weight:600}
+.body{display:none;border-top:1px solid rgba(197,165,106,.18);padding:4px 0 8px}
+.card.open .body{display:block}
+.p{display:flex;gap:10px;align-items:baseline;padding:9px 14px;border-bottom:1px solid rgba(197,165,106,.09);font-size:.82rem}
+.p:last-child{border-bottom:0}
+.p .pn{flex:1;min-width:0}
+.p .pn b{font-weight:500}
+.p .pn em{display:block;font-style:normal;font-size:.65rem;color:var(--mut);font-family:"IBM Plex Mono",monospace;margin-top:2px}
+.p .pu{white-space:nowrap;font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--gold);text-align:right}
+.p .pu i{display:block;font-style:normal;color:var(--mut);font-size:.63rem;margin-top:2px}
+.ar{direction:rtl;unicode-bidi:plaintext}
+.foot{margin-top:26px;font-size:.66rem;color:rgba(143,163,155,.8);line-height:1.6}
+.empty{padding:26px 4px;color:var(--mut);font-size:.84rem}
+</style></head><body><div class="wrap">
+<h1>Dubai 2026 launch board</h1>
+<div class="sub" id="sub"></div>
+<div class="kpis" id="kpis"></div>
+<div class="note" id="note"></div>
+<div class="tools"><input id="q" placeholder="find a district, a project or a master community…" autocomplete="off">
+<div class="chips"><span class="chip on" data-f="all">Launched &amp; selling</span><span class="chip" data-f="y26">Launched in 2026</span><span class="chip" data-f="free">Units free today</span></div></div>
+<div id="list"></div>
+<div class="foot" id="foot"></div></div>
+<script>
+const D = /*__DATA__*/null;
+const $ = s => document.querySelector(s), esc = s => String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const n = x => (x||0).toLocaleString("en"), ar = s => /[؀-ۿ]/.test(s) ? ' ar' : '';
+let filt = "all", open = new Set();
+$("#sub").textContent = D.total_p + " projects launched 2025–26 and still selling · " + n(D.total_units) + " homes · read " + D.generated;
+$("#kpis").innerHTML = [
+  [D.offplan_pct + "%", "of Dubai sales are off-plan<br>" + n(D.off) + " against " + n(D.ready) + " ready"],
+  [n(D.total_units), "homes launched 2025–26<br>across " + D.total_p + " projects"],
+  [D.p26 + " / " + n(D.u26), "projects &amp; homes<br>launched in 2026"],
+  [n(D.free_u), "units free today across " + D.free_p + " projects<br>from the developers' own sheets"],
+].map(k => '<div class=kpi><b>' + k[0] + '</b><span>' + k[1] + '</span></div>').join("");
+$("#note").innerHTML = "<b>What this is.</b> Every project launched in 2025 or 2026 and still selling, from the Dubai Land Department's register — by district, biggest first. Tap a district for the launches inside it. Prices, off-plan share and yield on each district come from the sales and Ejari registers. <b>Units free today</b> are the ones we can name unit by unit, from the developers' own latest sheets — everything else launched off-plan and we know what was released, not what is left.";
+$("#foot").innerHTML = "Dubai Land Department project register, all " + D.total_p + " live launches, read " + D.generated + ". Off-plan share from the sales register. “% built” is the register's own field and is not always current — treat a low figure on a near handover date as a question to ask, not a fact. English project names come from our own register cut; where we hold none, the register's Arabic name is shown. <b>“master” is the landowner of the master community, not the brand that builds and sells</b> — the register's developer field names the landowner, so Binghatti Aquarise reads as Dubai Properties. The brand is in the project name.";
+function match(d) {
+  const q = $("#q").value.trim().toLowerCase();
+  if (filt === "y26" && !d.u26) return false;
+  if (filt === "free" && !d.p.some(p => p.free)) return false;
+  if (!q) return true;
+  return (d.market + " " + d.area).toLowerCase().includes(q) || d.p.some(p => (p.name + " " + (p.m || "")).toLowerCase().includes(q));
+}
+function projects(d) {
+  const q = $("#q").value.trim().toLowerCase();
+  let ps = d.p;
+  if (filt === "y26") ps = ps.filter(p => p.start.slice(0,4) === "2026");
+  if (filt === "free") ps = ps.filter(p => p.free);
+  if (q && !(d.market + " " + d.area).toLowerCase().includes(q)) ps = ps.filter(p => (p.name + " " + (p.m || "")).toLowerCase().includes(q));
+  return ps;
+}
+function draw() {
+  const ds = D.districts.filter(match);
+  $("#list").innerHTML = ds.length ? ds.map(d => {
+    const ps = projects(d);
+    return '<div class="card' + (open.has(d.area) ? ' open' : '') + '" data-a="' + esc(d.area) + '">' +
+      '<div class=hd><div class=rk>' + d.rank + '</div><div class=nm><b>' + esc(d.market || d.area) + '</b>' +
+      '<span>' + esc(d.area) + ' · ' + d.n + ' project' + (d.n === 1 ? '' : 's') +
+      (d.sqft ? ' · AED ' + n(d.sqft) + '/sqft' : '') + (d.opct != null ? ' · ' + d.opct + '% off-plan' : '') +
+      (d.yld ? ' · ' + d.yld + '% yield' : '') +
+      (d.u26 ? '<span class="tag new">' + n(d.u26) + ' launched in 2026</span>' : '') +
+      (d.p.some(p => p.free) ? '<span class="tag yes">' + n(d.p.reduce((a,p)=>a+p.free,0)) + ' free today</span>' : '') +
+      '</span></div>' +
+      '<div class=rt><b>' + n(d.units) + '</b><span>homes</span></div></div>' +
+      '<div class=body>' + (ps.length ? ps.map(p =>
+        '<div class=p><div class=pn><b class="' + ar(p.name).trim() + '">' + esc(p.name) + '</b><em>' +
+        (p.m ? 'master: ' + esc(p.m) + ' · ' : '') + (p.esc ? 'escrow ✓' : 'no escrow on file') + '</em></div><div class=pu>' + (p.free ? '<b style="color:#C5A56A">' + p.free + ' free</b> of ' + n(p.u) : n(p.u) + ' homes') +
+        '<i>' + p.b + '% built · due ' + (p.end || '—') + (p.free ? ' · ' + esc(p.fdev) + ' sheet ' + p.fdate : '') + '</i></div></div>'
+      ).join("") : '<div class=empty style="padding:14px">nothing here matches</div>') + '</div></div>';
+  }).join("") : '<div class=empty>Nothing matches. Try a district, a project or a developer.</div>';
+  document.querySelectorAll(".hd").forEach(h => h.onclick = () => {
+    const a = h.parentElement.dataset.a;
+    open.has(a) ? open.delete(a) : open.add(a);
+    h.parentElement.classList.toggle("open");
+  });
+}
+$("#q").oninput = draw;
+document.querySelectorAll(".chip").forEach(c => c.onclick = () => {
+  document.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === c));
+  filt = c.dataset.f; open.clear(); draw();
+});
+draw();
+</script></body></html>

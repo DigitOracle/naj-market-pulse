@@ -84,9 +84,9 @@ def build(units_file, districts, min_cover, tok):
         if fl is None:
             no_floor += 1
             continue
-        t = row.get("rooms_en") or row.get("rooms") or ""
+        t = str(row.get("rooms_en") or row.get("rooms") or "").strip()
         held.setdefault(key, {}).setdefault(fl, []).append({
-            "u": str(row.get("unit_number") or "").strip(),
+            "u": str(row.get("unit_number") if row.get("unit_number") is not None else "").strip(),
             "t": t, "c": type_key(t),
             "sqft": round((num(row.get("actual_area")) or 0) * 10.764) or None,
             "bal": round((num(row.get("unit_balcony_area")) or 0) * 10.764) or None,

@@ -35,7 +35,7 @@ a frame from here. That is a property of this pipeline, not of the key.
 
 Options: --headed (watch it run), --slow <ms>.
 """
-import argparse, json, os, subprocess, sys, time, urllib.error, urllib.parse, urllib.request
+import argparse, contextlib, json, os, re, subprocess, sys, time, urllib.error, urllib.parse, urllib.request
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -71,11 +71,36 @@ elif VIDEO == 3:
     # Starts on a developer, not the map or the twin (Kendall, 18 Sep).
     DEV_A, DEV_B = "Emaar", "Sobha"; CITIES = ["London", "New York", "Monaco"]; BUDGET_TILE = "2m"
     PLAN_PROJECT, PLAN_TYPE = "Marina Cove", "2 BED"; PLAN_PROJECT_PARAM = "Marina%20Cove%20at%20Dubai%20Marina"; BUDGET_HI = 14
+elif VIDEO == 4:
+    # video 03, second concept (Kendall picked B, 18 Sep): "what's hot, and why?" - starts from the market,
+    # not a client. Few figures spoken (Kendall: "too many figures"); the screens carry the numbers.
+    HOT_AREA, HOT_SLUG = "Madinat Al Mataar", "madinatalmataar"; ZOOM_BUILDING = "Terra Woods"; SECOND_BUILDING = "Terra Gardens"; BUDGET_HI = 14
+elif VIDEO == 5:
+    # video 04 - "what's actually left, and on which floor?": the building page, filmed in the page's own phone
+    # layout. Kendall's 20 Sep walkthrough was a landscape screen recording; this is the same page as a native 9:16.
+    # The page is on the preview build, not production yet (production answers 401 to the client key), so the take
+    # reads the preview unless AZIMUTH_URL says otherwise.
+    BLD_ROUTE = "/building/businessbay/650"; VIEW_CHIP = os.environ.get("NAJMA_VIEW_CHIP", "SW"); BUDGET_HI = 14
+    APP = os.environ.get("AZIMUTH_URL", "https://60715ca6-azimuth-2.digitalchemy.workers.dev")
+elif VIDEO == 6:
+    # video 05 - "what will I actually see from my window, and could anything block it?" (Q048, Q049, Q054): the twin's
+    # building panel gives the view from each of four sides - the landmarks it sees, or the building that blocks it - and each
+    # side opens the real view: live photoreal imagery from that facade at two-thirds of the tower's height. ONE River Point
+    # (anchor 589) was picked from a scan of 124 named towers on 21 Sep: N Dubai Canal and Burj Khalifa, W Burj Al Arab and
+    # Palm Jumeirah, E blocked by One by Binghatti.
+    VIEW_ANCHOR = os.environ.get("NAJMA_VIEW_ANCHOR", "589"); VIEW_TOUR = ["N", "W", "E"]
+    VIEW_GOOD, VIEW_BLOCKED, VIEW_LAST = "N", "E", "W"; VIEW_PULLBACK = int(os.environ.get("NAJMA_VIEW_PULLBACK", "5")); BUDGET_HI = 14
+elif VIDEO == 7:
+    # video 06 - "could someone build in front of me?" (Q049, Q048, Q054), the first episode cut to the Ask Najj template:
+    # 11 shots, the turn at 55%, the payoff on the occlusion reveal. ONE River Point, blocked east by One by Binghatti.
+    VIEW_ANCHOR = os.environ.get("NAJMA_VIEW_ANCHOR", "589"); BLD_ROUTE_7 = "/building/businessbay/73"; FLOOR_A, FLOOR_B = 41, 74; BUDGET_HI = 14
+    APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
 else:
     BUDGET_HI = 14                  # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
 TAIL_HOLD = 7.0                     # extra seconds on the LAST page of the sheet, so the sign-off lands
 TWIN_TARGET = 9.0                   # seconds the twin beat should PLAY for - see the orbit note in cut()
+ZOOM_TARGET = 4.0                   # a camera pull-back in the 3D, played at speed like the turns
 ORBIT_TARGET = 11.0                 # video 03's opening turn of the whole city - long enough for the line that opens the film
 FPS = 30                            # Playwright records ~25fps and the close clips were built at 30;
                                     # `concat -c copy` across that mismatch writes a container whose
@@ -161,6 +186,51 @@ CURSOR_JS = """() => {
   addEventListener('mousedown', () => { d.style.transform = 'scale(.55)'; }, true);
   addEventListener('mouseup',   () => { d.style.transform = 'scale(1)'; }, true);
 }"""
+
+
+# ---------------------------------------------------------------- shots
+#
+# Videos 01-05 were each ONE unbroken take: the cut trimmed a head and a tail and sped up the 3D turns, and scene detection
+# finds zero cuts in any of them at any threshold. The Ask Najj template wants 11 shots in 45 seconds - an event every 2-3 s and
+# a cut every 4-6 s. So a journey now declares its shots, and cut() ASSEMBLES them instead of trimming one take: whatever happens
+# between two shots (a page load, a camera being repositioned, a panel being scrolled to the right place) never reaches the film.
+#
+#     with shot(mark, 3, 4.5):          # shot 3, 4.5 seconds on screen
+#         orbit_by_hand(pg, ...)        # recorded slowly; played back to fit
+#
+# `target` is the seconds the shot should RUN FOR in the finished film. If it recorded longer than that - and on the 3D pages it
+# always does, because the canvas redraws on every mouse move - the clip is sped up to fit. If it recorded shorter, it plays at
+# 1x and the film is simply that much tighter; the narrative is paced to the delivered cut, never the other way round.
+
+SHOT_PLAN = {}
+
+
+@contextlib.contextmanager
+def shot(mark, n, target=None, label="", mode="speed"):
+    """Record one numbered shot. Everything outside a shot is discarded by cut().
+
+    mode="speed"  a camera move: if it recorded long (the 3D always does), play it back faster to fit `target`.
+    mode="hold"   a card or a held frame: never speed it up - take the LAST `target` seconds, so the film lands on
+                  the settled state rather than racing through it.
+    """
+    SHOT_PLAN[str(n)] = {"target": target, "label": label, "mode": mode}
+    mark("s%02d_in" % n)
+    try:
+        yield
+    finally:
+        mark("s%02d_out" % n)
+
+
+def shots_from(marks):
+    """[(n, t_in, t_out)] for every complete sNN_in/sNN_out pair, in shot order."""
+    out = []
+    for k in marks:
+        m = re.match(r"^s(\d+)_in$", k)
+        if m:
+            end = marks.get("s%s_out" % m.group(1))
+            if end is not None and end > marks[k]:
+                out.append((int(m.group(1)), marks[k], end))
+    return sorted(out)
 
 
 def glide(pg, x, y, steps=26):
@@ -568,20 +638,562 @@ def journey3(pg, mark):
             glide_click(pg, pg.get_by_text(BUDGET_TILE, exact=True).first, pause=1600)
         body = pg.evaluate("() => document.body.innerText")
         print("   beat %d: versus %s -> %s" % (n + 2, city, "on" if ("%s costs" % city) in body else "NOT ON - re-run, do not ship"))
-        scroll_through(pg, 7 if n == 0 else 4, pause=700 if n == 0 else 600)
+        if n == 0:
+            # Every row is a button: tapping one opens a drawer at the foot of the frame with the working
+            # and the source ("stamp duty up to 12% ... plus 2% for a non-resident: up to 19%, GOV.UK 2026").
+            # Kendall, 18 Sep: show that a couple of these open, without clicking a lot.
+            scroll_through(pg, 1, pause=900)
+            for label in ("TAX AND FEES", "TOP RATE OF INCOME TAX"):
+                glide_click(pg, pg.locator("button.row", has_text=label).first, pause=2600)
+                opened = pg.evaluate("() => !!document.querySelector('.drawer.open')")
+                print("   beat 2: row '%s' -> %s" % (label, "drawer open" if opened else "NO DRAWER"))
+                # the open drawer scrims the page - a second row tap times out behind it - so close it the
+                # way a hand would, on its x, before the next line is tapped
+                if opened:
+                    glide_click(pg, pg.locator(".drawer.open").get_by_text("×").first, pause=900)
+                    if pg.evaluate("() => !!document.querySelector('.drawer.open')"):
+                        pg.keyboard.press("Escape"); pg.wait_for_timeout(600)
+            scroll_through(pg, 2, pause=800)
+        else:
+            scroll_through(pg, 3, pause=600)
+        # Never scroll far enough to bring "Say it" into frame - the script under the tables is for Naj,
+        # not the client (Kendall, 18 Sep). Three ticks of 380 px show down to ~3,060 px; "Say it" sits at
+        # ~3,240 on a 4,090 px page. Asserted, not assumed.
+        say_y = pg.evaluate("() => { const el = [...document.querySelectorAll('*')].find(e => e.children.length < 3 && (e.innerText||'').trim().startsWith('Say it')); return el ? el.getBoundingClientRect().top : 99999 }")
+        if say_y < H: print("   beat %d: 'Say it' IS IN FRAME (y=%d) - re-run, do not ship" % (n + 2, say_y))
         pg.wait_for_timeout(1500); mark("b%d_%s" % (n + 2, city.lower().replace(" ", "")))
 
-    # BEAT 5 - PLANS: Emaar -> Marina Cove -> the two-bed. The close.                        Q050
-    # Straight to the project's own page: Emaar's list opens on its first project (ALVA), whose brochure
-    # pages sit off-centre, and Kendall does not want them in frame (18 Sep) - one project, one plan.
-    pg.goto(url("/plans?d=%s&p=%s" % (DEV_A.lower(), PLAN_PROJECT_PARAM)), wait_until="networkidle", timeout=90_000)
+    # BEAT 5 - "So, Emaar." -> Emaar's own project list, the close. Kendall, 18 Sep: the floor plan did not
+    # tie into the story (developers -> cities -> Dubai); end on the list of what the developer is building.
+    # /dev?d=emaar threw Cloudflare 1101 on 18 Sep (reported to the Azimuth session) - asserted, so a broken
+    # page can never be filmed as the ending.
+    pg.goto(url("/dev?d=%s" % DEV_A.lower()), wait_until="networkidle", timeout=90_000)
+    body = pg.evaluate("() => document.body.innerText")
+    if "Worker threw exception" in body or "Error 1101" in body or len(body) < 400:
+        raise RuntimeError("beat 5: /dev?d=%s is not rendering (1101) - the Emaar list cannot be filmed yet" % DEV_A.lower())
     pg.evaluate(CURSOR_JS); pg.wait_for_timeout(1800)
-    two = pg.get_by_text(PLAN_TYPE, exact=False).first
-    two.scroll_into_view_if_needed(timeout=10_000); pg.wait_for_timeout(700)
-    glide_click(pg, two, pause=3000)
-    big = pg.evaluate("() => [...document.querySelectorAll('img')].some(i => i.getBoundingClientRect().width > 500 && /2 BED/i.test(i.alt || ''))")
-    print("   beat 5: %s two-bed plan -> %s" % (PLAN_PROJECT, "open" if big else "NOT OPEN - re-run, do not ship"))
-    pg.wait_for_timeout(2500); mark("b5_plan")
+    print("   beat 5: %s project list -> on (%d chars)" % (DEV_A, len(body)))
+    pg.wait_for_timeout(1500)                   # the header first: sales, value, AED/m2, projects
+    scroll_through(pg, 6, step=420, pause=850); pg.wait_for_timeout(1400); mark("b5_list")
+
+
+def jump_click(pg, locator, pause=420):
+    """Click on a heavy 3D page: one mouse move to the target (the drawn cursor follows), then the click."""
+    box = locator.bounding_box()
+    if not box:
+        raise RuntimeError("nothing to click - the element has no box")
+    pg.mouse.move(box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    locator.click(timeout=15_000)
+    pg.wait_for_timeout(pause)
+
+
+def journey4(pg, mark):
+    """Video 03, concept B, third cut. Kendall, 18 Sep: the hotspot, then straight into it - no PULSE page
+    ("too much stuff"), no comparison; the 3D must show THAT area's buildings and projects, not an empty
+    district ("I just see a big blank space ... I can't tell what's what").
+
+    The register's projects in Madinat Al Mataar are 5-11 km apart, so no single frame holds them all; the film
+    goes to the Expo City cluster, where two of them (Terra Woods, Terra Gardens) sit either side of the Red Line.
+    Heat map -> hard cut to the area page, its register list -> view in 3D -> Terra Woods, the camera pulled back
+    to the cluster -> AROUND IT, the metro -> Terra Gardens -> a slow turn round the cluster, held.
+    """
+    # HOOK - the heat map, framed before the take is marked so the film opens on it
+    pg.goto(url("/charts"), wait_until="networkidle", timeout=90_000)
+    # The heat map is the LAST tile on the page, so the page cannot scroll far enough to lift it out of the
+    # bottom of the frame - take 1 opened with the glow at y=1847, behind the avatar and the nav bar. Empty
+    # space under the page (nothing added to what is shown) lets the tile sit in the upper part of the frame.
+    pg.evaluate("() => { document.body.style.paddingBottom = '1400px'; }")
+    tile = pg.get_by_text("Dubai — where it", exact=False).first
+    tile.scroll_into_view_if_needed(timeout=15_000); pg.wait_for_timeout(400)
+    tb = tile.bounding_box()
+    pg.evaluate("dy => window.scrollBy(0, dy)", tb["y"] - 330)
+    pg.wait_for_timeout(2500)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(500); mark("open")
+    # the push-in: the tile eases up to nearly full width, the way a hand pinches to zoom - the app's own
+    # tile enlarged in place (vector text stays sharp), not an upscale in the edit
+    tile.evaluate("""el => { let c = el; while (c && c.getBoundingClientRect().height < 400) c = c.parentElement;
+        c.style.transformOrigin = 'top center'; c.style.transition = 'transform 1.6s cubic-bezier(.25,.1,.25,1)';
+        requestAnimationFrame(() => { c.style.transform = 'scale(1.9)'; }); }""")
+    pg.wait_for_timeout(2000)
+    hot = pg.get_by_text("Madinat Al Mat", exact=False).last
+    box = hot.bounding_box()
+    print("   hook: heat map -> %s" % ("framed, %s glowing at y=%d" % (HOT_AREA, box["y"]) if box and 0 < box["y"] < H else "NOT IN FRAME - re-run, do not ship"))
+    if box: glide(pg, box["x"] + box["width"] / 2, box["y"] + box["height"] / 2)
+    pg.wait_for_timeout(3800); mark("b0_heat")
+
+    # BEAT 1 - hard cut to the area's own page (the heat tile is not a link - the film cuts, it does not fake a tap)
+    pg.goto(url("/area/%s" % HOT_AREA.replace(" ", "%20")), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS); pg.wait_for_timeout(2600); mark("b1_area")
+    reg = pg.get_by_text("PROJECTS ON THE REGISTER HERE", exact=False).first
+    reg.scroll_into_view_if_needed(timeout=15_000); pg.evaluate("() => window.scrollBy(0, -300)"); pg.wait_for_timeout(900)
+    tw = pg.get_by_text(ZOOM_BUILDING, exact=False).first; twb = tw.bounding_box()
+    if twb: glide(pg, twb["x"] + twb["width"] / 2, twb["y"] + twb["height"] / 2)
+    print("   beat 1: register list -> %s" % ("%s on it" % ZOOM_BUILDING if twb else "NOT FOUND - re-run, do not ship"))
+    pg.wait_for_timeout(3000); mark("b1_register")
+
+    # BEAT 2 - view in 3D, straight to Terra Woods. The district loading and the fly-in cross the empty district -
+    # Kendall: "I just see a big blank space" - so that stretch is a skip span: the film hard-cuts from the tap on
+    # "view in 3D" to Terra Woods up close, then pulls back to reveal the cluster, the viaduct and the station.
+    to_top(pg)
+    glide_click(pg, pg.locator("a", has_text="view in 3D").first, pause=300)
+    mark("orbitskip_start")
+    pg.wait_for_load_state("networkidle", timeout=120_000); pg.wait_for_timeout(6500)
+    print("   beat 2: district twin -> %s" % ("drawn" if "/skyline/%s" % HOT_SLUG in pg.url else "NOT OPEN - re-run, do not ship"))
+    pg.evaluate(CURSOR_JS)
+    jump_click(pg, pg.get_by_text(ZOOM_BUILDING, exact=False).first, pause=4500)
+    card = pg.evaluate("() => /%s/.test(document.body.innerText) && /AROUND IT/i.test(document.body.innerText)" % ZOOM_BUILDING)
+    print("   beat 2: %s card -> %s" % (ZOOM_BUILDING, "open" if card else "NOT OPEN - re-run, do not ship"))
+    pg.mouse.move(420, 1150); pg.wait_for_timeout(300)
+    mark("orbitskip_end"); pg.wait_for_timeout(1400)
+    # the pull-back: seven slower ticks settle on the cluster and stay (nine fast ones overshot into the district)
+    mark("orbitzoom_start")
+    for _ in range(7): pg.mouse.wheel(0, 400); pg.wait_for_timeout(260)
+    pg.wait_for_timeout(2200); mark("orbitzoom_end")
+    pg.wait_for_timeout(700); mark("b2_cluster")            # was 2.8 s: with the 0.9 s below, a 4 s still at 0:22
+
+    # BEAT 3 - AROUND IT is already open on the card (it opens on that tab); no tap - a tap on the heavy 3D page
+    # takes seconds to go through and left 0:29-0:39 still (Kendall). Assert the metro row, hold a beat, move on.
+    body = pg.evaluate("() => document.body.innerText")
+    line = next((l.strip() for l in body.splitlines() if "EXPO Metro Station" in l), "")
+    print("   beat 3: around it -> %s" % (("metro listed: " + line[:60]) if line else "NO METRO ROW - re-run, do not ship"))
+    pg.wait_for_timeout(300); mark("b3_around")
+
+    # BEAT 4 - a slow turn round the cluster at that height, held for the sign-off
+    pg.mouse.move(420, 1150); pg.wait_for_timeout(300)
+    mark("orbit2_start"); orbit(pg, dx=-240, at=(420, 1150)); mark("orbit2_end")
+
+    # BEATS 5a-5b - show the app off: tap the station, then the park (Kendall, 18 Sep: "click on the Expo Metro
+    # station and she can speak on it ... and the park ... it's going to zoom into that"). Each tap takes ~8 s to go
+    # through on the 3D page, so the wait is a skip span - the film cuts from the tap to the camera arriving - and each
+    # flight lands very close, so a short pull-back follows. The card for each place holds while Naj speaks.
+    def visit(name, tag, n):
+        mark("orbitskip%s_start" % tag)
+        jump_click(pg, pg.get_by_text(name, exact=False).first, pause=600)
+        ok = name in pg.evaluate("() => document.body.innerText") and "DIRECTIONS" in pg.evaluate("() => document.body.innerText")
+        print("   beat 5: %s card -> %s" % (name, "open" if ok else "NOT OPEN - re-run, do not ship"))
+        pg.mouse.move(420, 1150)          # slow on the 3D page - kept inside the cut-out span (was 2-3 s of stillness)
+        mark("orbitskip%s_end" % tag); pg.wait_for_timeout(150)
+        mark("orbitzoom%s_start" % tag)
+        for _ in range(n): pg.mouse.wheel(0, 400); pg.wait_for_timeout(260)
+        pg.wait_for_timeout(1800); mark("orbitzoom%s_end" % tag)
+        pg.wait_for_timeout(2600); mark("b5_%s" % tag)      # the card holds ~3.5 s with the settle - Naj's line
+    def back(tag):
+        mark("orbitskip%s_start" % tag)
+        jump_click(pg, pg.get_by_text("BACK", exact=False).first, pause=400)
+        mark("orbitskip%s_end" % tag)
+    visit("EXPO Metro Station", "metro", 5)
+    back("back1")
+    visit("Expo Park", "park", 5)
+    back("back2")
+    ok = "824 UNITS" in pg.evaluate("() => document.body.innerText")
+    print("   beat 5: back to %s -> %s" % (ZOOM_BUILDING, "card open" if ok else "NOT BACK - re-run, do not ship"))
+
+    # BEAT 6 - pull back for context (Kendall: "zooming out a bit so we get a bit of context at the very end"),
+    # then label the places on the held frame. The 3D names only the station itself; the app's own place rings
+    # (.tm.sel = the selected project, .tm.near = the nearest of each kind, coloured by kind as in AROUND IT) get
+    # a name beside them, positioned from each ring's live position once the camera has stopped. Labels added for
+    # the film, not app features - the storyboard says so. The pink ring (clinic or school - ambiguous) is left bare.
+    pg.mouse.move(420, 1150); pg.wait_for_timeout(300)
+    mark("orbitzoom3_start")
+    for _ in range(6): pg.mouse.wheel(0, 400); pg.wait_for_timeout(260)
+    pg.wait_for_timeout(2600); mark("orbitzoom3_end")
+    n = pg.evaluate("""() => {
+      const names = {'143,211,160': ['Expo Park', '#8FD3A0'], '201,179,126': ['Spinneys', '#C9B37E']};
+      const cur = document.getElementById('__cur'); if (cur) cur.style.display = 'none';   // the drawn cursor is a gold ring too
+      const placed = [];   // the app's own station label counts as taken - never cover it
+      document.querySelectorAll('*').forEach(e => { if (e.children.length < 2 && /Red Line station/.test(e.innerText || '')) {
+        const q = e.getBoundingClientRect(); if (q.width) placed.push({x: q.x, y: q.y, w: q.width, h: q.height}); } });
+      const put = (el, name, col, side) => { const r = el.getBoundingClientRect(); const d = document.createElement('div');
+        d.textContent = name; d.style.cssText = 'position:fixed;z-index:50;pointer-events:none;font:600 22px/1.1 "IBM Plex Sans",system-ui,sans-serif;'
+          + 'color:#F3EEE3;text-shadow:0 1px 3px #000,0 0 8px #000;padding:2px 6px;border-left:3px solid ' + col + ';background:rgba(10,14,12,.55);opacity:0;transition:opacity .6s';
+        document.body.appendChild(d); const w = d.offsetWidth, h = d.offsetHeight;
+        let x = r.x + r.width + 10, y = r.y + r.height / 2 - h / 2;
+        if (side === 'above') { x = r.x + r.width / 2 - w / 2; y = r.y - h - 10; }
+        if (side === 'below') { x = r.x + r.width / 2 - w / 2; y = r.y + r.height + 8; }
+        if (x + w > 690) x = r.x - w - 10;
+        for (let k = 0; k < 6; k++) {   // nudge clear of any label already placed
+          const hit = placed.some(q => x < q.x + q.w + 6 && x + w + 6 > q.x && y < q.y + q.h + 6 && y + h + 6 > q.y);
+          if (!hit) break; y -= h + 8; }
+        placed.push({x, y, w, h});
+        d.style.left = Math.round(x) + 'px'; d.style.top = Math.round(y) + 'px'; requestAnimationFrame(() => d.style.opacity = 1); return 1; };
+      let n = 0;
+      const sel = document.querySelector('.tm.sel'); if (sel) n += put(sel, 'Terra Woods', '#C5A56A', 'below');
+      const side = {'Expo Park': 'above', 'Spinneys': 'right'};
+      document.querySelectorAll('.tm.near').forEach(e => { const c = getComputedStyle(e).borderColor.replace(/[^0-9,]/g, '');
+        if (names[c]) n += put(e, names[c][0], names[c][1], side[names[c][0]]); });
+      return n; }""")
+    print("   beat 5: labels placed -> %d of 3%s" % (n, "" if n == 3 else "  CHECK FRAME"))
+    pg.wait_for_timeout(3000); mark("b5_hold")
+
+
+# ---------------------------------------------------------------- video 04: the building page
+
+# The building page's own phone layout (its max-width:820px rules), applied at 1080 wide and drawn at twice the
+# size, so the take is a native 9:16 at full sharpness. One change for the film: a card opens over the filter panel
+# at the bottom rather than over the model at the top, so the floor that was tapped stays in view; and the scene
+# is drawn BLD_SHIFT higher, because the page centres the building exactly where the phone layout's panel begins.
+BLD_CSS = """
+#title{position:fixed!important;left:0!important;right:0!important;top:52px!important;transform:none!important;max-width:none!important;padding:0!important}
+#panel{left:10px!important;right:10px!important;width:auto!important;top:auto!important;bottom:10px!important;max-height:23vh!important;background:#121C19!important}
+#card{left:10px!important;right:10px!important;width:auto!important;top:auto!important;bottom:10px!important;max-height:23vh!important;z-index:6!important;background:#121C19!important}
+#foot,#gcredit{display:none!important}
+#warn{left:10px!important;right:10px!important;max-width:none!important;bottom:auto!important;top:112px!important}
+#about{top:18px!important;left:auto!important;right:14px!important}
+#panel,#card,#about,.bk,#title,#warn{zoom:2}
+body{background:#0B1412!important}canvas{transform:translateY(-%dpx)}
+""" % 330
+BLD_SHIFT = 330    # the scene is drawn that much higher, so the building - the orbit's pivot, mid-screen - sits in the clear top half
+
+
+def smooth_scroll(pg, sel, target_js, ms=1500):
+    """Scroll a panel the way a thumb does - eased, to a named place - rather than in wheel notches."""
+    pg.evaluate("""([sel, tjs, ms]) => new Promise(done => {
+      const e = document.querySelector(sel), a = e.scrollTop, top = Math.max(0, Math.min(e.scrollHeight - e.clientHeight, (new Function('e', 'return ' + tjs))(e))), t0 = performance.now();
+      const step = t => { const p = Math.min(1, (t - t0) / ms), k = p * p * (3 - 2 * p); e.scrollTop = a + (top - a) * k; p < 1 ? requestAnimationFrame(step) : done(); };
+      requestAnimationFrame(step); })""", [sel, target_js, ms])
+    pg.wait_for_timeout(250)
+
+
+def _drag(pg, x0, y0, x1, y1, button="left", steps=12, settle=900):
+    pg.mouse.move(x0, y0); pg.mouse.down(button=button); pg.mouse.move(x1, y1, steps=steps); pg.mouse.up(button=button)
+    pg.wait_for_timeout(settle)
+
+
+def _txt(pg, sel):
+    return re.sub(r"\s+", " ", pg.evaluate("s => (document.querySelector(s) || {}).innerText || ''", sel)).strip()
+
+
+def journey5(pg, mark):
+    pg.goto(url(BLD_ROUTE), wait_until="domcontentloaded", timeout=90_000)
+    pg.add_style_tag(content=BLD_CSS)
+    pg.wait_for_selector("canvas", timeout=60_000); pg.wait_for_timeout(1500)
+    pg.mouse.move(540, 300); pg.mouse.down(); pg.mouse.up()          # any press stops the page's idle rotation
+    pg.wait_for_timeout(8000)                                        # the district model and the ground imagery arrive
+    _drag(pg, 540, 500, 540, 700)                                    # look down on it
+    pg.mouse.move(540, 620); pg.mouse.wheel(0, -240); pg.wait_for_timeout(1200)   # and a little closer
+    pg.evaluate(CURSOR_JS)
+    pg.mouse.move(860, 960, steps=4); pg.wait_for_timeout(1200)
+    mark("open")
+    pg.wait_for_timeout(2200)
+
+    # beat 1 - move in on the building. Kendall, 20 Sep, on take 4: "why doesn't the video ever zoom in or cue into
+    # the building itself? ... I don't feel like the building is highlighted." From the wide view the tapped floor lit
+    # as a hairline; at this distance the floors read one by one and the tapped one is a gold band across the face.
+    mark("orbit1_start")
+    pg.mouse.move(540, 620, steps=6); pg.wait_for_timeout(300)
+    for i in range(18):
+        pg.mouse.wheel(0, -100); pg.wait_for_timeout(150 - 60 * (1 - abs(i - 9) / 9.0))     # eased: slow in, slow out
+    pg.wait_for_timeout(500)
+    x, y, N = 760, 860, 40                       # then down beside it, and a small turn, in one hand movement
+    pg.mouse.move(x, y, steps=6); pg.wait_for_timeout(200); pg.mouse.down()
+    for i in range(1, N + 1):
+        t = i / N; k = t * t * (3 - 2 * t); pg.mouse.move(x - 110 * k, y - 110 * k); pg.wait_for_timeout(80)
+    pg.mouse.up(); pg.wait_for_timeout(900)
+    mark("orbit1_end")
+
+    # beat 2 - tap a floor: its card, with the floor plate
+    mark("beat2")
+    # The canvas is drawn BLD_SHIFT higher than the page thinks, so a real click would cast its ray from the wrong
+    # height. The hand travels to the floor on screen; the press itself is handed to the canvas at the height the
+    # page's own arithmetic expects.
+    tap = """([x, y]) => { const c = document.querySelector('canvas'), cur = document.getElementById('__cur');
+      const ev = t => c.dispatchEvent(new PointerEvent(t, {clientX: x, clientY: y, bubbles: true, pointerId: 1, pointerType: 'mouse', isPrimary: true, button: 0}));
+      if (cur) { cur.style.transform = 'scale(.55)'; setTimeout(() => cur.style.transform = 'scale(1)', 160); }
+      try { ev('pointerdown'); } catch (e) {} try { ev('pointerup'); } catch (e) {} }"""
+    hit = None
+    for n, (px, py) in enumerate(((560, 650), (560, 610), (560, 690), (440, 650), (680, 650), (560, 570), (560, 730))):
+        pg.mouse.move(px, py, steps=1 if n else 6); pg.wait_for_timeout(350)
+        pg.evaluate(tap, [px, py + BLD_SHIFT]); pg.wait_for_timeout(900)
+        if pg.locator("#card").is_visible():
+            hit = (n, px, py); break
+    if not hit:
+        raise RuntimeError("no floor answered the tap - the building is not where the framing expects it")
+    print("   tap %d hit at %s,%s" % hit)
+    print("   floor card:", _txt(pg, "#card")[:420])
+    pg.wait_for_timeout(2600)
+    smooth_scroll(pg, "#card", "e.querySelector('.plate') ? e.querySelector('.plate').previousElementSibling.offsetTop - 6 : 0", 1300)
+    pg.wait_for_timeout(3000)
+    glide_click(pg, pg.locator("#card .x"), pause=900)
+
+    # beat 3 - the filters: every type off, then the two-beds, then a side that sees over the roofs
+    mark("beat3")
+    glide_click(pg, pg.locator("#hide"), pause=1100)
+    glide_click(pg, pg.locator("[data-t]", has_text="2 BHK"), pause=1500)
+    print("   count, 2 BHK only:", _txt(pg, "#count"))
+    pg.wait_for_timeout(1400)
+    if VIEW_CHIP:
+        glide_click(pg, pg.locator("[data-d]", has_text=re.compile(r"^\s*%s\s*$" % VIEW_CHIP)).first, pause=1500)
+        print("   count, + open to %s:" % VIEW_CHIP, _txt(pg, "#count"))
+        pg.wait_for_timeout(1600)
+
+    # beat 4 - sold so far, by type
+    mark("beat4")
+    glide(pg, 560, 1500)
+    smooth_scroll(pg, "#panel", "[...e.querySelectorAll('.grp')].find(g => /sold so far/i.test(g.textContent)).offsetTop - 10", 1700)
+    pg.wait_for_timeout(5200)
+
+    # beat 5 - about the building: the facts, what it sees over, who lives here, and the plans
+    mark("beat5")
+    pg.mouse.move(540, 620, steps=6)
+    for i in range(9):
+        pg.mouse.wheel(0, 100); pg.wait_for_timeout(120)
+    pg.wait_for_timeout(500)
+    glide_click(pg, pg.locator("#about"), pause=1200)
+    print("   about h3s:", pg.evaluate("[...document.querySelectorAll('#card h3')].map(h => h.textContent)"))
+    print("   sees over:", _txt(pg, "#card")[_txt(pg, "#card").find("What it sees over"):][:330])
+    glide(pg, 560, 1500); pg.wait_for_timeout(2600)
+    h3 = lambda rx: "[...e.querySelectorAll('h3')].find(h => /%s/i.test(h.textContent)).offsetTop - 6" % rx
+    smooth_scroll(pg, "#card", h3("sold, from"), 1500); pg.wait_for_timeout(3000)
+    mark("beat5b")
+    smooth_scroll(pg, "#card", h3("who lives"), 1700); pg.wait_for_timeout(3400)
+    mark("beat6")
+    smooth_scroll(pg, "#card", h3("the plans"), 1900); pg.wait_for_timeout(3600)
+    smooth_scroll(pg, "#card", h3("the plans") + " + 330", 2200); pg.wait_for_timeout(1500)
+    pg.evaluate("document.getElementById('__cur').style.display = 'none'")
+    mark("hold")
+    pg.wait_for_timeout(3000)
+
+
+# ---------------------------------------------------------------- video 05: the view from the window
+
+def _real_view(pg, mark, side, n, hold):
+    """Tap one side's card on the building panel -> the real view from that facade, at that height. The photoreal tiles take
+    up to 12 s to sharpen, and the page only starts its own slow pan once they have: that wait is a skip span, so the film
+    goes from the tap to the sharp view."""
+    cell = pg.locator("#ppanel .vw .vc", has=pg.locator("b", has_text=re.compile(r"^%s$" % side))).first
+    cell.scroll_into_view_if_needed(timeout=15_000); pg.wait_for_timeout(500)
+    print("   %s: %s" % (side, _txt_of(cell)))
+    jump_click(pg, cell, pause=200)
+    mark("orbitskip%d_start" % n)
+    pg.wait_for_url(re.compile(r"/view\?"), timeout=30_000)
+    try:
+        pg.wait_for_function("() => !document.getElementById('st')", timeout=25_000)     # the 'sharpening...' note goes when the tiles are in
+    except Exception:
+        print("   %s: the view never reported sharp - check the frames" % side)
+    pg.wait_for_timeout(1500)
+    mark("orbitskip%d_end" % n)
+    pg.wait_for_timeout(int(hold * 1000))
+
+
+def _deeper(pg, click):
+    """The phone panel opens on the floor layout (or the snapshot). Its mode switch is the little target at the top right: tap it,
+    the three modes unfold, tap Deeper dive - and the four views are at the top of that block."""
+    if not pg.locator("#ppanel .mb[data-m=deep]").is_visible():
+        click(pg, pg.locator("#ppanel #mob"), pause=600)
+    click(pg, pg.locator("#ppanel .mb[data-m=deep]"), pause=900)
+    pg.evaluate("(() => { const p = document.getElementById('ppanel'), v = p.querySelector('.vw'); if (v) p.scrollTo({top: Math.max(0, v.offsetTop - 46), behavior: 'smooth'}); })()")
+    pg.wait_for_timeout(900)
+
+
+def _txt_of(loc):
+    return re.sub(r"\s+", " ", loc.inner_text()).strip()
+
+
+def _back_to_panel(pg, mark, n):
+    """Back to the twin. The 3D reloads and the panel reopens on the building from the deep link; all of it is a skip span."""
+    mark("orbitskip%d_start" % n)
+    pg.goto(url("/skyline/businessbay?clean=1&b=%s" % VIEW_ANCHOR), wait_until="domcontentloaded", timeout=90_000)
+    pg.wait_for_selector("#ppanel .vw .vc", timeout=60_000, state="attached")
+    pg.evaluate(CURSOR_JS)
+    pg.wait_for_timeout(2500)
+    _deeper(pg, jump_click)
+    pg.wait_for_timeout(900)
+    mark("orbitskip%d_end" % n)
+    pg.wait_for_timeout(1400)
+
+
+def journey6(pg, mark):
+    pg.goto(url("/skyline/businessbay?clean=1&b=%s" % VIEW_ANCHOR), wait_until="domcontentloaded", timeout=90_000)
+    pg.wait_for_selector("#ppanel .vw .vc", timeout=60_000, state="attached")
+    pg.wait_for_timeout(7000)                                        # the district model streams in and the camera settles on the tower
+    pg.evaluate(CURSOR_JS)
+    # ?clean=1 is the twin's own film mode: the search bar, the district rail and the nav step aside, so on a phone the tower has
+    # the top half of the screen and the building panel the bottom. The deep link lands the camera hard against the tower; pull
+    # back until the whole of it, and what stands round it, is in view.
+    pg.mouse.move(270, 250)
+    for _ in range(VIEW_PULLBACK):
+        pg.mouse.wheel(0, 240); pg.wait_for_timeout(260)
+    pg.wait_for_timeout(1200)
+    pg.mouse.move(410, 330, steps=4); pg.wait_for_timeout(800)
+    print("   window:", pg.evaluate("[innerWidth, innerHeight, devicePixelRatio]"), "| panel:", _txt(pg, "#ppanel")[:200])
+    mark("open")
+    pg.wait_for_timeout(2000)
+
+    # beat 1 - turn the tower, by hand
+    mark("orbit1_start")
+    box = pg.locator("#ppanel").bounding_box()
+    y = max(150, min(420, (box["y"] if box else 520) - 110))
+    x, dx, N = 410, -170, 44
+    pg.mouse.move(x, y, steps=8); pg.wait_for_timeout(200); pg.mouse.down()
+    for i in range(1, N + 1):
+        t = i / N; pg.mouse.move(x + dx * t * t * (3 - 2 * t), y); pg.wait_for_timeout(95)
+    pg.mouse.up(); pg.wait_for_timeout(900)
+    mark("orbit1_end")
+
+    # beat 2 - the deeper dive: the view from each side
+    mark("beat2")
+    _deeper(pg, glide_click)
+    pg.wait_for_timeout(1200)
+    cells = pg.evaluate("[...document.querySelectorAll('#ppanel .vw .vc')].map(c => c.querySelector('b').textContent + ': ' + c.querySelector('i').textContent)")
+    print("   views:", cells)
+    for side in VIEW_TOUR:                                           # the hand passes over each side as Naj names it
+        c = pg.locator("#ppanel .vw .vc", has=pg.locator("b", has_text=re.compile(r"^%s$" % side))).first
+        b2 = c.bounding_box()
+        if b2:
+            glide(pg, b2["x"] + b2["width"] / 2, b2["y"] + b2["height"] / 2, steps=14); pg.wait_for_timeout(1500)
+
+    # beat 3 - stand on the good side
+    mark("beat3")
+    _real_view(pg, mark, VIEW_GOOD, 1, 9.0)
+    _back_to_panel(pg, mark, 2)
+
+    # beat 4 - stand on the blocked side
+    mark("beat4")
+    _real_view(pg, mark, VIEW_BLOCKED, 3, 8.0)
+    _back_to_panel(pg, mark, 4)
+
+    # beat 5 - and the sunset side, held for the sign-off
+    mark("beat5")
+    _real_view(pg, mark, VIEW_LAST, 5, 9.0)
+    mark("hold")
+    pg.wait_for_timeout(3000)
+
+
+# ---------------------------------------------------------------- video 06: could someone build in front of me?
+
+# The first episode cut to the Ask Najj template: 11 shots in ~45 s, an event every 2-3 s, a cut every 4-6 s, the turn at 55%,
+# and the payoff on the occlusion reveal - the camera arcs until the thing that blocks the view comes out from behind the tower.
+#
+# ONE River Point (anchor 589, Business Bay), verified 21 Sep: N sees the Dubai Canal and Burj Khalifa, W the Burj Al Arab and
+# Palm Jumeirah, S Dubai Hills - and E is blocked by One by Binghatti, which stands 344 m away and 87 m taller (227 m against
+# 140 m). The blocker really is the neighbouring mass, so the format's signature shot and the episode's answer are one move.
+#
+# Filmed in the twin's own phone layout at a real device scale of 2 (see capture()), with ?clean=1 - the twin's film mode, which
+# stands the search bar, the district rail and the nav aside.
+
+
+def _turn(pg, x, y, dx, n=26, ms=85):
+    """A hand-dragged orbit. One mouse.move per step so the canvas redraws; eased so it does not read as a machine."""
+    pg.mouse.move(x, y, steps=6); pg.wait_for_timeout(180); pg.mouse.down()
+    for i in range(1, n + 1):
+        t = i / n
+        pg.mouse.move(x + dx * t * t * (3 - 2 * t), y); pg.wait_for_timeout(ms)
+    pg.mouse.up(); pg.wait_for_timeout(500)
+
+
+def _wheel(pg, x, y, ticks, step=180, ms=120):
+    pg.mouse.move(x, y)
+    for _ in range(abs(ticks)):
+        pg.mouse.wheel(0, step if ticks > 0 else -step); pg.wait_for_timeout(ms)
+    pg.wait_for_timeout(400)
+
+
+def _side(pg, letter):
+    return pg.locator("#ppanel .vw .vc", has=pg.locator("b", has_text=re.compile(r"^%s$" % letter))).first
+
+
+def _show(pg, letter):
+    """Bring one side's card to the top of the panel and read it back, so the take proves what was on screen."""
+    c = _side(pg, letter)
+    c.scroll_into_view_if_needed(timeout=15_000)
+    pg.evaluate("""(l) => { const p = document.getElementById('ppanel');
+        const c = [...p.querySelectorAll('.vw .vc')].find(x => x.querySelector('b').textContent.trim() === l);
+        if (c) p.scrollTo({top: Math.max(0, c.offsetTop - 40), behavior: 'smooth'}); }""", letter)
+    pg.wait_for_timeout(700)
+    return re.sub(r"\s+", " ", c.inner_text()).strip()
+
+
+TWIN_CSS = """
+#ppanel{bottom:10px!important;max-height:33vh!important;background:#121C19!important}
+#foot,#gcredit,.maplibregl-ctrl-bottom-right{display:none!important}
+"""
+
+
+def journey7(pg, mark):
+    """The building page in its WIDE layout, 11 shots, closing on the dossier. Aykon City-tower B, 89 floors.
+
+    Three things learned the hard way, written down so nobody repeats them.
+
+    FILM THE BUILDING PAGE, NOT THE TWIN. On the twin a selected building is repainted by home type and loses its facade
+    entirely - Kendall, on that cut: "you picked the building with no facade, this is horrible... I wouldn't put this in front
+    of any client." The building page keeps the CityEngine texture, so the tower looks like a tower.
+
+    DO NOT FORCE THE PHONE LAYOUT. Video 04 injected the page's own max-width:820px rules to film a phone. At 1080 wide the
+    page's NATIVE wide layout puts About the building down the left, the filters and the rings down the right, and the tower
+    between them - which is the composition Kendall asked for: "we have stuff to scroll through on the right hand side, stuff
+    to scroll through on the left hand side."
+
+    NO OCCLUSION REVEAL. Four takes and nine stepped camera positions on the twin never brought the blocking tower into frame
+    labelled; the camera answers a drag too little to swing a reliable arc. The view answer is carried by "What it sees over"
+    and by the dossier, in writing, instead.
+    """
+    pg.goto(url(BLD_ROUTE_7), wait_until="domcontentloaded", timeout=90_000)
+    pg.wait_for_selector("canvas", timeout=60_000)
+    pg.wait_for_timeout(16000)                                   # the model, its facade and the ground imagery
+    pg.evaluate(CURSOR_JS)
+    mark("open")
+
+    # 1 - the tower as it really looks: facade, neighbours, a slow turn
+    with shot(mark, 1, 6.0, "the tower, facade"):
+        _turn(pg, 620, 900, -150, n=20, ms=95)
+
+    # 2 - closer
+    with shot(mark, 2, 5.0, "closer"):
+        _wheel(pg, 620, 800, -3, step=170, ms=180)
+        _turn(pg, 620, 900, -100, n=14, ms=95)
+
+    # 3 - About the building: what the register says it is
+    with shot(mark, 3, 5.0, "about the building", mode="hold"):
+        glide_click(pg, pg.locator("#about"), pause=1200)
+        pg.wait_for_timeout(3000)
+
+    # 4 - down the left: the stack, and what has sold
+    with shot(mark, 4, 6.0, "the stack, and what sold", mode="hold"):
+        smooth_scroll(pg, "#card", "[...e.querySelectorAll('h3')].find(h => /sold, from/i.test(h.textContent)).offsetTop - 8", 1800)
+        pg.wait_for_timeout(3600)
+
+    # 5 - what it sees over, side by side
+    with shot(mark, 5, 5.5, "what it sees over", mode="hold"):
+        smooth_scroll(pg, "#card", "[...e.querySelectorAll('h3')].find(h => /sees over/i.test(h.textContent)).offsetTop - 8", 1600)
+        pg.wait_for_timeout(3400)
+        print("   sees over:", _txt(pg, "#card")[_txt(pg, "#card").find("What it sees over"):][:190])
+
+    # 6 - the right-hand side: filter the tower by home type
+    with shot(mark, 6, 4.5, "filter by home type"):
+        glide_click(pg, pg.locator("#hide"), pause=1000)
+        glide_click(pg, pg.locator("[data-t]", has_text="2 BHK").first, pause=1600)
+        print("   2 BHK:", _txt(pg, "#count"))
+
+    # 7 - WHAT IS LEFT: a ring per bedroom type (Kendall's design, live 21 Sep)
+    with shot(mark, 7, 6.0, "what is left, ring per type", mode="hold"):
+        glide_click(pg, pg.locator("#hide"), pause=900)
+        smooth_scroll(pg, "#panel", "[...e.querySelectorAll('.grp')].find(g => /sold so far/i.test(g.textContent)).offsetTop - 10", 1700)
+        pg.wait_for_timeout(3800)
+        seen = _txt(pg, "#panel"); i = seen.upper().find("SOLD SO FAR")
+        print("   left:", seen[i:i + 180] if i >= 0 else "RINGS NOT IN VIEW")
+
+    # 8 - choose a floor, and the plate for it appears on the left
+    with shot(mark, 8, 6.0, "choose a floor - the plate", mode="hold"):
+        pg.select_option("#fpick", index=FLOOR_A)
+        pg.wait_for_timeout(4200)
+        print("   floor A:", _txt(pg, "#card")[:130])
+
+    # 9 - a different floor, a different plate
+    with shot(mark, 9, 5.5, "another floor, another plate", mode="hold"):
+        pg.select_option("#fpick", index=FLOOR_B)
+        pg.wait_for_timeout(3800)
+        print("   floor B:", _txt(pg, "#card")[:130])
+
+    # 10 - a last turn, wide
+    with shot(mark, 10, 5.0, "a last turn"):
+        _wheel(pg, 620, 800, 2, step=150, ms=170)
+        _turn(pg, 620, 900, 130, n=18, ms=95)
+
+    # 11 - held, before the document
+    with shot(mark, 11, 4.0, "held", mode="hold"):
+        pg.evaluate("document.getElementById('__cur').style.display='none'")
+        pg.wait_for_timeout(3000)
+    mark("hold")
 
 
 def capture(headed, slow):
@@ -589,9 +1201,16 @@ def capture(headed, slow):
     os.makedirs(RAW, exist_ok=True)
     marks = {}
     with sync_playwright() as p:
-        br = p.chromium.launch(headless=not headed, slow_mo=slow)
-        ctx = br.new_context(viewport={"width": W, "height": H},
-                             record_video_dir=RAW, record_video_size={"width": W, "height": H})
+        # the building page is a three.js scene over ground imagery: without the GPU a single screenshot took 28 s
+        gpu = ["--use-angle=d3d11", "--ignore-gpu-blocklist", "--enable-gpu"] if VIDEO in (5, 6, 7) else []
+        # VIDEO 6 films the app's own PHONE layout: a 540x960 window at a real device scale of 2 records as a sharp 1080x1920.
+        # Playwright's emulated device_scale_factor does not do this - its recorder captures CSS pixels, so the page comes out
+        # at 540 wide in a corner of the frame. A real window scale is captured in device pixels. Mouse coordinates are CSS px.
+        phone = VIDEO == 6          # video 7 films the building page's NATIVE wide layout at 1080x1920
+        br = p.chromium.launch(headless=not headed, slow_mo=slow,
+                               args=gpu + (["--force-device-scale-factor=2", "--window-size=%d,%d" % (W // 2, H // 2)] if phone else []))
+        ctx = (br.new_context(no_viewport=True, record_video_dir=RAW, record_video_size={"width": W, "height": H}) if phone else
+               br.new_context(viewport={"width": W, "height": H}, record_video_dir=RAW, record_video_size={"width": W, "height": H}))
         pg = ctx.new_page()
         t0 = time.monotonic()
 
@@ -601,7 +1220,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            {2: journey2, 3: journey3}.get(VIDEO, journey)(pg, mark)
+            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7}.get(VIDEO, journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -610,6 +1229,9 @@ def capture(headed, slow):
                 os.remove(dst)
             os.replace(src, dst)
             json.dump(marks, open(os.path.join(RAW, "marks.json"), "w"), indent=1)
+            json.dump(SHOT_PLAN, open(os.path.join(RAW, "shots.json"), "w"), indent=1)
+            if SHOT_PLAN:
+                print("   %d shots planned, %d recorded" % (len(SHOT_PLAN), len(shots_from(marks))))
             print("journey -> %s" % os.path.basename(dst))
         br.close()
     fetch_flythrough()
@@ -621,7 +1243,8 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
-SHEET_PDF = None if VIDEO == 3 else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
+SHEET_PDF = (os.path.join(ROOT, "dist_dossier", "businessbay_73.pdf") if VIDEO == 7 else
+             None) if VIDEO in (3, 4, 5, 6, 7) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 
@@ -667,10 +1290,15 @@ def freeze_close(last_part):
     png = os.path.join(RAW, "_last.png")
     ff("-sseof", "-0.2", "-i", last_part, "-frames:v", "1", "-update", "1", png)
     clip = os.path.join(RAW, "_close_hold.mp4")
-    ff("-loop", "1", "-framerate", str(FPS), "-i", png, "-t", str(TAIL_HOLD + 2.0), "-vf", "format=yuv420p",
+    hold = 3.0 if VIDEO == 7 else 5.0 if VIDEO in (4, 5, 6) else TAIL_HOLD + 2.0   # video 04 already holds 3 s on the labelled frame in the take
+    ff("-loop", "1", "-framerate", str(FPS), "-i", png, "-t", str(hold), "-vf", "format=yuv420p",
        "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", "-r", str(FPS), clip)
-    print("close: the last frame held %.1fs for the sign-off" % (TAIL_HOLD + 2.0))
+    print("close: the last frame held %.1fs for the sign-off" % hold)
     return [clip]
+
+
+OUTNAME = {2: "demo02_damachills_screen.mp4", 3: "demo03_compare_versus_screen.mp4", 4: "demo03_whatshot_screen.mp4",
+           5: "demo04_building_screen.mp4", 6: "demo05_view_screen.mp4", 7: "demo06_theview_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4")
 
 
 def cut():
@@ -681,6 +1309,42 @@ def cut():
         sys.exit("no journey recorded yet - run `capture` first")
     marks = json.load(open(mk))
     parts = []
+    plan_p = os.path.join(RAW, "shots.json")
+    plan = json.load(open(plan_p)) if os.path.exists(plan_p) else {}
+    shots = shots_from(marks)
+    if shots:
+        # ASSEMBLE. Each shot is cut out on its own and the joins are hard cuts; everything between shots is dropped.
+        enc2 = ["-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an", "-fps_mode", "cfr",
+                "-r", str(FPS)]
+        vf = "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (W, H, W, H)
+        total = 0.0
+        for n, a, b in shots:
+            spec = plan.get(str(n)) or {}
+            target, dur = spec.get("target"), b - a
+            hold = spec.get("mode") == "hold"
+            factor = 1.0 if hold else ((dur / target) if (target and dur > target * 1.05) else 1.0)
+            start, take = max(0.0, a - 0.05), dur + 0.1
+            if hold and target and dur > target:
+                start, take = b - target, target                 # the settled tail, not the scramble into it
+            p = os.path.join(RAW, "_s%02d.mp4" % n)
+            ff("-ss", str(start), "-t", str(take), "-i", j, *enc2, "-vf", ("setpts=PTS/%.4f," % factor) + vf, p)
+            out_s = take if hold else (target if factor > 1.0 else dur)
+            parts.append(p); total += out_s
+            print("   shot %02d %-24s %5.1fs -> %4.1fs  %s" % (n, (spec.get("label") or "")[:24], dur, out_s,
+                  "hold" if hold else ("" if factor == 1.0 else "%.1fx" % factor)))
+        closing = close_clip() if SHEET_PDF else freeze_close(parts[-1])
+        if closing:
+            parts.extend(closing)
+        listing = os.path.join(RAW, "concat.txt")
+        with open(listing, "w", encoding="utf-8") as f:
+            for p in parts:
+                f.write("file '%s'\n" % p.replace("\\", "/"))
+        out = os.path.join(OUT, OUTNAME)
+        ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
+        secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                     "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
+        print("assembled %d shots -> %s  (%.1fs, average shot %.1fs)" % (len(shots), out, secs, total / max(1, len(shots))))
+        return
     enc = ["-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
            "-r", str(FPS),        # every part at one framerate - see FPS
            "-vf", "scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (W, H, W, H)]
@@ -710,19 +1374,38 @@ def cut():
         # is frame-accurate. Slower, and this is re-encoding anyway.
         b5, b6 = marks.get("beat5"), marks.get("beat6")
         o1, o2 = marks.get("orbit_start"), marks.get("orbit_end")
-        if o1 and o2 and (o2 - o1) > ORBIT_TARGET * 2:
-            # video 03 opens on the all-Dubai twin turning: the orbit is the FIRST span, so the parts are
-            # [orbit at speed] + [everything after at 1x]. Same seek rules as the twin branch below.
-            factor = (o2 - o1) / ORBIT_TARGET
-            a0 = os.path.join(RAW, "_a0.mp4")
-            ff("-ss", str(max(0.0, o1 - 0.3)), "-t", str(o2 + 0.4 - o1), "-i", j,
-               "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
-               "-fps_mode", "cfr", "-r", str(FPS),
-               "-vf", "setpts=PTS/%.3f,scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (factor, W, H, W, H), a0)
-            parts.append(a0)
-            a1 = os.path.join(RAW, "_a1.mp4")
-            ff("-i", j, "-ss", str(o2 + 0.4), "-t", str(last + 1.5 - (o2 + 0.4)), *enc, a1); parts.append(a1)
-            print("orbit open: %.1fs recorded -> %.1fs at %.1fx" % (o2 - o1, ORBIT_TARGET, factor))
+        spans = [(marks[k], marks[k.replace("_start", "_end")]) for k in sorted(marks)
+                 if k.startswith("orbit") and k.endswith("_start") and k.replace("_start", "_end") in marks]
+        zoom_spans = {(marks[k], marks[k.replace("_start", "_end")]) for k in marks
+                      if k.startswith("orbit") and "zoom" in k and k.endswith("_start") and k.replace("_start", "_end") in marks}
+        skip_spans = {(marks[k], marks[k.replace("_start", "_end")]) for k in marks
+                      if k.startswith("orbit") and "skip" in k and k.endswith("_start") and k.replace("_start", "_end") in marks}
+        tgt = lambda sp: 0.0 if sp in skip_spans else (ZOOM_TARGET if sp in zoom_spans else ORBIT_TARGET)
+        spans = sorted(sp for sp in spans if sp in skip_spans or (sp[1] - sp[0]) > tgt(sp) * 2)
+        if spans:
+            # Every 3D turn records in slow motion (the canvas redraws on each drag move) and is played back at
+            # speed; everything between the turns stays at 1x. Video 03 opened on one turn; video 04 has two -
+            # the district, then the building. Same seek rules as the twin branch below.
+            cursor = head
+            for n, (s1, s2) in enumerate(spans):
+                if s1 - 0.3 - cursor > 0.5:
+                    ap = os.path.join(RAW, "_p%d.mp4" % n)
+                    ff("-i", j, "-ss", str(cursor), "-t", str(s1 - 0.3 - cursor), *enc, ap); parts.append(ap)
+                target = tgt((s1, s2))
+                if target == 0.0:             # a skip span: dropped - the film hard-cuts across it
+                    print("skip %d: %.1fs of loading cut out" % (n + 1, s2 - s1)); cursor = s2; continue
+                factor = (s2 - s1) / target
+                a0 = os.path.join(RAW, "_o%d.mp4" % n)
+                ff("-ss", str(max(0.0, s1 - 0.3)), "-t", str(s2 + 0.4 - s1), "-i", j,
+                   "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-pix_fmt", "yuv420p", "-an",
+                   "-fps_mode", "cfr", "-r", str(FPS),
+                   "-vf", "setpts=PTS/%.3f,scale=%d:%d:force_original_aspect_ratio=increase,crop=%d:%d" % (factor, W, H, W, H), a0)
+                parts.append(a0)
+                print("orbit %d: %.1fs recorded -> %.1fs at %.1fx" % (n + 1, s2 - s1, target, factor))
+                cursor = s2 + 0.4
+            if last + 1.5 - cursor > 0.5:
+                a1 = os.path.join(RAW, "_tail.mp4")
+                ff("-i", j, "-ss", str(cursor), "-t", str(last + 1.5 - cursor), *enc, a1); parts.append(a1)
         elif b5 and b6 and (b6 - b5) > TWIN_TARGET * 2:
             # THE ORBIT RUNS IN SLOW MOTION AND HAS TO BE SPED UP. Dragging the twin's canvas costs
             # over a second per mouse move however the moves are batched - the 3D redraws and
@@ -762,7 +1445,7 @@ def cut():
     with open(listing, "w", encoding="utf-8") as f:
         for p in parts:
             f.write("file '%s'\n" % p.replace("\\", "/"))
-    out = os.path.join(OUT, {2: "demo02_damachills_screen.mp4", 3: "demo03_compare_versus_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4"))
+    out = os.path.join(OUT, OUTNAME)
     ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
     secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                  "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)

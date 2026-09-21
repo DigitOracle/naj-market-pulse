@@ -28,7 +28,7 @@ Numbers spelled out, "AED" written as "dirhams", so the voice reads words rather
 > light up. DAMAC Hills: Europe twenty-six percent, and inside that, British thirteen — the largest
 > group from Europe. And then the three-page sheet she takes away: what Carson sells and rents for,
 > two thousand two hundred and eighteen registered sales, everything the building holds, completed in
-> twenty twenty-one. Welcome to Azimuth. Complexity into clarity.
+> twenty twenty-one. Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity.
 
 ---
 

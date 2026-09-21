@@ -59,7 +59,7 @@ does not publish one.
 | 5 | "Two bedrooms, up to one point eight million." | HOMES filter, dragged: **13 here · 879 across Dubai** | Q074, Q098 |
 | 6 | "Which one?" | "list them →", scroll, pick **Carson** — 1,559 apartments (1,579 units with the 20 retail), two-bed AED 1.36M; the card | Q096, Q051 |
 | 7 | *(the close)* | **Carson's three-page sheet** — 2,218 sales, yields 7.8–8.1%, the full units register, this month's sales, completed 2021 | — |
-| — | "Welcome to Azimuth. Complexity into clarity." | held on page three | — |
+| — | "Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity." | held on page three | — |
 
 **Budget options** (2-bed, DAMAC Hills): 1.5M → 4 here; 1.8M → 13; 2.0M → 19. **1.8M / 13** is the
 recommendation: enough for the list to be worth scrolling, still a shortlist, and a different number

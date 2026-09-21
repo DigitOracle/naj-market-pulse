@@ -6,6 +6,7 @@ machine and hands it straight to the browser.
 
   python scripts/open_residents.py            the residents map
   python scripts/open_residents.py --map      the MAP with the residents layer, which is where the tab lives
+  python scripts/open_residents.py --twin     the all-Dubai twin with the residents layer in its top-right stack
   python scripts/open_residents.py --print    print it instead of opening (asks first - it puts a secret on the screen)
 """
 import sys, os, webbrowser
@@ -18,6 +19,10 @@ def main():
     rk = dc.rkey()
     if "--map" in sys.argv:
         u = "%s/map?key=%s&rk=%s" % (dc.APP, dc.key(), rk)
+    elif "--twin" in sys.argv:
+        # the all-Dubai twin. The residents panel joins the top-right stack only when the URL carries the key: a twin
+        # opened from a plain link has HOMES and COLOUR BY and nothing else, which is what it looks like when it is missing.
+        u = "%s/skyline?all=1&key=%s&rk=%s" % (dc.APP, dc.key(), rk)
     else:
         u = "%s/residents?rk=%s" % (dc.APP, rk)
     if "--print" in sys.argv:
