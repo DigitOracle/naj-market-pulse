@@ -10,6 +10,7 @@ data/board/<cut>_<slug>.json - replaced in place at the same path, so a reader r
   amenities_<slug>         KHDA schools (curriculum, rating) and active DHA facilities within 5 km of the district centre
   makani_<slug>            DM Makani entrance points with lon/lat and the twin duid
   permits_<slug>           DM building permits on the district's parcels
+  usages_<slug>            DM building usages per building_id - the independent second opinion on what a building is for
   parcel_buildings_<slug>  buildings per parcel with floors, basements, units, floor area, use mix
 
 Slugs are the twin's own rail slugs (businessbay, damachills, dubaimarina ...), taken from DLD_AREA in dld_rent_buildings.py so
@@ -72,6 +73,16 @@ def write(cut, slug, doc):
     return len(doc.get(list(doc)[-1]) or []) if isinstance(doc.get(list(doc)[-1]), list) else 0
 
 
+def idstr(v):
+    """An id as a plain string. DuckDB hands these back as floats where the source column is double, and a cut that writes
+    "28943491.0" will never meet a reader holding 28943491 - that cost 38 districts their whole construction section on
+    21 Sep 2026, because the two hand-made districts happened to carry integers and nothing else did."""
+    if v is None:
+        return None
+    s = str(v)
+    return s[:-2] if s.endswith(".0") else s
+
+
 # --------------------------------------------------------------------------------------------------- the seven cuts
 FLOORS = """
 with f as (
@@ -99,7 +110,7 @@ def cut_parcel_buildings(con, d):
             "building_type", "status", "completion_date", "typical_floors", "height_m")
     parcels = collections.defaultdict(list)
     for r in rows:
-        parcels[r[0]].append(dict(zip(keys, r[1:])))
+        parcels[idstr(r[0])].append({k: (idstr(v) if k == "building_id" else v) for k, v in zip(keys, r[1:])})
     return {"area": d["area"], "comm_num": d["comm"], "buildings": len(rows), "parcels_with_buildings": len(parcels),
             "note": "A parcel is not one tower: podiums, service blocks and towers share plots. Pick the building by floors_above, "
                     "building_type or units. Floor figures cap floor_no at 200 and ignore areas over 100,000 sqm.",
@@ -122,7 +133,7 @@ def cut_names(con, d, land_by_parcel):
             named += 1
         else:
             src = None
-        out.append({"building_id": bid, "parcel_key": pk, "name": name, "source": src, "building_type": btype,
+        out.append({"building_id": idstr(bid), "parcel_key": idstr(pk), "name": name, "source": src, "building_type": btype,
                     "plot_code": plot.get(pk), "typical_floors": floors, "status": status})
     # 21 Sep 2026: the DM building register is thin in the newer freehold communities - Al Barsha South Fourth (JVC) holds 6 DM
     # buildings against 3,825 in the DLD register - so a DM-only name cut reads 0/6 there. The DLD side is added as its own array,
@@ -132,7 +143,7 @@ def cut_names(con, d, land_by_parcel):
                               from lk_d_building b where b.comm_num = ?""", [d["comm"]]).fetchall()
     dld_out = []
     for pid, pk, bnum, floors, flats in dld_rows:
-        dld_out.append({"property_id": pid, "parcel_key": pk, "building_number": bnum,
+        dld_out.append({"property_id": idstr(pid), "parcel_key": pk, "building_number": bnum,
                         "name": by_bld.get(str(pid)) or bnum, "source": "units_parent_property" if by_bld.get(str(pid)) else "dld_building_number",
                         "floors": floors, "flats": flats})
     return {"area": d["area"], "comm_num": d["comm"], "buildings": len(out), "named": named,
@@ -161,13 +172,15 @@ def cut_projects(con, d):
                              or upper(coalesce(r.master_project_en,'')) = upper('%s')""" % (
         ", ".join("r.%s" % c for c in PROJ_COLS), like, like)).fetchall()
     keys = list(PROJ_COLS) + ["project_name_en", "master_project_en_units", "units_registered", "buildings_registered"]
-    docs = [dict(zip(keys, r)) for r in rows]
+    ID_KEYS = {"project_id", "project_number", "property_id"}
+    docs = [{k: (idstr(v) if k in ID_KEYS else v) for k, v in zip(keys, r)} for r in rows]
     bmap = con.execute("""select cast(parent_property_id as varchar), cast(project_id as varchar), any_value(project_name_en), count(*)
                           from g_dld__units where parent_property_id is not null and project_id is not null
                             and (upper(coalesce(area_name_en,'')) = upper('%s') or upper(coalesce(master_project_en,'')) = upper('%s'))
                           group by 1,2""" % (like, like)).fetchall()
     return {"area": d["area"], "columns": keys, "projects": docs,
-            "building_to_project": [dict(zip(("parent_property_id", "project_id", "project_name_en", "units"), b)) for b in bmap],
+            "building_to_project": [{"parent_property_id": idstr(b[0]), "project_id": idstr(b[1]), "project_name_en": b[2], "units": b[3]}
+                                    for b in bmap],
             "note": "The DLD project register holds project_name and developer_name in ARABIC only; project_name_en comes from the "
                     "units register via project_id. Join by property_id, project_id, or building_to_project - never by name.",
             "named_en": sum(1 for x in docs if x.get("project_name_en"))}
@@ -179,7 +192,8 @@ LAND_KEEP = ("property_id", "land_number", "land_sub_number", "parcel_id", "munc
 
 
 def cut_land(d, land_rows):
-    sel = [{k: r.get(k) for k in LAND_KEEP} for r in land_rows]
+    ID_KEYS = {"property_id", "parcel_id", "project_id", "munc_number", "land_number", "land_sub_number", "zone_id"}
+    sel = [{k: (idstr(r.get(k)) if k in ID_KEYS else r.get(k)) for k in LAND_KEEP} for r in land_rows]
     fh = sum(1 for r in sel if r.get("is_free_hold") in (1, 1.0, "1"))
     return {"area": d["area"], "columns": list(LAND_KEEP), "plots": sel, "freehold": fh,
             "with_parcel_id": sum(1 for r in sel if r.get("parcel_id")),
@@ -207,10 +221,30 @@ def cut_permits(con, d):
     keys = ("parcel_id", "project_no", "permit_no", "permit_date", "submitted", "approved", "renewed", "application_type",
             "status", "building_count", "building_type", "total_area")
     return {"area": d["area"], "comm_num": d["comm"], "columns": list(keys),
-            "permits": [dict(zip(keys, r)) for r in rows],
+            "permits": [{k: (idstr(v) if k in ("parcel_id", "project_no") else v) for k, v in zip(keys, r)} for r in rows],
             "new_building": sum(1 for r in rows if (r[7] or "") == "Final-New Building"),
             "note": "DM permits carry parcel_id and project_no, never building_id. Join permit -> parcel -> parcel_buildings_<slug>.json, "
                     "then pick the building. application_type 'Final-New Building' is new construction."}
+
+
+def cut_usages(con, d):
+    """The Municipality's own use list per building - the second source the floor register has never had.
+    One row per building x usage, so a mixed building has several; the floor register says which FLOOR, this says whether the
+    Municipality agrees the use is there at all."""
+    rows = con.execute("""select cast(cast(u.building_id as bigint) as varchar), cast(cast(u.usage_id as bigint) as varchar),
+                                 l.usage_description_english
+                          from g_dm__building_usages u
+                          left join g_dm__building_usages_lookup l on cast(l.usage_id as bigint) = cast(u.usage_id as bigint)
+                          where cast(cast(u.building_id as bigint) as varchar) in (
+                                select cast(building_id as varchar) from lk_dm_buildings where comm_num = ?)""", [d["comm"]]).fetchall()
+    by_b = collections.defaultdict(list)
+    for bid, uid, desc in rows:
+        by_b[bid].append({"usage_id": uid, "usage": desc})
+    return {"area": d["area"], "comm_num": d["comm"], "buildings": len(by_b), "rows": len(rows),
+            "note": "DM building usages: the Municipality's use list per building_id, independent of the floor register. A building "
+                    "with several rows is mixed use. It says WHETHER a use is recorded, never which floor - compare it against the "
+                    "floor register's per-floor use, and treat a disagreement as a question, not an error.",
+            "by_building": dict(by_b)}
 
 
 def centre(con, comm):
@@ -275,6 +309,8 @@ def main():
                 doc = cut_names(con, d, land_by_parcel); write("names", d["slug"], doc); made["names"] = "%d/%d" % (doc["named"], doc["buildings"])
             if want("makani"):
                 doc = cut_makani(con, d); write("makani", d["slug"], doc); made["makani"] = len(doc["points"])
+            if want("usages"):
+                doc = cut_usages(con, d); write("usages", d["slug"], doc); made["usages"] = doc["buildings"]
             if want("permits"):
                 doc = cut_permits(con, d); write("permits", d["slug"], doc); made["permits"] = len(doc["permits"])
             if want("amenities"):
