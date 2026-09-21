@@ -68,19 +68,29 @@ def rent_for(rec, umx_rec, schemes):
     return None
 
 
+def idstr(v):
+    """A register id, however it was written down. The two districts cut by hand carry project ids as integers; the 40 cut by
+    build_district_cuts.py carry the same ids as "28943491.0", because they came back through a float column. Comparing the two
+    as strings never matched, which is why every district outside Business Bay and DAMAC Hills showed no construction at all."""
+    s = str(v if v is not None else "").strip()
+    if s.endswith(".0"):
+        s = s[:-2]
+    return s
+
+
 def project_for(umx_rec, projects, by_building):
     """By id, never by name (DDA session, 20 Sep): the units register gives parent_property_id for a building and project_id for
     its project, so our building's own property_id meets a project without a single name comparison. The register holds no
     English project name at all - project_name_en is lifted from the units register - so names are for display only."""
-    pid = str((umx_rec.get("dld") or {}).get("property_id") or "")
+    pid = idstr((umx_rec.get("dld") or {}).get("property_id"))
     if not pid:
         return None
     link = by_building.get(pid)
     row = None
     if link:
-        row = next((p for p in projects if str(p.get("project_id")) == str(link.get("project_id"))), None)
+        row = next((p for p in projects if idstr(p.get("project_id")) == idstr(link.get("project_id"))), None)
     if row is None:
-        row = next((p for p in projects if str(p.get("property_id") or "") == pid), None)
+        row = next((p for p in projects if idstr(p.get("property_id")) == pid), None)
     if row is None:
         return None
     pct = row.get("percent_completed")
@@ -233,7 +243,7 @@ def build(district, push_tok):
             perm.setdefault(str(int(float(r["parcel_id"]))), []).append(r)
     lfile = load("land_registry_%s.json" % slug) or {}
     lrows = lfile.get("plots") or []
-    by_prop = {str(x.get("property_id")): x for x in lrows}
+    by_prop = {idstr(x.get("property_id")): x for x in lrows}
     by_parcel = {str(int(float(x["parcel_id"]))): x for x in lrows if x.get("parcel_id") is not None}
     fh_yes = sum(1 for x in lrows if x.get("is_free_hold"))
     nr = np = nl = nm = nt = npm = 0
