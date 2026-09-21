@@ -13,6 +13,14 @@ plate - which side of the corridor a flat sits on is not published - and the pag
 
 Coverage is the point of the guard: a building the pull covered only half of would show half its homes as if that were all of
 them. Those buildings stay at floor level, and the file records why.
+
+What the register can and cannot reach (DDA session, measured on all 2,374,092 units, 21 Sep 2026):
+  53%  carry a 9-10 digit parent_property_id that meets the DLD building register - the family this script joins on
+  38%  carry NO parent at all: land and villa plots, where the unit IS the property
+  10%  carry a 13-DIGIT parent (1001794636716) belonging to 4,340 "buildings" that are in no building register - a newer or
+       off-plan id space. Those can never meet a footprint here, and are counted and reported rather than silently dropped.
+Business Bay and Al Hebiah Third are the good end of that: 95,808 of their 98,634 rows (97%) carry a usable parent. Another
+district may sit at half, and its buildings will fall back to floor level - that is the guard working, not a fault.
 """
 import json, os, sys, time
 
@@ -59,10 +67,16 @@ def floor_of(row):
 def build(units_file, districts, min_cover, tok):
     want = wanted_buildings(districts)
     print("%d register-bound buildings to look for, across %s" % (len(want), ", ".join(districts)))
-    held, seen, no_floor, t0 = {}, 0, 0, time.time()
+    held, seen, no_floor, no_parent, far_id, t0 = {}, 0, 0, 0, 0, time.time()
     for row in json_rows(units_file):
         pid = row.get("parent_property_id")
         key = str(int(pid)) if isinstance(pid, (int, float)) else str(pid or "")
+        if not key or key == "None":
+            no_parent += 1
+            continue
+        if len(key) >= 12:
+            far_id += 1                 # the 13-digit family: no building register row exists for it, here or anywhere
+            continue
         if key not in want:
             continue
         seen += 1
@@ -78,7 +92,8 @@ def build(units_file, districts, min_cover, tok):
             "bal": round((num(row.get("unit_balcony_area")) or 0) * 10.764) or None,
             "sub": row.get("property_sub_type_en") or None,
         })
-    print("  %d unit rows for those buildings, %d with no usable floor (%.0fs)" % (seen, no_floor, time.time() - t0))
+    print("  %d unit rows for those buildings, %d with no usable floor; skipped %d rows with no parent and %d on 13-digit parents "
+          "that meet no building register (%.0fs)" % (seen, no_floor, no_parent, far_id, time.time() - t0))
     out = {d: {} for d in districts}
     thin = []
     for key, floors in held.items():
