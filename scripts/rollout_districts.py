@@ -33,7 +33,7 @@ SCRIPTS = os.path.join(ROOT, "scripts")
 STATE = os.path.join(BOARD, "_rollout_state.json")
 LOG = os.path.join(ROOT, "logs", "rollout_%s.log" % time.strftime("%Y%m%d_%H%M"))
 APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
-STEPS = ["stack", "views", "links", "units", "plates", "publish"]
+STEPS = ["stack", "views", "links", "units", "plates", "publish", "audit"]
 UNITS_FILE = os.path.join(ROOT, "data", "raw_downloads", "dda", "prod", "dld__dld_units-open-api.ndjson")
 
 try:
@@ -162,6 +162,23 @@ def main():
                 ok2, e2 = run([os.path.join(SCRIPTS, "push_units.py"), d, "--push"], "publish units %s" % d, 30) if os.path.exists(os.path.join(SCRIPTS, "push_units.py")) else (True, "")
             ok3, e3 = run([os.path.join(SCRIPTS, "push_plates.py"), d, "--push"], "publish plates %s" % d, 60)
             sd["publish"] = "ok" if (ok1 and ok2 and ok3) else "; ".join(x for x in (e1, e2, e3) if x)
+            save(st)
+        # the district is scored against the Symphony template, so what is thin is reported rather than noticed later
+        if stage <= 6 and sd.get("audit") != "ok":
+            ok, err = run([os.path.join(SCRIPTS, "audit_pages.py"), d], "audit %s" % d, 30)
+            a = os.path.join(BOARD, "audit_%s.json" % d)
+            if ok and os.path.exists(a):
+                try:
+                    j = json.load(open(a, encoding="utf-8"))
+                    sd["audit"] = "ok"
+                    sd["score"] = "%d/%d over %d buildings" % (j["median"], j["sections"], j["buildings"])
+                    sd["thin"] = [v["label"] for v in sorted(j["cover"].values(), key=lambda v: v["pct"])[:3] if v["pct"] < 60]
+                    if j.get("drift"):
+                        sd["drift"] = j["drift"][:3]
+                except (ValueError, KeyError) as e:
+                    sd["audit"] = "unreadable audit: %s" % e
+            else:
+                sd["audit"] = err or "no audit written"
             save(st)
         say("%-26s %s" % (d, json.dumps(sd)))
     done = sum(1 for d in todo if (st["districts"].get(d, {}).get("steps") or {}).get("publish") == "ok")
