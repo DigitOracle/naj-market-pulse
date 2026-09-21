@@ -76,6 +76,42 @@ still ships.
 - The roll-out itself is re-runnable at any time; it only redoes what is unfinished or newly possible (a district gains its
   schools cut, say, and `links` runs again for it).
 
+## The order changed on 21 Sep: launches, not districts we happen to know
+
+Kendall, after the Najma video session read the 2026 launch register: *"when you did Sanctuary it was perfect because it was
+pre-launch ... I've got 64,000 buildings and it's going to take forever. I need to prioritise."* The register says where the
+market's attention is: **471 live launches from 2025-26, 131,875 homes**; 67.5% of Dubai's sales are off-plan.
+
+All 40 rail districts are threaded and published, so the top of that list is already covered — the work now is depth, and the
+two places where the twin cannot draw at all:
+
+| # | District | Live 2025-26 | On the twin | What it needs |
+|---|---|---|---|---|
+| 1 | **Bu Kadra** (Meydan corridor) | 12 projects, 3,397 homes | **no model** | footprints ✅ done 21 Sep (658, 95 named, 78 tall) → **CityEngine massing, Kendall's machine** |
+| 2 | **Liwan 1** / Wadi Al Safa 2 | 9 projects, 3,373 homes | **no model** | same: footprints, then the massing |
+| 3 | Dubai Maritime City | 21 projects, 7,059 homes | 6 buildings | the launches are not built yet, so they have no footprint |
+| 4 | Al Furjan / Jabal Ali First | 33 projects, 9,622 homes | 100 buildings | 14/16 — thin on plans and unit-level flats |
+| 5 | City of Arabia / Wadi Al Safa 4 | 13 projects, 10,925 homes | 3 buildings | as Maritime City: launched, not built |
+| 6 | JVC / Al Barsha South Fourth | 46 projects, 10,806 homes | 225 buildings | 14/16 |
+| 7 | DWC / Madinat Al Mataar | 61 projects, 9,612 homes | 77 buildings | 12/16 — 58% have an amenities cut |
+
+**The pattern in 3 and 5 is the real finding:** a launch-heavy district looks empty on the twin because its towers do not exist
+yet. Only a Revit model or a developer's stacking plan can draw one, and no register holds a footprint for an unbuilt building.
+The register *can* still describe them — name, homes, mix, escrow, progress, what has sold off-plan — which is a level below
+the building page and above nothing.
+
+### Onboarding a district the twin cannot draw
+
+`reexport_footprints.py` now takes `--bbox lon0,lat0,lon1,lat1`, so a district with no footprints at all can be started:
+
+```bash
+python scripts/reexport_footprints.py --bbox 55.29308,25.15449,55.32292,25.18149 bukadra
+```
+
+then `osm_heights.py --force`, `build_anchors.py`, and the CityEngine massing — **the one step that cannot run here**: it needs
+CityEngine 2025.1 open on Kendall's machine with the Python bridge on 25333 (`ce_batch_v2.py --v3 bukadra`). After that Bu Kadra
+joins the ordinary roll-out and needs nothing special.
+
 ## Order of work
 
 1. **Now:** run the roll-out over all 40 rail districts. Floors, open sides, rents, units, plates, published.

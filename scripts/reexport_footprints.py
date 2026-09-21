@@ -102,12 +102,22 @@ def area_m2(pg):
     except Exception: return 0.0
 
 
-def run(slug, dry, force):
+def run(slug, dry, force, bbox=None):
     gj = os.path.join(CE, slug, "buildings.geojson")
-    old = json.load(open(gj, encoding="utf-8"))
-    xs = [p[0] for f in old["features"] for p in shape(f["geometry"]).exterior.coords]
-    ys = [p[1] for f in old["features"] for p in shape(f["geometry"]).exterior.coords]
-    bbox = (min(xs), min(ys), max(xs), max(ys))
+    old = {"type": "FeatureCollection", "features": []}
+    if os.path.exists(gj):
+        old = json.load(open(gj, encoding="utf-8"))
+    if bbox is None:
+        # an existing district keeps its own extent, so re-exporting never grows it
+        xs = [p[0] for f in old["features"] for p in shape(f["geometry"]).exterior.coords]
+        ys = [p[1] for f in old["features"] for p in shape(f["geometry"]).exterior.coords]
+        if not xs:
+            raise SystemExit("%s has no footprints yet: give --bbox lon0,lat0,lon1,lat1 to onboard it" % slug)
+        bbox = (min(xs), min(ys), max(xs), max(ys))
+    else:
+        # onboarding a district the twin cannot draw at all (Bu Kadra, Liwan 1 - the two places where geometry really is the
+        # blocker, 21 Sep 2026). Everything downstream is unchanged: heights, anchors, then the CityEngine re-mass.
+        os.makedirs(os.path.dirname(gj), exist_ok=True)
     J = fetch(slug, bbox, force)
     els = J.get("elements", [])
     member_ways = set()
@@ -157,5 +167,8 @@ def run(slug, dry, force):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--dry", action="store_true"); ap.add_argument("--force", action="store_true")
+    ap.add_argument("--bbox", help="lon0,lat0,lon1,lat1 - onboard a district that has no footprints yet")
     ap.add_argument("slug"); a = ap.parse_args()
-    run(a.slug, a.dry, a.force)
+    bb = tuple(float(x) for x in a.bbox.split(",")) if a.bbox else None
+    if bb and len(bb) != 4: ap.error("--bbox needs lon0,lat0,lon1,lat1")
+    run(a.slug, a.dry, a.force, bb)
