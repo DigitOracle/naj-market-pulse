@@ -55,6 +55,7 @@ YEARS_CAP = 30                  # beyond thirty years, longer no longer means be
 
 OUT = os.path.join(ROOT, "data", "board", "pillars.json")
 DUCK = os.path.join(ROOT, "naj.duckdb")
+DNA_FILE = os.path.join(ROOT, "data", "dev_meta", "developer_dna.json")
 
 AXES = [
     {"key": "location", "label": "LOCATION", "what": "How reachable the everyday things are: the metro, schools and clinics.",
@@ -205,31 +206,43 @@ def score(devs):
     scored = {k: v for k, v in devs.items() if v["projects"]["total"] >= DEV_MIN_PROJECTS}
     judgeable = {k: v for k, v in scored.items() if v["projects"]["due"] >= DEV_MIN_DUE}
 
-    def track_raw(v):
-        if v["years"] is None:
-            return None
-        longevity = min(v["years"], YEARS_CAP) / YEARS_CAP                    # 0-1, flat past the cap
-        p = v["projects"]
-        size = min(p["total"], 100) / 100.0                                   # 0-1, flat past a hundred
-        clean = 1.0 - (p["cancelled"] / p["total"] if p["total"] else 0)      # cancellations earn their place here
-        return (0.45 * longevity + 0.25 * size + 0.30 * clean)
+    return _score_pop(devs, scored, judgeable)
 
-    def delivery_raw(v):
-        """Of the projects that were DUE, how many landed.
 
-        The first cut of this scored finished/total and gave 0 to a developer with seventeen schemes and
-        none finished - which read as "never delivers" when the register only said "not due yet". A young
-        programme is now unscored rather than condemned, and the escrow agent is reported on the card as a
-        fact rather than folded into a score, because whose bank holds the money is not a delivery measure.
-        """
-        p = v["projects"]
-        if p["due"] < DEV_MIN_DUE:
-            return None
-        return p["delivered"] / p["due"]
+def track_raw(v):
+    """Longevity, size and a clean record, composed into one number that is then RANKED.
 
+    Not "credibility": the register cannot judge that. Cancellations are folded in so the axis earns the
+    name - without them a twenty-year developer with three cancellations outranks a clean five-year one.
+    """
+    if v["years"] is None:
+        return None
+    longevity = min(v["years"], YEARS_CAP) / YEARS_CAP                    # 0-1, flat past the cap
+    p = v["projects"]
+    size = min(p["total"], 100) / 100.0                                   # 0-1, flat past a hundred
+    clean = 1.0 - (p["cancelled"] / p["total"] if p["total"] else 0)
+    return 0.45 * longevity + 0.25 * size + 0.30 * clean
+
+
+def delivery_raw(v):
+    """Of the projects that were DUE, how many landed.
+
+    The first cut scored finished/total and gave 0 to a developer with seventeen schemes and none
+    finished - which read as "never delivers" when the register only said "not due yet". A young
+    programme is unscored rather than condemned. The escrow agent is reported on the card as a fact
+    rather than folded in here, because whose bank holds the money is not a delivery measure.
+    """
+    p = v["projects"]
+    if p["due"] < DEV_MIN_DUE:
+        return None
+    return p["delivered"] / p["due"]
+
+
+
+def _score_pop(devs, scored, judgeable, rank_against=None):
     tr = {k: track_raw(v) for k, v in scored.items()}
     dl = {k: delivery_raw(v) for k, v in judgeable.items()}
-    tr_pop = [x for x in tr.values() if x is not None]
+    tr_pop = rank_against if rank_against is not None else [x for x in tr.values() if x is not None]
     dl_pop = [x for x in dl.values() if x is not None]
 
     for k, v in devs.items():
@@ -254,6 +267,52 @@ def score(devs):
     return devs
 
 
+def groups(devs):
+    """The BRAND, aggregated across every DLD entity that belongs to it.
+
+    Kendall, looking at a card reading "DAMAC STAR PROPERTIES - 12 projects": "they have only delivered
+    12 projects?" No. DAMAC is EIGHTEEN entities in the register and 146 projects between them; Emaar is
+    five and 206. Scoring a legal entity and labelling it with a brand name is a true number attached to
+    a claim it does not support - the same fault as a gap with an unearned reason, in a third place.
+
+    The entity links come from developer_dna.json, which already holds them per board developer. Their
+    completeness is NOT assumed: `registerShortOf` reports the developer's own portfolio count when the
+    register total falls well short of it, so a thin grouping is visible on the card rather than silently
+    understating the developer.
+    """
+    try:
+        with open(DNA_FILE, encoding="utf-8") as f:
+            dna = json.load(f)["developers"]
+    except Exception as e:
+        print("  (no developer DNA, so no groups: %s)" % e)
+        return {}
+    out = {}
+    for name, rec in dna.items():
+        nos = [str(int(l["developer_number"])) for l in (rec.get("dld_entity_links") or [])
+               if l.get("developer_number") is not None]
+        members = [devs[n] for n in nos if n in devs]
+        if not members:
+            continue
+        agg = {k: sum(m["projects"][k] for m in members) for k in
+               ("total", "finished", "active", "not_started", "pending", "cancelled",
+                "due", "delivered", "overdue", "dated", "on_time", "late")}
+        lic = sorted(m["licensed"] for m in members if m["licensed"])
+        esc = [m["escrow_named_pct"] for m in members if m["escrow_named_pct"] is not None]
+        port = (rec.get("portfolio") or {}).get("count")
+        out[name] = {
+            "name": name, "entities": len(members),
+            "entity_names": [m["name"] for m in members if m["name"]][:12],
+            "licensed": lic[0] if lic else None,
+            "years": round((dt.date.today() - dt.date.fromisoformat(lic[0])).days / 365.25, 1) if lic else None,
+            "projects": agg,
+            "escrow_named_pct": int(round(sum(esc) / len(esc))) if esc else None,
+            "portfolio_count": port,
+            # the developer's own portfolio says it built more than the register links account for
+            "registerShortOf": port if (port and agg["total"] < port * 0.6) else None,
+        }
+    return out
+
+
 def norm(n):
     """'EMAAR DEVELOPMENT P.J.S.C.' -> 'emaar development', so the app can find a developer by name."""
     t = (n or "").lower()
@@ -273,6 +332,15 @@ def main():
     dis = districts()
     devs = score(developers(con, proj, devs_csv))
     con.close()
+    # Groups are ranked against the ENTITY population, not against the fifteen of themselves. A brand
+    # naturally scores higher on TRACK because it really has registered more - that is the fact, not a
+    # distortion of it - and fifteen is far too thin a field to rank within.
+    grp = groups(devs)
+    ent_pop = [x for x in (track_raw(v) for v in devs.values() if v["projects"]["total"] >= DEV_MIN_PROJECTS) if x is not None]
+    if grp:
+        gscored = {k: v for k, v in grp.items() if v["projects"]["total"] >= DEV_MIN_PROJECTS}
+        gjudge = {k: v for k, v in gscored.items() if v["projects"]["due"] >= DEV_MIN_DUE}
+        _score_pop(grp, gscored, gjudge, rank_against=ent_pop)
 
     by_name = {}
     for k, v in devs.items():
@@ -293,6 +361,7 @@ def main():
         "areas": areas,
         "districts": dis,
         "developers": devs,
+        "groups": grp,
         "by_name": by_name,
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -303,6 +372,12 @@ def main():
     have_track = sum(1 for v in devs.values() if v["track"] is not None)
     print("areas with a median (>= %d sales): %d" % (AREA_MIN_SALES, len(areas)))
     print("districts with an amenity rank: %d" % sum(1 for v in dis.values() if v["rank"] is not None))
+    print("board developers grouped: %d" % len(grp))
+    for g in sorted(grp.values(), key=lambda x: -x["projects"]["total"])[:6]:
+        p = g["projects"]
+        print("    %-14s %2d entities %4d projects  %3d of %3d due delivered  track %s  on time %s%%%s"
+              % (g["name"], g["entities"], p["total"], p["delivered"], p["due"], g["track"], g["on_time_pct"],
+                 "   (register has %d, its own portfolio says %d)" % (p["total"], g["registerShortOf"]) if g["registerShortOf"] else ""))
     print("developers in the project register: %d" % len(devs))
     print("  scored (>= %d projects): %d   unscored: %d" % (DEV_MIN_PROJECTS, have_track, len(devs) - have_track))
     named = [v for v in devs.values() if v["name"] and v["track"] is not None]
@@ -337,7 +412,7 @@ def main():
                 thin_d[k] = {"name": v["name"], "total": p["total"], "due": p["due"], "dated": p["dated"]}
         slim = {
             "generated": doc["generated"], "sources": doc["sources"], "floors": doc["floors"], "axes": AXES,
-            "areas": areas, "districts": dis, "developers": scored_d, "unscored": thin_d,
+            "areas": areas, "districts": dis, "developers": scored_d, "unscored": thin_d, "groups": grp,
         }
         slim["by_name"] = {n: ks for n, ks in by_name.items() if any(k in scored_d or k in thin_d for k in ks)}
         raw = json.dumps(slim, ensure_ascii=False, separators=(",", ":"))
