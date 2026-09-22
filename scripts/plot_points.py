@@ -13,7 +13,7 @@ resolve a plot to its building by ID rather than by name.
 Pushed as KV `plots`; the map draws it above zoom 14.5 as a label layer.
 Usage: python scripts/plot_points.py [--no-push]
 """
-import json, os, sys, glob, time, collections
+import json, os, re, sys, glob, time, collections
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
@@ -30,6 +30,13 @@ def load(p, d=None):
     except Exception: return d
 
 
+def nwords(s):
+    """Significant words of a building name, for the rescue's identity test. Drops the fillers that
+    make unrelated towers look alike, so a shared word means something."""
+    out = re.sub(r"[^a-z0-9 ]+", " ", str(s or "").lower()).split()
+    return {w for w in out if len(w) > 2 and w not in ("the", "by", "at", "tower", "towers", "residence", "residences", "building", "dubai")}
+
+
 def plot_label(parcel, community, no):
     if community and no: return f"{community}-{no}"
     try:
@@ -42,7 +49,18 @@ def main():
     do_push = "--no-push" not in sys.argv
     reg = load(os.path.join(IDENT, "reg_bindings.json"), {}) or {}
     tx = load(os.path.join(IDENT, "tx_bindings.json"), {}) or {}
-    feats = []; seen = set(); per = collections.Counter()
+    # v233 - a building's register row does not always sit in the file named after its district. DLD
+    # reassigned the seven Sobha Heartland towers (Maybach Six, Vision Iconic and five others) to
+    # Meydan, so their property_ids left units_buildings_sobhaheartland.json while the footprints kept
+    # their district - and units, master and plot area silently became null on plots that still
+    # resolve perfectly well. Nothing is lost, it is just filed elsewhere, so look citywide by
+    # property_id when the district's own file does not hold it. The district file still wins.
+    ANY = {}
+    for _p in glob.glob(os.path.join(DLD, "units_buildings_*.json")):
+        for _b in (load(_p, {}) or {}).get("buildings", []):
+            ANY.setdefault(str(_b.get("property_id")), _b)
+
+    feats = []; seen = set(); per = collections.Counter(); rescued = 0
     for slug in sorted({k for k in list(reg) + list(tx) if not k.startswith("_")}):
         A = load(os.path.join(NAMES, f"anchors_{slug}.json"), {}) or {}
         pos = {a["i"]: (a.get("lon"), a.get("lat")) for a in A.get("anchors", []) if a.get("lon") is not None}
@@ -53,6 +71,22 @@ def main():
             lonlat = pos.get(i)
             if not lonlat or lonlat[0] is None: continue
             b = ub.get(str(v.get("property_id"))) or {}
+            if not b:
+                # A rescue has to clear the same two tests we apply on screen, because a bare
+                # property_id lookup does not. Taken on its own it pulled 766 rows, and most were
+                # wrong: AL THAMAM 26, 20, 49, 10 and 8 all matched one row carrying 47,782 units -
+                # a master community's total pasted onto individual buildings. So the candidate must
+                # agree on IDENTITY (a shared significant word with the binding's name) and on SCOPE
+                # (a unit count within 15% of what the binding says this building holds). Either one
+                # alone lets the aggregates through.
+                cand = ANY.get(str(v.get("property_id"))) or {}
+                if cand:
+                    cn, vn = nwords(cand.get("name")), nwords(v.get("name"))
+                    same_name = bool(cn & vn)
+                    cu, vu = cand.get("units"), v.get("units")
+                    same_scope = bool(cu and vu and abs(cu - vu) <= max(2, 0.15 * vu))
+                    if same_name and same_scope:
+                        b = cand; rescued += 1
             parcel = v.get("parcel") or b.get("parcel") or b.get("plot_parcel")
             lab = plot_label(parcel, b.get("community"), b.get("plot_no"))
             if not lab: continue
@@ -74,7 +108,8 @@ def main():
            "note": "Plot number = community number and plot number from the Dubai Land Department parcel id, placed at the building's own footprint. No parcel outlines exist publicly, so this is the number without the boundary.",
            "features": feats}
     json.dump(doc, open(os.path.join(BOARD, "plots.json"), "w", encoding="utf-8"), ensure_ascii=False)
-    print(f"plot points: {len(feats):,} across {len(per)} districts | {os.path.getsize(os.path.join(BOARD, 'plots.json'))//1024} KB")
+    print(f"plot points: {len(feats):,} across {len(per)} districts | {os.path.getsize(os.path.join(BOARD, 'plots.json'))//1024} KB"
+          + (f" | {rescued} rescued from another district's register file" if rescued else ""))
     for s, n in per.most_common(8): print(f"  {s:<26}{n:>6}")
     if do_push: print("plots ->", push("plots", doc, env_token("INGEST_TOKEN")).get("ok"))
 
