@@ -5,8 +5,12 @@ complete says what a developer filed. None of them says anyone lives there. A DE
 closest any Dubai register gets to occupancy, and with the first and last connection months it gives a building's filling
 history: when it opened, and whether it is still filling.
 
-It needs no identity work at all - the DDA session's cut (dewa_moveins_<slug>.json, 22 Sep 2026) is already keyed on the duid
-our own identity files carry, matched at 14 m median from the building's anchor.
+It needs no identity work at all - the DDA session's cut (dewa_moveins_<slug>.json, 22 Sep 2026) arrives already bound to our
+buildings, and carries footprint_i so it joins directly. How the bind is made, stated precisely because the page repeats it:
+a DEWA row carries a makani number, the Municipality's entrance layer gives that makani a coordinate, and the entrance is
+matched to the nearest twin building within 50 m, one building per makani. entrance_to_building_m is that distance - median
+14 m, 90th percentile 29 m. It is a door matched to a building, not a neighbourhood guess, and it is NOT a distance from the
+building's own anchor, which is what an earlier version of this note said.
 
 WHAT THIS MUST NOT SAY, and the page has to carry all four:
 
@@ -48,21 +52,27 @@ def build(district, tok):
     if not mv:
         print("%-26s no move-ins cut" % district)
         return False
-    by_duid = {str(r.get("duid")): r for r in (mv.get("buildings") or []) if r.get("duid")}
+    rows = mv.get("buildings") or []
+    # footprint_i is the cut's own answer to "which building is this", added 22 Sep after the question-bank session pointed
+    # out a duid cannot be put on screen. It is the direct key; duid stays as the fallback for anything cut before that.
+    by_fp = {str(r.get("footprint_i")): r for r in rows if r.get("footprint_i") is not None}
+    by_duid = {str(r.get("duid")): r for r in rows if r.get("duid")}
 
     ident = load(os.path.join(ROOT, "data", "identity", "identity_%s.json" % district)) or {}
     duid_of = {i: v.get("duid") for i, v in (ident.get("by_index") or {}).items() if v.get("duid")}
 
     n = 0
     for i, rec in doc.get("buildings_by_id", {}).items():
-        r = by_duid.get(str(duid_of.get(i) or ""))
+        r = by_fp.get(str(i)) or by_duid.get(str(duid_of.get(i) or ""))
         if not r:
             continue
         rec["occupancy"] = {
             "connections": r.get("move_ins"), "y2024": r.get("move_ins_2024"), "y2025": r.get("move_ins_2025"),
             "y2026": r.get("move_ins_2026"), "residential": r.get("residential"), "commercial": r.get("commercial"),
             "first": r.get("first_move_in_month"), "last": r.get("last_move_in_month"),
-            "doors": r.get("makani_points"), "entrance_m": r.get("nearest_entrance_m"),
+            "doors": r.get("makani_points"),
+            # renamed at source 22 Sep: it is entrance-to-building, not building-to-anchor. Median 14 m, 90th 29 m.
+            "entrance_m": r.get("entrance_to_building_m", r.get("nearest_entrance_m")),
         }
         n += 1
     # the district's own honesty line: how many buildings were held back, so a page can say so
