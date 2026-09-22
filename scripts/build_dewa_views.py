@@ -3,11 +3,15 @@
   data/board/building_activity.json        TWIN colour modes, no nationality: how fast newly handed-over towers fill,
                                            residents against businesses, move-ins in the last six months against the six
                                            before (judged against Dubai's own ratio). Buildings with at least 20 accounts.
-  data/internal/community_resident_mix.json  Resident nationality by community, shown in the app to anyone Naj shares a link
-                                           groups at 5% or more in communities with at least 500 residential accounts,
+  data/internal/community_resident_mix.json  Resident nationality by community, shown in the app to anyone Naj shares a
+                                           link with: rounded shares of groups at 5% or more in communities with at
+                                           least 500 residential accounts,
                                            regions with their countries at 1%+ (never a figure under 20 accounts), the
-                                           filter bands, simplified community outlines. Never shown to clients, never linked to
-                                           homes or listings, never pushed anywhere public (data/internal is not in git).
+                                           filter bands, simplified community outlines. Never linked to a home or a listing.
+                                           The FILE stays out of git, but its contents are pushed to KV and served by the
+                                           Worker, so out-of-git has not meant unpublished since 22 Sep 2026. What protects
+                                           it is the flooring - 500+ accounts, 5% shares, nothing under 20 accounts, all
+                                           rounded - not the audience. Lower those floors and the decision needs revisiting.
 
 Usage: python scripts/build_dewa_views.py
 """
