@@ -108,6 +108,37 @@ def area_medians(con):
     return {r[0]: {"aed_sqft": int(round(r[1])), "sales": int(r[2])} for r in rows if r[0] and r[1]}
 
 
+def districts():
+    """Every district's amenity density, RANKED against the others.
+
+    The first cut scored a district against absolute caps - twenty schools, fifty clinics - and Business Bay
+    has 26 and 563, so the cap saturated and every dense district scored a flat 100. LOCATION then reduced to
+    "how far is the metro, plus fifty", which made a tower 3 km from rail look middling rather than badly
+    connected. Ranking restores the discrimination: a thin district scores low because other districts really
+    do hold more, not because it missed an arbitrary number.
+    """
+    out = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "data", "board", "stack_*.json"))):
+        try:
+            with open(f, encoding="utf-8") as fh:
+                d = json.load(fh)
+        except Exception:
+            continue
+        amen = d.get("district_amenities") or {}
+        label = ((amen.get("centre") or {}).get("label") or "").strip()
+        if not label:
+            continue
+        out[label] = {"schools": len(amen.get("schools") or []) or amen.get("schools_n") or 0,
+                      "health": amen.get("health_n") or 0,
+                      "radiusKm": amen.get("radius_km") or 5}
+    schools = [v["schools"] for v in out.values()]
+    health = [v["health"] for v in out.values()]
+    for v in out.values():
+        s_r, h_r = pct_rank(v["schools"], schools), pct_rank(v["health"], health)
+        v["rank"] = int(round((s_r + h_r) / 2)) if s_r is not None and h_r is not None else None
+    return out
+
+
 def developers(con, projects_csv, developers_csv):
     """One record per developer number that appears in the project register, joined to its licence."""
     rows = con.execute("""
@@ -226,6 +257,7 @@ def main():
 
     con = duckdb.connect(DUCK, read_only=True)
     areas = area_medians(con)
+    dis = districts()
     devs = score(developers(con, proj, devs_csv))
     con.close()
 
@@ -246,6 +278,7 @@ def main():
                            "a zero would say scored badly where the truth is not held."},
         "axes": AXES,
         "areas": areas,
+        "districts": dis,
         "developers": devs,
         "by_name": by_name,
     }
@@ -256,6 +289,7 @@ def main():
     kb = os.path.getsize(OUT) / 1024
     have_track = sum(1 for v in devs.values() if v["track"] is not None)
     print("areas with a median (>= %d sales): %d" % (AREA_MIN_SALES, len(areas)))
+    print("districts with an amenity rank: %d" % sum(1 for v in dis.values() if v["rank"] is not None))
     print("developers in the project register: %d" % len(devs))
     print("  scored (>= %d projects): %d   unscored: %d" % (DEV_MIN_PROJECTS, have_track, len(devs) - have_track))
     named = [v for v in devs.values() if v["name"] and v["track"] is not None]
@@ -268,7 +302,21 @@ def main():
         tok = env_token("INGEST_TOKEN")
         if not tok:
             print("FAIL: no INGEST_TOKEN"); return 2
-        print("pushed:", push("pillars", doc, tok))
+        # The Worker reads this on every building and developer page, so it gets the scored developers and
+        # the area medians only - not the 834 unscored records, which would be a third of a megabyte of
+        # nulls on every render. The full file stays on disk for the audit trail.
+        slim = {
+            "generated": doc["generated"], "sources": doc["sources"], "floors": doc["floors"], "axes": AXES,
+            "areas": areas, "districts": dis,
+            "developers": {k: {kk: vv for kk, vv in v.items() if kk != "areas"}
+                           for k, v in devs.items() if v["track"] is not None or v["delivery"] is not None},
+        }
+        slim["by_name"] = {n: [k for k in ks if k in slim["developers"]] for n, ks in by_name.items()}
+        slim["by_name"] = {n: ks for n, ks in slim["by_name"].items() if ks}
+        raw = json.dumps(slim, ensure_ascii=False, separators=(",", ":"))
+        print("pushing %d scored developers and %d areas (%.0f KB, from %.0f KB on disk)"
+              % (len(slim["developers"]), len(areas), len(raw.encode()) / 1024, kb))
+        print("pushed:", push("pillars", slim, tok))
     return 0
 
 

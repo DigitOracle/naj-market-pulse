@@ -103,6 +103,12 @@ def project_for(umx_rec, projects, by_building):
             "start": (row.get("project_start_date") or "")[:10] or None,
             "end": (row.get("project_end_date") or row.get("completion_date") or "")[:10] or None,
             "escrow": row.get("escrow_agent_name"), "units": row.get("no_of_units"),
+            # v238 - the developer's register NUMBER, carried so the pillars card can find its record without a
+            # name comparison. The stack already names a developer on only 16% of buildings, because that came
+            # from the unit mix; this row is joined by property/project id and reaches 49%, and the number is
+            # already sitting in the register row we are reading.
+            "developer_no": idstr(row.get("developer_number")) or None,
+            "developer_name": row.get("developer_name_en") or row.get("developer_name"),
             "buildings": row.get("no_of_buildings"), "registered": row.get("units_registered"),
             "master": row.get("master_project_en") or row.get("master_project_en_units")}
 

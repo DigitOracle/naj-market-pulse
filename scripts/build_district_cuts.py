@@ -163,7 +163,12 @@ def cut_names(con, d, land_by_parcel):
 
 PROJ_COLS = ("project_id", "project_number", "property_id", "project_status", "percent_completed", "project_start_date",
              "project_end_date", "completion_date", "no_of_units", "no_of_buildings", "no_of_villas", "no_of_lands",
-             "escrow_agent_name", "area_name_en", "master_project_en", "project_name")
+             "escrow_agent_name", "area_name_en", "master_project_en", "project_name",
+             # v238 - the developer's register number, carried through the cut so build_scheme_links can put it on
+             # the building's project row and the pillars card can find the developer's record by id rather than by
+             # name. Name matching reached 16% of stacked buildings; the id route reaches the 49% that have a
+             # project row at all.
+             "developer_number", "developer_name")
 
 
 def cut_projects(con, d):
