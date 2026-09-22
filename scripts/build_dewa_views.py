@@ -3,8 +3,8 @@
   data/board/building_activity.json        TWIN colour modes, no nationality: how fast newly handed-over towers fill,
                                            residents against businesses, move-ins in the last six months against the six
                                            before (judged against Dubai's own ratio). Buildings with at least 20 accounts.
-  data/internal/community_resident_mix.json  Resident nationality by community, shown in the app to anyone Naj shares a
-                                           link with: rounded shares of groups at 5% or more in communities with at
+  data/internal/community_resident_mix.json  Resident nationality by community, PUBLIC on /residents since v239 - no
+                                           key of any kind: rounded shares of groups at 5% or more in communities with at
                                            least 500 residential accounts,
                                            regions with their countries at 1%+ (never a figure under 20 accounts), the
                                            filter bands, simplified community outlines. Never linked to a home or a listing.
@@ -148,11 +148,14 @@ def mix(con):
                 out.append(p)
         outlines[str(c)] = out
     doc = {"generated": dt.datetime.now().isoformat(timespec="seconds"), "source": SOURCE,
-           "audience": "Anyone Naj shares an app link with. Kendall's decision, 22 Sep 2026: the nationality "
+           "audience": "PUBLIC. No key of any kind opens /residents as of v239 (Kendall, 22 Sep 2026: \"i do not "
+                       "want any key, residents is fully public\"). Anyone with the URL can read this file. The nationality "
                        "layer is part of the client conversation, not an internal-only view. It is safe to show because it is "
                        "aggregate and floored - community level, a community needs 500+ residential accounts to appear at all, "
                        "a nationality needs a 5% share, shares are banded and rounded, and no account counts leave the Worker. "
-                       "Nobody can be identified from it. Never linked to a named home or listing.",
+                       "Nobody can be identified from it. Never linked to a named home or listing. The response carries "
+                       "no-store and noindex so it is not crawled, but it is not secret - the flooring is the whole "
+                       "protection, so lowering any floor means revisiting whether this stays public.",
            "rules": {"minResidentialAccounts": 500, "minSharePct": 5, "shares": "whole percent, rounded", "accounts": "rounded to the nearest 100",
                      "filterBands": [5, 10, 20, 40], "regionCountryMinPct": 1, "regionMinAccounts": 20},
            "notes": ["Nationality of the DEWA account holder, not every resident; accounts current at the extract.",
