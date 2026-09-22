@@ -662,6 +662,57 @@ contact@digitalabbot.io · +971 56 227 6093</div>
        "muted": MUTED, "rule": RULE}
 
 
+MANIFEST = os.path.join(ROOT, "data", "board", "dossier_manifest.json") if "ROOT" in dir() else None
+
+
+def manifest_path():
+    return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "board", "dossier_manifest.json")
+
+
+def manifest():
+    """What has been CONFIRMED STORED, keyed by KV slug. Written only after the worker accepts the push.
+
+    Added 22 Sep 2026: the batch rebuilt every building from scratch on every run, so a district that died two-fifths
+    through cost a full re-run, and 41 Dubai Marina dossiers were built twice for nothing. At 59-79 s per building that is
+    the difference between a cheap sweep and three hours. It records a PUSH, never a build - a PDF on disk that never
+    reached KV is exactly the silent-success failure that lost seven district uploads this morning.
+    """
+    p = manifest_path()
+    try:
+        return json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def source_stamp(district):
+    """When the files this dossier is built FROM last changed.
+
+    Added 22 Sep 2026. The manifest answers "did this reach KV"; a resume was asking it "is this current", and those are
+    different questions wearing the same tick. stack_businessbay.json was regenerated at 10:01:39 with developer names
+    added, halfway through a 164-building run - so the first 111 dossiers lack a developer line the rest carry, and every
+    one of them is marked done. Without this stamp the only way to refresh them is --force over the whole district, which
+    throws away the resume entirely. A cache that cannot express staleness is only half a cache.
+    """
+    out = {}
+    for key, path in (("stack", os.path.join(BOARD, "stack_%s.json" % district)),
+                      ("unitmix", os.path.join(BOARD, "unitmix_%s.json" % district))):
+        try:
+            out[key] = int(os.path.getmtime(path))
+        except OSError:
+            out[key] = None
+    return out
+
+
+def note_built(slug, pdf_path, pages, district=None):
+    p = manifest_path()
+    m = manifest()
+    m[slug] = {"bytes": os.path.getsize(pdf_path), "pages": pages, "at": dt.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+               "src": source_stamp(district) if district else None}
+    tmp = p + ".tmp"
+    json.dump(m, open(tmp, "w", encoding="utf-8"), ensure_ascii=False)
+    os.replace(tmp, p)
+
+
 def push(G, pdf_path, pages):
     sys.path.insert(0, HERE)
     from build_avail_index import WORKER, env_token
@@ -678,6 +729,7 @@ def push(G, pdf_path, pages):
     try:
         r = urllib.request.urlopen(req, timeout=900)
         print("  pushed %s: %s" % (slug, r.read().decode("utf-8", "replace")[:120]))
+        note_built(slug, pdf_path, pages, G["d"])
         return True
     except Exception as e:
         print("  push failed: %s" % str(e)[:160])
@@ -719,15 +771,40 @@ def main():
     ap.add_argument("--top", type=int, help="the N tallest buildings in the district instead of one id")
     ap.add_argument("--all", action="store_true", help="every building in the district that meets both registers")
     ap.add_argument("--push", action="store_true")
+    ap.add_argument("--force", action="store_true", help="rebuild even if the manifest says it is already stored")
     a = ap.parse_args()
     if a.top or a.all:
         stack = rd("stack_%s.json" % a.district) or {}
         rows = sorted((stack.get("buildings_by_id") or {}).items(), key=lambda kv: -len(kv[1].get("floors") or []))
         ids = rows if a.all else rows[:a.top]
-        n = 0
+        # One building must never take the district down. 22 Sep 2026: a headless-Chrome PDF render timed out after 180 s
+        # on dubaimarina_449 - the machine was busy with a CityEngine export - and the exception ended the run at 41 of 190
+        # with no summary and no list of what was missing. A batch that dies silently two-fifths through is worse than a
+        # slow one, because the gap looks like a district that was never started.
+        n = 0; bad = []; skipped = 0
+        have = manifest() if (a.push and not a.force) else {}
+        now_src = source_stamp(a.district)
+        stale = 0
         for i, _ in ids:
-            n += 1 if one(a.district, i, a.push) else 0
-        print("%d of %d buildings in %s" % (n, len(ids), a.district))
+            rec = have.get("b_%s_%s" % (a.district, i))
+            if rec is not None:
+                # only skip when the dossier was built from the files as they stand NOW. An entry with no stamp predates
+                # this check and is treated as stale rather than current, which is the safe direction.
+                if rec.get("src") == now_src:
+                    skipped += 1
+                    continue
+                stale += 1
+            try:
+                n += 1 if one(a.district, i, a.push) else 0
+            except Exception as e:
+                bad.append(i)
+                print("  %s_%s FAILED: %s" % (a.district, i, str(e).splitlines()[0][:90]))
+        print("%d of %d buildings in %s%s%s" % (n, len(ids), a.district,
+              (", %d already current and skipped" % skipped) if skipped else "",
+              (", %d rebuilt because their source data moved" % stale) if stale else ""))
+        if bad:
+            print("  %d failed, retry with: python scripts/build_building_dossier.py --district %s --push --id %s"
+                  % (len(bad), a.district, (" --id ").join(bad[:8]) + (" ..." if len(bad) > 8 else "")))
         return 0
     if not a.id:
         ap.error("--id or --top")
