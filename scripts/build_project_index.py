@@ -26,15 +26,23 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 OUT = os.path.join(ROOT, "data", "board", "project_index.json")
 PROPERTY_CAP = 400          # a villa community can carry hundreds; the count is exact even where the id list is capped
 
+# 22 Sep 2026: names are matched on a NORMALISED key - trimmed, inner whitespace collapsed, upper-cased - because the registers
+# disagree on spacing. The units register writes "Binghatti Haven " with a trailing space and the building register writes
+# "Binghatti Haven"; joining on upper() alone left the building entry showing 0 units AND minted a phantom "units-only" entry
+# for the same project, which read as evidence of selling ahead of registration for a project that is plainly registered. The
+# exact register strings are kept in name_variants so nothing is lost.
+NORM = "upper(regexp_replace(trim({c}), '\s+', ' ', 'g'))"
+
 SQL = """
 with bld as (
-    select project_name_en pname, dld_project_id, area_name_en, comm_num, property_id, parcel_key
-    from lk_key_bridge where project_name_en is not null),
+    select {n} nkey, project_name_en pname, dld_project_id, area_name_en, comm_num, property_id, parcel_key
+    from lk_key_bridge where project_name_en is not null and trim(project_name_en) <> ''),
  un as (
-    select project_name_en pname, cast(cast(project_id as bigint) as varchar) dld_project_id,
-           area_name_en, count(*) units
-    from g_dld__units where project_name_en is not null group by 1, 2, 3)
-select b.pname,
+    select {u} nkey, count(*) units
+    from g_dld__units where project_name_en is not null and trim(project_name_en) <> '' group by 1)
+select b.nkey,
+       mode(b.pname)                                   pname,
+       list(distinct b.pname)                          name_variants,
        count(*)                                        properties,
        count(distinct b.dld_project_id)                project_ids,
        list(distinct b.dld_project_id)                 project_id_list,
@@ -43,17 +51,28 @@ select b.pname,
        list(b.property_id)[1:{cap}]                    property_ids,
        list(distinct b.parcel_key)[1:{cap}]            parcel_keys,
        coalesce(max(u.units), 0)                       units
-from bld b left join un u on upper(u.pname) = upper(b.pname)
+from bld b left join un u on u.nkey = b.nkey
 group by 1 order by properties desc"""
+UNITS_ONLY = """
+select mode(project_name_en) pname, count(*) units, list(distinct area_name_en) areas,
+       list(distinct cast(cast(project_id as bigint) as varchar)) ids
+from g_dld__units u
+where project_name_en is not null and trim(project_name_en) <> ''
+  and {u} not in (select distinct {n} from lk_key_bridge where project_name_en is not null and trim(project_name_en) <> '')
+group by {u} order by units desc"""
 
 
 def main():
     con = connect()
-    rows = con.execute(SQL.replace("{cap}", str(PROPERTY_CAP))).fetchall()
-    cols = ("name", "properties", "project_ids", "project_id_list", "areas", "comm_nums", "property_ids", "parcel_keys", "units")
+    sql = (SQL.replace("{cap}", str(PROPERTY_CAP))
+              .replace("{n}", NORM.format(c="project_name_en")).replace("{u}", NORM.format(c="project_name_en")))
+    rows = con.execute(sql).fetchall()
+    cols = ("nkey", "name", "name_variants", "properties", "project_ids", "project_id_list", "areas", "comm_nums", "property_ids", "parcel_keys", "units")
     entries = []
     for r in rows:
         d = dict(zip(cols, r))
+        d.pop("nkey", None)
+        d["name_variants"] = sorted({x for x in (d["name_variants"] or []) if x})
         d["project_id_list"] = [x for x in (d["project_id_list"] or []) if x]
         d["areas"] = sorted(x for x in (d["areas"] or []) if x)
         d["comm_nums"] = sorted(x for x in (d["comm_nums"] or []) if x is not None)
@@ -61,15 +80,10 @@ def main():
         d["property_ids_capped"] = len(d["property_ids"] or []) < d["properties"]
         entries.append(d)
     # names carried only by the units register, which the building register never issued a property for
-    extra = con.execute("""
-        select u.project_name_en, count(*) units, list(distinct u.area_name_en) areas,
-               list(distinct cast(cast(u.project_id as bigint) as varchar)) ids
-        from g_dld__units u
-        where u.project_name_en is not null
-          and upper(u.project_name_en) not in (select upper(project_name_en) from lk_key_bridge where project_name_en is not null)
-        group by 1 order by 2 desc""").fetchall()
+    extra = con.execute(UNITS_ONLY.replace("{n}", NORM.format(c="project_name_en"))
+                                   .replace("{u}", NORM.format(c="project_name_en"))).fetchall()
     for nm, units, areas, ids in extra:
-        entries.append({"name": nm, "properties": 0, "project_ids": len([i for i in ids if i]),
+        entries.append({"name": nm, "name_variants": [nm], "properties": 0, "project_ids": len([i for i in ids if i]),
                         "project_id_list": [i for i in ids if i], "areas": sorted(a for a in areas if a),
                         "comm_nums": [], "property_ids": [], "parcel_keys": [], "units": units,
                         "property_ids_capped": False,
