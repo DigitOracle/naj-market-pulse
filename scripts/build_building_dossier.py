@@ -386,6 +386,25 @@ def sections(G):
                     '<div class=src>Ejari contracts registered against the scheme <b>%s</b> (%s contracts). Ejari registers at '
                     'scheme level, never per tower.</div>' % (E(rent.get("scheme")), fmt(rent.get("n")))))
 
+    # when it filled up - the only thing on this document that says a building is lived in rather than sold or let
+    oc = r.get("occupancy")
+    if oc and oc.get("connections"):
+        dist = (G["stack"].get("district_occupancy") or {})
+        body = (row("Meters connected", fmt(oc["connections"]))
+                + row("First connection", oc.get("first")) + row("Most recent", oc.get("last"))
+                + row("In 2025", fmt(oc.get("y2025")) if oc.get("y2025") else "")
+                + row("In 2024", fmt(oc.get("y2024")) if oc.get("y2024") else "")
+                + row("Homes / commercial", ("%s / %s" % (fmt(oc.get("residential")), fmt(oc.get("commercial") or 0)))
+                      if oc.get("residential") else ""))
+        out.append(("When it filled up", body +
+                    "<div class=src><b>A connection is not a home.</b> One home let three times is three connections, so this "
+                    "cannot be divided by the number of homes to give an occupancy rate. It is DEWA's record of meters "
+                    "connected in this building, matched to it through its own entrance, and it is the only figure here that "
+                    "says a building is lived in rather than sold or let. Months only.%s</div>"
+                    % (" %s smaller buildings in this district are withheld entirely: below %s connections the figure stops "
+                       "being a statistic and becomes a household." % (fmt(dist["withheld"]), dist.get("floor"))
+                       if dist.get("withheld") else "")))
+
     # who designed it and who built it - the Municipality's contractor and consultant registers, reached through the
     # crosswalk. A team is the PARCEL's: where a plot holds several buildings the firm built something on that plot and
     # not necessarily this tower, so it is labelled the way the permit already is.
