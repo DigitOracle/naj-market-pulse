@@ -48,6 +48,8 @@ def flag(name):
     return False
 
 VER = "v4" if flag("--v4") else ("v3" if flag("--v3") else "v2")   # v4 = REAL facade geometry; --lod 3 to draw it
+TALL_H = opt("--tall-h", None, float)     # v4 two-tier: this tall or taller gets TALL_LOD, the rest gets the ladder LOD
+TALL_LOD = opt("--tall-lod", 3, int)
 SAVE_V3 = flag("--save")
 PIN_LOD = opt("--lod", None, int); PIN_BAND = opt("--band-every", None, int); BUDGET = opt("--budget-mb", 40.0 if VER in ("v3", "v4") else 4.0, float)
 FIT = not flag("--no-fit"); SAVE = not flag("--no-save"); VERIFY_ONLY = flag("--verify-only"); PALETTE = flag("--palette")
@@ -292,6 +294,14 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
         for a in ("LOD", "bandEvery"):
             try: ce.setAttributeSource(shapes, "/ce/rule/" + a, "USER")
             except Exception: pass
+        # THE TWO-TIER LANE LIVES HERE, after the global LOD and inside the loop, because the previous attempt at this set
+        # it before the loop and every iteration wiped it. Order is the entire fix. It re-applies on each ladder rung.
+        tall = [sh for h, lst in by_h.items() if TALL_H is not None and h >= TALL_H for sh in lst] if VER == "v4" else []
+        if tall:
+            ce.setAttribute(tall, "/ce/rule/LOD", TALL_LOD)
+            try: ce.setAttributeSource(tall, "/ce/rule/LOD", "USER")
+            except Exception: pass
+            log(f"  two-tier: {len(tall)} of {len(shapes)} shapes >= {TALL_H:g} m at LOD {TALL_LOD}, {len(shapes) - len(tall)} at LOD {lod}")
         t0 = time.time(); ce.generateModels(shapes); tg = time.time() - t0
         json.dump({"csv": csv_p, "json": json_p, "slug": slug, "lod": lod, "bandEvery": band}, open(target, "w"))
         s = GLTFExportModelSettings()
@@ -318,7 +328,24 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
         if size and GRAN == "AS_GENERATED" and not flag_nomerge:
             try:
                 sys.path.insert(0, HERE); from glb_merge_per_building import merge as glb_merge
-                merged = glb_merge(out_glb); size = os.path.getsize(out_glb)
+                from glb_merge_parts import merge_all, parts_for
+                # CityEngine splits an oversized export into _0/_1/_2... and this merge only ever opened _0.
+                # On 22 Sep that shipped 202.6 MB of a 357.1 MB district and reported 54 buildings of 654 as
+                # though it were the whole thing - a payload that looks perfect and cannot be tapped. Merge the
+                # part we were handed, then fold in every other part, so the district is COMPLETE before
+                # anything measures, packs, gzips or pushes it.
+                allparts = parts_for(out_glb)
+                if len(allparts) > 1:
+                    raw_mb = round(sum(os.path.getsize(p) for p in allparts) / 1048576, 3)
+                    log(f"  export SPLIT into {len(allparts)} parts, {raw_mb} MB total - merging all of them")
+                merged = glb_merge(out_glb)
+                if len(allparts) > 1:
+                    comb = merge_all(out_glb)
+                    if comb:
+                        merged["buildings"], merged["triangles"] = comb["buildings"], comb["triangles"]
+                        log("  parts merged: " + " + ".join(str(p["buildings"]) for p in comb["parts"])
+                            + f" = {comb['buildings']} buildings, {comb['triangles']} tris")
+                size = os.path.getsize(out_glb)
             except Exception as e:
                 log("  merge per building failed:", str(e)[:120])
         v = verify_glb(out_glb, n) if size else {"bytes": 0}

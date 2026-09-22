@@ -13,9 +13,15 @@ UA = {"User-Agent": "najma-market-pulse/1.0"}
 
 def main():
     tok = env_token("INGEST_TOKEN")
-    for t in [a for a in sys.argv[1:] if not a.startswith("--")]:
-        p = os.path.join(ROOT, "data", "ce", "_glb", f"sky_{t}_v3_0.glb")
-        if not os.path.exists(p): print(f"{t}: no v3 glb"); continue
+    # --ver picks the build lane (default v3, the live one). Its VALUE has to be dropped from the slug list too
+    # or "--ver v4" pushes a district called "v4"; the old filter only dropped the flag itself.
+    ver = sys.argv[sys.argv.index("--ver") + 1] if "--ver" in sys.argv else "v3"
+    argv = list(sys.argv[1:])
+    if "--ver" in argv:
+        i = argv.index("--ver"); del argv[i:i + 2]
+    for t in [a for a in argv if not a.startswith("--")]:
+        p = os.path.join(ROOT, "data", "ce", "_glb", f"sky_{t}_{ver}_0.glb")
+        if not os.path.exists(p): print(f"{t}: no {ver} glb"); continue
         raw = open(p, "rb").read(); gz = gzip.compress(raw, 9)
         if len(gz) > 5 * 1024 * 1024: print(f"{t}: {len(gz)//1024} KB gzipped exceeds the cap - split the tile"); continue
         body = json.dumps({"imageName": f"sky_{t}", "image": base64.b64encode(gz).decode(), "contentType": "model/gltf-binary"}).encode()
