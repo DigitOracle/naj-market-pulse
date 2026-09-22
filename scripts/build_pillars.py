@@ -159,6 +159,11 @@ def developers(con, projects_csv, developers_csv):
                sum(case when p.project_end_date < current_date then 1 else 0 end)                                      as due,
                sum(case when p.project_end_date < current_date and p.project_status = 'FINISHED' then 1 else 0 end)    as delivered,
                sum(case when p.project_end_date < current_date and p.project_status <> 'FINISHED' then 1 else 0 end)   as overdue,
+               -- of the ones that DID finish, how many landed by the date they were due. A developer can
+               -- deliver everything eventually and still never be on time, and a buyer choosing a handover
+               -- date cares about the difference. 1436 projects carry both dates; 110 of them finished late.
+               sum(case when p.project_status = 'FINISHED' and p.completion_date is not null and p.project_end_date is not null then 1 else 0 end) as dated,
+               sum(case when p.project_status = 'FINISHED' and p.completion_date is not null and p.project_end_date is not null and p.completion_date <= p.project_end_date then 1 else 0 end) as on_time,
                median(try_cast(p.percent_completed as double))                   as pct_complete,
                list(distinct p.area_name_en)                                     as areas
         from read_csv_auto(?) p
@@ -172,7 +177,7 @@ def developers(con, projects_csv, developers_csv):
     out = {}
     for r in rows:
         (dev_no, name, licensed, registered, total, finished, active,
-         not_started, pending, cancelled, escrowed, due, delivered, overdue, pct_complete, areas) = r
+         not_started, pending, cancelled, escrowed, due, delivered, overdue, dated, on_time, pct_complete, areas) = r
         first = licensed or registered
         years = round((today - first).days / 365.25, 1) if first else None
         out[str(dev_no)] = {
@@ -181,7 +186,8 @@ def developers(con, projects_csv, developers_csv):
             "years": years,
             "projects": {"total": total, "finished": finished, "active": active,
                          "not_started": not_started, "pending": pending, "cancelled": cancelled,
-                         "due": due, "delivered": delivered, "overdue": overdue},
+                         "due": due, "delivered": delivered, "overdue": overdue,
+                         "dated": dated, "on_time": on_time, "late": dated - on_time},
             "escrow_named_pct": int(round(100.0 * escrowed / total)) if total else None,
             "pct_complete_median": round(pct_complete, 1) if pct_complete is not None else None,
             "areas": sorted(a for a in (areas or []) if a),
@@ -227,6 +233,13 @@ def score(devs):
     dl_pop = [x for x in dl.values() if x is not None]
 
     for k, v in devs.items():
+        # ON TIME is a rate like DELIVERY, over the projects that finished AND carry both dates. It needs its
+        # own floor: one project delivered a week early is not a record. Null where we cannot tell.
+        p = v["projects"]
+        v["on_time_pct"] = int(round(100 * p["on_time"] / p["dated"])) if p["dated"] >= DEV_MIN_DUE else None
+        if v["on_time_pct"] is None:
+            v["on_time_why"] = ("only %d of this developer's projects carry both a due date and a completion date"
+                                % p["dated"])
         v["track"] = pct_rank(tr.get(k), tr_pop) if k in scored else None
         # DELIVERY is the RATE, not a percentile. Ranked, a perfect 17-of-17 scored 52 because so many
         # developers tie at 1.0 - a chart that makes a flawless record look middling. The rate says what it
