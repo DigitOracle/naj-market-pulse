@@ -290,9 +290,14 @@ def cut_dld_buildings(con, d):
             "buildings_list": docs}
 
 
-TEAM_COLS = ("project_no", "parcel_id", "contractor_english", "contractor_license_no", "consultant_english",
+# 22 Sep 2026: the registers carry the same firm under several spellings - 7,072 raw contractor names collapse to 6,985 once
+# trimmed and case-folded, 1,265 consultants to 1,250. The display string stays exactly as the register wrote it; *_key is the
+# normalised form, and anything that GROUPS or counts firms must use the key or it will report one firm as two.
+TEAM_COLS = ("project_no", "parcel_id", "contractor_english", "contractor_key", "contractor_license_no", "consultant_english",
+             "consultant_key",
              "consultant_license_no", "project_type", "building_type", "building_count", "first_building_permit_date",
              "last_app_submission_date", "project_status", "project_closing_date", "community_name")
+NORM_NAME = "upper(regexp_replace(trim({c}), '\s+', ' ', 'g'))"
 
 TEAM_SQL = """
     with p as (select distinct cast(parcel_key as varchar) k from lk_dm_buildings where comm_num = ?),
@@ -307,7 +312,9 @@ TEAM_SQL = """
                  building_count, first_building_permit_date, last_app_submission_date, project_status,
                  project_closing_date, community_name
           from g_dm__consultant_projects)
-    select c.project_no, c.pk, c.contractor_english, c.contractor_license_no, c.consultant_english, c.consultant_license_no,
+    select c.project_no, c.pk, c.contractor_english, upper(regexp_replace(trim(c.contractor_english), '\s+', ' ', 'g')),
+           c.contractor_license_no, c.consultant_english, upper(regexp_replace(trim(c.consultant_english), '\s+', ' ', 'g')),
+           c.consultant_license_no,
            c.project_type, c.building_type, c.building_count, cast(c.first_building_permit_date as varchar),
            cast(c.last_app_submission_date as varchar), c.project_status, cast(c.project_closing_date as varchar),
            c.community_name
@@ -320,7 +327,7 @@ def cut_project_team(con, d):
     rows = con.execute(TEAM_SQL, [d["comm"]]).fetchall()
     seen, out = set(), []
     for r in rows:
-        key = (r[0], r[1], r[2], r[4])
+        key = (r[0], r[1], r[3], r[6])      # dedupe on the NORMALISED names, not the register's spellings
         if key in seen:
             continue
         seen.add(key)
@@ -328,10 +335,15 @@ def cut_project_team(con, d):
     return {"area": d["area"], "comm_num": d["comm"], "columns": list(TEAM_COLS), "rows": len(out),
             "with_contractor": sum(1 for x in out if x.get("contractor_english")),
             "with_consultant": sum(1 for x in out if x.get("consultant_english")),
+            "distinct_contractors": len({x["contractor_key"] for x in out if x.get("contractor_key")}),
+            "distinct_consultants": len({x["consultant_key"] for x in out if x.get("consultant_key")}),
             "note": "DM contractor and consultant project registers, joined to this district by parcel (95.1% of their rows "
                     "carry a parcel the spine knows). 'Designed by X, built by Y' per parcel: join parcel -> "
                     "parcel_buildings_<slug>.json to choose the building, or arrive from a property_id through "
-                    "dld_buildings_<slug>.json. A parcel with several projects has several rows, oldest permit first.",
+                    "dld_buildings_<slug>.json. A parcel with several projects has several rows, oldest permit first. "
+                    "GROUP FIRMS BY contractor_key / consultant_key, never by the display name: the register spells the same "
+                    "firm several ways (7,072 raw contractor names are 6,985 once normalised), so grouping on the raw string "
+                    "reports one firm as two.",
             "projects": out}
 
 
