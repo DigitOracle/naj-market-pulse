@@ -315,20 +315,34 @@ def main():
         tok = env_token("INGEST_TOKEN")
         if not tok:
             print("FAIL: no INGEST_TOKEN"); return 2
-        # The Worker reads this on every building and developer page, so it gets the scored developers and
-        # the area medians only - not the 834 unscored records, which would be a third of a megabyte of
-        # nulls on every render. The full file stays on disk for the audit trail.
+        # v238.2 - EVERY developer is in the payload, not only the scored ones.
+        #
+        # The first cut pushed the 198 scored records and dropped the other 833. A building whose developer
+        # is real but unscored then resolved to nothing, and the card printed "the register does not join
+        # this building to a developer" - which is FALSE, and worse than a missing value, because a reason
+        # reads as an explanation and gets believed. On /building/businessbay/12 it contradicted the card's
+        # own header, which said OMNIYAT two lines above.
+        #
+        # Unscored records are thin on purpose: a name and three counts, enough for the page to state the
+        # TRUE reason. All 1031 at full width is 415 KB on every render; this is 139 KB.
+        PK = ("total", "finished", "cancelled", "due", "delivered", "overdue", "dated", "on_time", "late")
+        scored_d, thin_d = {}, {}
+        for k, v in devs.items():
+            if v["track"] is not None or v["delivery"] is not None:
+                r = {kk: vv for kk, vv in v.items() if kk != "areas"}
+                r["projects"] = {a: v["projects"][a] for a in PK}
+                scored_d[k] = r
+            else:
+                p = v["projects"]
+                thin_d[k] = {"name": v["name"], "total": p["total"], "due": p["due"], "dated": p["dated"]}
         slim = {
             "generated": doc["generated"], "sources": doc["sources"], "floors": doc["floors"], "axes": AXES,
-            "areas": areas, "districts": dis,
-            "developers": {k: {kk: vv for kk, vv in v.items() if kk != "areas"}
-                           for k, v in devs.items() if v["track"] is not None or v["delivery"] is not None},
+            "areas": areas, "districts": dis, "developers": scored_d, "unscored": thin_d,
         }
-        slim["by_name"] = {n: [k for k in ks if k in slim["developers"]] for n, ks in by_name.items()}
-        slim["by_name"] = {n: ks for n, ks in slim["by_name"].items() if ks}
+        slim["by_name"] = {n: ks for n, ks in by_name.items() if any(k in scored_d or k in thin_d for k in ks)}
         raw = json.dumps(slim, ensure_ascii=False, separators=(",", ":"))
-        print("pushing %d scored developers and %d areas (%.0f KB, from %.0f KB on disk)"
-              % (len(slim["developers"]), len(areas), len(raw.encode()) / 1024, kb))
+        print("pushing %d scored + %d unscored developers, %d areas (%.0f KB, from %.0f KB on disk)"
+              % (len(scored_d), len(thin_d), len(areas), len(raw.encode()) / 1024, kb))
         print("pushed:", push("pillars", slim, tok))
     return 0
 
