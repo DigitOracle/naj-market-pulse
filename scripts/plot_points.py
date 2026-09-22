@@ -70,8 +70,15 @@ def main():
             i = int(i_s)
             lonlat = pos.get(i)
             if not lonlat or lonlat[0] is None: continue
-            b = ub.get(str(v.get("property_id"))) or {}
-            if not b:
+            # v235 - `ub` is keyed by str(property_id), so a register row whose property_id is null
+            # lands under the literal key "None" - and a tx binding, which carries no property_id at
+            # all, then matched it. Thirteen unrelated buildings on Dubai Investment Park (Lake Views,
+            # South West Apartments, Garden Apartments West...) all inherited that one row: the same
+            # plot label 598-771 and the same 47,782 units, a master community's total. No id, no
+            # lookup - an absent key must not be a key.
+            pid = v.get("property_id")
+            b = (ub.get(str(pid)) if pid else None) or {}
+            if not b and pid:
                 # A rescue has to clear the same two tests we apply on screen, because a bare
                 # property_id lookup does not. Taken on its own it pulled 766 rows, and most were
                 # wrong: AL THAMAM 26, 20, 49, 10 and 8 all matched one row carrying 47,782 units -
@@ -79,7 +86,7 @@ def main():
                 # agree on IDENTITY (a shared significant word with the binding's name) and on SCOPE
                 # (a unit count within 15% of what the binding says this building holds). Either one
                 # alone lets the aggregates through.
-                cand = ANY.get(str(v.get("property_id"))) or {}
+                cand = ANY.get(str(pid)) or {}
                 if cand:
                     cn, vn = nwords(cand.get("name")), nwords(v.get("name"))
                     same_name = bool(cn & vn)
@@ -102,7 +109,7 @@ def main():
                           "properties": {"plot": lab, "name": v.get("name") or v.get("building"), "units": b.get("units"),
                                          "master": b.get("master"), "district": slug, "parcel": str(parcel) if parcel else None,
                                          "area_sqm": b.get("plot_area_sqm"),
-                                         "i": i, "pid": str(v.get("property_id")) if v.get("property_id") else None,
+                                         "i": i, "pid": str(pid) if pid else None,
                                          "bldgs": b.get("buildings_on_plot")}})
     doc = {"type": "FeatureCollection", "generated": time.strftime("%Y-%m-%d %H:%M"),
            "note": "Plot number = community number and plot number from the Dubai Land Department parcel id, placed at the building's own footprint. No parcel outlines exist publicly, so this is the number without the boundary.",
