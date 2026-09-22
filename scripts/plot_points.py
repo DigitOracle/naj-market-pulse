@@ -7,7 +7,9 @@ plot BOUNDARY.
 
 Sources: reg_bindings / tx_bindings (which footprint a register building sits on) + anchors_<slug>.json (that footprint's lon/lat)
 + units_buildings_<slug>.json (parcel, community, plot, master project, units).
-Output data/board/plots.json  GeoJSON FeatureCollection, properties: plot ("392-192"), community, no, name, units, district, parcel.
+Output data/board/plots.json  GeoJSON FeatureCollection, properties: plot ("392-192"), community, no, name, units, district, parcel,
+and (v228) i / pid / bldgs - the footprint index, the DLD property_id and how many buildings share the parcel, so the map can
+resolve a plot to its building by ID rather than by name.
 Pushed as KV `plots`; the map draws it above zoom 14.5 as a label layer.
 Usage: python scripts/plot_points.py [--no-push]
 """
@@ -57,10 +59,17 @@ def main():
             key = (slug, i)
             if key in seen: continue
             seen.add(key); per[slug] += 1
+            # v228 - carry the ids the binding already proved, so the map can resolve a plot to its building by
+            # ID instead of by name. `i` is the footprint index, which is the key of unitmix_<slug>.buildings_by_id;
+            # the binding that put this label here was made per footprint, so `i` is a per-BUILDING fact. `bldgs` is how
+            # many buildings share the parcel - a plot is not a building, and where bldgs > 1 nothing downstream may
+            # present one building's record as though it described the whole plot.
             feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lonlat[0], 6), round(lonlat[1], 6)]},
                           "properties": {"plot": lab, "name": v.get("name") or v.get("building"), "units": b.get("units"),
                                          "master": b.get("master"), "district": slug, "parcel": str(parcel) if parcel else None,
-                                         "area_sqm": b.get("plot_area_sqm")}})
+                                         "area_sqm": b.get("plot_area_sqm"),
+                                         "i": i, "pid": str(v.get("property_id")) if v.get("property_id") else None,
+                                         "bldgs": b.get("buildings_on_plot")}})
     doc = {"type": "FeatureCollection", "generated": time.strftime("%Y-%m-%d %H:%M"),
            "note": "Plot number = community number and plot number from the Dubai Land Department parcel id, placed at the building's own footprint. No parcel outlines exist publicly, so this is the number without the boundary.",
            "features": feats}
