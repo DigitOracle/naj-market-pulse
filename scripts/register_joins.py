@@ -98,6 +98,7 @@ def read(paths):
 from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql  # noqa: E402
 import gov_thread
 import key_bridge  # noqa: E402
+import bis_prices  # noqa: E402
 
 
 def one(con, sql):
@@ -1773,10 +1774,13 @@ JOBS = {"community": job_community, "parcels": job_parcels, "service_charges": j
         "gov_thread": gov_thread.job_gov_thread,
         # 22 Sep 2026: one canonical crosswalk between property_id, parcel, DM building and the project ids
         # (scripts/key_bridge.py) - every consumer was re-deriving the same joins and getting different answers
-        "key_bridge": key_bridge.job_key_bridge}      # 18 Sep 2026: every DDA API dataset on the spines (scripts/gov_thread.py)
+        "key_bridge": key_bridge.job_key_bridge,
+        # 22 Sep 2026: the BIS republishes REIDIN's Dubai price index free - the same input UBS uses for its
+        # bubble index, which publishes no API of its own (scripts/bis_prices.py)
+        "bis_prices": bis_prices.job_bis_prices}      # 18 Sep 2026: every DDA API dataset on the spines (scripts/gov_thread.py)
 # 15 Sep 2026: a job added for the digital thread must not fail the gov-weekly register_joins step - that step's failure skips
 # dewa_views and both DEWA pushes. Such a job's error is reported and the run carries on with the exit code it would have had.
-NON_BLOCKING = {"gov_thread", "key_bridge", "rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
+NON_BLOCKING = {"gov_thread", "key_bridge", "bis_prices", "rent_projects", "twin_bindings", "project_spine", "sheet_units", "place_spine", "sub_communities", "stations", "districts"}
 
 
 def run(con, name, dry):
