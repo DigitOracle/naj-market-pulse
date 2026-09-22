@@ -19,26 +19,36 @@ import build_district_cuts as bdc  # noqa: E402
 
 MIN_MOVE_INS = 5
 SQL = """
-    select duid,
-           any_value(entrance_comm_num)                    comm_num,
+    select m.duid,
+           any_value(b.display_name)                       display_name,
+           any_value(b.official_name)                      official_name,
+           any_value(b.district)                           district,
+           any_value(b.footprint_i)                        footprint_i,
+           any_value(b.storeys)                            storeys,
+           any_value(b.height_m)                           height_m,
+           any_value(m.entrance_comm_num)                  comm_num,
            count(*)                                        makani_points,
-           sum(move_ins)                                   move_ins,
-           sum(move_ins_2024)                              move_ins_2024,
-           sum(move_ins_2025)                              move_ins_2025,
-           sum(move_ins_2026)                              move_ins_2026,
-           sum(residential)                                residential,
-           sum(commercial)                                 commercial,
-           strftime(min(try_cast(first_move_in as date)), '%Y-%m')  first_move_in_month,
-           strftime(max(try_cast(last_move_in as date)),  '%Y-%m')  last_move_in_month,
-           round(min(dist_m))                              nearest_entrance_m
-    from lk_dewa_moveins_makani
-    where duid is not null and entrance_comm_num = ?
+           sum(m.move_ins)                                 move_ins,
+           sum(m.move_ins_2024)                            move_ins_2024,
+           sum(m.move_ins_2025)                            move_ins_2025,
+           sum(m.move_ins_2026)                            move_ins_2026,
+           sum(m.residential)                              residential,
+           sum(m.commercial)                               commercial,
+           strftime(min(try_cast(m.first_move_in as date)), '%Y-%m')  first_move_in_month,
+           strftime(max(try_cast(m.last_move_in as date)),  '%Y-%m')  last_move_in_month,
+           round(min(m.dist_m))                            entrance_to_building_m
+    from lk_dewa_moveins_makani m
+    left join building b using (duid)
+    where m.duid is not null and m.entrance_comm_num = ?
     group by 1
-    having sum(move_ins) >= {floor}
+    having sum(m.move_ins) >= {floor}
     order by move_ins desc""".replace("{floor}", str(MIN_MOVE_INS))
-COLS = ("duid", "comm_num", "makani_points", "move_ins", "move_ins_2024", "move_ins_2025", "move_ins_2026",
-        "residential", "commercial", "first_move_in_month", "last_move_in_month", "nearest_entrance_m")
-NOTE = ("DEWA meters connected per building, keyed by duid (median 14 m from the building's anchor). "
+COLS = ("duid", "display_name", "official_name", "district", "footprint_i", "storeys", "height_m", "comm_num", "makani_points", "move_ins", "move_ins_2024", "move_ins_2025", "move_ins_2026",
+        "residential", "commercial", "first_move_in_month", "last_move_in_month", "entrance_to_building_m")
+NOTE = ("DEWA meters connected per building. The bind is made in register_joins job_makani, NOT here: a DEWA customer row "
+        "carries a Makani number; the Municipality entrance layer gives that Makani a coordinate; the nearest twin building "
+        "within 50 m of that coordinate is taken, and entrance_to_building_m is that distance (median 14 m citywide). "
+        "display_name, official_name, district, footprint_i, storeys and height_m come from the twin's own building table by duid. "
         "A CONNECTION IS NOT A HOUSEHOLD: one home relet three times is three connections, so this cannot be divided by the "
         "unit count to make an occupancy rate. A building with no rows is NOT RECORDED, never 'empty'. "
         "Buildings with fewer than 5 connections are withheld entirely and dates are coarsened to the month, because below "
