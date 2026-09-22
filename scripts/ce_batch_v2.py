@@ -47,9 +47,7 @@ def flag(name):
     if name in args: args.remove(name); return True
     return False
 
-VER = "v4" if flag("--v4") else ("v3" if flag("--v3") else "v2")   # v4 = REAL facade geometry on the tall stock
-HERO_H = opt("--hero-h", 60.0, float)                # v4: a building this tall or taller is generated at LOD 3
-HERO_LOD = opt("--hero-lod", 3, int)
+VER = "v4" if flag("--v4") else ("v3" if flag("--v3") else "v2")   # v4 = REAL facade geometry; --lod 3 to draw it
 SAVE_V3 = flag("--save")
 PIN_LOD = opt("--lod", None, int); PIN_BAND = opt("--band-every", None, int); BUDGET = opt("--budget-mb", 40.0 if VER in ("v3", "v4") else 4.0, float)
 FIT = not flag("--no-fit"); SAVE = not flag("--no-save"); VERIFY_ONLY = flag("--verify-only"); PALETTE = flag("--palette")
@@ -62,7 +60,7 @@ if PIN_LOD is not None or PIN_BAND is not None:
     FIT = False; LADDER = [(PIN_LOD if PIN_LOD is not None else 1, PIN_BAND if PIN_BAND is not None else 1)]
 elif VER in ("v3", "v4"):
     FIT = False; LADDER = [(1, 1)]                     # textured: one tier, bands are in the texture
-                                                       # v4 keeps that base and lifts only the heroes, below
+                                                       # v4 draws real geometry; pin it with --lod 3
 RULE_WS = f"/najma/rules/najma_{VER}.cga"; LOCK_NAME = f"ce_batch_{VER} (cga facade agent) pid {os.getpid()}"
 if VER in ("v3", "v4") and not SAVE_V3: SAVE = False
 log_lines = []
@@ -275,19 +273,11 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
     for a in ("bHeight", "status", "levels", "fclass", "fvar", "pctComplete"):
         try: ce.setAttributeSource(shapes, "/ce/rule/" + a, "OBJECT")
         except Exception as e: log(f"  attr source {a}: {str(e).splitlines()[0][:80]}")
-    if VER == "v4":
-        # najma_v4 draws real balconies, recessed windows and a retail ground floor at LOD 3, which is far too much
-        # geometry for 4,000 buildings. So the district is generated at LOD 1 like v3 and only the tall stock is lifted:
-        # that is what a viewer flies to and taps, and the background keeps costing what it costs today.
-        hero = [sh for h, lst in by_h.items() if h >= HERO_H for sh in lst]
-        try:
-            ce.setAttribute(shapes, "/ce/rule/LOD", 1)
-            ce.setAttributeSource(shapes, "/ce/rule/LOD", "USER")
-            if hero:
-                ce.setAttribute(hero, "/ce/rule/LOD", HERO_LOD)
-            log(f"  v4 hero lane: {len(hero)} of {len(shapes)} shapes >= {HERO_H:g} m at LOD {HERO_LOD}, the rest at LOD 1")
-        except Exception as e:
-            log(f"  v4 hero lane FAILED to set LOD: {str(e).splitlines()[0][:90]}")
+    # THE HERO LANE IS GONE (22 Sep 2026). It set /ce/rule/LOD per shape - LOD 3 on the tall stock, LOD 1 on the rest - and
+    # then the LOD ladder below set /ce/rule/LOD across ALL shapes and wiped it, every run. The log line claiming "218 of
+    # 654 shapes at LOD 3" was written before the attribute was overwritten, so every v4 GLB ever produced is LOD 1. It was
+    # never measured against a run without it, which is how it survived. LOD is a property of the whole generate, not of a
+    # building, so it belongs on the ladder: --lod 3 pins every shape in the district and is the only way to ask for it.
     json.dump({"slug": slug, "mapping": how, "layer": layer_name, "shape_to_feature": mapping}, open(os.path.join(CEDIR, slug, f"shape_map_{VER}.json"), "w"))
 
     # LOD ladder
