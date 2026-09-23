@@ -2,12 +2,16 @@
 
 Asked for on 23 Sep 2026 by the twin session, which holds the health amenity layer.
 
-THE PROBLEM IT SOLVES. The DHA facility register (sheryan_facility_detail) truncates latitude to two decimals while
-keeping longitude in full - a single record reads lat 25.17, lon 55.150404. Two decimals of latitude is +/-1.1 km, so
-seven in ten of the twin's health facilities sit somewhere on a kilometre-long north-south line rather than at an address.
+THE PROBLEM IT SOLVES. The DHA facility register (sheryan_facility_detail) ROUNDS latitude to two decimals while
+keeping longitude in full - a single record reads lat 25.17, lon 55.150404. Two decimals, rounded, is +/-0.005 degrees,
+about +/-555 m north-south, so seven in ten of the twin's health facilities are placed up to half a kilometre from their
+door. (Written first as TRUNCATION, +/-1.1 km. Corrected 23 Sep 2026 after the question-bank session measured it and I
+re-measured: of the coarse latitudes whose repair passes the guard, 1,026 equal the precise value ROUNDED and only 1
+equals it floored-but-not-rounded - truncation would make every one equal the floor. Measured latitude error: median
+276 m, p90 484 m, max 588 m.)
 
 The professional register (dha_sheryan_professional_detail, landed 23 Sep) carries the SAME facility ids with latitude
-intact: 77.6% of its positions run to twelve decimal places and only 2 of 6,002 are truncated to two. So one register
+intact: 77.6% of its positions run to twelve decimal places and only 2 of 6,002 are cut to two. So one register
 lost the precision and the other kept it, and the facility id joins them.
 
     twin's register              this one
@@ -15,12 +19,12 @@ lost the precision and the other kept it, and the facility id joins them.
     25.03,     55.279306551719   ->   25.028253, 55.279307      Widad Center For Disability
     25.19,     55.274271803812   ->   25.185405, 55.274272      A H T AESTHETIC MEDICAL CENTER
 
-Longitude agrees to six decimals while latitude gains four - which is the signature of truncation, and the reason to
+Longitude agrees to six decimals while latitude gains four - which is the signature of rounding one field, and the reason to
 trust the join. Against the twin's own health filters it repairs 827 of 1,845 coarse positions (44.8%) and gives a
 position to 24 of the 392 that had none.
 
-THE GUARD, AND WHY IT IS A DISTANCE AND NOT A NAME. Of the 827 repairs, 826 move the point less than 1.1 km - exactly
-what two-decimal truncation predicts, and strong evidence the two ids mean the same place. Exactly one does not:
+THE GUARD, AND WHY IT IS A DISTANCE AND NOT A NAME. Of the 827 repairs, 826 move the point less than 1.1 km - well inside
+what two-decimal rounding allows, and strong evidence the two ids mean the same place. Exactly one does not:
 
     id 3503718   facility register: Dubai Medical University Hospital
                  professional reg : Saudi German Hospital            28.4 km apart
@@ -30,6 +34,12 @@ agree on only 49.6% of the repairs because the registers word branch names diffe
 on), so a name test would throw away half the good rows to catch the one bad one. The distance test throws away one.
 
     CALLER MUST APPLY:  accept the precise point only when it is within ~1.15 km of the coarse one.
+
+A SHARPER GUARD, NOT ADOPTED HERE (23 Sep 2026, measured by the question-bank session and confirmed): because only latitude
+lost precision, a genuine repair keeps longitude identical to 6 dp. Across 1,551 accepted repairs, 1,537 agree on longitude
+and 14 do not (58-630 m apart, longitude differing by up to 0.0023 deg - not one point recorded twice). All 6 distance
+rejections also differ on longitude. "Longitude agrees AND distance <= 700 m" rejects 20 instead of 6, and 700 m clears the
+588 m worst case. Adopting it changes which facilities are repaired, so it is Kendall's decision; guard_metres stays 1150.
 
 The caller holds the coarse point, so the guard belongs there, not here - and it keeps working if a future pull
 introduces another conflicting id.
@@ -50,7 +60,8 @@ OUT = os.path.join(ROOT, "data", "board", "_dha_precise_points.json")
 # without assuming 90/90 is the only sentinel it will ever use.
 BOX = (24.5, 26.0, 54.5, 56.5)
 NOTE = ("Full-precision lat/lon for DHA-licensed facilities, keyed by facility id, to repair positions the facility "
-        "register truncated to two decimals of latitude (+/-1.1 km). Longitude was never truncated. CALLER MUST GUARD: "
+        "register rounded to two decimals of latitude (+/-0.005 deg, about +/-555 m; measured max 588 m). Longitude was never "
+        "rounded, so on a genuine repair it agrees exactly - a free second test. CALLER MUST GUARD: "
         "accept a point only when it lies within ~1.15 km of the coarse one it replaces - id 3503718 carries two "
         "different hospitals across the two registers and is 28.4 km out. Positions only: no name, category or contact, "
         "because the caller's own category logic is better than anything derivable here.")
