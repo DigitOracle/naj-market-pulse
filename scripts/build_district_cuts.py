@@ -396,6 +396,10 @@ def cut_amenities(con, d):
     # count: rebuilding amenities moved 888 positions and changed this number by exactly zero, which is how
     # the gap was found. The same 1,150 m guard applies, because a "correction" further than truncation
     # could explain is a different facility, not a better position.
+    # The DHA facility register SWAPS its coordinate columns: xcoordinate holds LATITUDE (truncated to
+    # two decimals, ~1.1 km) and ycoordinate holds LONGITUDE at full precision. Reversed from what the
+    # names say. Three sessions re-derived this on 23 Sep 2026 alone - the caveat existed, in one file's
+    # docstring, which is not where anyone reads it. It belongs at every point of use.
     dha = con.execute("""select facilitynameenglish, facilitycategorynameenglish, facilitysubcategorynameenglish, areaenglish,
                                 round(%s, 2) km
                          from (select f.*,

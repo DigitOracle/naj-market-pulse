@@ -78,6 +78,8 @@ def points():
     out, seen_coarse = {}, 0
     for r in rows:
         # the register labels these x and y, but x holds LATITUDE and y holds LONGITUDE
+        # xcoordinate holds LATITUDE and ycoordinate holds LONGITUDE - the register swaps them, and the
+        # names say the opposite. Re-derived by three separate sessions on 23 Sep 2026.
         lat, lon = num(r.get("xcoordinate")), num(r.get("ycoordinate"))
         fid = idstr(r.get("facilityid"))
         if not (fid and lat and lon and lo_lat < lat < hi_lat and lo_lon < lon < hi_lon):
