@@ -388,13 +388,27 @@ def cut_amenities(con, d):
     sch = con.execute("""select name_eng, curriculumen, overallperformanceen, areaen, cast(studentcount as varchar), round(%s, 2) km
                          from (select *, try_cast(lat as double) lat, try_cast(long as double) lon from g_khda__school_search)
                          where lat is not null and %s <= %g order by km""" % (km, km, RADIUS_KM)).fetchall()
+    # The health positions come from the PRECISE register where we have them.
+    #
+    # sheryan_facility_detail truncates LATITUDE to two decimals - about 1.1 km - and this count is what the
+    # building page's LOCATION axis reads. amenities_official.py already repairs those positions, but it
+    # writes amenities.json and THIS reads the raw lake table, so the repair never reached the district
+    # count: rebuilding amenities moved 888 positions and changed this number by exactly zero, which is how
+    # the gap was found. The same 1,150 m guard applies, because a "correction" further than truncation
+    # could explain is a different facility, not a better position.
     dha = con.execute("""select facilitynameenglish, facilitycategorynameenglish, facilitysubcategorynameenglish, areaenglish,
                                 round(%s, 2) km
-                         from (select *, case when try_cast(xcoordinate as double) between 54.8 and 56.0
-                                              then try_cast(ycoordinate as double) else try_cast(xcoordinate as double) end lat,
-                                          case when try_cast(xcoordinate as double) between 54.8 and 56.0
-                                              then try_cast(xcoordinate as double) else try_cast(ycoordinate as double) end lon,
-                                          status from g_dha__sheryan_facility_detail)
+                         from (select f.*,
+                                      case when p.lat is not null and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
+                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 1.15 then p.lat else f.rawlat end lat,
+                                      case when p.lat is not null and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
+                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 1.15 then p.lon else f.rawlon end lon
+                               from (select *, case when try_cast(xcoordinate as double) between 54.8 and 56.0
+                                                    then try_cast(ycoordinate as double) else try_cast(xcoordinate as double) end rawlat,
+                                                case when try_cast(xcoordinate as double) between 54.8 and 56.0
+                                                    then try_cast(xcoordinate as double) else try_cast(ycoordinate as double) end rawlon,
+                                                status from g_dha__sheryan_facility_detail) f
+                               left join dha_precise p on cast(f.id as varchar) = p.id)
                          where lat between 24.6 and 25.5 and lon between 54.8 and 56.0 and status = 'FAC_ACT' and %s <= %g
                          order by km""" % (km, km, RADIUS_KM)).fetchall()
     return {"centre": {"lat": lat, "lon": lon, "label": d["area"], "from": how}, "radius_km": RADIUS_KM,
@@ -409,6 +423,17 @@ def main():
     a = ap.parse_args()
     only = set(a.only.split(",")) if a.only else None
     con = connect()
+    # id -> full-precision DHA position (the DDA session, 23 Sep 2026), so the health count below is not
+    # computed from latitudes the register truncated to 1.1 km.
+    con.execute("create or replace temp table dha_precise(id varchar, lat double, lon double)")
+    try:
+        with io.open(os.path.join(BOARD, "_dha_precise_points.json"), encoding="utf-8") as fh:
+            _pts = (json.load(fh).get("points") or {})
+        con.executemany("insert into dha_precise values (?,?,?)",
+                        [(str(k), float(v[0]), float(v[1])) for k, v in _pts.items()])
+        print("dha precise points loaded: %d" % len(_pts))
+    except Exception as e:
+        print("dha precise points unavailable, health falls back to the truncated register: %s" % e)
     todo = [d for d in districts() if not a.slug or d["slug"] == a.slug]
     land_all = json.load(io.open(LAND_FILE, encoding="utf-8"))["results"]
     land_by_area = collections.defaultdict(list)
