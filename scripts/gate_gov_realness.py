@@ -43,6 +43,22 @@ CODE_COL_RX = re.compile(r"(code|iso|_id$|^id$|abbr|num$|number$|currency|symbol
 WORD_COL_RX = re.compile(r"(month|day|region|name|desc|title|location|unit|type|status|category|city|"
                          r"country|emirate|area|line|station|activity|profession|author|group)", re.I)
 
+# 23 Sep 2026: PROD rows are not obfuscated, so on PROD the fill signatures can only produce false positives - and did, at
+# scale. Each earlier fix exempted the values that had just broken (month names 18 Sep, customs codes 19 Sep); by 23 Sep the
+# gate was dropping ~290,000 real PROD rows: 87,801 DM food-test results reading SATISFACTORY (4 vowels in 12 letters, 0.333,
+# under 0.34), DAFZ legal type FZCO, Dubai Police incident location LAND, and all but 29 of 198,830 DHA professionals because
+# professionalcategoryid holds NUR/PHY/DEN and 'categoryid' has no underscore for CODE_COL_RX. The signatures describe the
+# STAGING environment's scrambling, so they now run on STAGING rows only. PROD rows pass whole, marked 'prod'.
+GATE_ENVS = {"stg"}
+
+# Held back from publishing BY DECISION, whatever the gate says - realness cannot express "real, and not ours to spread".
+WITHHOLD = {
+    "dha/dha_sheryan_professional_detail-open-api":
+        "personal data: full names, phones, emails, gender and nationality of 198,830 named health professionals. The only "
+        "use so far is facility positions, already extracted without personal fields into data/board/_dha_precise_points.json. "
+        "Publishing the register itself is Kendall's decision (23 Sep 2026).",
+}
+
 # Share of fabricated rows above which a dataset is not worth reading at all.
 MOSTLY_FAKE = 0.98
 # ...and below which it is treated as clean rather than mixed. Some datasets carry a stray oddity.
@@ -86,10 +102,25 @@ def main():
         except Exception:
             pass
 
-    tabs = con.execute("select key, entity, dataset, table_name, rows_loaded from gov_dataset "
+    tabs = con.execute("select key, entity, dataset, table_name, rows_loaded, coalesce(env, 'stg') from gov_dataset "
                        "where materialised and table_name is not null order by rows_loaded desc").fetchall()
-    counts = {"clean": 0, "mixed": 0, "fabricated": 0, "untestable": 0}
-    for key, ent, ds, tn, nrows in tabs:
+    counts = {"clean": 0, "mixed": 0, "fabricated": 0, "untestable": 0, "prod": 0, "withheld": 0}
+    for key, ent, ds, tn, nrows, env in tabs:
+        view = ("g_" + re.sub(r"^gov_", "", tn))[:120]
+        if key in WITHHOLD:
+            con.execute("drop view if exists %s" % view)
+            con.execute("update gov_dataset set realness='withheld', realness_note=?, rows_clean=0, rows_fabricated=0, "
+                        "clean_view=NULL where key=?", [WITHHOLD[key], key])
+            counts["withheld"] += 1
+            print("  %-11s %-44s %s" % ("WITHHELD", (ent + "/" + ds.replace("-open-api", ""))[:44], WITHHOLD[key][:64]))
+            continue
+        if env not in GATE_ENVS:
+            con.execute("create or replace view %s as select * from %s" % (view, tn))
+            con.execute("update gov_dataset set realness='prod', realness_note=?, rows_clean=?, rows_fabricated=0, "
+                        "clean_view=? where key=?",
+                        ["%s rows: not obfuscated, so not fill-tested; every row passes through %s" % (env, view), nrows, view, key])
+            counts["prod"] += 1
+            continue
         try:
             cols = con.execute("select * from %s limit 1" % tn).description
         except Exception:
@@ -172,7 +203,7 @@ def main():
                    order by entity, dataset""")
 
     print()
-    for k in ("clean", "mixed", "fabricated", "untestable"):
+    for k in ("prod", "clean", "mixed", "fabricated", "untestable", "withheld"):
         print("  %-11s %3d datasets" % (k, counts[k]))
     tot = con.execute("select sum(rows_clean), sum(rows_fabricated) from gov_dataset "
                       "where clean_view is not null").fetchone()
