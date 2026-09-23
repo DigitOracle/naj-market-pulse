@@ -102,6 +102,37 @@ def toks(name):
     return {w for w in t if len(w) >= 3 and w not in STOP and not w.isdigit()}
 
 
+def idstr(v):
+    """DuckDB hands a double-typed id back as a float, so "7528994.0" joins to nothing. Third time this has cost a join."""
+    if v is None:
+        return ""
+    t = str(v)
+    return t[:-2] if t.endswith(".0") else t
+
+
+def precise_points():
+    """Full-precision DHA positions, from the PROFESSIONAL register (build_dha_points.py, the DDA session, 23 Sep 2026).
+
+    sheryan_facility_detail truncates LATITUDE to two decimals - about 1.1 km - while keeping longitude to six, so 1,319 of
+    our 1,845 health facilities sat somewhere on a 1.1 km line. dha_sheryan_professional_detail is the same registry with
+    the precision intact: on the 2,379 facility ids present in both, ours is 2dp-truncated on 100% and theirs on 0%, and
+    longitude agrees to six decimals while latitude gains four. That is the signature of truncation rather than of two
+    different surveys.
+
+    The guard is a DISTANCE, not a name. 826 of 827 candidates move the point less than 1.1 km (median 289 m, p90 482 m),
+    which is exactly what 2dp truncation predicts. The one that does not is id 3503718, where our register says Dubai
+    Medical University Hospital and theirs says Saudi German Hospital - 28.4 km apart, and applied blindly it moves a
+    hospital across the city. A NAME test would also catch it and would discard 417 good rows with it, because the two
+    registers word branch names differently ("BR OF DM HEALTHCARE"): names agree on only 49.6% of the repairs.
+    """
+    p = os.path.join(BOARD, "_dha_precise_points.json")
+    try:
+        d = json.load(open(p, encoding="utf-8"))
+    except Exception:
+        return {}, 1150
+    return (d.get("points") or {}), int(d.get("guard_metres") or 1150)
+
+
 def m2(a, b):
     t = math.pi / 180; dx = (b[0] - a[0]) * t * math.cos((a[1] + b[1]) * 0.5 * t); dy = (b[1] - a[1]) * t
     return math.sqrt(dx * dx + dy * dy) * 6371000
@@ -228,6 +259,9 @@ def main():
             src_counts["ese"] += 1
 
     # ---- health: DHA Sheryan ---------------------------------------------------------------------------------------------------
+    PRECISE, PRECISE_GUARD = precise_points()
+    rejected_far = [0]
+    repaired = [0]
     idx = overture_index()
     print(f"overture snapping index: {len(idx):,} health places")
     seen_h = set()
@@ -243,7 +277,16 @@ def main():
         if lat is not None and lon is not None and lon < lat: lat, lon = lon, lat
         if not (lat and lon and 24.6 <= lat <= 25.6 and 54.8 <= lon <= 56.2): lat = lon = None
         src = "dha"; ap = 1
-        if lat is not None:
+        # the same facility, positioned properly. Tried before snap(): an exact point from the registry beats a guess made
+        # by matching a name to an Overture place, and where there is no coarse point at all this is the only one we get.
+        pp = PRECISE.get(idstr(r.get("id")) or idstr(r.get("facilityid")))
+        if pp and 24.6 <= pp[0] <= 25.6 and 54.8 <= pp[1] <= 56.2:
+            if lat is None or m2((lon, lat), (pp[1], pp[0])) <= PRECISE_GUARD:
+                lat, lon, ap = pp[0], pp[1], 0
+                repaired[0] += 1
+            else:
+                rejected_far[0] += 1
+        if ap and lat is not None:
             s = snap(nm, lon, lat, idx)
             if s: lon, lat, src, ap = s[0], s[1], "dha+overture", 0
         if (ap or lat is None) and k == "hospital":
@@ -266,6 +309,8 @@ def main():
         _ad = ", ".join(v for v in ((r.get("addresslineone") or "").strip(), (r.get("addresslinetwoenglish") or "").strip(), (r.get("areaenglish") or "").strip()) if v)
         if _ad: it["ad"] = _ad[:120]
         items.append(it); src_counts[src] += 1
+    print("  health: %d repaired to full precision from the professional register, %d rejected beyond the %d m guard"
+          % (repaired[0], rejected_far[0], PRECISE_GUARD))
 
     # ---- metro + tram: RTA -------------------------------------------------------------------------------------------------------
     for name, line_default in (("metro_stations", ""), ("tram_stations", "Tram")):
