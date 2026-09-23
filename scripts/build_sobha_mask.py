@@ -35,7 +35,7 @@ Output: data/board/sobha_mask.json
    "districts": {slug: {"n", "i": [...], "duid": [...], "by_i": {i: {"project_number", "name", "method",
                  "tallest", "footprint_name", "height_m"}}}},
    "gaps": [...]}
-Usage: python scripts/build_sobha_mask.py
+Usage: python scripts/build_sobha_mask.py [--push]   (--push stores it as KV devmask_sobha, which the skyline client reads)
 """
 import json, math, os, sys, datetime as dt
 from collections import defaultdict
@@ -296,6 +296,10 @@ def main():
     for g in gaps:
         print("   %s" % json.dumps(g, ensure_ascii=False))
     print("-> %s (%d KB)" % (OUT, os.path.getsize(OUT) // 1024))
+    if "--push" in sys.argv:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from build_avail_index import env_token, push
+        print("   devmask_sobha ->", push("devmask_sobha", out, env_token("INGEST_TOKEN")).get("ok"))
 
 
 if __name__ == "__main__":
