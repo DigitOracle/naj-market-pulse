@@ -1,7 +1,15 @@
 # The Ask Najj episode template
 
-**Version 1.0 — 21 Sep 2026.** The fixed template. Every episode is built from this; only the question, the building and the
+**Version 1.1 — 22 Sep 2026.** The fixed template. Every episode is built from this; only the question, the building and the
 numbers change. Companion to `ASK_NAJJ_VIDEO_BIBLE.md`, which holds the voice, the harness, the filing and the corrections log.
+
+> **What changed in 1.1, in order of how much it would have cost you.**
+> **§4 — the occlusion reveal is no longer the mandated payoff. It was tried across four takes and nine camera positions
+> and it does not film on this engine.** The payoff is now the turn on the subject in its setting, and the rule that was
+> always doing the work — motion easing into stillness as the number lands — is stated as the signature instead.
+> **§10 — a new episode 0**, DEWA move-ins, which scores 25 and is the only question on the slate that no Dubai portal
+> can answer at all. **§11 — shot assembly is done** (video 06, 11 shots); length is not. **§12 — two new pre-flight
+> checks**, the facade and the building-identity check, both paid for in rejections.
 
 Built from: two research passes (platform mechanics and retention; vertical film craft), Naj's workflow brief of 21 Sep, Kendall's
 background rule, and the measured behaviour of the five episodes already shot. Evidence is graded in place —
@@ -125,7 +133,7 @@ episodes fail it.
 | 6 | 18.5 | 3.5 | Back to 3D, the data expressed *spatially* — floors or buildings colour-coded | **Boom up** the facade, easeInOut — the native 9:16 move | Colour key 19.1→21.1 | Swell |
 | 7 | 22.0 | 3.0 | Tighter detail, proof 2 | Static | Label 22.5→24.5 | — |
 | 8 | 25.0 | 2.0 | **THE TURN.** Full-frame title card, or a hard cut to a contrasting view | 0.3 in / 1.4 hold / 0.3 out | The "but" — one line | **Music gap: the bed cuts out at 25.0** |
-| 9 | 27.0 | 6.0 | **THE PAYOFF.** The occlusion reveal — §4 | Arc 35° at 7°/s; the subject emerges at 29.5; **ease to a full stop at 31.0** and hold still | **The answer number lands 30.0, holds 3.0 s** | Reverse swell from 29.4; music returns 29.8; single sub hit on 30.0 |
+| 9 | 27.0 | 6.0 | **THE PAYOFF.** The turn on the subject in its setting — §4 | Arc 35° at 7–10°/s; **ease to a full stop at 31.0** and hold still. (An occlusion reveal here only if the geometry gives one) | **The answer number lands 30.0, holds 3.0 s** | Reverse swell from 29.4; music returns 29.8; single sub hit on 30.0 |
 | 10 | 33.0 | 6.0 | **WHO LIVES HERE — fixed beat, every episode (§8.1).** Wide, the subject among its neighbours; the region ring arrives in the data band | Pull-back, ease-out, **settled by 36.5** | Ring lands 37.0, the viewer's own region lifted, holds 2.0 s | Naj: what it means for the viewer |
 | 11 | 39.0 | 6.0 | Clean held hero frame. Avatar scales up ~15% | **Static** | **The send frame** (§6). End card 43.0–45.0 | Brand stinger at 43.5, 1.2 s |
 
@@ -150,25 +158,43 @@ a **bookend** near-matching shot 2's establishing frame at 67.0 (4 s), and the h
 
 ---
 
-## 4. The signature shot — the occlusion reveal
+## 4. The signature move — motion into stillness
 
-**Every episode's payoff is the same move, and it becomes the format's fingerprint.**
+**⚠️ Changed in 1.1. The occlusion reveal was the mandated payoff of every episode. It was tried, and it does not film.**
 
-Start the camera so the subject building is **hidden behind a neighbouring mass**. Arc until it emerges. That is a textbook
-Hollywood reveal executed purely with geometry, it costs nothing in a digital twin, and almost nobody in property video does it.
-**[CRAFT for the mechanism, [JUDGEMENT] for making it the signature]**
+Version 1.0 made the occlusion reveal the format's fingerprint: start with the subject hidden behind a neighbouring mass,
+arc until it emerges. Attempted for video 06 across **four takes and nine stepped camera positions**, and abandoned. The
+twin's camera does not answer a drag precisely enough to swing a reliable arc, and across every position the blocking
+building never came into frame labelled. It is a beautiful shot that this engine cannot currently produce on demand.
 
-The three rules that make a data reveal feel authored rather than assembled **[CRAFT + JUDGEMENT]**:
+**Use it only where the geometry hands it to you for free**, and never plan an episode around it. If the subject happens
+to sit behind a mass from a workable angle, take it. Otherwise do not spend takes hunting for it.
+
+### What was actually doing the work
+
+The reveal was never the valuable part. These three rules are, and they apply to **any** camera move
+**[CRAFT + JUDGEMENT]**:
 
 1. The camera is **already moving** when the answer beat begins.
 2. The number lands on a specific frame **during** the move — not before, not after.
 3. The camera **eases to a complete stop** within ~1 s of the number landing, and holds still for 2 s or more.
 
-Motion → stillness is the visual full stop. **The payoff is the only shot in the episode allowed to come to a complete stop.**
+**Motion → stillness is the visual full stop, and it is the signature.** The payoff is the only shot in the episode
+allowed to come to a complete stop. A slow orbit that settles works exactly as well as a reveal that emerges.
 
-And the convergence worth noticing: **episode 1 on the slate *is* an occlusion reveal, literally.** ONE River Point's east view is
-blocked by One by Binghatti — which stands **344 m away and 87 m taller** (140 m against 227 m). Turn the camera east and the
-blocker really is standing in the way. That is the format's signature shot and the episode's factual answer in the same move.
+### The move that replaces it, per Kendall
+
+Kendall, 21 Sep: *"the rotation of that building and the surrounding buildings is better than worrying about the views."*
+
+**The default payoff is now the turn on the subject in its setting** — an orbit of 30–60° at 8–12°/s, the answer number
+landing mid-move, easing to a full stop and holding. It is the thing the twin does best, it never fails to record, and
+with the facades re-classed (bible §14.0) the surrounding buildings now carry enough material variation to make the turn
+read as a city rather than a massing model.
+
+Episode 1's factual answer — ONE River Point's east view blocked by One by Binghatti, **344 m away and 87 m taller** —
+still stands and is still the strongest fact on the slate. It is now proved **twice in two registers**: the app naming
+the blocking building on screen, and the dossier saying *"East: blocked"* in writing on the document the client keeps.
+Two proofs in different registers is stronger than one camera move that half-works.
 
 ---
 
@@ -374,6 +400,7 @@ at, from a named register) · **Moat** (could a portal answer it — 5 means nob
 
 | # | Episode | Bank | Pull | Rev | Proof | Moat | Ready | **Σ** |
 |---|---|---|---|---|---|---|---|---|
+| **0** | **"When did this building actually fill up?"** — *new, 22 Sep* | — | 5 | 5 | 5 | **5** | 5 | **25** |
 | **1** | **"Could someone build in front of me?"** | Q049 Q048 Q054 | 5 | 5 | 5 | 5 | 4 | **24** |
 | **2** | **"Is it actually being built?"** | Q105 Q106 Q103 Q107 | 5 | 4 | 5 | 4 | 5 | **23** |
 | **3** | **"Who actually lives here?"** — *and a fixed beat in every other episode, §8.1* | Q040 Q038 Q124 Q039 | 5 | 5 | 4 | 5 | **5** | **24** |
@@ -387,6 +414,31 @@ at, from a named register) · **Moat** (could a portal answer it — 5 means nob
 | ✗ | "Will new rail come here?" | Q025 | 5 | 4 | 2 | 4 | **1** | **defer** |
 | ✗ | "Compare two developers" | Q113 Q112 | | | | | | Kendall killed it, 18 Sep |
 | ✗ | "What's the floor plan?" | Q050 Q051 | | | | | | Kendall killed it, 18 Sep |
+
+### Episode 0 — the new top of the slate, and the only one no portal can answer
+
+**DEWA move-ins**, cut per district as `data/board/dewa_moveins_<slug>.json`, 22 Sep. **2,103 buildings published
+citywide, 1,284 of them named, every one carrying a footprint index.** Per building: meters connected in total and by
+year, the residential/commercial split, and the first and last move-in month.
+
+It scores 5 on Moat because the claim is literally true: **no Dubai portal answers "when did this building fill up".**
+Sales say what changed hands. Ejari says what was let. A meter connected in someone's name is the closest any register
+gets to somebody turning the lights on.
+
+**The pick: MARINA PINNACLE** (dubaimarina, footprint 444). 66 storeys, 236.6 m. **769 meters connected — 610 of them in
+2025 — and the first one in April 2011.** A tower that has stood for fourteen years and turned over most of a building's
+worth of homes in a single year. 752 residential, 17 commercial. Others above 700 if a different district is wanted:
+SILICON GATES 1 (883), PARK RIDGE TOWER C (793), PRIVE BY DAMAC A (790), GHALIA (732), Farhad Azizi Residence (726).
+
+**Three disclosure rules go in the evidence table, not the small print** — they came with the data and they must reach
+the screen:
+
+1. **A connection is not a household.** One home relet three times is three connections. It can never be divided by the
+   unit count to make an occupancy rate. Naj says *"meters connected"*, never *"occupied"* — *"ninety percent occupied"*
+   is the natural English sentence here and it is not what the data says.
+2. **A building with no rows is NOT RECORDED**, never "empty".
+3. Buildings under 5 connections are withheld and dates are month-only. 11,998 of 17,080 bound buildings have exactly
+   one connection, which is a household's move-in date rather than a statistic.
 
 ### Verified on the live app, not assumed
 
@@ -422,15 +474,15 @@ client"*, over the list, with the camera not resting on any one row.
 
 ## 11. What has to change in our production
 
-Measured, not asserted. **All five delivered episodes contain zero detected cuts at every scene threshold tested (0.35, 0.15,
-0.08).** They are, visually, single continuous takes of 56–92 seconds.
+Measured, not asserted. Videos 01–05 contain **zero** detected cuts at every scene threshold tested (0.35, 0.15, 0.08) —
+they are, visually, single continuous takes of 56–92 seconds. **Video 06 (22 Sep) is the first that is not.**
 
-| | Now | Template | What it takes |
-|---|---|---|---|
-| Length | 56–92 s | **45 s** | Fewer beats, chosen before filming |
-| Shots | **1** | **11** | `cut()` must assemble numbered shots, not trim one take |
-| Average shot | 56–92 s | **4.1 s** | — |
-| Cuts | **0** | **10** | The harness has the mechanism already — skip spans *are* hard cuts. It needs to make them deliberately |
+| | Videos 01–05 | Video 06 | Template | What is left |
+|---|---|---|---|---|
+| Length | 56–92 s | 1:08 | **45 s** | **Still open.** Cut to 45 s *before* writing the narrative — §5's word budget derives from it |
+| Shots | **1** | **11** | **11** | ✅ done |
+| Average shot | 56–92 s | 4.8 s | **4.1 s** | close enough; falls out of the length fix |
+| Cuts | **0** | **10** | **10** | ✅ done — `cut()` now assembles numbered shots via the `shot()` context manager |
 | Avatar | bottom third | head above y 1600 | A HeyGen composite change |
 | Readable content | full frame | inside 835 × 978 | Scale the app region into the safe box |
 | Captions | after the render | **burned in every time** | Already built (`faster_whisper`) |
@@ -445,6 +497,9 @@ that assembles rather than trims.** Everything else is composite and export sett
 
 ## 12. Before anything is posted
 
+- [ ] **The subject building has a facade**, checked in the twin at the filming angle, on the deployed build (bible §14.0).
+- [ ] **Every named building on screen is the building the data came from** (bible §14.1). If plans are shown, they come
+      from the `building` block of `plans_bind.json`, never from `refused_contradicted`.
 - [ ] Runs 45 s ±2 s. 11 shots. No shot over 6 s except the payoff and the hold.
 - [ ] Nothing readable outside **x 65–900, y 270–1248**. Checked on a real device, once per platform.
 - [ ] Naj's head above y 1600, no bubble, no border.

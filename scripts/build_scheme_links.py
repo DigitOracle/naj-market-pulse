@@ -13,7 +13,7 @@ Three joins onto data/board/stack_<district>.json, all by name, all strict (DDA 
 
   python scripts/build_scheme_links.py businessbay damachills   (--push publishes, as the view pass does)
 """
-import json, os, re, sys, time
+import glob, json, os, re, sys, time
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -313,7 +313,19 @@ def main():
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         from build_avail_index import env_token
         tok = env_token("INGEST_TOKEN")
-    for d in [a for a in sys.argv[1:] if not a.startswith("--")] or ["businessbay", "damachills"]:
+    # --all: every district with a stack on disk. Added because the alternative was a shell one-liner to
+    # derive the slugs, and the bash form of it silently produced an EMPTY list in PowerShell - so the
+    # script fell through to its two defaults and reported success having pushed 2 of 43. A command that
+    # does the wrong thing quietly is worse than one that fails, and the slug list is the script's own
+    # business rather than the caller's.
+    named = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--all" in sys.argv:
+        named = sorted(os.path.basename(f)[6:-5] for f in glob.glob(os.path.join(BOARD, "stack_*.json")))
+        print("--all: %d districts with a stack on disk" % len(named))
+        if not named:
+            print("FAIL: no stack_*.json found in %s - refusing to fall back to the defaults" % BOARD)
+            return 2
+    for d in named or ["businessbay", "damachills"]:
         build(d, tok)
 
 

@@ -1,6 +1,24 @@
 # The Ask Najj video bible
 
-**Version 1.0 — 21 Sep 2026.** The single source of truth for how the Najma / Azimuth short-form videos are made.
+**Version 1.3 — 22 Sep 2026.** The single source of truth for how the Najma / Azimuth short-form videos are made.
+
+> **What changed in 1.3.** **Episode 07 was shot** (Al Habtoor Tower) and it changed four rules. The close is now a
+> **scrolled dossier**, not a page flip (§8.1). A **two-surface check** is required before a subject is named (§14.3).
+> The harness gained journey 8 (§7). And the corrections log carries the five live defects that episode found — every
+> one caught by someone about to USE the output, not by anything testing it (§13, §14.4).
+>
+> **What changed in 1.2.** **The opener (§9.2).** Kendall: *"this gets folded into the bible, every single one opens
+> with this."* A fixed ten-second branded shot — Naj walking to the gold N, leaning on it, the towers rising and giving
+> birth to the star, and the line *"Welcome to Najma. Provenance for property."* It is generated once and plays before
+> every film, which also settles the naming question below (§16).
+
+> **What changed in 1.1.** Video 06 was shot (Aykon City, 11 assembled shots — the first cut that is not one continuous
+> take). The **occlusion reveal was tried and abandoned**, so the template no longer mandates it (template §4). A
+> **facade check** is now required before filming (§14), after the worst rejection of the week. Four separate cases of
+> **wrong data reaching buyers through confident name matching** were found and fixed in one day, and they are written up
+> as a known limit (§14.1) because the same failure can put a wrong number on camera. The corrections log is caught up to
+> 22 Sep, §16 marks what the template settled, and **DEWA move-ins** — the first dataset that can say when a building
+> filled up — is added to the slate (template §10).
 
 It merges three things:
 
@@ -51,9 +69,11 @@ questions, and those comments feed the question bank. Her alternatives were "The
 Anticipation comes from **promise + pattern**: a relatable question the viewer sees themselves in, then a fast, visual, credible
 answer with the app as proof. The pattern must not drift between episodes.
 
-⚠️ **Name collision to resolve (§16).** "Dubai, Decoded" is one of Naj's rejected *series* names and is also the middle of our
-sign-off, *"Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity."* The files are named `NAJMA_DEMO…`,
-the broker is "Naj" in our docs and "Najj" in her brief. One spelling, one series name, one sign-off — Kendall's call.
+⚠️ **Name collision, now forced by the opener (§9.2).** Every film opens *"Welcome to **Najma**"* and currently ends
+*"Welcome to **Azimuth**"*. A viewer is welcomed to two brands in the same fifty-five seconds. **Recommendation: drop
+the second welcome** — the sign-off becomes *"Dubai, decoded — one tap at a time. Complexity into clarity."* One word
+out, collision gone, both lines keep their character. Still open beneath it: the files are named `NAJMA_DEMO…`, the
+broker is "Naj" in our docs and "Najj" in her brief. One spelling — Kendall's call.
 
 ---
 
@@ -67,9 +87,24 @@ Naj's brief sets a **two-part shape**:
 > **Part B — The Answer (20–40s).** Najj's avatar answers, with the app screen-recorded in the background executing the exact
 > action that answers it. — Naj's brief §3
 
-⚠️ **This contradicts the standing rule, and it is the first thing Kendall must decide.** On 18 Sep, after three corrections in one
-sitting, the rule became: *"Naj is the only one on screen … She's the only one speaking."* Videos 01–04 are built that way — Naj
-recounts the question herself ("A client came to me and said…") and never shares the frame.
+✅ **SETTLED 22 Sep: the two-part shape wins, and the client is a separate shot.** Kendall: *"now I need the opening
+question video."* The client asks to camera in her own 10-second HeyGen Cinematic shot, generated with **no avatar
+reference** so the face differs every episode — it reads as a question, not a recurring character. Naj never shares
+the frame with her; the two are separate films, hard-cut.
+
+**The question has a fixed three-part shape and only the words inside it change:**
+
+> *"I keep walking past **[TOWER]**. Is there anything left in it? And what's **[DISTRICT]** actually like to live in?"*
+
+**Two questions, deliberately.** The app answers the first, the dossier answers the second — which is what turns the
+close (§8.1) into the second half of the reply rather than a flourish.
+
+**Write proper nouns phonetically.** "Marina Pinnacle" came back as *"Marina Pinedic"*; "Al Habtoor" needs the same
+treatment. And **state the dialogue three times** — before everything, inside the speaking beat, and in the DO NOT —
+because Cinematic mode invents its own lines otherwise (§9.2).
+
+This supersedes the 18 Sep one-voice rule *for the question only*. Inside the episode, Naj is still the only one on
+screen and the only one speaking.
 
 Both work. They are different products:
 
@@ -172,6 +207,15 @@ The gap worth closing next is **Stage 2's copy** (captions, hashtags, CTA per ep
 | 4 | `journey4` | 03 What's hot |
 | 5 | `journey5` | 04 The building page |
 | 6 | `journey6` | 05 The view (draft) |
+| 7 | `journey7` | 06 Aykon City — **the first cut built from numbered shots** |
+| 8 | `journey8` | 07 Al Habtoor Tower — **17 shots, two pages, and the dossier scrolled** |
+
+**Journey 7 is the reference implementation of the template**, and the one to copy. It films
+`/building/businessbay/73` in the app's **native wide layout** (at 1080 px the page shows About on the left and the
+filters and rings on the right, with the tower between — no injected CSS needed), declares 11 shots through the
+`shot(mark, n, target, label, mode)` context manager, and closes on the building dossier. `mode="speed"` lets the cut
+speed a camera move to fit its target; `mode="hold"` trims to the settled tail instead and never speeds it, which is
+what a panel needs — a sped-up scroll is unreadable and a sped-up settle looks like a glitch.
 
 **Adding an episode:** add a config branch beside the others, write `journeyN(pg, mark)`, register it in the dispatch dict in
 `capture()`, and add the output filename to the dict in `cut()`. Keep the beats in the order the narrative will speak them.
@@ -232,6 +276,34 @@ seconds after the opening beat. Kendall, 18 Sep: *"sitting there for a long time
 
 ---
 
+## 8.1 The close — the dossier, SCROLLED
+
+Kendall, 22 Sep: *"she should be scrolling through that four page dossier slowly and kind of explaining everything
+there as well. She doesn't want to like fly through it."*
+
+**The close is no longer `close_clip()`.** Rendering the PDF page by page and holding each one reads as a slideshow,
+and this is the document the client keeps — it should feel like being walked through it, not shown it.
+
+So the dossier's **own HTML** is opened in the browser and scrolled, easing to each heading the way a thumb does, with
+a pause long enough for Naj to name what she is looking at. `_dossier_scroll()` in the harness; `DOSSIER_STOPS` is the
+list of sections and the only thing that changes per episode.
+
+**Six stops, ~3.5 s each, about 21 seconds.** For episode 07 they were: the stack · what it sells for · **who designed
+and built it** · around it and the shops · who lives here · the floor plate.
+
+**The dossier is dressed for the film.** It is authored for paper — dark type on white — and dropped into a
+champagne-graded film it flares, with type too small to read on a phone. `DOSSIER_CSS` puts it on the app's own
+near-black with cream type, gold headings and 2.4× zoom. **Nothing is re-worded or hidden; only the paper changes,
+and it is our document.**
+
+**Set `SHEET_PDF = None` for any episode that scrolls**, or the dossier appears twice — once scrolled, once flipped.
+
+**It costs length.** Twenty-one seconds of dossier took episode 07 to 72 s, and with the opener and the question the
+published film is about 92 s — past the Reels band. That is a real trade and it was made deliberately. A shorter
+Instagram cut from the same master, with three stops instead of six, is the answer.
+
+---
+
 ## 9. Avatar backgrounds — match the client's home
 
 Kendall, WhatsApp, 21 Sep, answering *"For the Becky, any background?"*:
@@ -271,6 +343,68 @@ blocked, and we are always going to use who lives here in all of the videos."*
 further ruling — this line is the record, so it stops being re-raised. The who-lives-here beat is **required in every episode**
 (template §8.1, shot 10). The only constraint is the wording, which is Kendall's own decision of 17 Sep: the mix is context about
 an area, never a reason to choose one.
+
+---
+
+## 9.2 The opener — fixed, and on every single video
+
+**Kendall, 22 Sep: "this gets folded into the bible, every single one opens with this."**
+
+Every Najma video, without exception, opens with the same ten-second branded shot. It is generated once and reused
+unchanged. It is never re-cut, never "freshened", and never made bespoke for an episode — an opener earns its seconds
+through recognition, and variety destroys the only thing it does.
+
+**The master:** `assets/brand/najma_opener_9x16.mp4` — **approved final by Kendall, 22 Sep 2026.** Do not regenerate.
+
+### What happens in it
+
+A monumental gold sculpture of the Najma **N** stands alone in a bare deep-green room. Naj enters from frame left with
+a model's runway walk, crosses to the sculpture and leans against it, settling her weight. As she settles, a cluster of
+slender gold **towers rises out of the letterform** — and the towers **give birth to the star**, which lifts from the
+tallest tower's tip and comes to rest glowing above them. She looks to camera and says:
+
+> **"Welcome to Najma. Provenance for property."**
+
+The last one and a half seconds are completely static. **The cut into shot 1 is hard — no dissolve.** Shot 1 opens on a
+*moving* camera, so stillness into motion is the join.
+
+### How it was made, for when it must be remade
+
+**HeyGen Cinematic**, 9:16, 10 s, **Enhance prompt OFF**, three reference slots:
+
+| Slot | Image | Role |
+|---|---|---|
+| 1 | the N alone, no towers, no star | the **start** state |
+| 2 | the N with towers and star | the **end** state |
+| 3 | Naj's avatar reference | the likeness |
+
+The full shot description and the two ChatGPT prompts that generated the reference images are in
+**`docs/NAJMA_OPENER_HEYGEN_CINEMATIC.md`**. The text is composited **after** generation, never generated: the wordmark
+and tagline are laid on in the edit, where the type is perfect and identical every time.
+
+### Two failures it cost to find, so nobody repeats them
+
+1. **Cinematic mode writes its own dialogue.** The first render had her say *"And that's why staying natural and
+   confident is key"* — invented entirely, because the prompt never stated the words. The line must appear **three
+   times** in the description: as a block before anything else, inside the speaking beat, and in the DO NOT. Every
+   other beat must be marked silent.
+2. **It defaults to 720p.** This asset plays before every film. Set 1080p.
+
+### What it does to length
+
+```
+[ OPENER 10 s ]  →  [ EPISODE 45 s ]  →  post
+```
+
+**Published length is therefore about 55 seconds**, which sits inside the 45–60 s Reels optimum rather than outside it.
+The 45-second episode itself is unchanged: the opener is concatenated at assembly and is **not** in
+`scripts/demo_capture.py`, which films the app and nothing else.
+
+### Disclosure
+
+The opener is the **first exposure**, which is where the EU AI Act requires disclosure. If the opener is ever used
+alone — as a profile video, a story, a bumper — **it must carry the disclosure line itself**, because then it is the
+whole film.
 
 ---
 
@@ -358,10 +492,110 @@ Everything below is a thing Kendall rejected. Read it before shooting, not after
 | 20 Sep | *"the video is in landscape… no good for social media"* | Never hand-record; film 9:16 with the harness (§7) |
 | 20 Sep | *"why doesn't the video ever zoom in or cue into the building itself?"* | Move the camera in until the subject fills the frame **before** the tap that highlights it |
 | 20 Sep | *"the floor plate should look something like this"* | A plate is units as coloured cells, lifts, stairs, a legend, LEVEL n — not an outline |
+| 21 Sep | *"you picked the building with no facade… this looks absolutely horrible. I wouldn't put this in front of any client"* | **Check the facade before you film** (§14). The most expensive rejection of the week |
+| 21 Sep | *"you didn't tell me where any of the grocery stores were, you didn't show me the floor plan… you've shown me very little information"* | An episode must land **specifics**, not a tour. Name the shops, show the plate, give the number |
+| 21 Sep | *"the rotation of that building and the surrounding buildings is better than worrying about the views"* | When a beat is not filming well, prefer the turn on the building in its setting. It is the shot the twin does best |
+| 21 Sep | *"I'm really getting confused now… I need one link, I need one place to go"* | One surface per deliverable. Do not hand over three keys and four routes |
+| 21 Sep | *"There's nobody's name. Just make the video. You're making a big issue out of nothing"* | Do not re-raise a settled privacy or key question. If it is settled, it is settled (§9.1) |
+| 22 Sep | *"clean the project titles"* | Harvested page titles are reduced to the project name for display; the original stays in `title` (`scripts/clean_plan_titles.py`) |
+| 22 Sep | *"the about the building button is dead. So we need that fixed in order to run this video"* | Click the controls on the live page before writing a beat around them (§14.4) |
+| 22 Sep | *"what is this black triangle?"* | Check a contact sheet frame by frame; a defect in a panel is a defect on camera |
+| 22 Sep | *"when we are selecting a floor, we should either use a dropdown or click on that floor level to show that it is interactive"* | The interaction must be **visible** — the drawn cursor presses the control in frame, and the building answers |
+| 22 Sep | *"she should be scrolling through that four page dossier slowly and kind of explaining everything there as well"* | The close is a scrolled dossier, not a page flip (§8.1) |
+| 22 Sep | *"we can't say that nobody can tell you honestly. We have to know if there's anything left in there"* | If a question cannot be answered, change the **building** or the **question** — never soften the line to cover a gap |
+| 22 Sep | *"let's switch to a building that's like really hot right now"* | Pick the subject from the register's own activity, then check the model height (§14.3) |
 
 ---
 
 ## 14. Known limits — check before promising a beat
+
+### 14.0 Check the facade before you film — every time
+
+Kendall, 21 Sep, on a cut of a building with no facade: *"this looks absolutely horrible. I wouldn't put this in front of
+any client."* He was right and it should never have been sent.
+
+Two separate defects produce a blank building, and they look identical on screen:
+
+1. **The selection repaint.** Deep-linking `?b=<id>` selects the building and repaints it by unit type, which destroys
+   the facade. Fixed by the twin session in v215 — **but check the deployed version before blaming the model.** If the
+   facade still vanishes on selection, you are filming an old build.
+2. **The class it was given.** Measured across all 43 districts and 66,715 buildings, 83.9% of facade classes came from
+   `default:low` — a guess from height. `scripts/facade_reclass.py` re-classed 607 tall buildings from the registers'
+   use and completion year on 22 Sep (glass 28% → 53% of the tall stock), **but that only reaches the screen after the
+   district is re-massed in CityEngine.** A repack does not carry it: the class is baked at generate time.
+
+**The rule:** before committing a building to an episode, look at it in the twin at the angle you intend to film, on the
+live build. If it is flat, pick another building or get the district re-massed first. Do not shoot around it.
+
+### 14.1 Confident name matching is how wrong data reaches a buyer
+
+**Four separate cases in one day, 22 Sep, all live or nearly live.** This is the most dangerous class of defect the app
+has, because the wrong answer looks exactly like the right one and nothing on screen signals doubt.
+
+| What happened | How |
+|---|---|
+| Four Dubai buildings served **Umm Al Quwain** floor plans | "Bayside", "Delphine", "Pristine", "Aquamarine" are Sobha Siniya Island towers; the names read as Dubai buildings |
+| Five Dubai buildings served **another developer's** plans | Emaar's Creek Horizon carrying Sobha's *The Horizon*; Emaar's Grande carrying Sobha's *Creek Vistas Grande* |
+| A plan bind crossed brands | Emaar's *Boulevard Heights* matched **Samana** Boulevard Heights — caught before it shipped |
+| An **all-id** chain landed 5 of 25 projects on the wrong building | Binghatti Haven resolved to *The Community-Sports Arena*. The ids were faithful; the footprint binding underneath them was not |
+
+Three things follow, and the third is the one that is easy to get wrong:
+
+- **The harvest is not Dubai-only.** Developers sell across the UAE and their sites do not partition by emirate. 1,254
+  plans over 22 projects are in Umm Al Quwain, Abu Dhabi or RAK. Every project now carries an `emirate` field.
+- **Some names cannot be matched by substring at all.** Emaar has registered projects called **"May"** and **"JUNE"**;
+  Sobha has **"Waves"**, which sits inside six other register projects. 29 projects carry `exact_only: true`.
+- **An id chain is not self-validating.** "Use the id, not the name" was the lesson of the week and it is *incomplete*:
+  ids inherit the errors of whatever binding produced them. The building's own registered name is the only independent
+  check available, so a bind publishes only when the ids agree **and** the names do not contradict.
+
+**For a video:** if an episode shows floor plans, or any figure attributed to a named building, confirm the building on
+screen is the building the data came from. `data/board/plans_bind.json` carries a `building` block that has passed both
+checks, and a `refused_contradicted` list that has not. Never film from the second.
+
+### 14.3 The two-surface check — before a subject is named, not after
+
+**Panel AND page, for any building either we or another session recommends.** Standing rule from 22 Sep.
+
+It exists because the audit session vetted Marina Pinnacle on the map panel and the unit-mix record, everything they
+said was correct, and the *building page* was serving another developer's floor plans at the same moment. They had
+verified the surface they were working on and let it stand as clearance for a different one. That is not carelessness;
+it is the natural cost of deep work in one lane, and it will happen again unless the check is explicit.
+
+**And check the MODEL before committing to a subject.** Sales rank tells you nothing about whether a building will
+look like anything. Measured across Business Bay's top sellers on 22 Sep:
+
+    Peninsula Four, The Plaza   1,377 sales   56 floors   model height 16 m   <- a stub
+    The EDGE                    1,286 sales   47 floors   model height 16 m   <- a stub
+    Bayz 101 By Danube          1,218 sales   98 floors   model height 38 m   <- a stub
+    Al Habtoor Tower            1,296 sales   93 floors   model height 345 m  <- correct
+
+Al Habtoor was the **only** hot building whose model was right. Read `data/ce/<slug>/facade_v2.json` and compare `h`
+against the floor count before a building is named on camera.
+
+### 14.4 Present and wired is not works
+
+**Five defects on one page in one day, every one caught by someone about to USE the output, none by any test:**
+
+| | how it hid |
+|---|---|
+| Ten buildings served another developer's floor plans | a containment match on a common word; the markup was perfect |
+| `ABOUT THE BUILDING` dead since v220 on every building with a dossier | `K is not defined`, thrown on **click**. The module ran to completion on load, so a load test passed |
+| DEWA occupancy shipped 22 Sep and never rendered | it lives *inside* that dead handler |
+| The pillars radar drew as a black triangle | a stylesheet shipped as literal characters — `' + PILLAR_CSS + '` concatenated inside a template literal |
+| 304 buildings read "sold out" when they were not | `Math.max(0, units − sales)` against resale history |
+
+**A test can prove markup is present. It cannot prove styling arrived, a handler runs, or a number means what it says.**
+
+So before filming a page: **open it in a browser and click the thing.** Two of those five were found by clicking a
+control and reading what came back; one by asking whose a number was; one by looking at a frame. None needed code
+access, and none of them would have failed a build.
+
+**Corollary, and it is the sharper half:** three of the five were reported as fixed by someone reading the source or
+the branch, while the served page still had the fault. **Check the version you are actually looking at**, and prefer
+"I clicked it" over "it is wired".
+
+### 14.2 The rest
 
 - **The real-view page is flat in Dubai** (21 Sep). `/view` renders Google photoreal tiles; four towers tested, one given 50 s to
   load, and no 3D buildings appear — so a card saying "this side sees the Burj Khalifa" sits over a picture with no Burj in it.
@@ -392,17 +626,34 @@ Everything below is a thing Kendall rejected. Read it before shooting, not after
 
 ## 16. Open decisions for Kendall
 
-1. **One voice or two-part?** (§3) Naj's brief puts a persona on screen asking the question; the standing rule since 18 Sep is that
-   Naj is the only one on screen and the only voice. Everything filed so far is one-voice. *Nothing changes until this is settled.*
-2. **Length.** (§3) 25–40 spoken words per Naj's brief, against the 150–200 in our filed cuts. Short feed cut, long site cut, or one
-   target?
-3. **Series name and spelling.** (§2) "Ask Najj" as the series, against `NAJMA_DEMO…` filenames, "Naj" in our docs, and
+**Settled by the episode template, 21 Sep** — recorded here so nobody reopens them:
+
+| | Was | Settled as |
+|---|---|---|
+| ~~1~~ | One voice or two-part? | **One voice**, with the question on screen as text over the opening shot before she speaks. Satisfies Naj's brief and the 18 Sep rule at once, and costs no seconds |
+| ~~2~~ | Length | **45 s default**, 75 s long cut for the site and TikTok only |
+| ~~4~~ | Audience | **Buyers and relocators** |
+| ~~7~~ | The residents key | **Cleared everywhere**, and who-lives-here is a required beat in every episode (§9.1) |
+
+**Genuinely still open:**
+
+1. **Series name and spelling.** (§2) "Ask Najj" as the series, against `NAJMA_DEMO…` filenames, "Naj" in our docs, and
    "Dubai, decoded" already living inside the sign-off.
-4. **Audience.** (§1) Naj asks it explicitly: buyers/relocators, or other agents? The hooks and CTAs differ.
-5. **Do we tell Naj the recording is automated?** (§6) Her brief plans around a manual screen-recording bottleneck that we do not
+2. **Do we tell Naj the recording is automated?** (§6) Her brief plans around a manual screen-recording bottleneck that we do not
    have. It changes what her pipeline needs to assume.
-6. **Indicative floor plates on a client-facing page?** The plates (§13, 20 Sep) place real units from the register but position
-   them indicatively; the twin session's design note currently forbids putting a unit on the plate at all.
+3. **Indicative floor plates on a client-facing page?** The plates place real units from the register but position them
+   indicatively; the twin session's design note currently forbids putting a unit on the plate at all.
+4. **AI disclosure — the one with a deadline that has already passed.** Template §0.1: Instagram began enforcing an
+   AI-generated profile label on 31 Aug 2026, and EU AI Act Article 50 has applied since 2 Aug 2026, with exposure up to
+   €15 M or 3% of worldwide turnover. **Videos 01–06 carry no on-screen disclosure line and no platform labels.** The
+   template requires both from the next episode on. The genuinely unresolved question is narrower: whether a licensed
+   twin of a *real, consenting* broker falls inside Instagram's synthetic-persona policy. The label is free; the
+   alternative is losing cold reach. **A written ruling from a Meta partner contact is worth more than any other open
+   item in this document.**
+
+**Length is drifting in practice and it is worth naming.** The template says 45 s. Video 06 cut at **1:08**. The shot
+assembly is fixed — 11 numbered shots, the first cut that is not one continuous take — but the duration is not. The next
+episode should be cut to 45 s before the narrative is written, not after, because §5's word budget is derived from it.
 
 ---
 

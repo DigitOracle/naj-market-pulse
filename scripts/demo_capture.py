@@ -95,6 +95,34 @@ elif VIDEO == 7:
     # 11 shots, the turn at 55%, the payoff on the occlusion reveal. ONE River Point, blocked east by One by Binghatti.
     VIEW_ANCHOR = os.environ.get("NAJMA_VIEW_ANCHOR", "589"); BLD_ROUTE_7 = "/building/businessbay/73"; FLOOR_A, FLOOR_B = 41, 74; BUDGET_HI = 14
     APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
+elif VIDEO == 8:
+    # video 07 - "is there anything left in it?" AL HABTOOR TOWER, Business Bay, footprint 574.
+    #
+    # One surface, start to finish: /building/businessbay/574. Kendall, 21 Sep: "I need one link, one place to go."
+    #
+    # THE SUBJECT CHANGED TWICE AND BOTH REASONS ARE WORTH KEEPING.
+    #
+    # It was written for MARINA PINNACLE around DEWA move-ins - "when did this tower fill up", 769 meters connected,
+    # 610 of them in 2025. That question is answerable and no Dubai portal answers it, but Business Bay publishes only
+    # 77 DEWA buildings and Al Habtoor is not one, so the beat does not exist here.
+    #
+    # Then the question itself failed. "Is there anything left" looked answerable on Marina Pinnacle - the page read
+    # **8 LEFT OF 772** - and that number was an artefact: `Math.max(0, units - sales)` against 2,278 sales on 772
+    # homes, because homes RESELL. 304 buildings citywide read as sold out and were not. Fixed in v246.
+    #
+    # AL HABTOOR SURVIVES BOTH. Its sales have not exceeded its units, so **443 LEFT OF 1,739** is a true count. It is
+    # hot - 1,296 sales, still trading in Aug 2026 - and, unlike every other top seller in Business Bay, its model is
+    # RIGHT: 345 m of glassbronze over 93 floors. Peninsula Four is a 16 m stub for a 56-floor tower, The EDGE the
+    # same, Bayz 101 is 38 m for 98 floors. Check the height before choosing a hot building; the sales rank does not.
+    #
+    # THE CLOSE IS THE DOSSIER, 4 pages, and it carries what the page does not - who lives in Business Bay, the shops,
+    # what it sees over, and the floor plate. Kendall, 22 Sep: "we should be ending on the detailed .pdf, because
+    # that's what the client gets, and we should slowly scroll through that, highlighting what information is given."
+    BLD_ROUTE_8 = "/building/businessbay/574"
+    DOSSIER_8 = os.path.join(ROOT, "dist_dossier", "businessbay_574.pdf")   # 4 pages
+    FLOOR_8 = 86                    # the register puts ONE five-bedroom up here, and the card reads "Floor 86 - 4 homes"
+    BUDGET_HI = 14
+    APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
 else:
     BUDGET_HI = 14                  # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
@@ -1196,13 +1224,209 @@ def journey7(pg, mark):
     mark("hold")
 
 
+def journey8(pg, mark):
+    """Video 07 - AL HABTOOR TOWER, Business Bay 574. 45 seconds, 11 shots, one surface.
+
+    "I keep walking past Al Habtoor Tower. Is there anything left in it? And what's Business Bay actually like to
+    live in?" Two questions: the page answers the first, the dossier answers the second.
+
+    Kendall, 22 Sep, on the opening: "I'd like to start with a shot like this and then zoom into the building, or
+    let it rotate with all of the buildings and then zoom in." So shots 1-3 are one continuous approach - the
+    district turning, the camera closing, the tower arriving - cut into three rather than filmed as three.
+
+    THE NUMBERS THIS FILM RESTS ON, all verified on the live build before a frame was shot:
+        443 LEFT OF 1,739   a TRUE count here - sales have not exceeded units, unlike 304 buildings citywide
+        93 floors, 345 m    the model is correct, which most Business Bay top-sellers' are not
+        Floor 86 - 4 homes  ninety-three floors, seventeen hundred homes, and four of them up there
+    """
+    # SHOTS 1-3 ARE THE DISTRICT, NOT THE BUILDING PAGE, and that is the fix that mattered most.
+    #
+    # The first take opened on /building/businessbay/574. Deep-linking a building SELECTS it, and a selected building
+    # is repainted by home type - so the hero shot was a mustard-and-blue block and the 345 m glassbronze facade was
+    # never seen. Kendall, 21 Sep, on the previous time this happened: "this looks absolutely horrible. I wouldn't
+    # put this in front of any client."
+    #
+    # So the film arrives the way a person would: the district first, with every facade intact and its towers
+    # labelled - Al Habtoor Tower among them - and the repaint happens at shot 4, when she taps in. The cut makes the
+    # two pages read as one continuous approach.
+    pg.goto(url("/skyline/businessbay?clean=1"), wait_until="domcontentloaded", timeout=90_000)
+    pg.wait_for_selector("canvas", timeout=60_000)
+    pg.wait_for_timeout(18000)                       # the district, the ground imagery and the facades all stream in
+    pg.mouse.move(700, 400); pg.mouse.down(); pg.mouse.up()      # any press stops the page's own idle rotation
+    pg.evaluate(CURSOR_JS)
+    pg.wait_for_timeout(1200)
+    mark("open")
+
+    # 1 - Business Bay from above. Two notches, not nine: at nine the district leaves the frame entirely and the shot
+    #     is an empty green field. Verified by frame check before this was written.
+    with shot(mark, 1, 4.0, "the district, real facades"):
+        _wheel(pg, 540, 900, 2, step=170, ms=160)
+        _turn(pg, 620, 900, -70, n=12, ms=95)
+
+    # 2 - the turn continuing, Al Habtoor's label arriving on the left. Cut on motion, so 1 and 2 read as one camera.
+    with shot(mark, 2, 4.0, "Al Habtoor Tower, named"):
+        _turn(pg, 620, 900, -70, n=12, ms=95)
+
+    # 3 - in on the tower, still in the district, facade intact
+    with shot(mark, 3, 3.5, "closing on the tower"):
+        _wheel(pg, 540, 900, -3, step=170, ms=180)
+        _turn(pg, 620, 900, -40, n=9, ms=95)
+
+    # 4 - now the building page, and ABOUT THE BUILDING. Dead until 22 Sep: the handler threw on `K is not defined`
+    #     and took the whole card with it, including the occupancy block nobody had ever seen. Fixed in v245.1.
+    with shot(mark, 4, 3.0, "the card opens", mode="hold"):
+        pg.goto(url(BLD_ROUTE_8), wait_until="domcontentloaded", timeout=90_000)
+        pg.wait_for_selector("canvas", timeout=60_000)
+        pg.wait_for_timeout(11000)
+        pg.evaluate(CURSOR_JS)
+        jump_click(pg, pg.locator("#about"))
+        pg.wait_for_timeout(2200)
+
+    # 5 - the register: 1,739 homes, 93 floors, and the answer to her first question
+    with shot(mark, 5, 4.5, "443 LEFT OF 1,739", mode="hold"):
+        smooth_scroll(pg, "#card", "0")
+        pg.wait_for_timeout(3000)
+        print("   sold line:", pg.evaluate(
+            """(() => { const t = document.getElementById('card').innerText;
+                 return (t.match(/[^\\n]*LEFT OF[^\\n]*/) || ['(no sold line)'])[0]; })()"""))
+
+    # 6 - what each home type costs, and which floors it sits on
+    with shot(mark, 6, 3.5, "types and their floors", mode="hold"):
+        smooth_scroll(pg, "#card", "e.scrollHeight * 0.34")
+        pg.wait_for_timeout(2600)
+
+    # 7 - FLOOR 86. Ninety-three floors, and the register puts four homes up here - one of them the tower's only
+    #     five-bedroom. This is the detail no portal holds.
+    with shot(mark, 7, 4.5, "floor 86 - four homes", mode="hold"):
+        _pick_floor(pg, FLOOR_8)
+        pg.wait_for_timeout(3000)
+
+    # 8 - THE TURN, at 60%: the question turns from what is left to what it is like to live there
+    with shot(mark, 8, 2.0, "TURN - but what is it like?", mode="hold"):
+        pg.wait_for_timeout(1800)
+
+    # 9 - the floor plate: the homes on that floor, drawn, with lifts and stairs
+    with shot(mark, 9, 5.0, "the floor plate", mode="hold"):
+        smooth_scroll(pg, "#card", """(() => { const t = [...document.querySelectorAll('#card *')]
+            .find(e => /floor plate/i.test(e.textContent || '') && e.children.length < 30);
+            return t ? Math.max(0, t.offsetTop - 30) : 0; })()""")
+        pg.wait_for_timeout(3600)
+
+    # 10 - back out to the tower among its neighbours, easing to a full stop. The payoff move, per template 4 v1.1:
+    #      motion into stillness is the full stop, and this is the only shot allowed to come to rest.
+    with shot(mark, 10, 4.5, "held among its neighbours"):
+        pg.evaluate("(() => { const c = document.getElementById('card'); if (c) c.style.display = 'none'; })()")
+        _wheel(pg, 540, 500, 2, step=150, ms=180)
+        _turn(pg, 620, 420, -45, n=10, ms=100)
+        pg.wait_for_timeout(1400)
+
+    # 11 - held, clean, on the tower. The last thing before the document.
+    with shot(mark, 11, 3.5, "held on the tower", mode="hold"):
+        pg.evaluate("(() => { const c = document.getElementById('__cur'); if (c) c.style.display = 'none'; })()")
+        pg.wait_for_timeout(2800)
+
+    # 12-17 - THE DOSSIER, SCROLLED. Kendall, 22 Sep: "she should be scrolling through that four page dossier slowly
+    # and kind of explaining everything there as well. She doesn't want to like fly through it."
+    #
+    # So the close is NOT close_clip(), which cuts page to page and reads as a slideshow. It is the dossier's own HTML,
+    # opened in the browser and SCROLLED - continuous motion, real type, and a pause on each section long enough for
+    # Naj to name what it is. Six stops, about 3.5 s each: the stack, what it sells for, who built it, what is around
+    # it, who lives here, and the floor plate.
+    _dossier_scroll(pg, mark)
+    mark("hold")
+
+
+# The dossier is authored for paper - dark type on white. Dropped into a champagne-graded film it flares, and at the
+# zoom that fits a page on screen the type is unreadable on a phone. So it is dressed for the film: the app's own
+# near-black, cream type, gold headings, and 2.4x so a section reads at phone size. Nothing is re-worded or hidden -
+# only the paper is changed, and it is our document.
+DOSSIER_CSS = """
+html,body{background:#0B1412!important;color:#E8E2D4!important}
+*{border-color:#2A3A34!important}
+h1,h2,h3,h4{color:#C9A227!important}
+table,td,th,tr{background:transparent!important;color:#E8E2D4!important}
+img,svg{filter:invert(.92) hue-rotate(180deg) saturate(.85)}
+html{scroll-behavior:auto}
+body{zoom:2.4}
+"""
+
+DOSSIER_STOPS = [
+    (12, "the building and the stack",   "the stack"),
+    (13, "what it sells for",            "what it sells for"),
+    (14, "who designed and built it",    "designed and built by"),
+    (15, "around it, and the shops",     "shops and groceries"),
+    (16, "who lives in Business Bay",    "who lives in"),
+    (17, "the floor plate",              "the floor plate"),
+]
+
+
+def _dossier_scroll(pg, mark):
+    """Open the dossier's own HTML and scroll it, pausing on each section.
+
+    The HTML rather than the PDF because a PDF can only be flipped: rendering page images and holding each one reads
+    as a slideshow, and this is the document the client keeps - it should feel like being walked through it, not
+    shown it. `smooth_scroll` eases to each heading the way a thumb does.
+    """
+    html = os.path.splitext(DOSSIER_8)[0] + ".html"
+    if not os.path.exists(html):
+        print("NOTE: no dossier HTML at %s - the close will fall back to the PDF" % html)
+        return
+    pg.goto("file:///" + html.replace("\\", "/"), wait_until="domcontentloaded", timeout=60_000)
+    pg.add_style_tag(content=DOSSIER_CSS)
+    pg.wait_for_timeout(2500)
+    for n, label, needle in DOSSIER_STOPS:
+        with shot(mark, n, 3.5, label, mode="hold"):
+            found = pg.evaluate(
+                """(needle) => { const h = [...document.querySelectorAll('h1,h2,h3,h4')]
+                     .find(e => (e.textContent || '').toLowerCase().includes(needle));
+                   if (!h) return null;
+                   window.scrollTo({top: Math.max(0, h.getBoundingClientRect().top + window.scrollY - 40),
+                                    behavior: 'smooth'});
+                   return (h.textContent || '').trim().slice(0, 60); }""", needle)
+            print("   %-28s %s" % (label, found or "NOT FOUND - check the section list"))
+            pg.wait_for_timeout(3000)
+
+
+def _pick_floor(pg, n):
+    """Choose a floor VISIBLY, so the viewer sees it being chosen.
+
+    Kendall, 22 Sep: "when we are selecting a floor, we should either use a dropdown or click on that floor level to
+    show that it is interactive." The bible has the same rule from 18 Sep - "show that the rows are clickable" -
+    because implying an interaction is worth nothing on film.
+
+    Tapping the floor on the tower was tried first and does not work: a raycast at eight different heights up the
+    building opened the card every time and selected Ground floor every time, so the tower is not answering the tap
+    per floor. The picker is what works, so the picker is what we show.
+
+    A native <select> never renders its menu in a recording, so the press alone would be invisible. What IS visible is
+    the drawn cursor travelling to the control and pressing it, and then the tower's own floor band jumping to the
+    chosen level. That is the interaction, proved twice on screen.
+    """
+    sel = pg.locator("#fpick, #fsel").first
+    try:
+        glide_click(pg, sel, pause=700)          # the hand goes there and presses, in frame
+    except Exception:
+        pass
+    try:
+        sel.select_option(str(n), timeout=8000)
+    except Exception:
+        opts = pg.evaluate("""(n) => { const s = document.querySelector('#fpick, #fsel'); if (!s) return null;
+            const o = [...s.options].find(o => new RegExp('\\\\bFloor\\\\s+' + n + '\\\\b').test(o.textContent || ''));
+            if (!o) return null; s.value = o.value;
+            s.dispatchEvent(new Event('change', {bubbles: true})); return o.textContent.trim(); }""", n)
+        if not opts:
+            print("   !! floor %d not in the picker - the shot will show whatever was already selected" % n)
+    pg.wait_for_timeout(1800)
+    print("   floor %d ->" % n, re.sub(r"\s+", " ", (pg.locator("#card").inner_text() or ""))[:110])
+
+
 def capture(headed, slow):
     from playwright.sync_api import sync_playwright
     os.makedirs(RAW, exist_ok=True)
     marks = {}
     with sync_playwright() as p:
         # the building page is a three.js scene over ground imagery: without the GPU a single screenshot took 28 s
-        gpu = ["--use-angle=d3d11", "--ignore-gpu-blocklist", "--enable-gpu"] if VIDEO in (5, 6, 7) else []
+        gpu = ["--use-angle=d3d11", "--ignore-gpu-blocklist", "--enable-gpu"] if VIDEO in (5, 6, 7, 8) else []
         # VIDEO 6 films the app's own PHONE layout: a 540x960 window at a real device scale of 2 records as a sharp 1080x1920.
         # Playwright's emulated device_scale_factor does not do this - its recorder captures CSS pixels, so the page comes out
         # at 540 wide in a corner of the frame. A real window scale is captured in device pixels. Mouse coordinates are CSS px.
@@ -1220,7 +1444,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7}.get(VIDEO, journey)(pg, mark)
+            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7, 8: journey8}.get(VIDEO, journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -1243,8 +1467,10 @@ def ff(*args):
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
 
 
+# VIDEO 8 has no SHEET_PDF on purpose: its dossier is SCROLLED inside the journey (shots 12-17) rather than
+# appended page by page, because a flip reads as a slideshow and this document is the thing the client keeps.
 SHEET_PDF = (os.path.join(ROOT, "dist_dossier", "businessbay_73.pdf") if VIDEO == 7 else
-             None) if VIDEO in (3, 4, 5, 6, 7) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
+             None) if VIDEO in (3, 4, 5, 6, 7, 8) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 
@@ -1298,7 +1524,8 @@ def freeze_close(last_part):
 
 
 OUTNAME = {2: "demo02_damachills_screen.mp4", 3: "demo03_compare_versus_screen.mp4", 4: "demo03_whatshot_screen.mp4",
-           5: "demo04_building_screen.mp4", 6: "demo05_view_screen.mp4", 7: "demo06_theview_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4")
+           5: "demo04_building_screen.mp4", 6: "demo05_view_screen.mp4", 7: "demo06_theview_screen.mp4",
+           8: "demo07_habtoor_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4")
 
 
 def cut():
