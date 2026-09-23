@@ -1,0 +1,158 @@
+"""Unreal Editor Python: bring the Sobha districts in at LOD 3 and light only Sobha's buildings.
+
+Run INSIDE Unreal Engine 5.8 (Edit -> Plugins -> "Python Editor Script Plugin" and "Datasmith Importer" on):
+  Window -> Output Log -> Cmd: py "C:/Dev/naj-market-pulse/scripts/ue_sobha_lens.py"
+or  UnrealEditor-Cmd.exe <project>.uproject -run=pythonscript -script="C:/Dev/naj-market-pulse/scripts/ue_sobha_lens.py"
+
+What it does, from data/ce/_datasmith/sobha_unreal.json (build_ue_sobha_manifest.py):
+  1. For every district in the manifest, imports <slug>_lod3.udatasmith into /Game/Najma/<slug> unless a
+     DatasmithSceneActor for it is already in the level (re-runs never duplicate a district). All exports
+     share one CityEngine global offset, so they land in one world.
+  2. Finds every actor whose label starts with a Sobha footprint prefix ("b<i>_") from the manifest and
+     tags it "sobha", "sobha:<method>", "sobha:<project name>"; every other building actor is tagged "other".
+  3. Materials, made once under /Game/Najma/Sobha: MI_Sobha (the house Sobha coral #E07A5F, opaque) for
+     buildings reached by parcel / DM, MI_Sobha_Soft (same colour, translucent 0.5) for radius / geocode hits
+     and register placeholders - a guess never reads as a survey, in Unreal exactly as on the web twin.
+     Applied to every material slot of the Sobha actors (facade detail stays in the mesh; colour says whose).
+  4. SOBHA_ONLY: hides every other building (SetActorHiddenInGame + editor visibility); ground, sky and
+     context are untouched. Set SOBHA_ONLY = False to keep the city and only colour Sobha.
+  5. A CineCameraActor "CAM_Sobha" framed on the bounds of the Sobha buildings, 4:5 filmback, as the hero
+     clip README sets it, so a Sequencer orbit can start from it.
+
+Everything it makes is named so it can be found and removed: actors CAM_Sobha, assets under /Game/Najma/Sobha,
+tags "sobha*" / "other". Nothing existing is deleted.
+"""
+import json, os, re
+
+import unreal
+
+MANIFEST = r"C:/Dev/naj-market-pulse/data/ce/_datasmith/sobha_unreal.json"
+GAME_ROOT = "/Game/Najma"
+SOBHA_DIR = GAME_ROOT + "/Sobha"
+SOBHA_ONLY = True
+COLOUR = unreal.LinearColor(0.878, 0.478, 0.373, 1.0)     # #E07A5F, the DEVCOL the web twin uses for Sobha
+BASE_MAT = "/Engine/BasicShapes/BasicShapeMaterial"       # has a "Color" vector parameter; ships with every project
+
+log = unreal.log
+eal = unreal.EditorAssetLibrary
+ell = unreal.EditorLevelLibrary
+
+
+def ensure_material(name, translucent):
+    path = "%s/%s" % (SOBHA_DIR, name)
+    if eal.does_asset_exist(path):
+        return eal.load_asset(path)
+    if not eal.does_directory_exist(SOBHA_DIR):
+        eal.make_directory(SOBHA_DIR)
+    base = eal.load_asset(BASE_MAT)
+    mic = unreal.AssetToolsHelpers.get_asset_tools().create_asset(name, SOBHA_DIR, unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
+    unreal.MaterialEditingLibrary.set_material_instance_parent(mic, base)
+    unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", COLOUR)
+    if translucent:
+        ov = unreal.MaterialInstanceBasePropertyOverrides()
+        ov.set_editor_property("override_blend_mode", True)
+        ov.set_editor_property("blend_mode", unreal.BlendMode.BLEND_TRANSLUCENT)
+        mic.set_editor_property("base_property_overrides", ov)
+        unreal.MaterialEditingLibrary.set_material_instance_scalar_parameter_value(mic, "Opacity", 0.5)
+    unreal.MaterialEditingLibrary.update_material_instance(mic)
+    eal.save_asset(path)
+    return mic
+
+
+def district_present(slug):
+    for a in ell.get_all_level_actors():
+        if isinstance(a, unreal.DatasmithSceneActor) and slug in (a.get_actor_label() or "").lower():
+            return True
+    return False
+
+
+def import_district(slug, path):
+    if district_present(slug):
+        log("  %s: already in the level" % slug); return True
+    if not os.path.exists(path):
+        log("  %s: no export at %s" % (slug, path)); return False
+    dest = "%s/%s" % (GAME_ROOT, slug)
+    scene = unreal.DatasmithSceneElement.construct_datasmith_scene_from_file(path)
+    if scene is None:
+        log("  %s: Datasmith could not open %s" % (slug, path)); return False
+    opts = scene.get_options()
+    try:
+        opts.base_options.include_light = False; opts.base_options.include_camera = False; opts.base_options.include_animation = False
+        opts.base_options.static_mesh_options.generate_lightmap_u_vs = False
+    except Exception as e:
+        log("  (import options left default: %s)" % e)
+    res = scene.import_scene(dest)
+    scene.destroy_scene()
+    n = len(res.imported_actors) if res and res.import_succeed else 0
+    log("  %s: imported %d actors -> %s" % (slug, n, dest))
+    return bool(res and res.import_succeed)
+
+
+def main():
+    m = json.load(open(MANIFEST, encoding="utf-8"))
+    log("Sobha lens: %d districts, LOD %s, %s" % (len(m["districts"]), m.get("lod"), m.get("rule")))
+    mi_solid = ensure_material("MI_Sobha", False)
+    mi_soft = ensure_material("MI_Sobha_Soft", True)
+    prefixes = {}   # "b<i>_" -> (slug, record)
+    for slug, d in m["districts"].items():
+        import_district(slug, d["udatasmith"])
+        for pre, rec in d["actors"].items():
+            prefixes[pre] = (slug, rec)
+    bld_re = re.compile(r"^b(\d+)_")
+    solid = soft = other = 0
+    bounds_min, bounds_max = None, None
+    for a in ell.get_all_level_actors():
+        if not isinstance(a, unreal.StaticMeshActor):
+            continue
+        label = a.get_actor_label() or ""
+        mt = bld_re.match(label)
+        if not mt:
+            continue
+        pre = "b%s_" % mt.group(1)
+        hit = prefixes.get(pre)
+        tags = [t for t in list(a.tags) if not (str(t).startswith("sobha") or str(t) == "other")]
+        if hit:
+            slug, rec = hit
+            mi = mi_soft if rec.get("soft") else mi_solid
+            comp = a.static_mesh_component
+            for si in range(comp.get_num_materials()):
+                comp.set_material(si, mi)
+            tags += ["sobha", "sobha:" + str(rec.get("method")), "sobha:" + str(rec.get("name") or ""), "district:" + slug]
+            if rec.get("soft"): soft += 1
+            else: solid += 1
+            a.set_actor_hidden_in_game(False); a.set_is_temporarily_hidden_in_editor(False)
+            o, e = a.get_actor_bounds(False)
+            lo, hi = o - e, o + e
+            bounds_min = lo if bounds_min is None else unreal.Vector(min(bounds_min.x, lo.x), min(bounds_min.y, lo.y), min(bounds_min.z, lo.z))
+            bounds_max = hi if bounds_max is None else unreal.Vector(max(bounds_max.x, hi.x), max(bounds_max.y, hi.y), max(bounds_max.z, hi.z))
+        else:
+            tags.append("other"); other += 1
+            if SOBHA_ONLY:
+                a.set_actor_hidden_in_game(True); a.set_is_temporarily_hidden_in_editor(True)
+        a.tags = tags
+    log("  Sobha solid %d, soft %d, other buildings %d (%s)" % (solid, soft, other, "hidden" if SOBHA_ONLY else "kept"))
+    if bounds_min is not None:
+        c = (bounds_min + bounds_max) * 0.5; size = bounds_max - bounds_min
+        r = max(size.x, size.y, size.z * 1.2, 16000.0)
+        cam = None
+        for a in ell.get_all_level_actors():
+            if a.get_actor_label() == "CAM_Sobha": cam = a
+        if cam is None:
+            cam = ell.spawn_actor_from_class(unreal.CineCameraActor, unreal.Vector(0, 0, 0))
+            cam.set_actor_label("CAM_Sobha")
+        cam.set_actor_location(unreal.Vector(c.x - r * 2.2, c.y + r * 0.6, c.z + r * 1.1), False, False)
+        look = unreal.MathLibrary.find_look_at_rotation(cam.get_actor_location(), unreal.Vector(c.x, c.y, c.z * 0.4))
+        cam.set_actor_rotation(look, False)
+        try:
+            cc = cam.camera_component
+            cc.filmback.sensor_width = 24.0; cc.filmback.sensor_height = 30.0
+            cc.current_focal_length = 32.0; cc.current_aperture = 8.0
+            cc.focus_settings.focus_method = unreal.CameraFocusMethod.MANUAL; cc.focus_settings.manual_focus_distance = r * 2.5
+        except Exception as e:
+            log("  (camera left at defaults: %s)" % e)
+        log("  CAM_Sobha framed on %.0f m x %.0f m of Sobha buildings" % (size.x / 100.0, size.y / 100.0))
+    log("Sobha lens done.")
+
+
+if __name__ == "__main__":
+    main()
