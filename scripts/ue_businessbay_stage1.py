@@ -1,14 +1,14 @@
-"""STAGE 1 of Business Bay in Unreal: bring in the CityEngine LOD 3 district and prove the 108 towers are there.
+"""STAGE 1 of Business Bay in Unreal: bring in the CityEngine LOD 3 district and prove the 193 towers are there.
 
 Run inside Unreal's Python console (Window > Developer Tools > Output Log, switch the entry box to Python):
 
     exec(open(r"C:\\Dev\\naj-market-pulse\\scripts\\ue_businessbay_stage1.py").read())
 
-WHY IT RENDERS NOTHING. Committing to 108 renders before knowing that the actors exist, are named as expected and are
-the right size is how you spend an evening producing 108 wrong clips. This stage answers three questions and stops:
+WHY IT RENDERS NOTHING. Committing to 193 renders before knowing that the actors exist, are named as expected and are
+the right size is how you spend an evening producing 193 wrong clips. This stage answers three questions and stops:
 
   1. did the full district import, and how many actors came in
-  2. do the 108 target buildings resolve to actors, by name
+  2. do the 193 target buildings resolve to actors, by name
   3. is the scale right - a tower we believe is 252.6 m should measure ~25,260 uu, because Unreal is centimetres
 
 It writes data/board/unreal_stage1_businessbay.json with what it found, including every target it could NOT resolve,
@@ -108,8 +108,9 @@ def ce_heights():
     Two different heights reach this script and confusing them would make stage 1 lie. The twin height is what the
     registers say the building is; the CE height is what the rule built. A mismatch between the twin height and the
     measured actor is a DATA disagreement; a mismatch between the CE height and the measured actor is a TRANSFORM
-    problem, and only the second one is what "scale" means. They agree to within 2 m on all 108 today - measured on
-    disk, 23 Sep - so the ratio below is a clean scale test, and carrying both keeps it that way if one drifts.
+    problem, and only the second one is what "scale" means. Since build_unreal_targets.py takes each target's height
+    from this same report they now agree by construction, so the ratio below is a clean scale test. It is carried
+    anyway: the day the targets are rebuilt from another source, this is the field that says so.
     """
     out = {}
     try:
@@ -166,7 +167,8 @@ def main():
         ratio = (measured_uu / expected_uu) if expected_uu else 0.0
         rec = {
             "i": t["i"], "name": t["name"], "label": a.get_actor_label(),
-            "height_m": t["height_m"], "facade_now": t["facade"], "floors": t.get("floors"),
+            "height_m": t["height_m"], "provenance": t.get("provenance"), "levels": t.get("levels"),
+            "height_disputed": bool(t.get("height_disputed")),
             "origin": [round(origin.x, 1), round(origin.y, 1), round(origin.z, 1)],
             "extent": [round(extent.x, 1), round(extent.y, 1), round(extent.z, 1)],
             "measured_uu": round(measured_uu, 1), "expected_uu": round(expected_uu, 1),
@@ -194,9 +196,12 @@ def main():
                 "measure about 25,260 uu and score ~1.0. A ratio near 0.01 means the scene came in as metres; near "
                 "100 means it was scaled twice. Resolution is scoped to the full district's own scene actor, so the "
                 "Sobha subset's identical b<i>_ labels cannot be mistaken for it.",
-        "known_before_running": "26 of the 108 carry a facade class in this 12 Sep export that the data has since "
-                                "changed (measured on disk, not in Unreal). Geometry and height are unaffected; the "
-                                "material is. Re-export before stage 3 renders anything.",
+        "known_before_running": "36 of the 193 carry a facade class in this 12 Sep export that the data has since "
+                                "changed - 49 Business Bay buildings were re-classed on 22 Sep (measured on disk, "
+                                "not in Unreal). Geometry and height are unaffected; the material is. The CityEngine "
+                                "session is exporting businessbay_lod3_23sep; stage 3 points at that, stage 1 does "
+                                "not care. Four targets are marked height_disputed in the targets file and must be "
+                                "held back from rendering, not published at a third of their height.",
         "found": found,
         "missing_targets": missing,
         "scale_outlier_rows": scale_bad,
