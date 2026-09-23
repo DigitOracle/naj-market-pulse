@@ -93,7 +93,8 @@ def footprints(slug, duid_of):
         p = f.get("properties") or {}
         lon, lat = centroid(f["geometry"])
         out[i] = {"lon": lon, "lat": lat, "height_m": p.get("bHeight"), "name": (p.get("name") or "").strip() or None,
-                  "duid": duid_of.get(i)}
+                  "duid": duid_of.get(i), "parcel_key": str(p.get("parcel_key") or "") or None,
+                  "placeholder": bool(p.get("register_placeholder"))}
     return out
 
 
@@ -203,10 +204,11 @@ def main():
         for i in fps:
             s = stack.get(str(i)) or {}
             u = unitmix.get(str(i)) or {}
-            pk = str((s.get("plot") or {}).get("key") or "") or str((u.get("dld") or {}).get("parcel") or "").split(".")[0]
+            pk = str((s.get("plot") or {}).get("key") or "") or str((u.get("dld") or {}).get("parcel") or "").split(".")[0] or (fps[i]["parcel_key"] or "")
             dm = str(s.get("dm") or "") or str((u.get("dm") or {}).get("dm_building_id") or "")
             if pk and pk in parcel_owner:
-                take(i, parcel_owner[pk], "parcel", {"tallest": bool((s.get("plot") or {}).get("tallest")) if s else None})
+                take(i, parcel_owner[pk], "parcel", {"tallest": bool((s.get("plot") or {}).get("tallest")) if s else None,
+                                                     "register_placeholder": fps[i]["placeholder"]})
             elif dm and dm in dm_owner:
                 take(i, dm_owner[dm], "dm")
         reached = {v["project_number"] for v in by_i.values()}
