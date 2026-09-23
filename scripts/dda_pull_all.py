@@ -25,6 +25,18 @@ import argparse, hashlib, json, os, re, sys, time, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dda_api as api
 
+
+def replace_retry(src, dst, tries=8):
+    """os.replace that survives a transient Windows lock. 23 Sep 2026: det_address, moving past its old wall for the first
+    time, died at page 1,397 because something (Defender or the indexer) held the checkpoint for an instant - and one
+    PermissionError killed the whole pass, 20 datasets unrun. Backoff 0.25 s doubling, about a minute in all."""
+    for i in range(tries):
+        try:
+            os.replace(src, dst); return
+        except PermissionError:
+            if i == tries - 1: raise
+            time.sleep(0.25 * (2 ** i))
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CAT = os.path.join(ROOT, "data", "raw_downloads", "dda", "api_catalogue.json")
 try: sys.stdout.reconfigure(encoding="utf-8")
@@ -153,7 +165,7 @@ def main():
         disk = json.load(open(man_path, encoding="utf-8")) if os.path.exists(man_path) else {}
         disk.update({k: man[k] for k in touched})
         json.dump(disk, open(f"{man_path}.{os.getpid()}.part", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-        os.replace(f"{man_path}.{os.getpid()}.part", man_path)
+        replace_retry(f"{man_path}.{os.getpid()}.part", man_path)
 
     def age_days(e):
         try: return (time.time() - time.mktime(time.strptime(str(e.get("pulled", ""))[:10], "%Y-%m-%d"))) / 86400
@@ -254,14 +266,14 @@ def main():
                 if page in sample_pages:
                     samples[str(page)] = hs
                     with open(psamp + ".tmp", "w", encoding="utf-8") as sf: json.dump(samples, sf)
-                    os.replace(psamp + ".tmp", psamp)
+                    replace_retry(psamp + ".tmp", psamp)
                 if new:                                            # checkpoint: rows first, then the state that says they are complete
                     with open(part, "a", encoding="utf-8") as pf:
                         for rec in new: pf.write(json.dumps(rec, ensure_ascii=False) + chr(10))
                 with open(pstate + ".tmp", "w", encoding="utf-8") as sf:
                     json.dump({"order_v": ORDER_V, "page": page, "page_size": a.page_size, "order_by": order, "last_page_est": last_est,
                                "raw_rows": raw_rows, "sample_pages": sample_pages}, sf)
-                os.replace(pstate + ".tmp", pstate)
+                replace_retry(pstate + ".tmp", pstate)
                 if len(got) < a.page_size: ended_by = "short_page"; break
                 if last_est is not None and page >= last_est: ended_by = "last_page"; break
                 if last_est is None and dry >= STALL_PAGES: ended_by = "no_new_rows"; break
@@ -281,7 +293,7 @@ def main():
             with open(os.path.join(out_dir, fn + ".tmp"), "w", encoding="utf-8") as of:
                 json.dump({"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
                            "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "order_by": order, "results": rows}, of, ensure_ascii=False)
-            os.replace(os.path.join(out_dir, fn + ".tmp"), os.path.join(out_dir, fn))   # never a half-written final file
+            replace_retry(os.path.join(out_dir, fn + ".tmp"), os.path.join(out_dir, fn))   # never a half-written final file
             for p_ in (part, pstate, psamp):
                 if os.path.exists(p_): os.remove(p_)
             n_ok += 1
