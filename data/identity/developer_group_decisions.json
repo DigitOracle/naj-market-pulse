@@ -1,4 +1,173 @@
 {
  "note": "Hand decisions on which DLD developer entities belong to each board developer (register_joins.py project_spine, lk_xref job developer_group). A decision here wins over the rules. Candidates for review are written to data/identity/developer_group_review.csv at each run. Entry: {\"group\": board name or key (\"Select Group\" or \"select\"), \"developer_number\": DLD developer number, \"decision\": \"accepted\" or \"rejected\", \"by\": who decided, \"at\": \"YYYY-MM-DD\", \"note\": why}. Never delete an entry: to change one, add a newer entry for the same group and developer number - the last one wins.",
- "decisions": []
+ "decisions": [
+  {
+   "group": "DAMAC",
+   "developer_number": 954,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 260,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 2035,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1866,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 907,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 192,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1095,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 2117,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1119,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1528,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 908,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1475,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 922,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1529,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1583,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1414,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1131,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1636,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 2464,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1765,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "DAMAC",
+   "developer_number": 1540,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  }
+ ]
 }

@@ -54,6 +54,7 @@ DEV_MIN_DUE = 3                 # and needs this many projects PAST their due da
 YEARS_CAP = 30                  # beyond thirty years, longer no longer means better
 
 OUT = os.path.join(ROOT, "data", "board", "pillars.json")
+DECISIONS = os.path.join(ROOT, "data", "identity", "developer_group_decisions.json")
 DUCK = os.path.join(ROOT, "naj.duckdb")
 DNA_FILE = os.path.join(ROOT, "data", "dev_meta", "developer_dna.json")
 
@@ -286,10 +287,34 @@ def groups(devs):
     except Exception as e:
         print("  (no developer DNA, so no groups: %s)" % e)
         return {}
+    # HAND DECISIONS WIN OVER THE DNA LINKS, and can create a group the DNA has never heard of.
+    #
+    # developer_dna.json links only the fifteen board developers. DAMAC is not one of them, so the brand a
+    # building card was most likely to name had no group at all and showed one entity's 12 projects against
+    # the brand's 146. developer_group_decisions.json is the file built for recording that judgement, and
+    # it was empty until someone had a reason to fill it. A later entry for the same group and developer
+    # number supersedes an earlier one, per that file's own rule - so the LAST decision is the one that
+    # counts, and a rejection removes an entity the DNA would otherwise have included.
+    decided = {}
+    try:
+        with open(DECISIONS, encoding="utf-8") as f:
+            for e in (json.load(f).get("decisions") or []):
+                g, n = str(e.get("group") or "").strip(), e.get("developer_number")
+                if g and n is not None:
+                    decided.setdefault(g, {})[str(int(n))] = (e.get("decision") == "accepted")
+    except Exception as e:
+        print("  (no group decisions read: %s)" % e)
+
     out = {}
-    for name, rec in dna.items():
+    for name in sorted(set(dna) | set(decided)):
+        rec = dna.get(name) or {}
         nos = [str(int(l["developer_number"])) for l in (rec.get("dld_entity_links") or [])
                if l.get("developer_number") is not None]
+        for n, accepted in (decided.get(name) or {}).items():
+            if accepted and n not in nos:
+                nos.append(n)
+            elif not accepted and n in nos:
+                nos.remove(n)
         members = [devs[n] for n in nos if n in devs]
         if not members:
             continue
@@ -300,13 +325,14 @@ def groups(devs):
         esc = [m["escrow_named_pct"] for m in members if m["escrow_named_pct"] is not None]
         port = (rec.get("portfolio") or {}).get("count")
         out[name] = {
-            "name": name, "entities": len(members),
+            "name": name, "entities": len(members), "members": [n for n in nos if n in devs],
             "entity_names": [m["name"] for m in members if m["name"]][:12],
             "licensed": lic[0] if lic else None,
             "years": round((dt.date.today() - dt.date.fromisoformat(lic[0])).days / 365.25, 1) if lic else None,
             "projects": agg,
             "escrow_named_pct": int(round(sum(esc) / len(esc))) if esc else None,
             "portfolio_count": port,
+            "decided": sorted(decided.get(name) or {}),
             # the developer's own portfolio says it built more than the register links account for
             "registerShortOf": port if (port and agg["total"] < port * 0.6) else None,
         }
@@ -362,6 +388,10 @@ def main():
         "districts": dis,
         "developers": devs,
         "groups": grp,
+        # entity number -> the brand it belongs to. Without this the BUILDING card still resolves the single
+        # registered company and prints its 12 projects under a header reading DAMAC; the group only reaches
+        # /dev, which is not where a client is looking.
+        "group_of": {n: g["name"] for g in grp.values() for n in (g.get("members") or [])},
         "by_name": by_name,
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
@@ -413,6 +443,7 @@ def main():
         slim = {
             "generated": doc["generated"], "sources": doc["sources"], "floors": doc["floors"], "axes": AXES,
             "areas": areas, "districts": dis, "developers": scored_d, "unscored": thin_d, "groups": grp,
+            "group_of": {n: g["name"] for g in grp.values() for n in (g.get("members") or [])},
         }
         slim["by_name"] = {n: ks for n, ks in by_name.items() if any(k in scored_d or k in thin_d for k in ks)}
         raw = json.dumps(slim, ensure_ascii=False, separators=(",", ":"))
