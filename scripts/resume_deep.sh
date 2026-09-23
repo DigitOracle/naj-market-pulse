@@ -15,11 +15,19 @@ c=api.cfg(); c["DDA_BASE_URL"]=c["DDA_BASE_URL_PROD"]; c["DDA_ENV"]="PROD"
 for k in ("APP_ID","SECURITY_APP_IDENTIFIER","CLIENT_ID","CLIENT_SECRET"): c["DDA_"+k]=c["DDA_PROD_"+k]
 code,raw,tok=api.auth_get(c, api.data_url(c,"dld","dld_projects-open-api",page=1,pageSize=3), None)
 print(code)'
-LISTS='import json
+# Retired BY DECISION, 23 Sep 2026 - status alone cannot say "measured and not worth pulling":
+#   dsc_housing_unit   four columns (serial, unit type x2, year); its id joins to nothing (104 in 200,000 = chance)
+#   rta_bus_ridership  refused four times at page ~8,800; the API gives no page total, so there is no end to pull toward
+#   det_ownership      legal entity -> company only; never reaches a property (the twin's call)
+SKIP="dsc_housing_unit-open-api rta_bus_ridership-open-api det_ownership-open-api"
+# http_0 is a transport failure on THIS machine (DNS, wifi), not a gateway refusal - so it belongs with the long cap
+LISTS='import json, os
+skip = set(os.environ.get("SKIP","").split())
 d = json.load(open("data/raw_downloads/dda/prod/MANIFEST.json", encoding="utf-8"))
-pick = lambda f: ",".join(k.split("/")[1] for k, v in sorted(d.items(), key=lambda kv: -(kv[1].get("rows") or 0)) if f(v))
-print(pick(lambda v: v.get("status") == "timeout"))
-print(pick(lambda v: v.get("status") in ("http_408","http_0","blocked","unstable","truncated","http_400","http_404")))'
+live = {k: v for k, v in d.items() if k.split("/")[1] not in skip}
+pick = lambda f: ",".join(k.split("/")[1] for k, v in sorted(live.items(), key=lambda kv: -(kv[1].get("rows") or 0)) if f(v))
+print(pick(lambda v: v.get("status") in ("timeout", "http_0")))
+print(pick(lambda v: v.get("status") in ("http_408","blocked","unstable","truncated","http_400","http_404")))'
 
 for i in $(seq 1 144); do          # up to 24 hours of probing, every 10 min
   CODE=$(python -c "$PROBE" 2>/dev/null | tail -1)
@@ -31,7 +39,7 @@ if [ "${CODE:-}" != "200" ]; then
   echo "$(date '+%H:%M') gave up waiting - still not serving"; echo "RESUME WATCH EXIT 1"; exit 1
 fi
 
-mapfile -t L < <(python -c "$LISTS")
+mapfile -t L < <(SKIP="$SKIP" python -c "$LISTS")
 DEEP="${L[0]:-}"; REST="${L[1]:-}"
 
 # the deep ones one at a time, so a slow dataset cannot eat another's cap
