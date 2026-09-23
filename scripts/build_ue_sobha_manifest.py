@@ -85,6 +85,9 @@ def main():
             else:
                 seen[c] = (slug, pre, key)
     out["duplicates_hidden"] = dup_n
+    out["height_conflicts_note"] = ("pairs among the IMPORTED Sobha actors only. An empty list means no duplicate pair was imported, "
+                                    "not that no disagreement exists: the full district files disagree on 59 shared footprints "
+                                    "(digital-twin-transition session, 23 Sep 2026), which matter once district context is imported.")
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("Sobha Unreal manifest: %d districts, %d missing, %d cross-district duplicates hidden, %d height conflicts for a person" % (
         len(out["districts"]), len(out["missing"]), dup_n, len(out["height_conflicts"])))
