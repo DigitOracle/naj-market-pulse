@@ -11,6 +11,12 @@ the right size is how you spend an evening producing 193 wrong clips. This stage
   2. do the 193 target buildings resolve to actors, by name
   3. is the scale right - a tower we believe is 252.6 m should measure ~25,260 uu, because Unreal is centimetres
 
+WHICH EXPORT. businessbay_lod3_23sep, not the 12-Sep businessbay_lod3. The 23-Sep file is correct on BOTH things the
+12-Sep one was not: seven buildings that stood at the 12 m placeholder now carry their register heights (b7 198.4,
+b530 118.4, b56 102.4, b308 54.4, b57 51.2, b36 41.6, b59 41.6), and the 49 facades re-classed on 22 Sep are in the
+right material slots - 0 drift across the 193 targets, down from 36. Same global offset, so it lands in the same
+world. Verified by diffing the .udatasmith artefacts, not the reports beside them.
+
 It writes data/board/unreal_stage1_businessbay.json with what it found, including every target it could NOT resolve,
 so the failures are a list rather than a silence.
 
@@ -35,11 +41,14 @@ import unreal
 
 ROOT = r"C:\Dev\naj-market-pulse"
 TARGETS = os.path.join(ROOT, "data", "board", "unreal_targets_businessbay.json")
-CE_REPORT = os.path.join(ROOT, "data", "ce", "businessbay", "report_v4.json")
-DATASMITH = os.path.join(ROOT, "data", "ce", "_datasmith", "businessbay_lod3.udatasmith")
+# The EXPORT's own report, not data/ce/businessbay/report_v4.json. Those are two different lanes and they disagreed
+# on seven buildings; reading the district one while measuring actors from the export is what made me report a
+# regression that had not happened. The report beside the .udatasmith is the only one that describes these actors.
+CE_REPORT = os.path.join(ROOT, "data", "ce", "_datasmith", "businessbay_lod3_23sep_report.json")
+DATASMITH = os.path.join(ROOT, "data", "ce", "_datasmith", "businessbay_lod3_23sep.udatasmith")
 REPORT = os.path.join(ROOT, "data", "board", "unreal_stage1_businessbay.json")
 DEST = "/Game/Azimuth/BusinessBay"
-SCENE_TAG = "businessbay_lod3"
+SCENE_TAG = "businessbay_lod3_23sep"
 
 ell = unreal.EditorLevelLibrary
 
