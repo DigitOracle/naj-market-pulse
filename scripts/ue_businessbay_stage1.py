@@ -35,6 +35,7 @@ import unreal
 
 ROOT = r"C:\Dev\naj-market-pulse"
 TARGETS = os.path.join(ROOT, "data", "board", "unreal_targets_businessbay.json")
+CE_REPORT = os.path.join(ROOT, "data", "ce", "businessbay", "report_v4.json")
 DATASMITH = os.path.join(ROOT, "data", "ce", "_datasmith", "businessbay_lod3.udatasmith")
 REPORT = os.path.join(ROOT, "data", "board", "unreal_stage1_businessbay.json")
 DEST = "/Game/Azimuth/BusinessBay"
@@ -101,9 +102,30 @@ def prefix_of(label):
     return (label or "").split("_")[0]
 
 
+def ce_heights():
+    """What CityEngine actually GENERATED, per shape, from the district's own v4 report.
+
+    Two different heights reach this script and confusing them would make stage 1 lie. The twin height is what the
+    registers say the building is; the CE height is what the rule built. A mismatch between the twin height and the
+    measured actor is a DATA disagreement; a mismatch between the CE height and the measured actor is a TRANSFORM
+    problem, and only the second one is what "scale" means. They agree to within 2 m on all 108 today - measured on
+    disk, 23 Sep - so the ratio below is a clean scale test, and carrying both keeps it that way if one drifts.
+    """
+    out = {}
+    try:
+        for r in json.load(open(CE_REPORT, encoding="utf-8"))["rows"]:
+            nm = str(r.get("shape") or "")
+            if nm.startswith("b") and "_" in nm:
+                out[int(nm[1:nm.index("_")])] = r.get("height_m")
+    except Exception as e:
+        log("(no CE report: %s)" % e)
+    return out
+
+
 def main():
     towers = json.load(open(TARGETS, encoding="utf-8"))["towers"]
-    log("targets: %d towers" % len(towers))
+    ceh = ce_heights()
+    log("targets: %d towers | CE report heights: %d shapes" % (len(towers), len(ceh)))
 
     sa = scene_actor()
     if sa is None:
@@ -148,6 +170,7 @@ def main():
             "origin": [round(origin.x, 1), round(origin.y, 1), round(origin.z, 1)],
             "extent": [round(extent.x, 1), round(extent.y, 1), round(extent.z, 1)],
             "measured_uu": round(measured_uu, 1), "expected_uu": round(expected_uu, 1),
+            "ce_generated_m": ceh.get(t["i"]),
             "scale_ratio": round(ratio, 3),
             "actors_in_district": len(cands),
             "same_label_outside_district": len(outside.get(key) or []),
