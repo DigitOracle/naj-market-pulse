@@ -59,8 +59,37 @@ def main():
                                   "shape_count": stats.get("shape_count"), "offset_ce_xyz": off,
                                   "sobha_actors": len(actors), "found_in_export": sum(1 for a in actors.values() if a["actor"]),
                                   "actors": actors}
+    # District geojsons overlap at their edges, so one physical building can sit in two districts' files (bukadra +
+    # sobhaheartland share 363 footprints; althanyahfifth + jltnorth 224). The web twin never draws it twice - one tile at a
+    # time - but Unreal imports every district into ONE level. So each Sobha footprint is kept once, by centroid to six
+    # decimals: the copy reached by the surer route wins (parcel > dm > radius > geocode), then the copy with a sourced
+    # height; the other is marked duplicate_of and the lens hides it. Which HEIGHT is right where the two copies disagree is
+    # not decided here - it is listed under "height_conflicts" for a person (23 Sep 2026: 53 such pairs estate-wide).
+    RANK = {"parcel": 0, "dm": 1, "radius": 2, "geocode": 3}
+    seen, out["height_conflicts"], dup_n = {}, [], 0
+    CE = os.path.join(ROOT, "data", "ce")
+    for slug, d in out["districts"].items():
+        feats = json.load(open(os.path.join(CE, slug, "buildings.geojson"), encoding="utf-8"))["features"]
+        for pre, a in d["actors"].items():
+            f = feats[a["i"]]; ring = f["geometry"]["coordinates"][0] if f["geometry"]["type"] == "Polygon" else f["geometry"]["coordinates"][0][0]
+            c = (round(sum(p[0] for p in ring) / len(ring), 6), round(sum(p[1] for p in ring) / len(ring), 6))
+            a["centroid"] = list(c); a["height_m"] = f["properties"].get("bHeight"); a["height_source"] = f["properties"].get("height_source")
+            key = (RANK.get(a["method"], 9), 0 if a["height_source"] else 1)
+            if c in seen:
+                o_slug, o_pre, o_key = seen[c]; other = out["districts"][o_slug]["actors"][o_pre]
+                keep, drop = ((slug, pre, a), (o_slug, o_pre, other)) if key < o_key else ((o_slug, o_pre, other), (slug, pre, a))
+                drop[2]["duplicate_of"] = "%s/%s" % (keep[0], keep[1]); keep[2].pop("duplicate_of", None); seen[c] = (keep[0], keep[1], min(key, o_key)); dup_n += 1
+                if (a["height_m"] or 0) != (other["height_m"] or 0):
+                    out["height_conflicts"].append({"centroid": list(c), "kept": "%s/%s %.1f m (%s)" % (keep[0], keep[1], keep[2]["height_m"] or 0, keep[2]["height_source"] or "no source"),
+                                                    "dropped": "%s/%s %.1f m (%s)" % (drop[0], drop[1], drop[2]["height_m"] or 0, drop[2]["height_source"] or "no source"), "name": a.get("name")})
+            else:
+                seen[c] = (slug, pre, key)
+    out["duplicates_hidden"] = dup_n
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print("Sobha Unreal manifest: %d districts, %d missing" % (len(out["districts"]), len(out["missing"])))
+    print("Sobha Unreal manifest: %d districts, %d missing, %d cross-district duplicates hidden, %d height conflicts for a person" % (
+        len(out["districts"]), len(out["missing"]), dup_n, len(out["height_conflicts"])))
+    for hc in out["height_conflicts"]:
+        print("   height conflict %s: kept %s | dropped %s" % (hc["name"], hc["kept"], hc["dropped"]))
     for s, d in out["districts"].items():
         print("  %-22s %-28s LOD %s (towers LOD %s) %s  exported %s  shapes %5s  sobha actors %3d (found %3d)" % (
             s, d["export"], d["lod"], d["towers_lod"], d["rule"], (d["exported"] or "?")[:10], d["shape_count"], d["sobha_actors"], d["found_in_export"]))

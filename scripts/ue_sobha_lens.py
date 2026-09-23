@@ -99,7 +99,11 @@ def main():
         for pre, rec in d["actors"].items():
             prefixes[pre] = (slug, rec)
     bld_re = re.compile(r"^b(\d+)_")
-    solid = soft = other = 0
+    solid = soft = other = dup = 0
+    # a building that stands in two districts' files (their geojsons overlap at the edges) arrives twice in one level: once per
+    # manifest (duplicate_of, decided by centroid), and once more by world position for anything the manifest did not cover -
+    # the first actor at a location stays, later ones at the same spot (within 1 m) are hidden, never deleted
+    seen_xy = {}
     bounds_min, bounds_max = None, None
     for a in ell.get_all_level_actors():
         if not isinstance(a, unreal.StaticMeshActor):
@@ -111,6 +115,11 @@ def main():
         pre = "b%s_" % mt.group(1)
         hit = prefixes.get(pre)
         tags = [t for t in list(a.tags) if not (str(t).startswith("sobha") or str(t) == "other")]
+        loc = a.get_actor_location(); xy = (round(loc.x / 100.0), round(loc.y / 100.0))
+        if (hit and hit[1].get("duplicate_of")) or xy in seen_xy:
+            a.set_actor_hidden_in_game(True); a.set_is_temporarily_hidden_in_editor(True); a.tags = tags + ["duplicate", "duplicate_of:" + str((hit[1].get("duplicate_of") if hit else seen_xy.get(xy)))]
+            dup += 1; continue
+        seen_xy[xy] = label
         if hit:
             slug, rec = hit
             mi = mi_soft if rec.get("soft") else mi_solid
@@ -130,7 +139,7 @@ def main():
             if SOBHA_ONLY:
                 a.set_actor_hidden_in_game(True); a.set_is_temporarily_hidden_in_editor(True)
         a.tags = tags
-    log("  Sobha solid %d, soft %d, other buildings %d (%s)" % (solid, soft, other, "hidden" if SOBHA_ONLY else "kept"))
+    log("  Sobha solid %d, soft %d, other buildings %d (%s), duplicates hidden %d" % (solid, soft, other, "hidden" if SOBHA_ONLY else "kept", dup))
     if bounds_min is not None:
         c = (bounds_min + bounds_max) * 0.5; size = bounds_max - bounds_min
         r = max(size.x, size.y, size.z * 1.2, 16000.0)
