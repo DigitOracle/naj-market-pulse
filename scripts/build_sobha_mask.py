@@ -55,7 +55,7 @@ AREA_SLUG = {
     "Al Merkadh": "sobhaheartland", "Bukadra": "bukadra", "Business Bay": "businessbay", "Marsa Dubai": "dubaimarina",
     "Jabal Ali First": "jabalalifirst", "Al Thanyah Fifth": "althanyahfifth", "Al Barsha South Fourth": "jumeirahvillagecircle",
     "Al Hebiah First": "motorcity", "Al Yufrah 1": "alyufrah1", "Madinat Al Mataar": "madinatalmataar",
-    "Ras Al Khor Industrial First": None, "Wadi Al Safa 2": None, "Al Safouh Second": None,
+    "Ras Al Khor Industrial First": "rasalkhor", "Wadi Al Safa 2": None, "Al Safouh Second": None,
 }
 # Verde by Sobha sits on the JLT boundary and is massed in both neighbouring slugs.
 EXTRA_SLUGS = {"Al Thanyah Fifth": ["jltnorth"]}

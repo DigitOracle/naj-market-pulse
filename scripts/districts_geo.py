@@ -24,12 +24,12 @@ CORRIDOR = {"dubaimarina": "Coast", "palmjumeirah": "Coast", "jltnorth": "Coast"
             "palmdeira": "Downtown & Creek", "jumeirahvillagecircle": "New Dubai", "jumeirahvillagetriangle": "New Dubai",
             "motorcity": "New Dubai", "arjan": "New Dubai", "dubaisciencepark": "New Dubai", "dubaisportscity": "New Dubai",
             "dubaiproductioncity": "New Dubai", "dubaistudiocity": "New Dubai", "siliconoasis": "New Dubai", "majan": "New Dubai",
-            "sobhaheartland": "Meydan & MBR", "bukadra": "Meydan & MBR", "meydanone": "Meydan & MBR", "wadialsafa4": "Meydan & MBR", "wadialsafa5": "Meydan & MBR",
+            "sobhaheartland": "Meydan & MBR", "bukadra": "Meydan & MBR", "rasalkhor": "Meydan & MBR", "meydanone": "Meydan & MBR", "wadialsafa4": "Meydan & MBR", "wadialsafa5": "Meydan & MBR",
             "dubaihills": "Meydan & MBR", "damachills": "South & Outer", "madinathind4": "South & Outer", "madinatalmataar": "South & Outer",
             "jabalalifirst": "South & Outer", "jabalaliindustrialsecond": "South & Outer", "dubaiindustrialcity": "South & Outer",
             "dubaiinvestmentparkfirst": "South & Outer", "dubaiinvestmentparksecond": "South & Outer", "alyelayiss1": "South & Outer",
             "alyelayiss2": "South & Outer", "alyufrah1": "South & Outer", "alhebiahfifth": "South & Outer"}
-NICE = {"bukadra": "Sobha Hartland II / Bukadra", "althanyahfifth": "JLT / Al Thanyah 5", "alkhairanfirst": "Dubai Creek Harbour", "alyelayiss2": "Town Square",
+NICE = {"bukadra": "Sobha Hartland II / Bukadra", "rasalkhor": "Sobha One / Ras Al Khor", "althanyahfifth": "JLT / Al Thanyah 5", "alkhairanfirst": "Dubai Creek Harbour", "alyelayiss2": "Town Square",
         "madinathind4": "DAMAC Hills 2", "madinatalmataar": "Dubai South", "jabalalifirst": "Jebel Ali", "alyufrah1": "The Valley",
         "jabalaliindustrialsecond": "Jebel Ali Industrial 2", "dubaiinvestmentparkfirst": "Dubai Investments Park",
         "dubaiinvestmentparksecond": "Dubai Investments Park 2", "siliconoasis": "Dubai Silicon Oasis", "alhebiahfifth": "Al Hebiah 5"}
