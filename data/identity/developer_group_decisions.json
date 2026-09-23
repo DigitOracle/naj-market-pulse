@@ -168,6 +168,70 @@
    "by": "Kendall",
    "at": "2026-09-23",
    "note": "Every one of the 21 names begins DAMAC; no ambiguous member. 146 projects between them, against 12 on the entity a building card was naming. Accepted from developer_group_proposals.csv after reading the full list."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 966,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA L.L.C - 39 registered projects, 31,974 units; the brand's main entity. Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 87,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA INVESTMENTS LIMITED - Sobha Daffodil (JVC). Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 283,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA PROPERTIES LIMITED - Sobha Ivory II (Business Bay). Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 89,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA VENTURES LIMITED - Sobha Sapphire (Business Bay). Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 1314,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA DEVELOPERS L.L.C (BRANCH) - no registered projects yet; accepted so a future registration lands in the group. Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 819,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "SOBHA INTERNATIONAL LIMITED - no registered projects yet; same reason. Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 2351,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "Al Mizan Serene Real Estate Development DWC LLC - SPV for The Serene (project 4020, Dubai South, 106 units, PENDING), which sobharealty.com lists in its own portfolio; from developer_group_review.csv, score 1.0. Sobha group accepted from developer_group_proposals.csv after reading the full list and the register. Rule set by Kendall 23 Sep 2026: projects Sobha markets under its brand count as Sobha even where the DLD register's developer_name column shows the landowner (Union Properties for Orbis/Solis, DMCC for Verde, Harbour/Dubai Harbour for SeaHaven, Dubai Properties for Ivory/Sapphire, JVC for Daffodil, Meydan for Waves, TECOM for The S) - the register's developer_number already carries the Sobha entity on every one of those, so the group is the whole rule. Siniya Island / UAQ / Abu Dhabi are outside the Dubai register and stay out of Najma."
+  },
+  {
+   "group": "Sobha",
+   "developer_number": 381,
+   "decision": "accepted",
+   "by": "Kendall",
+   "at": "2026-09-23",
+   "note": "JUPITER ESTATES LIMITED - registrant of project 612 Sobha Ivory (Business Bay, 92 units, 2010). Not a name match: the developer register row's website is www.sobha-me.com, the same domain SOBHA INTERNATIONAL LIMITED (819) carries, so this is a Sobha SPV. Found while building data/identity/sobha_projects.json - Ivory I was the one Sobha-branded project trading without a Sobha entity."
   }
  ]
 }

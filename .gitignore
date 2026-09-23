@@ -16,6 +16,8 @@ data/dld/*
 !data/identity/
 data/identity/*
 !data/identity/developer_group_decisions.json
+# 23 Sep 2026: the canonical Sobha project set (hand rule: register developer_number in the accepted Sobha group) - tracked
+!data/identity/sobha_projects.json
 .env
 __pycache__/
 public/heatmap_story.png
