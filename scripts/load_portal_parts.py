@@ -19,7 +19,7 @@ published.
     python scripts/load_portal_parts.py --dry      count and check only, publish nothing
     python scripts/load_portal_parts.py bus_ridership metro_ridership
 """
-import csv, glob, json, os, sys, time
+import csv, glob, json, os, re, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -65,11 +65,45 @@ def select_sql(p):
     return "select * from read_json('%s', format='auto', maximum_object_size=268435456)" % q
 
 
+def _norm_select(con, p):
+    """Every column except load_timestamp as comparable text: 'T' -> ' ', trailing .000 / Z dropped, midnight dropped
+    from dates - so a CSV part (all text) and a JSON part (typed) holding the same rows compare equal."""
+    cols = [c[0] for c in con.execute("describe select * from (%s)" % select_sql(p)).fetchall() if c[0] != "load_timestamp"]
+    ex = ", ".join("regexp_replace(regexp_replace(replace(coalesce(cast(\"%s\" as varchar), ''), 'T', ' '), "
+                   "'[.]0+Z?$|Z$', ''), ' 00:00:00$', '') as \"%s\"" % (c, c) for c in sorted(cols))
+    return "select %s from (%s)" % (ex, select_sql(p))
+
+
+def drop_format_copies(con, ps):
+    """24 Sep 2026: the portal writes some parts TWICE - partNN.csv, then part(NN+1).json holding the very same rows. Metro
+    and tram alternate like this, so summing every part DOUBLED them (42,987,159 metro taps published where ~22.0M are real)
+    and the row-count contract, comparing the lake to that same sum, confirmed the doubling instead of catching it. A JSON
+    part is now dropped only when it matches the CSV part before it row for row; one that differs is kept and loaded."""
+    num = lambda p: int(re.search(r"__part(\d+)\.(?:csv|json)$", p, re.I).group(1))
+    by_num = {num(p): p for p in ps}
+    keep, dropped = [], []
+    for p in ps:
+        if p.lower().endswith(".json"):
+            prev = by_num.get(num(p) - 1)
+            if prev and prev.lower().endswith(".csv"):
+                a, b = _norm_select(con, prev), _norm_select(con, p)
+                na = con.execute("select count(*) from (%s)" % a).fetchone()[0]
+                nb = con.execute("select count(*) from (%s)" % b).fetchone()[0]
+                if na == nb and con.execute("select count(*) from ((%s) except all (%s))" % (b, a)).fetchone()[0] == 0:
+                    dropped.append(os.path.basename(p)); continue
+        keep.append(p)
+    return keep, dropped
+
+
 def load(con, short, stem, dry):
     ps = parts(stem)
     if not ps:
         print("%-20s no parts on disk - skipped" % short); return None
     t0 = time.time()
+    ps, dropped = drop_format_copies(con, ps)
+    if dropped:
+        print("%-20s %d JSON part(s) are copies of the CSV part before them - not loaded: %s" % (
+            short, len(dropped), ", ".join(dropped[:4]) + (" ..." if len(dropped) > 4 else "")))
     expected = 0
     for p in ps:
         expected += count_part(p)
