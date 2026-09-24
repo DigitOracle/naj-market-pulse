@@ -106,7 +106,15 @@ def main():
         log_path = os.path.join(ROOT, "logs", "lod3_%s.log" % slug)
         t = time.time()
         with open(log_path, "w", encoding="utf-8") as fh:
-            rc = subprocess.Popen([PY, "scripts/ce_batch_v2.py", "--v4", slug, "--lod", "3"],
+            cmd = [PY, "scripts/ce_batch_v2.py", "--v4", slug, "--lod", "3"]
+            if slug == "dubaimarina":
+                # dubaimarina is fenced in ce_batch_v2 as the approved proof. Passing the flag HERE, rather
+                # than hand-writing a sequence outside the rollout, is what keeps it gated: on 24 Sep Marina
+                # was built by a hand-written chain with no gate, its 5-part export merged to 49 buildings of
+                # 589 after a disk-full truncation, and the payloads and tile parts were published from it.
+                # GATE 1 compares buildings to shapes and would have stopped it before the first push.
+                cmd.append("--allow-marina")
+            rc = subprocess.Popen(cmd,
                                   cwd=ROOT, stdout=fh, stderr=subprocess.STDOUT, text=True).wait()
         gen_min = (time.time() - t) / 60.0
         if rc != 0:

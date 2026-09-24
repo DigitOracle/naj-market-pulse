@@ -30,6 +30,29 @@ ROOT = os.path.abspath(os.path.join(HERE, ".."))
 GLB = os.path.join(ROOT, "data", "ce", "_glb")
 
 
+def check_complete(path):
+    """A GLB whose header length does not match its file size was not finished being written.
+
+    On 24 Sep the disk reached 98% full and CityEngine wrote three of Dubai Marina's five export parts
+    truncated - headers declaring 210 MB over files of 34 MB. The merge then died on a half-written JSON
+    chunk with a UTF-8 decode error, which reads as a parsing bug and is really a disk-full symptom.
+    Checking the header costs 12 bytes and names the real fault.
+    """
+    import struct as _st
+    with open(path, "rb") as f:
+        head = f.read(12)
+    if len(head) < 12:
+        raise IOError("%s is %d bytes - not a GLB" % (os.path.basename(path), len(head)))
+    magic, _ver, declared = _st.unpack("<III", head)
+    if magic != 0x46546C67:
+        raise IOError("%s is not a GLB (bad magic)" % os.path.basename(path))
+    actual = os.path.getsize(path)
+    if declared != actual:
+        raise IOError("%s is TRUNCATED: header declares %d bytes, file is %d (short by %.1f MB) - "
+                      "check free disk space" % (os.path.basename(path), declared, actual,
+                                                 (declared - actual) / 1048576.0))
+
+
 def parts_for(glb0):
     """Every part belonging to the same export, in order. glb0 is the _0 path."""
     d, base = os.path.dirname(glb0), os.path.basename(glb0)
@@ -173,6 +196,8 @@ def merge_all(glb0, keep_parts=False):
     srcs = parts_for(glb0)
     if len(srcs) < 2:
         return None
+    for p in srcs:
+        check_complete(p)          # fail on a half-written part rather than merge what survived
     tmp, per_part = [], []
     for i, p in enumerate(srcs):
         # A part is raw unless it IS _0 and something already merged it in place. Merging an already-merged

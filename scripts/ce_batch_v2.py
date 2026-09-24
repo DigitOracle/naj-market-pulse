@@ -165,6 +165,24 @@ def lock_is_stale(txt):
         return False
 
 
+def check_free_space(min_gb=6.0):
+    """Refuse to start a build when the disk cannot hold the export.
+
+    On 24 Sep C: reached 20 MB free at 13:16 while Dubai Marina was exporting. CityEngine wrote three of its
+    five parts truncated - headers declaring 210 MB over 34 MB files - and the merge died on a half-written
+    chunk. A district at LOD 3 writes up to ~1 GB of raw parts before anything is merged away, so a build
+    started on a nearly full disk produces files that LOOK complete to anything that does not check.
+    Cheaper to refuse than to find it in a payload.
+    """
+    import shutil as _sh
+    free_gb = _sh.disk_usage(ROOT).free / (1024.0 ** 3)
+    if free_gb < min_gb:
+        sys.exit("REFUSING to start: %.1f GB free on the build disk, need at least %.0f GB. A LOD 3 district "
+                 "writes up to ~1 GB of raw export parts, and a disk-full export writes TRUNCATED files that "
+                 "pass a size check and fail a merge." % (free_gb, min_gb))
+    return free_gb
+
+
 def acquire_lock(max_wait=20 * 60, poll=20):
     t0 = time.time()
     while os.path.exists(LOCK):
@@ -178,9 +196,10 @@ def acquire_lock(max_wait=20 * 60, poll=20):
         if time.time() - t0 > max_wait:
             sys.exit(f"CE lock held by '{holder}' for > {max_wait // 60} min — giving up, nothing touched")
         log(f"  CE lock held by '{holder}' — waiting {poll}s ({int(time.time() - t0)}s so far)"); time.sleep(poll)
+    free = check_free_space()
     open(LOCK, "w", encoding="utf-8").write(f"{LOCK_NAME} {datetime.datetime.now().isoformat(timespec='seconds')}\n")
     atexit.register(release_lock)
-    log("  CE lock acquired:", LOCK_NAME)
+    log("  CE lock acquired:", LOCK_NAME, "| %.1f GB free" % free)
 
 def release_lock():
     try:
@@ -442,7 +461,16 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
                             + f" = {comb['buildings']} buildings, {comb['triangles']} tris")
                 size = os.path.getsize(out_glb)
             except Exception as e:
-                log("  merge per building failed:", str(e)[:120])
+                log("  merge per building failed:", str(e)[:160])
+                # A SPLIT export whose merge failed is NOT recoverable by carrying on. What survives is part
+                # _0 alone, which looks like a healthy district and is a fraction of one - on 24 Sep that was
+                # Dubai Marina at 49 buildings of 589, and it reached KV because this except swallowed the
+                # failure and every later step trusted the file. Stop the run instead: no verify, no pack,
+                # no push, and a non-zero exit so the caller knows.
+                if len(allparts) > 1:
+                    sys.exit("REFUSING to continue: %s split into %d parts and the merge failed (%s). "
+                             "Part _0 alone is not the district. Nothing measured, packed or pushed."
+                             % (slug, len(allparts), str(e)[:120]))
         v = verify_glb(out_glb, n) if size else {"bytes": 0}
         a = {"lod": lod, "bandEvery": band, "granularity": GRAN, "generate_s": round(tg, 1), "export_s": round(te, 1), "mb": round(size / 1048576, 3), "raw_mb": raw_mb,
              "leaf_meshes_raw": merged["leaf_meshes_in"] if merged else None, "triangles": v.get("triangles"), "images": merged.get("images") if merged else v.get("images"),
