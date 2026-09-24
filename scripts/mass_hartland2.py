@@ -28,6 +28,9 @@ own to data/ce/bukadra/hartland2_placeholders.geojson so they can be removed cle
 
 After this: python scripts/remass_districts.py bukadra (CityEngine, detached), python scripts/districts_geo.py --no-push,
 python scripts/build_sobha_mask.py.
+  The --no-push is not decoration: districts_geo.py SHIPS TO THE LIVE WORKER on a bare run, and this step only needs the
+  local file. Its default is being inverted to opt-in --push (Rings session, 24 Sep 2026, after a sibling script nearly
+  deployed the amenity set unasked); once that lands the flag is a harmless no-op and can go. Leave it until then.
 Usage: python scripts/mass_hartland2.py [--dry]
 """
 import json, math, os, shutil, sys, datetime as dt
