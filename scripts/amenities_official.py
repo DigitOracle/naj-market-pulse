@@ -113,11 +113,25 @@ def idstr(v):
 def precise_points():
     """Full-precision DHA positions, from the PROFESSIONAL register (build_dha_points.py, the DDA session, 23 Sep 2026).
 
-    sheryan_facility_detail truncates LATITUDE to two decimals - about 1.1 km - while keeping longitude to six, so 1,319 of
-    our 1,845 health facilities sat somewhere on a 1.1 km line. dha_sheryan_professional_detail is the same registry with
-    the precision intact: on the 2,379 facility ids present in both, ours is 2dp-truncated on 100% and theirs on 0%, and
-    longitude agrees to six decimals while latitude gains four. That is the signature of truncation rather than of two
-    different surveys.
+    sheryan_facility_detail reduces LATITUDE to two decimals while keeping longitude to six, so 1,319 of our 1,845 health
+    facilities sat somewhere on a north-south line. dha_sheryan_professional_detail is the same registry with the precision
+    intact: on the 2,379 facility ids present in both, ours is 2dp on 100% and theirs on 0%, and longitude agrees to six
+    decimals while latitude gains four. That is the signature of one number at two precisions rather than of two surveys.
+
+    IT IS ROUNDING, NOT TRUNCATION - measured 23 Sep 2026, and it halves the error this function is correcting. Across
+    1,551 accepted repairs our latitude equals theirs FLOORED on 851 (54.9%) and ROUNDED on the other 700 (45.1%), with
+    ceil and neither at exactly zero. Floor and round agree whenever the third decimal is below 5, so a 55/45 split is
+    what rounding alone predicts and truncation cannot produce. The error is therefore +/-0.005 deg, about +/-555 m, not
+    0 to -1,110 m: measured residual median 277 m, p90 481 m, MAX 588 m. Anywhere this file, its notes or the question
+    bank said "about 1.1 km", halve it. A coarse point is still useless for "within 500 m" and is fine for "in this
+    community".
+
+    THE GUARD COULD BE SHARPER AND IS DELIBERATELY NOT (left for Kendall, not changed here). Longitude is the free test
+    the distance guard never uses: on a genuine repair the longitudes must agree EXACTLY, because only latitude lost
+    precision. All 6 rows the 1,150 m guard rejects have differing longitude, and 1,537 of the 1,551 it accepts agree to
+    six decimals - so "longitude agrees AND distance <= 700 m" would reject 20 rather than 6, catching 14 rows at 58-630 m
+    whose longitudes differ by up to 0.0023 deg and which are therefore not the same point recorded twice. Tightening it
+    changes which facilities move, so it is a decision, not a cleanup.
 
     The guard is a DISTANCE, not a name. 826 of 827 candidates move the point less than 1.1 km (median 289 m, p90 482 m),
     which is exactly what 2dp truncation predicts. The one that does not is id 3503718, where our register says Dubai

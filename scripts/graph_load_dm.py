@@ -2,7 +2,17 @@
 
 Inputs (the raw shelf, data/raw_downloads/dd/):
   community__*.kml          224 official community polygons (CNAME_E / CNAME_A / COMM_NUM / DGIS_ID), extract dated 15 Aug 2026
-  address__*.csv[part..]    DET business-licence address register (served under data.dubai): one row per licensed premises, DM plot id, community number, floor, unit; coordinates mostly empty
+  address__*.csv[part..]    DET business-licence address register (served under data.dubai): one row per licensed company's REGISTERED
+                            address, DM plot id, community number, floor, unit; coordinates mostly empty
+                            NOT PREMISES. Corrected 23 Sep 2026 - the earlier header here said "one row per licensed premises" and that
+                            is the one claim this register cannot support. The address is where a company is REGISTERED, not where it
+                            trades: nine "Gas Station" licences sit in Business Bay office towers of 19-39 floors, and one 29-floor
+                            tower carries 2,663 active licences across 93 units (~29 per unit) whose commonest activities are tiling,
+                            painting and carpentry - contractors with a registered office, not tenants with a door. Use this register
+                            for tenancy DENSITY and for plot -> community. Never for "there is a pharmacy here".
+                            Half of it carries no parcel at all: of 2,062,416 rows, 1,050,385 (50.9%) have a usable plot id, 688,420
+                            are NULL and 323,611 are the string '0' - so dm_address_parcel rolling up 1,050,385 rows is correct and
+                            current, not a stale half-load.
 
 What it writes (evidence first, tables second, never a name onto a building):
   source / source_authority   dm_community (community 100, coordinates 95) · dm_address (parcel 95, coordinates 90, units 70)
@@ -113,8 +123,10 @@ def main():
     print(f"  sub-communities located: {len(sc):,} of {len(subs):,} · district crosswalk rows: {con.execute('select count(*) from district_dm_community').fetchone()[0]}")
     # ---- dm_address ------------------------------------------------------------------------------------------------------------------
     # What this register really is (checked 9 Sep 2026): the DET business-licence ADDRESS register served under data.dubai (cdn path det/open/address):
-    # one row per licensed premises, Arabic address line, unit number, floor, area = DM community number, parcel id in DM plot form "346-451".
-    # Coordinates are mostly 0 / null. It is NOT a residential unit register. Useful as: businesses per plot (tenancy density), plot -> community.
+    # one row per licensed company's REGISTERED address, Arabic address line, unit number, floor, area = DM community number, parcel id in
+    # DM plot form "346-451". Coordinates are mostly 0 / null. It is NOT a residential unit register, and (corrected 23 Sep 2026) it is not
+    # a premises register either - see the module header. Useful as: businesses per plot (tenancy density), plot -> community. Not for
+    # "there is a pharmacy here": the licence sits at the registered office, which is usually a business centre in a tower.
     parts = sorted(glob.glob(os.path.join(DD, "address__*part*.csv"))) or sorted(glob.glob(os.path.join(DD, "address__*.csv")))
     files = [p.replace("\\", "/") for p in parts]; print(f"  address files: {len(files)}" + ("" if len(files) > 1 else " (single part - the multi-part pull had not finished; rerun after it does)"))
     con.execute("create or replace table dm_address as select try_cast(id as bigint) as id, addressline1, addressline2, addresstype, area as comm_num, street, try_cast(floor as varchar) as floor, unitnumber, unittype, "
@@ -146,7 +158,7 @@ def main():
     for parcel_id, duid, addresses, units, floors, dist in links:
         st = "ACCEPTED" if dist <= 25 else "DISCOVERED"
         ev.append((eid(duid, "plot_no", parcel_id, "dm_address", parcel_id), RUN, "building", duid, "plot_no", parcel_id, "IDENTIFIER", "dm_address", parcel_id, "DET licence addresses on the plot; plot position nearest the footprint point", 0.85 if dist <= 25 else 0.55, None, float(dist), dist <= 25, NOW, st, SCHEMA, RESOLVER, "2026-08-04", None))
-        ev.append((eid(duid, "businesses_addressed", str(addresses), "dm_address", parcel_id), RUN, "building", duid, "businesses_addressed", str(addresses), "MEASURE", "dm_address", parcel_id, "licensed premises addressed to the plot in the DET address register", 0.8, None, float(dist), dist <= 25, NOW, "DISCOVERED", SCHEMA, RESOLVER, "2026-08-04", None))
+        ev.append((eid(duid, "businesses_addressed", str(addresses), "dm_address", parcel_id), RUN, "building", duid, "businesses_addressed", str(addresses), "MEASURE", "dm_address", parcel_id, "licences REGISTERED to an address on the plot in the DET address register - a registered office, not a shopfront", 0.8, None, float(dist), dist <= 25, NOW, "DISCOVERED", SCHEMA, RESOLVER, "2026-08-04", None))
     # ---- evidence: append what the ledger has not seen ------------------------------------------------------------------------------------
     con.execute("create or replace temp table ev_new as select * from evidence limit 0")
     con.executemany("insert into ev_new values (" + ",".join("?" * 20) + ")", ev)
