@@ -1,0 +1,13 @@
+{
+ "note": "footprints claimed for a Sobha project by evidence other than parcel/DM keys; read by build_sobha_mask.py (claim route)",
+ "districts": {
+  "sobhaheartland": {
+   "1341": {
+    "project_number": 2178,
+    "name": "Sobha Creek vistas Reserve",
+    "dm_building_id": "779353",
+    "basis": "unclaimed 110 m footprint 72 m from the Google point (Sobha Creek vistas Reserve, SOBHA HEARTLAND, Dubai, Un); DM permit 37 floors, 134 m"
+   }
+  }
+ }
+}

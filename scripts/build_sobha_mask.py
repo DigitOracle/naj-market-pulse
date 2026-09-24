@@ -47,6 +47,8 @@ GRAPH = os.path.join(ROOT, "data", "graph", "najma.duckdb")
 BOARD = os.path.join(ROOT, "data", "board")
 CE = os.path.join(ROOT, "data", "ce")
 GEOCODE = os.path.join(ROOT, "data", "geocode_cache.json")
+CLAIMS_PATH = os.path.join(ROOT, "data", "identity", "sobha_footprint_claims.json")
+CLAIMS = json.load(open(CLAIMS_PATH, encoding="utf-8")) if os.path.exists(CLAIMS_PATH) else {}
 PROJECTS = os.path.join(ROOT, "data", "identity", "sobha_projects.json")
 OUT = os.path.join(BOARD, "sobha_mask.json")
 
@@ -215,6 +217,12 @@ def main():
                                                      "register_placeholder": fps[i]["placeholder"]})
             elif dm and dm in dm_owner:
                 take(i, dm_owner[dm], "dm")
+        # claim route (24 Sep 2026): a footprint a script claimed with recorded evidence - an unnamed OSM tower on the
+        # project's own Google point, matching its DM permit height (scripts/mass_hartland1.py). Surer than a circle.
+        for i, c in ((CLAIMS.get("districts") or {}).get(slug) or {}).items():
+            i = int(i)
+            if i in fps and c.get("project_number") in projects:
+                take(i, c["project_number"], "claim", {"basis": c.get("basis")})
         reached = {v["project_number"] for v in by_i.values()}
 
         # radius route
@@ -291,7 +299,7 @@ def main():
     cov = sorted(coverage.values(), key=lambda c: c["project_number"])
     for c in cov:
         c["methods"] = sorted(c["methods"]); c["districts"] = sorted(c["districts"])
-    methods = ("parcel", "dm", "radius", "geocode")
+    methods = ("parcel", "dm", "claim", "radius", "geocode")
     out = {
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
         "developer": "sobha",
