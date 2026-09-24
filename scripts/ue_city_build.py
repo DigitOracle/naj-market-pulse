@@ -16,6 +16,7 @@ import duckdb
 from pyproj import Transformer
 from shapely.geometry import shape, Polygon, MultiPolygon
 from shapely.geometry.polygon import orient
+from shapely.ops import transform
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")); CE = os.path.join(ROOT, "data", "ce"); OUT = os.path.join(CE, "_city"); os.makedirs(OUT, exist_ok=True)
 OFF = json.load(open(os.path.join(CE, "_datasmith", "sobhaheartland_georef.json")))["offset_ce_xyz"]     # shared city origin
@@ -74,6 +75,7 @@ def build(slug, H):
     for i, f in enumerate(feats):
         g = shape(f["geometry"])
         if g.is_empty: continue
+        g = transform(tr.transform, g)                                    # lon/lat -> UTM 40N metres; prism/to_ue expect E/N
         h = H.get((slug, i))
         if h is None:
             bh = f["properties"].get("bHeight")
@@ -85,14 +87,13 @@ def build(slug, H):
         G = groups.setdefault(key, {"cls": key[0], "v": key[1], "n": 0, "verts": [], "tris": []})
         polys = list(g.geoms) if isinstance(g, MultiPolygon) else [g]
         for pg in polys:
-            if not isinstance(pg, Polygon) or pg.area < 1e-10: continue
-            pg = pg.simplify(1e-6, preserve_topology=True)
+            if not isinstance(pg, Polygon) or pg.area < 1.0: continue          # m2
+            pg = pg.simplify(0.05, preserve_topology=True)         # 5 cm
             if len(pg.exterior.coords) < 4: continue
             prism(pg, h * 100.0, G["verts"], G["tris"])
         G["n"] += 1; n += 1
         b = g.bounds; xs += [b[0], b[2]]; ys += [b[1], b[3]]
-    e0, n0 = tr.transform(min(xs), min(ys)); e1, n1 = tr.transform(max(xs), max(ys))
-    x0, y1 = to_ue(e0, n0); x1, y0 = to_ue(e1, n1)
+    x0, y1 = to_ue(min(xs), min(ys)); x1, y0 = to_ue(max(xs), max(ys))   # xs/ys are already UTM
     out = {"slug": slug, "origin_offset_ce_xyz": OFF, "buildings": n, "heights": hsrc, "bbox_cm": [round(x0), round(y0), round(x1), round(y1)],
            "groups": sorted(groups.values(), key=lambda g: (g["cls"], g["v"]))}
     for G in out["groups"]:
