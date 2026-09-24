@@ -28,11 +28,12 @@ import unreal
 LEVEL = "/Game/Main"; SEQ = "/Game/Najma/Cinematics/SEQ_Sobha_Tour"; LBL_DIR = "/Game/Najma/Sobha/Labels"
 ROOT = "C:/Dev/naj-market-pulse"
 MANIFEST = ROOT + "/data/ce/_datasmith/sobha_unreal.json"; PROJECTS = ROOT + "/data/identity/sobha_projects.json"
-LINE_M = 60.0          # leader line height above the roof
-TEXT_CM = 1400.0       # name height (14 m: legible from the orbit distance)
-STATUS_CM = 850.0      # status line height
-GAP_CM = 250.0
-PAD_CM = 500.0
+# v7 (14 m names, 60 m lines) read well but crowded the close orbits and sat half out of the 4:5 frame; v8 is ~2/3 the size
+LINE_M = 40.0          # leader line height above the roof
+TEXT_CM = 900.0        # name height
+STATUS_CM = 560.0      # status line height
+GAP_CM = 160.0
+PAD_CM = 320.0
 GOLD = (0.77, 0.65, 0.42); AMBER = (1.0, 0.55, 0.12)
 log = unreal.log; eal = unreal.EditorAssetLibrary; ell = unreal.EditorLevelLibrary; MEL = unreal.MaterialEditingLibrary
 SKIP = {"parcel", "dm", "radius", "geocode", "None"}
