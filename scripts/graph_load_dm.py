@@ -26,7 +26,7 @@ What it writes (evidence first, tables second, never a name onto a building):
 Run after graph_build.py (it rebuilds the node tables) and before graph_golden_check.py / graph_export.py.
 Usage: python scripts/graph_load_dm.py
 """
-import glob, hashlib, json, os, re, sys, time
+import glob, hashlib, io, json, os, re, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from keys import num_sql
 try:
@@ -49,6 +49,39 @@ NOW = time.strftime("%Y-%m-%dT%H:%M:%S"); RUN = time.strftime("%Y%m%d-%H%M%S") +
 # '.0' and '0.0' normalise to '0' and fall out on the plot_no <> '0' guard the dm_address_parcel roll-up already carries.
 PLOT_NO_SQL = ("case when regexp_matches(trim(cast(parcelid as varchar)), '^([0-9]+[.]0*|[.]0+)$') then cast(%s as varchar)"
                " else trim(cast(parcelid as varchar)) end" % num_sql("parcelid"))
+
+
+def address_files():
+    """The address register's CSV parts, preferring the multi-part pull over the single-file fallback."""
+    parts = sorted(glob.glob(os.path.join(DD, "address__*part*.csv"))) or sorted(glob.glob(os.path.join(DD, "address__*.csv")))
+    return [p.replace("\\", "/") for p in parts]
+
+
+def check_address_complete(con, files):
+    """Refuse to write anything off a partial address pull (Azimuth Rings, 24 Sep 2026).
+
+    The glob above falls back to the single file when the multi-part pull has not landed. On 9 Sep that happened twice: both
+    runs printed "the multi-part pull had not finished" and then wrote 567 businesses_addressed rows off an incomplete
+    register anyway. Nothing retracts them - the evidence id hashes the VALUE, so the corrected count lands beside the wrong
+    one instead of superseding it, and 392 buildings still carry contradictory numbers because of it. An instrument that
+    reports the smaller thing it did and then does it is the failure worth closing, not the 567 rows themselves.
+    MANIFEST.json carries the row count the pull declared, so completeness is checkable rather than guessable.
+    Pass --allow-partial to load anyway; the roll-up and the ledger are only as complete as what it read.
+    """
+    try:
+        man = json.load(io.open(os.path.join(DD, "MANIFEST.json"), encoding="utf-8")).get("address") or {}
+        want = int(man.get("rows"))
+    except Exception as e:
+        print(f"  ! MANIFEST.json gives no row count for the address register ({str(e)[:60]}) - completeness unchecked"); return
+    got = con.execute("select count(*) from read_csv_auto(?, union_by_name=true, header=true, all_varchar=true)", [files]).fetchone()[0]
+    if got == want:
+        print(f"  address register complete: {got:,} rows, as MANIFEST.json declares"); return
+    msg = (f"address register INCOMPLETE: {len(files)} file(s) give {got:,} rows, MANIFEST.json declares {want:,} "
+           f"({want - got:+,}). Refusing to write dm_address off a partial pull - finish the multi-part download and rerun. "
+           f"Pass --allow-partial to override.")
+    if "--allow-partial" not in sys.argv:
+        raise SystemExit("  ! " + msg)
+    print("  ! " + msg.replace("Refusing to write", "Would refuse to write") + "  [--allow-partial given, loading anyway]")
 
 
 def connect_writer(path, tries=20, wait=30):
@@ -101,6 +134,7 @@ def locate(polys, lon, lat):
 
 def main():
     t0 = time.time(); con = connect_writer(DB)
+    files = address_files(); check_address_complete(con, files)   # fail closed before anything is written
     kml = sorted(glob.glob(os.path.join(DD, "community__*.kml")))[-1]; polys = parse_kml(kml)
     print(f"communities: {len(polys)} polygons from {os.path.basename(kml)}")
     # ---- sources -------------------------------------------------------------------------------------------------------------------
@@ -141,8 +175,7 @@ def main():
     # DM plot form "346-451". Coordinates are mostly 0 / null. It is NOT a residential unit register, and (corrected 23 Sep 2026) it is not
     # a premises register either - see the module header. Useful as: businesses per plot (tenancy density), plot -> community. Not for
     # "there is a pharmacy here": the licence sits at the registered office, which is usually a business centre in a tower.
-    parts = sorted(glob.glob(os.path.join(DD, "address__*part*.csv"))) or sorted(glob.glob(os.path.join(DD, "address__*.csv")))
-    files = [p.replace("\\", "/") for p in parts]; print(f"  address files: {len(files)}" + ("" if len(files) > 1 else " (single part - the multi-part pull had not finished; rerun after it does)"))
+    print(f"  address files: {len(files)}")
     con.execute("create or replace table dm_address as select try_cast(id as bigint) as id, addressline1, addressline2, addresstype, area as comm_num, street, try_cast(floor as varchar) as floor, unitnumber, unittype, "
                 f"{PLOT_NO_SQL} as plot_no, case when try_cast(latitude as double) between 24.5 and 25.6 then try_cast(latitude as double) end as lat, "
                 "case when try_cast(longitude as double) between 54.5 and 56.5 then try_cast(longitude as double) end as lon, freezone, emirate "
