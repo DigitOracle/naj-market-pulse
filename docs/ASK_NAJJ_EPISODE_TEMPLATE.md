@@ -34,6 +34,13 @@ Where the honest answer was "no public data exists", it says so rather than inve
   clearly and at first exposure. The marking duty is HeyGen's; **the disclosure duty is ours**. Up to €15 M or 3% of worldwide
   turnover. "People relocating to Dubai" includes a great many Europeans. **[STRONG]**
 
+> ⚠️ **SCOPE — Kendall, 23 Sep: "I do not need a disclosure on the screen. It is not going to social media."**
+> Everything in this section is about **PUBLIC POSTING**. A film made to show a client, to pitch with, or to send
+> one-to-one is not a post: no platform label, no on-screen line. **The moment a cut is published to Instagram or
+> TikTok all of it applies again** — so the destination is decided before the master is cut, not after.
+>
+> Episode 07 was finished without the line for exactly this reason.
+
 **The rule:** self-disclose on every post on both platforms, carry a persistent on-screen line, and switch on Instagram's
 AI-generated profile label unless Kendall obtains a written ruling that a licensed twin of a real consenting broker is out of
 scope. That edge case is **genuinely unresolved in public reporting** — the policy targets synthetic personas, but

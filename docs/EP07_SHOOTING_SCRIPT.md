@@ -13,21 +13,49 @@ tried and failed it says so, because the failures cost more than the successes.
 ## 0 · HOW THE FILM IS ASSEMBLED
 
 ```
-[ CLIENT'S QUESTION 10 s ]  →  [ OPENER 10 s ]  →  [ EPISODE 72 s ]
-   HeyGen Cinematic,            HeyGen Cinematic,      the app, filmed by the harness
-   a different face             FIXED, every film      + Naj over it
-   every episode                never regenerated
+[ OPENER 10 s ]  →  [ CLIENT'S QUESTION 10 s ]  →  [ EPISODE 52 s ]
+  HeyGen Cinematic,     HeyGen Cinematic,             the app, filmed by the harness,
+  FIXED, every film     a different face              with Naj composited over it
+  never regenerated     every episode                 by HeyGen
 ```
 
-Published length ≈ **92 seconds**. That is past the 45–60 s Reels band and the episode earns it, but **a shorter
-Instagram cut is worth making from the same master** — trim the dossier from six stops to three.
+**THE OPENER COMES FIRST. Kendall, 23 Sep: "her promo is first, then the person asking the question."** The first
+assembly ran the question first and it was the wrong way round: you arrive on a stranger before you know whose film
+this is. With the opener leading, the brand lands, the star lights, and *then* a real person asks a real question — so
+the question reads as the reason the film exists rather than as a cold open.
+
+**Delivered length: 72 seconds.** The episode is 52 s rather than the 72 s of screen cut, because HeyGen fits the
+background to the narration when it composites — so the finished film is shorter than the raw capture. **Check the
+delivered duration rather than adding up the parts.**
+
+**Hard cut between all three, no dissolves.** The opener ends on a static frame and shot 1 opens on a moving camera;
+stillness into motion is the join.
 
 The opener is `assets/brand/najma_opener_9x16.mp4`, approved final 22 Sep. Its prompts are in
-`docs/NAJMA_OPENER_HEYGEN_CINEMATIC.md`. **Hard cut between all three parts, no dissolves.**
+`docs/NAJMA_OPENER_HEYGEN_CINEMATIC.md`.
+
+**Assembled master:** `NAJMA_EP07_HABTOOR_FINAL_CAPTIONED_9x16_23SEP2026.mp4`, with its `.srt` beside it.
+
+### Captions
+
+Burned in, one neutral face, below Naj. Two things cost a re-burn and are worth knowing:
+
+- **The transcriber is the TIMING source, never the TEXT source.** It heard *"still unsolved"* for **unsold** — a
+  factual claim — plus *"Alhab tour tower"*, *"Providence for Property"*, lowercase *"business bay"*, and it turned
+  six of Naj's statements into questions. Corrections go in at **word** level, before cues are grouped, because a cue
+  boundary will split a phrase and a phrase-level fix then misses it.
+- **FontSize and MarginV are not pixels.** ffmpeg hands libass a 288-unit canvas, so `FontSize=15` rendered at 100 px
+  and `MarginV=90` put the line across her chest. Express both in that space.
+
+### Disclosure — scoped
+
+**Kendall, 23 Sep: "I do not need a disclosure on the screen. It is not going to social media."** No on-screen line and
+no platform labels on a film made to show a client or to pitch with. **The moment a cut is published to Instagram or
+TikTok, template §0.1 applies in full** — so the destination is decided before the master is cut, not after.
 
 ---
 
-## 1 · THE CLIENT'S QUESTION — 10 s
+## 1 · THE CLIENT'S QUESTION — 10 s · SECOND IN THE FILM, after the opener
 
 Generated in HeyGen Cinematic with **no avatar reference**, so the face differs every episode. That is deliberate: it
 reads as a question, not a recurring character.
@@ -156,9 +184,12 @@ A test can prove markup is present; it cannot prove styling arrived, a handler r
 2. **Composite** — head above y 1600, ≤20% of frame, no bubble, fades in at 3.4 s. One grain pass over the flattened
    frame; light wrap; contact shadow; drift her 0.5–1% with the camera.
 3. **Captions** burned in, neutral face, bottom band.
-4. **Caption copy** ends with a keyword comment CTA **and** a question.
+4. **Caption copy** — only for a cut that is being posted; skipped on episode 07. When it applies it ends with a
+   keyword comment CTA **and** a question.
    > *Comment HABTOOR and I'll send you the floor-by-floor list. Which building should I check next?*
-5. **Publish** — Instagram: no hashtags or one. TikTok: the 12–15 set. **AI label on both.**
+5. **Publish** — only if it is going to a feed. **Episode 07 is not**, so there is no caption copy, no hashtag set and
+   no AI label for this cut. If a later cut IS posted: Instagram no hashtags or one, TikTok the 12–15 set, AI label on
+   both, and the on-screen disclosure line goes back in.
 6. **File** — `Demo_Videos\Najma_Market_Pulse\`, `Visualization_Engine\`, mirror to `Downloads\31DigitAlchemy\Azimuth\`,
    audit line in the root README.
 7. **Answer comments for the first three hours.**
