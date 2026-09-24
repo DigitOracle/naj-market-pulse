@@ -230,7 +230,13 @@ def main():
         log("  %d. %-22s %-18s %2d bldg  tallest %.0f m  %s" % (i + 1, s["district"], s["name"][:18], s["n"], s["h"] / 100, ", ".join(s["names"])[:70]))
     centre = unreal.Vector(sum(s["cx"] for s in stops) / len(stops), sum(s["cy"] for s in stops) / len(stops), 0)
     F.lighting(centre)
-    context_ground()
+    # 24 Sep 2026: the ground is Unreal-made (procedural sand + real water from OSM) unless SOBHA_GROUND=imagery asks
+    # for the satellite mosaic back
+    if os.environ.get("SOBHA_GROUND", "unreal") == "imagery":
+        context_ground()
+    else:
+        import ue_sobha_ground
+        ue_sobha_ground.main(save=False)
     cam = F.find("CAM_Sobha") or ell.spawn_actor_from_class(unreal.CineCameraActor, centre); cam.set_actor_label("CAM_Sobha")
     try:
         cc = cam.camera_component
