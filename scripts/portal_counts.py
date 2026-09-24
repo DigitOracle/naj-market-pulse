@@ -21,6 +21,34 @@ PROD = os.path.join(ROOT, "data", "raw_downloads", "dda", "prod")
 CAP = 1_040_000                                   # a whole file at or above this is Excel-capped, not a count
 
 
+CONTENT_MAX = 600_000     # rows per side for the content diff; larger ones say "content not checked", never "agrees"
+
+
+def _norm(c):
+    v = "trim(regexp_replace(coalesce(cast(\"%s\" as varchar), ''), '\\s+', ' ', 'g'))" % c
+    v = "regexp_replace(regexp_replace(replace(%s, 'T', ' '), '[.]0+Z?$|Z$', ''), ' 00:00:00$', '')" % v
+    v = "regexp_replace(%s, '^(-?[0-9]+[.][0-9]*?)0+$', '\\1')" % v
+    return "regexp_replace(%s, '^(-?[0-9]+)[.]$', '\\1')" % v
+
+
+def content_diff(con, portal_files, gateway_file):
+    """(only_in_portal, only_in_gateway, columns compared) as MULTISETS over the columns both carry, load_timestamp
+    excluded. 25 Sep 2026 (Rings): drone services matched on count within 10 rows and differed in ~900 rows each way -
+    a count is 'not yet contradicted', only content agreement is 'verified'."""
+    gf = gateway_file.replace("\\", "/")
+    con.execute("create or replace temp table g as select unnest(results, recursive := false) as r from "
+                "read_json('%s', format='auto', maximum_object_size=1000000000)" % gf)
+    con.execute("create or replace temp table g as select r.* from g")
+    con.execute("create or replace temp table p as " + " union all by name ".join("(%s)" % L.select_sql(f) for f in portal_files))
+    gc = {c[0] for c in con.execute("describe g").fetchall()}; pcs = {c[0] for c in con.execute("describe p").fetchall()}
+    common = sorted((gc & pcs) - {"load_timestamp"})
+    if not common: return None, None, 0
+    sel = lambda t: "select %s from %s" % (", ".join("%s as \"%s\"" % (_norm(c), c) for c in common), t)
+    a = con.execute("select count(*) from ((%s) except all (%s))" % (sel("p"), sel("g"))).fetchone()[0]
+    b = con.execute("select count(*) from ((%s) except all (%s))" % (sel("g"), sel("p"))).fetchone()[0]
+    return a, b, len(common)
+
+
 def rule_reason(o, pv, dv):
     """Two narrow rules, each evidenced, labelled 'rule:' so a reader knows no one looked at that dataset by hand.
     Anything they do not cover stays UNEXPLAINED."""
@@ -65,9 +93,35 @@ def main():
                 n = None; how = "capped whole file, no parts"
         except Exception as e:
             n = None; how = "unreadable: " + str(e)[:80]
+        # content: the question a count cannot answer (drone services). Only where both sides are small enough to diff whole.
+        content = "content not checked"
+        gfile = os.path.join(PROD, v.get("file") or "")
+        if n and v.get("status") == "ok" and v.get("file") and os.path.exists(gfile) and n <= CONTENT_MAX and (v.get("rows") or 0) <= CONTENT_MAX:
+            try:
+                files = (L.drop_format_copies(con, parts)[0] if parts else [whole])
+                a, b, nc = content_diff(con, files, gfile)
+                content = ("content agrees (%d columns)" % nc) if a == 0 and b == 0 else \
+                          ("content differs: %s only in portal, %s only in gateway (%d columns)" % (format(a, ","), format(b, ","), nc)) if nc else "no common columns"
+            except Exception as e:
+                content = "content diff failed: " + str(e)[:80]
         out[key] = {"portal_rows": n, "portal_how": how, "portal_name": name,
                     "gateway_served": v.get("raw_rows"), "kept": v.get("rows"), "repeats_kept": bool(v.get("repeats_kept")),
-                    "status": v.get("status")}
+                    "status": v.get("status"), "content": content}
+    # the lake's own count (25 Sep 2026, question bank): iacad_mosque_donation showed kept 452 = portal 452 while the published
+    # table still held 300. 'kept' is the download; only this column says what a reader of the lake actually gets.
+    try:
+        import lake
+        lc = lake.connect(read_only=True)
+        tmap = dict(lc.execute("select key, table_name from gov_dataset").fetchall())
+        have = {t for (t,) in lc.execute("select table_name from information_schema.tables").fetchall()}
+        for k, o in out.items():
+            t = tmap.get(k)
+            if t and t.startswith("gov_"):      # the registry names the work table; the lake publishes the gated g_ copy
+                t = "g_" + t[4:]
+            o["lake_table"] = t
+            o["lake_rows"] = lc.execute('select count(*) from "%s"' % t).fetchone()[0] if t in have else None
+    except Exception as e:
+        print("lake count unavailable:", str(e)[:120])
     # A GATE, not a report (25 Sep 2026, Rings): a finished dataset whose count differs from the portal's is UNEXPLAINED until
     # portal_reasons.json carries a written reason. Drone services at 3,329 vs 3,339 looked like noise and was two different
     # rolling windows with ~900 rows differing each way - found only because the small gap was not waved through.
@@ -85,6 +139,19 @@ def main():
     for k, o in sorted(unexplained, key=lambda x: x[1]["kept"] / max(1, x[1]["portal_rows"]))[:60]:
         print("  UNEXPLAINED %-56s kept %12s  served %12s  portal %12s  (%s)%s" % (k[:56], format(o["kept"], ","),
               format(o["gateway_served"] or 0, ","), format(o["portal_rows"], ","), o["portal_how"], "  keep" if o["repeats_kept"] else ""))
+    # count match is 'not yet contradicted'; say how many are actually verified by content
+    import collections
+    ok_counts = [o for o in out.values() if o["status"] == "ok" and o["portal_rows"] is not None and o["kept"] == o["portal_rows"]]
+    print("count matches portal: %d - of which content agrees %d, content differs %d, not checked %d" % (
+        len(ok_counts), sum(o["content"].startswith("content agrees") for o in ok_counts),
+        sum(o["content"].startswith("content differs") for o in ok_counts), sum(not o["content"].startswith("content ") or "not checked" in o["content"] for o in ok_counts)))
+    for k, o in out.items():
+        if o["status"] == "ok" and o["portal_rows"] is not None and o["kept"] == o["portal_rows"] and o["content"].startswith("content differs"):
+            print("  COUNT MATCH, CONTENT DIFFERS %-50s %s" % (k[:50], o["content"]))
+    lag = [(k, o) for k, o in out.items() if o["status"] == "ok" and o.get("lake_rows") is not None and o["kept"] is not None and o["lake_rows"] < o["kept"]]
+    print("lake behind the download: %d (publish pending, or the loader collapsed rows)" % len(lag))
+    for k, o in sorted(lag)[:40]:
+        print("  LAKE BEHIND %-56s lake %10s  downloaded %10s" % (k[:56], format(o["lake_rows"], ","), format(o["kept"], ",")))
     return len(unexplained)
 
 
