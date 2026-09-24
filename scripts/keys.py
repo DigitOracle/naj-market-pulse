@@ -24,7 +24,7 @@ def parcel_key_sql(col):
     """The spellings of one parcel -> one integer key. Twin of parcel_key() below: change them together.
       '6830847' / '6830847.00'   plain number, or a float artefact (only zeros after the dot)  -> 6830847
       '683-847' / '683.847'      community-plot, hyphen OR dot as the separator                -> 6830847
-      '4238153.2'                a 5+ digit parcel with a sub-parcel suffix -> the parent parcel, TRUNCATED
+      '4238153.2'                a sub-parcel: REFUSED here (a different parcel, not a spelling) - see parent_parcel_key_sql
     24 Sep 2026: the old digits.digits branch cast through DOUBLE, so community-plot '0117.645' became 118 (DuckDB
     rounds): 746 of 748 dotted DM-address and building-parcel keys collapsed onto community-sized numbers, 203 of them the
     NEIGHBOURING community's. Read as community-plot, 693 of those 748 match a real DLD parcel; read as a number, 1 did."""
@@ -33,8 +33,16 @@ def parcel_key_sql(col):
             " when regexp_matches({x}, '^[0-9]+[.]0*$') then try_cast(split_part({x}, '.', 1) as bigint)"
             " when regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$')"
             " then try_cast(regexp_extract({x}, '^([0-9]+)', 1) as bigint) * 10000"
-            " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint)"
-            " when regexp_matches({x}, '^[0-9]{{5,}}[.][0-9]+$') then try_cast(split_part({x}, '.', 1) as bigint) end)").format(x=x)
+            " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint) end)").format(x=x)
+
+
+def parent_parcel_key_sql(col):
+    """parcel_key_sql, plus: a 5+ digit parcel with a sub-parcel suffix ('4238153.2') -> its PARENT, truncated. NOT a
+    spelling of the same parcel - it maps a different parcel onto its parent, so a join on it pulls sub-parcel rows in
+    under the parent. Call it only where that is the intended semantics; the canonical key refuses sub-parcels."""
+    x = "trim(cast(%s as varchar))" % col
+    sub = "case when regexp_matches(%s, '^[0-9]{5,}[.][0-9]+$') then try_cast(split_part(%s, '.', 1) as bigint) end" % (x, x)
+    return "coalesce(%s, %s)" % (parcel_key_sql(col), sub)
 
 
 def name_norm_sql(col):
@@ -62,7 +70,7 @@ def norm_number(v):
 def parcel_key(v):
     """Twin of parcel_key_sql() above - same four rules, change them together:
       '6830847' / '6830847.00' / 6830847.0 -> 6830847;  '683-847' / '683.847' (community-plot) -> 6830847;
-      '4238153.2' (5+ digit parcel, sub-parcel suffix) -> 4238153, truncated;  anything else -> None."""
+      a sub-parcel like '4238153.2' -> None (see parent_parcel_key);  anything else -> None."""
     if v is None:
         return None
     s = str(v).strip()
@@ -70,9 +78,16 @@ def parcel_key(v):
     if n is not None:
         return int(n)
     m = re.match(r"^(\d{1,4})[-.](\d{1,4})$", s)
-    if m:
-        return int(m.group(1)) * 10000 + int(m.group(2))
-    m = re.match(r"^(\d{5,})\.\d+$", s)
+    return int(m.group(1)) * 10000 + int(m.group(2)) if m else None
+
+
+def parent_parcel_key(v):
+    """parcel_key, plus a sub-parcel ('4238153.2') -> its parent 4238153, truncated. Twin of parent_parcel_key_sql; a
+    different parcel mapped onto its parent, so use it only where that is wanted."""
+    k = parcel_key(v)
+    if k is not None or v is None:
+        return k
+    m = re.match(r"^(\d{5,})\.\d+$", str(v).strip())
     return int(m.group(1)) if m else None
 
 
@@ -87,6 +102,8 @@ if __name__ == "__main__":
     assert parcel_key("6830847.00") == 6830847 and parcel_key("683-847") == 6830847 and parcel_key("6830847") == 6830847
     assert parcel_key("0117.645") == 1170645 and parcel_key("117-645") == 1170645     # dot is a separator, not a decimal
     assert parcel_key("358.607") == 3580607                                           # never rounded into community 359
-    assert parcel_key("1214.0") == 1214 and parcel_key("4238153.2") == 4238153 and parcel_key("4238153.7") == 4238153
+    assert parcel_key("1214.0") == 1214 and parcel_key("4238153.2") is None                   # a sub-parcel is not a spelling
+    assert parent_parcel_key("4238153.2") == 4238153 and parent_parcel_key("4238153.7") == 4238153  # truncated, never rounded
+    assert parent_parcel_key("117-645") == 1170645 and parent_parcel_key("TP01") is None
     assert name_norm(" DAMAC Lagoons - NICE 1 ") == "DAMAC LAGOONS NICE 1"
     print("keys.py self-test ok")
