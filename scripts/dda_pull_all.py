@@ -21,7 +21,7 @@ How a dataset is pulled (19 Sep 2026, after two silent-truncation bugs):
 The end is an empty or short page (or, on an environment that laps forever such as STG, five pages with nothing new); it is never
 "a record I have seen before", which a real register with repeated rows trips over.
 """
-import argparse, hashlib, json, os, re, sys, time, urllib.parse
+import argparse, hashlib, json, os, re, shutil, sys, time, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dda_api as api
 
@@ -254,6 +254,10 @@ def main():
                 if status == "ok" and last_est is None and st_ == "too_deep": sample_pages = []
         if status == "ok":
             for page in range(start_page, a.max_pages + 1):
+                # 24 Sep 2026: the disk filled at 13:16 and ded_initial_approval_activities died mid-write with ENOSPC. Its
+                # checkpoint happened to survive; the next one might not. Stop BEFORE writing, with a status of our own.
+                if page % 50 == 0 and shutil.disk_usage(out_dir).free < 3 * 1024 ** 3:
+                    status = "disk_low"; note = f"stopped at page {page}: under 3 GB free on the download disk"; break
                 if a.dataset_minutes and time.time() - t0 > a.dataset_minutes * 60:
                     status = "timeout"; note = f"stopped after {a.dataset_minutes} min at page {page}"; break
                 if page == 1 and order is None and got1 is not None:

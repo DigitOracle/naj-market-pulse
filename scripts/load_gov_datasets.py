@@ -180,6 +180,10 @@ def main():
                             "maximum_object_size=16777216, sample_size=20000)" % tn, [side])
                 n = con.execute("select count(*) from %s" % tn).fetchone()[0]
                 fp = None
+                # 24 Sep 2026: sidecars were kept forever and reached 22 GB, which with everything else filled the disk and
+                # killed a pull mid-write. ndjson_sidecar() rebuilds one whenever it is missing, so it is a cache: drop it now.
+                try: os.remove(side)
+                except OSError: pass
             # DISTINCT: until 13 Sep the pager read past the end of every dataset, because the API wraps round to record 1
             # instead of returning a short page. 2,252,220 of 6,923,807 landed rows were repeats (ded license master 3x,
             # customs airway bills 42x). Identical rows carry no information, so they are collapsed here; the raw JSON on

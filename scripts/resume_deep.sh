@@ -31,7 +31,7 @@ skip = set(os.environ.get("SKIP","").split()); last = set(os.environ.get("LAST",
 d = json.load(open("data/raw_downloads/dda/prod/MANIFEST.json", encoding="utf-8"))
 live = {k: v for k, v in d.items() if k.split("/")[1] not in skip}
 pick = lambda f: ",".join(k.split("/")[1] for k, v in sorted(live.items(), key=lambda kv: (kv[0].split("/")[1] in last, -(kv[1].get("rows") or 0))) if f(v))
-print(pick(lambda v: v.get("status") in ("timeout", "http_0")))
+print(pick(lambda v: v.get("status") in ("timeout", "http_0", "disk_low")))
 print(pick(lambda v: v.get("status") in ("http_408","blocked","unstable","truncated","http_400","http_404")))'
 
 for i in $(seq 1 144); do          # up to 24 hours of probing, every 10 min
