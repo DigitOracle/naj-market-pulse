@@ -152,7 +152,14 @@ def sequence(cam, keys):
             except Exception:
                 pass
     cut = seq.add_track(unreal.MovieSceneCameraCutTrack); cs = cut.add_section(); cs.set_range(0, FRAMES)
-    cs.set_camera_binding_id(b.get_binding_id())
+    bid = None
+    for make in (lambda: seq.make_binding_id(b, unreal.MovieSceneObjectBindingSpace.LOCAL), lambda: seq.get_binding_id(b),
+                 lambda: unreal.MovieSceneSequenceExtensions.get_binding_id(seq, b)):
+        try:
+            bid = make(); break
+        except Exception as e:
+            log("  binding id: %s" % e)
+    cs.set_camera_binding_id(bid)
     eal.save_asset(p)
     log("  %s: 3 keys over %d frames on %s" % (p, FRAMES, cam.get_actor_label()))
     return seq
