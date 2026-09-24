@@ -17,8 +17,8 @@ of their parcels already ours and 0 new, 20,308 reaching a DLD property, 3,783 p
 building, 429 placeable, 32 both. The numbers that move are parse counts; the numbers that matter are not
 sensitive to them, because the parcels were already ours by a second route.
 
-A count read from lk_parcel_keys before its next rebuild is one out: dm_address_parcel still shows 28,766
-distinct keys and still carries the one key the folded rule merged.
+lk_parcel_keys was rebuilt under f4a65cf on 24 Sep at 06:29-06:30 and now reads 28,765 distinct keys for
+dm_address_parcel, 125,503 in total; the key the folded rule merged is gone. Numbers below are against that.
 """
 import sys, os, json, io, re
 from collections import Counter
