@@ -85,7 +85,7 @@ def district_centres():
 def lighting(centre):
     sun = spawn(unreal.DirectionalLight, "SUN_Sobha", (centre.x, centre.y, 50000), (-24, 250, 0))
     lc = sun.light_component
-    lc.set_intensity(4.0); lc.set_light_color(unreal.LinearColor(1.0, 0.86, 0.7, 1.0))
+    lc.set_intensity(7.0); lc.set_light_color(unreal.LinearColor(1.0, 0.86, 0.7, 1.0))
     try:
         lc.set_editor_property("atmosphere_sun_light", True); lc.set_editor_property("cast_cloud_shadows", True)
     except Exception:
@@ -274,7 +274,7 @@ def main():
         cc.focus_settings.focus_method = unreal.CameraFocusMethod.DISABLE
         cc.post_process_settings.set_editor_property("override_auto_exposure_method", False)
         cc.post_process_settings.set_editor_property("override_auto_exposure_bias", True)
-        cc.post_process_settings.set_editor_property("auto_exposure_bias", -1.0)
+        cc.post_process_settings.set_editor_property("auto_exposure_bias", -0.3)
     except Exception as e:
         log("  camera left at defaults: %s" % e)
     keys, L = path(dc)
