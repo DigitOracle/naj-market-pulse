@@ -266,6 +266,19 @@ def main():
                 else:
                     code, raw, tok = fetch_page(c, base, page, a.page_size, order, tok, f"{label}({len(rows):,} rows held)")
                     got, st_, nt_ = parse_page(code, raw)
+                    # 24 Sep 2026: payment vouchers (page 521) and flight arrivals (page 204) returned 408 on every retry while
+                    # other lanes kept pulling - one page too slow for the gateway's ~30 s limit, not an outage. Page N at size S
+                    # is exactly pages 4N-3..4N at size S/4, so fetch those and join them: same rows, the checkpoint stays in
+                    # S-sized pages, and nothing is discarded (changing --page-size would throw the checkpoint away).
+                    if got is None and st_ == "http_408" and a.page_size % 4 == 0:
+                        q = a.page_size // 4; got = []
+                        for k in range(4):
+                            code, raw, tok = fetch_page(c, base, (page - 1) * 4 + k + 1, q, order, tok, f"{label}(page {page} in quarters)")
+                            g2, st2, nt2 = parse_page(code, raw)
+                            if g2 is None: got = None; st_, nt_ = st2, nt2; break
+                            got += g2
+                            if len(g2) < q: break                  # the dataset ends inside this page
+                        if got is not None: api.log(f"{key}: page {page} timed out whole; fetched as 4 x {q} rows ({len(got)})")
                     if got is None: status, note = st_, nt_; break
                 hs = [rec_hash(x) for x in got]
                 raw_rows += len(got)
