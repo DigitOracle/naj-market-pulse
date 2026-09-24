@@ -317,6 +317,13 @@ def main():
             man[key] = entry
         touched.add(key)
         api.log(f"[{i}/{len(todo)}] {key}: {status} rows={len(rows)} cols={len(cols)}" + (f" order_by={order}" if order else "") + (f" ({note[:80]})" if note and status != "ok" else ""))
+        if status == "blocked":
+            # 24 Sep 2026: an append-only record of every firewall block, beside the manifest. The manifest note is replaced
+            # on the dataset's next run and the log is long; a lockout ticket needs "when, which dataset, which support ID"
+            # in seconds. Azimuth Rings asked whether the ID was kept durably - it now is.
+            with open(os.path.join(out_dir, "waf_blocks.jsonl"), "a", encoding="utf-8") as bf:
+                bf.write(json.dumps({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "dataset": key, "page": entry.get("pages"),
+                                     "rows_banked": len(rows), "note": note}, ensure_ascii=False) + chr(10))
         save()                                                     # every dataset: the loader reads the manifest, and a giant can take hours
     save()
     api.log(f"done: ok {n_ok}, skipped {n_skip}, failed {n_fail} -> {man_path}")
