@@ -122,10 +122,11 @@ def path(dc):
     mid = pts[len(pts) // 2]
     dx, dy = z.x - a.x, z.y - a.y; L = math.hypot(dx, dy); ux, uy = dx / L, dy / L   # unit vector along the corridor
     px, py = -uy, ux                                                                  # perpendicular, camera stays off to one side
-    h0, h1, h2 = max(tops) + 60000, max(tops) + 25000, tops[-1] + 30000              # 600 m over the start, 250 m mid, 300 m over Sobha One
-    k0 = ((a.x - ux * 140000 + px * 90000, a.y - uy * 140000 + py * 90000, h0), (mid.x, mid.y, mid.z))
-    k1 = ((mid.x + px * 110000, mid.y + py * 110000, h1), (mid.x + ux * 60000, mid.y + uy * 60000, tops[len(pts) // 2] * 0.4))
-    k2 = ((z.x - ux * 60000 + px * 70000, z.y - uy * 60000 + py * 70000, h2), (z.x, z.y, z.z * 0.5))
+    # close enough that a 250 m tower fills a third of the frame: ~500 m out, 300-350 m up, camera off to one side
+    h0, h1, h2 = tops[0] + 20000, tops[len(pts) // 2] + 12000, tops[-1] + 18000
+    k0 = ((a.x - ux * 50000 + px * 40000, a.y - uy * 50000 + py * 40000, h0), (a.x, a.y, tops[0] * 0.45))
+    k1 = ((mid.x + px * 55000, mid.y + py * 55000, h1), (mid.x, mid.y, tops[len(pts) // 2] * 0.4))
+    k2 = ((z.x - ux * 40000 + px * 35000, z.y - uy * 40000 + py * 35000, h2), (z.x, z.y, tops[-1] * 0.4))
     return [k0, k1, k2], L
 
 
@@ -188,11 +189,18 @@ def mrq_config():
     out.use_custom_frame_rate = True; out.output_frame_rate = unreal.FrameRate(FPS, 1)
     aa = cfg.find_or_add_setting_by_class(unreal.MoviePipelineAntiAliasingSetting)
     aa.spatial_sample_count = 1; aa.temporal_sample_count = 2; aa.override_anti_aliasing = True
+    # the first render came back sky-only: Nanite / Lumen / streaming had not settled in the one default warm-up frame
+    aa.engine_warm_up_count = 64; aa.render_warm_up_count = 32; aa.use_camera_cut_for_warm_up = True
     try:
         aa.anti_aliasing_method = unreal.AntiAliasingMethod.AAM_TSR
     except Exception:
         pass
-    cfg.find_or_add_setting_by_class(unreal.MoviePipelineGameOverrideSetting)
+    go = cfg.find_or_add_setting_by_class(unreal.MoviePipelineGameOverrideSetting)
+    for prop, val in (("texture_streaming", unreal.MoviePipelineTextureStreamingMethod.DISABLED), ("flush_grass_streaming", True), ("flush_streaming_managers", True)):
+        try:
+            go.set_editor_property(prop, val)
+        except Exception as e:
+            log("  game override %s: %s" % (prop, e))
     eal.save_asset(p)
     log("  %s: 1920x1080 JPG -> %s" % (p, RENDER_DIR))
 
