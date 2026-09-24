@@ -36,6 +36,7 @@ RADIUS_KM = 5.0
 # DM community per DLD area, resolved 21 Sep 2026 against lk_dm_buildings.community_name; None = the area has no DM community
 # (Palm Deira is reclaimed land with no DM buildings; the Al Yelayiss pair sit outside the DM building register).
 COMM = {
+    "Ras Al Khor Industrial First": 612,       # RAS AL KHOR IND. FIRST - Sobha One (24 Sep 2026; 413 is the residential Ras Al Khor)
     "Marsa Dubai": 392, "Business Bay": 346, "Burj Khalifa": 345, "Al Wasl": 343, "Al Barsha South Fourth": 681,
     "Al Barsha South Fifth": 684, "Al Hebiah First": 674, "Al Jadaf": 326, "Al Thanyah Fifth": 393, "Al Thanyah Third": 388,
     "Al Hebiah Third": 676, "Hadaeq Sheikh Mohammed Bin Rashid": 631, "Saih Shuaib 3": 532, "Al Hebiah Fourth": 682,
