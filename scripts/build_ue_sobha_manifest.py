@@ -14,7 +14,7 @@ Output data/ce/_datasmith/sobha_unreal.json
 Then in the Unreal Editor: scripts/ue_sobha_lens.py (Editor Python).
 Usage: python scripts/build_ue_sobha_manifest.py
 """
-import json, os, re, datetime as dt
+import json, os, re, sys, datetime as dt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DS = os.path.join(ROOT, "data", "ce", "_datasmith")
@@ -34,6 +34,10 @@ def main():
         # a Sobha-only export at FULL LOD 3 (towers included; the district exports drop towers >= 60 m to LOD 2 for
         # cost) wins over the district export when it exists: <slug>_sobha_lod3, from ce_lod3_datasmith.py --subset --tower-lod 3
         name = "%s_sobha_lod3" % slug if os.path.exists(os.path.join(DS, "%s_sobha_lod3.udatasmith" % slug)) else "%s_lod3" % slug
+        # --client: a client-cut variant (<slug>_sobha_client_lod3, permit-placed towers exported as built) wins where it exists;
+        # the canonical _sobha_lod3 keeps the register's status so the twin's own view of what stands today is never overwritten
+        if "--client" in sys.argv and os.path.exists(os.path.join(DS, "%s_sobha_client_lod3.udatasmith" % slug)):
+            name = "%s_sobha_client_lod3" % slug
         uds = os.path.join(DS, "%s.udatasmith" % name)
         stats_p = os.path.join(DS, "%s_stats.json" % name)
         georef_p = os.path.join(DS, "%s_georef.json" % name)
@@ -54,7 +58,7 @@ def main():
         if off and [round(x) for x in off] != OFFSET:
             print("  !! %s exported on a different offset %s - it will not sit with the others" % (slug, off))
         out["districts"][slug] = {"udatasmith": uds, "assets": os.path.join(DS, "%s_Assets" % name), "export": name,
-                                  "towers_lod": 3 if name.endswith("_sobha_lod3") else 2,
+                                  "towers_lod": 3 if "_sobha" in name else 2, "client_cut": name.endswith("_sobha_client_lod3"),
                                   "exported": stats.get("generated"), "lod": stats.get("lod"), "rule": stats.get("rule"),
                                   "shape_count": stats.get("shape_count"), "offset_ce_xyz": off,
                                   "sobha_actors": len(actors), "found_in_export": sum(1 for a in actors.values() if a["actor"]),
