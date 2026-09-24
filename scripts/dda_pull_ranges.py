@@ -72,16 +72,18 @@ def cmd_work(args):
     if os.path.exists(done): api.log(f"range {args.start}-{args.end} already done"); return
     c = setup(); base = base_url(c, ent, ds); tok = api.token(c)
     sample_set = {int(x) for x in args.samples.split(",") if x}
-    seen = set(); raw_rows = 0; samples = {}; first = args.start
+    # 25 Sep 2026: every row is kept. Ranges only run on a sorted read, whose pages are reproducible, so an identical row is
+    # another record of a register with no key - dropping it was the bug fixed in dda_pull_all (419348a). kept counts rows.
+    kept = 0; raw_rows = 0; samples = {}; first = args.start
     if os.path.exists(part) and os.path.exists(pstate):
         st = json.load(open(pstate, encoding="utf-8"))
         if st.get("order_by") == args.order_by and st.get("page_size") == args.page_size:
             with open(part, encoding="utf-8") as pf:
                 for line in pf:
-                    try: seen.add(rec_hash(json.loads(line)))
+                    try: json.loads(line); kept += 1
                     except Exception: break
             first = int(st["page"]) + 1; raw_rows = int(st.get("raw_rows", 0)); samples = st.get("samples", {})
-            api.log(f"range {args.start}-{args.end}: resuming at page {first} with {len(seen):,} rows")
+            api.log(f"range {args.start}-{args.end}: resuming at page {first} with {kept:,} rows")
     if first == args.start:
         for p_ in (part, pstate):
             if os.path.exists(p_): os.remove(p_)
@@ -94,10 +96,7 @@ def cmd_work(args):
         got, st_, nt_ = parse_page(code, raw)
         if got is None:
             api.log(f"range {args.start}-{args.end}: page {page} failed ({st_}: {nt_[:60]}); checkpoint kept, re-run to resume"); sys.exit(2)
-        hs = [rec_hash(r) for r in got]; raw_rows += len(got); new = []
-        for rec, h in zip(got, hs):
-            if h in seen: continue
-            seen.add(h); new.append(rec)
+        hs = [rec_hash(r) for r in got]; raw_rows += len(got); new = list(got); kept += len(new)
         if page in sample_set: samples[str(page)] = hs
         if new:
             with open(part, "a", encoding="utf-8") as pf:
@@ -106,11 +105,11 @@ def cmd_work(args):
             json.dump({"order_v": ORDER_V, "order_by": args.order_by, "page_size": args.page_size, "page": page, "raw_rows": raw_rows, "samples": samples}, sf)
         os.replace(pstate + ".tmp", pstate)
         if len(got) < args.page_size and page < args.end: end_hit = page; break     # the dataset ended inside this range
-        if page % 25 == 0: api.log(f"range {args.start}-{args.end}: page {page} ({len(seen):,} rows)")
-    json.dump({"start": args.start, "end": end_hit, "last_page": end_hit, "raw_rows": raw_rows, "rows": len(seen), "samples": samples,
+        if page % 25 == 0: api.log(f"range {args.start}-{args.end}: page {page} ({kept:,} rows)")
+    json.dump({"start": args.start, "end": end_hit, "last_page": end_hit, "raw_rows": raw_rows, "rows": kept, "samples": samples,
                "order_by": args.order_by, "page_size": args.page_size}, open(done + ".tmp", "w"))
     os.replace(done + ".tmp", done)
-    api.log(f"range {args.start}-{args.end} done: {len(seen):,} rows")
+    api.log(f"range {args.start}-{args.end} done: {kept:,} rows")
 
 
 def cmd_merge(args):
@@ -126,14 +125,11 @@ def cmd_merge(args):
     if any(i.get("order_by") != args.order_by or i.get("page_size") != args.page_size for i in infos): sys.exit("ranges were pulled with a different order_by / page size")
     stored = {}
     for i in infos: stored.update(i.get("samples", {}))
-    def records():
-        seen = set()
+    def records():                  # ranges are disjoint page spans of one sorted read: every row is kept (25 Sep 2026)
         for a, b, _ in rngs:
             with open(range_paths(fn, a, b)[0], encoding="utf-8") as pf:
                 for line in pf:
-                    rec = json.loads(line); h = rec_hash(rec)
-                    if h in seen: continue
-                    seen.add(h); yield rec
+                    yield json.loads(line)
     n = 0; cols = set()
     for rec in records():
         n += 1
@@ -150,14 +146,14 @@ def cmd_merge(args):
     cat = next(r for r in json.load(open(CAT, encoding="utf-8"))["rows"] if r["entity"] == ent and r["dataset"] == ds)
     raw_rows = sum(i.get("raw_rows", 0) for i in infos)
     entry = {"id": cat["id"], "title": cat["title"], "entity": ent, "dataset": ds, "rows": n, "columns": len(cols), "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"),
-             "seconds": 0, "pages": args.last_page, "last_page": args.last_page, "raw_rows": raw_rows, "order_by": args.order_by}
+             "seconds": 0, "pages": args.last_page, "last_page": args.last_page, "raw_rows": raw_rows, "order_by": args.order_by, "repeats_kept": True}
     if bad:
         entry.update({"status": "unstable", "file": "", "selfcheck": "mismatch", "ended_by": "unstable", "note": "self-check failed: " + "; ".join(bad)})
     else:
         tmp = os.path.join(OUT, fn + ".tmp")
         with open(tmp, "w", encoding="utf-8") as f:
             head = {"id": cat["id"], "title": cat["title"], "organization": cat.get("organization", ""), "entity": ent, "dataset": ds, "env": "prod",
-                    "pulled": entry["pulled"], "rows": n, "columns": sorted(cols), "order_by": args.order_by}
+                    "pulled": entry["pulled"], "rows": n, "columns": sorted(cols), "order_by": args.order_by, "repeats_kept": True}
             f.write(json.dumps(head, ensure_ascii=False)[:-1] + ', "results": [')
             first = True
             for rec in records():
