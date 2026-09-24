@@ -85,7 +85,7 @@ def district_centres():
 def lighting(centre):
     sun = spawn(unreal.DirectionalLight, "SUN_Sobha", (centre.x, centre.y, 50000), (-24, 250, 0))
     lc = sun.light_component
-    lc.set_intensity(7.0); lc.set_light_color(unreal.LinearColor(1.0, 0.86, 0.7, 1.0))
+    lc.set_intensity(6.0); lc.set_light_color(unreal.LinearColor(1.0, 0.70, 0.42, 1.0))   # v9 golden hour: low warm sun
     try:
         lc.set_editor_property("atmosphere_sun_light", True); lc.set_editor_property("cast_cloud_shadows", True)
     except Exception:
@@ -99,8 +99,10 @@ def lighting(centre):
     fog = spawn(unreal.ExponentialHeightFog, "FOG_Sobha", (centre.x, centre.y, 0))
     try:
         fc = fog.component
-        fc.set_editor_property("fog_density", 0.012); fc.set_editor_property("fog_height_falloff", 0.3)
+        fc.set_editor_property("fog_density", 0.02); fc.set_editor_property("fog_height_falloff", 0.25)
         fc.set_editor_property("volumetric_fog", True)
+        fc.set_editor_property("fog_inscattering_luminance", unreal.LinearColor(0.95, 0.62, 0.38, 1.0))   # warm haze
+        fc.set_editor_property("start_distance", 20000.0)
     except Exception as e:
         log("  fog left at defaults: %s" % e)
     ground = find("GROUND_Sobha")
@@ -236,7 +238,7 @@ def mrq_config():
     cfg.find_or_add_setting_by_class(unreal.MoviePipelineDeferredPassBase)
     cfg.find_or_add_setting_by_class(unreal.MoviePipelineImageSequenceOutput_JPG)
     out = cfg.find_or_add_setting_by_class(unreal.MoviePipelineOutputSetting)
-    out.output_resolution = unreal.IntPoint(1920, 1080)
+    out.output_resolution = unreal.IntPoint(1080, 1350)   # 4:5
     out.output_directory = unreal.DirectoryPath(RENDER_DIR)
     out.file_name_format = "sobha_fly.{frame_number}"
     out.use_custom_frame_rate = True; out.output_frame_rate = unreal.FrameRate(FPS, 1)
@@ -269,12 +271,14 @@ def main():
     cam.set_actor_label("CAM_Sobha")
     try:
         cc = cam.camera_component
-        cc.filmback.sensor_width = 36.0; cc.filmback.sensor_height = 20.25   # 16:9 for the assessment cut
-        cc.current_focal_length = 28.0; cc.current_aperture = 8.0
+        cc.filmback.sensor_width = 24.0; cc.filmback.sensor_height = 30.0     # 4:5, the WhatsApp / Reels frame
+        cc.current_focal_length = 24.0; cc.current_aperture = 8.0
         cc.focus_settings.focus_method = unreal.CameraFocusMethod.DISABLE
         cc.post_process_settings.set_editor_property("override_auto_exposure_method", False)
         cc.post_process_settings.set_editor_property("override_auto_exposure_bias", True)
-        cc.post_process_settings.set_editor_property("auto_exposure_bias", -0.3)
+        cc.post_process_settings.set_editor_property("auto_exposure_bias", -0.2)
+        cc.post_process_settings.set_editor_property("override_bloom_intensity", True); cc.post_process_settings.set_editor_property("bloom_intensity", 0.35)
+        cc.post_process_settings.set_editor_property("override_vignette_intensity", True); cc.post_process_settings.set_editor_property("vignette_intensity", 0.35)
     except Exception as e:
         log("  camera left at defaults: %s" % e)
     keys, L = path(dc)
@@ -283,7 +287,7 @@ def main():
     # same way, swung 35 degrees off-axis for modelling, 30 degrees down - golden and raking, not flat.
     sun = find("SUN_Sobha")
     if sun:
-        sun.set_actor_rotation(unreal.Rotator(0.0, -30.0, (path.orbit_mid_deg + 180.0 + 35.0) % 360.0), False)
+        sun.set_actor_rotation(unreal.Rotator(0.0, -11.0, (path.orbit_mid_deg + 180.0 + 40.0) % 360.0), False)   # 11 degrees up: golden hour
         log("  sun aimed with the orbit: yaw %.0f" % ((path.orbit_mid_deg + 180.0 + 35.0) % 360.0))
     loc0 = keys[0][0]; cam.set_actor_location(unreal.Vector(*loc0), False, False); cam.set_actor_rotation(look_at(loc0, keys[0][1]), False)
     log("  corridor %.1f km; keys %s" % (L / 100000.0, [(round(k[0][0] / 100), round(k[0][1] / 100), round(k[0][2] / 100)) for k in keys]))
