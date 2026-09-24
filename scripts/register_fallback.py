@@ -88,7 +88,7 @@ def scope_note(sheet_name, reg_name):
 
 
 def main():
-    do_push = "--no-push" not in sys.argv; only = (sys.argv[sys.argv.index("--only") + 1].lower() if "--only" in sys.argv else None)
+    do_push = "--push" in sys.argv and "--no-push" not in sys.argv; only = (sys.argv[sys.argv.index("--only") + 1].lower() if "--only" in sys.argv else None)
     remp = os.path.join(BOARD, "remaining.json"); doc = json.load(open(remp, encoding="utf-8")); P = doc["projects"]
     con = duckdb.connect()
     PR = f"read_csv_auto([{csvglob(REG, 'projects', '*.csv')}], all_varchar=true, union_by_name=true)"

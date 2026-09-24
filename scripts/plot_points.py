@@ -46,7 +46,7 @@ def plot_label(parcel, community, no):
 
 
 def main():
-    do_push = "--no-push" not in sys.argv
+    do_push = "--push" in sys.argv and "--no-push" not in sys.argv
     reg = load(os.path.join(IDENT, "reg_bindings.json"), {}) or {}
     tx = load(os.path.join(IDENT, "tx_bindings.json"), {}) or {}
     # v233 - a building's register row does not always sit in the file named after its district. DLD

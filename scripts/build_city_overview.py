@@ -85,7 +85,7 @@ def main():
            "coast": {"n": len(segs), "xzxz_i16": b64("h", [v for s in segs for v in s[:4]]), "cls_u8": b64("B", [s[4] for s in segs])}}
     p = os.path.join(BOARD, "city_overview.json"); json.dump(out, open(p, "w", encoding="utf-8")); size = os.path.getsize(p)
     print(f"city overview: {n:,} buildings · {len(districts)} districts · {len(segs):,} waterline segments · {size / 1e6:.2f} MB · {round(time.time() - t0)} s")
-    if "--no-push" not in sys.argv:
+    if "--push" in sys.argv and "--no-push" not in sys.argv:
         r = push("city_overview", out, env_token("INGEST_TOKEN")); print("city_overview ->", r.get("ok"), r.get("bytes"))
 
 

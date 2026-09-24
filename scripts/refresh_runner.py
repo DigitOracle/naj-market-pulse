@@ -239,7 +239,7 @@ def sweep(a):
         S("listener_health", py("scripts/listener_health.py"), warn=(2, 3), after=after_listener(False)),
         S("snapshot_sheets", fn=snapshot_sheets),
         S("extract_avail", py("scripts/extract_avail.py", "--scan"), timeout=5400, after=after_extract),
-        S("group_links", py("scripts/group_links.py"), retry=1),      # re-reads and re-pushes the same register: safe to repeat
+        S("group_links", py("scripts/group_links.py", "--push"), retry=1),      # re-reads and re-pushes the same register: safe to repeat
         S("avail_volume", py("scripts/avail_volume_check.py"), needs=["extract_avail"], held=(4,), after=after_volume),
         S("avail_intervals", py("scripts/avail_intervals.py"), needs=["avail_volume"], when=rebuild_needed),
         S("avail_index", py("scripts/build_avail_index.py"), needs=["avail_volume"], when=rebuild_needed),

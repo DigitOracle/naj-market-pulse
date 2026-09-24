@@ -19,7 +19,7 @@ DB = os.path.join(ROOT, "data", "graph", "najma.duckdb"); AUD = os.path.join(ROO
 NOW = time.strftime("%Y-%m-%dT%H:%M:%S"); RUN = time.strftime("%Y%m%d-%H%M%S") + "-subbind"; SCHEMA = "1.2"; RESOLVER = "identity-2026-09-08-rolerule"
 sys.path.insert(0, HERE)
 from build_avail_index import env_token, push
-PUSH = "--no-push" not in sys.argv; ONLY = [a for a in sys.argv[1:] if not a.startswith("--")]
+PUSH = "--push" in sys.argv and "--no-push" not in sys.argv; ONLY = [a for a in sys.argv[1:] if not a.startswith("--")]
 
 
 def connect_writer(path, tries=20, wait=30):

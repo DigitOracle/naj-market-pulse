@@ -126,7 +126,7 @@ def run(slug, do_push, tok):
 
 
 def main():
-    do_push = "--no-push" not in sys.argv
+    do_push = "--push" in sys.argv and "--no-push" not in sys.argv
     want = [a for a in sys.argv[1:] if not a.startswith("--")]
     # every district the twin can draw, not only the three with their own Overture cut
     slugs = want or sorted(os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(CE, "*", "buildings.geojson")))

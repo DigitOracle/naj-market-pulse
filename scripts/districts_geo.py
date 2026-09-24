@@ -36,7 +36,7 @@ NICE = {"bukadra": "Sobha Hartland II / Bukadra", "rasalkhor": "Sobha One / Ras 
 
 
 def main():
-    do_push = "--no-push" not in sys.argv
+    do_push = "--push" in sys.argv and "--no-push" not in sys.argv
     out = []
     plots = {}
     pj = os.path.join(BOARD, "plots.json")

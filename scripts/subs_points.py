@@ -58,7 +58,7 @@ def main():
     print(f"sub-communities {len(feats):,} across {len(per)} districts | {os.path.getsize(os.path.join(BOARD, 'subs.json'))//1024} KB"
           f" | keyed to a DLD project {keyed:,}")
     for s, n in sorted(per.items(), key=lambda x: -x[1])[:8]: print(f"  {s:<26} {n}")
-    if "--no-push" not in sys.argv: print("subs ->", push("subs", doc, env_token("INGEST_TOKEN")).get("ok"))
+    if "--push" in sys.argv and "--no-push" not in sys.argv: print("subs ->", push("subs", doc, env_token("INGEST_TOKEN")).get("ok"))
 
 
 if __name__ == "__main__":
