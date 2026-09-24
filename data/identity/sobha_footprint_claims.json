@@ -13,6 +13,714 @@
     "name": "Sobha Hartland - The Crest",
     "placeholder_set": "sobha_offplan",
     "basis": "register placeholder: 47 floors; DM permit on parcel 3470383: 47 floors, 171 m"
+   },
+   "227": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 535 m2, 12 m tall, 5 m from the point"
+   },
+   "229": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 384 m2, 12 m tall, 33 m from the point"
+   },
+   "230": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 399 m2, 12 m tall, 34 m from the point"
+   },
+   "364": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 176 m2, 12 m tall, 65 m from the point"
+   },
+   "226": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 515 m2, 12 m tall, 71 m from the point"
+   },
+   "214": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 323 m2, 12 m tall, 74 m from the point"
+   },
+   "231": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 176 m2, 12 m tall, 77 m from the point"
+   },
+   "1347": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 595 m2, 12 m tall, 85 m from the point"
+   },
+   "215": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 394 m2, 12 m tall, 92 m from the point"
+   },
+   "213": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 349 m2, 12 m tall, 105 m from the point"
+   },
+   "228": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 394 m2, 12 m tall, 106 m from the point"
+   },
+   "350": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 355 m2, 12 m tall, 106 m from the point"
+   },
+   "216": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 329 m2, 12 m tall, 110 m from the point"
+   },
+   "358": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 307 m2, 12 m tall, 118 m from the point"
+   },
+   "357": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 396 m2, 12 m tall, 131 m from the point"
+   },
+   "217": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 500 m2, 12 m tall, 131 m from the point"
+   },
+   "211": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 375 m2, 12 m tall, 132 m from the point"
+   },
+   "225": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 460 m2, 12 m tall, 139 m from the point"
+   },
+   "1346": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 164 m2, 12 m tall, 139 m from the point"
+   },
+   "491": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 366 m2, 12 m tall, 143 m from the point"
+   },
+   "351": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 515 m2, 12 m tall, 149 m from the point"
+   },
+   "210": {
+    "project_number": 1837,
+    "name": "Sobha Hartland Estates - Townhouses",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint nearest the Estates Google point; 484 m2, 12 m tall, 149 m from the point"
+   },
+   "493": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 323 m2, 12 m tall, 32 m from the point"
+   },
+   "469": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 334 m2, 12 m tall, 42 m from the point"
+   },
+   "470": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 307 m2, 12 m tall, 56 m from the point"
+   },
+   "494": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 380 m2, 12 m tall, 66 m from the point"
+   },
+   "490": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 338 m2, 12 m tall, 71 m from the point"
+   },
+   "471": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 375 m2, 12 m tall, 73 m from the point"
+   },
+   "209": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 484 m2, 12 m tall, 75 m from the point"
+   },
+   "489": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 365 m2, 12 m tall, 78 m from the point"
+   },
+   "472": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 308 m2, 12 m tall, 90 m from the point"
+   },
+   "488": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 335 m2, 12 m tall, 91 m from the point"
+   },
+   "208": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 457 m2, 12 m tall, 100 m from the point"
+   },
+   "218": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 103 m from the point"
+   },
+   "487": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 361 m2, 12 m tall, 104 m from the point"
+   },
+   "473": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 297 m2, 12 m tall, 107 m from the point"
+   },
+   "486": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 319 m2, 12 m tall, 119 m from the point"
+   },
+   "219": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 124 m from the point"
+   },
+   "207": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 482 m2, 12 m tall, 124 m from the point"
+   },
+   "474": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 309 m2, 12 m tall, 125 m from the point"
+   },
+   "485": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 360 m2, 12 m tall, 135 m from the point"
+   },
+   "475": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 366 m2, 12 m tall, 144 m from the point"
+   },
+   "220": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 145 m from the point"
+   },
+   "206": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 484 m2, 12 m tall, 148 m from the point"
+   },
+   "484": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 323 m2, 12 m tall, 152 m from the point"
+   },
+   "202": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 159 m from the point"
+   },
+   "476": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 332 m2, 12 m tall, 162 m from the point"
+   },
+   "201": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 168 m from the point"
+   },
+   "483": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 367 m2, 12 m tall, 168 m from the point"
+   },
+   "221": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 169 m from the point"
+   },
+   "203": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 484 m2, 12 m tall, 173 m from the point"
+   },
+   "200": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 178 m from the point"
+   },
+   "477": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 368 m2, 12 m tall, 180 m from the point"
+   },
+   "181": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 185 m from the point"
+   },
+   "482": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 325 m2, 12 m tall, 186 m from the point"
+   },
+   "199": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 187 m from the point"
+   },
+   "222": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 191 m from the point"
+   },
+   "182": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 193 m from the point"
+   },
+   "198": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 197 m from the point"
+   },
+   "478": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 342 m2, 12 m tall, 198 m from the point"
+   },
+   "205": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 457 m2, 12 m tall, 199 m from the point"
+   },
+   "352": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 443 m2, 12 m tall, 201 m from the point"
+   },
+   "183": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 201 m from the point"
+   },
+   "481": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 361 m2, 12 m tall, 204 m from the point"
+   },
+   "197": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 206 m from the point"
+   },
+   "184": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 210 m from the point"
+   },
+   "356": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 478 m2, 12 m tall, 211 m from the point"
+   },
+   "223": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 214 m from the point"
+   },
+   "196": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 216 m from the point"
+   },
+   "479": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 369 m2, 12 m tall, 217 m from the point"
+   },
+   "185": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 218 m from the point"
+   },
+   "480": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 363 m2, 12 m tall, 222 m from the point"
+   },
+   "353": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 517 m2, 12 m tall, 224 m from the point"
+   },
+   "204": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 547 m2, 12 m tall, 224 m from the point"
+   },
+   "195": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 227 m from the point"
+   },
+   "186": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 227 m from the point"
+   },
+   "492": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 301 m2, 12 m tall, 236 m from the point"
+   },
+   "187": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 236 m from the point"
+   },
+   "194": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 237 m from the point"
+   },
+   "361": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 324 m2, 12 m tall, 238 m from the point"
+   },
+   "224": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 500 m2, 12 m tall, 238 m from the point"
+   },
+   "354": {
+    "project_number": 1544,
+    "name": "SOBHA HARTLAND VILLAS-PHASE 1",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 523 m2, 12 m tall, 239 m from the point"
+   },
+   "360": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 326 m2, 12 m tall, 239 m from the point"
+   },
+   "359": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 296 m2, 12 m tall, 240 m from the point"
+   },
+   "347": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 392 m2, 12 m tall, 245 m from the point"
+   },
+   "188": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 246 m from the point"
+   },
+   "193": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 249 m from the point"
+   },
+   "345": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 448 m2, 12 m tall, 253 m from the point"
+   },
+   "355": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 435 m2, 12 m tall, 254 m from the point"
+   },
+   "189": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 256 m from the point"
+   },
+   "192": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 259 m from the point"
+   },
+   "346": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 497 m2, 12 m tall, 263 m from the point"
+   },
+   "190": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 266 m from the point"
+   },
+   "372": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 98 m2, 12 m tall, 268 m from the point"
+   },
+   "371": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 97 m2, 12 m tall, 268 m from the point"
+   },
+   "373": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 98 m2, 12 m tall, 268 m from the point"
+   },
+   "374": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 98 m2, 12 m tall, 269 m from the point"
+   },
+   "378": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 112 m2, 12 m tall, 269 m from the point"
+   },
+   "349": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 482 m2, 12 m tall, 272 m from the point"
+   },
+   "344": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 523 m2, 12 m tall, 275 m from the point"
+   },
+   "191": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 214 m2, 12 m tall, 276 m from the point"
+   },
+   "370": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 328 m2, 12 m tall, 277 m from the point"
+   },
+   "369": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 242 m2, 12 m tall, 278 m from the point"
+   },
+   "382": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 102 m2, 12 m tall, 278 m from the point"
+   },
+   "417": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 438 m2, 12 m tall, 280 m from the point"
+   },
+   "416": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 333 m2, 12 m tall, 281 m from the point"
+   },
+   "565": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 140 m2, 12 m tall, 283 m from the point"
+   },
+   "415": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 306 m2, 12 m tall, 284 m from the point"
+   },
+   "156": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 116 m2, 12 m tall, 286 m from the point"
+   },
+   "341": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 489 m2, 12 m tall, 288 m from the point"
+   },
+   "380": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 111 m2, 12 m tall, 288 m from the point"
+   },
+   "414": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 400 m2, 12 m tall, 289 m from the point"
+   },
+   "348": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 493 m2, 12 m tall, 291 m from the point"
+   },
+   "1488": {
+    "project_number": 2227,
+    "name": "Sobha Hartland Villas Phase III",
+    "placeholder_set": "hartland_villas",
+    "basis": "villa-size footprint by the villa phases' Google point (phase split by distance, not known); 407 m2, 12 m tall, 294 m from the point"
+   },
+   "160": {
+    "project_number": 1581,
+    "name": "SOBHA HARTLAND GREENS- PHASE I",
+    "placeholder_set": "hartland_villas",
+    "basis": "mid-rise by the Greens I/II Google point; 1517 m2, 40 m tall, 86 m from the point"
+   },
+   "468": {
+    "project_number": 1581,
+    "name": "SOBHA HARTLAND GREENS- PHASE I",
+    "placeholder_set": "hartland_villas",
+    "basis": "mid-rise by the Greens I/II Google point; 3875 m2, 25 m tall, 130 m from the point"
+   },
+   "162": {
+    "project_number": 1798,
+    "name": "SOBHA HARTLAND GREENS PHASE II",
+    "placeholder_set": "hartland_villas",
+    "basis": "mid-rise by the Greens I/II Google point; 2072 m2, 40 m tall, 154 m from the point"
+   },
+   "1463": {
+    "project_number": 1798,
+    "name": "SOBHA HARTLAND GREENS PHASE II",
+    "placeholder_set": "hartland_villas",
+    "basis": "mid-rise by the Greens I/II Google point; 732 m2, 20 m tall, 165 m from the point"
    }
   },
   "motorcity": {

@@ -57,6 +57,9 @@ LOOKS = {
     "skyparks_glass": {"note": "Sobha SkyParks: clear glass with fins, balconies above a retail podium",
                        "cga": {"fclass": "glassclear", "balconyMinH": 20, "balconyContinuous": 1, "balconyD": 1.4, "finProj": 0.15, "paneW": 1.4, "podiumLevels": 3},
                        "unreal": {"walls": "white", "slabs": "white", "vision": "clear_glass"}},
+    "hartland_villa": {"note": "Sobha Hartland villas / Estates townhouses: contemporary white render, pale stone base, large dark-framed glazing, flat roofs",
+                       "cga": {"fclass": "render", "balconyMinH": 999, "balconyContinuous": 0, "finProj": 0.0, "paneW": 2.2},
+                       "unreal": {"walls": "white", "slabs": "pale_concrete", "vision": "dark_glass", "fins": "dark"}},
     "legacy_render": {"note": "2010-era Sobha (Ivory, Sapphire, Daffodil) and small schemes: render with punched windows and balconies",
                       "cga": {"fclass": "render", "balconyMinH": 0, "balconyContinuous": 0, "balconyD": 1.2, "finProj": 0.0},
                       "unreal": {"walls": "cream_render", "slabs": "cream_render", "vision": "tinted_glass"}},
@@ -70,6 +73,7 @@ LOOK_OF = [
     ("Verde", "verde_glass"),
     ("SkyParks", "skyparks_glass"),
     ("IVORY", "legacy_render"), ("SAPPHIRE", "legacy_render"), ("DAFFODIL", "legacy_render"), ("SERENE", "legacy_render"),
+    ("Villas", "hartland_villa"), ("Estates", "hartland_villa"), ("Townhouse", "hartland_villa"),
     ("Hartland", "hartland_glass"), ("Creek Vista", "hartland_glass"), ("Crest", "hartland_glass"), ("Waves", "hartland_glass"), ("Greens", "hartland_glass"),
 ]
 
