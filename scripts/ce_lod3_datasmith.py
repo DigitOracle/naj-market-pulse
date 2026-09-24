@@ -254,7 +254,11 @@ def main():
         # The first draft of this caught the exception, and a NameError inside it would have skipped every
         # lift silently while the log said nothing - the same shape of defect this fix exists to correct.
         hreg = json.load(open(hreg_path, encoding="utf-8")).get("heights", {})
-    lifted, conflicts = 0, []
+    hover = {}
+    hover_path = os.path.join(HERE, "height_overrides.json")   # TRACKED: data/ is gitignored, and a
+    if os.path.exists(hover_path):                            # reviewed decision must survive in git
+        hover = json.load(open(hover_path, encoding="utf-8")).get("districts", {}).get(SLUG, {})
+    lifted, conflicts, overridden, held = 0, [], 0, 0
     for s, fi in zip(shapes, mapping):
         if SUBSET is not None and fi not in SUBSET: continue
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3}); c = rec["class"]; v = int(rec.get("variant", fi % 3))
@@ -269,12 +273,19 @@ def main():
         # override - it lifts a building OFF the placeholder and never replaces a height already real.
         # This lane produced register-exact heights on 12 Sep (b7 198.4, b530 118.4, b56 102.4) by a route
         # nobody has identified; making the source EXPLICIT here means the export no longer depends on it.
-        rh = hreg.get(str(fi))
+        ov = hover.get(str(fi)) or {}
+        rh = None if (ov.get("height_m") or ov.get("hold")) else hreg.get(str(fi))
+        if ov.get("height_m"):
+            h = float(ov["height_m"]); overridden += 1
+        elif ov.get("hold"):
+            held += 1
         if rh:
             try: rh = float(rh)
             except (TypeError, ValueError): rh = 0.0
             if rh > 0 and abs(h - 12.0) < 0.01:
                 h = rh; lifted += 1
+            elif rh > 0 and 0 < h < 20 and rh >= 3 * h:
+                h = rh; lifted += 1          # a stub, not a height - see ce_batch_v2 for why 20 m and 3x
             elif rh > 0 and abs(rh - h) > 3:
                 conflicts.append((fi, round(h, 1), round(rh, 1)))
         if h > 0: by_h.setdefault(round(h, 1), []).append(s)
@@ -287,6 +298,8 @@ def main():
     for az, lst in by_az.items(): ce.setAttribute(lst, "streetAz", float(az))
     log(f"named {len(sel)} shapes (mapping {how}); classes " + ", ".join(f"{c}={len(l)}" for c, l in sorted(by_cls.items()))
         + f"; streetAz pushed to {sum(len(l) for l in by_az.values())} shapes ({len(by_az)} bearings)")
+    if hover:
+        log(f"height overrides: {overridden} set by reviewed decision, {held} held against the rules")
     if hreg:
         log(f"heights register: {lifted} lifted off the 12.0 m placeholder, {len(conflicts)} left alone")
         for fi, was, reg in sorted(conflicts, key=lambda c: -(c[2] - c[1]))[:5]:

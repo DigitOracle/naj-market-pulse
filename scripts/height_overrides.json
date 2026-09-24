@@ -1,0 +1,24 @@
+{
+ "generated": "2026-09-24",
+ "basis": "geojson name vs bldgfacts name; see height_overrides_README.md",
+ "districts": {
+  "businessbay": {
+   "620": {
+    "height_m": 153.6,
+    "why": "Canal Heights 2 in bldgfacts, '2' in the geojson - same building. Register 153.6 = 48 floors x 3.2; massed 88.0 is a part-built OSM capture."
+   },
+   "589": {
+    "height_m": 140.8,
+    "why": "ONE River Point in both. Register 140.8 = 44 floors x 3.2; massed 88.0 is a part-built OSM capture."
+   },
+   "650": {
+    "height_m": 96.0,
+    "why": "Binghatti Aquarise in bldgfacts, 'Aquarise' in the geojson - same building. Register 96.0 = 30 floors x 3.2; massed 32.0 is part-built."
+   },
+   "154": {
+    "hold": true,
+    "why": "HOLD at 110.0. The register row is Tiger Sky Tower (390.4 = 122 floors) but this footprint is named UPSIDE Living by SRG in the geojson and bldgfacts gives 30 storeys. Two buildings on one parcel; applying 390.4 would put Tiger Sky's height on a different tower. Most conspicuous building in the district, so the wrong fix is worse than the placeholder."
+   }
+  }
+ }
+}

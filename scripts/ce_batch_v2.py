@@ -258,7 +258,14 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
         hreg = json.load(open(os.path.join(CEDIR, slug, "heights_register.json"), encoding="utf-8")).get("heights", {})
     except Exception:
         pass
-    lifted, conflicts = 0, []
+    # height_overrides.json is a REVIEWED decision and outranks everything - geojson, register, stub rule.
+    # See scripts/height_overrides_README.md. "hold" pins the geojson value and stops the rules touching it,
+    # for buildings where a rule would otherwise fix something into being wrong (businessbay b154).
+    hover = {}
+    hover_path = os.path.join(HERE, "height_overrides.json")   # TRACKED: data/ is gitignored, and a
+    if os.path.exists(hover_path):                            # reviewed decision must survive in git
+        hover = json.load(open(hover_path, encoding="utf-8")).get("districts", {}).get(slug, {})
+    lifted, conflicts, overridden, held = 0, [], 0, 0
 
     for s, fi in zip(shapes, mapping):
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3}); c = rec["class"]; v = int(rec.get("variant", fi % 3))
@@ -274,7 +281,12 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
             h = float(pr.get("bHeight") or 0)
         except (TypeError, ValueError):
             h = 0.0
-        rh = hreg.get(str(fi))
+        ov = hover.get(str(fi)) or {}
+        rh = None if (ov.get("height_m") or ov.get("hold")) else hreg.get(str(fi))
+        if ov.get("height_m"):
+            h = float(ov["height_m"]); overridden += 1
+        elif ov.get("hold"):
+            held += 1
         if rh:
             try:
                 rh = float(rh)
@@ -282,6 +294,13 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
                 rh = 0.0
             if rh > 0 and abs(h - 12.0) < 0.01:
                 h = rh; lifted += 1                       # off the placeholder
+            elif rh > 0 and 0 < h < 20 and rh >= 3 * h:
+                # A STUB, not a height. 6.2 m against a register saying 118 m is a footprint captured at
+                # podium level while the tower was part-built - the OSM height is real in the sense that
+                # something measured it, and wrong about the building. Only fires below 20 m and only at 3x
+                # or more, so a genuine low-rise never qualifies: the nine it catches estate-wide all sit
+                # between 6.2 and 12.6 m. Anything above 20 m is left for a person - see the conflicts below.
+                h = rh; lifted += 1
             elif rh > 0 and abs(rh - h) > 3:
                 conflicts.append((fi, round(h, 1), round(rh, 1)))   # both real-looking: leave it, report it
         if h > 0: by_h.setdefault(round(h, 1), []).append(s)
@@ -293,6 +312,8 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
     for lv, lst in by_lv.items(): ce.setAttribute(lst, "levels", lv)
     log(f"  named {n} shapes (mapping: {how}); classes " + ", ".join(f"{c}={len(l)}" for c, l in sorted(by_cls.items())))
     log(f"  heights pushed: {len(by_h)} distinct values, max {max(by_h) if by_h else 0} m; levels {len(by_lv)} distinct")
+    if hover:
+        log(f"  height overrides: {overridden} set by reviewed decision, {held} held against the rules")
     if hreg:
         log(f"  heights register: {lifted} lifted off the 12.0 m placeholder, {len(conflicts)} left alone (model and register both look real)")
         for fi, was, reg in sorted(conflicts, key=lambda c: -c[2])[:5]:
