@@ -31,6 +31,7 @@ GAME_ROOT = "/Game/Najma"
 SOBHA_DIR = GAME_ROOT + "/Sobha"
 SOBHA_ONLY = True
 REIMPORT = os.environ.get("SOBHA_REIMPORT") == "1"
+CLEAN = os.environ.get("SOBHA_CLEAN") == "1"   # delete /Game/Najma/<slug> outright before reimport (a disk-full window corrupted every mesh reference at once, 24 Sep 2026)
 PLACEHOLDER_CORAL = os.environ.get("SOBHA_PLACEHOLDER_CORAL") == "1"   # off: placeholders wear their rule facade (client cut)   # re-exported Datasmith (new facades): purge every district and import again
 COLOUR = unreal.LinearColor(0.878, 0.478, 0.373, 1.0)     # #E07A5F, the DEVCOL the web twin uses for Sobha
 BASE_MAT = "/Engine/BasicShapes/BasicShapeMaterial"       # has a "Color" vector parameter; ships with every project
@@ -89,11 +90,21 @@ def district_present(slug):
 
 
 def import_district(slug, path):
+    dest = "%s/%s" % (GAME_ROOT, slug)
     if district_present(slug):
-        log("  %s: already in the level" % slug); return True
+        if CLEAN:
+            log("  %s: SOBHA_CLEAN set - deleting %s outright before reimport" % (slug, dest))
+        else:
+            log("  %s: already in the level" % slug); return True
     if not os.path.exists(path):
         log("  %s: no export at %s" % (slug, path)); return False
-    dest = "%s/%s" % (GAME_ROOT, slug)
+    if CLEAN and eal.does_directory_exist(dest):
+        # 24 Sep 2026: a disk-full window corrupted every Sobha district's saved mesh references at once (every actor
+        # in the level came back with static_mesh == None). Re-importing into the SAME asset path with the corrupted
+        # (but still name-registered) assets already there produced uniformly wrong/black materials across the whole
+        # city, not just the districts whose export actually changed. Deleting the path outright first - not just the
+        # level actors - forces Datasmith to create every mesh and material from nothing, so nothing stale can collide.
+        eal.delete_directory(dest)
     scene = unreal.DatasmithSceneElement.construct_datasmith_scene_from_file(path)
     if scene is None:
         log("  %s: Datasmith could not open %s" % (slug, path)); return False
