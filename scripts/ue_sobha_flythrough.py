@@ -173,6 +173,7 @@ def path(dc):
         r = 48000 - 16000 * t                    # 480 m -> 320 m out: one tower, not a district
         h = top_mid * 0.6 + 12000 - 6000 * t     # settles as it tightens
         keys.append(((cx + r * math.cos(th), cy + r * math.sin(th), h), look_mid))
+    path.orbit_mid_deg = math.degrees(theta0 + math.radians(100.0))   # where the camera sits halfway round the orbit
     return keys, L
 
 
@@ -277,6 +278,13 @@ def main():
     except Exception as e:
         log("  camera left at defaults: %s" % e)
     keys, L = path(dc)
+    # v7: light the faces the camera sees. A directional light's yaw is the direction it travels; the camera halfway
+    # round the orbit sits at orbit_mid_deg from the tower and looks back (orbit_mid_deg + 180), so the sun travels the
+    # same way, swung 35 degrees off-axis for modelling, 30 degrees down - golden and raking, not flat.
+    sun = find("SUN_Sobha")
+    if sun:
+        sun.set_actor_rotation(unreal.Rotator(0.0, -30.0, (path.orbit_mid_deg + 180.0 + 35.0) % 360.0), False)
+        log("  sun aimed with the orbit: yaw %.0f" % ((path.orbit_mid_deg + 180.0 + 35.0) % 360.0))
     loc0 = keys[0][0]; cam.set_actor_location(unreal.Vector(*loc0), False, False); cam.set_actor_rotation(look_at(loc0, keys[0][1]), False)
     log("  corridor %.1f km; keys %s" % (L / 100000.0, [(round(k[0][0] / 100), round(k[0][1] / 100), round(k[0][2] / 100)) for k in keys]))
     sequence(cam, keys)
