@@ -74,7 +74,7 @@ def district_centres():
 def lighting(centre):
     sun = spawn(unreal.DirectionalLight, "SUN_Sobha", (centre.x, centre.y, 50000), (-24, 250, 0))
     lc = sun.light_component
-    lc.set_intensity(8.0); lc.set_light_color(unreal.LinearColor(1.0, 0.86, 0.7, 1.0))
+    lc.set_intensity(4.0); lc.set_light_color(unreal.LinearColor(1.0, 0.86, 0.7, 1.0))
     try:
         lc.set_editor_property("atmosphere_sun_light", True); lc.set_editor_property("cast_cloud_shadows", True)
     except Exception:
@@ -107,19 +107,12 @@ def lighting(centre):
             unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", unreal.LinearColor(0.02, 0.05, 0.06, 1.0))
             unreal.MaterialEditingLibrary.update_material_instance(mic); eal.save_asset("/Game/Najma/Sobha/MI_Ground")
         ground.static_mesh_component.set_material(0, mic)
+    # v2 (manual EV 12) and v3 (histogram clamped to EV 8-13) both rendered black: the project does not extend the
+    # default luminance range, so those numbers are legacy luminance multipliers there. No post-process volume at all;
+    # the sun is softened and the camera carries a small negative bias against the v1 blow-out.
     pp = find("PP_Sobha")
-    if not pp:
-        pp = ell.spawn_actor_from_class(unreal.PostProcessVolume, unreal.Vector(centre.x, centre.y, 0)); pp.set_actor_label("PP_Sobha")
-    try:
-        pp.set_editor_property("unbound", True)
-        st = pp.settings
-        st.set_editor_property("override_auto_exposure_method", True); st.set_editor_property("auto_exposure_method", unreal.AutoExposureMethod.AEM_MANUAL)
-        st.set_editor_property("override_auto_exposure_bias", True); st.set_editor_property("auto_exposure_bias", 0.0)
-        st.set_editor_property("override_bloom_intensity", True); st.set_editor_property("bloom_intensity", 0.3)
-        st.set_editor_property("override_vignette_intensity", True); st.set_editor_property("vignette_intensity", 0.35)
-        pp.set_editor_property("settings", st)
-    except Exception as e:
-        log("  post process left at defaults: %s" % e)
+    if pp:
+        ell.destroy_actor(pp); log("  PP_Sobha removed")
     log("  lighting + ground + post process in place")
 
 
@@ -128,21 +121,39 @@ def look_at(frm, to):
 
 
 def path(dc):
-    """Three camera keys along the corridor. Distances in uu (cm)."""
+    """Camera keys, (location, look-at) in uu, one every 30 frames (1 s).
+
+    Kendall, 24 Sep 2026: "more rotational in the end, hollywood style". So: 0-3 s an approach glide from high
+    south-west of Sobha Hartland down the corridor; 3-10 s a 200-degree orbit around the Hartland II cluster
+    (the tallest group - Skyscape 381 m), descending from 320 m to 200 m and tightening from 750 m to 550 m
+    out, the look-at held on the cluster so the towers wheel past. One key per second keeps the cubic curve
+    on the circle instead of cutting its chords."""
     pts = [dc[d]["c"] for d in CORRIDOR if d in dc]
     tops = [dc[d]["top"] for d in CORRIDOR if d in dc]
     if len(pts) < 2:
         raise RuntimeError("corridor districts not found in the level: %s" % list(dc))
-    a, z = pts[0], pts[-1]
-    mid = pts[len(pts) // 2]
-    dx, dy = z.x - a.x, z.y - a.y; L = math.hypot(dx, dy); ux, uy = dx / L, dy / L   # unit vector along the corridor
-    px, py = -uy, ux                                                                  # perpendicular, camera stays off to one side
-    # close enough that a 250 m tower fills a third of the frame: ~500 m out, 300-350 m up, camera off to one side
-    h0, h1, h2 = tops[0] + 20000, tops[len(pts) // 2] + 12000, tops[-1] + 18000
-    k0 = ((a.x - ux * 50000 + px * 40000, a.y - uy * 50000 + py * 40000, h0), (a.x, a.y, tops[0] * 0.45))
-    k1 = ((mid.x + px * 55000, mid.y + py * 55000, h1), (mid.x, mid.y, tops[len(pts) // 2] * 0.4))
-    k2 = ((z.x - ux * 40000 + px * 35000, z.y - uy * 40000 + py * 35000, h2), (z.x, z.y, tops[-1] * 0.4))
-    return [k0, k1, k2], L
+    a = pts[0]; mid = pts[len(pts) // 2]; top_mid = tops[len(pts) // 2]
+    dx, dy = mid.x - a.x, mid.y - a.y; L = math.hypot(dx, dy); ux, uy = dx / L, dy / L
+    px, py = -uy, ux
+    look_mid = (mid.x, mid.y, top_mid * 0.42)
+    keys = []
+    # approach: 4 keys, 0-3 s
+    approach = [((a.x - ux * 70000 + px * 45000, a.y - uy * 70000 + py * 45000, tops[0] + 30000), (a.x, a.y, tops[0] * 0.45)),
+                ((a.x - ux * 20000 + px * 40000, a.y - uy * 20000 + py * 40000, tops[0] + 22000), (a.x + ux * 40000, a.y + uy * 40000, tops[0] * 0.4)),
+                ((a.x + ux * 45000 + px * 42000, a.y + uy * 45000 + py * 42000, top_mid * 0.6 + 16000), look_mid)]
+    keys.extend(approach)
+    # orbit: the approach arrives at angle theta0 (direction from mid to the camera); sweep 200 degrees over 7 s
+    cx, cy = mid.x, mid.y
+    ax, ay = keys[-1][0][0] - cx, keys[-1][0][1] - cy
+    theta0 = math.atan2(ay, ax)
+    n_orbit = 7
+    for k in range(1, n_orbit + 1):
+        t = k / float(n_orbit)
+        th = theta0 + math.radians(200.0) * t
+        r = 75000 - 20000 * t                    # 750 m -> 550 m out
+        h = top_mid * 0.55 + 20000 - 8000 * t    # settles as it tightens
+        keys.append(((cx + r * math.cos(th), cy + r * math.sin(th), h), look_mid))
+    return keys, L
 
 
 def sequence(cam, keys):
@@ -157,10 +168,16 @@ def sequence(cam, keys):
     b = seq.add_possessable(cam)
     tt = b.add_track(unreal.MovieScene3DTransformTrack); sec = tt.add_section(); sec.set_range(0, FRAMES)
     ch = sec.get_all_channels()   # Location X Y Z, Rotation X Y Z, Scale X Y Z
-    times = [0, FRAMES // 2, FRAMES]
+    times = [round(i * FRAMES / float(len(keys) - 1)) for i in range(len(keys))]
+    prev_yaw = None
     for (loc, tgt), f in zip(keys, times):
         rot = look_at(loc, tgt)
-        vals = [loc[0], loc[1], loc[2], rot.roll, rot.pitch, rot.yaw, 1.0, 1.0, 1.0]
+        yaw = rot.yaw
+        if prev_yaw is not None:          # keep yaw continuous across the +-180 seam or the orbit whips round the long way
+            while yaw - prev_yaw > 180: yaw -= 360
+            while yaw - prev_yaw < -180: yaw += 360
+        prev_yaw = yaw
+        vals = [loc[0], loc[1], loc[2], rot.roll, rot.pitch, yaw, 1.0, 1.0, 1.0]
         for c, v in zip(ch, vals):
             k = c.add_key(unreal.FrameNumber(f), float(v))
             try:
@@ -177,7 +194,7 @@ def sequence(cam, keys):
             log("  binding id: %s" % e)
     cs.set_camera_binding_id(bid)
     eal.save_asset(p)
-    log("  %s: 3 keys over %d frames on %s" % (p, FRAMES, cam.get_actor_label()))
+    log("  %s: %d keys over %d frames on %s" % (p, len(keys), FRAMES, cam.get_actor_label()))
     return seq
 
 
@@ -234,9 +251,9 @@ def main():
         cc.filmback.sensor_width = 36.0; cc.filmback.sensor_height = 20.25   # 16:9 for the assessment cut
         cc.current_focal_length = 28.0; cc.current_aperture = 8.0
         cc.focus_settings.focus_method = unreal.CameraFocusMethod.DISABLE
-        cc.post_process_settings.set_editor_property("override_auto_exposure_method", True)
-        cc.post_process_settings.set_editor_property("auto_exposure_method", unreal.AutoExposureMethod.AEM_MANUAL)
-        cc.current_exposure_compensation = 0.0; cc.current_iso = 100.0; cc.current_shutter_speed = 250.0   # ~EV 12 at f/8
+        cc.post_process_settings.set_editor_property("override_auto_exposure_method", False)
+        cc.post_process_settings.set_editor_property("override_auto_exposure_bias", True)
+        cc.post_process_settings.set_editor_property("auto_exposure_bias", -1.0)
     except Exception as e:
         log("  camera left at defaults: %s" % e)
     keys, L = path(dc)
