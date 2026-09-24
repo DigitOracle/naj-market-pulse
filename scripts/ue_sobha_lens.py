@@ -144,11 +144,24 @@ def main():
     log("Sobha lens: %d districts, LOD %s, %s" % (len(m["districts"]), m.get("lod"), m.get("rule")))
     mi_solid = ensure_material("MI_Sobha", False)
     mi_soft = ensure_material("MI_Sobha_Soft", True)
-    prefixes = {}   # "b<i>_" -> (slug, record)
+    # (slug, "b<i>_") -> record. 24 Sep 2026: this was keyed by "b<i>_" alone, so with eleven districts in one level the last
+    # district read owned every footprint number - Marina's b29 (Princess Tower) was tagged as Motor City's b29 (Sobha Orbis),
+    # and names, looks and labels followed the wrong record wherever indices collide. An actor's district is now read from its
+    # own mesh's asset path (/Game/Najma/<slug>/...), which the import put there.
+    prefixes = {}
     for slug, d in m["districts"].items():
         import_district(slug, d["udatasmith"])
         for pre, rec in d["actors"].items():
-            prefixes[pre] = (slug, rec)
+            prefixes[(slug, pre)] = (slug, rec)
+    slugs = set(m["districts"])
+
+    def district_of(actor):
+        try:
+            p = actor.static_mesh_component.static_mesh.get_path_name()
+        except Exception:
+            return None
+        parts = p.split("/")          # ['', 'Game', 'Najma', '<slug>', ...]
+        return parts[3] if len(parts) > 3 and parts[1] == "Game" and parts[2] == "Najma" and parts[3] in slugs else None
     bld_re = re.compile(r"^b(\d+)_")
     solid = soft = other = dup = 0
     # a building that stands in two districts' files (their geojsons overlap at the edges) arrives twice in one level: once per
@@ -164,7 +177,7 @@ def main():
         if not mt:
             continue
         pre = "b%s_" % mt.group(1)
-        hit = prefixes.get(pre)
+        hit = prefixes.get((district_of(a), pre))
         tags = [t for t in list(a.tags) if not (str(t).startswith("sobha") or str(t) == "other")]
         loc = a.get_actor_location(); xy = (round(loc.x / 100.0), round(loc.y / 100.0))
         if (hit and hit[1].get("duplicate_of")) or xy in seen_xy:

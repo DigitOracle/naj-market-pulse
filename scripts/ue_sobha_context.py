@@ -16,7 +16,7 @@ import unreal
 
 LEVEL = "/Game/Main"; CTX_DIR = "/Game/Najma/Sobha/Context"
 SRC = "C:/Dev/naj-market-pulse/data/ce/_datasmith/context"
-GHOST_OPACITY = float(os.environ.get("SOBHA_GHOST_OPACITY", "0.16"))
+GHOST_OPACITY = float(os.environ.get("SOBHA_GHOST_OPACITY", "0.45"))
 log = unreal.log; eal = unreal.EditorAssetLibrary; ell = unreal.EditorLevelLibrary; MEL = unreal.MaterialEditingLibrary
 
 

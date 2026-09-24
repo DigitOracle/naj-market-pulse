@@ -146,10 +146,10 @@ def main():
     # 3. sub-community members (radius route), sub-community = the project itself
     # A card's project key is the register project_id; a project the register snapshot has not caught up with yet
     # (SkyParks, Sobha Central - registered 2026, CSV only) is matched by its exact name instead.
-    sub_members = defaultdict(lambda: defaultdict(set))   # slug -> project_number -> {duid}
+    sub_members = defaultdict(lambda: defaultdict(set))   # slug -> project_number -> {(dist_m, duid)}
     pn_of_name = {(p.get("name_en") or "").strip().lower(): pn for pn, p in projects.items() if p.get("name_en")}
-    for pid, name, slug, duid in con.execute(
-            "select replace(s.project, 'prj:', ''), s.name, b.district, b.duid from sub_community s join sub_community_building b using(sub_id) "
+    for pid, name, slug, duid, dist in con.execute(
+            "select replace(s.project, 'prj:', ''), s.name, b.district, b.duid, coalesce(b.dist_m, 1e9) from sub_community s join sub_community_building b using(sub_id) "
             "where lower(s.name) like '%sobha%'").fetchall():
         pn = None
         try:
@@ -158,7 +158,7 @@ def main():
             pass
         pn = pn or pn_of_name.get((name or "").strip().lower())
         if pn:
-            sub_members[slug][pn].add(duid)
+            sub_members[slug][pn].add((float(dist), duid))
 
     # 4. Google points, refused when one point serves more than one project (a community centroid)
     geo = load_json(GEOCODE, {}) or {}
@@ -206,6 +206,10 @@ def main():
             u = unitmix.get(str(i)) or {}
             pk = str((s.get("plot") or {}).get("key") or "") or str((u.get("dld") or {}).get("parcel") or "").split(".")[0] or (fps[i]["parcel_key"] or "")
             dm = str(s.get("dm") or "") or str((u.get("dm") or {}).get("dm_building_id") or "")
+            # a footprint named for another building is that building, even on a shared plot (Verde by Sobha's parcel
+            # also carries Mazaya BB-2, a finished 180 m tower; Verde is the unnamed site beside it)
+            if fps[i]["name"] and not is_sobha_name(fps[i]["name"]):
+                continue
             if pk and pk in parcel_owner:
                 take(i, parcel_owner[pk], "parcel", {"tallest": bool((s.get("plot") or {}).get("tallest")) if s else None,
                                                      "register_placeholder": fps[i]["placeholder"]})
@@ -214,13 +218,31 @@ def main():
         reached = {v["project_number"] for v in by_i.values()}
 
         # radius route
+        # 24 Sep 2026 (Seahaven): a sub-community card's radius is a circle, and in Dubai Harbour it swept up Princess Tower,
+        # Emirates Crown, Ciel, the Marriott and a mosque for Seahaven Tower B & C. Two guards:
+        #   - a footprint that carries a building name which is not a Sobha name is somebody else's building;
+        #   - when a sister project of the same master project already has its site here by parcel or DM, the circle is not
+        #     needed: the site is known, and the sister's footprint is it.
         inv = {d: i for i, d in duid_by_slug.get(slug, {}).items()}
+        site_masters = {(projects[v["project_number"]].get("master_project") or "").strip().lower()
+                        for v in by_i.values() if v["method"] in ("parcel", "dm")} - {""}
         for pn, duids in sub_members.get(slug, {}).items():
             if pn in reached:
                 continue
-            for d in duids:
-                if d in inv:
-                    take(inv[d], pn, "radius")
+            if (projects[pn].get("master_project") or "").strip().lower() in site_masters:
+                continue
+            # the circle holds the project AND its neighbours (SkyParks: 1 register building, 26 footprints in the circle):
+            # the project is the register's building count of footprints nearest the card's centre
+            cap = reg_buildings.get(pn) or 1
+            n_taken = 0
+            for dist, d in sorted(duids):
+                if n_taken >= cap:
+                    break
+                if d in inv and inv[d] not in by_i:
+                    nm = fps[inv[d]]["name"]
+                    if nm and not is_sobha_name(nm):
+                        continue
+                    take(inv[d], pn, "radius", {"dist_m": round(dist)}); n_taken += 1
         reached = {v["project_number"] for v in by_i.values()}
 
         # geocode route, towers only, guarded
