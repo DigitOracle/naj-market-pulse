@@ -35,11 +35,18 @@ on), so a name test would throw away half the good rows to catch the one bad one
 
     CALLER MUST APPLY:  accept the precise point only when it is within ~1.15 km of the coarse one.
 
-A SHARPER GUARD, NOT ADOPTED HERE (23 Sep 2026, measured by the question-bank session and confirmed): because only latitude
-lost precision, a genuine repair keeps longitude identical to 6 dp. Across 1,551 accepted repairs, 1,537 agree on longitude
-and 14 do not (58-630 m apart, longitude differing by up to 0.0023 deg - not one point recorded twice). All 6 distance
-rejections also differ on longitude. "Longitude agrees AND distance <= 700 m" rejects 20 instead of 6, and 700 m clears the
-588 m worst case. Adopting it changes which facilities are repaired, so it is Kendall's decision; guard_metres stays 1150.
+THE GUARD CONSUMERS APPLY (adopted in both lanes 24 Sep 2026 at Kendall's instruction: amenities_official.py and
+build_district_cuts.py): longitude identical to 6 dp AND within 600 m. Only latitude lost precision, so a genuine
+repair keeps longitude exactly; the file's own guard_metres stays 1150 and consumers take the tighter bound.
+
+READ THIS BEFORE TUNING THE DISTANCE. On the aligned rebuild, rejections were 11 for a moved longitude and ZERO for
+distance, in both lanes (pharmacies: 9 and 0). The longitude test is the guard; 600 m is a belt to its braces and is
+currently deciding nothing - so arguing 600 vs 700 changes no result. If a distance rejection ever appears, that is
+NEW behaviour worth reading, not a number to adjust.
+
+Expect one metric to move the "wrong" way: health facilities flagged approximate went 712 -> 719, because seven
+repairs the old distance-only guard accepted are now refused and fall back to the coarse register point. Less
+precise, and right - not a regression.
 
 The caller holds the coarse point, so the guard belongs there, not here - and it keeps working if a future pull
 introduces another conflicting id.
