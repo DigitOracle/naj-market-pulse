@@ -16,6 +16,39 @@ Indicative homes are envelope x efficiency 0.78 / a typical 105 m2 apartment - a
 entirely on a flagged building. Where the register or the developer's own site gives a real unit count, that wins outright
 and is labelled registered.
 
+WHICH HEIGHT THIS PUBLISHES, because a building's height lives in four places and they do not agree.
+
+    data/ce/<slug>/buildings.geojson    bHeight, the massing INPUT
+    data/ce/<slug>/report_v4.csv        what the LOD 3 massing BUILT      <- read first
+    data/ce/<slug>/report_v3.csv        the older massing                 <- fallback only
+    data/names/anchors_<slug>.json      what height_check reads (not this file)
+
+This read report_v3 until 24 Sep 2026, a whole massing version behind. Measured across the 15 districts holding both:
+713 buildings differ by more than 2 m and **v4 is higher in every single one, never lower** - each is a building v3 had
+at the 12 m placeholder and v4 has at a real height, matching the geojson exactly wherever that carries one.
+althanyahfifth alone gains 510 real heights.
+
+**BUT V4 IS AUTHORITATIVE FOR HEIGHT AND NOT FOR STOREYS**, and taking it wholesale is a trap I walked into before
+measuring. On the 65,073 buildings where both reports give the SAME height, v3's storeys are exactly twice v4's on
+47,846 of them: the implied floor-to-floor is 3.00 m in v3 and 6.00 m in v4. Three metres is a Dubai floor. Six is a
+banding artefact of the LOD 3 rule or a mezzanine convention, but it is not a floor count. Publishing it halved every
+floor count in the estate - jltnorth's envelope fell 22% and 15,000 indicative homes disappeared - which would have
+read as a correction and was a unit error.
+
+So: height from v4, storeys from v3 where it described the same building at the same height, and otherwise derived
+from the height at 3.0 m. Envelope is recomputed here rather than read, because each report's gfa_m2 is footprint x
+ITS OWN storeys and mixing the two would carry v4's floor count in through the back door.
+
+THE CANDIDATE RULE, for buildings raised in the geojson since the district was last massed. A height raised this
+morning reaches neither report until a re-mass, so Horizon Tower stood at 147 m in the model and 9.4 m with 3 storeys
+on the card. Where the report is still at the placeholder and the geojson holds a real height, the geojson height is
+published - but STOREYS, ENVELOPE AND HOME COUNT ARE WITHHELD, not derived from it.
+
+That restraint is the whole point. Envelope is footprint x storeys and indicative homes are envelope x 0.78 / 105, so
+deriving storeys from a height would multiply a tower's published home count fifteenfold on the strength of one number
+the massing has not yet agreed with. A wrong storey count is worse than none, and an invented home count is worse
+still. The record says `awaiting_remass` and carries the height alone until the massing catches up.
+
 Output: data/board/bldgfacts_<slug>.json -> KV `bldgfacts_<slug>` (served at /img/bldgfacts_<slug>).
 Usage: python scripts/build_buildingfacts.py [slug ...]
 """
@@ -85,29 +118,99 @@ def _rows_from_geojson(slug):
     return out
 
 
+M_PER_FLOOR = 3.0           # v3's implied floor-to-floor, median across 65,073 buildings - a Dubai floor
+PLACEHOLDER_MAX = 12.7      # the massing default is 12.0, and rounds to 12.6 with a parapet
+LIFT_MIN = 15.0             # below this a "lift" is noise, not a tower the massing missed
+
+
+def geojson_heights(slug):
+    """bHeight per footprint index, for the candidate rule. Input to the massing, not output of it."""
+    p = os.path.join(ROOT, "data", "ce", slug, "buildings.geojson")
+    if not os.path.exists(p):
+        return {}
+    try:
+        feats = json.load(open(p, encoding="utf-8"))["features"]
+    except Exception:
+        return {}
+    out = {}
+    for i, f in enumerate(feats):
+        h = (f.get("properties") or {}).get("bHeight")
+        try:
+            out[i] = float(h)
+        except Exception:
+            pass
+    return out
+
+
 def run(slug):
-    rep = os.path.join(ROOT, "data", "ce", slug, "report_v3.csv")
+    # v4 is the LOD 3 massing and is higher than v3 in all 713 measured disagreements, never lower. v3 is a fallback
+    # for districts that have not been re-massed, not an equal alternative.
+    rep4 = os.path.join(ROOT, "data", "ce", slug, "report_v4.csv")
+    rep3 = os.path.join(ROOT, "data", "ce", slug, "report_v3.csv")
+    rep = rep4 if os.path.exists(rep4) else rep3
+    ver = "ce_v4" if rep is rep4 else "ce_v3"
+    # v4 is authoritative for HEIGHT and not for STOREYS. Measured on the 65,073 buildings the two reports give the
+    # same height: v3 storeys are exactly twice v4's on 47,846 of them, and the implied floor-to-floor is 3.00 m in v3
+    # against 6.00 m in v4. Three metres is a Dubai floor; six is a mezzanine convention or a banding artefact of the
+    # LOD 3 rule. Taking v4 wholesale halved every floor count - jltnorth's envelope fell 22% and 15,000 indicative
+    # homes vanished - on the strength of a number that is not a floor count.
+    V3ST = {}
+    if rep is rep4 and os.path.exists(rep3):
+        for r in csv.DictReader(open(rep3, encoding="utf-8")):
+            sh = r.get("shape") or ""
+            if not sh.startswith("b"):
+                continue
+            try:
+                V3ST[int(sh[1:].split("_")[0])] = (float(r.get("height_m") or 0), int(float(r.get("storeys") or 0)))
+            except Exception:
+                pass
     anc = os.path.join(ROOT, "data", "names", f"anchors_{slug}.json")
     if not os.path.exists(anc): return None
     derived = not os.path.exists(rep)
     A = json.load(open(anc, encoding="utf-8"))
     by_i = {a["i"]: a for a in A["anchors"]}
+    GH = geojson_heights(slug)
     out, tot_env, tot_units, tot_reg, n_flag = {}, 0.0, 0, 0, 0
+    lifted, conflicts = [], []
     for r in (_rows_from_geojson(slug) if derived else csv.DictReader(open(rep, encoding="utf-8"))):
         sh = r.get("shape") or ""
         if not sh.startswith("b"): continue
         try: i = int(sh[1:].split("_")[0])
         except Exception: continue
-        env = float(r.get("gfa_m2") or 0); st = int(float(r.get("storeys") or 0)); fp = float(r.get("footprint_m2") or 0)
+        st = int(float(r.get("storeys") or 0)); fp = float(r.get("footprint_m2") or 0)
         h = float(r.get("height_m") or 0)
+        # storeys from v3 where it described the SAME building at the same height; otherwise from the height itself at
+        # the v3 convention. Never v4's own count, for the reason above.
+        v3h, v3s = V3ST.get(i, (None, None))
+        if v3s and v3h is not None and abs(v3h - h) <= 0.5:
+            st = v3s
+        elif V3ST or rep is rep4:
+            st = max(1, int(round(h / M_PER_FLOOR)))
+        env = fp * st                       # recomputed, because each report's gfa is footprint x ITS OWN storeys
         if env <= 0: continue
+        # A height raised in the geojson since this district was massed reaches no report until a re-mass. Publish the
+        # height; withhold everything derived from storeys, because envelope and homes would be a guess on a guess.
+        ahead = False
+        gh_i = GH.get(i)
+        if gh_i and h <= PLACEHOLDER_MAX and gh_i >= LIFT_MIN and gh_i > h + 2:
+            lifted.append((i, h, gh_i))
+            h, ahead = gh_i, True
+        elif gh_i and h > PLACEHOLDER_MAX and abs(gh_i - h) > 2 and gh_i > PLACEHOLDER_MAX:
+            conflicts.append((i, h, gh_i))          # both real and disagreeing: recorded, never resolved here
+
         flag = any(h > gh and fp > gf for gh, gf in PLATE_GATES)
-        rec = {"i": i, "footprint_m2": round(fp), "height_m": round(h, 1), "storeys": st,
-               "envelope_m2": round(env), "envelope_sqft": round(env * 10.7639), "class": r.get("class"),
-               "facts_source": "footprints" if derived else "ce_v3", "plate_suspect": flag,
-               "units_indicative": (None if flag or st <= 1 else max(1, round(env * EFF / UNIT_M2))),
-               "basis": "envelope = footprint x storeys from our own massing, an upper bound on floor area"
-                        + (" - this footprint is a podium or plot outline, so the envelope is a ceiling only" if flag else "")}
+        rec = {"i": i, "footprint_m2": round(fp), "height_m": round(h, 1),
+               "storeys": (None if ahead else st),
+               "envelope_m2": (None if ahead else round(env)),
+               "envelope_sqft": (None if ahead else round(env * 10.7639)), "class": r.get("class"),
+               "facts_source": "footprints" if derived else ver, "plate_suspect": flag,
+               "units_indicative": (None if (ahead or flag or st <= 1) else max(1, round(env * EFF / UNIT_M2))),
+               "basis": ("height from the building register; the massing still has this footprint at its default, so "
+                         "floor count, envelope and home count are withheld until it is rebuilt" if ahead else
+                         "envelope = footprint x storeys from our own massing, an upper bound on floor area"
+                         + (" - this footprint is a podium or plot outline, so the envelope is a ceiling only" if flag else ""))}
+        if ahead:
+            rec["awaiting_remass"] = True
         if a := by_i.get(i):
             rec["name"] = a.get("name"); rec["dev"] = a.get("dev"); rec["project"] = a.get("dev_project")
             # a real unit count always beats the indicative one
@@ -120,29 +223,47 @@ def run(slug):
                         rec["units_registered"] = int(str(p["units"]).replace(",", "")); rec["units_source"] = "developer site / DLD register"
                     except Exception:
                         pass
-        tot_env += env; tot_units += rec["units_indicative"] or 0
+        tot_env += 0 if ahead else env; tot_units += rec["units_indicative"] or 0
         tot_reg += rec.get("units_registered") or 0; n_flag += 1 if flag else 0
         out[str(i)] = rec
     doc = {"district": slug, "buildings": len(out), "envelope_m2_total": round(tot_env),
            "envelope_sqft_total": round(tot_env * 10.7639), "plate_suspect": n_flag,
            "units_indicative_total": tot_units, "units_registered_total": tot_reg,
            "efficiency": EFF, "unit_m2": UNIT_M2, "plate_gates": PLATE_GATES,
+           "massing_report": ver if not derived else "footprints",
+           "awaiting_remass": len(lifted),
+           "height_conflicts": [{"i": i, "massed_m": round(a, 1), "register_m": round(b, 1)} for i, a, b in conflicts],
            "note": "Envelope is footprint x storeys from our own massing: an upper bound on floor area, not a measured one, "
                    "and a ceiling only on the buildings flagged plate_suspect (a tall building on a footprint wide enough to be "
-                   "a podium or a plot outline). Home counts are indicative unless marked registered, and are withheld on flagged buildings.",
+                   "a podium or a plot outline). Home counts are indicative unless marked registered, and are withheld on flagged buildings. "
+                   "Buildings marked awaiting_remass carry a register height the massing has not caught up with, and publish no "
+                   "floor count, envelope or home count at all rather than derive one from it.",
            "buildings_by_id": out}
     f = os.path.join(ROOT, "data", "board", f"bldgfacts_{slug}.json")
     json.dump(doc, open(f, "w", encoding="utf-8"), ensure_ascii=False)
     named = sum(1 for v in out.values() if v.get("name")); reg = sum(1 for v in out.values() if v.get("units_registered"))
-    print(f"{slug:<26} buildings {len(out):>5}  named {named:>4}  envelope {round(tot_env/1e6,2):>6} M m2  "
-          f"podium-flagged {n_flag:>4}  indicative homes {tot_units:>6}  registered {tot_reg:>6} in {reg} buildings")
+    print(f"{slug:<26} {ver if not derived else 'footprints':<11} buildings {len(out):>5}  named {named:>4}  "
+          f"envelope {round(tot_env/1e6,2):>6} M m2  podium-flagged {n_flag:>4}  indicative homes {tot_units:>6}  "
+          f"registered {tot_reg:>6} in {reg}  awaiting re-mass {len(lifted):>3}  height conflicts {len(conflicts):>3}")
+    for i, a, b in lifted[:4]:
+        nm = (by_i.get(i) or {}).get("name") or ""
+        print(f"      lifted b{i} {a:.1f} -> {b:.1f} m  {nm[:34]}  (floors, envelope and homes withheld)")
     return doc
 
 
 if __name__ == "__main__":
-    slugs = sys.argv[1:] or sorted({os.path.basename(os.path.dirname(p)) for p in
-                                    glob.glob(os.path.join(ROOT, "data", "ce", "*", "report_v3.csv")) + glob.glob(os.path.join(ROOT, "data", "ce", "*", "buildings.geojson"))})
-    tok = env_token("INGEST_TOKEN")
+    # --dry builds the files without publishing. Push one district, assert it on the wire, then push the rest: on
+    # 22 Sep a district went live stripped of its enrichment and nobody looked until afterwards.
+    dry = "--dry" in sys.argv
+    slugs = [a for a in sys.argv[1:] if not a.startswith("-")] or sorted(
+        {os.path.basename(os.path.dirname(p)) for p in
+         glob.glob(os.path.join(ROOT, "data", "ce", "*", "report_v4.csv"))
+         + glob.glob(os.path.join(ROOT, "data", "ce", "*", "report_v3.csv"))
+         + glob.glob(os.path.join(ROOT, "data", "ce", "*", "buildings.geojson"))})
+    tok = None if dry else env_token("INGEST_TOKEN")
     for s in slugs:
         d = run(s)
-        if d: print("   ", "bldgfacts_" + s, "->", push("bldgfacts_" + s, d, tok).get("ok"))
+        if d and not dry:
+            print("   ", "bldgfacts_" + s, "->", push("bldgfacts_" + s, d, tok).get("ok"))
+    if dry:
+        print("\n--dry: files written to data/board/, nothing published.")
