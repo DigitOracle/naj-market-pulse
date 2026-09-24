@@ -27,13 +27,16 @@ def parcel_key_sql(col):
       '4238153.2'                a sub-parcel: REFUSED here (a different parcel, not a spelling) - see parent_parcel_key_sql
     24 Sep 2026: the old digits.digits branch cast through DOUBLE, so community-plot '0117.645' became 118 (DuckDB
     rounds): 746 of 748 dotted DM-address and building-parcel keys collapsed onto community-sized numbers, 203 of them the
-    NEIGHBOURING community's. Read as community-plot, 693 of those 748 match a real DLD parcel; read as a number, 1 did."""
+    NEIGHBOURING community's. Read as community-plot, 693 of those 748 match a real DLD parcel; read as a number, 1 did.
+    25 Sep 2026: zero is NO parcel, not parcel 0 - '0' and '0.0' keyed to 0 while '0.E-10' (the same 'none' in another
+    export) keyed to NULL, so 4,784 parcel-less DM projects joined each other and anything else carrying 0 in one copy and
+    nothing in the other. Every spelling of zero is NULL now (graph_load_dm already guarded plot_no <> '0')."""
     x = "trim(cast(%s as varchar))" % col
-    return ("(case when regexp_matches({x}, '^[0-9]+$') then try_cast({x} as bigint)"
+    return ("nullif((case when regexp_matches({x}, '^[0-9]+$') then try_cast({x} as bigint)"
             " when regexp_matches({x}, '^[0-9]+[.]0*$') then try_cast(split_part({x}, '.', 1) as bigint)"
             " when regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$')"
             " then try_cast(regexp_extract({x}, '^([0-9]+)', 1) as bigint) * 10000"
-            " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint) end)").format(x=x)
+            " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint) end), 0)").format(x=x)
 
 
 def parent_parcel_key_sql(col):
@@ -42,7 +45,7 @@ def parent_parcel_key_sql(col):
     under the parent. Call it only where that is the intended semantics; the canonical key refuses sub-parcels."""
     x = "trim(cast(%s as varchar))" % col
     sub = "case when regexp_matches(%s, '^[0-9]{5,}[.][0-9]+$') then try_cast(split_part(%s, '.', 1) as bigint) end" % (x, x)
-    return "coalesce(%s, %s)" % (parcel_key_sql(col), sub)
+    return "nullif(coalesce(%s, %s), 0)" % (parcel_key_sql(col), sub)
 
 
 def name_norm_sql(col):
@@ -76,9 +79,9 @@ def parcel_key(v):
     s = str(v).strip()
     n = norm_number(s)
     if n is not None:
-        return int(n)
+        return int(n) or None                      # zero is no parcel (25 Sep 2026) - twin of the nullif in parcel_key_sql
     m = re.match(r"^(\d{1,4})[-.](\d{1,4})$", s)
-    return int(m.group(1)) * 10000 + int(m.group(2)) if m else None
+    return (int(m.group(1)) * 10000 + int(m.group(2))) or None if m else None
 
 
 def parent_parcel_key(v):
@@ -88,7 +91,7 @@ def parent_parcel_key(v):
     if k is not None or v is None:
         return k
     m = re.match(r"^(\d{5,})\.\d+$", str(v).strip())
-    return int(m.group(1)) if m else None
+    return (int(m.group(1)) or None) if m else None
 
 
 def name_norm(s):
@@ -106,4 +109,16 @@ if __name__ == "__main__":
     assert parent_parcel_key("4238153.2") == 4238153 and parent_parcel_key("4238153.7") == 4238153  # truncated, never rounded
     assert parent_parcel_key("117-645") == 1170645 and parent_parcel_key("TP01") is None
     assert name_norm(" DAMAC Lagoons - NICE 1 ") == "DAMAC LAGOONS NICE 1"
+    # zero is no parcel, in every spelling, in both twins (25 Sep 2026)
+    for z in ("0", "0.0", "0.00", "0.E-10", "000", "0-0", "00000.0", 0, 0.0):
+        assert parcel_key(z) is None and parent_parcel_key(z) is None, z
+    assert parcel_key("10") == 10 and parcel_key("0-7") == 7                          # a real small number stays a key
+    import duckdb
+    _c = duckdb.connect()
+    for z, want in (("0", None), ("0.0", None), ("0.E-10", None), ("0-0", None), ("00000.3", None),
+                    ("6830847.00", 6830847), ("683-847", 6830847), ("0117.645", 1170645), ("4238153.2", None), ("10", 10)):
+        got = _c.execute("select %s from (select ? as v)" % parcel_key_sql("v"), [z]).fetchone()[0]
+        assert got == want and got == parcel_key(z), (z, got, want)
+        par = _c.execute("select %s from (select ? as v)" % parent_parcel_key_sql("v"), [z]).fetchone()[0]
+        assert par == parent_parcel_key(z), ("parent", z, par, parent_parcel_key(z))
     print("keys.py self-test ok")
