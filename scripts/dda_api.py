@@ -39,7 +39,10 @@ def cfg():
     return d
 
 
-def log(*a): print(time.strftime("%H:%M:%S"), *a, flush=True)
+# 24 Sep 2026: the date as well as the time. pull_retry.log carried times only, so dating the firewall blocks for an access
+# ticket meant counting midnight rollovers from the file's creation - and the first attempt put one a day late. Readers of
+# the log (resume_*.sh, _watch_landings.sh) match phrases like "ok rows=", never the timestamp, so the prefix can grow.
+def log(*a): print(time.strftime("%Y-%m-%d %H:%M:%S"), *a, flush=True)
 
 
 def _throttle():
