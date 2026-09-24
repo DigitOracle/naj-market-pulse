@@ -147,6 +147,7 @@ def main():
     # Stalest first, so every dataset comes round in turn.
     ap.add_argument("--stale-days", type=int, default=0); ap.add_argument("--budget-minutes", type=int, default=0)
     ap.add_argument("--dataset-minutes", type=int, default=0)
+    ap.add_argument("--order-by", default="", help="on a fresh start, sort by these columns ('full' = every column) instead of probing")
     # 18 Sep: run one big register (dld_transactions) in its own process beside the main pull
     ap.add_argument("--datasets", default="", help="only these dataset names, comma-separated")
     ap.add_argument("--skip-datasets", default="", help="leave these dataset names to another process")
@@ -233,6 +234,13 @@ def main():
                     api.log(f"{key}: pages never run out (a lapping environment); ending on {STALL_PAGES} pages with nothing new")
                 elif last_est is None:
                     status, note = st_, nt_
+                elif last_est >= 3 and a.order_by:
+                    # 24 Sep 2026: det_ownership read unordered passed the stability probe at the start, then drifted - 8.3% of
+                    # 1,882,000 rows came back twice and the end-of-pull self-check failed. The probe samples a moment; a
+                    # multi-hour read needs an order from the first page. 'full' = every column, the proven last resort.
+                    sample_pages = sorted({max(2, last_est // 2), max(2, last_est - 1)})
+                    order = ",".join(got1[0].keys()) if a.order_by == "full" else a.order_by
+                    api.log(f"{key}: order_by forced by --order-by: {order[:100]}")
                 elif last_est >= 3:
                     sample_pages = sorted({max(2, last_est // 2), max(2, last_est - 1)})
                     ok_, tok, err = stable_at(c, base, a.page_size, None, sample_pages, tok, label)
