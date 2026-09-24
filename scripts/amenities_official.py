@@ -43,6 +43,13 @@ ACTIVE = {"FAC_ACT", "FAC_ACT_AEX"}
 PRECISE_GUARD_M = 600        # measured max genuine residual is 588 m
 PRECISE_LON_EPS = 2e-6       # longitude never lost precision, so it must agree to six decimals
 CLINIC_SUB = re.compile(r"polyclinic|general clinic|specialty clinic|dental clinic|day surgery|diagnostic center|medical fitness|fertility|general medical", re.I)
+# A pharmacy pin answers "can I buy medicine near here", so the test is whether a resident can WALK IN.
+# "Hospital Pharmacy" and "Hospital (In Patient) Pharmacy" dispense to wards and are deliberately absent:
+# putting them on a map answers a different question from the one asked, which is the same mistake the DED
+# licence route made (a licensed pharmacy registered on the 29th floor is not a shop). 46 active facilities
+# are excluded by that line; 1,695 remain. Measured 24 Sep 2026 against Q002.
+PHARMACY_SUB = re.compile(r"community/retail pharmacy|community \(out ?patient ?\) pharmacy|drug ?store"
+                          r"|compounding pharmacy|ambulatory pharmacy|clinic within pharmacy", re.I)
 MALL_OK = re.compile(r"mall|souk|souq|cent(re|er)|walk|village|galleria|avenue|plaza|boulevard|pavilion|square|market|outlet|festival|arcade|promenade|\bmega|city|hub|mool|\u0645\u0648\u0644|\u0633\u0646\u062a\u0631|\u0645\u0631\u0643\u0632|\u0627\u0644\u0642\u0631\u064a\u0629|\u0633\u0648\u0642", re.I)
 MALL_NOISE = re.compile(r"store\b|stores\b|trading|garments|salon|pharmacy|brands for less|splash|carrefour|coffee|cafe|restaurant|clinic|hotel|tower\b|residence|apartment|office|parking|\bllc\b|\bco\b|gift|toys|furniture|mattress|wellness|jewel|perfume|textile|electronics|mobile|optic|bakery|grocery|supermarket|hypermarket|\bmart\b", re.I)
 PARK_NOISE = re.compile(r"coaster|play\b|bricks|trampoline|arcade|bounce|jump|\bvr\b|gaming|kidz|kids|cinema|club|gym|zone|soft play|indoor", re.I)
@@ -305,9 +312,10 @@ def main():
         if (r.get("status") or "") not in ACTIVE: continue
         sub = (r.get("facilitysubcategorynameenglish") or ""); nm = (r.get("facilitynameenglish") or "").strip()
         if not nm: continue
-        if re.search(r"hospital", sub, re.I) and not re.search(r"pharmacy", sub, re.I): k = "hospital"
+        if re.search(r"hospital", sub, re.I) and not re.search(r"pharmac", sub, re.I): k = "hospital"
+        elif PHARMACY_SUB.search(sub): k = "pharmacy"   # BEFORE clinic: "Clinic within Pharmacy" is a shop with a room
         elif CLINIC_SUB.search(sub): k = "clinic"
-        else: continue
+        else: continue                                  # ward-only pharmacies land here and are dropped, by design
         # the register's columns are swapped: xcoordinate holds latitude (2 dp), ycoordinate holds longitude (full precision)
         lat = num(r.get("xcoordinate")); lon = num(r.get("ycoordinate"))
         if lat is not None and lon is not None and lon < lat: lat, lon = lon, lat
@@ -540,9 +548,10 @@ def main():
     json.dump(cache, open(REFINE, "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     counts = collections.Counter(i["k"] for i in items); approx = collections.Counter(i["k"] for i in items if i.get("ap"))
     doc = {"generated": time.strftime("%Y-%m-%d %H:%M"), "counts": dict(counts), "approx": dict(approx), "sources": dict(src_counts),
-           "note": ("Schools: KHDA register (private) and the Emirates Schools Establishment map (government). Parks and beaches: OpenStreetMap polygons via Overture with access (public / community / hotel / residents). Hospitals and clinics: "
+           "note": ("Schools: KHDA register (private) and the Emirates Schools Establishment map (government). Parks and beaches: OpenStreetMap polygons via Overture with access (public / community / hotel / residents). Hospitals, clinics and pharmacies: "
                     "DHA Sheryan licence register, active facilities; positions snapped to a named place where one exists, otherwise "
-                    "approximate to about 1 km (the register truncates latitude). Metro and tram: RTA. Parks: Dubai Municipality's major "
+                    "approximate to about 550 m (the register rounds latitude to two decimals). Pharmacies are the ones a resident can "
+                    "walk into - hospital in-patient pharmacies dispense to wards and are not listed. Metro and tram: RTA. Parks: Dubai Municipality's major "
                     "parks plus Overture. Beaches and malls: Overture only - no official list is published. "
                     "EV charging: DEWA's Green Charger register is the authority (src dewa); points marked ocm or "
                     "osm are contributed by the public through OpenChargeMap and OpenStreetMap and may be stale "
