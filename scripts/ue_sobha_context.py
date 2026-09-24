@@ -75,12 +75,16 @@ def import_mesh(name):
     src = os.path.join(SRC, "%s.obj" % name)
     if not os.path.exists(src):
         return None
-    if eal.does_asset_exist(p) and os.environ.get("SOBHA_CTX_REIMPORT") != "1":
-        try:
-            if os.path.getmtime(src) < os.path.getmtime(unreal.Paths.convert_relative_path_to_full(unreal.Paths.project_content_dir()) + "Najma/Sobha/Context/SM_%s.uasset" % name):
-                return eal.load_asset(p)
-        except Exception:
-            return eal.load_asset(p)
+    # re-import when the OBJ changed since the last import. 24 Sep 2026: comparing against the .uasset's mtime never fired,
+    # because main() re-saves the whole directory every run - v9's first pass kept the pre-audit ghost set.
+    stamp_p = os.path.join(SRC, "_imported.json")
+    try:
+        stamps = json.load(open(stamp_p, encoding="utf-8"))
+    except Exception:
+        stamps = {}
+    mt = round(os.path.getmtime(src), 1)
+    if eal.does_asset_exist(p) and os.environ.get("SOBHA_CTX_REIMPORT") != "1" and stamps.get(name) == mt:
+        return eal.load_asset(p)
     task = unreal.AssetImportTask()
     task.filename = src; task.destination_path = CTX_DIR; task.destination_name = "SM_%s" % name
     task.automated = True; task.save = True; task.replace_existing = True
@@ -96,6 +100,9 @@ def import_mesh(name):
     unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
     m = eal.load_asset(p)
     log("  %s: %s" % (name, "imported" if m else "IMPORT FAILED"))
+    if m:
+        stamps[name] = mt
+        json.dump(stamps, open(stamp_p, "w", encoding="utf-8"), indent=1)
     return m
 
 

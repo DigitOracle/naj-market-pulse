@@ -159,9 +159,64 @@ def main():
                 mi = instance(parent, "roof", "roof")
             comp.set_material(si, mi)
         done += 1
+    n_uc = under_construction_overlay()
     eal.save_directory(PBR_DIR, only_if_is_dirty=False, recursive=True)
     ell.save_current_level()
-    log("Sobha PBR: %d buildings re-coloured from their looks, %d skipped, %d material instances" % (done, skipped, len(_CACHE)))
+    log("Sobha PBR: %d buildings re-coloured from their looks, %d skipped, %d material instances, %d under construction outlined" % (done, skipped, len(_CACHE), n_uc))
+
+
+def uc_material():
+    """Amber rim: an overlay drawn on top of the facade, strongest at grazing angles (fresnel), so an under-construction
+    Sobha tower keeps its rendering's facade but reads amber at the edges - unlike the finished Sobha towers (no rim) and
+    the other developers' ghost massing (pale, translucent, no rim). Same amber as the label line."""
+    p = PBR_DIR + "/M_SobhaUnderConstruction"
+    if eal.does_asset_exist(p):
+        eal.delete_asset(p)
+    mat = unreal.AssetToolsHelpers.get_asset_tools().create_asset("M_SobhaUnderConstruction", PBR_DIR, unreal.Material, unreal.MaterialFactoryNew())
+    mat.set_editor_property("blend_mode", unreal.BlendMode.BLEND_TRANSLUCENT)
+    mat.set_editor_property("shading_model", unreal.MaterialShadingModel.MSM_UNLIT)
+    fr = MEL.create_material_expression(mat, unreal.MaterialExpressionFresnel, -600, 0)
+    try:
+        fr.set_editor_property("exponent", 2.5); fr.set_editor_property("base_reflect_fraction", 0.12)
+    except Exception:
+        pass
+    amber = MEL.create_material_expression(mat, unreal.MaterialExpressionConstant3Vector, -600, -200)
+    amber.constant = unreal.LinearColor(1.0, 0.45, 0.06, 1.0)
+    glow = MEL.create_material_expression(mat, unreal.MaterialExpressionMultiply, -350, -150)
+    MEL.connect_material_expressions(amber, "", glow, "A"); MEL.connect_material_expressions(fr, "", glow, "B")
+    k = MEL.create_material_expression(mat, unreal.MaterialExpressionConstant, -350, -20); k.r = 2.2
+    em = MEL.create_material_expression(mat, unreal.MaterialExpressionMultiply, -200, -150)
+    MEL.connect_material_expressions(glow, "", em, "A"); MEL.connect_material_expressions(k, "", em, "B")
+    MEL.connect_material_property(em, "", unreal.MaterialProperty.MP_EMISSIVE_COLOR)
+    op = MEL.create_material_expression(mat, unreal.MaterialExpressionMultiply, -350, 120)
+    o = MEL.create_material_expression(mat, unreal.MaterialExpressionConstant, -600, 200); o.r = 0.85
+    MEL.connect_material_expressions(fr, "", op, "A"); MEL.connect_material_expressions(o, "", op, "B")
+    MEL.connect_material_property(op, "", unreal.MaterialProperty.MP_OPACITY)
+    MEL.recompile_material(mat); eal.save_asset(p)
+    return mat
+
+
+def under_construction_overlay():
+    """Sobha actors whose register project is not FINISHED get the amber overlay; the rest have it cleared."""
+    import sys as _s
+    _s.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import ue_sobha_labels as L
+    stat = L.statuses()            # tagged project name -> (status line, under construction?)
+    mat = uc_material(); n = 0
+    for a in ell.get_all_level_actors():
+        if not isinstance(a, unreal.StaticMeshActor):
+            continue
+        tags = [str(t) for t in a.tags]
+        if "sobha" not in tags:
+            continue
+        name = next((t[6:] for t in tags if t.startswith("sobha:") and t[6:] not in L.SKIP), None)
+        uc = bool(name and stat.get(name, ("", False))[1]) and "duplicate" not in tags
+        try:
+            a.static_mesh_component.set_editor_property("overlay_material", mat if uc else None)
+        except Exception as e:
+            log("  overlay not supported: %s" % e); return 0
+        n += uc
+    return n
 
 
 if __name__ == "__main__":
