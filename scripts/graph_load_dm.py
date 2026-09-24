@@ -9,7 +9,7 @@ What it writes (evidence first, tables second, never a name onto a building):
   dm_community                one row per polygon: comm_num, name_en, name_ar, dgis_id, centroid, bbox, ring (lon lat pairs as JSON)
   building_dm_community       duid -> comm_num by point-in-polygon (also written as evidence: attribute dm_community, role LOCATION)
   district_dm_community       our 41 market districts -> the official communities they overlap, with the share of buildings in each
-  dm_address                  the register as loaded (typed), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
+  dm_address                  the register as loaded (typed, plot_no normalised - see PLOT_NO_SQL), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
   building_parcel_dm          duid -> DM plot id where the plot position sits within 60 m of the footprint point
                               (evidence: attribute plot_no + businesses_addressed, source dm_address, dist_m, ACCEPTED <= 25 m else DISCOVERED)
   views                       v_building_community, v_district_crosswalk, v_plot_businesses
@@ -17,6 +17,8 @@ Run after graph_build.py (it rebuilds the node tables) and before graph_golden_c
 Usage: python scripts/graph_load_dm.py
 """
 import glob, hashlib, json, os, re, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from keys import num_sql
 try:
     sys.stdout.reconfigure(encoding="utf-8")
 except Exception:
@@ -25,6 +27,18 @@ import duckdb
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, ".."))
 G = os.path.join(ROOT, "data", "graph"); DB = os.path.join(G, "najma.duckdb"); DD = os.path.join(ROOT, "data", "raw_downloads", "dd")
 NOW = time.strftime("%Y-%m-%dT%H:%M:%S"); RUN = time.strftime("%Y%m%d-%H%M%S") + "-dm"; SCHEMA = "1.2"; RESOLVER = "identity-2026-09-08-rolerule"
+
+# The plot id as this register spells it (defect found 23 Sep 2026). read_csv_auto(all_varchar=true) hands us the parcelid text as written,
+# and a few source rows wrote an integer parcel id through a float: '381.0', '893.00', '1503.'. Trimmed as-is those become plot keys of their
+# own, so one plot's addresses, units and floors were rolled up under two keys and both counts came out short.
+# Only the all-zeros-after-the-dot spellings are floats. Every other dotted value is the DM community-plot form written with a dot:
+# '346.451' IS '346-451', community 346 plot 451, and there are 734 such values - a blanket cast to a number would truncate every one
+# of them to its community number, the way it would flatten the 23,697 hyphenated ones.
+# Fire on that one shape and hand it to num_sql (scripts/keys.py, the canonical rule); leave every other spelling exactly as written.
+# The parcel key itself is not widened: '346.451' and '346-451' still meet only where parcel_key_sql is applied downstream.
+# '.0' and '0.0' normalise to '0' and fall out on the plot_no <> '0' guard the dm_address_parcel roll-up already carries.
+PLOT_NO_SQL = ("case when regexp_matches(trim(cast(parcelid as varchar)), '^([0-9]+[.]0*|[.]0+)$') then cast(%s as varchar)"
+               " else trim(cast(parcelid as varchar)) end" % num_sql("parcelid"))
 
 
 def connect_writer(path, tries=20, wait=30):
@@ -118,7 +132,7 @@ def main():
     parts = sorted(glob.glob(os.path.join(DD, "address__*part*.csv"))) or sorted(glob.glob(os.path.join(DD, "address__*.csv")))
     files = [p.replace("\\", "/") for p in parts]; print(f"  address files: {len(files)}" + ("" if len(files) > 1 else " (single part - the multi-part pull had not finished; rerun after it does)"))
     con.execute("create or replace table dm_address as select try_cast(id as bigint) as id, addressline1, addressline2, addresstype, area as comm_num, street, try_cast(floor as varchar) as floor, unitnumber, unittype, "
-                "trim(cast(parcelid as varchar)) as plot_no, case when try_cast(latitude as double) between 24.5 and 25.6 then try_cast(latitude as double) end as lat, "
+                f"{PLOT_NO_SQL} as plot_no, case when try_cast(latitude as double) between 24.5 and 25.6 then try_cast(latitude as double) end as lat, "
                 "case when try_cast(longitude as double) between 54.5 and 56.5 then try_cast(longitude as double) end as lon, freezone, emirate "
                 "from read_csv_auto(?, union_by_name=true, header=true, all_varchar=true)", [files])
     n_addr = con.execute("select count(*) from dm_address").fetchone()[0]
