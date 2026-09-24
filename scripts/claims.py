@@ -143,7 +143,14 @@ def main():
                 con.execute("insert into lk_claims select * from cs")
                 con.execute("COMMIT")
             except Exception:
-                con.execute("ROLLBACK")
+                # 24 Sep 2026: swallow the rollback's own error and let the REAL one propagate, as lake.publish and
+                # register_joins (95b20a1) do. A COMMIT that loses to another catalogue writer has already aborted the
+                # transaction, so this ROLLBACK raises "no transaction is active" and hides the write-write conflict
+                # that lake.retry is waiting for.
+                try:
+                    con.execute("ROLLBACK")
+                except Exception:
+                    pass
                 raise
         lake.retry(body, "claims")
         print("cross-check against the published lake: %s" % ", ".join("%s pulse %s / lake %s" % (k, pulse_fig[k], lake_fig[k]) for k in pulse_fig))

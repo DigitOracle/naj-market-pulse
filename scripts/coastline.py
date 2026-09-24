@@ -109,6 +109,9 @@ def main():
     json.dump({"generated": doc["generated"], "source": doc["source"], "count": len(bodies), "named": sum(1 for b in bodies if b["named"]), "bodies": bodies},
               open(REG, "w", encoding="utf-8"), indent=1, ensure_ascii=False)
     print(f"bodies {len(bodies)} (named {sum(1 for b in bodies if b['named'])}) · segments {stats} · {os.path.getsize(OUT) // 1024} KB")
+    if "--push" not in sys.argv:
+        print("  not pushed. data/board/coast.json is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if "--push" in sys.argv and "--no-push" not in sys.argv: print("coast ->", push("coast", doc, env_token("INGEST_TOKEN")).get("ok"))
 
 

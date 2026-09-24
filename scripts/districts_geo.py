@@ -72,6 +72,9 @@ def main():
     json.dump(doc, open(os.path.join(BOARD, "districts_geo.json"), "w", encoding="utf-8"), ensure_ascii=False)
     print(f"districts: {len(out)}")
     for d in out[:6]: print(f"  {d['name'][:26]:<26} {d['corridor']:<17} buildings {d['buildings']:>5} named {d['named']:>5} subs {d['subs']:>4} plots {d['plots']:>4}")
+    if "--push" not in sys.argv:
+        print("  not pushed. data/board/districts_geo.json is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if do_push: print("districts_geo ->", push("districts_geo", doc, env_token("INGEST_TOKEN")).get("ok"))
 
 

@@ -130,6 +130,9 @@ def main():
     want = [a for a in sys.argv[1:] if not a.startswith("--")]
     # every district the twin can draw, not only the three with their own Overture cut
     slugs = want or sorted(os.path.basename(os.path.dirname(p)) for p in glob.glob(os.path.join(CE, "*", "buildings.geojson")))
+    if "--push" not in sys.argv:
+        print("  not pushed. the per-district water layers is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     tok = env_token("INGEST_TOKEN") if do_push else None
     n = 0
     for s in slugs:

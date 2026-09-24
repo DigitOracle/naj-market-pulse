@@ -161,7 +161,14 @@ def load_transactions(con, recorded_at, path, cols, ytd):
                                     [name, recorded_at, rows, wmin, wmax, gone, note])
                         con.execute("COMMIT")
                     except Exception:
-                        con.execute("ROLLBACK")
+                        # 24 Sep 2026: swallow the rollback's own error and let the REAL one propagate, as lake.publish
+                        # and register_joins (95b20a1) do. A COMMIT that loses to another catalogue writer has already
+                        # aborted the transaction, so this ROLLBACK raises "no transaction is active" and hides the
+                        # write-write conflict that lake.retry is waiting for.
+                        try:
+                            con.execute("ROLLBACK")
+                        except Exception:
+                            pass
                         raise
                 lake.retry(held, "hold " + name)
                 print("HELD transactions %s: %s" % (name, note))
@@ -195,7 +202,14 @@ def load_transactions(con, recorded_at, path, cols, ytd):
             con.execute("COMMIT")
             return new, closed, vanished
         except Exception:
-            con.execute("ROLLBACK")
+            # 24 Sep 2026: swallow the rollback's own error and let the REAL one propagate, as lake.publish and
+            # register_joins (95b20a1) do. A COMMIT that loses to another catalogue writer has already aborted the
+            # transaction, so this ROLLBACK raises "no transaction is active" and hides the write-write conflict that
+            # lake.retry is waiting for.
+            try:
+                con.execute("ROLLBACK")
+            except Exception:
+                pass
             raise
     new, closed, vanished = lake.retry(body, "versions " + name)
     print("  %-34s %-6s pulled %s  rows %6d  window %s..%s  new %6d  closed %5d  vanished %4d"
@@ -227,7 +241,14 @@ def load_rents(con, recorded_at, path, cols, ytd):
             con.execute("COMMIT")
             return new
         except Exception:
-            con.execute("ROLLBACK")
+            # 24 Sep 2026: swallow the rollback's own error and let the REAL one propagate, as lake.publish and
+            # register_joins (95b20a1) do. A COMMIT that loses to another catalogue writer has already aborted the
+            # transaction, so this ROLLBACK raises "no transaction is active" and hides the write-write conflict that
+            # lake.retry is waiting for.
+            try:
+                con.execute("ROLLBACK")
+            except Exception:
+                pass
             raise
     new = lake.retry(body, "versions " + name)
     print("  %-34s pulled %s  rows %6d  window %s..%s  new %6d" % (name, recorded_at, rows, wmin, wmax, new))

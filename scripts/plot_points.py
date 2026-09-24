@@ -118,6 +118,9 @@ def main():
     print(f"plot points: {len(feats):,} across {len(per)} districts | {os.path.getsize(os.path.join(BOARD, 'plots.json'))//1024} KB"
           + (f" | {rescued} rescued from another district's register file" if rescued else ""))
     for s, n in per.most_common(8): print(f"  {s:<26}{n:>6}")
+    if "--push" not in sys.argv:
+        print("  not pushed. data/board/plots.json is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if do_push: print("plots ->", push("plots", doc, env_token("INGEST_TOKEN")).get("ok"))
 
 

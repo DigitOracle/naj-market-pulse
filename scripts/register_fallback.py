@@ -206,6 +206,9 @@ def main():
     doc["registry_warnings"] = warnings
     json.dump(doc, open(remp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n{hits} of {len(P)} sheet projects touched by at least one register")
+    if "--push" not in sys.argv:
+        print("  not pushed. data/board/remaining.json is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if do_push: print("remaining ->", push("remaining", doc, env_token("INGEST_TOKEN")).get("ok"))
 
 

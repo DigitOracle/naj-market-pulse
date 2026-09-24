@@ -168,7 +168,14 @@ def main():
                 con.execute("create or replace view %s as %s" % (name, view_sql(sql)))
             con.execute("COMMIT")
         except Exception:
-            con.execute("ROLLBACK")
+            # 24 Sep 2026: swallow the rollback's own error and let the REAL one propagate, as lake.publish and
+            # register_joins (95b20a1) do. A COMMIT that loses to another catalogue writer has already aborted the
+            # transaction, so this ROLLBACK raises "no transaction is active" and hides the write-write conflict that
+            # lake.retry is waiting for.
+            try:
+                con.execute("ROLLBACK")
+            except Exception:
+                pass
             raise
     lake.retry(body, "dewa accounts")
     n = con.execute("select count(*) from lk_dewa_extracts").fetchone()[0]

@@ -69,6 +69,9 @@ def main():
         from sub_community s left join sub_community_building x using (sub_id) group by 1, 2, 3, 4, 5""")
     per = con.execute("select district, count(*), count(*) filter (where bound_buildings > 0) from v_sub_community_buildings group by 1 order by 1").fetchall()
     # KV per district
+    if "--push" not in sys.argv:
+        print("  not pushed. the sub-community bindings is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     tok = env_token("INGEST_TOKEN") if PUSH else None; pushed = 0
     for d, cards, bound in per:
         if ONLY and d not in ONLY: continue

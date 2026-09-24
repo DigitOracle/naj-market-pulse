@@ -126,6 +126,9 @@ def main():
     json.dump(doc, open(os.path.join(BOARD, "map_prices.json"), "w", encoding="utf-8"), ensure_ascii=False)
     size = os.path.getsize(os.path.join(BOARD, "map_prices.json"))
     print(f"priced developments {len(items):,} | with developer {sum(1 for i in items if i.get('dev')):,} | with rent {sum(1 for i in items if i.get('r')):,} | with live remaining {sum(1 for i in items if i.get('left')):,} | estimates {est_n:,} | {size//1024} KB")
+    if "--push" not in sys.argv:
+        print("  not pushed. data/board/map_prices.json is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if "--push" in sys.argv and "--no-push" not in sys.argv:
         for attempt in range(3):
             try: print("map_prices ->", push("map_prices", doc, env_token("INGEST_TOKEN")).get("ok")); break

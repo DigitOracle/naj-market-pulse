@@ -34,6 +34,9 @@ def main():
     os.makedirs(os.path.dirname(OUT), exist_ok=True); json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"group links: {len(links)} on register · {len(new)} new")
     for r in new[:20]: print(f"  {r.get('ts','')[:16]} {r.get('group','')[:26]:26s} {r.get('sender_name','')[:14]:14s} {r.get('url','')[:80]}")
+    if "--push" not in sys.argv:
+        print("  not pushed. the dev_group_links register is written; pass --push to ship it, and only with the"
+              " deploying session's agreement.")
     if "--push" in sys.argv and "--no-push" not in sys.argv and links:
         r = push("dev_group_links", out, env_token("INGEST_TOKEN")); print("dev_group_links ->", r.get("ok"))
 
