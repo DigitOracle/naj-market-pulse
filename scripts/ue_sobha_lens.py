@@ -30,6 +30,7 @@ MANIFEST = r"C:/Dev/naj-market-pulse/data/ce/_datasmith/sobha_unreal.json"
 GAME_ROOT = "/Game/Najma"
 SOBHA_DIR = GAME_ROOT + "/Sobha"
 SOBHA_ONLY = True
+REIMPORT = os.environ.get("SOBHA_REIMPORT") == "1"   # re-exported Datasmith (new facades): purge every district and import again
 COLOUR = unreal.LinearColor(0.878, 0.478, 0.373, 1.0)     # #E07A5F, the DEVCOL the web twin uses for Sobha
 BASE_MAT = "/Engine/BasicShapes/BasicShapeMaterial"       # has a "Color" vector parameter; ships with every project
 
@@ -74,6 +75,8 @@ def district_present(slug):
         if isinstance(a, unreal.DatasmithSceneActor) and slug in (a.get_actor_label() or "").lower():
             kids = _descendants(a)
             broken = [k for k in kids if isinstance(k, unreal.StaticMeshActor) and k.static_mesh_component.static_mesh is None]
+            if REIMPORT and not broken:
+                log("  %s: SOBHA_REIMPORT set - purging %d actors so the fresh export is taken" % (slug, len(kids))); broken = kids
             if broken:
                 log("  %s: %d of %d imported actors have no mesh (assets never saved) - purging and re-importing" % (slug, len(broken), len(kids)))
                 for k in kids:
