@@ -25,8 +25,17 @@ CONTENT_MAX = 600_000     # rows per side for the content diff; larger ones say 
 
 
 def _norm(c):
+    """Formatting only - each step maps two spellings of the SAME value together, so a real difference still shows.
+    25 Sep 2026: the portal and gateway write dates as 14-09-2021 vs 2021-09-14, keep milliseconds on one side
+    ('14:58:21.840' vs '14:58:21'), and times as '5:00' / '0:01:12' vs '05:00:00' / '00:01:12' - which made 272,345 bounced
+    cheques, 92,292 donations and 6,120 elders rows 'differ' in content while every value agreed."""
     v = "trim(regexp_replace(coalesce(cast(\"%s\" as varchar), ''), '\\s+', ' ', 'g'))" % c
+    v = "regexp_replace(%s, '^([0-9]{2})[-/]([0-9]{2})[-/]([0-9]{4})', '\\3-\\2-\\1')" % v          # DD-MM-YYYY -> ISO
     v = "regexp_replace(regexp_replace(replace(%s, 'T', ' '), '[.]0+Z?$|Z$', ''), ' 00:00:00$', '')" % v
+    v = "regexp_replace(%s, '([0-9]{2}:[0-9]{2}:[0-9]{2})[.][0-9]+$', '\\1')" % v                    # drop fractional seconds
+    v = "regexp_replace(%s, '^([0-9]):', '0\\1:')" % v                                              # 5:00 -> 05:00
+    v = "regexp_replace(%s, '^([0-9]{2}:[0-9]{2})$', '\\1:00')" % v                                  # 05:00 -> 05:00:00
+    v = "regexp_replace(%s, '^-?0*[.]?0*E[-+]?[0-9]+$', '0')" % v                                 # '0.E-10' is zero (dm projects' parcel_id)
     v = "regexp_replace(%s, '^(-?[0-9]+[.][0-9]*?)0+$', '\\1')" % v
     return "regexp_replace(%s, '^(-?[0-9]+)[.]$', '\\1')" % v
 
