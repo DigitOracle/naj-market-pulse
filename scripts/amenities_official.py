@@ -24,6 +24,8 @@ Output data/board/amenities.json  {"counts", "sources", "items": [{k, n, lon, la
 Usage: python scripts/amenities_official.py [--push] [--no-google]
        Writing the file is the default; --push also ships it to the live worker and is opt-in since 24 Sep 2026.
        --no-push is still accepted and is now a no-op.
+       A source that fails (e.g. najma.duckdb locked) stops the run rather than writing a file with a layer
+       missing; --allow-missing overrides that, and should never be combined with --push.
 """
 import csv, glob, json, math, os, re, sys, time, collections, urllib.request
 try:
@@ -496,7 +498,15 @@ def main():
             " where latitude is not null and longitude is not null").fetchall()
         _con.close()
     except Exception as e:
-        print("  EV chargers SKIPPED - %s" % str(e)[:90])
+        # REFUSE, don't skip (25 Sep 2026). This build rewrites `amenities` wholesale - the comment above says a
+        # build that owns an image must own every layer in it - so skipping a source here writes an image with the
+        # whole EV layer missing, and the next --push deletes all 434 chargers from the live map. It happened on
+        # 25 Sep: najma.duckdb was locked by another process, the run printed SKIPPED, and wrote the file anyway.
+        # A locked database is a reason to wait and re-run, never a reason to publish less.
+        if "--allow-missing" not in sys.argv:
+            raise SystemExit("  ! EV chargers unavailable (%s) - refusing to write amenities.json without them. "
+                             "Re-run when data/graph/najma.duckdb is free, or pass --allow-missing." % str(e)[:90])
+        print("  EV chargers SKIPPED - %s  [--allow-missing given]" % str(e)[:90])
         _ev = []
 
     _SRC = {"DEWA": "dewa", "OpenChargeMap": "ocm", "OpenStreetMap": "osm"}
