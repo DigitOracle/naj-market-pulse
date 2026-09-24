@@ -36,6 +36,10 @@ REG = os.path.join(ROOT, "data", "registers"); BOARD = os.path.join(ROOT, "data"
 REFINE = os.path.join(REG, "refine_cache.json")
 
 ACTIVE = {"FAC_ACT", "FAC_ACT_AEX"}
+# The DHA position repair, guarded the same way in both lanes - see precise_points(). Change these two and
+# build_district_cuts.py together or the lanes drift apart again.
+PRECISE_GUARD_M = 600        # measured max genuine residual is 588 m
+PRECISE_LON_EPS = 2e-6       # longitude never lost precision, so it must agree to six decimals
 CLINIC_SUB = re.compile(r"polyclinic|general clinic|specialty clinic|dental clinic|day surgery|diagnostic center|medical fitness|fertility|general medical", re.I)
 MALL_OK = re.compile(r"mall|souk|souq|cent(re|er)|walk|village|galleria|avenue|plaza|boulevard|pavilion|square|market|outlet|festival|arcade|promenade|\bmega|city|hub|mool|\u0645\u0648\u0644|\u0633\u0646\u062a\u0631|\u0645\u0631\u0643\u0632|\u0627\u0644\u0642\u0631\u064a\u0629|\u0633\u0648\u0642", re.I)
 MALL_NOISE = re.compile(r"store\b|stores\b|trading|garments|salon|pharmacy|brands for less|splash|carrefour|coffee|cafe|restaurant|clinic|hotel|tower\b|residence|apartment|office|parking|\bllc\b|\bco\b|gift|toys|furniture|mattress|wellness|jewel|perfume|textile|electronics|mobile|optic|bakery|grocery|supermarket|hypermarket|\bmart\b", re.I)
@@ -126,25 +130,33 @@ def precise_points():
     bank said "about 1.1 km", halve it. A coarse point is still useless for "within 500 m" and is fine for "in this
     community".
 
-    THE GUARD COULD BE SHARPER AND IS DELIBERATELY NOT (left for Kendall, not changed here). Longitude is the free test
-    the distance guard never uses: on a genuine repair the longitudes must agree EXACTLY, because only latitude lost
-    precision. All 6 rows the 1,150 m guard rejects have differing longitude, and 1,537 of the 1,551 it accepts agree to
-    six decimals - so "longitude agrees AND distance <= 700 m" would reject 20 rather than 6, catching 14 rows at 58-630 m
-    whose longitudes differ by up to 0.0023 deg and which are therefore not the same point recorded twice. Tightening it
-    changes which facilities move, so it is a decision, not a cleanup.
+    TWO TESTS, NOT ONE - 24 Sep 2026, Kendall: "align the guards in both lanes". Longitude is the free test distance
+    alone never used: only latitude lost precision, so on a genuine repair the longitudes must agree EXACTLY, and a
+    moved longitude means the two registers describe DIFFERENT facilities rather than one facility placed better. Every
+    row the old 1,150 m guard rejected differs in longitude, and 1,537 of the 1,551 it accepted agree to six decimals.
+    The 14 it accepted with a moved longitude sit at 58-630 m and differ by up to 0.0023 deg - close enough to look
+    innocent, which is precisely why a distance threshold cannot catch them.
 
-    The guard is a DISTANCE, not a name. 826 of 827 candidates move the point less than 1.1 km (median 289 m, p90 482 m),
-    which is exactly what 2dp truncation predicts. The one that does not is id 3503718, where our register says Dubai
-    Medical University Hospital and theirs says Saudi German Hospital - 28.4 km apart, and applied blindly it moves a
-    hospital across the city. A NAME test would also catch it and would discard 417 good rows with it, because the two
-    registers word branch names differently ("BR OF DM HEALTHCARE"): names agree on only 49.6% of the repairs.
+    600 m rather than 1,150: the measured maximum genuine residual is 588 m, so 600 clears every real repair with
+    nothing left over for a wrong one. build_district_cuts.py applies the identical pair of tests. THE TWO LANES MUST
+    STAY IN STEP - the district count reads the raw lake table and this writes amenities.json, so a guard that differs
+    between them places one facility two ways and two screens disagree with no visible cause.
+
+    _dha_precise_points.json still carries guard_metres 1150. That is the producer's value and another session's
+    artefact, so this takes the tighter of the two rather than editing it from here.
+
+    The guard is a DISTANCE and a LONGITUDE, never a name. 826 of 827 candidates move the point less than 1.1 km
+    (median 289 m, p90 482 m). The one that does not is id 3503718, where our register says Dubai Medical University
+    Hospital and theirs says Saudi German Hospital - 28.4 km apart, and applied blindly it moves a hospital across the
+    city. A NAME test would also catch it and would discard 417 good rows with it, because the two registers word
+    branch names differently ("BR OF DM HEALTHCARE"): names agree on only 49.6% of the repairs.
     """
     p = os.path.join(BOARD, "_dha_precise_points.json")
     try:
         d = json.load(open(p, encoding="utf-8"))
     except Exception:
-        return {}, 1150
-    return (d.get("points") or {}), int(d.get("guard_metres") or 1150)
+        return {}, PRECISE_GUARD_M
+    return (d.get("points") or {}), min(int(d.get("guard_metres") or PRECISE_GUARD_M), PRECISE_GUARD_M)
 
 
 def m2(a, b):
@@ -275,6 +287,7 @@ def main():
     # ---- health: DHA Sheryan ---------------------------------------------------------------------------------------------------
     PRECISE, PRECISE_GUARD = precise_points()
     rejected_far = [0]
+    rejected_lon = [0]
     repaired = [0]
     idx = overture_index()
     print(f"overture snapping index: {len(idx):,} health places")
@@ -295,9 +308,19 @@ def main():
         # by matching a name to an Overture place, and where there is no coarse point at all this is the only one we get.
         pp = PRECISE.get(idstr(r.get("id")) or idstr(r.get("facilityid")))
         if pp and 24.6 <= pp[0] <= 25.6 and 54.8 <= pp[1] <= 56.2:
-            if lat is None or m2((lon, lat), (pp[1], pp[0])) <= PRECISE_GUARD:
+            # Two tests, and the longitude one is the sharper. Only latitude lost precision, so a repair that also
+            # moves the longitude is a different facility, however short the hop looks - the 14 this catches sit at
+            # 58-630 m, well inside any distance threshold anyone would pick.
+            if lat is None:
+                ok_lon = ok_far = True
+            else:
+                ok_lon = abs(lon - pp[1]) < PRECISE_LON_EPS
+                ok_far = m2((lon, lat), (pp[1], pp[0])) <= PRECISE_GUARD
+            if ok_lon and ok_far:
                 lat, lon, ap = pp[0], pp[1], 0
                 repaired[0] += 1
+            elif not ok_lon:
+                rejected_lon[0] += 1
             else:
                 rejected_far[0] += 1
         if ap and lat is not None:
@@ -323,8 +346,9 @@ def main():
         _ad = ", ".join(v for v in ((r.get("addresslineone") or "").strip(), (r.get("addresslinetwoenglish") or "").strip(), (r.get("areaenglish") or "").strip()) if v)
         if _ad: it["ad"] = _ad[:120]
         items.append(it); src_counts[src] += 1
-    print("  health: %d repaired to full precision from the professional register, %d rejected beyond the %d m guard"
-          % (repaired[0], rejected_far[0], PRECISE_GUARD))
+    print("  health: %d repaired to full precision from the professional register; rejected %d beyond the %d m guard "
+          "and %d for a moved longitude (a moved longitude is a different facility, not a better position)"
+          % (repaired[0], rejected_far[0], PRECISE_GUARD, rejected_lon[0]))
 
     # ---- metro + tram: RTA -------------------------------------------------------------------------------------------------------
     for name, line_default in (("metro_stations", ""), ("tram_stations", "Tram")):
