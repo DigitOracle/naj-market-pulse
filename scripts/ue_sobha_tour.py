@@ -36,7 +36,9 @@ CONTEXT_JPG = "C:/Dev/naj-market-pulse/data/ce/_datasmith/sobha_context.jpg"
 CONTEXT_JSON = "C:/Dev/naj-market-pulse/data/ce/_datasmith/sobha_context.json"
 OFFSET_E, OFFSET_N = 328289.0, 2784598.0          # the CityEngine global offset every district was exported with
 CLUSTER_M = 700.0; TOWER_STOP_M = 100.0
-STOP_S = 12.0; ORBIT_DEG = 180.0
+HOLD_S = 4.0
+STOP_S = 12.0 + HOLD_S; ORBIT_DEG = 180.0
+STOPS_JSON = "C:/Dev/naj-market-pulse/data/media/sobha/tour_stops.json"   # stop centres + hold windows, for the card overlay
 FLIP_NS = False                                    # set if the imagery renders mirrored north-south
 
 log = unreal.log; eal = unreal.EditorAssetLibrary; ell = unreal.EditorLevelLibrary
@@ -114,6 +116,11 @@ def tour_keys(stops):
             # constant radius: the whole cluster stays in frame the whole way round (v7 closed in 15% and cropped it)
             keys.append((t + 2.5 + 6.0 * k / n, (s["cx"] + math.cos(th) * R, s["cy"] + math.sin(th) * R, z_orb), look))
         th_end = th0 + math.radians(ORBIT_DEG)
+        # Kendall, 24 Sep 2026: a card set (Metro / Schools / Clinics & hospitals / beach) shows at the top after each
+        # orbit, "so you will need to pause after you rotate": the camera holds its last orbit position for HOLD_S
+        end_pos = keys[-1][1]
+        keys.append((t + 2.5 + 6.0 + HOLD_S, end_pos, look))
+        s["hold"] = (round(t + 2.5 + 6.0, 2), round(t + 2.5 + 6.0 + HOLD_S, 2))
         out = (s["cx"] + math.cos(th_end) * FAR * 1.05, s["cy"] + math.sin(th_end) * FAR * 1.05, ZFAR * 1.05)
         keys.append((t + STOP_S - 0.5, out, look))                                     # pull out, still looking back
         t += STOP_S
@@ -260,6 +267,11 @@ def main():
     except Exception as e:
         log("  camera: %s" % e)
     keys, total = tour_keys(stops)
+    # stop centres back to lon/lat (UE cm on the shared CE offset -> UTM 40N -> WGS84 happens in Python; here UTM metres)
+    json.dump({"fps": FPS, "total_s": total, "hold_s": HOLD_S, "stops": [
+        {"n": i + 1, "district": s["district"], "name": s["name"], "names": s["names"], "hold": s.get("hold"),
+         "utm": [s["cx"] / 100.0 + OFFSET_E, OFFSET_N - s["cy"] / 100.0]} for i, s in enumerate(stops)]},
+        open(STOPS_JSON, "w", encoding="utf-8"), indent=1)
     sun = F.find("SUN_Sobha")
     if sun:
         sun.set_actor_rotation(unreal.Rotator(0.0, -11.0, 250.0), False)   # golden hour from the west; the orbits sweep past it

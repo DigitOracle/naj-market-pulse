@@ -7,6 +7,134 @@
     "name": "Sobha Creek vistas Reserve",
     "dm_building_id": "779353",
     "basis": "unclaimed 110 m footprint 72 m from the Google point (Sobha Creek vistas Reserve, SOBHA HEARTLAND, Dubai, Un); DM permit 37 floors, 134 m"
+   },
+   "1503": {
+    "project_number": 2447,
+    "name": "Sobha Hartland - The Crest",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 47 floors; DM permit on parcel 3470383: 47 floors, 171 m"
+   }
+  },
+  "motorcity": {
+   "505": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - E",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 48 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "506": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - A",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 36 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "507": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - B",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 36 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "508": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - D",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 27 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "509": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - F",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 27 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "510": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - C",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 19 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "511": {
+    "project_number": 3070,
+    "name": "Sobha Orbis - G",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 19 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md)"
+   },
+   "512": {
+    "project_number": 3334,
+    "name": "Sobha Solis - A",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 49 floors x 3.6 m; sobharealty.com + propsearch.ae (49 storeys each)"
+   },
+   "513": {
+    "project_number": 3334,
+    "name": "Sobha Solis - B",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 49 floors x 3.6 m; sobharealty.com + propsearch.ae (49 storeys each)"
+   },
+   "514": {
+    "project_number": 3334,
+    "name": "Sobha Solis - C",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 49 floors x 3.6 m; sobharealty.com + propsearch.ae (49 storeys each)"
+   },
+   "515": {
+    "project_number": 3334,
+    "name": "Sobha Solis - D",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 49 floors x 3.6 m; sobharealty.com + propsearch.ae (49 storeys each)"
+   }
+  },
+  "businessbay": {
+   "654": {
+    "project_number": 4137,
+    "name": "Sobha SkyParks",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 108 floors; DM permit on parcel 3460107: 108 floors, 450 m"
+   }
+  },
+  "jabalalifirst": {
+   "2635": {
+    "project_number": 4328,
+    "name": "Sobha Central - The Pinnacle",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 95 floors; sobharealty.com/sobha-communities/sobha-central: 95 floors, ~360 m"
+   },
+   "2636": {
+    "project_number": 3713,
+    "name": "Sobha Central Phase I - The Horizon",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 76 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) - Horizon listed as 76 or G+60/G+90; Eden not found: ESTIMATES"
+   },
+   "2637": {
+    "project_number": 3713,
+    "name": "Sobha Central Phase I - The Eden",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 60 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) - Horizon listed as 76 or G+60/G+90; Eden not found: ESTIMATES"
+   },
+   "2638": {
+    "project_number": 4042,
+    "name": "Sobha Central Phase II - The Serene",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 65 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) - Serene 65; Tranquil not found: ESTIMATE"
+   },
+   "2639": {
+    "project_number": 4042,
+    "name": "Sobha Central Phase II - The Tranquil",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 60 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) - Serene 65; Tranquil not found: ESTIMATE"
+   }
+  },
+  "dubaimarina": {
+   "589": {
+    "project_number": 2762,
+    "name": "Sobha Seahaven Tower B & C - Tower B",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 47 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) (SeaHaven A 66 / B 47 / C 57)"
+   },
+   "590": {
+    "project_number": 2762,
+    "name": "Sobha Seahaven Tower B & C - Tower C",
+    "placeholder_set": "sobha_offplan",
+    "basis": "register placeholder: 57 floors x 3.6 m; listing sites via research 24 Sep 2026 (propsearch.ae, Bayut; see data/identity/sobha_community_pages.md) (SeaHaven A 66 / B 47 / C 57)"
    }
   }
  }

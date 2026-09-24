@@ -19,6 +19,12 @@
     "hold": true,
     "why": "HOLD at 110.0. The register row is Tiger Sky Tower (390.4 = 122 floors) but this footprint is named UPSIDE Living by SRG in the geojson and bldgfacts gives 30 storeys. Two buildings on one parcel; applying 390.4 would put Tiger Sky's height on a different tower. Most conspicuous building in the district, so the wrong fix is worse than the placeholder."
    }
+  },
+  "dubaimarina": {
+   "504": {
+    "height_m": 237.6,
+    "why": "Sobha SeaHaven Tower A (the named 'Sobha Seahaven' parcel footprint, project 2550): 66 floors per listing sites (propsearch.ae, Bayut; researched 24 Sep 2026) x 3.6 m. Massed 24.0 m was the site under construction."
+   }
   }
  }
 }
