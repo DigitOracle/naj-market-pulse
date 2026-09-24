@@ -185,9 +185,14 @@ def main():
     con.execute("""create or replace table dm_address_parcel as
         select a.plot_no, count(*) as addresses, count(distinct a.unitnumber) filter (where a.unitnumber is not null and a.unitnumber <> '') as units,
                count(distinct a.floor) filter (where a.floor is not null and a.floor <> '' and a.floor <> '0') as floors, any_value(a.comm_num) as comm_num,
-               coalesce(avg(a.lon), any_value(p.lon)) as lon, coalesce(avg(a.lat), any_value(p.lat)) as lat, mode(a.unittype) as unit_type,
-               count(a.lon) as located_rows, any_value(p.district) as district
-        from dm_address a left join (select plot_no, any_value(lon) lon, any_value(lat) lat, any_value(district) district from plot group by plot_no) p on p.plot_no = a.plot_no
+               coalesce(avg(a.lon), any_value(q.pick.lon)) as lon, coalesce(avg(a.lat), any_value(q.pick.lat)) as lat, mode(a.unittype) as unit_type,
+               count(a.lon) as located_rows, any_value(q.pick.district) as district
+        -- 85 of the 1,156 plot_no in the DLD register carry more than one row. any_value() picked among them per COLUMN and per run, so a
+        -- plot could take its lon from one row and its district from another, and take different ones next time. arg_min over the whole
+        -- struct picks ONE row, the same one every run, and keeps its fields together.
+        from dm_address a left join (select plot_no, arg_min({'lon': lon, 'lat': lat, 'district': district},
+                                            {'p': parcel_id, 'n': name, 'lo': lon, 'la': lat}) as pick
+                                     from plot group by plot_no) q on q.plot_no = a.plot_no
         where a.plot_no is not null and a.plot_no <> '' and a.plot_no <> '0' group by a.plot_no""")
     n_parc = con.execute("select count(*) from dm_address_parcel").fetchone()[0]
     n_pos = con.execute("select count(*) from dm_address_parcel where lon is not null").fetchone()[0]
@@ -200,7 +205,7 @@ def main():
              j as (select a.plot_no, a.addresses, a.units, a.floors, b.duid, b.district,
                           sqrt(power((b.lat-a.lat)*111320, 2) + power((b.lon-a.lon)*100800, 2)) as dist_m
                    from a join b on b.gy between a.gy-1 and a.gy+1 and b.gx between a.gx-1 and a.gx+1),
-             r as (select *, row_number() over (partition by plot_no order by dist_m) rn from j where dist_m <= 60)
+             r as (select *, row_number() over (partition by plot_no order by dist_m, duid) rn from j where dist_m <= 60)  -- duid breaks the tie, else the link moves between runs
         select plot_no as parcel_id, duid, district, addresses, units, floors, round(dist_m, 1) as dist_m from r where rn = 1""")
     links = con.execute("select parcel_id, duid, addresses, units, floors, dist_m from building_parcel_dm").fetchall()
     for parcel_id, duid, addresses, units, floors, dist in links:
@@ -214,7 +219,8 @@ def main():
     # ev_new is this run's complete recomputation of everything these two sources assert, so any open row of theirs NOT in it is a claim the
     # current data no longer supports - a partial pull's count, or a parcel link that has since moved. Close those rather than delete them:
     # the ledger keeps its history, status stops readers believing them, and valid_to says when they stopped being true. Idempotent, because
-    # each run re-affirms its own set and closing an already-closed row is a no-op.
+    # each run re-affirms its own set and closing an already-closed row is a no-op - PROVIDED the run's own output is reproducible, which is
+    # why the two arbitrary picks above were given tie-breaks. Before that, a rerun on unchanged inputs still closed 34 rows and opened 4.
     con.execute("create or replace temp table ev_new as select * from evidence limit 0")
     con.executemany("insert into ev_new values (" + ",".join("?" * 20) + ")", ev)
     added = con.execute("insert into evidence select n.* from ev_new n where not exists (select 1 from evidence e where e.evidence_id = n.evidence_id)").fetchone()[0]

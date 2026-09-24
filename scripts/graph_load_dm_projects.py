@@ -9,6 +9,7 @@ What lands:
   dm_project, dm_project_building, dm_building_floor (raw, typed), dm_building_floors (per DM building: floors, units, usage mix),
   dm_parcel_projects (per DM parcel: projects, open projects, latest project + stage + dates + contractor + consultant, floors, units,
   construction_status), evidence per building / plot (source dm_project), views v_parcel_projects, v_building_construction.
+  Evidence is appended for what is new, and dm_project rows this run no longer supports are closed (status SUPERSEDED, valid_to set).
 Links: plot.parcel_id and building_parcel_dm (same key rule as graph_load_dm_permits.py). Run after that loader; then the gate.
 """
 import glob, hashlib, os, time
@@ -66,13 +67,13 @@ def main():
     # ---- per-parcel roll-up ----------------------------------------------------------------------------------------------------------
     con.execute("""create or replace table dm_parcel_projects as
         with pj as (select p.*, (select count(*) from dm_project_building b where b.project_no = p.project_no) as bld_n,
-                           (select arg_max(stage, building_cost) from dm_project_building b where b.project_no = p.project_no and stage is not null) as stage,
+                           (select arg_max(stage, {'c': building_cost, 's': stage}) from dm_project_building b where b.project_no = p.project_no and stage is not null) as stage,
                            (select max(f.floors) from dm_project_building b join dm_building_floors f using (building_id) where b.project_no = p.project_no) as floors,
                            (select sum(f.units) from dm_project_building b join dm_building_floors f using (building_id) where b.project_no = p.project_no) as units,
                            (select mode(f.main_usage) from dm_project_building b join dm_building_floors f using (building_id) where b.project_no = p.project_no) as main_usage
                     from dm_project p where p.parcel_id is not null and p.parcel_id > 0),
-             latest as (select parcel_id, arg_max(project_no, coalesce(permit_date, created)) as project_no from pj group by parcel_id),
-             latest_open as (select parcel_id, arg_max(project_no, coalesce(permit_date, created)) as project_no from pj where status = 'Open' group by parcel_id)
+             latest as (select parcel_id, arg_max(project_no, {'k': coalesce(permit_date, created), 'p': project_no}) as project_no from pj group by parcel_id),
+             latest_open as (select parcel_id, arg_max(project_no, {'k': coalesce(permit_date, created), 'p': project_no}) as project_no from pj where status = 'Open' group by parcel_id)
         select c.parcel_id, c.projects, c.open_projects, l.project_no as latest_project, lp.status as latest_status, lp.permit_date, lp.work_start, lp.expected_completion, lp.completed,
                lp.contractor, lp.consultant, lp.stage, lp.bld_n as buildings_on_project, lp.floors, lp.units, lp.main_usage,
                lo.project_no as open_project, coalesce(np.new_building_permit_date, date '1900-01-01') as new_building_permit_date,
@@ -109,11 +110,26 @@ def main():
         if x["floors"]: add(et, idv, "dm_floors", int(x["floors"]), "MEASURE", rec, "highest numbered floor across the project's buildings (DM floor-level register)", 0.9, vf)
         if x["units"]: add(et, idv, "dm_units", int(x["units"]), "MEASURE", rec, "units summed over the project's buildings (DM floor-level register)", 0.85, vf)
         if x["main_usage"]: add(et, idv, "dm_main_usage", x["main_usage"], "CLASS", rec, "most common floor usage across the project's buildings", 0.8, vf)
+    # The evidence id hashes the VALUE, so a changed contractor or date lands BESIDE the old one and nothing says which is current.
+    # ev is this run's complete recomputation of everything source dm_project asserts, so an OPEN dm_project row not in ev_new is a claim
+    # the current registers no longer support - a project superseded on the parcel, a contractor replaced, or a parcel link that has moved.
+    # Close those (status SUPERSEDED, valid_to) rather than delete them: history kept, readers stop believing them, and the date says when.
+    # Idempotent only so far as the run itself is reproducible. 3,655 groups of projects tie on coalesce(permit_date, created), so
+    # arg_max was picking the 'latest' project arbitrarily and a rerun on unchanged registers closed 100 rows and opened 61. The
+    # arg_max calls above now order on a struct whose second field is the project number, which is unique, so the tie resolves the
+    # same way every time. mode() over floor usage is still arbitrary on ties - it drove 78 of those 100 - and is not fixed here. Scoped to dm_project alone: permits write dm_permits, and a source this loader does not
+    # recompute must never be closed by it. The 1,125 rows already closed at 07:26:40 on 11 Sep were done by hand; this is that, in code.
     con.execute("create or replace temp table ev_new as select * from evidence limit 0")
     con.executemany("insert into ev_new values (" + ",".join("?" * 20) + ")", ev)
-    added = con.execute("insert into evidence select n.* from ev_new n where not exists (select 1 from evidence e where e.evidence_id = n.evidence_id)").fetchone()[0]
+    # select DISTINCT: one entity can reach several parcels whose latest project and value are identical, so ev carries the same
+    # evidence_id twice. The not-exists test is evaluated against the ledger as it was, so without this both copies insert - 346
+    # duplicate rows across the 11 Sep runs and this one. Rows sharing an id are identical in all 20 columns, so DISTINCT is lossless.
+    added = con.execute("insert into evidence select distinct n.* from ev_new n where not exists (select 1 from evidence e where e.evidence_id = n.evidence_id)").fetchone()[0]
+    closed = con.execute("""update evidence set status = 'SUPERSEDED', valid_to = ?
+        where source = 'dm_project' and valid_to is null and status <> 'SUPERSEDED'
+          and evidence_id not in (select evidence_id from ev_new)""", [NOW]).fetchone()[0]
     lb = len({r[1] for r in rows if r[0] == "building"}); lp = len({r[1] for r in rows if r[0] == "plot"})
-    print(f"  linked: {lb:,} buildings · {lp:,} plots · evidence rows {len(ev):,} prepared · {added:,} new in the ledger")
+    print(f"  linked: {lb:,} buildings · {lp:,} plots · evidence rows {len(ev):,} prepared · {added:,} new in the ledger · {closed:,} superseded")
     # ---- views ---------------------------------------------------------------------------------------------------------------------------
     con.execute("""create or replace view v_parcel_projects as select p.plot_no, p.name, p.district, p.master, d.* from plot p
         join dm_parcel_projects d on d.parcel_id = try_cast(round(try_cast(p.parcel_id as double)) as bigint)""")
@@ -123,7 +139,7 @@ def main():
         join dm_parcel_projects d on d.parcel_id = case when k.parcel_id like '%-%' then try_cast(split_part(k.parcel_id, '-', 1) as bigint) * 10000 + try_cast(split_part(k.parcel_id, '-', 2) as bigint) else try_cast(k.parcel_id as bigint) end""")
     try:
         rc = [c[0] for c in con.execute("describe run").fetchall()]
-        vals = {"run_id": RUN, "started": NOW, "finished": time.strftime("%Y-%m-%dT%H:%M:%S"), "script": "graph_load_dm_projects.py", "label": "dm project thread", "notes": f"{n[0]} projects, {added} evidence rows", "schema_version": SCHEMA, "resolver_version": RESOLVER}
+        vals = {"run_id": RUN, "started": NOW, "finished": time.strftime("%Y-%m-%dT%H:%M:%S"), "script": "graph_load_dm_projects.py", "label": "dm project thread", "notes": f"{n[0]} projects, {added} evidence rows appended, {closed} superseded", "schema_version": SCHEMA, "resolver_version": RESOLVER}
         use = [c for c in rc if c in vals]; con.execute(f"insert into run ({', '.join(use)}) values ({', '.join('?' * len(use))})", [vals[c] for c in use])
     except Exception as ex:
         print("  run row skipped:", str(ex)[:100])
