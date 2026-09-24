@@ -307,7 +307,7 @@ def ar_unspace(t):
         t = " ".join(out)
     t = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", t)                                   # AnantaraSharjah -> Anantara Sharjah
     t = re.sub(r"\s*&\s*", " & ", t); t = re.sub(r"\s*;\s*", " / ", t)
-    t = re.sub(r"(?i)hotelsand", "Hotels and", t); t = re.sub(r"(?i)^wresidencesat", "W Residences at", t); t = re.sub(r"(?i)masaar(\d)", r"Masaar ", t)
+    t = re.sub(r"(?i)hotelsand", "Hotels and", t); t = re.sub(r"(?i)^wresidencesat", "W Residences at", t); t = re.sub(r"(?i)\bmasaar(\d)", r"Masaar \1", t)
     return re.sub(r"\s+", " ", t).strip()
 
 
@@ -664,7 +664,7 @@ def process(path, received=None, force=False):
 
 def check(auto_path, truth_path):
     a = json.load(open(auto_path, encoding="utf-8")); t = json.load(open(truth_path, encoding="utf-8"))
-    cu = lambda u: re.sub(r"^([A-Z]{3,})[\s-]?(\d)", r"-", str(u).upper().replace("*", "").strip())
+    cu = lambda u: re.sub(r"^([A-Z]{3,})[\s-]?(\d)", r"\1-\2", str(u).upper().replace("*", "").strip())
     ta = {p["p"].lower(): {cu(u[0]): u for u in p["units"]} for p in t["projects"]}
     aa = {p["p"].lower(): {cu(u[0]): u for u in p["units"]} for p in a["projects"]}
     tot_t = sum(len(v) for v in ta.values()); hit = 0; field_ok = 0; field_n = 0
