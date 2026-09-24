@@ -192,9 +192,24 @@ def main():
         if not (0.6 <= ratio <= 1.6):
             scale_bad.append(rec)
 
+    # EVERY building's bounds, not only the targets. The camera plan scores occlusion, and a neighbour that is not in
+    # the render set still stands in front of the lens. 461 of the 654 are under 60 m and were invisible to the first
+    # plan; measuring them here costs one pass over actors we have already walked.
+    allb = []
+    for pfx, acts in sorted(by_prefix.items(), key=lambda kv: int(kv[0][1:]) if kv[0][1:].isdigit() else 0):
+        if not (pfx.startswith("b") and pfx[1:].isdigit()):
+            continue
+        a = acts[0]
+        o, e = a.get_actor_bounds(False)
+        allb.append({"i": int(pfx[1:]), "label": a.get_actor_label(),
+                     "origin": [round(o.x, 1), round(o.y, 1), round(o.z, 1)],
+                     "extent": [round(e.x, 1), round(e.y, 1), round(e.z, 1)],
+                     "measured_uu": round(float(e.z) * 2.0, 1)})
+
     out = {
         "district": "businessbay",
         "export": os.path.basename(DATASMITH),
+        "all_buildings": allb,
         "district_actors": len(mine),
         "targets": len(towers),
         "resolved": len(found),
@@ -219,6 +234,7 @@ def main():
     json.dump(out, open(REPORT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     log("=" * 64)
+    log("measured all %d buildings for the camera plan's occlusion test" % len(allb))
     log("RESOLVED %d of %d | missing %d | scale outliers %d | sobha label collisions %d"
         % (len(found), len(towers), len(missing), len(scale_bad), len(collided)))
     for r in sorted(found, key=lambda x: -x["height_m"])[:6]:
