@@ -59,9 +59,27 @@ def ensure_material(name, translucent):
     return mic
 
 
+def _descendants(a):
+    out = []
+    for c in a.get_attached_actors():
+        out.append(c); out.extend(_descendants(c))
+    return out
+
+
 def district_present(slug):
+    """True when the district's Datasmith scene is in the level AND its meshes still exist. 24 Sep 2026: a level saved
+    without its imported assets (the meshes were only ever in memory) comes back as actors with no static mesh - every
+    tower invisible. Such a district is purged here so the import runs again."""
     for a in ell.get_all_level_actors():
         if isinstance(a, unreal.DatasmithSceneActor) and slug in (a.get_actor_label() or "").lower():
+            kids = _descendants(a)
+            broken = [k for k in kids if isinstance(k, unreal.StaticMeshActor) and k.static_mesh_component.static_mesh is None]
+            if broken:
+                log("  %s: %d of %d imported actors have no mesh (assets never saved) - purging and re-importing" % (slug, len(broken), len(kids)))
+                for k in kids:
+                    ell.destroy_actor(k)
+                ell.destroy_actor(a)
+                return False
             return True
     return False
 
@@ -84,7 +102,13 @@ def import_district(slug, path):
     res = scene.import_scene(dest)
     scene.destroy_scene()
     n = len(res.imported_actors) if res and res.import_succeed else 0
-    log("  %s: imported %d actors -> %s" % (slug, n, dest))
+    # the meshes and materials Datasmith just made exist only in memory until saved; a level saved without them
+    # references nothing (24 Sep 2026: 218 invisible towers, two renders of sky)
+    try:
+        eal.save_directory(dest, only_if_is_dirty=False, recursive=True)
+    except Exception as e:
+        log("  %s: asset save failed: %s" % (slug, e))
+    log("  %s: imported %d actors -> %s (assets saved)" % (slug, n, dest))
     return bool(res and res.import_succeed)
 
 
@@ -160,6 +184,11 @@ def main():
         except Exception as e:
             log("  (camera left at defaults: %s)" % e)
         log("  CAM_Sobha framed on %.0f m x %.0f m of Sobha buildings" % (size.x / 100.0, size.y / 100.0))
+    try:
+        eal.save_directory(SOBHA_DIR, only_if_is_dirty=False, recursive=True)
+        ell.save_current_level()
+    except Exception as e:
+        log("  final save: %s" % e)
     log("Sobha lens done.")
 
 

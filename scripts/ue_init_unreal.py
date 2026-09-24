@@ -55,6 +55,11 @@ def run_once():
     note("Sobha lens: done")
 
 
+# Only the interactive editor runs the lens. Unreal executes Content/Python/init_unreal.py in EVERY process that loads the
+# project - the -game Movie Render Queue render and -run=pythonscript commandlets included - and the lens's editor-only
+# calls there crash the process (EXCEPTION_ACCESS_VIOLATION in EditorScriptingUtilities, 24 Sep 2026, two renders lost).
+_cmd = unreal.SystemLibrary.get_command_line() or ""
+_SKIP = any(k in _cmd for k in ("-game", "-run=", "-server", "-MoviePipelineConfig", "-LevelSequence"))
 _H = [None, 0]
 
 
@@ -69,4 +74,7 @@ def _tick(_dt):
         note("Sobha lens FAILED:\n" + traceback.format_exc())
 
 
-_H[0] = unreal.register_slate_post_tick_callback(_tick)
+if _SKIP:
+    note("Sobha lens: not an interactive editor session (%s) - skipped" % _cmd[:80])
+else:
+    _H[0] = unreal.register_slate_post_tick_callback(_tick)
