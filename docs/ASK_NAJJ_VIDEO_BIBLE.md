@@ -573,6 +573,20 @@ look like anything. Measured across Business Bay's top sellers on 22 Sep:
 Al Habtoor was the **only** hot building whose model was right. Read `data/ce/<slug>/facade_v2.json` and compare `h`
 against the floor count before a building is named on camera.
 
+**Two surfaces can disagree because they were deployed at different times, not because either is wrong.** As of
+24 Sep 2026 the live map's `amenities` layer carries the aligned DHA position guard (longitude identical and within
+600 m) while the stacks' `district_amenities` still carry the old distance-only one — the new district cuts are built
+on disk but only reach the site via a 32-district `build_scheme_links` run plus 32 stack pushes, and the DDA session
+deliberately deferred that rather than collide with the bldgfacts and geo work landed since the last stack push, to
+move about ten facilities.
+
+So **the map and the building page's LOCATION axis can disagree on up to ~10 health facilities, each by at most
+631 m**, until the next deliberate stack rebuild. That is not a regression and does not block filming: it is a
+handful of clinics a few hundred metres apart on two layers, and no episode has ever put both counts in one frame.
+**But do not put them in one frame** — if a shot would show the map's amenity layer and the page's LOCATION axis
+together, check the two agree on that district first, or pick a different beat. A viewer cannot tell a deployment lag
+from an error, and on camera it reads as the app contradicting itself.
+
 ### 14.4 Present and wired is not works
 
 **Five defects on one page in one day, every one caught by someone about to USE the output, none by any test:**
