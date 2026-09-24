@@ -396,6 +396,13 @@ def cut_amenities(con, d):
     # count: rebuilding amenities moved 888 positions and changed this number by exactly zero, which is how
     # the gap was found. The same 1,150 m guard applies, because a "correction" further than truncation
     # could explain is a different facility, not a better position.
+    #
+    # THE GUARD WAS TWICE TOO LOOSE. 1,150 m assumed the defect was TRUNCATION. It is ROUNDING - floored on
+    # 851 of 1,551 repairs and rounded on the other 700 - so the bound is +/-555 m, measured residual median
+    # 277, p90 481, max 588. And longitude NEVER lost precision, so on a genuine repair it must agree
+    # EXACTLY; a changed longitude means the two registers are describing different facilities. Of the 2,360
+    # repairs the old guard applied, 6 moved further than rounding can explain and 25 moved the longitude.
+    # Both tests now apply: longitude identical, and within 600 m.
     # The DHA facility register SWAPS its coordinate columns: xcoordinate holds LATITUDE (truncated to
     # two decimals, ~1.1 km) and ycoordinate holds LONGITUDE at full precision. Reversed from what the
     # names say. Three sessions re-derived this on 23 Sep 2026 alone - the caveat existed, in one file's
@@ -403,10 +410,12 @@ def cut_amenities(con, d):
     dha = con.execute("""select facilitynameenglish, facilitycategorynameenglish, facilitysubcategorynameenglish, areaenglish,
                                 round(%s, 2) km
                          from (select f.*,
-                                      case when p.lat is not null and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
-                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 1.15 then p.lat else f.rawlat end lat,
-                                      case when p.lat is not null and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
-                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 1.15 then p.lon else f.rawlon end lon
+                                      case when p.lat is not null and abs(p.lon - f.rawlon) < 0.000002
+                                            and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
+                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 0.6 then p.lat else f.rawlat end lat,
+                                      case when p.lat is not null and abs(p.lon - f.rawlon) < 0.000002
+                                            and 111.2 * sqrt(pow(p.lat - f.rawlat, 2)
+                                             + pow((p.lon - f.rawlon) * 0.906, 2)) <= 0.6 then p.lon else f.rawlon end lon
                                from (select *, case when try_cast(xcoordinate as double) between 54.8 and 56.0
                                                     then try_cast(ycoordinate as double) else try_cast(xcoordinate as double) end rawlat,
                                                 case when try_cast(xcoordinate as double) between 54.8 and 56.0
