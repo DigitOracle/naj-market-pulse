@@ -1836,7 +1836,15 @@ def run(con, name, dry):
                         [name, r["keys_in"], r["keys_matched"], rate, r["rows_in"], r["note"]])
             con.execute("COMMIT")
         except Exception:
-            con.execute("ROLLBACK")
+            # 24 Sep 2026: a COMMIT that loses to another catalogue writer has already aborted the transaction, so this
+            # ROLLBACK then fails with "no transaction is active" - and a bare re-raise from here would throw THAT, hiding
+            # the conflict. lake.retry only retries locks and conflicts, so it gave up at once: parcels and key_bridge
+            # both failed this way while gov_thread was publishing. Swallow the rollback's error and re-raise the real
+            # one, as lake.publish already does, so a collision waits its turn instead of needing a person.
+            try:
+                con.execute("ROLLBACK")
+            except Exception:
+                pass
             raise
     lake.retry(body, "joins " + name)
     print("   published: %s" % ", ".join([t for t, _ in r["tables"]] + ["lk_xref (%s)" % j for j, _ in r.get("xref", [])] +
