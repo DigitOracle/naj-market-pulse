@@ -94,8 +94,14 @@ def main():
         for i_s, rec in d["by_i"].items():
             nm = rec.get("name") or ("sobha_%s" % i_s)
             by_name.setdefault(nm, []).append(int(i_s))
+        placeholders = {int(i_s) for i_s, rec in d["by_i"].items() if rec.get("register_placeholder")}
         for nm, fps in by_name.items():
-            refs["buildings"][nm] = {"look": look_for(nm), "footprints": sorted(fps), "source": "sobha_mask + sobharealty.com renderings, 24 Sep 2026"}
+            entry = {"look": look_for(nm), "footprints": sorted(fps), "source": "sobha_mask + sobharealty.com renderings, 24 Sep 2026"}
+            if all(f in placeholders for f in fps):
+                # client cut (Kendall, 24 Sep): a permit-placed tower is shown finished, not as the rule's construction-teal /
+                # pipeline-gold ghost; the register status stays on the twin, in the tags and in the manifest
+                entry["cga"] = {"status": "existing"}; entry["note"] = "register placeholder rendered as built for the client cut"
+            refs["buildings"][nm] = entry
         refs["note"] = refs.get("note") or "Sobha looks from the developer's renderings (scripts/sobha_facade_refs.py); other developers' entries untouched"
         json.dump(refs, open(path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         r = subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "facade_match.py"), slug], capture_output=True, text=True, encoding="utf-8", errors="replace")
