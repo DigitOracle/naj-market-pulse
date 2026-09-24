@@ -123,6 +123,27 @@ elif VIDEO == 8:
     FLOOR_8 = 86                    # the register puts ONE five-bedroom up here, and the card reads "Floor 86 - 4 homes"
     BUDGET_HI = 14
     APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
+elif VIDEO == 9:
+    # THE PHARMACY BEAT - Kendall, 24 Sep: "now film the pharmacy beat".
+    #
+    # Q002 "is there a pharmacy nearby?" sat at needs_data from 15 Sep to 24 Sep, on the belief that it needed a
+    # source we did not have. It needed one we had all along - the DHA Sheryan facility register, already behind the
+    # 1,812 clinic pins - and shipped the same day as a tenth amenity kind: 1,437 pharmacies, 727 of them flagged
+    # approximate.
+    #
+    # THE BEAT IS MAP-ONLY, AND THAT IS A RULE, NOT A PREFERENCE. Bible 14.3: the map's amenity layer carries the
+    # aligned DHA position guard and the building page's LOCATION axis still carries the old one, because the
+    # district cuts reach the site only through a 32-district stack rebuild that was deliberately deferred. The two
+    # can disagree on up to ten health facilities. A viewer cannot tell a deployment lag from an error, so they do
+    # not go in the same frame until they agree.
+    #
+    # WHAT NAJ MAY AND MAY NOT SAY OVER IT. 727 of the 1,437 are positioned to about +/-555 m - the DHA register
+    # rounds latitude to two decimals - and the app marks those "position approximate" on the card itself. So the
+    # line is "there are nine within a kilometre", never "one is three hundred metres away". The map is honest on
+    # screen; the narration has to be honest with it.
+    DISTRICT_9 = os.environ.get("NAJMA_DISTRICT", "Business Bay")   # continuity with episode 07's Al Habtoor
+    APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
+    BUDGET_HI = 14
 else:
     BUDGET_HI = 14                  # #hhi: 14 reads "from AED 250k to 2.0M" - the brief, exactly
 BEDS = 2
@@ -1420,6 +1441,58 @@ def _pick_floor(pg, n):
     print("   floor %d ->" % n, re.sub(r"\s+", " ", (pg.locator("#card").inner_text() or ""))[:110])
 
 
+def journey9(pg, mark):
+    """THE PHARMACY BEAT - one question, answered on one surface, in four shots.
+
+    "Is there a pharmacy nearby?" is the question a buyer actually asks, and until 24 Sep 2026 the honest answer
+    was a hedge. Q002 had been needs_data since the bank was written, against a belief that it needed a source we
+    did not hold. It needed the DHA Sheryan facility register - already behind the 1,812 clinic pins - and shipped
+    the same day as a tenth amenity kind.
+
+    THE NUMBERS ON SCREEN, read off the live map before a frame was shot:
+        pharmacies 1437     the chip's own count, verified in probe_map.txt
+        727 approximate     the DHA register rounds latitude to 2 dp, so those sit within about 555 m
+        46 excluded         hospital in-patient pharmacies, which dispense to wards and are not shops
+
+    MAP ONLY. The building page's LOCATION axis reads district_amenities, which still carries the pre-aligned
+    guard, and the two surfaces can disagree on up to ten facilities. Bible 14.3: they do not share a frame until
+    they agree, because a viewer cannot tell a deployment lag from an error.
+    """
+    pg.goto(url("/map"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS)
+    pg.wait_for_timeout(900)
+    mark("open")
+
+    # 1 - the district, nothing lit. She asks the question before the app answers it, so the answer lands as an
+    #     answer rather than as a layer that was already on.
+    search_pick(pg, DISTRICT_9)
+    with shot(mark, 1, 4.0, "the district, no layer on"):
+        pg.wait_for_timeout(2600)
+
+    # 2 - THE PRESS. amenity() addresses the chip by data-k and then asserts it carries "on", because a click
+    #     landing is not the same as a layer lighting: on 18 Sep a text match found the EV chip in the DOM, clicked
+    #     something else, reported success, and put a school card in the EV beat.
+    with shot(mark, 2, 5.0, "pharmacies, pressed in frame"):
+        amenity(pg, "pharmacy", "pharmacy beat")
+        pg.wait_for_timeout(2600)
+
+    # 3 - the pins, held still. This is the shot the beat exists for and it is the one that must not move.
+    with shot(mark, 3, 4.5, "1,437 pins, held", mode="hold"):
+        pg.wait_for_timeout(3200)
+
+    # 4 - one card, so the claim is a named shop and not a coloured dot. The card carries "position approximate"
+    #     on the 727 coarse ones, which is the app telling on itself and is the reason the narration can be honest.
+    with shot(mark, 4, 4.5, "one pharmacy, named", mode="hold"):
+        try:
+            pin = pg.locator('#am .a[data-k="pharmacy"]')
+            pin.wait_for(timeout=5000)
+            pg.mouse.move(540, 760); pg.wait_for_timeout(900)
+        except Exception as e:
+            print("   pharmacy card: %s" % str(e)[:70])
+        pg.wait_for_timeout(2600)
+    mark("end")
+
+
 def capture(headed, slow):
     from playwright.sync_api import sync_playwright
     os.makedirs(RAW, exist_ok=True)
@@ -1444,7 +1517,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7, 8: journey8}.get(VIDEO, journey)(pg, mark)
+            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7, 8: journey8, 9: journey9}.get(VIDEO, journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -1470,7 +1543,7 @@ def ff(*args):
 # VIDEO 8 has no SHEET_PDF on purpose: its dossier is SCROLLED inside the journey (shots 12-17) rather than
 # appended page by page, because a flip reads as a slideshow and this document is the thing the client keeps.
 SHEET_PDF = (os.path.join(ROOT, "dist_dossier", "businessbay_73.pdf") if VIDEO == 7 else
-             None) if VIDEO in (3, 4, 5, 6, 7, 8) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
+             None) if VIDEO in (3, 4, 5, 6, 7, 8, 9) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 

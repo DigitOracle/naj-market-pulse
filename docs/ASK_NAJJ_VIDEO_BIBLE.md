@@ -587,6 +587,26 @@ handful of clinics a few hundred metres apart on two layers, and no episode has 
 together, check the two agree on that district first, or pick a different beat. A viewer cannot tell a deployment lag
 from an error, and on camera it reads as the app contradicting itself.
 
+### 14.3.1 Two numbers for one thing, in one frame — found by filming, 24 Sep
+
+The pharmacy beat put the layer chip and the nearest-list panel on screen together and they disagreed:
+
+    Business Bay    chip: PHARMACIES 78, 26 in community    panel: 40 WITHIN 3.0 KM OF THE CENTRE
+    Palm Jumeirah   chip: PHARMACIES 16, 17 in community    panel: 16 WITHIN 3.0 KM OF THE CENTRE
+
+**The panel prints the length of its own capped list as though it were the count within the radius.** The list stops
+at 40 rows, so the header is correct for every district with fewer than 40 of a kind and wrong for every district
+with more. Palm Jumeirah agrees because 16 is under the cap; Business Bay does not because 78 is over it. It is not
+a pharmacy problem — clinics, at 1,812 citywide, will do the same thing in any busy district.
+
+**So do not frame the chip and the panel header together until it is fixed.** A viewer reads 78 and 40 as the app
+contradicting itself, and they are right to. Either shot alone is fine: the chip's 78 is a true radius count, and
+the panel's rows and distances are true rows and true distances.
+
+**And this is why a beat gets filmed before it gets written.** Both numbers are individually correct, both come
+from the same shipped data, and no test would call this a failure — it took putting them side by side in one frame
+and reading them.
+
 ### 14.4 Present and wired is not works
 
 **Five defects on one page in one day, every one caught by someone about to USE the output, none by any test:**
