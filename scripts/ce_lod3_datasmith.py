@@ -247,6 +247,14 @@ def main():
 
     by_cls, by_var, by_h, by_lv, by_az, names, shape_by_fi = {}, {}, {}, {}, {}, {}, {}
     sel = []
+    hreg = {}
+    hreg_path = os.path.join(CEDIR, SLUG, "heights_register.json")
+    if os.path.exists(hreg_path):
+        # Deliberately NOT wrapped in a bare except: a register that exists and fails to parse must be loud.
+        # The first draft of this caught the exception, and a NameError inside it would have skipped every
+        # lift silently while the log said nothing - the same shape of defect this fix exists to correct.
+        hreg = json.load(open(hreg_path, encoding="utf-8")).get("heights", {})
+    lifted, conflicts = 0, []
     for s, fi in zip(shapes, mapping):
         if SUBSET is not None and fi not in SUBSET: continue
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3}); c = rec["class"]; v = int(rec.get("variant", fi % 3))
@@ -256,6 +264,19 @@ def main():
         if street and street[0][fi] is not None: by_az.setdefault(int(round(street[0][fi])), []).append(s)
         try: h = float(pr.get("bHeight") or 0)
         except (TypeError, ValueError): h = 0.0
+        # Same heights_register lift as ce_batch_v2: buildings.geojson holds 12.0 for four in five, and the
+        # DLD register beside the district holds a real figure for some of them. It is a CANDIDATE, never an
+        # override - it lifts a building OFF the placeholder and never replaces a height already real.
+        # This lane produced register-exact heights on 12 Sep (b7 198.4, b530 118.4, b56 102.4) by a route
+        # nobody has identified; making the source EXPLICIT here means the export no longer depends on it.
+        rh = hreg.get(str(fi))
+        if rh:
+            try: rh = float(rh)
+            except (TypeError, ValueError): rh = 0.0
+            if rh > 0 and abs(h - 12.0) < 0.01:
+                h = rh; lifted += 1
+            elif rh > 0 and abs(rh - h) > 3:
+                conflicts.append((fi, round(h, 1), round(rh, 1)))
         if h > 0: by_h.setdefault(round(h, 1), []).append(s)
         lv = str(pr.get("levels") or "").strip()
         if lv: by_lv.setdefault(lv, []).append(s)
@@ -266,6 +287,10 @@ def main():
     for az, lst in by_az.items(): ce.setAttribute(lst, "streetAz", float(az))
     log(f"named {len(sel)} shapes (mapping {how}); classes " + ", ".join(f"{c}={len(l)}" for c, l in sorted(by_cls.items()))
         + f"; streetAz pushed to {sum(len(l) for l in by_az.values())} shapes ({len(by_az)} bearings)")
+    if hreg:
+        log(f"heights register: {lifted} lifted off the 12.0 m placeholder, {len(conflicts)} left alone")
+        for fi, was, reg in sorted(conflicts, key=lambda c: -(c[2] - c[1]))[:5]:
+            log(f"  conflict b{fi}: massed {was} m, register {reg} m - NOT overwritten")
     ce.setRuleFile(sel, RULE_WS); ce.setStartRule(sel, "Lot")
     for a in ("bHeight", "status", "levels", "fclass", "fvar", "pctComplete", "streetAz"):
         try: ce.setAttributeSource(sel, "/ce/rule/" + a, "OBJECT")

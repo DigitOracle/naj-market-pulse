@@ -247,6 +247,19 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
 
     # names + object attrs (grouped to keep bridge calls low)
     by_cls, by_var, by_h, by_lv = {}, {}, {}, {}
+    # data/ce/<slug>/heights_register.json (DLD units register, floors x 3.2 m) has sat unread beside every
+    # district. buildings.geojson bHeight is 12.0 m for 79% of the estate - a placeholder, not a measurement -
+    # so Sobha Central stands 323.2 m in the register and renders as a 12 m box. It is a CANDIDATE, never an
+    # override: it lifts a building OFF the placeholder and never replaces a height that is already real. Two
+    # plausible values disagreeing (burjkhalifa 27: massed 239.8, register 246.4) is a question for a person,
+    # not something to silently resolve in favour of an estimate.
+    hreg = {}
+    try:
+        hreg = json.load(open(os.path.join(CEDIR, slug, "heights_register.json"), encoding="utf-8")).get("heights", {})
+    except Exception:
+        pass
+    lifted, conflicts = 0, []
+
     for s, fi in zip(shapes, mapping):
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3}); c = rec["class"]; v = int(rec.get("variant", fi % 3))
         pr = feats[fi]["properties"]
@@ -261,6 +274,16 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
             h = float(pr.get("bHeight") or 0)
         except (TypeError, ValueError):
             h = 0.0
+        rh = hreg.get(str(fi))
+        if rh:
+            try:
+                rh = float(rh)
+            except (TypeError, ValueError):
+                rh = 0.0
+            if rh > 0 and abs(h - 12.0) < 0.01:
+                h = rh; lifted += 1                       # off the placeholder
+            elif rh > 0 and abs(rh - h) > 3:
+                conflicts.append((fi, round(h, 1), round(rh, 1)))   # both real-looking: leave it, report it
         if h > 0: by_h.setdefault(round(h, 1), []).append(s)
         lv = str(pr.get("levels") or "").strip()
         if lv: by_lv.setdefault(lv, []).append(s)
@@ -270,6 +293,24 @@ def run_slug(ce, GLTFExportModelSettings, ScriptExportModelSettings, slug):
     for lv, lst in by_lv.items(): ce.setAttribute(lst, "levels", lv)
     log(f"  named {n} shapes (mapping: {how}); classes " + ", ".join(f"{c}={len(l)}" for c, l in sorted(by_cls.items())))
     log(f"  heights pushed: {len(by_h)} distinct values, max {max(by_h) if by_h else 0} m; levels {len(by_lv)} distinct")
+    if hreg:
+        log(f"  heights register: {lifted} lifted off the 12.0 m placeholder, {len(conflicts)} left alone (model and register both look real)")
+        for fi, was, reg in sorted(conflicts, key=lambda c: -c[2])[:5]:
+            log(f"    conflict b{fi}: massed {was} m, register {reg} m - NOT overwritten")
+        # Write the disagreements out so they can be reviewed rather than read once in a log. The direction
+        # matters: register LOWER than the model is expected (floors x 3.2 misses podium, parking and plant)
+        # and the rule is right to ignore it. Register much HIGHER is the opposite failure - an OSM height
+        # captured while the building was part-built - and b154 Tiger Sky Tower is the case in point, massed
+        # at 110.0 m against a register 390.4. "Already real" is the weaker source there, and no rule
+        # distinguishes them, so a person has to.
+        try:
+            json.dump({"slug": slug, "lifted": lifted,
+                       "conflicts": [{"bid": "b%d" % fi, "massed_m": was, "register_m": reg,
+                                      "register_higher_by": round(reg - was, 1)}
+                                     for fi, was, reg in sorted(conflicts, key=lambda c: -(c[2] - c[1]))]},
+                      open(os.path.join(CEDIR, slug, "height_conflicts.json"), "w", encoding="utf-8"), indent=1)
+        except Exception as e:
+            log("  height_conflicts.json: %s" % str(e)[:80])
     T["named"] = time.time()
     ce.setRuleFile(shapes, RULE_WS); ce.setStartRule(shapes, "Lot")
     for a in ("bHeight", "status", "levels", "fclass", "fvar", "pctComplete"):
