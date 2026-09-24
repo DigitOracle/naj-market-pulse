@@ -37,6 +37,17 @@ def replace_retry(src, dst, tries=8):
             if i == tries - 1: raise
             time.sleep(0.25 * (2 ** i))
 
+def open_retry(path, mode, tries=8):
+    """open() that survives the same transient lock. 25 Sep 2026: dm_consignments died at page 1,185 on OPENING the
+    checkpoint's .tmp for writing - replace_retry only covered the rename, so one instant of Defender/indexer on the new
+    file killed a multi-hour stream (the lane then read the manifest's stale status and retried)."""
+    for i in range(tries):
+        try:
+            return open(path, mode, encoding="utf-8")
+        except PermissionError:
+            if i == tries - 1: raise
+            time.sleep(0.25 * (2 ** i))
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CAT = os.path.join(ROOT, "data", "raw_downloads", "dda", "api_catalogue.json")
 try: sys.stdout.reconfigure(encoding="utf-8")
@@ -314,12 +325,12 @@ def main():
                 dry = 0 if new else dry + 1
                 if page in sample_pages:
                     samples[str(page)] = hs
-                    with open(psamp + ".tmp", "w", encoding="utf-8") as sf: json.dump(samples, sf)
+                    with open_retry(psamp + ".tmp", "w") as sf: json.dump(samples, sf)
                     replace_retry(psamp + ".tmp", psamp)
                 if new:                                            # checkpoint: rows first, then the state that says they are complete
-                    with open(part, "a", encoding="utf-8") as pf:
+                    with open_retry(part, "a") as pf:
                         for rec in new: pf.write(json.dumps(rec, ensure_ascii=False) + chr(10))
-                with open(pstate + ".tmp", "w", encoding="utf-8") as sf:
+                with open_retry(pstate + ".tmp", "w") as sf:
                     json.dump({"order_v": ORDER_V, "page": page, "page_size": a.page_size, "order_by": order, "last_page_est": last_est,
                                "raw_rows": raw_rows, "sample_pages": sample_pages, "repeats_kept": keep}, sf)
                 replace_retry(pstate + ".tmp", pstate)
