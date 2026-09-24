@@ -30,7 +30,8 @@ MANIFEST = r"C:/Dev/naj-market-pulse/data/ce/_datasmith/sobha_unreal.json"
 GAME_ROOT = "/Game/Najma"
 SOBHA_DIR = GAME_ROOT + "/Sobha"
 SOBHA_ONLY = True
-REIMPORT = os.environ.get("SOBHA_REIMPORT") == "1"   # re-exported Datasmith (new facades): purge every district and import again
+REIMPORT = os.environ.get("SOBHA_REIMPORT") == "1"
+PLACEHOLDER_CORAL = os.environ.get("SOBHA_PLACEHOLDER_CORAL") == "1"   # off: placeholders wear their rule facade (client cut)   # re-exported Datasmith (new facades): purge every district and import again
 COLOUR = unreal.LinearColor(0.878, 0.478, 0.373, 1.0)     # #E07A5F, the DEVCOL the web twin uses for Sobha
 BASE_MAT = "/Engine/BasicShapes/BasicShapeMaterial"       # has a "Color" vector parameter; ships with every project
 
@@ -165,10 +166,13 @@ def main():
             # glass / parapet) stay on every real building, because the facade IS what Kendall is assessing. Only register
             # placeholders (plain boxes from the DM permit) take the translucent coral, so a guess still reads as a guess.
             comp = a.static_mesh_component
-            if rec.get("register_placeholder"):
+            if rec.get("register_placeholder") and PLACEHOLDER_CORAL:
                 for si in range(comp.get_num_materials()):
                     comp.set_material(si, mi_soft)
             else:
+                # 24 Sep 2026, for the client cut: register placeholders wear the facade the rule gave them (from Sobha's own
+                # renderings) like every other building. The fact that they are placeholders stays in the tags and the
+                # manifest; SOBHA_PLACEHOLDER_CORAL=1 brings the translucent coral back for an internal audit view.
                 mesh = comp.static_mesh   # an earlier lens run painted every slot coral; put the exported facade materials back
                 for si in range(comp.get_num_materials()):
                     try:
