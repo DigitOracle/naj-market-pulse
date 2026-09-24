@@ -242,7 +242,7 @@ def main():
                     api.log(f"{key}: pages never run out (a lapping environment); ending on {STALL_PAGES} pages with nothing new")
                 elif last_est is None:
                     status, note = st_, nt_
-                elif last_est >= 3 and a.order_by:
+                elif last_est >= 2 and a.order_by:     # any multi-page read (2-page ones slipped through at >= 3, 25 Sep)
                     # 24 Sep 2026: det_ownership read unordered passed the stability probe at the start, then drifted - 8.3% of
                     # 1,882,000 rows came back twice and the end-of-pull self-check failed. The probe samples a moment; a
                     # multi-hour read needs an order from the first page. 'full' = every column, the proven last resort.
