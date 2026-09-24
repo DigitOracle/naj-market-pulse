@@ -1,23 +1,25 @@
 {
- "checked": "2026-09-21T17:00:03",
- "window_hours": 24,
+ "checked": "2026-09-24T05:18:06",
+ "window_hours": 24.0,
  "alive": true,
  "pids": [
-  "54168|2026-09-19T19:45:07"
+  "17776|2026-09-23T15:01:27"
  ],
  "connected_in_current_log": true,
- "starts_in_window": 0,
+ "starts_in_window": 8,
  "exits_in_window": 0,
- "heartbeats_in_window": 95,
- "coverage_lost_hours": 0.17,
- "pdfs_captured_in_window": 0,
- "pdfs": [],
+ "heartbeats_in_window": 77,
+ "coverage_lost_hours": 3.34,
+ "pdfs_captured_in_window": 1,
+ "pdfs": [
+  "docs\\same_same_but_different_\\1790164534790_Sample Full Page ad.pdf"
+ ],
  "verdict": "gap",
  "socket": "open",
- "heartbeat_age_min": 0.0,
- "last_rx": "2026-09-21T16:57:55",
- "last_doc": "2026-09-20T10:34:59",
- "rx_24h": 1230,
- "docs_24h": 0,
+ "heartbeat_age_min": 0.4,
+ "last_rx": "2026-09-24T04:32:22",
+ "last_doc": "2026-09-23T15:55:35",
+ "rx_24h": 701,
+ "docs_24h": 1,
  "meaning": "the listener restarted during the window - sheets posted in the lost hours were NOT captured"
 }

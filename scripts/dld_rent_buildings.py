@@ -22,6 +22,8 @@ DLD_AREA = {
     # 'Bukadra' (the Meydan / Sobha Hartland corridor) and 'Wadi Al Safa 2' (Liwan / Queue Point), both confirmed against
     # g_dld__transactions rather than guessed, after Liwan was first placed by inference and came back as Nad Al Sheba.
     'Bukadra': ['bukadra'],
+    # 24 Sep 2026: Sobha One's tile (make_rasalkhor_tile.py) - the register area is the industrial estate the scheme sits in
+    'Ras Al Khor Industrial First': ['rasalkhor'],
     'Wadi Al Safa 2': ['liwan1'],
     'Marsa Dubai': ['dubaimarina'],
     'Business Bay': ['businessbay'],

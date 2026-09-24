@@ -19,7 +19,9 @@ print(code)'
 #   dsc_housing_unit   four columns (serial, unit type x2, year); its id joins to nothing (104 in 200,000 = chance)
 #   rta_bus_ridership  refused four times at page ~8,800; the API gives no page total, so there is no end to pull toward
 #   det_ownership      legal entity -> company only; never reaches a property (the twin's call)
-SKIP="dsc_housing_unit-open-api rta_bus_ridership-open-api det_ownership-open-api"
+# 24 Sep 2026: Kendall wants every dataset pulled ("I want all"), so nothing is skipped by decision. The three retired on 23 Sep
+# (dsc_housing_unit: no keys; rta_bus_ridership: no page total; det_ownership: company-only) are back in the queue.
+SKIP=""
 # Parked LAST at both peer sessions' request (22 Sep): licence partners are registered-office licence data (23 Sep finding) and
 # name individuals. Still pulled, but only after everything else, never first just because it is the biggest partial.
 LAST="ded_license_partners-open-api"

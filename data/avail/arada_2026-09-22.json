@@ -1,0 +1,3265 @@
+{
+ "source_file": [
+  "1790061823209_Inaura - Availability - 22.09.2026.pdf",
+  "1790061823399_Masaar 1 - Availability - 22.09.2026.pdf",
+  "1790061823912_W Residences T3 - Availability - 22.09.2026.pdf",
+  "1790061824164_Akala - Availability - 22.09.2026.pdf",
+  "1790061824511_W Residences T1 _T2 - Availability - 22.09.2026.pdf",
+  "1790061824889_Masaar 3 - Availability - 22.09.2026.pdf",
+  "1790061825172_Masaar 2 - Availability - 22.09.2026.pdf",
+  "1790061825411_Anantara - Availability - 22.09.2026.pdf",
+  "1790061825760_Aljada - Availability  - 22.09.2026.pdf"
+ ],
+ "sheet_date": "2026-09-22",
+ "received": "2026-09-22",
+ "channel": "DEVELOPER AVAILABILITY group (listener capture)",
+ "developer": "Arada",
+ "extraction": "auto: text",
+ "projects": [
+  {
+   "p": "Inaura Hotels & Residences",
+   "block": "Inaura Hotels & Residences",
+   "master": "Downtown Dubai",
+   "completion": "30-Jun-2030",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "INAR-1607",
+     "1 B/R",
+     714.72,
+     3665000,
+     "B Building"
+    ],
+    [
+     "INAR-1704",
+     "2 B/R",
+     1296.41,
+     6475000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-1806",
+     "1 B/R",
+     704.93,
+     3625000,
+     "A Building"
+    ],
+    [
+     "INAR-1905",
+     "2 B/R",
+     1281.87,
+     6425000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-2006",
+     "1 B/R",
+     704.93,
+     3640000,
+     "A Building"
+    ],
+    [
+     "INAR-2103",
+     "1 B/R",
+     779.74,
+     3955000,
+     "B Building"
+    ],
+    [
+     "INAR-2205",
+     "2 B/R",
+     1279.61,
+     6455000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-2305",
+     "2 B/R",
+     1344.2,
+     6660000,
+     "D Building"
+    ],
+    [
+     "INAR-2702",
+     "2 B/R",
+     1644.73,
+     7960000,
+     "B Building"
+    ],
+    [
+     "INAR-2705",
+     "2 B/R",
+     1426.22,
+     7120000,
+     "C Building"
+    ],
+    [
+     "INAR-2803",
+     "2 B/R",
+     1291.88,
+     6595000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3102",
+     "2 B/R",
+     1684.55,
+     8220000,
+     "B Building"
+    ],
+    [
+     "INAR-3104",
+     "2 B/R",
+     1271.76,
+     6530000,
+     "A Business Bay"
+    ],
+    [
+     "INAR-3105",
+     "2 B/R",
+     1426.22,
+     7175000,
+     "C Building"
+    ],
+    [
+     "INAR-3702",
+     "4 B/R",
+     4037.22,
+     20730000,
+     "Burj Khalifa"
+    ],
+    [
+     "INAR-3902",
+     "5 B/R",
+     6780.94,
+     41050000,
+     "Duplex Burj Khalifa"
+    ]
+   ]
+  },
+  {
+   "p": "Saro",
+   "block": "Saro",
+   "master": "Masaar",
+   "completion": "30-Sept-2026",
+   "plan": "20/80",
+   "units": [
+    [
+     "G2-V045",
+     "4 B/R",
+     4402.0,
+     5875000,
+     "VILLA 4BED - Middle-Warm"
+    ]
+   ]
+  },
+  {
+   "p": "Akala Hotels And Residences",
+   "block": "Akala Hotels and Residences",
+   "master": "Zabeel Second",
+   "completion": "31-Oct-2029",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "AKAR1-0404",
+     "2 B/R",
+     1950.53,
+     8680000,
+     "2 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-0407",
+     "1 B/R",
+     1043.99,
+     3830000,
+     "1 BR - Type B Street View"
+    ],
+    [
+     "AKAR1-0408",
+     "1 B/R",
+     1035.91,
+     3799000,
+     "1 BR - Type A Street View"
+    ],
+    [
+     "AKAR1-0505",
+     "1 B/R",
+     1406.73,
+     4905000,
+     "1 BR - Type D Zabeel View"
+    ],
+    [
+     "AKAR1-0506",
+     "2 B/R",
+     1722.55,
+     6020000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-0507",
+     "1 B/R",
+     1043.99,
+     3835000,
+     "1 BR - Type B Street View"
+    ],
+    [
+     "AKAR1-0604",
+     "2 B/R",
+     1950.53,
+     8700000,
+     "2 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-0705",
+     "1 B/R",
+     1406.73,
+     4925000,
+     "1 BR - Type D Zabeel View"
+    ],
+    [
+     "AKAR1-1206",
+     "2 B/R",
+     1723.52,
+     6090000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-1904",
+     "3 B/R",
+     3664.92,
+     16760000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-2204",
+     "3 B/R",
+     3664.92,
+     16865000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-2504",
+     "3 B/R",
+     3664.92,
+     16970000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-3002",
+     "3 B/R",
+     3126.14,
+     15150000,
+     "3 BR - Type C Burj View"
+    ],
+    [
+     "AKAR1-3101",
+     "3 B/R",
+     2647.0,
+     12705000,
+     "3 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-3105",
+     "2 B/R",
+     2089.58,
+     8510000,
+     "2 BR - Type F Street View"
+    ],
+    [
+     "AKAR1-3702",
+     "3 B/R",
+     3126.14,
+     15395000,
+     "3 BR - Type C Burj View"
+    ],
+    [
+     "AKAR1-3703",
+     "3 B/R",
+     3654.04,
+     17385000,
+     "3 BR - Type D Burj View"
+    ],
+    [
+     "AKAR1-4302",
+     "3 B/R",
+     2605.75,
+     12580000,
+     "3 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-4503",
+     "4 B/R",
+     4697.8,
+     23770000,
+     "4 BR - Type B Burj View"
+    ],
+    [
+     "AKAR1-4505",
+     "2 B/R",
+     2091.04,
+     8665000,
+     "2 BR - Type F Street View"
+    ],
+    [
+     "AKAR1-4801",
+     "4 B/R",
+     3647.94,
+     18380000,
+     "4 BR - Type A Burj View"
+    ],
+    [
+     "AKAR1-4802",
+     "5 B/R",
+     6256.59,
+     34545000,
+     "5 BR - Type A Burj View"
+    ],
+    [
+     "AKAR1-4903",
+     "2 B/R",
+     1724.8,
+     6605000,
+     "2 BR - Type C Street View"
+    ],
+    [
+     "AKAR1-5001",
+     "6 B/R",
+     14628.4,
+     88000000,
+     "PH 6 BR - Type Burj View"
+    ]
+   ]
+  },
+  {
+   "p": "W Residences At Dubai Harbour",
+   "block": "W Residences at Dubai Harbour",
+   "master": "Dubai Harbour",
+   "completion": "31-Dec-2028",
+   "plan": "10/10/5/5/5/5/60",
+   "units": [
+    [
+     "WRDH1-0101",
+     "1 B/R",
+     1135.0,
+     4136000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0201",
+     "1 B/R",
+     1231.0,
+     4412000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0207",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0301",
+     "1 B/R",
+     1317.0,
+     4689000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH1-0307",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0401",
+     "1 B/R",
+     1404.0,
+     4965000,
+     "+ 1 BR - Type F City View"
+    ],
+    [
+     "WRDH1-0407",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0507",
+     "1 B/R",
+     1163.0,
+     4563000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0601",
+     "2 B/R",
+     1577.0,
+     5845000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-0607",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0701",
+     "2 B/R",
+     1663.0,
+     6162000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-0707",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0801",
+     "2 B/R",
+     1749.0,
+     6480000,
+     "+ 2 BR - Type B City View"
+    ],
+    [
+     "WRDH1-0807",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-0906",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-1006",
+     "1 B/R",
+     1163.0,
+     4622000,
+     "1 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH1-1601",
+     "2 B/R",
+     1623.0,
+     6237000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-1701",
+     "2 B/R",
+     1579.0,
+     6068000,
+     "2 BR - Type C City View"
+    ],
+    [
+     "WRDH1-2901",
+     "4 B/R",
+     3953.0,
+     17572000,
+     "+ 4 BR - Type B Sea View"
+    ],
+    [
+     "WRDH1-3001",
+     "4 B/R",
+     3836.0,
+     17007000,
+     "+ 4 BR - Type C Sea View"
+    ],
+    [
+     "WRDH1-3401",
+     "4 B/R",
+     3383.0,
+     15107000,
+     "+ 4 BR - Type D Sea View"
+    ],
+    [
+     "WRDH1-3701",
+     "3 B/R",
+     3037.0,
+     14289000,
+     "Type E Sea View"
+    ],
+    [
+     "WRDH1-3802",
+     "4 B/R",
+     4364.0,
+     20090000,
+     "Type A Sea View"
+    ],
+    [
+     "WRDH1-3901",
+     "3 B/R",
+     2805.0,
+     13199000,
+     "Type E Sea View"
+    ],
+    [
+     "WRDH1-4101",
+     "5 B/R",
+     11795.0,
+     65000000,
+     "5 BR - Type Sea View"
+    ],
+    [
+     "WRDH2-0201",
+     "2 B/R",
+     1943.0,
+     7246000,
+     "+ 2 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH2-0401",
+     "2 B/R",
+     2040.0,
+     7599000,
+     "+ 2 BR - Type C Partial Sea"
+    ],
+    [
+     "WRDH2-0407",
+     "1 B/R",
+     1086.0,
+     3911000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-0501",
+     "2 B/R",
+     2064.0,
+     7684000,
+     "+ 2 BR - Type D Partial Sea"
+    ],
+    [
+     "WRDH2-0808",
+     "1 B/R",
+     1086.0,
+     3966000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-0908",
+     "1 B/R",
+     1084.0,
+     3960000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-1008",
+     "1 B/R",
+     1084.0,
+     3960000,
+     "1 BR - Type B City View"
+    ],
+    [
+     "WRDH2-1101",
+     "3 B/R",
+     5731.0,
+     30172000,
+     "3 BR - Type Sea View"
+    ],
+    [
+     "WRDH2-1104",
+     "2 B/R",
+     2555.0,
+     15040000,
+     "2 BR - Type Sea View"
+    ],
+    [
+     "WRDH2-1502",
+     "1 B/R",
+     1179.0,
+     4793000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1601",
+     "1 B/R",
+     1060.0,
+     3988000,
+     "1 BR - Type D City View"
+    ],
+    [
+     "WRDH2-1602",
+     "1 B/R",
+     1151.0,
+     4747000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1606",
+     "3 B/R",
+     2479.0,
+     11701000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-1702",
+     "1 B/R",
+     1123.0,
+     4632000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-1802",
+     "1 B/R",
+     1096.0,
+     4520000,
+     "1 BR - Type E Partial Sea"
+    ],
+    [
+     "WRDH2-2201",
+     "2 B/R",
+     2051.0,
+     8048000,
+     "+ 2 BR - Type F Partial Sea"
+    ],
+    [
+     "WRDH2-2205",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2305",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2505",
+     "3 B/R",
+     2479.0,
+     11825000,
+     "+ 3 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-2903",
+     "4 B/R",
+     4177.0,
+     18603000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3001",
+     "3 B/R",
+     3317.0,
+     14158000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH2-3201",
+     "3 B/R",
+     3173.0,
+     13746000,
+     "+ 3 BR - Type D Sea View"
+    ],
+    [
+     "WRDH2-3802",
+     "4 B/R",
+     4180.0,
+     19034000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3901",
+     "5 B/R",
+     5113.0,
+     27114000,
+     "+ 5 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-3902",
+     "4 B/R",
+     4180.0,
+     19034000,
+     "+ 4 BR - Type A Sea View"
+    ],
+    [
+     "WRDH2-4001",
+     "5 B/R",
+     5041.0,
+     26733000,
+     "+ 5 BR - Type A Sea View"
+    ]
+   ]
+  },
+  {
+   "p": "Lareen / Dana",
+   "block": "LAREEN / DANA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "DAN-V001",
+     "4 B/R",
+     3765.0,
+     4622000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "DAN-V067",
+     "5 B/R",
+     5142.0,
+     6240000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "DAN-V145",
+     "4 B/R",
+     4356.0,
+     5430000,
+     "V4 T2-A Corner"
+    ],
+    [
+     "DAN-V151",
+     "4 B/R",
+     4356.0,
+     5425000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "LAR-TH203",
+     "3 B/R",
+     2342.0,
+     2950000,
+     "THE 3BR-B End"
+    ],
+    [
+     "LAR-TH270",
+     "4 B/R",
+     3139.0,
+     3510000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAR-TH361",
+     "4 B/R",
+     2559.0,
+     2900000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAR-TH364",
+     "4 B/R",
+     2559.0,
+     2910000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAR-TH397",
+     "4 B/R",
+     2559.0,
+     2904000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAR-V003",
+     "4 B/R",
+     3765.0,
+     4425000,
+     "V4 T1-B Middle"
+    ],
+    [
+     "LAR-V019",
+     "4 B/R",
+     3765.0,
+     4655000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "LAR-V063",
+     "5 B/R",
+     5142.0,
+     6210000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAR-V065",
+     "5 B/R",
+     5142.0,
+     6260000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAR-V066",
+     "5 B/R",
+     5142.0,
+     6425000,
+     "V5 T1-B Corner"
+    ],
+    [
+     "LAR-V103",
+     "4 B/R",
+     4356.0,
+     5535000,
+     "V4 T2-A Corner"
+    ],
+    [
+     "LAR-V131",
+     "4 B/R",
+     4356.0,
+     5565000,
+     "V4 T2-B Corner"
+    ]
+   ]
+  },
+  {
+   "p": "Laura",
+   "block": "LAURA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "LAU-TH120",
+     "3 B/R",
+     2342.0,
+     2905000,
+     "THE 3BR-A End"
+    ],
+    [
+     "LAU-TH160",
+     "4 B/R",
+     3139.0,
+     3445000,
+     "THE 4BR-A End"
+    ],
+    [
+     "LAU-TH164",
+     "4 B/R",
+     3139.0,
+     3570000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH174",
+     "4 B/R",
+     3139.0,
+     3590000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH175",
+     "4 B/R",
+     3139.0,
+     3570000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH247",
+     "4 B/R",
+     3139.0,
+     3530000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "LAU-TH284",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH289",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "LAU-TH305",
+     "4 B/R",
+     2559.0,
+     2880000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAU-TH306",
+     "4 B/R",
+     2559.0,
+     2880000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH308",
+     "4 B/R",
+     2559.0,
+     2890000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAU-TH323",
+     "4 B/R",
+     2559.0,
+     2875000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH355",
+     "4 B/R",
+     2559.0,
+     2924000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "LAU-TH359",
+     "4 B/R",
+     2559.0,
+     2940000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "LAU-V001",
+     "4 B/R",
+     3765.0,
+     4440000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "LAU-V006",
+     "4 B/R",
+     3765.0,
+     4400000,
+     "V4 T1-B Middle"
+    ],
+    [
+     "LAU-V022",
+     "4 B/R",
+     3765.0,
+     4715000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "LAU-V024",
+     "4 B/R",
+     3765.0,
+     4480000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "LAU-V035",
+     "4 B/R",
+     3765.0,
+     4955000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "LAU-V045",
+     "4 B/R",
+     3765.0,
+     4645000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "LAU-V047",
+     "4 B/R",
+     3765.0,
+     4470000,
+     "V4 T1-B Middle"
+    ],
+    [
+     "LAU-V057",
+     "5 B/R",
+     5142.0,
+     6205000,
+     "V5 T1-A Middle"
+    ],
+    [
+     "LAU-V063",
+     "5 B/R",
+     5142.0,
+     6225000,
+     "V5 T1-A Middle"
+    ],
+    [
+     "LAU-V067",
+     "5 B/R",
+     5142.0,
+     6220000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "LAU-V095",
+     "4 B/R",
+     4356.0,
+     5290000,
+     "V4 T2-A Middle"
+    ],
+    [
+     "LAU-V122",
+     "5 B/R",
+     5142.0,
+     6190000,
+     "V5 T1-B Corner"
+    ]
+   ]
+  },
+  {
+   "p": "Layan",
+   "block": "LAYAN",
+   "master": "Masaar3",
+   "completion": "30-Sept-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "LAY-TH004",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-B End"
+    ],
+    [
+     "LAY-TH005",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-A End"
+    ],
+    [
+     "LAY-TH022",
+     "3 B/R",
+     2342.0,
+     3005000,
+     "THC 3BR-B Corner"
+    ],
+    [
+     "LAY-TH109",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-A Corner"
+    ],
+    [
+     "LAY-TH110",
+     "3 B/R",
+     2342.0,
+     2980000,
+     "THC 3BR-B Corner"
+    ],
+    [
+     "LAY-TH113",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-A End"
+    ],
+    [
+     "LAY-TH114",
+     "3 B/R",
+     2342.0,
+     2915000,
+     "THE 3BR-B End"
+    ]
+   ]
+  },
+  {
+   "p": "Sedra",
+   "block": "SEDRA",
+   "master": "Masaar3",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/5/65",
+   "units": [
+    [
+     "SED-TH163",
+     "4 B/R",
+     2559.0,
+     2965000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "SED-TH317",
+     "4 B/R",
+     3139.0,
+     3515000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "SED-TH322",
+     "4 B/R",
+     3139.0,
+     3515000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "SED-TH325",
+     "4 B/R",
+     3139.0,
+     3445000,
+     "THE 4BR-B End"
+    ],
+    [
+     "SED-TH334",
+     "4 B/R",
+     3139.0,
+     3440000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH346",
+     "4 B/R",
+     3139.0,
+     3440000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH400",
+     "4 B/R",
+     3139.0,
+     3520000,
+     "THC 4BR-A Corner"
+    ],
+    [
+     "SED-TH405",
+     "4 B/R",
+     3139.0,
+     3510000,
+     "THC 4BR-B Corner"
+    ],
+    [
+     "SED-TH426",
+     "4 B/R",
+     3139.0,
+     3435000,
+     "THE 4BR-B End"
+    ],
+    [
+     "SED-TH432",
+     "4 B/R",
+     2559.0,
+     2885000,
+     "THM 4BR-A Middle"
+    ],
+    [
+     "SED-TH443",
+     "4 B/R",
+     3139.0,
+     3430000,
+     "THE 4BR-A End"
+    ],
+    [
+     "SED-TH450",
+     "4 B/R",
+     2559.0,
+     2880000,
+     "THM 4BR-B Middle"
+    ],
+    [
+     "SED-V001",
+     "4 B/R",
+     3765.0,
+     4815000,
+     "V4 T1-B Corner"
+    ],
+    [
+     "SED-V002",
+     "4 B/R",
+     3765.0,
+     4675000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V010",
+     "4 B/R",
+     3765.0,
+     4715000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V025",
+     "4 B/R",
+     3765.0,
+     4545000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "SED-V050",
+     "4 B/R",
+     4356.0,
+     5890000,
+     "V4 T2-A Corner"
+    ],
+    [
+     "SED-V053",
+     "5 B/R",
+     6736.0,
+     7970000,
+     "V5 T2-A Middle"
+    ],
+    [
+     "SED-V060",
+     "4 B/R",
+     3765.0,
+     4760000,
+     "V4 T1-A Corner"
+    ],
+    [
+     "SED-V066",
+     "4 B/R",
+     3765.0,
+     4575000,
+     "V4 T1-A Middle"
+    ],
+    [
+     "SED-V098",
+     "5 B/R",
+     6736.0,
+     7925000,
+     "V5 T2-A Middle"
+    ],
+    [
+     "SED-V111",
+     "5 B/R",
+     6736.0,
+     7870000,
+     "V5 T2-B Corner"
+    ],
+    [
+     "SED-V145",
+     "4 B/R",
+     4356.0,
+     5365000,
+     "V4 T2-A Middle"
+    ],
+    [
+     "SED-V160",
+     "4 B/R",
+     4356.0,
+     5335000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "SED-V175",
+     "4 B/R",
+     4356.0,
+     5625000,
+     "V4 T2-B Corner"
+    ],
+    [
+     "SED-V182",
+     "4 B/R",
+     4356.0,
+     5245000,
+     "V4 T2-A Middle"
+    ],
+    [
+     "SED-V197",
+     "5 B/R",
+     5142.0,
+     5990000,
+     "V5 T1-B Middle"
+    ],
+    [
+     "SED-V202",
+     "5 B/R",
+     5142.0,
+     6145000,
+     "V5 T1-B Corner"
+    ],
+    [
+     "SED-V205",
+     "5 B/R",
+     5142.0,
+     6230000,
+     "V5 T1-A Corner"
+    ],
+    [
+     "SED-V206",
+     "5 B/R",
+     5142.0,
+     6235000,
+     "V5 T1-B Corner"
+    ]
+   ]
+  },
+  {
+   "p": "Melia / Narenj / Coral / Anber",
+   "block": "Melia / Narenj / Coral / Anber",
+   "master": "Masaar2",
+   "completion": "31-Dec-2027",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "ANB-V091",
+     "4 B/R",
+     3771.0,
+     5325000,
+     "VILLA 4BR T2- Corner-Cool"
+    ],
+    [
+     "NAR-V036",
+     "4 B/R",
+     3771.0,
+     5195000,
+     "VILLA 4BR T2- Middle-Cool"
+    ]
+   ]
+  },
+  {
+   "p": "Anantara Sharjah Residences",
+   "block": "Anantara Sharjah Residences",
+   "master": "Anantara Sharjah Residences",
+   "completion": "31-Dec-2027",
+   "plan": "5/5/5/5/5/75",
+   "units": [
+    [
+     "ATA10001",
+     "3 B/R",
+     3084.0,
+     6476000,
+     "3 BR - Type B Sea View"
+    ],
+    [
+     "ATA10003",
+     "3 B/R",
+     2876.0,
+     5609000,
+     "3 BR - Type A City View"
+    ],
+    [
+     "ATA10006",
+     "2 B/R",
+     2224.0,
+     4564000,
+     "2 BR - Type F City View"
+    ],
+    [
+     "ATA10007",
+     "4 B/R",
+     3880.0,
+     7756000,
+     "4 BR - Type B1 Sea View"
+    ],
+    [
+     "ATA10008",
+     "2 B/R",
+     2258.0,
+     4633000,
+     "2 BR - Type B City View"
+    ],
+    [
+     "ATA1003",
+     "2 B/R",
+     2569.0,
+     5539000,
+     "2 BR - Type D Sea View"
+    ],
+    [
+     "ATA1008",
+     "1 B/R",
+     1188.0,
+     2510000,
+     "1 BR - Type A City View"
+    ],
+    [
+     "ATA1012",
+     "2 B/R",
+     2329.0,
+     5023000,
+     "2 BR - Type C Sea View"
+    ],
+    [
+     "ATA11002",
+     "4 B/R",
+     4408.0,
+     8831000,
+     "4 BR - Type A Sea View"
+    ],
+    [
+     "ATA11003",
+     "3 B/R",
+     2876.0,
+     5624000,
+     "3 BR - Type A City View"
+    ],
+    [
+     "ATA11005",
+     "2 B/R",
+     1695.0,
+     3490000,
+     "2 BR - Type H City View"
+    ],
+    [
+     "ATA11007",
+     "4 B/R",
+     3880.0,
+     7775000,
+     "4 BR - Type B1 Sea View"
+    ],
+    [
+     "ATA2004",
+     "1 B/R",
+     1190.0,
+     2520000,
+     "1 BR - Type A1 City View"
+    ],
+    [
+     "ATA3002",
+     "2 B/R",
+     2713.0,
+     5876000,
+     "2 BR - Type G Sea View"
+    ],
+    [
+     "ATA3003",
+     "2 B/R",
+     2569.0,
+     5565000,
+     "2 BR - Type D Sea View"
+    ],
+    [
+     "ATA3010",
+     "2 B/R",
+     2224.0,
+     4486000,
+     "2 BR - Type F City View"
+    ],
+    [
+     "ATA3014",
+     "2 B/R",
+     2258.0,
+     4554000,
+     "2 BR - Type B City View"
+    ],
+    [
+     "ATA4003",
+     "2 B/R",
+     2569.0,
+     5577000,
+     "2 BR - Type D Sea View"
+    ],
+    [
+     "ATA4008",
+     "1 B/R",
+     1188.0,
+     2528000,
+     "1 BR - Type A City View"
+    ],
+    [
+     "ATA4010",
+     "2 B/R",
+     2224.0,
+     4497000,
+     "2 BR - Type F City View"
+    ],
+    [
+     "ATA4014",
+     "2 B/R",
+     2258.0,
+     4565000,
+     "2 BR - Type B City View"
+    ],
+    [
+     "ATA6001",
+     "3 B/R",
+     3084.0,
+     6415000,
+     "3 BR - Type B Sea View"
+    ],
+    [
+     "ATA6002",
+     "3 B/R",
+     3280.0,
+     6821000,
+     "3 BR - Type C Sea View"
+    ],
+    [
+     "ATA6007",
+     "1 B/R",
+     1188.0,
+     2540000,
+     "1 BR - Type A City View"
+    ],
+    [
+     "ATA6008",
+     "3 B/R",
+     3329.0,
+     6923000,
+     "3 BR - Type E Sea View"
+    ],
+    [
+     "ATA7003",
+     "1 B/R",
+     1190.0,
+     2550000,
+     "1 BR - Type A1 City View"
+    ],
+    [
+     "ATA7011",
+     "2 B/R",
+     2258.0,
+     4599000,
+     "2 BR - Type B City View"
+    ],
+    [
+     "ATA8002",
+     "3 B/R",
+     3280.0,
+     6854000,
+     "3 BR - Type C Sea View"
+    ],
+    [
+     "ATA8006",
+     "3 B/R",
+     3319.0,
+     6936000,
+     "3 BR - Type E2 Sea View"
+    ],
+    [
+     "ATA9001",
+     "3 B/R",
+     3084.0,
+     6461000,
+     "3 BR - Type B Sea View"
+    ],
+    [
+     "ATAP003",
+     "3 B/R",
+     3538.0,
+     7286000,
+     "3 BR - Type City View"
+    ],
+    [
+     "ATAP005",
+     "3 B/R",
+     3387.0,
+     6976000,
+     "3 BR - Type City View"
+    ],
+    [
+     "ATAP006",
+     "4 B/R",
+     8450.0,
+     18648000,
+     "4 BR - Type Sea View"
+    ]
+   ]
+  },
+  {
+   "p": "Central Business District",
+   "block": "Central Business District",
+   "master": "Aljada",
+   "completion": "30-Apr-2027",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "CBD3603",
+     null,
+     2388.0,
+     5195000,
+     "30-Apr-2027 Office Office Building"
+    ],
+    [
+     "CBD3704",
+     null,
+     2389.0,
+     5225000,
+     "30-Apr-2027 Office Office Building"
+    ],
+    [
+     "CBD3804",
+     null,
+     2389.0,
+     5245000,
+     "30-Apr-2027 Office Office Building"
+    ],
+    [
+     "CBD10",
+     null,
+     3103.0,
+     6630000,
+     "CBD10-201 30-Jun-2028 Office Office Landscape"
+    ]
+   ]
+  },
+  {
+   "p": "Naseej District",
+   "block": "Naseej District",
+   "master": "Aljada",
+   "completion": "30-Sept-2026",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "IT1204",
+     "1 B/R",
+     1090.0,
+     1465000,
+     "1 BR TYPE D Building"
+    ],
+    [
+     "IT1206",
+     "2 B/R",
+     3133.0,
+     4210000,
+     "2BR TYPE F - il teatro"
+    ],
+    [
+     "IT1208",
+     "2 B/R",
+     2235.0,
+     3041000,
+     "2BR TYPE G - il teatro"
+    ],
+    [
+     "IT1210",
+     "2 B/R",
+     2250.0,
+     3041000,
+     "2BR TYPE G - il teatro"
+    ],
+    [
+     "IT1212",
+     "2 B/R",
+     2236.0,
+     3035000,
+     "2BR TYPE H - il teatro"
+    ],
+    [
+     "IT1214",
+     "2 B/R",
+     2344.0,
+     3153000,
+     "2BR TYPE H - il teatro"
+    ],
+    [
+     "IT1406",
+     "2 B/R",
+     3141.0,
+     4273000,
+     "2 BR TYPE G - il teatro"
+    ],
+    [
+     "IT1408",
+     "2 B/R",
+     2235.0,
+     3086000,
+     "2BR TYPE G - il teatro"
+    ],
+    [
+     "IT1412",
+     "2 B/R",
+     2236.0,
+     3080000,
+     "2BR TYPE H - il teatro"
+    ],
+    [
+     "IT1608",
+     "2 B/R",
+     2232.0,
+     3288000,
+     "2BR TYPE L - il teatro"
+    ],
+    [
+     "IT1610",
+     "2 B/R",
+     2247.0,
+     3287550,
+     "2BR TYPE G - il teatro"
+    ],
+    [
+     "IT1611",
+     "2 B/R",
+     2233.0,
+     3261300,
+     "2BR TYPE J - il teatro"
+    ],
+    [
+     "IT2206",
+     "2 B/R",
+     3110.0,
+     4210000,
+     "2 BR TYPE F - il teatro"
+    ],
+    [
+     "IT2208",
+     "2 B/R",
+     2205.0,
+     3041000,
+     "2 BR TYPE G - il teatro"
+    ],
+    [
+     "IT2209",
+     "1 B/R",
+     1770.0,
+     2375000,
+     "1 BR TYPE E - il teatro"
+    ],
+    [
+     "IT2210",
+     "2 B/R",
+     2205.0,
+     3041000,
+     "2 BR TYPE G - il teatro"
+    ],
+    [
+     "IT2212",
+     "2 B/R",
+     2183.0,
+     3035000,
+     "2 BR TYPE H - il teatro"
+    ],
+    [
+     "IT2214",
+     "2 B/R",
+     2271.0,
+     3153000,
+     "2 BR TYPE H - il teatro"
+    ],
+    [
+     "IT2406",
+     "2 B/R",
+     3110.0,
+     4273000,
+     "2 BR TYPE F - il teatro"
+    ],
+    [
+     "IT2409",
+     "1 B/R",
+     1770.0,
+     2410000,
+     "1 BR TYPE E - il teatro"
+    ],
+    [
+     "IT2412",
+     "2 B/R",
+     2183.0,
+     3080000,
+     "2 BR TYPE H- il teatro"
+    ],
+    [
+     "IT2414",
+     "2 B/R",
+     2271.0,
+     3200000,
+     "2 BR TYPE H - il teatro"
+    ],
+    [
+     "IT2606",
+     "2 B/R",
+     3109.0,
+     4336000,
+     "2 BR TYPE F - il teatro"
+    ],
+    [
+     "IT2607",
+     "2 B/R",
+     2200.0,
+     3106000,
+     "2 BR TYPE G - il teatro"
+    ],
+    [
+     "IT2609",
+     "1 B/R",
+     1768.0,
+     2446000,
+     "1 BR TYPE E - il teatro"
+    ],
+    [
+     "IT2610",
+     "2 B/R",
+     2201.0,
+     3131000,
+     "2 BR TYPE G - il teatro"
+    ],
+    [
+     "IT2611",
+     "2 B/R",
+     2176.0,
+     3106000,
+     "2 BR TYPE H - il teatro"
+    ],
+    [
+     "IT2612",
+     "2 B/R",
+     2178.0,
+     3125000,
+     "2 BR TYPE H - il teatro"
+    ],
+    [
+     "IT2613",
+     "1 B/R",
+     1514.0,
+     2060000,
+     "1 BR TYPE F - il teatro"
+    ]
+   ]
+  },
+  {
+   "p": "Jenna",
+   "block": "JENNA",
+   "master": "Aljada",
+   "completion": "31-Mar-2029",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "JEN1106",
+     "2 B/R",
+     1244.0,
+     1565000,
+     "2BR-A Building"
+    ],
+    [
+     "JEN1108",
+     "2 B/R",
+     1305.0,
+     1640000,
+     "2BR-D Building"
+    ],
+    [
+     "JEN1305",
+     "3 B/R",
+     2141.0,
+     2665000,
+     "3BR-A Green"
+    ],
+    [
+     "JEN1307",
+     "2 B/R",
+     1224.0,
+     1555000,
+     "2BR-A Building"
+    ],
+    [
+     "JEN1705",
+     "3 B/R",
+     2141.0,
+     2705000,
+     "3BR-A Green"
+    ],
+    [
+     "JEN1805",
+     "3 B/R",
+     2080.0,
+     2640000,
+     "3BR-A Green"
+    ],
+    [
+     "JEN1808",
+     "2 B/R",
+     1279.0,
+     1650000,
+     "2BR-D Building"
+    ]
+   ]
+  },
+  {
+   "p": "Nesba",
+   "block": "Nesba",
+   "master": "Aljada",
+   "completion": "31-Dec-2027",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "NSB1305",
+     "2 B/R",
+     1475.0,
+     1955000,
+     "2 BR - Type C1 Greenway"
+    ],
+    [
+     "NSB1610",
+     "3 B/R",
+     2407.0,
+     2825000,
+     "3 BR - Type B2 Street"
+    ],
+    [
+     "NSB1804",
+     "2 B/R",
+     1558.0,
+     1965000,
+     "2 BR - Type D1 Greenway"
+    ],
+    [
+     "NSB1808",
+     "2 B/R",
+     1321.0,
+     1665000,
+     "2 BR - Type E1 Street"
+    ],
+    [
+     "NSB1G02",
+     "2 B/R",
+     1639.0,
+     1890000,
+     "2 BR - Type D1 Greenway"
+    ],
+    [
+     "NSB2623",
+     "2 B/R",
+     1216.0,
+     1705000,
+     "2 BR - Type L1 Pool"
+    ],
+    [
+     "NSB3205",
+     "2 B/R",
+     1927.0,
+     2029000,
+     "2 BR - Type C1 School Ground"
+    ]
+   ]
+  },
+  {
+   "p": "Safa",
+   "block": "Safa",
+   "master": "Aljada",
+   "completion": "30-Jun-2028",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "SAFA1105",
+     "3 B/R",
+     2057.0,
+     2432000,
+     "3 BR - Type A1 Building"
+    ],
+    [
+     "SAFA1113",
+     "2 B/R",
+     1528.0,
+     1987000,
+     "2 BR - Type D1 Green"
+    ],
+    [
+     "SAFA1208",
+     "2 B/R",
+     1314.0,
+     1671000,
+     "2 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1209",
+     "3 B/R",
+     2224.0,
+     2740000,
+     "3 BR - Type B1 Green"
+    ],
+    [
+     "SAFA1213",
+     "2 B/R",
+     1667.0,
+     2183000,
+     "2 BR - Type D1 Green"
+    ],
+    [
+     "SAFA1305",
+     "3 B/R",
+     2057.0,
+     2463000,
+     "3 BR - Type A1 Building"
+    ],
+    [
+     "SAFA1310",
+     "2 B/R",
+     1380.0,
+     1816000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1314",
+     "2 B/R",
+     1284.0,
+     1691000,
+     "2 BR - Type E1 Pool"
+    ],
+    [
+     "SAFA1405",
+     "3 B/R",
+     2222.0,
+     2671000,
+     "3 BR - Type A1 Building"
+    ],
+    [
+     "SAFA1407",
+     "2 B/R",
+     1313.0,
+     1683000,
+     "2 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1408",
+     "2 B/R",
+     1314.0,
+     1684000,
+     "2 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1410",
+     "2 B/R",
+     1499.0,
+     1979000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1412",
+     "2 B/R",
+     1497.0,
+     1977000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1413",
+     "2 B/R",
+     1667.0,
+     2199000,
+     "2 BR - Type D1 Green"
+    ],
+    [
+     "SAFA1513",
+     "2 B/R",
+     1528.0,
+     2025000,
+     "2 BR - Type D1 Green"
+    ],
+    [
+     "SAFA1514",
+     "2 B/R",
+     1284.0,
+     1704000,
+     "2 BR - Type E1 Pool"
+    ],
+    [
+     "SAFA1605",
+     "3 B/R",
+     2222.0,
+     2693000,
+     "3 BR - Type A1 Building"
+    ],
+    [
+     "SAFA1607",
+     "2 B/R",
+     1313.0,
+     1696000,
+     "2 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1608",
+     "2 B/R",
+     1314.0,
+     1697000,
+     "2 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1609",
+     "3 B/R",
+     2232.0,
+     2794000,
+     "3 BR - Type B1 Green"
+    ],
+    [
+     "SAFA1610",
+     "2 B/R",
+     1499.0,
+     1994000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1611",
+     "2 B/R",
+     1498.0,
+     1993000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1612B",
+     "2 B/R",
+     1179.0,
+     1570000,
+     "2 BR - Type E1 Pool"
+    ],
+    [
+     "SAFA1709",
+     "3 B/R",
+     1999.0,
+     2514000,
+     "3 BR - Type B1 Green"
+    ],
+    [
+     "SAFA1710",
+     "2 B/R",
+     1380.0,
+     1844000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1711",
+     "2 B/R",
+     1378.0,
+     1841000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1804",
+     "2 B/R",
+     1139.0,
+     1530000,
+     "2 BR - Type A1 Pool"
+    ],
+    [
+     "SAFA1806",
+     "1 B/R",
+     882.0,
+     1195000,
+     "1 BR - Type B1 Building"
+    ],
+    [
+     "SAFA1809",
+     "3 B/R",
+     2195.0,
+     2770000,
+     "3 BR - Type B1 Green"
+    ],
+    [
+     "SAFA1G01",
+     "2 B/R",
+     1631.0,
+     2120000,
+     "2 BR - Type C1 Green"
+    ],
+    [
+     "SAFA1G02",
+     "2 B/R",
+     1785.0,
+     2320000,
+     "2 BR - Type D1 Green"
+    ],
+    [
+     "SPV101",
+     "2 B/R",
+     1334.0,
+     1736000,
+     "2 BR - Type A1 Pool"
+    ],
+    [
+     "SPV102",
+     "2 B/R",
+     1632.0,
+     2121000,
+     "2 BR - Type B1 Pool"
+    ],
+    [
+     "SPV108",
+     "1 B/R",
+     1069.0,
+     1582000,
+     "1 BR - Type B1 Park"
+    ],
+    [
+     "SPV114",
+     "2 B/R",
+     1354.0,
+     1722000,
+     "2 BR - Type F1 Street"
+    ],
+    [
+     "SPV121",
+     "2 B/R",
+     1233.0,
+     1606000,
+     "2 BR - Type C1 Pool"
+    ],
+    [
+     "SPV209",
+     "1 B/R",
+     1069.0,
+     1592000,
+     "1 BR - Type B1 Park"
+    ],
+    [
+     "SPV210",
+     "2 B/R",
+     1534.0,
+     2240000,
+     "2 BR - Type E1 Park"
+    ],
+    [
+     "SPV217",
+     "2 B/R",
+     1354.0,
+     1735000,
+     "2 BR - Type F1 Street"
+    ],
+    [
+     "SPV221",
+     "2 B/R",
+     1486.0,
+     1947000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "SPV307",
+     "2 B/R",
+     1861.0,
+     2444000,
+     "2 BR - Type D1 Pool"
+    ],
+    [
+     "SPV308",
+     "3 B/R",
+     2811.0,
+     3895000,
+     "3 BR - Type A1 Park"
+    ],
+    [
+     "SPV312",
+     "2 B/R",
+     1534.0,
+     2247000,
+     "2 BR - Type E1 Park"
+    ],
+    [
+     "SPV321",
+     "2 B/R",
+     1486.0,
+     1955000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "SPV403",
+     "2 B/R",
+     1554.0,
+     2051000,
+     "2 BR - Type B1 Pool"
+    ],
+    [
+     "SPV407",
+     "2 B/R",
+     1861.0,
+     2453000,
+     "2 BR - Type D1 Pool"
+    ],
+    [
+     "SPV408",
+     "3 B/R",
+     2811.0,
+     3909000,
+     "3 BR - Type A1 Park"
+    ],
+    [
+     "SPV409",
+     "1 B/R",
+     1069.0,
+     1603000,
+     "1 BR - Type B1 Park"
+    ],
+    [
+     "SPV607",
+     "2 B/R",
+     1861.0,
+     2472000,
+     "2 BR - Type D1 Pool"
+    ],
+    [
+     "SPV611",
+     "2 B/R",
+     1534.0,
+     2270000,
+     "2 BR - Type E1 Park"
+    ],
+    [
+     "SPV613",
+     "3 B/R",
+     2717.0,
+     3806000,
+     "3 BR - Type B1 Park"
+    ],
+    [
+     "SPV621",
+     "2 B/R",
+     1486.0,
+     1977000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "SPV707",
+     "2 B/R",
+     1861.0,
+     2481000,
+     "2 BR - Type D1 Pool"
+    ],
+    [
+     "SPV708",
+     "3 B/R",
+     2811.0,
+     3951000,
+     "3 BR - Type A1 Park"
+    ],
+    [
+     "SPV713",
+     "3 B/R",
+     2717.0,
+     3819000,
+     "3 BR - Type B1 Park"
+    ],
+    [
+     "SPV721",
+     "2 B/R",
+     1486.0,
+     1984000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "SPV919",
+     "2 B/R",
+     1486.0,
+     1999000,
+     "2 BR - Type G1 Pool"
+    ]
+   ]
+  },
+  {
+   "p": "The Gate",
+   "block": "The Gate",
+   "master": "Aljada",
+   "completion": "30-Jun-2028",
+   "plan": "5/5/5/5/5/5/70",
+   "units": [
+    [
+     "TG3103",
+     "2 B/R",
+     1390.0,
+     1809000,
+     "2 BR - Type B1 Pool"
+    ],
+    [
+     "TG3104",
+     "2 B/R",
+     1866.0,
+     1941000,
+     "2 BR - Type B2 Pool"
+    ],
+    [
+     "TG3105",
+     "2 B/R",
+     2014.0,
+     2040000,
+     "2 BR - Type C1 Pool"
+    ],
+    [
+     "TG3118",
+     "2 B/R",
+     1308.0,
+     1703000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "TG3119",
+     "2 B/R",
+     2502.0,
+     2277000,
+     "2 BR - Type H1 Pool"
+    ],
+    [
+     "TG3120",
+     "2 B/R",
+     2084.0,
+     2081000,
+     "2 BR - Type H2 Pool"
+    ],
+    [
+     "TG3121",
+     "2 B/R",
+     1988.0,
+     2020000,
+     "2 BR - Type H3 Pool"
+    ],
+    [
+     "TG3208",
+     "3 B/R",
+     2479.0,
+     2922000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3209",
+     "2 B/R",
+     1308.0,
+     1657000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3211",
+     "2 B/R",
+     1308.0,
+     1657000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3212",
+     "2 B/R",
+     1474.0,
+     1865000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3220",
+     "2 B/R",
+     1396.0,
+     1823000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3301",
+     "2 B/R",
+     1277.0,
+     1676000,
+     "2 BR - Type A3 Pool"
+    ],
+    [
+     "TG3303",
+     "1 B/R",
+     735.0,
+     1030000,
+     "1 BR - Type B1 Pool"
+    ],
+    [
+     "TG3306",
+     "2 B/R",
+     1345.0,
+     1764000,
+     "2 BR - Type C3 Pool"
+    ],
+    [
+     "TG3308",
+     "3 B/R",
+     2479.0,
+     2935000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3309",
+     "2 B/R",
+     1308.0,
+     1664000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3310",
+     "2 B/R",
+     1308.0,
+     1664000,
+     "2 BR - Type E2 Building"
+    ],
+    [
+     "TG3311",
+     "2 B/R",
+     1308.0,
+     1664000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3312",
+     "2 B/R",
+     1474.0,
+     1873000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3320",
+     "2 B/R",
+     1396.0,
+     1830000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3323",
+     "2 B/R",
+     1340.0,
+     1757000,
+     "2 BR - Type H6 Pool"
+    ],
+    [
+     "TG3401",
+     "2 B/R",
+     1277.0,
+     1682000,
+     "2 BR - Type A3 Pool"
+    ],
+    [
+     "TG3406",
+     "2 B/R",
+     1345.0,
+     1771000,
+     "2 BR - Type C3 Pool"
+    ],
+    [
+     "TG3407",
+     "3 B/R",
+     1988.0,
+     2446000,
+     "3 BR - Type D2 Pool"
+    ],
+    [
+     "TG3408",
+     "3 B/R",
+     2479.0,
+     2947000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3409",
+     "2 B/R",
+     1308.0,
+     1670000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3410",
+     "2 B/R",
+     1308.0,
+     1670000,
+     "2 BR - Type E2 Building"
+    ],
+    [
+     "TG3411",
+     "2 B/R",
+     1308.0,
+     1670000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3412",
+     "2 B/R",
+     1474.0,
+     1880000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3420",
+     "2 B/R",
+     1396.0,
+     1837000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3501",
+     "2 B/R",
+     1277.0,
+     1688000,
+     "2 BR - Type A3 Pool"
+    ],
+    [
+     "TG3506",
+     "2 B/R",
+     1345.0,
+     1777000,
+     "2 BR - Type C3 Pool"
+    ],
+    [
+     "TG3507",
+     "3 B/R",
+     1988.0,
+     2455000,
+     "3 BR - Type D2 Pool"
+    ],
+    [
+     "TG3508",
+     "3 B/R",
+     2479.0,
+     2959000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3509",
+     "2 B/R",
+     1308.0,
+     1677000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3510",
+     "2 B/R",
+     1308.0,
+     1677000,
+     "2 BR - Type E2 Building"
+    ],
+    [
+     "TG3511",
+     "2 B/R",
+     1308.0,
+     1677000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3512",
+     "2 B/R",
+     1474.0,
+     1887000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3520",
+     "2 B/R",
+     1396.0,
+     1844000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3523",
+     "2 B/R",
+     1340.0,
+     1771000,
+     "2 BR - Type H6 Pool"
+    ],
+    [
+     "TG3606",
+     "2 B/R",
+     1345.0,
+     1784000,
+     "2 BR - Type C3 Pool"
+    ],
+    [
+     "TG3608",
+     "3 B/R",
+     2479.0,
+     2972000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3609",
+     "2 B/R",
+     1308.0,
+     1683000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3610",
+     "2 B/R",
+     1308.0,
+     1683000,
+     "2 BR - Type E2 Building"
+    ],
+    [
+     "TG3611",
+     "2 B/R",
+     1308.0,
+     1683000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3612",
+     "2 B/R",
+     1474.0,
+     1895000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3613",
+     "3 B/R",
+     2278.0,
+     2717000,
+     "3 BR - Type B2 Garden &"
+    ],
+    [
+     "TG3620",
+     "2 B/R",
+     1396.0,
+     1851000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3622",
+     "2 B/R",
+     1261.0,
+     1674000,
+     "2 BR - Type H5 Pool"
+    ],
+    [
+     "TG3701",
+     "2 B/R",
+     1277.0,
+     1701000,
+     "2 BR - Type A3 Pool"
+    ],
+    [
+     "TG3705",
+     "2 B/R",
+     1345.0,
+     1791000,
+     "2 BR - Type C3 Pool"
+    ],
+    [
+     "TG3706",
+     "3 B/R",
+     1988.0,
+     2475000,
+     "3 BR - Type D2 Pool"
+    ],
+    [
+     "TG3707",
+     "3 B/R",
+     2479.0,
+     2984000,
+     "3 BR - Type A2 Building"
+    ],
+    [
+     "TG3708",
+     "2 B/R",
+     1308.0,
+     1690000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3709",
+     "2 B/R",
+     1308.0,
+     1690000,
+     "2 BR - Type E2 Building"
+    ],
+    [
+     "TG3710",
+     "2 B/R",
+     1308.0,
+     1690000,
+     "2 BR - Type D2 Building"
+    ],
+    [
+     "TG3711",
+     "2 B/R",
+     1474.0,
+     1902000,
+     "2 BR - Type F2 Building"
+    ],
+    [
+     "TG3719",
+     "2 B/R",
+     1396.0,
+     1858000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3720",
+     "2 B/R",
+     1261.0,
+     1680000,
+     "2 BR - Type H5 Pool"
+    ],
+    [
+     "TG3721",
+     "2 B/R",
+     1261.0,
+     1680000,
+     "2 BR - Type H5 Pool"
+    ],
+    [
+     "TG3722",
+     "2 B/R",
+     1340.0,
+     1784000,
+     "2 BR - Type H6 Pool"
+    ],
+    [
+     "TG3801",
+     "2 B/R",
+     1277.0,
+     1708000,
+     "2 BR - Type A3 Pool"
+    ],
+    [
+     "TG3803",
+     "2 B/R",
+     1478.0,
+     1944000,
+     "2 BR - Type I1 Garden"
+    ],
+    [
+     "TG3809",
+     "2 B/R",
+     1396.0,
+     1865000,
+     "2 BR - Type G2 Pool"
+    ],
+    [
+     "TG3810",
+     "2 B/R",
+     1261.0,
+     1686000,
+     "2 BR - Type H5 Pool"
+    ],
+    [
+     "TG3811",
+     "2 B/R",
+     1261.0,
+     1686000,
+     "2 BR - Type H5 Pool"
+    ],
+    [
+     "TG3812",
+     "2 B/R",
+     1340.0,
+     1791000,
+     "2 BR - Type H6 Pool"
+    ],
+    [
+     "TG4101",
+     "2 B/R",
+     1918.0,
+     1964000,
+     "2 BR - Type A1 Pool"
+    ],
+    [
+     "TG4102",
+     "2 B/R",
+     1162.0,
+     1520000,
+     "2 BR - Type B1 Pool"
+    ],
+    [
+     "TG4104",
+     "2 B/R",
+     2026.0,
+     2038000,
+     "2 BR - Type D1 Pool"
+    ],
+    [
+     "TG4105",
+     "3 B/R",
+     2865.0,
+     2773000,
+     "3 BR - Type A1 Pool"
+    ],
+    [
+     "TG4120",
+     "2 B/R",
+     2220.0,
+     2170000,
+     "2 BR - Type E1 Pool"
+    ],
+    [
+     "TG4121",
+     "2 B/R",
+     2225.0,
+     2172000,
+     "2 BR - Type F1 Pool"
+    ],
+    [
+     "TG4122",
+     "2 B/R",
+     1918.0,
+     1816000,
+     "2 BR - Type G1 Pool"
+    ],
+    [
+     "TG4217",
+     "3 B/R",
+     1898.0,
+     2350000,
+     "3 BR - Type E1 LED Mesh"
+    ],
+    [
+     "TG4317",
+     "3 B/R",
+     1898.0,
+     2359000,
+     "3 BR - Type E1 LED Mesh"
+    ],
+    [
+     "TG4417",
+     "3 B/R",
+     1898.0,
+     2368000,
+     "3 BR - Type E1 LED Mesh"
+    ],
+    [
+     "TG4509",
+     "3 B/R",
+     1998.0,
+     2583000,
+     "3 BR - Type B2 Pool"
+    ],
+    [
+     "TG4517",
+     "3 B/R",
+     1898.0,
+     2378000,
+     "3 BR - Type E1 LED Mesh"
+    ],
+    [
+     "TG4706",
+     "3 B/R",
+     1998.0,
+     2603000,
+     "3 BR - Type B2 Pool"
+    ],
+    [
+     "TG4713",
+     "3 B/R",
+     1960.0,
+     2476000,
+     "3 BR - Type D1 LED Mesh"
+    ],
+    [
+     "TG4806",
+     "3 B/R",
+     1998.0,
+     2613000,
+     "3 BR - Type B2 Pool"
+    ],
+    [
+     "TG4906",
+     "3 B/R",
+     1998.0,
+     2623000,
+     "3 BR - Type B2 Pool"
+    ],
+    [
+     "TG5101",
+     "2 B/R",
+     1913.0,
+     1975000,
+     "2BR-A3 Pool"
+    ],
+    [
+     "TG5102",
+     "2 B/R",
+     2081.0,
+     2090000,
+     "2BR-A3 Pool"
+    ],
+    [
+     "TG5103",
+     "2 B/R",
+     2123.0,
+     2130000,
+     "2BR-A3 Pool"
+    ],
+    [
+     "TG5111",
+     "3 B/R",
+     1672.0,
+     2140000,
+     "3BR-B1 Green Spine"
+    ],
+    [
+     "TG5112",
+     "2 B/R",
+     1179.0,
+     1525000,
+     "2BR-D1 Building"
+    ],
+    [
+     "TG5116",
+     "3 B/R",
+     1886.0,
+     2335000,
+     "3BR-C1 Building"
+    ],
+    [
+     "TG5117",
+     "2 B/R",
+     1919.0,
+     1980000,
+     "2BR-E3 Pool"
+    ],
+    [
+     "TG5118",
+     "2 B/R",
+     1817.0,
+     1915000,
+     "2BR-F1 Pool"
+    ],
+    [
+     "TG5119",
+     "2 B/R",
+     1482.0,
+     1950000,
+     "2 BR - Type F3 Pool"
+    ],
+    [
+     "TG5121",
+     "2 B/R",
+     1804.0,
+     1910000,
+     "2BR-G3 Pool"
+    ],
+    [
+     "TG5211",
+     "3 B/R",
+     2189.0,
+     2775000,
+     "3BR-B2 Green Spine"
+    ],
+    [
+     "TG5212",
+     "2 B/R",
+     1421.0,
+     1840000,
+     "2BR-D2 Building"
+    ],
+    [
+     "TG5214",
+     "2 B/R",
+     1298.0,
+     1680000,
+     "2BR-C2 Building"
+    ],
+    [
+     "TG5216",
+     "3 B/R",
+     2408.0,
+     2970000,
+     "3BR-C2 Building"
+    ],
+    [
+     "TG5217",
+     "2 B/R",
+     1510.0,
+     1995000,
+     "2BR-H1 Pool"
+    ],
+    [
+     "TG5312",
+     "2 B/R",
+     1421.0,
+     1850000,
+     "2BR-D2 Building"
+    ],
+    [
+     "TG5314",
+     "2 B/R",
+     1298.0,
+     1690000,
+     "2BR-C2 Building"
+    ],
+    [
+     "TG5315",
+     "2 B/R",
+     1300.0,
+     1690000,
+     "2BR-A2 Building"
+    ],
+    [
+     "TG5316",
+     "3 B/R",
+     2408.0,
+     2980000,
+     "3BR-C2 Building"
+    ],
+    [
+     "TG5317",
+     "2 B/R",
+     1672.0,
+     2215000,
+     "2BR-H2 Pool"
+    ],
+    [
+     "TG5412",
+     "2 B/R",
+     1421.0,
+     1855000,
+     "2BR-D2 Building"
+    ],
+    [
+     "TG5414",
+     "2 B/R",
+     1298.0,
+     1695000,
+     "2BR-C2 Building"
+    ],
+    [
+     "TG5417",
+     "2 B/R",
+     1672.0,
+     2220000,
+     "2BR-H2 Pool"
+    ],
+    [
+     "TG5418",
+     "2 B/R",
+     1277.0,
+     1700000,
+     "2BR-E2 Pool"
+    ],
+    [
+     "TG5511",
+     "3 B/R",
+     2189.0,
+     2810000,
+     "3BR-B2 Green Spine"
+    ],
+    [
+     "TG5512",
+     "2 B/R",
+     1421.0,
+     1860000,
+     "2BR-D2 Building"
+    ],
+    [
+     "TG5517",
+     "2 B/R",
+     1672.0,
+     2230000,
+     "2BR-H2 Pool"
+    ],
+    [
+     "TG5518",
+     "2 B/R",
+     1277.0,
+     1710000,
+     "2BR-E2 Pool"
+    ],
+    [
+     "TG5602",
+     "2 B/R",
+     1223.0,
+     1640000,
+     "2BR-A2 Pool"
+    ],
+    [
+     "TG5615",
+     "2 B/R",
+     1300.0,
+     1710000,
+     "2BR-A2 Building"
+    ],
+    [
+     "TG5617",
+     "2 B/R",
+     1672.0,
+     2240000,
+     "2BR-H2 Pool"
+    ],
+    [
+     "TG5803",
+     "2 B/R",
+     1234.0,
+     1670000,
+     "2BR-A2 Pool"
+    ],
+    [
+     "TG5805",
+     "3 B/R",
+     1755.0,
+     2305000,
+     "3BR-A2 Green Spine"
+    ],
+    [
+     "TG5810",
+     "2 B/R",
+     1423.0,
+     1945000,
+     "2BR-I1 Green Spine"
+    ],
+    [
+     "TG6312",
+     "3 B/R",
+     1959.0,
+     2545000,
+     "3BR-B2 Boulevard"
+    ],
+    [
+     "TG6408",
+     "2 B/R",
+     1283.0,
+     1710000,
+     "2BR-E2 Boulevard"
+    ],
+    [
+     "TG6613",
+     "2 B/R",
+     1241.0,
+     1645000,
+     "2BR-E3 Street"
+    ],
+    [
+     "TG6704",
+     "2 B/R",
+     1272.0,
+     1680000,
+     "2BR-C2 Building"
+    ],
+    [
+     "TG6705",
+     "2 B/R",
+     1397.0,
+     1880000,
+     "2BR-D2 Boulevard"
+    ],
+    [
+     "TG6709",
+     "2 B/R",
+     1300.0,
+     1750000,
+     "2BR-E2 Boulevard"
+    ],
+    [
+     "TG6710",
+     "3 B/R",
+     1895.0,
+     2500000,
+     "3BR-A2 Boulevard"
+    ],
+    [
+     "TG6716",
+     "2 B/R",
+     1169.0,
+     1560000,
+     "2BR-E4 Street"
+    ],
+    [
+     "TG6905",
+     "3 B/R",
+     2197.0,
+     2915000,
+     "3BR-F1 Boulevard"
+    ],
+    [
+     "TG6906",
+     "4 B/R",
+     2356.0,
+     3125000,
+     "4BR-A1 Boulevard"
+    ],
+    [
+     "TG6908",
+     "4 B/R",
+     3190.0,
+     4225000,
+     "4BR-C1 Boulevard"
+    ],
+    [
+     "TG6911",
+     "4 B/R",
+     2431.0,
+     3190000,
+     "4BR-F1 Street"
+    ],
+    [
+     "TG6912",
+     "3 B/R",
+     1920.0,
+     2515000,
+     "3BR-E2 Pool"
+    ],
+    [
+     "TG6914",
+     "2 B/R",
+     1229.0,
+     1655000,
+     "2BR-F3 Pool"
+    ],
+    [
+     "TG6916",
+     "2 B/R",
+     1225.0,
+     1650000,
+     "2BR-H1 Pool"
+    ]
+   ]
+  }
+ ]
+}

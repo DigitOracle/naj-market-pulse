@@ -224,6 +224,13 @@ def daily(a):
         S("graph_export", py("scripts/graph_export.py"), needs=["graph_build"]),   # golden gate -> lake publish -> export from the lake
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
         S("lake_expire", py("scripts/lake.py", "expire", "--days", "30")),
+        # 24 Sep 2026 (Kendall: "add bukadra and rasalkhor to the daily refresh"): the two districts massed for Sobha get their
+        # register cuts every day like the rest of the twin, and the Sobha view - mask (KV devmask_sobha) and the Unreal
+        # manifest - is rebuilt from the day's graph so a newly registered Sobha scheme reaches the twin without a hand run.
+        S("cuts_bukadra", py("scripts/build_district_cuts.py", "--slug", "bukadra"), needs=["graph_build"], timeout=3600),
+        S("cuts_rasalkhor", py("scripts/build_district_cuts.py", "--slug", "rasalkhor"), needs=["graph_build"], timeout=3600),
+        S("sobha_mask", py("scripts/build_sobha_mask.py", "--push"), needs=["graph_build"], retry=1),
+        S("ue_sobha_manifest", py("scripts/build_ue_sobha_manifest.py"), needs=["sobha_mask"]),
     ]
 
 

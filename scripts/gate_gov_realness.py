@@ -53,10 +53,8 @@ GATE_ENVS = {"stg"}
 
 # Held back from publishing BY DECISION, whatever the gate says - realness cannot express "real, and not ours to spread".
 WITHHOLD = {
-    "dha/dha_sheryan_professional_detail-open-api":
-        "personal data: full names, phones, emails, gender and nationality of 198,830 named health professionals. The only "
-        "use so far is facility positions, already extracted without personal fields into data/board/_dha_precise_points.json. "
-        "Publishing the register itself is Kendall's decision (23 Sep 2026).",
+    # 24 Sep 2026: the DHA professional register (198,830 named professionals) was held here overnight as personal data;
+    # Kendall decided to publish it ("I want all"). The mechanism stays for the next dataset that needs a decision.
 }
 
 # Share of fabricated rows above which a dataset is not worth reading at all.

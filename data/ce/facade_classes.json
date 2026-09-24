@@ -860,9 +860,25 @@
     "default": 658
    },
    "generated": "2026-09-21T13:24:22"
+  },
+  "rasalkhor": {
+   "n": 1052,
+   "counts": {
+    "glassblue": 2,
+    "glassclear": 2,
+    "glassbronze": 2,
+    "stone": 175,
+    "render": 871,
+    "concrete": 0,
+    "brick": 0
+   },
+   "sources": {
+    "default": 1052
+   },
+   "generated": "2026-09-23T16:24:15"
   }
  },
- "updated": "2026-09-21T13:24:22",
+ "updated": "2026-09-23T16:24:15",
  "rule_v3": "rules/najma_v3.cga",
  "v3_textures": {
   "library": "/ESRI.lib/assets/Facades/International/Upperfloors/<name>.jpg (CityEngine workspace, Esri texture library); name encodes u_f<storeys>_t<bays>",
