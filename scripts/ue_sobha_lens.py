@@ -112,7 +112,19 @@ def import_district(slug, path):
     return bool(res and res.import_succeed)
 
 
+LEVEL = "/Game/Main"
+
+
 def main():
+    # headless (-run=pythonscript) starts on an untitled level: the import then lands in a level that cannot be saved and
+    # Main.umap never sees it (24 Sep 2026). Load Main unless it is already the current level (the editor's startup path).
+    try:
+        cur = unreal.EditorLevelLibrary.get_editor_world().get_path_name()
+    except Exception:
+        cur = ""
+    if not cur.startswith(LEVEL):
+        log("Sobha lens: loading %s (current world %s)" % (LEVEL, cur or "none"))
+        ell.load_level(LEVEL)
     m = json.load(open(MANIFEST, encoding="utf-8"))
     log("Sobha lens: %d districts, LOD %s, %s" % (len(m["districts"]), m.get("lod"), m.get("rule")))
     mi_solid = ensure_material("MI_Sobha", False)
