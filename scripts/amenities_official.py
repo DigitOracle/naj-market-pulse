@@ -21,7 +21,9 @@ public site itself was unreachable on 7 Sep). Arabic-only feed; English names in
 
 Output data/board/amenities.json  {"counts", "sources", "items": [{k, n, lon, lat, src, ap?, x?, d?}]}  -> KV `amenities`
        data/board/amenities_overture.json  the previous Overture-only layer, kept for reference
-Usage: python scripts/amenities_official.py [--no-push] [--no-google]
+Usage: python scripts/amenities_official.py [--push] [--no-google]
+       Writing the file is the default; --push also ships it to the live worker and is opt-in since 24 Sep 2026.
+       --no-push is still accepted and is now a no-op.
 """
 import csv, glob, json, math, os, re, sys, time, collections, urllib.request
 try:
@@ -242,7 +244,14 @@ def in_district(lon, lat, D):
 
 
 def main():
-    do_push = "--no-push" not in sys.argv; use_google = "--no-google" not in sys.argv
+    # PUSHING IS OPT-IN, 24 Sep 2026. It used to be the default, with --no-push to suppress it, and on 24 Sep a
+    # queued rebuild in another session ran this bare and would have shipped to the live worker over the head of
+    # the session that is the sole deployer. It was caught by someone reading the flags, which is not a control.
+    # Nothing automated calls this script - checked across .py, .sh, .md, .json and .yml - so inverting the
+    # default breaks no caller, and the failure mode changes from "ships by accident" to "someone re-runs it".
+    # --no-push is still accepted and now does nothing, so anyone with it in their notes is unaffected.
+    do_push = "--push" in sys.argv and "--no-push" not in sys.argv
+    use_google = "--no-google" not in sys.argv
     D = json.load(open(os.path.join(BOARD, "districts_geo.json"), encoding="utf-8"))["districts"]
     cache = json.load(open(REFINE, encoding="utf-8")) if os.path.exists(REFINE) else {}
     gkey = os.environ.get("GOOGLE_KEY") if use_google else None
@@ -545,6 +554,9 @@ def main():
         for attempt in range(3):
             try: print("amenities ->", push("amenities", doc, env_token("INGEST_TOKEN")).get("ok"), f"({os.path.getsize(os.path.join(BOARD,'amenities.json'))//1024} KB)"); break
             except Exception as e: print("  push retry", attempt + 1, str(e)[:60])
+    else:
+        print("  not pushed. data/board/amenities.json is written; pass --push to ship it, and only with the "
+              "deploying session's agreement.")
 
 
 if __name__ == "__main__":
