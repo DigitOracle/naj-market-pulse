@@ -3,16 +3,22 @@
 The DDA session called the list 'idstr-normalised'. It is not, in OUR sense: the first number below is
 not the intersection, it is how much of the list our own key function can speak to at all.
 
-24 Sep 2026, after keys.py commit 469f2fb widened the canonical key to read a DOT as the community-plot
-separator: canonical parses rose 28,711 -> 28,766 distinct keys and refusals fell 3,387 -> 2,651, the 738
-dot-separated strings ('0117.645') having moved from refused to parsed. What still refuses is spaces round
-the separator ('106 - 230', 1,417 of them), slashes ('0214/550'), doubled hyphens ('0621--0') and letter
-prefixes ('TP010103', 'C-001-005') - deliberately, on the DDA session's side.
+24 Sep 2026, keys.py changed twice and this was re-run after each. 469f2fb taught the canonical key to read
+a DOT as the community-plot separator, and f4a65cf moved sub-parcel truncation out to parent_parcel_key
+after the first version had folded it in. Canonical parses now 28,765 distinct keys against 28,711 before
+either change, refusals 2,653 against 3,387: the 738 dot-separated strings ('0117.645') moved from refused
+to parsed, and the 2 sub-parcel strings ('4238153.2', '27490.40') went back to refused, which is right -
+a sub-parcel is a different parcel, not another spelling of its parent. Still refused, deliberately: spaces
+round the separator ('106 - 230', 1,417 of them), slashes ('0214/550'), doubled hyphens ('0621--0') and
+letter prefixes ('TP010103', 'C-001-005').
 
-NONE OF THE CONCLUSIONS MOVED, which is the point of re-running it rather than assuming. Still 100% of
-their parcels already ours, still 3,783 plots under exactly one building, still 32 both placeable and
-single-building. The one change worth noting is that "NEW to us" went from 1 to 0: under the widened key
-the whole list lands inside our universe with nothing left over.
+NOT ONE CONCLUSION MOVED ACROSS EITHER CHANGE, which is the point of re-running rather than assuming. 100%
+of their parcels already ours and 0 new, 20,308 reaching a DLD property, 3,783 plots under exactly one
+building, 429 placeable, 32 both. The numbers that move are parse counts; the numbers that matter are not
+sensitive to them, because the parcels were already ours by a second route.
+
+A count read from lk_parcel_keys before its next rebuild is one out: dm_address_parcel still shows 28,766
+distinct keys and still carries the one key the folded rule merged.
 """
 import sys, os, json, io, re
 from collections import Counter
