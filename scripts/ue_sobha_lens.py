@@ -158,10 +158,13 @@ def main():
         seen_xy[xy] = label
         if hit:
             slug, rec = hit
-            mi = mi_soft if rec.get("soft") else mi_solid
+            # v2 (24 Sep 2026, first fly-through): the LOD 3 facade materials CityEngine exported (wall / reveal / mullion /
+            # glass / parapet) stay on every real building, because the facade IS what Kendall is assessing. Only register
+            # placeholders (plain boxes from the DM permit) take the translucent coral, so a guess still reads as a guess.
             comp = a.static_mesh_component
-            for si in range(comp.get_num_materials()):
-                comp.set_material(si, mi)
+            if rec.get("register_placeholder"):
+                for si in range(comp.get_num_materials()):
+                    comp.set_material(si, mi_soft)
             tags += ["sobha", "sobha:" + str(rec.get("method")), "sobha:" + str(rec.get("name") or ""), "district:" + slug]
             if rec.get("soft"): soft += 1
             else: solid += 1

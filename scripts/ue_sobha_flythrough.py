@@ -93,11 +93,13 @@ def lighting(centre):
     except Exception as e:
         log("  fog left at defaults: %s" % e)
     ground = find("GROUND_Sobha")
+    if ground and ground.get_actor_scale3d().x < 1000:
+        ground.set_actor_scale3d(unreal.Vector(40000, 40000, 1))
     if not ground:
         ground = ell.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(centre.x, centre.y, -5))
         ground.set_actor_label("GROUND_Sobha")
         ground.static_mesh_component.set_static_mesh(eal.load_asset("/Engine/BasicShapes/Plane"))
-        ground.set_actor_scale3d(unreal.Vector(400, 400, 1))
+        ground.set_actor_scale3d(unreal.Vector(40000, 40000, 1))   # the basic Plane is 1 m: this is 40 km
         mic = eal.load_asset("/Game/Najma/Sobha/MI_Ground") if eal.does_asset_exist("/Game/Najma/Sobha/MI_Ground") else None
         if not mic:
             mic = unreal.AssetToolsHelpers.get_asset_tools().create_asset("MI_Ground", "/Game/Najma/Sobha", unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
@@ -105,7 +107,20 @@ def lighting(centre):
             unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", unreal.LinearColor(0.02, 0.05, 0.06, 1.0))
             unreal.MaterialEditingLibrary.update_material_instance(mic); eal.save_asset("/Game/Najma/Sobha/MI_Ground")
         ground.static_mesh_component.set_material(0, mic)
-    log("  lighting + ground in place")
+    pp = find("PP_Sobha")
+    if not pp:
+        pp = ell.spawn_actor_from_class(unreal.PostProcessVolume, unreal.Vector(centre.x, centre.y, 0)); pp.set_actor_label("PP_Sobha")
+    try:
+        pp.set_editor_property("unbound", True)
+        st = pp.settings
+        st.set_editor_property("override_auto_exposure_method", True); st.set_editor_property("auto_exposure_method", unreal.AutoExposureMethod.AEM_MANUAL)
+        st.set_editor_property("override_auto_exposure_bias", True); st.set_editor_property("auto_exposure_bias", 0.0)
+        st.set_editor_property("override_bloom_intensity", True); st.set_editor_property("bloom_intensity", 0.3)
+        st.set_editor_property("override_vignette_intensity", True); st.set_editor_property("vignette_intensity", 0.35)
+        pp.set_editor_property("settings", st)
+    except Exception as e:
+        log("  post process left at defaults: %s" % e)
+    log("  lighting + ground + post process in place")
 
 
 def look_at(frm, to):
@@ -219,6 +234,9 @@ def main():
         cc.filmback.sensor_width = 36.0; cc.filmback.sensor_height = 20.25   # 16:9 for the assessment cut
         cc.current_focal_length = 28.0; cc.current_aperture = 8.0
         cc.focus_settings.focus_method = unreal.CameraFocusMethod.DISABLE
+        cc.post_process_settings.set_editor_property("override_auto_exposure_method", True)
+        cc.post_process_settings.set_editor_property("auto_exposure_method", unreal.AutoExposureMethod.AEM_MANUAL)
+        cc.current_exposure_compensation = 0.0; cc.current_iso = 100.0; cc.current_shutter_speed = 250.0   # ~EV 12 at f/8
     except Exception as e:
         log("  camera left at defaults: %s" % e)
     keys, L = path(dc)
