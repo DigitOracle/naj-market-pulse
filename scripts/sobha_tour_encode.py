@@ -174,17 +174,17 @@ def main():
         png = os.path.join(CARDS, "stop%02d_%s.png" % (s["n"], s["district"])); card_png(s, f, png)
         summary.append({"n": s["n"], "district": s["district"], **{k2: v for k2, v in f.items()}})
         a, b = s["hold"][0] - 0.4, s["hold"][1] + 1.2
-        idx = len(inputs) + 1; inputs += ["-loop", "1", "-framerate", str(meta.get("fps", 30)), "-t", "%.2f" % (meta["total_s"] + 1), "-i", png]
+        idx = len(inputs) // 8 + 1; inputs += ["-loop", "1", "-framerate", str(meta.get("fps", 30)), "-t", "%.2f" % (meta["total_s"] + 1), "-i", png]
         fc.append("[%d:v]format=rgba,fade=t=in:st=%.2f:d=0.35:alpha=1,fade=t=out:st=%.2f:d=0.45:alpha=1[c%d]" % (idx, a, b - 0.45, idx))
         fc.append("%s[c%d]overlay=0:0:enable='between(t,%.2f,%.2f)'[v%d]" % (last, idx, a, b, idx)); last = "[v%d]" % idx
     json.dump(summary, open(os.path.join(CARDS, "cards.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     for r in summary:
         print("stop %d %-15s metro %s | schools %s | clinics %s | beach %s" % (r["n"], r["district"], r["metro"], r["schools"][0], r["clinics"][0], r["beach"]))
+    nj = len(glob.glob(os.path.join(frames, "*.jpeg")))
     cmd = [FF, "-y", "-loglevel", "error", "-framerate", str(meta.get("fps", 30)), "-start_number", "0", "-i", os.path.join(frames, "sobha_tour.%04d.jpeg")] + inputs + [
-        "-filter_complex", ";".join(fc), "-map", last, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", "-shortest", out]
+        "-filter_complex", ";".join(fc), "-map", last, "-frames:v", str(nj), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", "-shortest", out]
     subprocess.run(cmd, check=True)
     subprocess.run([FF, "-y", "-loglevel", "error", "-i", out, "-vf", "scale=720:900", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "27", "-movflags", "+faststart", out.replace(".mp4", "_phone.mp4")], check=True)
-    nj = len(glob.glob(os.path.join(frames, "*.jpeg")))
     nm = int(subprocess.run([FP, "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames", "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
     print("mp4 frames %d of %d" % (nm, nj))
     if nj and nm == nj:

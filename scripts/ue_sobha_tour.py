@@ -51,7 +51,7 @@ def sobha_buildings():
         if "sobha" not in tags or "duplicate" in tags or not isinstance(a, unreal.StaticMeshActor):
             continue
         o, e = a.get_actor_bounds(False)
-        name = next((t[6:] for t in tags if t.startswith("sobha:") and not t[6:] in ("parcel", "dm", "radius", "geocode")), a.get_actor_label())
+        name = next((t[6:] for t in tags if t.startswith("sobha:") and not t[6:] in ("parcel", "dm", "claim", "radius", "geocode")), a.get_actor_label())
         out.append({"x": o.x, "y": o.y, "ex": e.x, "ey": e.y, "h": e.z * 2, "name": name, "district": next((t[9:] for t in tags if t.startswith("district:")), "?")})
     return out
 

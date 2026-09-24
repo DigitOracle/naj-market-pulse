@@ -37,7 +37,7 @@ PAD_CM = 320.0
 REF_CM = 45000.0       # camera distance at which the base sizes above are right; labels scale linearly beyond it
 GOLD = (0.77, 0.65, 0.42); AMBER = (1.0, 0.55, 0.12)
 log = unreal.log; eal = unreal.EditorAssetLibrary; ell = unreal.EditorLevelLibrary; MEL = unreal.MaterialEditingLibrary
-SKIP = {"parcel", "dm", "radius", "geocode", "None"}
+SKIP = {"parcel", "dm", "claim", "radius", "geocode", "None"}
 MOVABLE = unreal.ComponentMobility.MOVABLE
 
 
@@ -85,8 +85,10 @@ def statuses():
         if active:
             r = min(active, key=lambda r: float(r.get("pct") or 0))
             pct = r.get("pct"); due = str(r.get("due") or "")[:4]
-            bits = ["Under construction"]
-            if pct is not None:
+            # NOT_STARTED / PENDING (Skyvue, Sobha Central I/II, The Element): launched, not yet building - "0%" read as stalled
+            offplan = str(r.get("status", "")).upper() in ("NOT_STARTED", "PENDING") or not float(pct or 0)
+            bits = ["Off-plan"] if offplan else ["Under construction"]
+            if pct is not None and not offplan:
                 bits.append("%d%%" % round(float(pct)))
             if due and str(r.get("due")) >= today:
                 bits.append("due %s" % due)
