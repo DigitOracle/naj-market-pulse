@@ -44,6 +44,7 @@ except Exception: pass
 
 STALL_PAGES = 5          # only for an environment whose pages never run out: this many consecutive pages with nothing new ends it
 MAX_PROBE_PAGE = 9000    # deepest page the end-finder will look at
+LONG_UNORDERED_PAGES = 200   # beyond this (~30 min) an unordered read drifts; sort by every column instead (25 Sep 2026)
 ORDER_V = 3              # checkpoint format: older checkpoints hold pages fetched without a reproducible order and are discarded
 TRANSIENT = (0, 408, 429, 502, 503, 504)
 
@@ -252,6 +253,12 @@ def main():
                     sample_pages = sorted({max(2, last_est // 2), max(2, last_est - 1)})
                     ok_, tok, err = stable_at(c, base, a.page_size, None, sample_pages, tok, label)
                     if ok_ is None: status, note = err
+                    elif ok_ and last_est > LONG_UNORDERED_PAGES:
+                        # 25 Sep 2026: the probe passing says the order held for a minute, not for hours. Long unordered reads
+                        # drifted: ownership 8.3% repeats, licence partners 29.8%, bus 23% - each repeat standing in for a row
+                        # never served. Past ~30 minutes of pages, sort by every column from the first page.
+                        order = ",".join(got1[0].keys())
+                        api.log(f"{key}: {last_est} pages is too long to trust an unordered read; sorting by every column")
                     elif not ok_:
                         order = None
                         # 19 Sep: no single column is a key for some registers (DM floor levels: building x floor x usage); the gateway
