@@ -34,13 +34,30 @@ DATASETS = {                               # short name -> portal file stem
     "bus_ridership": "rta__bus_ridership",
     "metro_ridership": "rta__metro_ridership",
     "tram_ridership": "rta__tram_ridership",
+    # 24 Sep 2026, from the capped-file scan. Parts checked first (logs/_csv_overlap.txt, _id_overlap.txt): rent contract
+    # CSV parts are disjoint and each JSON part repeats the CSV before it; consignment parts overlap ~8% pairwise (paging,
+    # as bus - source_part records it); customer parts share ~6%.
+    "rent_contracts": "dld__rent_contracts",
+    "container_consignments": "container_of_the_consignments",
+    "customers_master_data": "customers_master_data",
+    # 18 CSV parts, ids 1..18,819,595 contiguous and unique across parts (logs/_employment_check.txt) - clean paging.
+    "employment": "employment",
+    "food_health_certificate": "food_health_certificate",
 }
+# Parts that are the SAME export written twice as CSV (no format difference for drop_format_copies to key on). Food health
+# part03 = part01 except one row whose backslash is escaped differently ('JEDDAH\\' vs 'JEDDAH\'); part01 = the whole
+# file, 1,032,055 rows, under the Excel cap. Checked 24 Sep 2026.
+ONLY = {"food_health_certificate": ("01",)}
+STAMPS = {"customers_master_data": "2026-09-14"}   # export date where it is not STAMP (keyed by stem)
 csv.field_size_limit(1 << 30)
 
 
 def parts(stem):
-    ps = sorted(glob.glob(os.path.join(DD, "%s__%s__part*" % (stem, STAMP))))
-    return [p for p in ps if p.lower().endswith((".csv", ".json"))]
+    ps = sorted(glob.glob(os.path.join(DD, "%s__%s__part*" % (stem, STAMPS.get(stem, STAMP)))))
+    ps = [p for p in ps if p.lower().endswith((".csv", ".json"))]
+    if stem in ONLY:
+        ps = [p for p in ps if os.path.basename(p).split("__part")[1][:2] in ONLY[stem]]
+    return ps
 
 
 def count_part(p):
@@ -65,13 +82,22 @@ def select_sql(p):
     return "select * from read_json('%s', format='auto', maximum_object_size=268435456)" % q
 
 
-def _norm_select(con, p):
+def _cols(con, p):
+    return [c[0] for c in con.execute("describe select * from (%s)" % select_sql(p)).fetchall() if c[0] != "load_timestamp"]
+
+
+def _norm_select(con, p, cols=None):
     """Every column except load_timestamp as comparable text: 'T' -> ' ', trailing .000 / Z dropped, midnight dropped
-    from dates - so a CSV part (all text) and a JSON part (typed) holding the same rows compare equal."""
-    cols = [c[0] for c in con.execute("describe select * from (%s)" % select_sql(p)).fetchall() if c[0] != "load_timestamp"]
-    ex = ", ".join("regexp_replace(regexp_replace(replace(coalesce(cast(\"%s\" as varchar), ''), 'T', ' '), "
-                   "'[.]0+Z?$|Z$', ''), ' 00:00:00$', '') as \"%s\"" % (c, c) for c in sorted(cols))
-    return "select %s from (%s)" % (ex, select_sql(p))
+    from dates - so a CSV part (all text) and a JSON part (typed) holding the same rows compare equal.
+    24 Sep 2026, widened after dld rent contracts slipped through: text is trimmed with inner whitespace collapsed, and a
+    plain decimal loses trailing zeros (CSV '115.00', JSON '115.0' -> '115'). `cols` restricts to the given columns."""
+    cols = sorted(cols or _cols(con, p))
+    def one(c):
+        v = "trim(regexp_replace(coalesce(cast(\"%s\" as varchar), ''), '\\s+', ' ', 'g'))" % c
+        v = "regexp_replace(regexp_replace(replace(%s, 'T', ' '), '[.]0+Z?$|Z$', ''), ' 00:00:00$', '')" % v
+        v = "regexp_replace(%s, '^(-?[0-9]+[.][0-9]*?)0+$', '\\1')" % v          # 40.540 -> 40.54
+        return "regexp_replace(%s, '^(-?[0-9]+)[.]$', '\\1') as \"%s\"" % (v, c)  # 115. -> 115
+    return "select %s from (%s)" % (", ".join(one(c) for c in cols), select_sql(p))
 
 
 def drop_format_copies(con, ps):
@@ -86,7 +112,11 @@ def drop_format_copies(con, ps):
         if p.lower().endswith(".json"):
             prev = by_num.get(num(p) - 1)
             if prev and prev.lower().endswith(".csv"):
-                a, b = _norm_select(con, prev), _norm_select(con, p)
+                ca, cb = _cols(con, prev), _cols(con, p)
+                common = sorted(set(ca) & set(cb))                             # a JSON export may add or drop columns
+                if len(common) < 0.6 * max(len(ca), len(cb)):                  # too little in common to call it a copy
+                    keep.append(p); continue
+                a, b = _norm_select(con, prev, common), _norm_select(con, p, common)
                 na = con.execute("select count(*) from (%s)" % a).fetchone()[0]
                 nb = con.execute("select count(*) from (%s)" % b).fetchone()[0]
                 if na == nb and con.execute("select count(*) from ((%s) except all (%s))" % (b, a)).fetchone()[0] == 0:
