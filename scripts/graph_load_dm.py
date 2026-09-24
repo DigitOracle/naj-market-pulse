@@ -20,6 +20,7 @@ What it writes (evidence first, tables second, never a name onto a building):
   building_dm_community       duid -> comm_num by point-in-polygon (also written as evidence: attribute dm_community, role LOCATION)
   district_dm_community       our 41 market districts -> the official communities they overlap, with the share of buildings in each
   dm_address                  the register as loaded (typed, plot_no normalised - see PLOT_NO_SQL), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
+  evidence                    appended for what is new, and rows these two sources no longer support are closed (status SUPERSEDED, valid_to set)
   building_parcel_dm          duid -> DM plot id where the plot position sits within 60 m of the footprint point
                               (evidence: attribute plot_no + businesses_addressed, source dm_address, dist_m, ACCEPTED <= 25 m else DISCOVERED)
   views                       v_building_community, v_district_crosswalk, v_plot_businesses
@@ -206,17 +207,27 @@ def main():
         st = "ACCEPTED" if dist <= 25 else "DISCOVERED"
         ev.append((eid(duid, "plot_no", parcel_id, "dm_address", parcel_id), RUN, "building", duid, "plot_no", parcel_id, "IDENTIFIER", "dm_address", parcel_id, "DET licence addresses on the plot; plot position nearest the footprint point", 0.85 if dist <= 25 else 0.55, None, float(dist), dist <= 25, NOW, st, SCHEMA, RESOLVER, "2026-08-04", None))
         ev.append((eid(duid, "businesses_addressed", str(addresses), "dm_address", parcel_id), RUN, "building", duid, "businesses_addressed", str(addresses), "MEASURE", "dm_address", parcel_id, "licences REGISTERED to an address on the plot in the DET address register - a registered office, not a shopfront", 0.8, None, float(dist), dist <= 25, NOW, "DISCOVERED", SCHEMA, RESOLVER, "2026-08-04", None))
-    # ---- evidence: append what the ledger has not seen ------------------------------------------------------------------------------------
+    # ---- evidence: append what the ledger has not seen, and close what this run no longer stands behind -------------------------------------
+    # The append is keyed on a hash that includes the VALUE, so a corrected number lands BESIDE the old one instead of replacing it. Left at
+    # that, every rerun widens the disagreement: on 24 Sep 2026, 392 buildings held two or more businesses_addressed values at once, one of
+    # them 4, 32 and 6, and nothing in the row said which was current. A reader taking the newest run was right by luck, not by construction.
+    # ev_new is this run's complete recomputation of everything these two sources assert, so any open row of theirs NOT in it is a claim the
+    # current data no longer supports - a partial pull's count, or a parcel link that has since moved. Close those rather than delete them:
+    # the ledger keeps its history, status stops readers believing them, and valid_to says when they stopped being true. Idempotent, because
+    # each run re-affirms its own set and closing an already-closed row is a no-op.
     con.execute("create or replace temp table ev_new as select * from evidence limit 0")
     con.executemany("insert into ev_new values (" + ",".join("?" * 20) + ")", ev)
     added = con.execute("insert into evidence select n.* from ev_new n where not exists (select 1 from evidence e where e.evidence_id = n.evidence_id)").fetchone()[0]
+    closed = con.execute("""update evidence set status = 'SUPERSEDED', valid_to = ?
+        where source in ('dm_address', 'dm_community') and valid_to is null and status <> 'SUPERSEDED'
+          and evidence_id not in (select evidence_id from ev_new)""", [NOW]).fetchone()[0]
     con.execute("""create or replace view v_building_community as
         select b.duid, b.district, b.display_name, c.comm_num, c.name_en as community, c.name_ar as community_ar from building b left join building_dm_community bc on bc.duid=b.duid left join dm_community c on c.comm_num=bc.comm_num""")
     con.execute("create or replace view v_district_crosswalk as select d.slug, d.name as market_name, x.comm_num, x.name_en as official_community, x.buildings, x.share from district d join district_dm_community x on x.slug=d.slug order by d.slug, x.share desc")
     con.execute("create or replace view v_plot_businesses as select p.duid, p.parcel_id as plot_no, p.addresses as businesses, p.units, p.floors, p.dist_m from building_parcel_dm p")
-    con.execute("insert into run values (?,?,?,?,?)", [RUN, NOW, SCHEMA, RESOLVER, f"dm loader: {len(bc)} community links, {len(links)} parcel links, {added} evidence rows, {len(files)} address file(s)"])
+    con.execute("insert into run values (?,?,?,?,?)", [RUN, NOW, SCHEMA, RESOLVER, f"dm loader: {len(bc)} community links, {len(links)} parcel links, {added} evidence rows appended, {closed} superseded, {len(files)} address file(s)"])
     con.close()
-    print(f"  parcel -> building links: {len(links):,} (within 25 m: {sum(1 for l in links if l[5] <= 25):,}) · evidence rows appended: {added:,}")
+    print(f"  parcel -> building links: {len(links):,} (within 25 m: {sum(1 for l in links if l[5] <= 25):,}) · evidence rows appended: {added:,} · superseded: {closed:,}")
     top = duckdb.connect(DB, read_only=True).execute("select slug, official_community, share from v_district_crosswalk where share >= 0.2 order by slug, share desc limit 12").fetchall()
     print("  crosswalk sample:", top)
     print(f"done in {round(time.time()-t0)} s")
