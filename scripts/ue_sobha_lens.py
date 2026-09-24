@@ -165,6 +165,13 @@ def main():
             if rec.get("register_placeholder"):
                 for si in range(comp.get_num_materials()):
                     comp.set_material(si, mi_soft)
+            else:
+                mesh = comp.static_mesh   # an earlier lens run painted every slot coral; put the exported facade materials back
+                for si in range(comp.get_num_materials()):
+                    try:
+                        comp.set_material(si, mesh.get_material(si))
+                    except Exception:
+                        pass
             tags += ["sobha", "sobha:" + str(rec.get("method")), "sobha:" + str(rec.get("name") or ""), "district:" + slug]
             if rec.get("soft"): soft += 1
             else: solid += 1

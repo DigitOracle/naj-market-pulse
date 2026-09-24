@@ -68,6 +68,17 @@ def district_centres():
         rec["max"] = hi if rec["max"] is None else unreal.Vector(max(rec["max"].x, hi.x), max(rec["max"].y, hi.y), max(rec["max"].z, hi.z))
     for d, r in out.items():
         r["c"] = (r["min"] + r["max"]) * 0.5; r["top"] = r["max"].z
+    # the tallest building of each district, for an orbit that circles a tower rather than a bounding box's empty middle
+    for a in ell.get_all_level_actors():
+        tags = [str(t) for t in a.tags]
+        if "sobha" not in tags or "duplicate" in tags:
+            continue
+        d = next((t[9:] for t in tags if t.startswith("district:")), None)
+        if not d or d not in out:
+            continue
+        o, e = a.get_actor_bounds(False)
+        if e.z * 2 > out[d].get("hero_h", 0):
+            out[d]["hero_h"] = e.z * 2; out[d]["hero"] = unreal.Vector(o.x, o.y, 0); out[d]["hero_name"] = a.get_actor_label()
     return out
 
 
@@ -101,10 +112,12 @@ def lighting(centre):
         ground.static_mesh_component.set_static_mesh(eal.load_asset("/Engine/BasicShapes/Plane"))
         ground.set_actor_scale3d(unreal.Vector(40000, 40000, 1))   # the basic Plane is 1 m: this is 40 km
         mic = eal.load_asset("/Game/Najma/Sobha/MI_Ground") if eal.does_asset_exist("/Game/Najma/Sobha/MI_Ground") else None
+        if mic:
+            unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", unreal.LinearColor(0.10, 0.09, 0.075, 1.0)); unreal.MaterialEditingLibrary.update_material_instance(mic); eal.save_asset("/Game/Najma/Sobha/MI_Ground")
         if not mic:
             mic = unreal.AssetToolsHelpers.get_asset_tools().create_asset("MI_Ground", "/Game/Najma/Sobha", unreal.MaterialInstanceConstant, unreal.MaterialInstanceConstantFactoryNew())
             unreal.MaterialEditingLibrary.set_material_instance_parent(mic, eal.load_asset("/Engine/BasicShapes/BasicShapeMaterial"))
-            unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", unreal.LinearColor(0.02, 0.05, 0.06, 1.0))
+            unreal.MaterialEditingLibrary.set_material_instance_vector_parameter_value(mic, "Color", unreal.LinearColor(0.10, 0.09, 0.075, 1.0))
             unreal.MaterialEditingLibrary.update_material_instance(mic); eal.save_asset("/Game/Najma/Sobha/MI_Ground")
         ground.static_mesh_component.set_material(0, mic)
     # v2 (manual EV 12) and v3 (histogram clamped to EV 8-13) both rendered black: the project does not extend the
@@ -136,8 +149,10 @@ def path(dc):
     # Hartland - not on the Hartland II permit boxes, which are what an assessment of the facade rule cannot use. So the
     # approach now comes in from the Hartland II end (placeholders pass by, coral, in the first three seconds) and the
     # orbit wheels round Sobha Hartland.
-    a = pts[len(pts) // 2]; mid = pts[0]; top_mid = tops[0]
+    a = pts[len(pts) // 2]; od = CORRIDOR[0]
+    mid = dc[od].get("hero", pts[0]); top_mid = dc[od].get("hero_h", tops[0])
     tops = [tops[len(pts) // 2]] + tops[1:]
+    log("  orbit centre: %s (%.0f m) in %s" % (dc[od].get("hero_name"), top_mid / 100.0, od))
     dx, dy = mid.x - a.x, mid.y - a.y; L = math.hypot(dx, dy); ux, uy = dx / L, dy / L
     px, py = -uy, ux
     look_mid = (mid.x, mid.y, top_mid * 0.42)
@@ -155,8 +170,8 @@ def path(dc):
     for k in range(1, n_orbit + 1):
         t = k / float(n_orbit)
         th = theta0 + math.radians(200.0) * t
-        r = 75000 - 20000 * t                    # 750 m -> 550 m out
-        h = top_mid * 0.55 + 20000 - 8000 * t    # settles as it tightens
+        r = 48000 - 16000 * t                    # 480 m -> 320 m out: one tower, not a district
+        h = top_mid * 0.6 + 12000 - 6000 * t     # settles as it tightens
         keys.append(((cx + r * math.cos(th), cy + r * math.sin(th), h), look_mid))
     return keys, L
 
