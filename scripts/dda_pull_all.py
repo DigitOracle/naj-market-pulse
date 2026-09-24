@@ -73,7 +73,14 @@ def fetch_page(c, base, page, page_size, order, tok, label=""):
 def parse_page(code, raw):
     """(records, status, note): records is a list when the page is usable, else None with the failure status."""
     if code != 200 or raw[:1] not in (b"{", b"["):
-        return None, ("blocked" if b"Request Rejected" in raw else f"http_{code}"), raw[:160].decode(errors="replace")
+        if b"Request Rejected" in raw:
+            # 24 Sep 2026: the firewall page carries a support ID that DDA asks for in any access ticket, but it sits past
+            # the first 160 bytes kept here and the 80 the log keeps - so three blocks (22-23 Sep) left nothing to quote
+            # when the gateway then 404'd every dataset. Put the ID FIRST so it survives both truncations.
+            sid = re.search(rb"support ID is[:\s]*<?(?:br>)?\s*([0-9]{6,})", raw, re.I) or re.search(rb"([0-9]{15,})", raw)
+            head = ("WAF support ID %s | " % sid.group(1).decode()) if sid else "WAF block, no support ID found | "
+            return None, "blocked", head + raw[:160].decode(errors="replace")
+        return None, f"http_{code}", raw[:160].decode(errors="replace")
     try: j = json.loads(raw)
     except Exception: return None, "bad_json", raw[:120].decode(errors="replace")
     got = j.get("results") if isinstance(j, dict) else j
