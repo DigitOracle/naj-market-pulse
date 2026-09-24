@@ -20,6 +20,7 @@ import gzip
 import json
 import os
 import sys
+import time
 import urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +40,8 @@ def main():
     slug = args[0]
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
     dry = "--dry-run" in sys.argv
+    tries = int(sys.argv[sys.argv.index("--tries") + 1]) if "--tries" in sys.argv else 5
+    wait = int(sys.argv[sys.argv.index("--wait") + 1]) if "--wait" in sys.argv else 120
     d = os.path.join(ROOT, "data", "ce", "_glb", "bld", slug)
     man = json.load(open(os.path.join(d, "manifest.json"), encoding="utf-8"))
     tok = None if dry else env_token("INGEST_TOKEN")
@@ -61,22 +64,33 @@ def main():
             continue
         body = json.dumps({"imageName": key, "image": base64.b64encode(gz).decode(),
                            "contentType": "model/gltf-binary"}).encode()
-        try:
-            r = json.load(urllib.request.urlopen(urllib.request.Request(
-                WORKER + "/ingest_market", data=body, method="POST",
-                headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", **UA}), timeout=180))
-            h = urllib.request.urlopen(urllib.request.Request(
-                WORKER + "/img/" + key, headers={**UA, "Accept-Encoding": "gzip"}), timeout=120)
-            b = h.read()
-            served = b[:2] == b"\x1f\x8b" and gzip.decompress(b)[:4] == b"glTF"
-            print("%-28s %6d KB -> %5d KB gz -> stored=%s served-as-gzip-glb=%s" % (
-                key, len(raw) // 1024, len(gz) // 1024, r.get("ok"), served))
-            if r.get("ok") and served:
-                ok_n += 1
-            else:
-                bad.append(it["bid"])
-        except Exception as e:
-            print("%-28s FAILED %s" % (key, str(e)[:90]))
+        # Retry the upload. A whole district's payloads were lost to a transient DNS failure
+        # (getaddrinfo) on 23 Sep while the generate - the expensive half - was perfectly good. The push is
+        # seconds; not retrying it throws away minutes of CityEngine for a network blip.
+        done, last = False, ""
+        for attempt in range(1, tries + 1):
+            try:
+                r = json.load(urllib.request.urlopen(urllib.request.Request(
+                    WORKER + "/ingest_market", data=body, method="POST",
+                    headers={"X-Azimuth-Ingest": tok, "Content-Type": "application/json", **UA}), timeout=180))
+                h = urllib.request.urlopen(urllib.request.Request(
+                    WORKER + "/img/" + key, headers={**UA, "Accept-Encoding": "gzip"}), timeout=120)
+                b = h.read()
+                served = b[:2] == b"\x1f\x8b" and gzip.decompress(b)[:4] == b"glTF"
+                print("%-28s %6d KB -> %5d KB gz -> stored=%s served-as-gzip-glb=%s" % (
+                    key, len(raw) // 1024, len(gz) // 1024, r.get("ok"), served))
+                if r.get("ok") and served:
+                    ok_n += 1
+                    done = True
+                break
+            except Exception as e:
+                last = str(e)[:90]
+                if attempt < tries:
+                    print("%-28s attempt %d/%d failed (%s) - retrying" % (key, attempt, tries, last))
+                    time.sleep(wait)
+        if not done:
+            if last:
+                print("%-28s FAILED after %d attempts: %s" % (key, tries, last))
             bad.append(it["bid"])
 
     # THE INDEX. 18 of Business Bay's 654 buildings have a payload, and the page cannot know which without
