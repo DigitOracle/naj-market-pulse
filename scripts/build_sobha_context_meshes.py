@@ -114,9 +114,10 @@ def main():
             seen.add(key)
             h = H.get((s, i)) or f["properties"].get("bHeight") or 12.0
             h = max(3.0, min(float(h), 900.0))
-            for pg in (list(g.geoms) if isinstance(g, MultiPolygon) else [g]):
-                if isinstance(pg, Polygon) and pg.area > 1e-10:
-                    pg = pg.simplify(1e-6, preserve_topology=True)
+            # prism() takes UTM metres (it applies the CE offset itself) - pass the projected footprint, not lon/lat
+            for pg in (list(gu.geoms) if isinstance(gu, MultiPolygon) else [gu]):
+                if isinstance(pg, Polygon) and pg.area > 1.0:
+                    pg = pg.simplify(0.05, preserve_topology=True)
                     if len(pg.exterior.coords) >= 4:
                         CB.prism(pg, h * 100.0, V, T)
             n += 1
