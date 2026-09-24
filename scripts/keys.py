@@ -34,7 +34,7 @@ def parcel_key_sql(col):
     x = "trim(cast(%s as varchar))" % col
     return ("nullif((case when regexp_matches({x}, '^[0-9]+$') then try_cast({x} as bigint)"
             " when regexp_matches({x}, '^[0-9]+[.]0*$') then try_cast(split_part({x}, '.', 1) as bigint)"
-            " when regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$')"
+            " when regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$') and not regexp_matches({x}, '^0+[-.]')"
             " then try_cast(regexp_extract({x}, '^([0-9]+)', 1) as bigint) * 10000"
             " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint) end), 0)").format(x=x)
 
@@ -81,7 +81,9 @@ def parcel_key(v):
     if n is not None:
         return int(n) or None                      # zero is no parcel (25 Sep 2026) - twin of the nullif in parcel_key_sql
     m = re.match(r"^(\d{1,4})[-.](\d{1,4})$", s)
-    return (int(m.group(1)) * 10000 + int(m.group(2))) or None if m else None
+    if not m or int(m.group(1)) == 0:              # community 0 is not a community: '0-38' is no key, not parcel 38
+        return None
+    return int(m.group(1)) * 10000 + int(m.group(2))
 
 
 def parent_parcel_key(v):
@@ -112,11 +114,15 @@ if __name__ == "__main__":
     # zero is no parcel, in every spelling, in both twins (25 Sep 2026)
     for z in ("0", "0.0", "0.00", "0.E-10", "000", "0-0", "00000.0", 0, 0.0):
         assert parcel_key(z) is None and parent_parcel_key(z) is None, z
-    assert parcel_key("10") == 10 and parcel_key("0-7") == 7                          # a real small number stays a key
+    assert parcel_key("10") == 10 and parcel_key("7") == 7                            # a real small number stays a key
+    # community 0 is no community (25 Sep 2026): 21 DM addresses spelled '0-38' etc. keyed to 38, joining bare '38' junk
+    assert parcel_key("0-7") is None and parcel_key("00-38") is None and parcel_key("0.38") is None
+    assert parcel_key("1-7") == 10007 and parcel_key("0-0") is None
     import duckdb
     _c = duckdb.connect()
     for z, want in (("0", None), ("0.0", None), ("0.E-10", None), ("0-0", None), ("00000.3", None),
-                    ("6830847.00", 6830847), ("683-847", 6830847), ("0117.645", 1170645), ("4238153.2", None), ("10", 10)):
+                    ("6830847.00", 6830847), ("683-847", 6830847), ("0117.645", 1170645), ("4238153.2", None), ("10", 10),
+                    ("0-38", None), ("00-38", None), ("1-7", 10007)):
         got = _c.execute("select %s from (select ? as v)" % parcel_key_sql("v"), [z]).fetchone()[0]
         assert got == want and got == parcel_key(z), (z, got, want)
         par = _c.execute("select %s from (select ? as v)" % parent_parcel_key_sql("v"), [z]).fetchone()[0]
