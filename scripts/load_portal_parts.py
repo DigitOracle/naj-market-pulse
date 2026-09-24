@@ -108,8 +108,15 @@ def load(con, short, stem, dry):
     for p in ps:
         expected += count_part(p)
     table = "pp_" + stem
-    # CSV parts are read as text; where a JSON part's guessed type differs, UNION BY NAME settles on text as the common type
-    body = " union all by name ".join("(%s)" % select_sql(p) for p in ps)
+    # CSV parts are read as text; where a JSON part's guessed type differs, UNION BY NAME settles on text as the common type.
+    # source_part (24 Sep 2026): the portal's pages OVERLAP - the same rows are served in several parts (tram April 2026 three
+    # times) while other months are missing outright (tram March 2026). A repeat ACROSS parts is a paging repeat; a repeat
+    # WITHIN one part can be two riders tapping together. Only rows carrying a real time can be told apart, so this loader
+    # does not dedupe - it records which part each row came from, so a consumer can keep, per distinct row, the largest
+    # count seen within any single part. Measured: bus 4.3%, tram 3.9%, metro timed rows 18.6% are cross-part repeats;
+    # metro's 12.3M timeless rows cannot be separated by any rule.
+    body = " union all by name ".join("(select *, '%s' as source_part from (%s))" % (
+        os.path.basename(p).split("__part")[1], select_sql(p)) for p in ps)
     sql = "select * from (%s)" % body
     if dry:
         n = con.execute("select count(*) from (%s)" % sql).fetchone()[0]
