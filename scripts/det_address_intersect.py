@@ -1,10 +1,18 @@
 """Intersect the DDA session's det_address parcel list against our own parcel universe.
 
-The peer called the list 'idstr-normalised'. It is not, in OUR sense: our canonical parcel_key()
-accepts a plain integer, an integer-valued decimal, and a 'community-plot' pair joined by a single
-hyphen with no spaces. Their list carries ' 613 - 953 ', '597.739', '312--7238' and ') 119-132',
-none of which parse. So the first number below is not the intersection - it is how much of the list
-our own key function can even speak to.
+The DDA session called the list 'idstr-normalised'. It is not, in OUR sense: the first number below is
+not the intersection, it is how much of the list our own key function can speak to at all.
+
+24 Sep 2026, after keys.py commit 469f2fb widened the canonical key to read a DOT as the community-plot
+separator: canonical parses rose 28,711 -> 28,766 distinct keys and refusals fell 3,387 -> 2,651, the 738
+dot-separated strings ('0117.645') having moved from refused to parsed. What still refuses is spaces round
+the separator ('106 - 230', 1,417 of them), slashes ('0214/550'), doubled hyphens ('0621--0') and letter
+prefixes ('TP010103', 'C-001-005') - deliberately, on the DDA session's side.
+
+NONE OF THE CONCLUSIONS MOVED, which is the point of re-running it rather than assuming. Still 100% of
+their parcels already ours, still 3,783 plots under exactly one building, still 32 both placeable and
+single-building. The one change worth noting is that "NEW to us" went from 1 to 0: under the widened key
+the whole list lands inside our universe with nothing left over.
 """
 import sys, os, json, io, re
 from collections import Counter
