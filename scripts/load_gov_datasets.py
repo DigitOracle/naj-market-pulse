@@ -207,19 +207,26 @@ def main():
                       "create or replace table %s as select * from read_json(?, format='auto', "
                       "maximum_object_size=1000000000, records=true)" % tn)
                 n = con.execute("select count(*) from %s" % tn).fetchone()[0]
-            # Some registers carry each record twice, identical but for load_timestamp (the publisher loaded it twice two
-            # seconds apart: dm_building_permits 1,103,352 rows, 568,037 records). Keep one row per record, earliest load.
+            # A publisher that loads a register TWICE (the staging dm_building_permits, 13 Sep: two loads seconds apart) repeats
+            # a whole load batch. Until 25 Sep 2026 this collapsed every group of rows identical but for load_timestamp to its
+            # earliest row - which also deleted genuine records of registers with no key and few columns, whose records arrive
+            # batch by batch at their own load times: DHA birth notifications 44,980 -> 3,423, DLD elders 6,120 -> 80, DET
+            # operating activity -786,399, airport hourly throughput -87%, 34 tables in all. Production building permits has one
+            # load time and no repeats, so the old rule protected nothing. Now: drop a load batch ONLY when it is an exact copy
+            # (same rows, same multiplicity - count and sum of row hashes) of an earlier batch. Rows with no load time are kept.
             cols = [r[0] for r in con.execute("describe %s" % tn).fetchall()]
             if "load_timestamp" in cols and len(cols) > 1:
                 try:
-                    if keep:    # drop only the LATER loads of a record; repeats within the earliest load are separate records
-                        part_by = ", ".join('"%s"' % c for c in cols if c != "load_timestamp")
-                        con.execute("create or replace table %s as select * exclude (_m) from (select *, min(load_timestamp) over "
-                                    "(partition by %s) as _m from %s) where load_timestamp is not distinct from _m" % (tn, part_by, tn))
-                    else:
-                        con.execute("create or replace table %s as select * exclude (load_timestamp), min(load_timestamp) as "
-                                    "load_timestamp from %s group by all" % (tn, tn))
-                    n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+                    h = "hash(%s)" % ", ".join('"%s"' % c for c in cols if c != "load_timestamp")
+                    batches = "(select load_timestamp lt, count(*) c, sum(%s) s from %s group by 1)" % (h, tn)
+                    copies = "(select lt from (select lt, row_number() over (partition by c, s order by lt nulls last) rn from %s) " \
+                             "where rn > 1 and lt is not null)" % batches
+                    nb = con.execute("select count(*) from %s" % copies).fetchone()[0]
+                    if nb:
+                        con.execute("create or replace table %s as select * from %s where load_timestamp is null or "
+                                    "load_timestamp not in %s" % (tn, tn, copies))
+                        n = con.execute("select count(*) from %s" % tn).fetchone()[0]
+                        print("   %s: dropped %d load batch(es) that exactly repeat an earlier one" % (tn, nb))
                 except Exception:
                     pass
             con.execute("update gov_dataset set materialised=true, rows_loaded=? where key=?", [n, key])
