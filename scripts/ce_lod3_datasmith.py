@@ -80,7 +80,7 @@ def lock_is_stale(txt):
     cost of being wrong that way is a wait and the cost the other way is two CityEngines in one scene.
     """
     import re as _re, subprocess as _sp
-    m = _re.search(r"pid[= ](\d+)", txt)
+    m = _re.search(r"\bpid[= ](\d+)", txt)
     if not m:
         return False
     pid = int(m.group(1))

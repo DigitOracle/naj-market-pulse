@@ -138,10 +138,43 @@ def verify_glb(path, n_shapes=None, classes=None):
 
 
 # ------------------------------------------------------------------ lock
+def lock_is_stale(txt):
+    """True when the lock names a process that is no longer running.
+
+    The lock had no owner check, so a run that dies - a killed session, a crashed bridge, a reboot - left a
+    file that blocked EVERY session indefinitely. On 24 Sep the CityEngine bridge died and took another
+    session's export with it; its lock sat there with a dead pid and had to be cleared by hand before anyone
+    could build. Deliberately conservative: anything it cannot PROVE dead is treated as alive, because the
+    cost of being wrong that way is a wait and the cost the other way is two CityEngines in one scene.
+    """
+    import re as _re, subprocess as _sp
+    m = _re.search(r"\bpid[= ](\d+)", txt)
+    if not m:
+        return False
+    pid = int(m.group(1))
+    try:
+        if sys.platform == "win32":
+            out = _sp.run(["tasklist", "/FI", "PID eq %d" % pid], capture_output=True, text=True,
+                          errors="ignore", timeout=30).stdout
+            return str(pid) not in out
+        os.kill(pid, 0)
+        return False
+    except ProcessLookupError:
+        return True
+    except Exception:
+        return False
+
+
 def acquire_lock(max_wait=20 * 60, poll=20):
     t0 = time.time()
     while os.path.exists(LOCK):
         holder = open(LOCK, encoding="utf-8", errors="replace").read().strip()
+        if lock_is_stale(holder):
+            log("  CE lock is STALE (its process is gone) - clearing: %s" % holder)
+            try:
+                os.remove(LOCK); break
+            except OSError as e:
+                log("  could not remove the stale lock: %s" % e)
         if time.time() - t0 > max_wait:
             sys.exit(f"CE lock held by '{holder}' for > {max_wait // 60} min — giving up, nothing touched")
         log(f"  CE lock held by '{holder}' — waiting {poll}s ({int(time.time() - t0)}s so far)"); time.sleep(poll)
