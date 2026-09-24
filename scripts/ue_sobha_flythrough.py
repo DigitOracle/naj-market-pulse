@@ -132,7 +132,12 @@ def path(dc):
     tops = [dc[d]["top"] for d in CORRIDOR if d in dc]
     if len(pts) < 2:
         raise RuntimeError("corridor districts not found in the level: %s" % list(dc))
-    a = pts[0]; mid = pts[len(pts) // 2]; top_mid = tops[len(pts) // 2]
+    # v5: the orbit belongs on the buildings with REAL LOD 3 facades - Creek Vistas Heights and neighbours in Sobha
+    # Hartland - not on the Hartland II permit boxes, which are what an assessment of the facade rule cannot use. So the
+    # approach now comes in from the Hartland II end (placeholders pass by, coral, in the first three seconds) and the
+    # orbit wheels round Sobha Hartland.
+    a = pts[len(pts) // 2]; mid = pts[0]; top_mid = tops[0]
+    tops = [tops[len(pts) // 2]] + tops[1:]
     dx, dy = mid.x - a.x, mid.y - a.y; L = math.hypot(dx, dy); ux, uy = dx / L, dy / L
     px, py = -uy, ux
     look_mid = (mid.x, mid.y, top_mid * 0.42)
