@@ -67,14 +67,16 @@ def load_payload(path):
 BIG_BYTES = 150 * 1024 * 1024
 
 
-def ndjson_sidecar(path):
-    """Stream a {..., results:[...]} payload to one-record-per-line JSON, dropping identical records on the way.
+def ndjson_sidecar(path, keep_repeats=False):
+    """Stream a {..., results:[...]} payload to one-record-per-line JSON, dropping identical records on the way - unless the
+    pull marked the file repeats_kept (24 Sep 2026: identical rows there are separate records).
 
     DuckDB's read_json has to hold a single JSON object in memory to parse it, so the two 700 MB payloads (DM building permits,
     DED licence master) ran it out of memory on 13 Sep however much it was allowed to spill. Line-delimited JSON streams.
     The sidecar is rebuilt only when the payload is newer than it."""
     import hashlib, ijson
     side = path[:-5] + ".ndjson" if path.endswith(".json") else path + ".ndjson"
+    if keep_repeats: side = side[:-7] + ".keep.ndjson"          # never reuse a de-duplicated cache for a keep file
     if os.path.exists(side) and os.path.getmtime(side) >= os.path.getmtime(path):
         return side
     seen = set(); tmp = side + ".part"
@@ -82,7 +84,7 @@ def ndjson_sidecar(path):
         for rec in ijson.items(f, "results.item", use_float=True):
             line = json.dumps(rec, ensure_ascii=False, sort_keys=True, default=str)
             h = hashlib.sha1(line.encode("utf-8")).digest()
-            if h in seen: continue
+            if h in seen and not keep_repeats: continue
             seen.add(h); out.write(line + "\n")
     os.replace(tmp, side)
     return side
@@ -148,13 +150,13 @@ def main():
                     v.get("columns") or 0, f, p if sz else "", sz, v.get("pulled"), tn, False, 0,
                     v.get("note") or "", now, env])
         if v.get("status") == "ok" and sz and not a.registry_only and (not a.entity or ent == a.entity):
-            to_load.append((key, ent, ds, tn, p, v.get("rows") or 0))
+            to_load.append((key, ent, ds, tn, p, v.get("rows") or 0, bool(v.get("repeats_kept"))))
 
     con.executemany("insert into gov_dataset values (" + ",".join("?" * 18) + ")", reg)
     print("gov_dataset: %d datasets registered" % len(reg))
 
     ok = loaded = skipped = failed = 0
-    for key, ent, ds, tn, p, nrows in to_load:
+    for key, ent, ds, tn, p, nrows, keep in to_load:
         if nrows > MAX_ROWS:
             con.execute("update gov_dataset set note=? where key=?",
                         ["left on disk: %s rows exceeds the load ceiling" % f"{nrows:,}", key])
@@ -175,7 +177,7 @@ def main():
             # `select unnest(results)` alone yields a single anonymous struct column, not the fields.
             fp = p.replace("\\", "/")
             if os.path.getsize(p) > BIG_BYTES:
-                side = ndjson_sidecar(p).replace(os.sep, "/")
+                side = ndjson_sidecar(p, keep).replace(os.sep, "/")
                 con.execute("create or replace table %s as select * from read_json(?, format='newline_delimited', "
                             "maximum_object_size=16777216, sample_size=20000)" % tn, [side])
                 n = con.execute("select count(*) from %s" % tn).fetchone()[0]
@@ -188,7 +190,10 @@ def main():
             # instead of returning a short page. 2,252,220 of 6,923,807 landed rows were repeats (ded license master 3x,
             # customs airway bills 42x). Identical rows carry no information, so they are collapsed here; the raw JSON on
             # disk keeps what the API actually served. Falls back to a plain select if a column type cannot be compared.
+            # 24 Sep 2026: NOT for a file the pull marks repeats_kept (read sorted to a known last page, which cannot wrap):
+            # there an identical row is another record of a register with no key, and DISTINCT would delete it.
             def build(sql_distinct, sql_plain):
+                if keep: con.execute(sql_plain, [fp]); return
                 try: con.execute(sql_distinct, [fp])
                 except Exception: con.execute(sql_plain, [fp])
             if fp is not None: build("create or replace table %s as with src as (select unnest(results) as r from "
@@ -207,8 +212,13 @@ def main():
             cols = [r[0] for r in con.execute("describe %s" % tn).fetchall()]
             if "load_timestamp" in cols and len(cols) > 1:
                 try:
-                    con.execute("create or replace table %s as select * exclude (load_timestamp), min(load_timestamp) as "
-                                "load_timestamp from %s group by all" % (tn, tn))
+                    if keep:    # drop only the LATER loads of a record; repeats within the earliest load are separate records
+                        part_by = ", ".join('"%s"' % c for c in cols if c != "load_timestamp")
+                        con.execute("create or replace table %s as select * exclude (_m) from (select *, min(load_timestamp) over "
+                                    "(partition by %s) as _m from %s) where load_timestamp is not distinct from _m" % (tn, part_by, tn))
+                    else:
+                        con.execute("create or replace table %s as select * exclude (load_timestamp), min(load_timestamp) as "
+                                    "load_timestamp from %s group by all" % (tn, tn))
                     n = con.execute("select count(*) from %s" % tn).fetchone()[0]
                 except Exception:
                     pass

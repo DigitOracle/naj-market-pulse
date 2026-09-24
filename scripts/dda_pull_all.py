@@ -201,6 +201,12 @@ def main():
         order = None; last_est = None; raw_rows = 0; dry = 0; ended_by = ""; last_page = 0; start_page = 1
         sample_pages = []; samples = {}; got1 = None; selfcheck = ""
         resumed = False
+        # repeats_kept (24 Sep 2026): identical rows were always dropped as paging noise. That is right for an UNORDERED read,
+        # where the gateway serves some rows twice. It is wrong for a read sorted to a known last page: those pages are
+        # reproducible, so an identical row is a separate record of a register with no key. dm_container_of_the_consignments
+        # served 5,222,714 rows - exactly the portal's own count - and 985,946 were kept; dm_consignments kept 1,962 of 2.9M.
+        # Kept only for checkpoints STARTED this way, so no file mixes the two rules; the loader honours the flag.
+        keep = False
         if not a.force and os.path.exists(part) and os.path.exists(pstate):
             try:
                 st = json.load(open(pstate, encoding="utf-8"))
@@ -214,6 +220,7 @@ def main():
                         except Exception: break                # a torn last line from a power cut: keep what parsed
                 order = st.get("order_by"); last_est = st.get("last_page_est"); raw_rows = int(st.get("raw_rows", 0))
                 start_page = int(st["page"]) + 1; last_page = int(st["page"]); sample_pages = st.get("sample_pages") or []
+                keep = bool(st.get("repeats_kept"))
                 samples = json.load(open(psamp, encoding="utf-8")) if os.path.exists(psamp) else {}
                 for rec in rows: seen.add(rec_hash(rec))
                 resumed = True
@@ -260,6 +267,8 @@ def main():
                         elif status == "ok":
                             api.log(f"{key}: unordered deep pages are not reproducible; sorting by {order}")
                 if status == "ok" and last_est is None and st_ == "too_deep": sample_pages = []
+            # sorted to a known end, or the whole dataset in one page: either way no page can be served twice
+            keep = status == "ok" and ((order is not None and last_est is not None) or (got1 is not None and len(got1) < a.page_size))
         if status == "ok":
             for page in range(start_page, a.max_pages + 1):
                 # 24 Sep 2026: the disk filled at 13:16 and ded_initial_approval_activities died mid-write with ENOSPC. Its
@@ -292,7 +301,7 @@ def main():
                 raw_rows += len(got)
                 new = []
                 for rec, h in zip(got, hs):
-                    if h in seen: continue                         # identical rows carry no information: dropped, they never end the pull
+                    if h in seen and not keep: continue            # unordered: a repeat is the gateway serving a row twice - dropped
                     seen.add(h); new.append(rec)
                 rows += new; last_page = page
                 dry = 0 if new else dry + 1
@@ -305,7 +314,7 @@ def main():
                         for rec in new: pf.write(json.dumps(rec, ensure_ascii=False) + chr(10))
                 with open(pstate + ".tmp", "w", encoding="utf-8") as sf:
                     json.dump({"order_v": ORDER_V, "page": page, "page_size": a.page_size, "order_by": order, "last_page_est": last_est,
-                               "raw_rows": raw_rows, "sample_pages": sample_pages}, sf)
+                               "raw_rows": raw_rows, "sample_pages": sample_pages, "repeats_kept": keep}, sf)
                 replace_retry(pstate + ".tmp", pstate)
                 if len(got) < a.page_size: ended_by = "short_page"; break
                 if last_est is not None and page >= last_est: ended_by = "last_page"; break
@@ -325,7 +334,7 @@ def main():
         if status == "ok":
             with open(os.path.join(out_dir, fn + ".tmp"), "w", encoding="utf-8") as of:
                 json.dump({"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
-                           "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "order_by": order, "results": rows}, of, ensure_ascii=False)
+                           "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "order_by": order, "repeats_kept": keep, "results": rows}, of, ensure_ascii=False)
             replace_retry(os.path.join(out_dir, fn + ".tmp"), os.path.join(out_dir, fn))   # never a half-written final file
             for p_ in (part, pstate, psamp):
                 if os.path.exists(p_): os.remove(p_)
@@ -334,7 +343,7 @@ def main():
             n_fail += 1
         entry = {"id": r["id"], "title": r["title"], "entity": r["entity"], "dataset": r["dataset"], "status": status, "rows": len(rows), "columns": len(cols),
                  "file": fn if status == "ok" else "", "seconds": round(time.time() - t0, 1), "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "note": note,
-                 "pages": last_page, "last_page": last_est, "raw_rows": raw_rows, "order_by": order, "selfcheck": selfcheck,
+                 "pages": last_page, "last_page": last_est, "raw_rows": raw_rows, "order_by": order, "repeats_kept": keep, "selfcheck": selfcheck,
                  "ended_by": ended_by if status == "ok" else status}
         if status != "ok" and prev.get("status") == "ok":
             # 15 Sep: a failed REFRESH (503, block, timeout) keeps the last good pull and its file; the attempt is recorded beside it
