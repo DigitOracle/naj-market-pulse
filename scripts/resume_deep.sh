@@ -20,12 +20,15 @@ print(code)'
 #   rta_bus_ridership  refused four times at page ~8,800; the API gives no page total, so there is no end to pull toward
 #   det_ownership      legal entity -> company only; never reaches a property (the twin's call)
 SKIP="dsc_housing_unit-open-api rta_bus_ridership-open-api det_ownership-open-api"
+# Parked LAST at both peer sessions' request (22 Sep): licence partners are registered-office licence data (23 Sep finding) and
+# name individuals. Still pulled, but only after everything else, never first just because it is the biggest partial.
+LAST="ded_license_partners-open-api"
 # http_0 is a transport failure on THIS machine (DNS, wifi), not a gateway refusal - so it belongs with the long cap
 LISTS='import json, os
-skip = set(os.environ.get("SKIP","").split())
+skip = set(os.environ.get("SKIP","").split()); last = set(os.environ.get("LAST","").split())
 d = json.load(open("data/raw_downloads/dda/prod/MANIFEST.json", encoding="utf-8"))
 live = {k: v for k, v in d.items() if k.split("/")[1] not in skip}
-pick = lambda f: ",".join(k.split("/")[1] for k, v in sorted(live.items(), key=lambda kv: -(kv[1].get("rows") or 0)) if f(v))
+pick = lambda f: ",".join(k.split("/")[1] for k, v in sorted(live.items(), key=lambda kv: (kv[0].split("/")[1] in last, -(kv[1].get("rows") or 0))) if f(v))
 print(pick(lambda v: v.get("status") in ("timeout", "http_0")))
 print(pick(lambda v: v.get("status") in ("http_408","blocked","unstable","truncated","http_400","http_404")))'
 
@@ -39,7 +42,7 @@ if [ "${CODE:-}" != "200" ]; then
   echo "$(date '+%H:%M') gave up waiting - still not serving"; echo "RESUME WATCH EXIT 1"; exit 1
 fi
 
-mapfile -t L < <(SKIP="$SKIP" python -c "$LISTS")
+mapfile -t L < <(SKIP="$SKIP" LAST="$LAST" python -c "$LISTS")
 DEEP="${L[0]:-}"; REST="${L[1]:-}"
 
 # the deep ones one at a time, so a slow dataset cannot eat another's cap
