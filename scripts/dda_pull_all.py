@@ -48,6 +48,54 @@ def open_retry(path, mode, tries=8):
             if i == tries - 1: raise
             time.sleep(0.25 * (2 ** i))
 
+def pid_alive(pid):
+    """Is process `pid` still running? Windows: OpenProcess + GetExitCodeProcess (STILL_ACTIVE = 259). Never os.kill(pid, 0),
+    which on Windows is not a probe."""
+    if os.name == "nt":
+        import ctypes
+        k = ctypes.windll.kernel32
+        h = k.OpenProcess(0x1000, False, int(pid))                  # PROCESS_QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        code = ctypes.c_ulong()
+        ok = k.GetExitCodeProcess(h, ctypes.byref(code)); k.CloseHandle(h)
+        return bool(ok) and code.value == 259
+    try:
+        os.kill(int(pid), 0); return True
+    except OSError:
+        return False
+
+
+def take_lock(path):
+    """One writer per dataset. 25 Sep 2026: the Friday gov-weekly refresh (refresh_runner, 03:00) resumed dm_consignments at
+    page 984 while a manual lane was past page 1,100 on the same .part; both appended for 33 minutes and the checkpoint had
+    to be thrown away. The lock holds the owner's PID; a lock whose owner is dead is taken over, so a crash never wedges it."""
+    for _ in range(2):
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(fd, str(os.getpid()).encode()); os.close(fd); return True
+        except FileExistsError:
+            try:
+                pid = int((open(path).read() or "0").strip())
+            except (OSError, ValueError):
+                pid = 0
+            if pid and pid != os.getpid() and pid_alive(pid):
+                return False
+            try:
+                os.remove(path)                                    # stale: its owner is gone
+            except OSError:
+                return False
+    return False
+
+
+def release_lock(path):
+    try:
+        if int((open(path).read() or "0").strip()) == os.getpid():
+            os.remove(path)
+    except (OSError, ValueError):
+        pass
+
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CAT = os.path.join(ROOT, "data", "raw_downloads", "dda", "api_catalogue.json")
 try: sys.stdout.reconfigure(encoding="utf-8")
@@ -209,6 +257,10 @@ def main():
         label = r["dataset"]
         fn = f"{r['entity']}__{r['dataset']}.json"
         part = os.path.join(out_dir, fn + ".part"); pstate = part + ".state"; psamp = part + ".samples"
+        lock = part + ".lock"
+        if not take_lock(lock):
+            api.log(f"{key}: another live process is pulling this dataset ({os.path.basename(lock)}) - left to it")
+            n_skip += 1; continue
         rows = []; status = "ok"; note = ""; t0 = time.time(); seen = set()
         order = None; last_est = None; raw_rows = 0; dry = 0; ended_by = ""; last_page = 0; start_page = 1
         sample_pages = []; samples = {}; got1 = None; selfcheck = ""
@@ -378,6 +430,7 @@ def main():
                 bf.write(json.dumps({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "dataset": key, "page": entry.get("pages"),
                                      "rows_banked": len(rows), "note": note}, ensure_ascii=False) + chr(10))
         save()                                                     # every dataset: the loader reads the manifest, and a giant can take hours
+        release_lock(lock)
     save()
     api.log(f"done: ok {n_ok}, skipped {n_skip}, failed {n_fail} -> {man_path}")
     if partial:
