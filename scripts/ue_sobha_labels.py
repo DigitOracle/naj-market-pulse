@@ -34,6 +34,7 @@ TEXT_CM = 900.0        # name height
 STATUS_CM = 560.0      # status line height
 GAP_CM = 160.0
 PAD_CM = 320.0
+REF_CM = 45000.0       # camera distance at which the base sizes above are right; labels scale linearly beyond it
 GOLD = (0.77, 0.65, 0.42); AMBER = (1.0, 0.55, 0.12)
 log = unreal.log; eal = unreal.EditorAssetLibrary; ell = unreal.EditorLevelLibrary; MEL = unreal.MaterialEditingLibrary
 SKIP = {"parcel", "dm", "radius", "geocode", "None"}
@@ -181,10 +182,14 @@ def main():
         label = pretty(name)
         status, building = stat.get(name, ("", False))
         n_uc += building
-        line_cm = LINE_M * 100.0; z0 = top + line_cm
+        # the whole-district orbits (24 Sep) put the camera anywhere from ~400 m to several km from a project, so each label
+        # is scaled to the closest the camera comes to it: the base size is right at REF_CM, and it grows with distance
+        dmin = min((math.sqrt((cx - x) ** 2 + (cy - y) ** 2 + (cz - top) ** 2) for (_, cx, cy, cz) in cams), default=REF_CM)
+        sc = max(0.7, min(6.0, dmin / REF_CM))
+        line_cm = LINE_M * 100.0 * sc; z0 = top + line_cm
         ln = ell.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(x, y, top + line_cm / 2.0))
         ln.set_actor_label("LBL_%02d_line" % n); ln.static_mesh_component.set_static_mesh(cyl)
-        ln.set_actor_scale3d(unreal.Vector(0.3, 0.3, line_cm / 100.0))
+        ln.set_actor_scale3d(unreal.Vector(0.3 * sc, 0.3 * sc, line_cm / 100.0))
         ln.static_mesh_component.set_material(0, amber_m if building else gold_m)
         ln.static_mesh_component.set_cast_shadow(False)
         h = TEXT_CM + 2 * PAD_CM + ((GAP_CM + STATUS_CM) if status else 0.0)
@@ -212,13 +217,13 @@ def main():
                     while yaw - prev > 180: yaw -= 360
                     while yaw - prev < -180: yaw += 360
                 prev = yaw
-                for c, v in zip(ch, [x, y, z0, 0.0, 0.0, yaw, 1.0, 1.0, 1.0]):
+                for c, v in zip(ch, [x, y, z0, 0.0, 0.0, yaw, sc, sc, sc]):
                     k = c.add_key(unreal.FrameNumber(int(f)), float(v))
                     try:
                         k.set_interpolation_mode(unreal.RichCurveInterpMode.RCIM_CUBIC)
                     except Exception:
                         pass
-        log("  label %-34s %-40s roof %.0f m" % (label, status, top / 100.0))
+        log("  label %-34s %-40s roof %.0f m  x%.1f" % (label, status, top / 100.0, sc))
     eal.save_asset(SEQ)
     eal.save_directory(LBL_DIR, only_if_is_dirty=False, recursive=True)
     ell.save_current_level()

@@ -50,7 +50,7 @@ def sobha_buildings():
             continue
         o, e = a.get_actor_bounds(False)
         name = next((t[6:] for t in tags if t.startswith("sobha:") and not t[6:] in ("parcel", "dm", "radius", "geocode")), a.get_actor_label())
-        out.append({"x": o.x, "y": o.y, "h": e.z * 2, "name": name, "district": next((t[9:] for t in tags if t.startswith("district:")), "?")})
+        out.append({"x": o.x, "y": o.y, "ex": e.x, "ey": e.y, "h": e.z * 2, "name": name, "district": next((t[9:] for t in tags if t.startswith("district:")), "?")})
     return out
 
 
@@ -69,7 +69,13 @@ def clusters(blds):
         tallest = max(c, key=lambda b: b["h"])
         if len(c) < 2 and tallest["h"] < TOWER_STOP_M * 100:
             log("  passed over: %s (%d building, %.0f m)" % (tallest["name"], len(c), tallest["h"] / 100)); continue
-        out.append({"cx": tallest["x"], "cy": tallest["y"], "h": tallest["h"], "n": len(c), "name": tallest["name"],
+        # Kendall, 24 Sep 2026: "make sure you capture the entire district when you rotate" - the orbit centres on the
+        # middle of the cluster's whole footprint (not its tallest tower) and rc is the reach from there to its farthest wall
+        x0 = min(b["x"] - b["ex"] for b in c); x1 = max(b["x"] + b["ex"] for b in c)
+        y0 = min(b["y"] - b["ey"] for b in c); y1 = max(b["y"] + b["ey"] for b in c)
+        cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+        rc = max(math.hypot(b["x"] - cx, b["y"] - cy) + math.hypot(b["ex"], b["ey"]) for b in c)
+        out.append({"cx": cx, "cy": cy, "rc": rc, "h": tallest["h"], "n": len(c), "name": tallest["name"],
                     "district": tallest["district"], "names": sorted({b["name"] for b in c})})
     # nearest-neighbour walk from Sobha Hartland (the Creek Vistas cluster)
     start = next((c for c in out if c["district"] == "sobhaheartland"), out[0])
@@ -86,23 +92,29 @@ def tour_keys(stops):
     keys = []; t = 0.0
     prev_dir = None
     for i, s in enumerate(stops):
-        H = s["h"]; R = max(1.6 * H, 30000.0); z_orb = 0.6 * H + 12000.0
-        look = (s["cx"], s["cy"], H * 0.42)
+        # whole-cluster framing: 24 mm on a 24 x 30 filmback -> tan(half horizontal FOV) = 0.5; the cluster's reach rc
+        # must fit inside ~85% of the half-width at the slant distance D, and the tallest tower still gets 1.6 x its height
+        H = s["h"]; rc = s.get("rc", 0.0)
+        D = max(rc / (0.5 * 0.85), 1.6 * H, 30000.0)
+        PITCH = math.radians(30.0)                                        # looking down 30 degrees: the plan reads, towers still stand
+        look = (s["cx"], s["cy"], H * 0.3)
+        R = D * math.cos(PITCH); z_orb = look[2] + D * math.sin(PITCH)
+        FAR = max(150000.0, 1.7 * R); ZFAR = max(H + 90000.0, 1.5 * z_orb)
         # come in from the direction of the previous stop (or from the south-west for the first)
         if prev_dir is None:
             th0 = math.radians(225.0)
         else:
             th0 = prev_dir
-        far = (s["cx"] + math.cos(th0) * 150000.0, s["cy"] + math.sin(th0) * 150000.0, H + 90000.0)
+        far = (s["cx"] + math.cos(th0) * FAR, s["cy"] + math.sin(th0) * FAR, ZFAR)
         keys.append((t, far, look))                                                    # arrive
         keys.append((t + 2.5, (s["cx"] + math.cos(th0) * R, s["cy"] + math.sin(th0) * R, z_orb), look))   # on the orbit
         n = 6
         for k in range(1, n + 1):
             th = th0 + math.radians(ORBIT_DEG) * k / n
-            r = R - 0.15 * R * k / n
-            keys.append((t + 2.5 + 6.0 * k / n, (s["cx"] + math.cos(th) * r, s["cy"] + math.sin(th) * r, z_orb - 0.1 * z_orb * k / n), look))
+            # constant radius: the whole cluster stays in frame the whole way round (v7 closed in 15% and cropped it)
+            keys.append((t + 2.5 + 6.0 * k / n, (s["cx"] + math.cos(th) * R, s["cy"] + math.sin(th) * R, z_orb), look))
         th_end = th0 + math.radians(ORBIT_DEG)
-        out = (s["cx"] + math.cos(th_end) * 160000.0, s["cy"] + math.sin(th_end) * 160000.0, H + 100000.0)
+        out = (s["cx"] + math.cos(th_end) * FAR * 1.05, s["cy"] + math.sin(th_end) * FAR * 1.05, ZFAR * 1.05)
         keys.append((t + STOP_S - 0.5, out, look))                                     # pull out, still looking back
         t += STOP_S
         if i + 1 < len(stops):
@@ -227,7 +239,7 @@ def main():
     stops = clusters(blds)
     log("Sobha tour: %d buildings, %d stops" % (len(blds), len(stops)))
     for i, s in enumerate(stops):
-        log("  %d. %-22s %-18s %2d bldg  tallest %.0f m  %s" % (i + 1, s["district"], s["name"][:18], s["n"], s["h"] / 100, ", ".join(s["names"])[:70]))
+        log("  %d. %-22s %-18s %2d bldg  tallest %.0f m  reach %.0f m  %s" % (i + 1, s["district"], s["name"][:18], s["n"], s["h"] / 100, s["rc"] / 100, ", ".join(s["names"])[:70]))
     centre = unreal.Vector(sum(s["cx"] for s in stops) / len(stops), sum(s["cy"] for s in stops) / len(stops), 0)
     F.lighting(centre)
     # 24 Sep 2026: the ground is Unreal-made (procedural sand + real water from OSM) unless SOBHA_GROUND=imagery asks
