@@ -115,8 +115,75 @@ def projects():
         o, e = a.get_actor_bounds(False)
         top = o.z + e.z
         if name not in best or top > best[name][2]:
-            best[name] = (o.x, o.y, top)
+            best[name] = (o.x, o.y, top, best.get(name, (0, 0, 0, 0))[3] + 1)
+        else:
+            best[name] = best[name][:3] + (best[name][3] + 1,)
     return best
+
+
+# v13 (Kendall, 25 Sep 2026: "fix the labels"): v12 put 16 labels on the Hartland stop alone. Sister projects now share one
+# label - the name of the scheme a buyer knows, with a combined status - and labels that would overlap are stacked.
+GROUPS = [("villas", "Sobha Hartland Villas & Estates"), ("estates - townhouse", "Sobha Hartland Villas & Estates"),
+          ("greens", "Sobha Hartland Greens"), ("creek vista", "Sobha Creek Vistas"), ("hartland waves", "Sobha Hartland Waves"),
+          ("the crest", "Sobha Hartland - The Crest"), ("crest grande", "Sobha Hartland - The Crest"),
+          ("riverside crescent", "Riverside Crescent"), ("seahaven", "Sobha SeaHaven"), ("sobha one", "Sobha One"),
+          ("sobha central", "Sobha Central"), ("ivory", "Sobha Ivory")]
+
+
+def group_of(name):
+    n = (name or "").lower()
+    return next((g for k, g in GROUPS if k in n), None)
+
+
+def combined(members, stat, projs):
+    """One status line for a group of projects."""
+    st = [stat.get(m, ("", False)) for m in members]
+    uc = [m for m, (t, b) in zip(members, st) if b]
+    done = [m for m, (t, b) in zip(members, st) if not b]
+    nb = sum(projs[m][3] for m in members)
+    if not uc:
+        yrs = [t.split()[-1] for t, b in st if t.split() and t.split()[-1].isdigit()]
+        return ("Completed %s" % (max(yrs) if len(set(yrs)) == 1 else "%s-%s" % (min(yrs), max(yrs))) if yrs else "Completed"), False
+    if not done:
+        if len(members) == 1:
+            return st[0][0], True
+        off = all(stat.get(m, ("", False))[0].startswith("Off-plan") for m in uc)
+        return ("%d towers · %s" % (nb, "off-plan" if off else "under construction") if nb > 1 else st[0][0]), True
+    return ("%d of %d complete · %d under construction" % (len(done), len(members), len(uc))), True
+
+
+def plan_labels(projs, stat, cams):
+    groups = {}
+    for name in projs:
+        groups.setdefault(group_of(name) or name, []).append(name)
+    plan = []
+    for g, members in sorted(groups.items()):
+        anchor = max(members, key=lambda m: projs[m][2])
+        x, y, top = projs[anchor][:3]
+        if len(members) == 1 and not group_of(members[0]):
+            label = pretty(members[0]); status, uc = stat.get(members[0], ("", False))
+        else:
+            label = g; status, uc = combined(members, stat, projs)
+        dmin = min((math.sqrt((cx - x) ** 2 + (cy - y) ** 2 + (cz - top) ** 2) for (_, cx, cy, cz) in cams), default=REF_CM)
+        sc = max(0.7, min(6.0, dmin / REF_CM))
+        h = TEXT_CM + 2 * PAD_CM + ((GAP_CM + STATUS_CM) if status else 0.0)
+        w = max(3000.0, len(label) * TEXT_CM * 0.62, len(status) * STATUS_CM * 0.58) + 2 * PAD_CM
+        plan.append({"label": label, "status": status, "uc": uc, "x": x, "y": y, "top": top, "sc": sc, "h": h, "w": w,
+                     "z0": top + LINE_M * 100.0 * sc, "members": members})
+    # stack: a box whose footprint (its width, turned any way) comes within reach of a lower one is lifted above it
+    placed = []
+    for L in sorted(plan, key=lambda L: L["z0"]):
+        moved = True
+        while moved:
+            moved = False
+            for P in placed:
+                reach = 0.55 * (L["w"] * L["sc"] + P["w"] * P["sc"])
+                if math.hypot(L["x"] - P["x"], L["y"] - P["y"]) < reach:
+                    lo, hi = P["z0"], P["z0"] + P["h"] * P["sc"]
+                    if L["z0"] < hi + 200.0 and L["z0"] + L["h"] * L["sc"] > lo - 200.0:
+                        L["z0"] = hi + 400.0 * L["sc"]; moved = True
+        placed.append(L)
+    return plan
 
 
 def clear_old():
@@ -179,23 +246,17 @@ def main():
     stat = statuses()
     projs = projects()
     end = seq.get_playback_end()
+    plan = plan_labels(projs, stat, cams)
     n_uc = 0
-    for n, (name, (x, y, top)) in enumerate(sorted(projs.items())):
-        label = pretty(name)
-        status, building = stat.get(name, ("", False))
+    for n, L in enumerate(plan):
+        label, status, building, x, y, top, sc, z0, h, w = (L[k] for k in ("label", "status", "uc", "x", "y", "top", "sc", "z0", "h", "w"))
         n_uc += building
-        # the whole-district orbits (24 Sep) put the camera anywhere from ~400 m to several km from a project, so each label
-        # is scaled to the closest the camera comes to it: the base size is right at REF_CM, and it grows with distance
-        dmin = min((math.sqrt((cx - x) ** 2 + (cy - y) ** 2 + (cz - top) ** 2) for (_, cx, cy, cz) in cams), default=REF_CM)
-        sc = max(0.7, min(6.0, dmin / REF_CM))
-        line_cm = LINE_M * 100.0 * sc; z0 = top + line_cm
+        line_cm = z0 - top
         ln = ell.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(x, y, top + line_cm / 2.0))
         ln.set_actor_label("LBL_%02d_line" % n); ln.static_mesh_component.set_static_mesh(cyl)
         ln.set_actor_scale3d(unreal.Vector(0.3 * sc, 0.3 * sc, line_cm / 100.0))
         ln.static_mesh_component.set_material(0, amber_m if building else gold_m)
         ln.static_mesh_component.set_cast_shadow(False)
-        h = TEXT_CM + 2 * PAD_CM + ((GAP_CM + STATUS_CM) if status else 0.0)
-        w = max(3000.0, len(label) * TEXT_CM * 0.62, len(status) * STATUS_CM * 0.58) + 2 * PAD_CM
         piv = ell.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(x, y, z0))
         piv.set_actor_label("LBL_%02d" % n); movable(piv)
         bx = ell.spawn_actor_from_class(unreal.StaticMeshActor, unreal.Vector(x, y, z0 + h / 2.0))
@@ -229,7 +290,7 @@ def main():
     eal.save_asset(SEQ)
     eal.save_directory(LBL_DIR, only_if_is_dirty=False, recursive=True)
     ell.save_current_level()
-    log("Sobha labels: %d projects labelled (%d under construction), %d camera keys followed" % (len(projs), n_uc, len(cams)))
+    log("Sobha labels: %d labels for %d projects (%d under construction), %d camera keys followed" % (len(plan), len(projs), n_uc, len(cams)))
 
 
 if __name__ == "__main__":
