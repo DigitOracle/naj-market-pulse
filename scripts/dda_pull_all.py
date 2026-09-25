@@ -249,7 +249,10 @@ def main():
         prev = man.get(key, {})
         # coverage first (12 Sep): anything already pulled in full is skipped whatever the day; refreshing is a deliberate --force run.
         # 15 Sep: with --stale-days, a good pull is skipped only while it is younger than that.
-        if not a.force and prev.get("status") == "ok" and (a.stale_days <= 0 or age_days(prev) < a.stale_days):
+        # 25 Sep 2026: ...unless a checkpoint is waiting. A --force re-pull interrupted mid-way left the OLD ok entry in the
+        # manifest, so every resume skipped it as done (and --force would discard the checkpoint): cosmetics sat at page 440.
+        live_ckpt = os.path.exists(os.path.join(out_dir, f"{r['entity']}__{r['dataset']}.json.part.state"))
+        if not a.force and prev.get("status") == "ok" and (a.stale_days <= 0 or age_days(prev) < a.stale_days) and not live_ckpt:
             n_skip += 1; continue
         if a.budget_minutes and time.time() - run_t0 > a.budget_minutes * 60:
             partial = len(todo) - i + 1; break
