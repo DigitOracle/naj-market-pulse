@@ -226,7 +226,7 @@ def mrq_config():
     cfg.find_or_add_setting_by_class(unreal.MoviePipelineDeferredPassBase)
     cfg.find_or_add_setting_by_class(unreal.MoviePipelineImageSequenceOutput_JPG)
     out = cfg.find_or_add_setting_by_class(unreal.MoviePipelineOutputSetting)
-    out.output_resolution = unreal.IntPoint(1080, 1350); out.output_directory = unreal.DirectoryPath(RENDER_DIR)
+    out.output_resolution = unreal.IntPoint(1080, 1920); out.output_directory = unreal.DirectoryPath(RENDER_DIR)   # v19: native 9:16 for HeyGen (was 4:5, 1080 x 1350)
     out.file_name_format = "sobha_tour.{frame_number}"; out.use_custom_frame_rate = True; out.output_frame_rate = unreal.FrameRate(FPS, 1)
     aa = cfg.find_or_add_setting_by_class(unreal.MoviePipelineAntiAliasingSetting)
     aa.spatial_sample_count = 1; aa.temporal_sample_count = 2; aa.override_anti_aliasing = True
@@ -259,7 +259,7 @@ def main():
     cam = F.find("CAM_Sobha") or ell.spawn_actor_from_class(unreal.CineCameraActor, centre); cam.set_actor_label("CAM_Sobha")
     try:
         cc = cam.camera_component
-        cc.filmback.sensor_width = 24.0; cc.filmback.sensor_height = 30.0; cc.current_focal_length = 24.0; cc.current_aperture = 8.0
+        cc.filmback.sensor_width = 24.0; cc.filmback.sensor_height = 42.667; cc.current_focal_length = 24.0; cc.current_aperture = 8.0
         cc.focus_settings.focus_method = unreal.CameraFocusMethod.DISABLE
         cc.post_process_settings.set_editor_property("override_auto_exposure_bias", True); cc.post_process_settings.set_editor_property("auto_exposure_bias", -0.2)
         cc.post_process_settings.set_editor_property("override_bloom_intensity", True); cc.post_process_settings.set_editor_property("bloom_intensity", 0.35)

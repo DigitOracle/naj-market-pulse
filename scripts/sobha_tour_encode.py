@@ -28,7 +28,7 @@ CARDS = os.path.join(ROOT, "data", "media", "sobha", "cards")
 FF = r"C:\Users\kwils\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
 FP = FF.replace("ffmpeg.exe", "ffprobe.exe")
 FONT = r"C:\Windows\Fonts\segoeui.ttf"; FONT_B = r"C:\Windows\Fonts\segoeuib.ttf"; FONT_SB = r"C:\Windows\Fonts\seguisb.ttf"
-W, H = 1080, 1350
+W, H = 1080, 1920          # v19: native 9:16 (HeyGen); bottom overlays sit 570 px lower than in the 4:5 cut
 to_ll = Transformer.from_crs("EPSG:32640", "EPSG:4326", always_xy=True).transform
 TITLES = {"sobhaheartland": "Sobha Hartland  ·  MBR City", "bukadra": "Sobha Hartland II", "rasalkhor": "Sobha One  ·  Ras Al Khor",
           "businessbay": "Business Bay", "motorcity": "Motor City  ·  Orbis & Solis", "althanyahfifth": "JLT  ·  Verde by Sobha",
@@ -150,13 +150,13 @@ def card_png(stop, f, path):
     img.save(path)
 
 
-LEGEND = ("drawbox=x=40:y=1196:w=1000:h=124:color=0x08141C@0.72:t=fill,"
-          "drawbox=x=72:y=1222:w=30:h=30:color=0xD8DDE4@1:t=fill,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - completed':x=116:y=1224:fontsize=26:fontcolor=white,"
-          "drawbox=x=72:y=1270:w=30:h=30:color=0xD8DDE4@1:t=fill,drawbox=x=72:y=1270:w=30:h=30:color=0xFF7A10@1:t=4,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - under construction (amber edge)':x=116:y=1272:fontsize=26:fontcolor=0xFFB060,"
-          "drawbox=x=600:y=1222:w=30:h=30:color=0xDCE3EC@0.45:t=fill,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Other developers':x=644:y=1224:fontsize=26:fontcolor=0xC8D0DA")
+LEGEND = ("drawbox=x=40:y=1766:w=1000:h=124:color=0x08141C@0.72:t=fill,"
+          "drawbox=x=72:y=1792:w=30:h=30:color=0xD8DDE4@1:t=fill,"
+          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - completed':x=116:y=1794:fontsize=26:fontcolor=white,"
+          "drawbox=x=72:y=1840:w=30:h=30:color=0xD8DDE4@1:t=fill,drawbox=x=72:y=1840:w=30:h=30:color=0xFF7A10@1:t=4,"
+          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - under construction (amber edge)':x=116:y=1842:fontsize=26:fontcolor=0xFFB060,"
+          "drawbox=x=600:y=1792:w=30:h=30:color=0xDCE3EC@0.45:t=fill,"
+          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Other developers':x=644:y=1794:fontsize=26:fontcolor=0xC8D0DA")
 
 
 def main():
@@ -184,7 +184,7 @@ def main():
     cmd = [FF, "-y", "-loglevel", "error", "-framerate", str(meta.get("fps", 30)), "-start_number", "0", "-i", os.path.join(frames, "sobha_tour.%04d.jpeg")] + inputs + [
         "-filter_complex", ";".join(fc), "-map", last, "-frames:v", str(nj), "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "20", "-movflags", "+faststart", "-shortest", out]
     subprocess.run(cmd, check=True)
-    subprocess.run([FF, "-y", "-loglevel", "error", "-i", out, "-vf", "scale=720:900", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "27", "-movflags", "+faststart", out.replace(".mp4", "_phone.mp4")], check=True)
+    subprocess.run([FF, "-y", "-loglevel", "error", "-i", out, "-vf", "scale=720:1280", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "27", "-movflags", "+faststart", out.replace(".mp4", "_phone.mp4")], check=True)
     nm = int(subprocess.run([FP, "-v", "error", "-count_frames", "-select_streams", "v:0", "-show_entries", "stream=nb_read_frames", "-of", "csv=p=0", out], capture_output=True, text=True).stdout.strip() or 0)
     print("mp4 frames %d of %d" % (nm, nj))
     if nj and nm == nj:

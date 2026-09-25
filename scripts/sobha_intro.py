@@ -29,7 +29,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA = os.path.join(ROOT, "data", "media", "sobha")
 BG = os.path.join(MEDIA, "cards", "intro_bg.png")
 FF = r"C:\Users\kwils\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
-W, H, FPS = 1080, 1350, 30
+W, H, FPS = 1080, 1350, 30          # the card layout is drawn at 4:5 ...
+FRAME_H = 1920                       # ... and centred in a native 9:16 frame (v19, HeyGen); the aerial fills all of it
+YOFF = (FRAME_H - H) // 2
+
+
+def cover(img, w, h):
+    """scale to cover w x h, centred crop - the tour frame without its legend band, filling the 9:16 frame"""
+    from PIL import ImageOps
+    return ImageOps.fit(img, (w, h), Image.BILINEAR, centering=(0.5, 0.4))
 TITLE_S, CARD_S, TAIL_S = 3.0, 4.5, 0.6          # 7 cards (v16) -> a 35 s intro
 GOLD = (197, 165, 106); WHITE = (255, 255, 255); GREY = (176, 188, 198); NAVY = (8, 20, 28); PANEL = (14, 30, 42)
 AMBER = (255, 122, 16); PALE = (216, 221, 228); OFF = (120, 132, 142)
@@ -169,7 +177,7 @@ def draw_card(layer, k, cards, t, F):
     layer.alpha_composite(card, (CARD_X + dx, 470))
 
 
-OUTRO_S = 7.0
+OUTRO_S = 11.0          # v19: room for the sign-off "This is Najma presenting Dubai Decoded, turning complexity into clarity"
 
 
 def build_outro():
@@ -177,8 +185,9 @@ def build_outro():
     Counts from data/board/sobha_audit.json, so the card says what the model actually holds."""
     au = json.load(open(os.path.join(ROOT, "data", "board", "sobha_audit.json"), encoding="utf-8"))["totals"]
     stops = json.load(open(os.path.join(MEDIA, "tour_stops.json"), encoding="utf-8"))["stops"]
-    bg = Image.open(os.path.join(MEDIA, "cards", "outro_bg.png")).convert("RGBA").crop((0, 0, W, int(H * 0.88))).resize((W, H))
-    shade = Image.new("RGBA", (W, H), NAVY + (205,))
+    src = Image.open(os.path.join(MEDIA, "cards", "outro_bg.png")).convert("RGBA")
+    bg = cover(src.crop((0, 0, src.width, int(src.height * 0.9))), W, FRAME_H)
+    shade = Image.new("RGBA", (W, FRAME_H), NAVY + (205,))
     base = Image.alpha_composite(bg, shade)
     rows = [("%d" % len(stops), "communities toured"), ("%d" % au["footprints"], "Sobha buildings modelled"),
             ("%d of %d" % (au["in_twin"], au["projects"]), "register projects in the model")]
@@ -188,7 +197,7 @@ def build_outro():
     n = int(OUTRO_S * FPS)
     for f in range(n):
         t = f / FPS
-        fr = base.copy(); d = ImageDraw.Draw(fr)
+        fr = base.copy(); lay = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(lay)
         a = ease(t / 0.6); A = int(255 * a)
         d.rectangle((CARD_X, 250, CARD_X + 8, 370), fill=GOLD + (A,))
         d.text((CARD_X + 30, 236), "SOBHA", font=font(True, 88), fill=WHITE + (A,))
@@ -202,7 +211,12 @@ def build_outro():
         d.text((CARD_X + 34, 1000), "Sources", font=font(True, 26), fill=GOLD + (a2,))
         for k, line in enumerate(src):
             d.text((CARD_X + 34, 1040 + k * 36), line, font=font(False, 24), fill=GREY + (a2,))
-        d.text((CARD_X + 34, 1200), "Prepared by DigitAlchemy®  ·  contact@digitalabbot.io", font=font(False, 24), fill=(150, 162, 172, a2))
+        a3 = int(255 * ease((t - 4.2) / 0.7))
+        d.rectangle((CARD_X + 34, 1128, CARD_X + 40, 1206), fill=GOLD + (a3,))
+        d.text((CARD_X + 56, 1120), "Najma  ·  Dubai Decoded", font=font(True, 40), fill=WHITE + (a3,))
+        d.text((CARD_X + 58, 1172), "Turning complexity into clarity", font=font(False, 28), fill=GOLD + (a3,))
+        d.text((CARD_X + 34, 1262), "Prepared by DigitAlchemy®  ·  contact@digitalabbot.io", font=font(False, 22), fill=(150, 162, 172, a2))
+        fr.alpha_composite(lay, (0, YOFF))
         fr.convert("RGB").save(os.path.join(tmp, "o%04d.jpg" % f), quality=93)
     out = os.path.join(MEDIA, "sobha_outro_4x5.mp4")
     subprocess.run([FF, "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(tmp, "o%04d.jpg"), "-c:v", "libx264",
@@ -263,21 +277,21 @@ def main():
     ]
     total = TITLE_S + CARD_S * len(cards) + TAIL_S
     nfr = int(round(total * FPS))
-    bg0 = Image.open(BG).convert("RGB")
-    # the tour frame carries the legend band at the bottom: work from the top 88% only
-    bg0 = bg0.crop((0, 0, W, int(H * 0.88)))
-    shade = Image.new("L", (W, H), 0); sd = ImageDraw.Draw(shade)
+    src = Image.open(BG).convert("RGB")
+    # the tour frame carries the legend band at the bottom: work from the top 90% only, scaled to cover the 9:16 frame
+    bg0 = cover(src.crop((0, 0, src.width, int(src.height * 0.9))), W, FRAME_H)
+    shade = Image.new("L", (W, FRAME_H), 0); sd = ImageDraw.Draw(shade)
     for x in range(W):
-        sd.line((x, 0, x, H), fill=int(215 * max(0.0, 1 - x / (W * 0.72)) ** 0.8 + 25))
+        sd.line((x, 0, x, FRAME_H), fill=int(215 * max(0.0, 1 - x / (W * 0.72)) ** 0.8 + 25))
     tmp = tempfile.mkdtemp(prefix="sobha_intro_")
     for f in range(nfr):
         t = f / FPS
         z = 1.18 + 0.10 * (t / total)
-        bw, bh = int(W * z), int(H * z)
+        bw, bh = int(W * z), int(FRAME_H * z)
         bg = bg0.resize((bw, bh), Image.BILINEAR) if f % 2 == 0 or f == 0 else bg
-        ox = int((bw - W) * 0.62); oy = int((bh - H) * 0.40)
-        frame = bg.crop((ox, oy, ox + W, oy + H)).convert("RGBA")
-        frame = Image.composite(Image.new("RGBA", (W, H), NAVY + (255,)), frame, shade)
+        ox = int((bw - W) * 0.62); oy = int((bh - FRAME_H) * 0.40)
+        frame = bg.crop((ox, oy, ox + W, oy + FRAME_H)).convert("RGBA")
+        frame = Image.composite(Image.new("RGBA", (W, FRAME_H), NAVY + (255,)), frame, shade)
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(layer)
         # title: big in the first 3 s, then held small top-left
         tt = ease(t / 0.8)
@@ -296,7 +310,7 @@ def main():
             for j in range(len(cards)):
                 cx = CARD_X + 14 + j * 30
                 d.ellipse((cx, 1030, cx + 14, 1044), fill=(GOLD + (255,)) if j == min(k, len(cards) - 1) else (GREY + (110,)))
-        frame.alpha_composite(layer)
+        frame.alpha_composite(layer, (0, YOFF))
         frame.convert("RGB").save(os.path.join(tmp, "i%04d.jpg" % f), quality=93)
     out = os.path.join(MEDIA, "sobha_intro_4x5.mp4")
     subprocess.run([FF, "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(tmp, "i%04d.jpg"), "-c:v", "libx264",
