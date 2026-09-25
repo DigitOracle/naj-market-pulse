@@ -30,7 +30,7 @@ MEDIA = os.path.join(ROOT, "data", "media", "sobha")
 BG = os.path.join(MEDIA, "cards", "intro_bg.png")
 FF = r"C:\Users\kwils\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
 W, H, FPS = 1080, 1350, 30
-TITLE_S, CARD_S, TAIL_S = 3.0, 4.5, 0.6
+TITLE_S, CARD_S, TAIL_S = 3.0, 4.5, 0.6          # 7 cards (v16) -> a 35 s intro
 GOLD = (197, 165, 106); WHITE = (255, 255, 255); GREY = (176, 188, 198); NAVY = (8, 20, 28); PANEL = (14, 30, 42)
 AMBER = (255, 122, 16); PALE = (216, 221, 228); OFF = (120, 132, 142)
 CARD_X, CARD_W = 60, 560
@@ -47,8 +47,24 @@ def figures():
     done_u = sum(int(p.get("units") or 0) for p in P if p.get("status") == "FINISHED")
     first = min(str(p.get("start"))[:4] for p in P if p.get("start"))
     n_done = st.count("FINISHED"); n_uc = st.count("ACTIVE"); n_off = len(P) - n_done - n_uc
+    # v16 (Kendall: "what is their biggest release this year ... launched or handed over"): the largest project registered
+    # this year, the scheme it belongs to (same first two words: "Sobha Central" + Phase I + Phase II), and the next handover -
+    # the most advanced project still under construction (the register shows no handover completed yet this year)
+    import datetime
+    yr = str(datetime.date.today().year)
+    launched = sorted([p for p in P if str(p.get("start") or "")[:4] == yr], key=lambda p: -int(p.get("units") or 0))
+    top = launched[0] if launched else None
+    fam = " ".join((top["name_en"] if top else "").split()[:2]).lower()
+    fam_units = sum(int(p.get("units") or 0) for p in P if fam and p["name_en"].lower().startswith(fam))
+    fam_n = sum(1 for p in P if fam and p["name_en"].lower().startswith(fam))
+    handed = sorted([p for p in P if p.get("status") == "FINISHED" and str(p.get("completed") or "")[:4] == yr], key=lambda p: -int(p.get("units") or 0))
+    nxt = sorted([p for p in P if p.get("status") == "ACTIVE" and float(p.get("pct") or 0) >= 60], key=lambda p: -float(p.get("pct") or 0))
     return {"first": first, "n": len(P), "done": n_done, "uc": n_uc, "off": n_off,
-            "units": units, "units_done": done_u}
+            "units": units, "units_done": done_u, "year": yr,
+            "launch": {"name": top["name_en"], "units": int(top.get("units") or 0), "start": top.get("start"),
+                       "family_units": fam_units, "family_n": fam_n} if top else None,
+            "handover": {"name": handed[0]["name_en"], "units": int(handed[0].get("units") or 0)} if handed else None,
+            "next_handover": {"name": nxt[0]["name_en"], "units": int(nxt[0].get("units") or 0), "pct": round(float(nxt[0]["pct"]))} if nxt else None}
 
 
 def ease(t):
@@ -105,6 +121,14 @@ def icon_status(d, x, y, a):
     d.line((x + 36, y + 62, x + 54, y + 80, x + 86, y + 42), fill=c, width=8, joint="curve")
 
 
+def icon_spark(d, x, y, a):
+    c = GOLD + (a,)
+    d.polygon([(x + 60, y + 4), (x + 72, y + 48), (x + 116, y + 60), (x + 72, y + 72), (x + 60, y + 116), (x + 48, y + 72),
+               (x + 4, y + 60), (x + 48, y + 48)], fill=c)
+    d.polygon([(x + 100, y + 6), (x + 104, y + 20), (x + 118, y + 24), (x + 104, y + 28), (x + 100, y + 42), (x + 96, y + 28),
+               (x + 82, y + 24), (x + 96, y + 20)], fill=c)
+
+
 def countup(value, t, fmt="{:,}"):
     return fmt.format(int(round(value * ease(t / 0.9))))
 
@@ -130,6 +154,14 @@ def draw_card(layer, k, cards, t, F):
         d.text((42, y), line, font=F(False, 36), fill=GREY + (A,)); y += 48
     if c.get("bar"):
         c["bar"](d, 42, 460, CARD_W - 84, A, t)
+    if c.get("note"):
+        a2 = int(A * ease((t - 0.9) / 0.5))
+        d.line((42, 446, CARD_W - 42, 446), fill=GOLD + (int(a2 * 0.6),), width=2)
+        for j, line in enumerate(c["note"]):
+            fs2 = 25
+            while d.textlength(line, font=F(False, fs2)) > CARD_W - 84 and fs2 > 18:
+                fs2 -= 1
+            d.text((42, 454 + j * 30), line, font=F(False, fs2), fill=(222, 206, 170, a2))
     layer.alpha_composite(card, (CARD_X + dx, 470))
 
 
@@ -195,6 +227,11 @@ def main():
         {"key": "status", "value": "%d · %d · %d" % (fig["done"], fig["uc"], fig["off"]), "label": ["completed · under construction", "· off-plan"], "icon": icon_status, "bar": status_bar},
         {"key": "homes", "value": lambda t: countup(int(fig["units"] // 500 * 500), t) + "+", "label": ["homes registered", "(%s+ delivered)" % "{:,}".format(fig["units_done"] // 100 * 100)], "icon": icon_house, "bar": homes_bar},
         {"key": "tour", "value": "8", "label": ["communities on this tour"], "icon": icon_pin},
+        {"key": "launch", "value": lambda t: countup(fig["launch"]["units"], t), "icon": icon_spark,
+         "label": ["homes in %s," % fig["launch"]["name"], "%s's biggest launch" % fig["year"]],
+         "note": (["%s homes across its %d phases" % ("{:,}".format(fig["launch"]["family_units"]), fig["launch"]["family_n"])] if fig["launch"]["family_n"] > 1 else [])
+                 + (["Handed over this year: %s, %s homes" % (fig["handover"]["name"], "{:,}".format(fig["handover"]["units"]))] if fig.get("handover") else
+                    (["Next handover: %s, %s homes, %d%% built" % (fig["next_handover"]["name"].replace("Sobha Hartland - ", ""), "{:,}".format(fig["next_handover"]["units"]), fig["next_handover"]["pct"])] if fig.get("next_handover") else []))},
         {"key": "tallest", "value": lambda t: countup(450, t) + " m", "label": ["Sobha SkyParks, the tallest", "in the pipeline"], "icon": icon_tower},
     ]
     total = TITLE_S + CARD_S * len(cards) + TAIL_S
