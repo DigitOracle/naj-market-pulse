@@ -17,6 +17,8 @@ maximum ... add some icons, add a little bit of flavor."
 Figures: data/identity/sobha_projects.json (DLD register, the eight Sobha group entities, Dubai only) - recomputed on every run,
 so the card never drifts from the register. Timings go to data/media/sobha/intro_timings.json for the narration script.
 Output: data/media/sobha/sobha_intro_4x5.mp4, and with --join <tour.mp4> <out.mp4> the intro cross-faded into the tour.
+v15: --join also appends a 7 s closing card (build_outro: communities, buildings modelled, register coverage from the audit,
+sources, "Prepared by DigitAlchemy") cross-faded over the tour's last aerial.
 Usage: python scripts/sobha_intro.py [--join tour.mp4 out.mp4]
 """
 import json, math, os, shutil, subprocess, sys, tempfile
@@ -131,6 +133,48 @@ def draw_card(layer, k, cards, t, F):
     layer.alpha_composite(card, (CARD_X + dx, 470))
 
 
+OUTRO_S = 7.0
+
+
+def build_outro():
+    """Closing card (v15): what the tour showed and where every number came from, over the tour's last aerial.
+    Counts from data/board/sobha_audit.json, so the card says what the model actually holds."""
+    au = json.load(open(os.path.join(ROOT, "data", "board", "sobha_audit.json"), encoding="utf-8"))["totals"]
+    stops = json.load(open(os.path.join(MEDIA, "tour_stops.json"), encoding="utf-8"))["stops"]
+    bg = Image.open(os.path.join(MEDIA, "cards", "outro_bg.png")).convert("RGBA").crop((0, 0, W, int(H * 0.88))).resize((W, H))
+    shade = Image.new("RGBA", (W, H), NAVY + (205,))
+    base = Image.alpha_composite(bg, shade)
+    rows = [("%d" % len(stops), "communities toured"), ("%d" % au["footprints"], "Sobha buildings modelled"),
+            ("%d of %d" % (au["in_twin"], au["projects"]), "register projects in the model")]
+    src = ["Dubai Land Department project register  ·  Dubai Municipality building permits",
+           "RTA  ·  KHDA  ·  DHA  ·  OpenStreetMap  ·  Sobha Realty"]
+    tmp = tempfile.mkdtemp(prefix="sobha_outro_")
+    n = int(OUTRO_S * FPS)
+    for f in range(n):
+        t = f / FPS
+        fr = base.copy(); d = ImageDraw.Draw(fr)
+        a = ease(t / 0.6); A = int(255 * a)
+        d.rectangle((CARD_X, 250, CARD_X + 8, 370), fill=GOLD + (A,))
+        d.text((CARD_X + 30, 236), "SOBHA", font=font(True, 88), fill=WHITE + (A,))
+        d.text((CARD_X + 34, 340), "in Dubai  ·  the tour", font=font(False, 36), fill=GREY + (A,))
+        for k, (v, l) in enumerate(rows):
+            ak = int(255 * ease((t - 0.5 - 0.45 * k) / 0.5))
+            y = 470 + k * 170
+            d.text((CARD_X + 30, y), v, font=font(True, 96), fill=WHITE + (ak,))
+            d.text((CARD_X + 34, y + 112), l, font=font(False, 34), fill=GREY + (ak,))
+        a2 = int(255 * ease((t - 2.2) / 0.6))
+        d.text((CARD_X + 34, 1000), "Sources", font=font(True, 26), fill=GOLD + (a2,))
+        for k, line in enumerate(src):
+            d.text((CARD_X + 34, 1040 + k * 36), line, font=font(False, 24), fill=GREY + (a2,))
+        d.text((CARD_X + 34, 1200), "Prepared by DigitAlchemy®  ·  contact@digitalabbot.io", font=font(False, 24), fill=(150, 162, 172, a2))
+        fr.convert("RGB").save(os.path.join(tmp, "o%04d.jpg" % f), quality=93)
+    out = os.path.join(MEDIA, "sobha_outro_4x5.mp4")
+    subprocess.run([FF, "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(tmp, "o%04d.jpg"), "-c:v", "libx264",
+                    "-pix_fmt", "yuv420p", "-crf", "18", "-movflags", "+faststart", out], check=True)
+    shutil.rmtree(tmp, ignore_errors=True)
+    return out
+
+
 def main():
     fig = figures()
     F = lambda b, s: font(b, s)
@@ -203,9 +247,13 @@ def main():
     if "--join" in sys.argv:
         tour, joined = sys.argv[sys.argv.index("--join") + 1], sys.argv[sys.argv.index("--join") + 2]
         off = total - 0.8
-        subprocess.run([FF, "-y", "-loglevel", "error", "-i", out, "-i", tour, "-filter_complex",
-                        "[0:v][1:v]xfade=transition=fade:duration=0.8:offset=%.2f,format=yuv420p[v]" % off, "-map", "[v]",
-                        "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", joined], check=True)
+        tour_s = float(subprocess.run([FF.replace("ffmpeg.exe", "ffprobe.exe"), "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", tour],
+                                      capture_output=True, text=True).stdout.strip())
+        outro = build_outro()
+        off2 = off + tour_s - 1.0
+        subprocess.run([FF, "-y", "-loglevel", "error", "-i", out, "-i", tour, "-i", outro, "-filter_complex",
+                        "[0:v][1:v]xfade=transition=fade:duration=0.8:offset=%.2f[a];[a][2:v]xfade=transition=fade:duration=1.0:offset=%.2f,format=yuv420p[v]" % (off, off2),
+                        "-map", "[v]", "-c:v", "libx264", "-crf", "20", "-movflags", "+faststart", joined], check=True)
         print("joined -> %s" % joined)
 
 
