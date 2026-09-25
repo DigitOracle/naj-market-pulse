@@ -145,6 +145,10 @@ def draw_card(layer, k, cards, t, F):
     d.rounded_rectangle((0, 0, CARD_W - 1, 519), 26, fill=PANEL + (int(232 * a),))
     d.rounded_rectangle((0, 0, 10, 519), 4, fill=GOLD + (A,))
     c = cards[k]
+    if c.get("custom"):
+        c["custom"](d, A, t, F)
+        layer.alpha_composite(card, (CARD_X + dx, 470))
+        return
     c["icon"](d, 40, 40, A)
     big = c["value"](t) if callable(c["value"]) else c["value"]
     fs = 124 if len(big) <= 5 else (100 if len(big) <= 8 else 84)
@@ -211,6 +215,29 @@ def main():
     fig = figures()
     F = lambda b, s: font(b, s)
 
+    def status_donut(d, A, t, F):
+        """v18 (Kendall: 'doughnut chart with legend is better'): ring sweeps in, total in the hole, legend beside it."""
+        tot = fig["done"] + fig["uc"] + fig["off"]; g = ease(t / 1.1)
+        cx, cy, R, w = 150, 250, 118, 40
+        d.text((40, 36), "Project status", font=F(True, 34), fill=WHITE + (A,))
+        d.ellipse((cx - R, cy - R, cx + R, cy + R), outline=(40, 56, 68, A), width=w)
+        a0 = -90.0
+        for n, col in ((fig["done"], PALE), (fig["uc"], AMBER), (fig["off"], OFF)):
+            sweep = 360.0 * n / tot * g
+            if sweep > 0.5:
+                d.arc((cx - R, cy - R, cx + R, cy + R), a0, a0 + sweep - 1.2, fill=col + (A,), width=w)
+            a0 += 360.0 * n / tot * g
+        tv = "%d" % int(round(tot * g)); tw = d.textlength(tv, font=F(True, 64))
+        d.text((cx - tw / 2, cy - 50), tv, font=F(True, 64), fill=WHITE + (A,))
+        lw = d.textlength("projects", font=F(False, 24)); d.text((cx - lw / 2, cy + 18), "projects", font=F(False, 24), fill=GREY + (A,))
+        rows = ((fig["done"], "completed", PALE), (fig["uc"], "under construction", AMBER), (fig["off"], "off-plan", OFF))
+        for j, (n, lab, col) in enumerate(rows):
+            aj = int(A * ease((t - 0.3 - 0.25 * j) / 0.4)); y = 150 + j * 70
+            d.rounded_rectangle((308, y + 6, 332, y + 30), 5, fill=col + (aj,))
+            d.text((346, y - 6), "%d" % n, font=F(True, 40), fill=WHITE + (aj,))
+            d.text((346, y + 40), lab, font=F(False, 24), fill=GREY + (aj,))
+        d.text((40, 430), "on the Dubai Land Department register", font=F(False, 24), fill=GREY + (A,))
+
     def status_bar(d, x, y, w, A, t):
         tot = fig["done"] + fig["uc"] + fig["off"]; g = ease(t / 1.0); cx = x
         for n, col in ((fig["done"], PALE), (fig["uc"], AMBER), (fig["off"], OFF)):
@@ -224,7 +251,7 @@ def main():
     cards = [
         {"key": "first", "value": fig["first"], "label": ["first project registered", "in Dubai"], "icon": icon_calendar},
         {"key": "projects", "value": lambda t: countup(fig["n"], t), "label": ["projects on the Dubai Land", "Department register"], "icon": icon_register},
-        {"key": "status", "value": "%d · %d · %d" % (fig["done"], fig["uc"], fig["off"]), "label": ["completed · under construction", "· off-plan"], "icon": icon_status, "bar": status_bar},
+        {"key": "status", "value": "%d · %d · %d" % (fig["done"], fig["uc"], fig["off"]), "label": ["completed · under construction", "· off-plan"], "icon": icon_status, "custom": status_donut},
         {"key": "homes", "value": lambda t: countup(int(fig["units"] // 500 * 500), t) + "+", "label": ["homes registered", "(%s+ delivered)" % "{:,}".format(fig["units_done"] // 100 * 100)], "icon": icon_house, "bar": homes_bar},
         {"key": "tour", "value": "8", "label": ["communities on this tour"], "icon": icon_pin},
         {"key": "launch", "value": lambda t: countup(fig["launch"]["units"], t), "icon": icon_spark,
