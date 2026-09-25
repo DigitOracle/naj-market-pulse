@@ -150,13 +150,15 @@ def card_png(stop, f, path):
     img.save(path)
 
 
-LEGEND = ("drawbox=x=40:y=1766:w=1000:h=124:color=0x08141C@0.72:t=fill,"
-          "drawbox=x=72:y=1792:w=30:h=30:color=0xD8DDE4@1:t=fill,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - completed':x=116:y=1794:fontsize=26:fontcolor=white,"
-          "drawbox=x=72:y=1840:w=30:h=30:color=0xD8DDE4@1:t=fill,drawbox=x=72:y=1840:w=30:h=30:color=0xFF7A10@1:t=4,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Sobha - under construction (amber edge)':x=116:y=1842:fontsize=26:fontcolor=0xFFB060,"
-          "drawbox=x=600:y=1792:w=30:h=30:color=0xDCE3EC@0.45:t=fill,"
-          "drawtext=fontfile='C\\:/Windows/Fonts/segoeui.ttf':text='Other developers':x=644:y=1794:fontsize=26:fontcolor=0xC8D0DA")
+# v20: the HeyGen presenter stands bottom-right of the 9:16 frame, so the legend is a compact block bottom-LEFT
+_F = r"fontfile='C\:/Windows/Fonts/segoeui.ttf'"
+LEGEND = ("drawbox=x=40:y=1706:w=600:h=176:color=0x08141C@0.74:t=fill,"
+          "drawbox=x=66:y=1728:w=28:h=28:color=0xD8DDE4@1:t=fill,"
+          "drawtext=" + _F + ":text='Sobha - completed':x=108:y=1728:fontsize=25:fontcolor=white,"
+          "drawbox=x=66:y=1778:w=28:h=28:color=0xD8DDE4@1:t=fill,drawbox=x=66:y=1778:w=28:h=28:color=0xFF7A10@1:t=4,"
+          "drawtext=" + _F + ":text='Sobha - under construction (amber edge)':x=108:y=1778:fontsize=25:fontcolor=0xFFB060,"
+          "drawbox=x=66:y=1828:w=28:h=28:color=0xDCE3EC@0.45:t=fill,"
+          "drawtext=" + _F + ":text='Other developers':x=108:y=1828:fontsize=25:fontcolor=0xC8D0DA")
 
 
 def main():

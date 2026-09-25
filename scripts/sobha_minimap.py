@@ -21,7 +21,7 @@ GROUND = os.path.join(ROOT, "data", "ce", "_datasmith", "ground")
 OUT_DIR = os.path.join(MEDIA, "cards")
 FF = r"C:\Users\kwils\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build\bin\ffmpeg.exe"
 W, H = 1080, 1920
-PX, PY, PS = 740, 1440, 300
+PX, PY, PS = 40, 1380, 300          # v20: bottom-left, above the legend - the presenter stands bottom-right
 OFF_E, OFF_N = 328289.0, 2784598.0
 GOLD = (197, 165, 106); SAND = (38, 46, 50); SEA = (28, 92, 128); WATER = (40, 112, 150)
 
