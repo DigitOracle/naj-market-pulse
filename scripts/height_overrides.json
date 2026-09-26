@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-24",
+ "generated": "2026-09-25",
  "basis": "geojson name vs bldgfacts name; see height_overrides_README.md",
  "districts": {
   "businessbay": {
@@ -24,6 +24,88 @@
    "504": {
     "height_m": 237.6,
     "why": "Sobha SeaHaven Tower A (the named 'Sobha Seahaven' parcel footprint, project 2550): 66 floors per listing sites (propsearch.ae, Bayut; researched 24 Sep 2026) x 3.6 m. Massed 24.0 m was the site under construction."
+   }
+  },
+  "althanyahfifth": {
+   "1948": {
+    "height_m": 94.8,
+    "why": "ELTIERA VIEWS (DLD project 4116, Ellington): DLD units register top floor 26 -> (26+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "arjan": {
+   "388": {
+    "height_m": 34.3,
+    "why": "ARBOR VIEW (DLD project 2814, Ellington): DM permit 7 floors, 34.3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "jumeirahvillagecircle": {
+   "942": {
+    "height_m": 20.0,
+    "why": "BELGRAVIA III (DLD 1922, Ellington), claimed by position: DLD units register top floor 4."
+   },
+   "1346": {
+    "height_m": 20.0,
+    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4."
+   },
+   "1347": {
+    "height_m": 20.0,
+    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4."
+   },
+   "641": {
+    "height_m": 20.0,
+    "why": "Belgravia 2 (DLD project 1820, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+   },
+   "865": {
+    "height_m": 20.0,
+    "why": "EATON PLACE (DLD project 1871, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+   },
+   "1431": {
+    "height_m": 20.0,
+    "why": "HARRINGTON HOUSE (DLD project 2277, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   },
+   "1241": {
+    "height_m": 47.2,
+    "why": "HILLMONT RESIDENCES BY ELLINGTON (DLD project 3081, Ellington): DLD units register top floor 12 -> (12+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   },
+   "799": {
+    "height_m": 60.8,
+    "why": "THE PORTMAN (DLD project 2537, Ellington): DLD units register top floor 16 -> (16+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+   },
+   "999": {
+    "height_m": 20.0,
+    "why": "BELGRAVIA III (DLD project 1922, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   },
+   "1492": {
+    "height_m": 20.0,
+    "why": "OAKLEY SQUARE RESIDENCES (DLD project 2304, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "jumeirahvillagetriangle": {
+   "1279": {
+    "height_m": 23.4,
+    "why": "BELMONT RESIDENCES (DLD project 2639, Ellington): DLD units register top floor 5 -> (5+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "palmjumeirah": {
+   "2468": {
+    "height_m": 30.2,
+    "why": "ELLINGTON BEACH HOUSE (DLD project 2437, Ellington): DLD units register top floor 7 -> (7+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "samaaljadaf": {
+   "299": {
+    "height_m": 40.4,
+    "why": "ART BAY WEST (DLD project 2996, Ellington): DLD units register top floor 10 -> (10+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+   }
+  },
+  "sobhaheartland": {
+   "179": {
+    "height_m": 63.0,
+    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 12.0 m was a stub/part capture."
+   },
+   "286": {
+    "height_m": 63.0,
+    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 28.6 m was a stub/part capture."
    }
   }
  }
