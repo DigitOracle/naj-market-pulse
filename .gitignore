@@ -75,3 +75,13 @@ dist_dossier/
 dist_brief/
 logs/
 .metadata/
+
+# 26 Sep 2026: the preview RENDERS, not the renderer. _pillars_preview.mjs rewrites pillars_preview.html
+# on every run, and preview_start/preview_more are the same for the /start and /more routes. They were
+# committed by an `add -A` that swept a dirty tree, and tracking them means every preview render dirties
+# the checkout for all nine sessions working in it - then rides into the next unrelated commit. That is
+# how they got here. The .mjs harness stays tracked: it is source, and it is the only reason the renders
+# can be thrown away.
+pillars_preview.html
+preview_start.html
+preview_more.html
