@@ -81,11 +81,22 @@ FOOTNOTES = {"works": ["registered mainland companies, not staff",
 
 
 def dsc_note(rows):
-    """"residents: DSC 2025", or "residents: DSC 2022-2025" when the rows shown disagree."""
+    """"residents: DSC 2025", widening to a range when the rows shown disagree, and saying so when
+    some of them carry no year at all.
+
+    The undated case is the one worth spelling out. Taking the set of years present and ignoring the
+    rows that have none reads as correct and is not: it prints a confident "DSC 2025" over a card
+    where one row is undated, which is a claim the source does not make. Same failure as the
+    hard-coded year it replaced - a true-looking caption computed from less than the card shows."""
     ys = sorted({r["year"] for r in rows if r.get("year")})
+    n_missing = sum(1 for r in rows if not r.get("year"))
     if not ys:
         return "residents: DSC, year not stated in the source"
-    return "residents: DSC %s" % (ys[0] if len(ys) == 1 else "%s-%s" % (ys[0], ys[-1]))
+    span = ys[0] if len(ys) == 1 else "%s-%s" % (ys[0], ys[-1])
+    if not n_missing:
+        return "residents: DSC %s" % span
+    tail = "one row undated" if n_missing == 1 else "%d rows undated" % n_missing
+    return "residents: DSC %s (%s)" % (span, tail)
 
 
 def font(size, bold=False):
