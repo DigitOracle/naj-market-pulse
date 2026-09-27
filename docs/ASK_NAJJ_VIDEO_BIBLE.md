@@ -2,6 +2,9 @@
 
 **Version 1.3 — 22 Sep 2026.** The single source of truth for how the Najma / Azimuth short-form videos are made.
 
+> **What changed in 1.4 (27 Sep).** **Two standard openers are catalogued (§9.3):** the **Seedance opener** (the 10 s N / star
+> master from §9.2) and the **Still opener** (34.6 s, Naj seated, speaking to camera). Either goes first, then a hard cut into the piece.
+>
 > **What changed in 1.3.** **Episode 07 was shot** (Al Habtoor Tower) and it changed four rules. The close is now a
 > **scrolled dossier**, not a page flip (§8.1). A **two-surface check** is required before a subject is named (§14.3).
 > The harness gained journey 8 (§7). And the corrections log carries the five live defects that episode found — every
@@ -405,6 +408,35 @@ The 45-second episode itself is unchanged: the opener is concatenated at assembl
 The opener is the **first exposure**, which is where the EU AI Act requires disclosure. If the opener is ever used
 alone — as a profile video, a story, a bumper — **it must carry the disclosure line itself**, because then it is the
 whole film.
+
+## 9.3 The standard openers — Seedance and Still
+
+**Kendall, 27 Sep 2026:** *"relabel this as the standard opener and put it into the bible so it's catalogued, and we
+understand that when I say I want the standard opener … you know exactly what it is"* — then: *"this is a second opener
+that we can use … label this as Seedance opener, versus the other one as just a still."*
+
+There are **two standard openers**. Both are fixed files, used unchanged (no re-cut, no trim, no re-grade).
+
+| Name Kendall uses | File | What it is | Length |
+|---|---|---|---|
+| **Seedance opener** | `assets/brand/najma_opener_9x16.mp4` (the §9.2 master; also downloaded 27 Sep as `Najma_Property's_Golden_Star.mp4`, identical) | The gold N, Naj walks in and leans on it, the towers rise and give birth to the star: *"Welcome to Najma. Provenance for property."* | 10.05 s, **720×1280**, 24 fps, md5 `465c1488…eeb` |
+| **Still opener** | `assets/brand/najma_standard_opener_9x16.mp4` (from `Downloads/Untitled Video_1080p (6).mp4`, identical to `(5)`) | Naj in a cream suit, seated on a white block in a bare grey room, speaking to camera. Static camera, gold Najma mark top left | 34.6 s, 1080×1920, 25 fps, with audio, md5 `f6d4ff7f…737e` |
+
+**"The standard opener"** with no qualifier: ask which one. Short pieces (≤45 s) suit the Seedance opener, and the still
+opener is a full spoken intro.
+
+**Assembly:** the opener goes **first**, then a hard cut into the piece:
+
+```
+[ SEEDANCE 10 s  |  STILL 34.6 s ]  →  [ PIECE, e.g. the 45 s app journey ]  →  post
+```
+
+Scale to 1080×1920 (the Seedance master is 720p, see below). Conform to the piece's frame rate (app films are 30 fps) and
+keep the opener's audio. Pad a silent piece with a silent track so the join doesn't drop the sound. First cut made this
+way: still opener + Business Bay / Binghatti Aquarise journey, 27 Sep 2026, 1:20.
+
+⚠️ **The Seedance master is 720p**, although §9.2 says to set 1080p. It upscales acceptably, but a 1080p re-export is
+worth having if one exists.
 
 ---
 
