@@ -19,7 +19,11 @@ What it writes (evidence first, tables second, never a name onto a building):
   dm_community                one row per polygon: comm_num, name_en, name_ar, dgis_id, centroid, bbox, ring (lon lat pairs as JSON)
   building_dm_community       duid -> comm_num by point-in-polygon (also written as evidence: attribute dm_community, role LOCATION)
   district_dm_community       our 41 market districts -> the official communities they overlap, with the share of buildings in each
-  dm_address                  the register as loaded (typed, plot_no normalised - see PLOT_NO_SQL), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
+  dm_address                  !! its comm_num column is NOT a DM community number (found 27 Sep 2026): it is the DET
+                              register's own `area` code, a different scheme (124 = Hor Al Anz East here, Al Murqabat
+                              in DSC; only 23 of its 174 codes overlap). For a DM community use parcel_key // 10000,
+                              v_thread_parcel.comm_num or building_dm_community. Not renamed: other readers not traced.
+                              the register as loaded (typed, plot_no normalised - see PLOT_NO_SQL), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
   evidence                    appended for what is new, and rows these two sources no longer support are closed (status SUPERSEDED, valid_to set)
   building_parcel_dm          duid -> DM plot id where the plot position sits within 60 m of the footprint point
                               (evidence: attribute plot_no + businesses_addressed, source dm_address, dist_m, ACCEPTED <= 25 m else DISCOVERED)
