@@ -71,10 +71,21 @@ PRETTY = {"JABAL ALI INDUSTRIAL FIRST": "Jebel Ali Industrial 1", "MUHAISANAH SE
 
 # Per card, because a footnote that does not apply to the card it sits on trains the viewer to skip
 # footnotes. The works card needs the residents source too - the ratio has residents in its denominator.
+# The DSC year is NOT written here: it is computed from the residents_year of the rows actually shown.
+# The file currently mixes 2025 (224 rows) with 2022 (2 rows), so a hard-coded "DSC 2025" is one
+# reordering away from captioning a 2022 figure with the wrong year - the same class of mistake as the
+# hand-written industrial sentence.
 FOOTNOTES = {"works": ["registered mainland companies, not staff",
-                       "free-zone companies are missing or unplaced",
-                       "residents: DSC 2025"],
-             "lives": ["residents: DSC 2025"]}
+                       "free-zone companies are missing or unplaced"],
+             "lives": []}
+
+
+def dsc_note(rows):
+    """"residents: DSC 2025", or "residents: DSC 2022-2025" when the rows shown disagree."""
+    ys = sorted({r["year"] for r in rows if r.get("year")})
+    if not ys:
+        return "residents: DSC, year not stated in the source"
+    return "residents: DSC %s" % (ys[0] if len(ys) == 1 else "%s-%s" % (ys[0], ys[-1]))
 
 
 def font(size, bold=False):
@@ -102,6 +113,8 @@ def is_industrial(name):
 
 
 def read_rows():
+    """Returns (usable rows, total rows in the file). The two counts differ - rows without a name or
+    without a population are skipped - and printing only the first reads as though rows went missing."""
     with open(CSV, encoding="utf-8") as fh:
         rows = list(csv.DictReader(fh))
     out = []
@@ -110,13 +123,14 @@ def read_rows():
         if not r.get("name_en", "").strip() or res is None:
             continue
         out.append({"name": r["name_en"].strip(), "residents": res, "ratio": ratio,
+                    "year": (r.get("residents_year") or "").strip() or None,
                     "companies": num(r.get("mainland_companies_registered")),
                     "flagged": bool((r.get("name_differs_between_sources") or "").strip())})
-    return out
+    return out, len(rows)
 
 
 def figures(pretty=False):
-    rows = read_rows()
+    rows, n_rows = read_rows()
     works = sorted([r for r in rows if r["ratio"] is not None
                     and r["residents"] >= MIN_RESIDENTS and not r["flagged"]],
                    key=lambda r: -r["ratio"])[:TOP_N]
@@ -136,11 +150,11 @@ def figures(pretty=False):
     excluded = sum(1 for r in rows if r["flagged"])
     below = sum(1 for r in rows if r["ratio"] is not None and r["residents"] < MIN_RESIDENTS)
     return {
-        "source": os.path.relpath(CSV, ROOT), "communities": len(rows),
+        "source": os.path.relpath(CSV, ROOT), "communities": len(rows), "rows_in_file": n_rows,
         "min_residents": MIN_RESIDENTS, "excluded_name_mismatch": excluded, "excluded_small": below,
-        "works": [{"name": display(r["name"], pretty), "raw_name": r["name"],
+        "works": [{"name": display(r["name"], pretty), "raw_name": r["name"], "year": r["year"],
                    "value": int(round(r["ratio"])), "residents": int(r["residents"])} for r in works],
-        "lives": [{"name": display(r["name"], pretty), "raw_name": r["name"],
+        "lives": [{"name": display(r["name"], pretty), "raw_name": r["name"], "year": r["year"],
                    "value": int(r["residents"]), "industrial": is_industrial(r["name"])} for r in lives],
         "lives_note": line, "industrial_in_top3": n_ind,
         "works_note": "of communities with %s+ residents" % f"{MIN_RESIDENTS:,}",
@@ -183,7 +197,7 @@ def draw_card(fig, which, pretty=False):
     dr.text((CARD_X + 34, y + 10), note, font=font(32), fill=INK)
 
     fy = y + 62
-    for fn in FOOTNOTES[which]:
+    for fn in FOOTNOTES[which] + [dsc_note(rows)]:
         dr.text((CARD_X + 34, fy), "\u00b7 " + fn, font=font(25), fill=DIM)
         fy += 32
 
@@ -196,7 +210,8 @@ def main():
     pretty = "--pretty" in sys.argv
     fig = figures(pretty)
 
-    print("%s  %d communities" % (os.path.relpath(CSV, ROOT), fig["communities"]))
+    print("%s  %d communities with a population figure (of %d rows in the file)"
+          % (os.path.relpath(CSV, ROOT), fig["communities"], fig["rows_in_file"]))
     print("  excluded: %d name-mismatch flagged, %d under %s residents"
           % (fig["excluded_name_mismatch"], fig["excluded_small"], f"{MIN_RESIDENTS:,}"))
     print("Where Dubai works - companies per 100 residents")
@@ -221,9 +236,11 @@ def main():
     tim = {"generated_from": fig["source"], "fps": FPS, "frame": [W, H], "caption_top": CAPTION_TOP,
            "card_s": CARD_S, "in_s": IN_S, "out_s": OUT_S,
            "cards": [{"key": "works", "on": 0.0, "off": CARD_S, "head": "Where Dubai works",
-                      "rows": fig["works"], "note": fig["works_note"], "footnotes": FOOTNOTES["works"]},
+                      "rows": fig["works"], "note": fig["works_note"],
+                      "footnotes": FOOTNOTES["works"] + [dsc_note(fig["works"])]},
                      {"key": "lives", "on": CARD_S, "off": 2 * CARD_S, "head": "Where Dubai lives",
-                      "rows": fig["lives"], "note": fig["lives_note"], "footnotes": FOOTNOTES["lives"]}],
+                      "rows": fig["lives"], "note": fig["lives_note"],
+                      "footnotes": FOOTNOTES["lives"] + [dsc_note(fig["lives"])]}],
            "footnotes": FOOTNOTES, "total_s": 2 * CARD_S, "figures": fig}
     tp = os.path.join(OUT, "live_work_timings.json")
     json.dump(tim, open(tp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)

@@ -19,30 +19,35 @@
     {
      "name": "Port Saeed",
      "raw_name": "PORT SAEED",
+     "year": "2025",
      "value": 349,
      "residents": 16239
     },
     {
      "name": "Business Bay",
      "raw_name": "BUSINESS BAY",
+     "year": "2025",
      "value": 197,
      "residents": 41055
     },
     {
      "name": "Saih Shuaib 3",
      "raw_name": "SAIH SHUAIB 3",
+     "year": "2025",
      "value": 149,
      "residents": 6315
     },
     {
      "name": "Al Murar",
      "raw_name": "AL MURAR",
+     "year": "2025",
      "value": 148,
      "residents": 44836
     },
     {
      "name": "Al Garhoud",
      "raw_name": "AL GARHOUD",
+     "year": "2025",
      "value": 113,
      "residents": 23710
     }
@@ -63,30 +68,35 @@
     {
      "name": "Jebel Ali Industrial 1",
      "raw_name": "JABAL ALI INDUSTRIAL FIRST",
+     "year": "2025",
      "value": 219269,
      "industrial": true
     },
     {
      "name": "Muhaisnah 2",
      "raw_name": "MUHAISANAH SECOND",
+     "year": "2025",
      "value": 171980,
      "industrial": false
     },
     {
      "name": "Al Quoz Industrial 2",
      "raw_name": "AL QOUZ IND.SECOND",
+     "year": "2025",
      "value": 149271,
      "industrial": true
     },
     {
      "name": "Warsan 1",
      "raw_name": "WARSAN FIRST",
+     "year": "2025",
      "value": 130705,
      "industrial": false
     },
     {
      "name": "Jebel Ali 1",
      "raw_name": "JABAL ALI FIRST",
+     "year": "2025",
      "value": 104262,
      "industrial": false
     }
@@ -100,17 +110,15 @@
  "footnotes": {
   "works": [
    "registered mainland companies, not staff",
-   "free-zone companies are missing or unplaced",
-   "residents: DSC 2025"
+   "free-zone companies are missing or unplaced"
   ],
-  "lives": [
-   "residents: DSC 2025"
-  ]
+  "lives": []
  },
  "total_s": 14.0,
  "figures": {
   "source": "data\\board\\_live_work_by_community.csv",
   "communities": 224,
+  "rows_in_file": 234,
   "min_residents": 5000,
   "excluded_name_mismatch": 6,
   "excluded_small": 73,
@@ -118,30 +126,35 @@
    {
     "name": "Port Saeed",
     "raw_name": "PORT SAEED",
+    "year": "2025",
     "value": 349,
     "residents": 16239
    },
    {
     "name": "Business Bay",
     "raw_name": "BUSINESS BAY",
+    "year": "2025",
     "value": 197,
     "residents": 41055
    },
    {
     "name": "Saih Shuaib 3",
     "raw_name": "SAIH SHUAIB 3",
+    "year": "2025",
     "value": 149,
     "residents": 6315
    },
    {
     "name": "Al Murar",
     "raw_name": "AL MURAR",
+    "year": "2025",
     "value": 148,
     "residents": 44836
    },
    {
     "name": "Al Garhoud",
     "raw_name": "AL GARHOUD",
+    "year": "2025",
     "value": 113,
     "residents": 23710
    }
@@ -150,30 +163,35 @@
    {
     "name": "Jebel Ali Industrial 1",
     "raw_name": "JABAL ALI INDUSTRIAL FIRST",
+    "year": "2025",
     "value": 219269,
     "industrial": true
    },
    {
     "name": "Muhaisnah 2",
     "raw_name": "MUHAISANAH SECOND",
+    "year": "2025",
     "value": 171980,
     "industrial": false
    },
    {
     "name": "Al Quoz Industrial 2",
     "raw_name": "AL QOUZ IND.SECOND",
+    "year": "2025",
     "value": 149271,
     "industrial": true
    },
    {
     "name": "Warsan 1",
     "raw_name": "WARSAN FIRST",
+    "year": "2025",
     "value": 130705,
     "industrial": false
    },
    {
     "name": "Jebel Ali 1",
     "raw_name": "JABAL ALI FIRST",
+    "year": "2025",
     "value": 104262,
     "industrial": false
    }
