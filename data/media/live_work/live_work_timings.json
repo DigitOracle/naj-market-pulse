@@ -1,0 +1,185 @@
+{
+ "generated_from": "data\\board\\_live_work_by_community.csv",
+ "fps": 30,
+ "frame": [
+  1080,
+  1920
+ ],
+ "caption_top": 1180,
+ "card_s": 7.0,
+ "in_s": 0.45,
+ "out_s": 0.4,
+ "cards": [
+  {
+   "key": "works",
+   "on": 0.0,
+   "off": 7.0,
+   "head": "Where Dubai works",
+   "rows": [
+    {
+     "name": "Port Saeed",
+     "raw_name": "PORT SAEED",
+     "value": 349,
+     "residents": 16239
+    },
+    {
+     "name": "Business Bay",
+     "raw_name": "BUSINESS BAY",
+     "value": 197,
+     "residents": 41055
+    },
+    {
+     "name": "Saih Shuaib 3",
+     "raw_name": "SAIH SHUAIB 3",
+     "value": 149,
+     "residents": 6315
+    },
+    {
+     "name": "Al Murar",
+     "raw_name": "AL MURAR",
+     "value": 148,
+     "residents": 44836
+    },
+    {
+     "name": "Al Garhoud",
+     "raw_name": "AL GARHOUD",
+     "value": 113,
+     "residents": 23710
+    }
+   ],
+   "note": "of communities with 5,000+ residents",
+   "footnotes": [
+    "registered mainland companies, not staff",
+    "free-zone companies are missing or unplaced",
+    "residents: DSC 2025"
+   ]
+  },
+  {
+   "key": "lives",
+   "on": 7.0,
+   "off": 14.0,
+   "head": "Where Dubai lives",
+   "rows": [
+    {
+     "name": "Jebel Ali Industrial 1",
+     "raw_name": "JABAL ALI INDUSTRIAL FIRST",
+     "value": 219269,
+     "industrial": true
+    },
+    {
+     "name": "Muhaisnah 2",
+     "raw_name": "MUHAISANAH SECOND",
+     "value": 171980,
+     "industrial": false
+    },
+    {
+     "name": "Al Quoz Industrial 2",
+     "raw_name": "AL QOUZ IND.SECOND",
+     "value": 149271,
+     "industrial": true
+    },
+    {
+     "name": "Warsan 1",
+     "raw_name": "WARSAN FIRST",
+     "value": 130705,
+     "industrial": false
+    },
+    {
+     "name": "Jebel Ali 1",
+     "raw_name": "JABAL ALI FIRST",
+     "value": 104262,
+     "industrial": false
+    }
+   ],
+   "note": "two of the top three are industrial areas",
+   "footnotes": [
+    "residents: DSC 2025"
+   ]
+  }
+ ],
+ "footnotes": {
+  "works": [
+   "registered mainland companies, not staff",
+   "free-zone companies are missing or unplaced",
+   "residents: DSC 2025"
+  ],
+  "lives": [
+   "residents: DSC 2025"
+  ]
+ },
+ "total_s": 14.0,
+ "figures": {
+  "source": "data\\board\\_live_work_by_community.csv",
+  "communities": 224,
+  "min_residents": 5000,
+  "excluded_name_mismatch": 6,
+  "excluded_small": 73,
+  "works": [
+   {
+    "name": "Port Saeed",
+    "raw_name": "PORT SAEED",
+    "value": 349,
+    "residents": 16239
+   },
+   {
+    "name": "Business Bay",
+    "raw_name": "BUSINESS BAY",
+    "value": 197,
+    "residents": 41055
+   },
+   {
+    "name": "Saih Shuaib 3",
+    "raw_name": "SAIH SHUAIB 3",
+    "value": 149,
+    "residents": 6315
+   },
+   {
+    "name": "Al Murar",
+    "raw_name": "AL MURAR",
+    "value": 148,
+    "residents": 44836
+   },
+   {
+    "name": "Al Garhoud",
+    "raw_name": "AL GARHOUD",
+    "value": 113,
+    "residents": 23710
+   }
+  ],
+  "lives": [
+   {
+    "name": "Jebel Ali Industrial 1",
+    "raw_name": "JABAL ALI INDUSTRIAL FIRST",
+    "value": 219269,
+    "industrial": true
+   },
+   {
+    "name": "Muhaisnah 2",
+    "raw_name": "MUHAISANAH SECOND",
+    "value": 171980,
+    "industrial": false
+   },
+   {
+    "name": "Al Quoz Industrial 2",
+    "raw_name": "AL QOUZ IND.SECOND",
+    "value": 149271,
+    "industrial": true
+   },
+   {
+    "name": "Warsan 1",
+    "raw_name": "WARSAN FIRST",
+    "value": 130705,
+    "industrial": false
+   },
+   {
+    "name": "Jebel Ali 1",
+    "raw_name": "JABAL ALI FIRST",
+    "value": 104262,
+    "industrial": false
+   }
+  ],
+  "lives_note": "two of the top three are industrial areas",
+  "industrial_in_top3": 2,
+  "works_note": "of communities with 5,000+ residents"
+ }
+}
