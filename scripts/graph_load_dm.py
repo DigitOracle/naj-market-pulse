@@ -19,10 +19,10 @@ What it writes (evidence first, tables second, never a name onto a building):
   dm_community                one row per polygon: comm_num, name_en, name_ar, dgis_id, centroid, bbox, ring (lon lat pairs as JSON)
   building_dm_community       duid -> comm_num by point-in-polygon (also written as evidence: attribute dm_community, role LOCATION)
   district_dm_community       our 41 market districts -> the official communities they overlap, with the share of buildings in each
-  dm_address                  !! its comm_num column is NOT a DM community number (found 27 Sep 2026): it is the DET
-                              register's own `area` code, a different scheme (124 = Hor Al Anz East here, Al Murqabat
-                              in DSC; only 23 of its 174 codes overlap). For a DM community use parcel_key // 10000,
-                              v_thread_parcel.comm_num or building_dm_community. Not renamed: other readers not traced.
+  dm_address                  its area column is the DET register's own area code, a different scheme from the DM community
+                              number (124 = Hor Al Anz East here, Al Murqabat in DSC; only 23 of its 174 codes overlap), so it is
+                              named det_area_code (renamed from comm_num 27 Sep 2026). For a DM community use parcel_key // 10000,
+                              v_thread_parcel.comm_num or building_dm_community. Readers traced: none outside this file.
                               the register as loaded (typed, plot_no normalised - see PLOT_NO_SQL), dm_address_parcel = per-plot roll-up (businesses, units, floors; position from the DLD plot when the row has none)
   evidence                    appended for what is new, and rows these two sources no longer support are closed (status SUPERSEDED, valid_to set)
   building_parcel_dm          duid -> DM plot id where the plot position sits within 60 m of the footprint point
@@ -181,14 +181,14 @@ def main():
     # a premises register either - see the module header. Useful as: businesses per plot (tenancy density), plot -> community. Not for
     # "there is a pharmacy here": the licence sits at the registered office, which is usually a business centre in a tower.
     print(f"  address files: {len(files)}")
-    con.execute("create or replace table dm_address as select try_cast(id as bigint) as id, addressline1, addressline2, addresstype, area as comm_num, street, try_cast(floor as varchar) as floor, unitnumber, unittype, "
+    con.execute("create or replace table dm_address as select try_cast(id as bigint) as id, addressline1, addressline2, addresstype, area as det_area_code, street, try_cast(floor as varchar) as floor, unitnumber, unittype, "
                 f"{PLOT_NO_SQL} as plot_no, case when try_cast(latitude as double) between 24.5 and 25.6 then try_cast(latitude as double) end as lat, "
                 "case when try_cast(longitude as double) between 54.5 and 56.5 then try_cast(longitude as double) end as lon, freezone, emirate "
                 "from read_csv_auto(?, union_by_name=true, header=true, all_varchar=true)", [files])
     n_addr = con.execute("select count(*) from dm_address").fetchone()[0]
     con.execute("""create or replace table dm_address_parcel as
         select a.plot_no, count(*) as addresses, count(distinct a.unitnumber) filter (where a.unitnumber is not null and a.unitnumber <> '') as units,
-               count(distinct a.floor) filter (where a.floor is not null and a.floor <> '' and a.floor <> '0') as floors, any_value(a.comm_num) as comm_num,
+               count(distinct a.floor) filter (where a.floor is not null and a.floor <> '' and a.floor <> '0') as floors, any_value(a.det_area_code) as det_area_code,
                coalesce(avg(a.lon), any_value(q.pick.lon)) as lon, coalesce(avg(a.lat), any_value(q.pick.lat)) as lat, mode(a.unittype) as unit_type,
                count(a.lon) as located_rows, any_value(q.pick.district) as district
         -- 85 of the 1,156 plot_no in the DLD register carry more than one row. any_value() picked among them per COLUMN and per run, so a
