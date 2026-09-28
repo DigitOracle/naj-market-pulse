@@ -419,8 +419,14 @@ There are **two standard openers**. Both are fixed files, used unchanged (no re-
 
 | Name Kendall uses | File | What it is | Length |
 |---|---|---|---|
-| **Seedance opener** | `assets/brand/najma_opener_9x16.mp4` (the §9.2 master; also downloaded 27 Sep as `Najma_Property's_Golden_Star.mp4`, identical) | The gold N, Naj walks in and leans on it, the towers rise and give birth to the star: *"Welcome to Najma. Provenance for property."* | 10.05 s, **720×1280**, 24 fps, md5 `465c1488…eeb` |
+| **The Golden Star** (the Seedance opener) | `assets/brand/najma_opener_9x16.mp4` (the §9.2 master; also downloaded 27 Sep as `Najma_Property's_Golden_Star.mp4`, identical) | The gold N, Naj walks in and leans on it, the towers rise and give birth to the star: *"Welcome to Najma. Provenance for property."* | 10.05 s, **720×1280**, 24 fps, md5 `465c1488…eeb` |
 | **Still opener** | `assets/brand/najma_standard_opener_9x16.mp4` (from `Downloads/Untitled Video_1080p (6).mp4`, identical to `(5)`) | Naj in a cream suit, seated on a white block in a bare grey room, speaking to camera. Static camera, gold Najma mark top left | 34.6 s, 1080×1920, 25 fps, with audio, md5 `f6d4ff7f…737e` |
+
+**Where they always are** (Kendall, 28 Sep 2026: *"put that somewhere so we always know where it is"*): both openers
+are filed, under the names Kendall uses, in the working folder at
+`DigitAlchemy_31MAY2026\Brand_and_Legal\Brand_Assets\Najma_Openers\`: `NAJMA_OPENER_GOLDEN_STAR_SEEDANCE_9x16.mp4` and
+`NAJMA_OPENER_STILL_9x16.mp4`, with a README. The repo files above stay the masters; check a copy by its md5.
+**"The Golden Star"** always means the Seedance opener. Episode 08 opens with it.
 
 **"The standard opener"** with no qualifier: ask which one. Short pieces (≤45 s) suit the Seedance opener, and the still
 opener is a full spoken intro.
