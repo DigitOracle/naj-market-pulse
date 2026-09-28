@@ -1465,9 +1465,32 @@ def journey10(pg, mark):
     pg.wait_for_timeout(900)
     mark("open")
     search_pick(pg, DISTRICT_10)
+
+    def zoom_to(n, k, row_text, label):
+        """Click the nearest row so the map flies to it and its card opens, then wheel in on it.
+
+        openAmenity() centres the map on the place (zoom >= 15) - it lands at the frame centre, 540,960 - and the
+        three wheel ticks take it to street level. Distances in later lists stay measured from the centre of
+        Business Bay: the panel header still says so after a row click (probed 28 Sep)."""
+        with shot(mark, n, 5.0, label):
+            row = pg.locator("#panel .nk", has_text=row_text).first
+            glide_click(pg, row, pause=1300)
+            _wheel(pg, 540, 960, -3, step=170, ms=220)
+            pg.wait_for_timeout(2600)
+        # off camera (cut() drops everything between shots): close the card, clear the layer, back to the district
+        try:
+            pg.locator("#px").click(timeout=3000)
+        except Exception:
+            pass
+        amenity(pg, k, "ep08 %s off" % k)
+        pg.wait_for_timeout(500)
+        search_pick(pg, DISTRICT_10, pause=2600)
+
     with shot(mark, 1, 3.5, "Business Bay, nothing lit"):
         pg.wait_for_timeout(2600)
-    # the school run
+    # the school run. NO row zoom here: Horizons English School's position is rounded to 2 dp and shared with the
+    # Japanese School, JSS, Harrow and DBS Mira (55.25, 25.19) - a zoom lands its ring on a pin labelled "Japanese
+    # School". 219 of 286 schools carry 2-dp positions. Hold the list until precise positions are sourced.
     with shot(mark, 2, 4.5, "schools pressed - none inside"):
         amenity(pg, "school", "ep08 school")
         pg.wait_for_timeout(2400)
@@ -1477,34 +1500,38 @@ def journey10(pg, mark):
     with shot(mark, 4, 4.5, "clinics pressed"):
         amenity(pg, "school", "ep08 school off"); pg.wait_for_timeout(700)
         amenity(pg, "clinic", "ep08 clinic"); pg.wait_for_timeout(2200)
-    with shot(mark, 5, 3.5, "nearest clinic 264 m", mode="hold"):
-        pg.wait_for_timeout(3000)
-    with shot(mark, 6, 4.5, "pharmacies pressed"):
-        amenity(pg, "clinic", "ep08 clinic off"); pg.wait_for_timeout(700)
+    with shot(mark, 5, 3.0, "nearest clinic 264 m", mode="hold"):
+        pg.wait_for_timeout(2600)
+    zoom_to(6, "clinic", "COVENT CLINIC", "zoom: Covent Clinic")
+    with shot(mark, 7, 4.5, "pharmacies pressed"):
         amenity(pg, "pharmacy", "ep08 pharmacy"); pg.wait_for_timeout(2200)
-    with shot(mark, 7, 3.5, "nearest pharmacy 418 m", mode="hold"):
-        pg.wait_for_timeout(3000)
+    with shot(mark, 8, 3.0, "nearest pharmacy 418 m", mode="hold"):
+        pg.wait_for_timeout(2600)
+    zoom_to(9, "pharmacy", "Shefaa Al Madeena", "zoom: Shefaa Al Madeena")
     # the hospital
-    with shot(mark, 8, 4.5, "hospitals pressed"):
-        amenity(pg, "pharmacy", "ep08 pharmacy off"); pg.wait_for_timeout(700)
+    with shot(mark, 10, 4.5, "hospitals pressed"):
         amenity(pg, "hospital", "ep08 hospital"); pg.wait_for_timeout(2200)
-    with shot(mark, 9, 3.5, "Emirates Hospital 1.6 km", mode="hold"):
-        pg.wait_for_timeout(3000)
+    with shot(mark, 11, 3.0, "Emirates Hospital 1.6 km", mode="hold"):
+        pg.wait_for_timeout(2600)
+    zoom_to(12, "hospital", "Emirates Hospital", "zoom: Emirates Hospital")
     # the park - no park layer; a wider view toward Al Safa
-    with shot(mark, 10, 5.0, "wider view, no park layer"):
-        amenity(pg, "hospital", "ep08 hospital off"); pg.wait_for_timeout(900)
+    with shot(mark, 13, 5.0, "wider view, no park layer"):
         _wheel(pg, 300, 700, 2, step=170, ms=180)
         pg.wait_for_timeout(2200)
     # the Red Line
-    with shot(mark, 11, 4.5, "metro pressed"):
+    with shot(mark, 14, 4.5, "metro pressed"):
         amenity(pg, "metro", "ep08 metro"); pg.wait_for_timeout(2400)
-    with shot(mark, 12, 3.5, "Business Bay station 1.5 km", mode="hold"):
-        pg.wait_for_timeout(3000)
+    with shot(mark, 15, 3.0, "Business Bay station 1.5 km", mode="hold"):
+        pg.wait_for_timeout(2600)
+    with shot(mark, 16, 5.0, "zoom: Business Bay Metro Station"):
+        glide_click(pg, pg.locator("#panel .nk", has_text="Business Bay Metro").first, pause=1300)
+        _wheel(pg, 540, 960, -3, step=170, ms=220)
+        pg.wait_for_timeout(2600)
     # who lives here
     try:
         pg.goto(rurl(), wait_until="networkidle", timeout=90_000)
         pg.evaluate(CURSOR_JS); pg.wait_for_timeout(2500)
-        with shot(mark, 13, 6.0, "who lives here: Business Bay, Europe expanded"):
+        with shot(mark, 17, 6.0, "who lives here: Business Bay, Europe expanded"):
             india = pg.get_by_role("button", name="India", exact=True)
             if india.count() and india.get_attribute("aria-pressed") == "true":
                 glide_click(pg, india, pause=700)
@@ -1512,7 +1539,7 @@ def journey10(pg, mark):
             # The residents page spells the row "Business Bay", mixed case - not the capitals DAMAC HILLS uses. Probed 28 Sep.
             glide_click_scrolled(pg, pg.get_by_text("Business Bay", exact=True).first, pause=2000)
             glide_click_scrolled(pg, pg.locator("div.bar.reg", has_text="Europe").first, pause=1800)
-        with shot(mark, 14, 5.0, "Europe the largest group, UK among the four biggest", mode="hold"):
+        with shot(mark, 18, 5.0, "Europe the largest group, UK among the four biggest", mode="hold"):
             pg.wait_for_timeout(4000)
     except Exception as e:
         print("   who-lives-here beat: %s" % str(e)[:90])
