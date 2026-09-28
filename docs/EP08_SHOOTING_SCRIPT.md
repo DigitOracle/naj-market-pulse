@@ -28,8 +28,17 @@ the nationality."* v2 counts, and uses the map's **count within** filter to wide
 - **Fly-through placement is an assumption.** Kendall's latest order does not mention it. Placed after the question,
   it becomes the episode's first image: Naj's opening line ("Let's look at Business Bay as a whole") plays over it,
   then the map takes over. If Kendall wants it before the question, swap the two clips; nothing else changes.
-  Spec (Sobha session): 20 s. A high orbit (~7 s), a descent to the canal and towers (~8 s), then a steady close
-  (~5 s). 1080x1920, 25 fps, no text, logos or voice. File: `data/media/ep08/teaser_businessbay_9x16.mp4`.
+  Spec (Sobha session; framing changed by Kendall, 28 Sep): 20 s, a high oblique aerial (~400-600 m) across the canal
+  loop towards Downtown, Burj Khalifa centred upper frame, a slow pull-back or gentle orbit (or 2-3 calm cuts in that
+  framing), ending on a steady frame. 1080x1920, 25 fps, no text, logos or voice. File:
+  `data/media/ep08/teaser_businessbay_9x16.mp4`. **Only an approved render goes in**: a v0 with faults sat at that
+  path on 28 Sep.
+
+**Assembly:** `python scripts/assemble_ep08.py` (without the fly-through) or `--with-fly` once it is approved.
+Draft without it, 28 Sep: `data/media/ep08/EP08_BUSINESSBAY_ASSEMBLED_NO_FLYTHROUGH_9x16.mp4`, 124.6 s. The approved
+clips are the Golden Star, `Business_Bay_Overview_Request.mp4` (the question; "Business Bay" confirmed by transcript;
+Kendall accepted the tripod in frame) and `BusinessBayDemo_28SEP2026_1080p.mp4` (the HeyGen episode, 104.5 s,
+Kendall's final narrative).
 
 **Screen capture:** `NAJMA_VIDEO=10 python scripts/demo_capture.py all` (harness journey 10 = episode 08).
 17 shots, 88.9 s cut, including a 9 s hold for the sign-off. Filmed with 12 GB free and the Unreal render not yet
