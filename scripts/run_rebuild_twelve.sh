@@ -40,7 +40,13 @@ if [ -f "$MARK" ]; then
   rm -f "$MARK"
 fi
 echo "$WINPID $(date -Iseconds)" > "$MARK"
-trap 'rm -f "$MARK"' EXIT INT TERM
+# EXIT cleans up on a normal end. INT and TERM must clean up AND exit: a trap on TERM replaces bash's
+# default termination, so 'trap cleanup TERM' alone runs the cleanup and then carries on. That is how a
+# stopped run kept going twice on 28 Sep - the stop signal deleted this marker and the script continued,
+# publishing tiles, with nothing left to show it was alive.
+trap 'rm -f "$MARK"' EXIT
+trap 'rm -f "$MARK"; exit 143' TERM
+trap 'rm -f "$MARK"; exit 130' INT
 
 if [ -f data/ce/.ce_lock ]; then
   echo "note: CE lock currently held by '$(cat data/ce/.ce_lock)' - ce_batch_v2 will wait for it"
