@@ -102,20 +102,34 @@ def footprint(ring, tf, ox, oz):
     return [v for x, z in pts for v in (x, 0.0, z)]
 
 
-def build(slug, rpk, lod):
+def district_origin(feats, tf):
+    """The district's local origin: the centre of its footprints' bounding box in EPSG:32640, rounded to a
+    whole metre. Whole metres keep it exact in JSON and in float64 on the page, and the rounding moves the
+    origin by at most 0.5 m, which costs nothing - vertices are stored RELATIVE to it, so what matters is
+    that they are small, not that the origin is anywhere in particular.
+
+    This is the fix for the 25 cm grid in the published tiles: CityEngine's glTF export writes absolute UTM
+    as float32, and at z = -2,772,000 a float32 can only move in 0.25 m steps. Relative to this origin the
+    largest coordinate in a district is a few kilometres, where float32 resolves well under a millimetre.
+
+    Returns (easting, northing) in metres."""
+    es, ns = [], []
+    for f in feats:
+        for r in rings(f["geometry"]):
+            for c in r:
+                e, n = tf.transform(c[0], c[1]); es.append(e); ns.append(n)
+    return float(round((min(es) + max(es)) / 2.0)), float(round((min(ns) + max(ns)) / 2.0))
+
+
+def prepare(slug, lod, name_style="b%d"):
+    """Shapes and per-shape attributes exactly as ce_batch_v2 would push them, in the district's local frame."""
     import pyprt
     from pyproj import Transformer
     feats = json.load(open(os.path.join(CEDIR, slug, "buildings.geojson"), encoding="utf-8"))["features"]
     facade = json.load(open(os.path.join(CEDIR, slug, "facade_v2.json"), encoding="utf-8"))["buildings"]
     H = heights(slug, feats)
     tf = Transformer.from_crs("EPSG:4326", "EPSG:32640", always_xy=True)
-
-    # local origin: first vertex of the first usable footprint
-    ox = oz = None
-    for f in feats:
-        rs = rings(f["geometry"])
-        if rs:
-            ox, oz = tf.transform(rs[0][0][0], rs[0][0][1]); break
+    ox, oz = district_origin(feats, tf)
 
     shapes, attrs, idx, skipped = [], [], [], []
     for fi, f in enumerate(feats):
@@ -125,7 +139,7 @@ def build(slug, rpk, lod):
             skipped.append(fi); continue
         pr = f["properties"]
         rec = facade.get(str(fi), {"class": "auto", "variant": fi % 3})
-        a = {"shapeName": "b%d" % fi, "seed": fi,
+        a = {"shapeName": (name_style % fi) if name_style == "b%d" else "b%d_%s" % (fi, rec["class"]), "seed": fi,
              "fclass": str(rec["class"]), "fvar": float(int(rec.get("variant", fi % 3))),
              "status": str(pr.get("status") or "existing").lower(),
              "LOD": float(lod), "bandEvery": 1.0}
@@ -135,9 +149,13 @@ def build(slug, rpk, lod):
         if lv:
             a["levels"] = lv
         shapes.append(pyprt.InitialShape(verts)); attrs.append(a); idx.append(fi)
+    return shapes, attrs, idx, skipped, (ox, oz)
 
-    known = {i.split("$")[-1].split("/")[-1] for i in pyprt.get_rpk_attributes_info(rpk).keys()} \
-        if hasattr(pyprt.get_rpk_attributes_info(rpk), "keys") else None
+
+def build(slug, rpk, lod):
+    import pyprt
+    shapes, attrs, idx, skipped, _ = prepare(slug, lod)
+    known = sorted(pyprt.get_rpk_attributes_info(rpk).keys())
     t = time.time()
     mg = pyprt.ModelGenerator(shapes)
     models = mg.generate_model(attrs, rpk, "com.esri.pyprt.PyEncoder",
@@ -152,6 +170,45 @@ def build(slug, rpk, lod):
         per[fi] = {"tris": tris, "h": round(max(ys) - min(ys), 1) if ys else 0.0}
     return {"slug": slug, "shapes": len(shapes), "models": len(models), "skipped": skipped,
             "generate_s": round(took, 1), "per": per, "known_attrs": known}
+
+
+def export_glb(slug, rpk, lod, ver):
+    """Full-precision GLB in the district's LOCAL frame, plus the origin that puts it back in the city.
+
+    Writes data/ce/_glb/sky_<slug>_<ver>_0.glb (merged per building, the same shape the publish scripts
+    expect) and data/ce/<slug>/origin_<ver>.json. The contract the page relies on:
+
+        CE-frame position (x = easting, y = up, z = -northing, metres, EPSG:32640) = vertex + origin_ce_xyz
+
+    Apply it as the object's position in JavaScript (float64). Never add it into the vertex buffer: that puts
+    the magnitudes back into float32 and brings the 25 cm grid straight back.
+    """
+    import glob
+    import pyprt
+    from glb_merge_per_building import merge
+    shapes, attrs, idx, skipped, (oe, on) = prepare(slug, lod, name_style="class")
+    glb_dir = os.path.join(CEDIR, "_glb")
+    raw_base = "sky_%s_%s_raw" % (slug, ver)
+    for f in glob.glob(os.path.join(glb_dir, raw_base + "*")):
+        os.remove(f)
+    t = time.time()
+    pyprt.ModelGenerator(shapes).generate_model(
+        attrs, rpk, "com.esri.prt.codecs.GLTFEncoder",
+        {"outputPath": glb_dir, "baseName": raw_base, "meshGranularity": "AS_GENERATED", "outputFormat": "GLB"})
+    parts = sorted(glob.glob(os.path.join(glb_dir, raw_base + "_*.glb")))
+    if len(parts) != 1:
+        sys.exit("expected one raw GLB part, got %d: %s" % (len(parts), [os.path.basename(p) for p in parts]))
+    out = os.path.join(glb_dir, "sky_%s_%s_0.glb" % (slug, ver))
+    r = merge(parts[0], out)
+    os.remove(parts[0])
+    origin = {"slug": slug, "ver": ver, "crs": "EPSG:32640",
+              "origin_ce_xyz": [oe, 0.0, -on], "origin_utm_en": [oe, on],
+              "contract": "CE-frame metres (x = easting, y = up, z = -northing) = vertex + origin_ce_xyz",
+              "apply": "set as the object's position in float64; never add into the vertex buffer",
+              "rule": os.path.basename(rpk), "lod": lod, "buildings": r["buildings"], "triangles": r["triangles"],
+              "built": time.strftime("%Y-%m-%dT%H:%M:%S"), "builder": "pyprt"}
+    json.dump(origin, open(os.path.join(CEDIR, slug, "origin_%s.json" % ver), "w", encoding="utf-8"), indent=1)
+    return out, origin, round(time.time() - t, 1)
 
 
 def ce_reference(slug):
@@ -183,7 +240,17 @@ def ce_reference(slug):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    # Drop each flag AND its value. Filtering only the "--" tokens leaves "--ver v5" behind as a stray "v5",
+    # the same bug that once made push_sky_gz publish a district called "v4".
+    valued = {"--rpk", "--lod", "--ver"}
+    args, skip = [], False
+    for a in sys.argv[1:]:
+        if skip:
+            skip = False; continue
+        if a in valued:
+            skip = True; continue
+        if not a.startswith("--"):
+            args.append(a)
     if not args:
         print(__doc__); return 2
     slug = args[0]
@@ -193,6 +260,17 @@ def main():
     lod = opt("--lod", 3, int)
     if not os.path.exists(rpk):
         sys.exit("no rule package at %s - run scripts/export_najma_rpk.py first" % rpk)
+
+    if "--glb" in sys.argv:
+        ver = opt("--ver", "v5")
+        if ver in ("v3", "v4"):
+            sys.exit("refusing --ver %s: that lane's files are the CityEngine builds; a PyPRT local-origin GLB "
+                     "must not overwrite them" % ver)
+        out, origin, took = export_glb(slug, rpk, lod, ver)
+        print("  %s  %d buildings, %d triangles, %.1f s" % (os.path.relpath(out, ROOT), origin["buildings"],
+                                                            origin["triangles"], took))
+        print("  origin_ce_xyz %s  (UTM E %.0f N %.0f)" % (origin["origin_ce_xyz"], *origin["origin_utm_en"]))
+        return 0
 
     print("PyPRT build of %s at LOD %d from %s" % (slug, lod, os.path.relpath(rpk, ROOT)), flush=True)
     got = build(slug, rpk, lod)
