@@ -121,7 +121,7 @@ def district_origin(feats, tf):
     return float(round((min(es) + max(es)) / 2.0)), float(round((min(ns) + max(ns)) / 2.0))
 
 
-def prepare(slug, lod, name_style="b%d"):
+def prepare(slug, lod, name_style="b%d", tall_h=None, tall_lod=3):
     """Shapes and per-shape attributes exactly as ce_batch_v2 would push them, in the district's local frame."""
     import pyprt
     from pyproj import Transformer
@@ -142,7 +142,7 @@ def prepare(slug, lod, name_style="b%d"):
         a = {"shapeName": (name_style % fi) if name_style == "b%d" else "b%d_%s" % (fi, rec["class"]), "seed": fi,
              "fclass": str(rec["class"]), "fvar": float(int(rec.get("variant", fi % 3))),
              "status": str(pr.get("status") or "existing").lower(),
-             "LOD": float(lod), "bandEvery": 1.0}
+             "LOD": float(tall_lod if (tall_h is not None and H[fi] >= tall_h) else lod), "bandEvery": 1.0}
         if H[fi] > 0:
             a["bHeight"] = float(H[fi])
         lv = str(pr.get("levels") or "").strip()
@@ -172,7 +172,7 @@ def build(slug, rpk, lod):
             "generate_s": round(took, 1), "per": per, "known_attrs": known}
 
 
-def export_glb(slug, rpk, lod, ver):
+def export_glb(slug, rpk, lod, ver, tall_h=None, tall_lod=3):
     """Full-precision GLB in the district's LOCAL frame, plus the origin that puts it back in the city.
 
     Writes data/ce/_glb/sky_<slug>_<ver>_0.glb (merged per building, the same shape the publish scripts
@@ -186,7 +186,7 @@ def export_glb(slug, rpk, lod, ver):
     import glob
     import pyprt
     from glb_merge_per_building import merge
-    shapes, attrs, idx, skipped, (oe, on) = prepare(slug, lod, name_style="class")
+    shapes, attrs, idx, skipped, (oe, on) = prepare(slug, lod, name_style="class", tall_h=tall_h, tall_lod=tall_lod)
     glb_dir = os.path.join(CEDIR, "_glb")
     raw_base = "sky_%s_%s_raw" % (slug, ver)
     for f in glob.glob(os.path.join(glb_dir, raw_base + "*")):
@@ -195,17 +195,31 @@ def export_glb(slug, rpk, lod, ver):
     pyprt.ModelGenerator(shapes).generate_model(
         attrs, rpk, "com.esri.prt.codecs.GLTFEncoder",
         {"outputPath": glb_dir, "baseName": raw_base, "meshGranularity": "AS_GENERATED", "outputFormat": "GLB"})
-    parts = sorted(glob.glob(os.path.join(glb_dir, raw_base + "_*.glb")))
-    if len(parts) != 1:
-        sys.exit("expected one raw GLB part, got %d: %s" % (len(parts), [os.path.basename(p) for p in parts]))
+    parts = sorted(glob.glob(os.path.join(glb_dir, raw_base + "_*.glb")), key=lambda p: (len(p), p))
+    if not parts:
+        sys.exit("the glTF encoder wrote nothing for %s" % slug)
     out = os.path.join(glb_dir, "sky_%s_%s_0.glb" % (slug, ver))
-    r = merge(parts[0], out)
-    os.remove(parts[0])
+    if len(parts) == 1:
+        r = merge(parts[0], out)
+    else:
+        # A large district can come out in several parts. Merge each on the proven single-part path, then
+        # concatenate - the same composition glb_merge_parts uses for CityEngine's split exports.
+        from glb_merge_parts import concat
+        tmp = []
+        tris = 0
+        for p in parts:
+            mp = p.replace(".glb", ".m.glb"); tris += merge(p, mp)["triangles"]; tmp.append(mp)   # not "t": that is the timer
+        r = concat(tmp, out); r["triangles"] = tris
+        for mp in tmp:
+            os.remove(mp)
+    for p in parts:
+        os.remove(p)
     origin = {"slug": slug, "ver": ver, "crs": "EPSG:32640",
               "origin_ce_xyz": [oe, 0.0, -on], "origin_utm_en": [oe, on],
               "contract": "CE-frame metres (x = easting, y = up, z = -northing) = vertex + origin_ce_xyz",
               "apply": "set as the object's position in float64; never add into the vertex buffer",
-              "rule": os.path.basename(rpk), "lod": lod, "buildings": r["buildings"], "triangles": r["triangles"],
+              "rule": os.path.basename(rpk), "lod": lod, "tall_h": tall_h, "tall_lod": tall_lod if tall_h is not None else None,
+              "raw_parts": len(parts), "buildings": r["buildings"], "triangles": r["triangles"],
               "built": time.strftime("%Y-%m-%dT%H:%M:%S"), "builder": "pyprt"}
     json.dump(origin, open(os.path.join(CEDIR, slug, "origin_%s.json" % ver), "w", encoding="utf-8"), indent=1)
     return out, origin, round(time.time() - t, 1)
@@ -242,7 +256,7 @@ def ce_reference(slug):
 def main():
     # Drop each flag AND its value. Filtering only the "--" tokens leaves "--ver v5" behind as a stray "v5",
     # the same bug that once made push_sky_gz publish a district called "v4".
-    valued = {"--rpk", "--lod", "--ver"}
+    valued = {"--rpk", "--lod", "--ver", "--tall-h", "--tall-lod"}
     args, skip = [], False
     for a in sys.argv[1:]:
         if skip:
@@ -266,7 +280,7 @@ def main():
         if ver in ("v3", "v4"):
             sys.exit("refusing --ver %s: that lane's files are the CityEngine builds; a PyPRT local-origin GLB "
                      "must not overwrite them" % ver)
-        out, origin, took = export_glb(slug, rpk, lod, ver)
+        out, origin, took = export_glb(slug, rpk, lod, ver, opt("--tall-h", None, float), opt("--tall-lod", 3, int))
         print("  %s  %d buildings, %d triangles, %.1f s" % (os.path.relpath(out, ROOT), origin["buildings"],
                                                             origin["triangles"], took))
         print("  origin_ce_xyz %s  (UTM E %.0f N %.0f)" % (origin["origin_ce_xyz"], *origin["origin_utm_en"]))

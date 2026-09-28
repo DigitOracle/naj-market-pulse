@@ -1,0 +1,13 @@
+{
+ "about": "The LOD configuration each district's LIVE v4 build used, recovered 28 Sep 2026 from the build log that wrote its current sky_<slug>_v4_0.glb. Any rebuild that means to reproduce the live product - in particular the v5 local-frame re-export - must use these, not a blanket LOD 3. Districts not listed here are uniform LOD 3. A two-tier district has an LOD 2 base, with buildings at or above tall_h at tall_lod.",
+ "why": "On 28 Sep a v5 rebuild of alkhairanfirst at uniform LOD 3 came out 6.1% off the live tile. The live tile was a two-tier build (LOD 2 base, >= 60 m at LOD 3) from lod2t60_alkhairanfirst.log, not the uniform LOD 3 build logged five hours earlier. A building-count gate passed it anyway: same buildings, different product.",
+ "districts": {
+  "alkhairanfirst":          {"lod": 2, "tall_h": 60, "tall_lod": 3, "source": "lod2t60_alkhairanfirst.log"},
+  "damachills":              {"lod": 2, "tall_h": 13, "tall_lod": 3, "source": "lod2t_damachills.log"},
+  "dubaimaritimecity":       {"lod": 2, "tall_h": 13, "tall_lod": 3, "source": "hreg_dubaimaritimecity.log"},
+  "motorcity":               {"lod": 2, "tall_h": 13, "tall_lod": 3, "source": "final_motorcity.log"},
+  "wadialsafa5":             {"lod": 2, "tall_h": 13, "tall_lod": 3, "source": "pass2_wadialsafa5.log"},
+  "jumeirahvillagetriangle": {"lod": 2, "tall_h": 13, "tall_lod": 3, "source": "rebuild_sep27_jvt.log (27 Sep two-tier rebuild)"},
+  "dubaiindustrialcity":     {"lod": 2, "source": "uniform LOD 2 - its live v4 build chose LOD 2"}
+ }
+}
