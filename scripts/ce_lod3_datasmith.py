@@ -454,10 +454,29 @@ def main():
                 st = line.strip()
                 if st and st[0].isdigit() and " : " in st and " OK " not in st: fails.append(st[:200])
         ds = parse_udatasmith(main_p) if os.path.exists(main_p) else {}
+        # The exporter overwrites mesh files but never clears the Assets folder, so a re-export leaves the old
+        # run's meshes beside the new ones - 28 Sep: businessbay held 704 .udsmesh for 655 shapes, 49 of them
+        # from 12 Sep. Nothing imports them (every importer goes through the manifest), but anything that counts
+        # or globs the folder would see an older massing. Prune ONLY after a clean export - every shape OK,
+        # none failed - and only files that are both older than this export and absent from its manifest.
+        # Pruning before writing would destroy the last good meshes if the export then failed.
+        pruned = 0
+        if "--keep-stale" not in sys.argv and os.path.isdir(assets) and os.path.exists(main_p) and failed == 0 and ok == total and ok:
+            man_txt = open(main_p, encoding="utf-8", errors="ignore").read()
+            for f in os.listdir(assets):
+                fp = os.path.join(assets, f)
+                if f.endswith(".udsmesh") and os.path.getmtime(fp) < t0 and os.path.splitext(f)[0] not in man_txt:
+                    try:
+                        os.remove(fp); pruned += 1
+                    except OSError as e:
+                        log(f"could not prune {f}: {e}")
+            if pruned:
+                log(f"pruned {pruned} stale .udsmesh from an earlier export (not in this manifest)")
         asz, an = dir_size(assets) if os.path.isdir(assets) else (0, 0)
         result.update(ok=os.path.exists(main_p), exporter="UnrealExportModelSettings", kind="datasmith", main=[f"{NAME}.udatasmith"],
                       udatasmith_bytes=os.path.getsize(main_p) if os.path.exists(main_p) else 0, assets_files=an, assets_bytes=asz,
                       export_s=round(te, 1), export_log={"ok": ok, "failed": failed, "total": total, "failures": fails[:40]},
+                      stale_meshes_pruned=pruned,
                       datasmith_xml=ds, offset_ce_xyz=offset,
                       note="CE frame: x=easting, y=up, z=-northing (metres); offset was ADDED to vertices, so UTM = exported - offset; "
                            "same offset as the flat export so both land on the same spot in Unreal",
