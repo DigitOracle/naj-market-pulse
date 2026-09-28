@@ -1478,24 +1478,6 @@ def journey10(pg, mark):
     def scope(r, pause=1500):
         glide_click(pg, pg.locator('#scw button[data-r="%s"]' % r), pause=pause)
 
-    def zoom_to(n, k, row_text, label):
-        """Click the named row so the map flies to it and its card opens, then wheel in to building level.
-
-        openAmenity() centres the map on the place (zoom >= 15) at the frame centre, 540,960; nine wheel ticks take
-        it to building level (three left the labels unreadable on a phone - Kendall, 28 Sep) and the cut adds a
-        push-in (ZOOM_PUNCH). Off camera afterwards: close the card, clear the layer, re-pick the district."""
-        with shot(mark, n, 6.5, label, punch=ZOOM_PUNCH):
-            glide_click(pg, pg.locator("#panel .nk", has_text=row_text).first, pause=1300)
-            _wheel(pg, 540, 960, -9, step=170, ms=160)
-            pg.wait_for_timeout(3600)
-        try:
-            pg.locator("#px").click(timeout=3000)
-        except Exception:
-            pass
-        amenity(pg, k, "ep08 %s off" % k)
-        pg.wait_for_timeout(500)
-        search_pick(pg, DISTRICT_10, pause=2600)
-
     scope("area", pause=600)                           # off camera: start every layer on "in Business Bay"
     with shot(mark, 1, 3.5, "Business Bay as a whole, nothing lit"):
         pg.wait_for_timeout(2600)
@@ -1525,22 +1507,30 @@ def journey10(pg, mark):
     scope("area", pause=900)
     with shot(mark, 9, 4.5, "hospitals pressed - 1 in Business Bay"):
         amenity(pg, "hospital", "ep08 hospital"); pg.wait_for_timeout(2200)
-    zoom_to(10, "hospital", "Emirates Hospital", "zoom: Emirates Hospital")
-    with shot(mark, 11, 5.5, "hospitals at 3 km - 4"):
-        scope("3", pause=700)
-        amenity(pg, "hospital", "ep08 hospital 3 km"); pg.wait_for_timeout(2600)
+    with shot(mark, 10, 6.5, "zoom: Emirates Hospital", punch=ZOOM_PUNCH):
+        glide_click(pg, pg.locator("#panel .nk", has_text="Emirates Hospital").first, pause=1300)
+        _wheel(pg, 540, 960, -9, step=170, ms=160)
+        pg.wait_for_timeout(3600)
+    # leave the hospital ON CAMERA (Kendall, 28 Sep): close its card and pull back out before the next count. No
+    # re-pick needed - a row click does not move the reference point, the header still reads "of the centre".
+    with shot(mark, 11, 4.0, "close the card, zoom back out"):
+        glide_click(pg, pg.locator("#px"), pause=700)
+        _wheel(pg, 540, 960, 11, step=170, ms=200)
+        pg.wait_for_timeout(1200)
+    with shot(mark, 12, 5.0, "hospitals at 3 km - 4"):
+        scope("3", pause=1800); pg.wait_for_timeout(1600)
     # the park - no park layer; a wider view toward Al Safa
     amenity(pg, "hospital", "ep08 hospital off"); pg.wait_for_timeout(900)   # off camera
-    with shot(mark, 12, 5.0, "wider view, no park layer"):
+    with shot(mark, 13, 5.0, "wider view, no park layer"):
         _wheel(pg, 300, 700, 2, step=170, ms=180)
         pg.wait_for_timeout(2200)
     # the Red Line: Business Bay has its own station
     search_pick(pg, DISTRICT_10, pause=2400)          # off camera: back to the district view
     scope("area", pause=600)
-    with shot(mark, 13, 4.5, "metro pressed - 1 in Business Bay"):
+    with shot(mark, 14, 4.5, "metro pressed - 1 in Business Bay"):
         amenity(pg, "metro", "ep08 metro"); pg.wait_for_timeout(2400)
     # the map draws station labels smaller than hospital labels, so the metro push goes further (2.5x)
-    with shot(mark, 14, 6.5, "zoom: Business Bay Metro Station", punch=(450, 960, 2.5)):
+    with shot(mark, 15, 6.5, "zoom: Business Bay Metro Station", punch=(450, 960, 2.5)):
         glide_click(pg, pg.locator("#panel .nk", has_text="Business Bay Metro").first, pause=1300)
         _wheel(pg, 540, 960, -9, step=170, ms=160)
         pg.wait_for_timeout(3600)
@@ -1548,15 +1538,21 @@ def journey10(pg, mark):
     try:
         pg.goto(rurl(), wait_until="networkidle", timeout=90_000)
         pg.evaluate(CURSOR_JS); pg.wait_for_timeout(2500)
-        with shot(mark, 15, 6.0, "who lives here: Business Bay, Europe expanded"):
+        with shot(mark, 16, 7.0, "who lives here: Business Bay, Europe expanded, map in on it"):
             india = pg.get_by_role("button", name="India", exact=True)
             if india.count() and india.get_attribute("aria-pressed") == "true":
                 glide_click(pg, india, pause=700)
             glide_click(pg, pg.get_by_role("button", name="United Kingdom", exact=True), pause=1400)
             # The residents page spells the row "Business Bay", mixed case - not the capitals DAMAC HILLS uses. Probed 28 Sep.
             glide_click_scrolled(pg, pg.get_by_text("Business Bay", exact=True).first, pause=2000)
-            glide_click_scrolled(pg, pg.locator("div.bar.reg", has_text="Europe").first, pause=1800)
-        with shot(mark, 16, 5.0, "Europe the largest group, UK among the four biggest", mode="hold"):
+            glide_click_scrolled(pg, pg.locator("div.bar.reg", has_text="Europe").first, pause=1200)
+            # and the map in on Business Bay itself (Kendall, 28 Sep): it sits outlined near the map's centre
+            _wheel(pg, 700, 960, -3, step=170, ms=220)
+            pg.wait_for_timeout(1400)
+        # the hold pushes in on the card (Business Bay, Europe 24%, United Kingdom 6%: x 14-325, y 164-520 when
+        # probed 28 Sep) so the figures Naj says read on a phone; the sign-off freeze keeps the push
+        with shot(mark, 17, 5.0, "Europe the largest group, UK among the four biggest", mode="hold",
+                  punch=(190, 440, 2.3)):
             pg.wait_for_timeout(4000)
     except Exception as e:
         print("   who-lives-here beat: %s" % str(e)[:90])

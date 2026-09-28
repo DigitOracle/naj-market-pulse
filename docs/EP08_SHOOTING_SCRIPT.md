@@ -32,7 +32,7 @@ the nationality."* v2 counts, and uses the map's **count within** filter to wide
   (~5 s). 1080x1920, 25 fps, no text, logos or voice. File: `data/media/ep08/teaser_businessbay_9x16.mp4`.
 
 **Screen capture:** `NAJMA_VIDEO=10 python scripts/demo_capture.py all` (harness journey 10 = episode 08).
-16 shots, 87.2 s cut, including a 9 s hold for the sign-off. Filmed with 12 GB free and the Unreal render not yet
+17 shots, 88.9 s cut, including a 9 s hold for the sign-off. Filmed with 12 GB free and the Unreal render not yet
 running.
 
 ---
@@ -72,7 +72,7 @@ Generated people are fictional; no real family is depicted.
 
 ---
 
-## 2 · THE WALKTHROUGH — approved narrative v2 over 16 shots
+## 2 · THE WALKTHROUGH — approved narrative v2 over 17 shots
 
 Map shots on `/map`, with Business Bay picked, then the residents page. The **count within** strip (`#scw`:
 community / 1 / 2 / 3 / 5 / 10 km) is set to "community" off camera before each layer, then stepped on camera.
@@ -94,12 +94,13 @@ ticks the labels could not be read on a phone.
 | 8 | filter → 1 km: *19* | "nineteen within a kilometre." |
 | 9 | **HOSPITALS**, community: *1* | "There's one hospital inside Business Bay," |
 | 10 | zoom: Emirates Hospital L.L.C, beside Sobha SkyParks on Sheikh Zayed Road | "Emirates Hospital," |
-| 11 | hospitals at 3 km: *4* | "and four within three kilometres." |
-| 12 | the map pulls back, no layer | "For the park, the nearest on the Municipality's own list is Al Safa Park, a short drive. Smaller green spaces aren't on any official list, so I won't promise one." |
-| 13 | **METRO**, community: *1* | "And for you, the Red Line." |
-| 14 | zoom: Business Bay Metro Station | "Business Bay has its own station, on the district's edge." |
-| 15 | residents page: UK chip on, Business Bay card, Europe expanded | "You won't be the only Brits. About a quarter of your neighbours are European," |
-| 16 | held on the card | "and the British are among the four biggest nationalities. So clinics and pharmacies are all around you. School and the park mean a drive." + sign-off |
+| 11 | the card closes and the map pulls back out, on camera (Kendall, 28 Sep) | |
+| 12 | filter → 3 km: *4* | "and four within three kilometres." |
+| 13 | the map pulls back further, no layer | "For the park, the nearest on the Municipality's own list is Al Safa Park, a short drive. Smaller green spaces aren't on any official list, so I won't promise one." |
+| 14 | **METRO**, community: *1* | "And for you, the Red Line." |
+| 15 | zoom: Business Bay Metro Station | "Business Bay has its own station, on the district's edge." |
+| 16 | residents page: UK chip on, Business Bay card, Europe expanded; the map zooms in on Business Bay's outline | "You won't be the only Brits. About a quarter of your neighbours are European," |
+| 17 | held, pushing in on the card (2.3x): Business Bay · Europe 24% · United Kingdom 6% | "and the British are among the four biggest nationalities. So clinics and pharmacies are all around you. School and the park mean a drive." + sign-off |
 
 **Sign-off:** "Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity."
 
