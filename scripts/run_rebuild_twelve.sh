@@ -11,8 +11,17 @@
 # ever running. The guard below is cheap and would have stopped that, and it does not depend on my
 # reading a process list correctly - it checks for its own marker and for the CE lock.
 set -u
+HERE_ARGS=("$@")
 cd "$(dirname "$0")/.." || exit 1
 mkdir -p logs
+
+# Districts come from the command line so a resumed run can name only what is left; with no arguments
+# it runs the original twelve. A run that dies partway is normal here - CityEngine can drop its py4j
+# bridge, and the session driving the script can end - so naming the remainder must be easy.
+DISTRICTS=("${HERE_ARGS[@]}")
+if [ ${#DISTRICTS[@]} -eq 0 ]; then
+  DISTRICTS=(samaaljadaf sobhaheartland businessbay dubaimarina palmjumeirah arjan              bukadra liwan1 siliconoasis madinatalmataar dubaihills althanyahfifth)
+fi
 
 MARK="logs/.rebuild_twelve.running"
 if [ -f "$MARK" ]; then
@@ -31,14 +40,12 @@ fi
 SUM="logs/rebuild_twelve.summary"
 say() { echo "$(date +%H:%M:%S)  $*" | tee -a "$SUM"; }
 
-say "=== twelve districts, one pipeline, pid $$"
+say "=== ${#DISTRICTS[@]} districts, one pipeline, pid $$: ${DISTRICTS[*]}"
 
 # The rollout sorts cheapest-first by storey count, so dubaihills and althanyahfifth land last on
 # their own. Each district: generate, four gates, then whichever publish route its measured gzipped
 # size picks - single tile under the 5 MB cap, per-building payloads over it.
-python -u scripts/najma_lod3_rollout.py \
-    samaaljadaf sobhaheartland businessbay dubaimarina palmjumeirah arjan \
-    bukadra liwan1 siliconoasis madinatalmataar dubaihills althanyahfifth \
+python -u scripts/najma_lod3_rollout.py "${DISTRICTS[@]}" \
   2>&1 | tee -a logs/rebuild_twelve.log \
   | grep --line-buffered -E "^=== \[|GATE [0-9]|HERO |TILE |REJECTED|FAILED|IN THE TILE|PER-BUILDING|generate FAILED|REFUSING" \
   | tee -a "$SUM"
@@ -46,8 +53,7 @@ python -u scripts/najma_lod3_rollout.py \
 # Multi-key tiles for whatever now needs them, then the only check that matters: does the published
 # district hold as many buildings as its geojson says it should.
 say "--- multi-key tile refresh"
-for d in samaaljadaf sobhaheartland businessbay dubaimarina palmjumeirah arjan \
-         bukadra liwan1 siliconoasis madinatalmataar dubaihills althanyahfifth; do
+for d in "${DISTRICTS[@]}"; do
   python -u scripts/glb_tile_parts.py "$d" --ver v4 2>&1 | tail -1
   if [ -f "data/ce/_glb/parts/$d/manifest.json" ]; then
     python -u scripts/push_tile_parts.py "$d" 2>&1 | tail -1
