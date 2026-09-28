@@ -24,13 +24,22 @@ if [ ${#DISTRICTS[@]} -eq 0 ]; then
 fi
 
 MARK="logs/.rebuild_twelve.running"
+# The marker holds the WINDOWS pid, not bash's $$. On 28 Sep the marker held an MSYS pid, tasklist could
+# not see it, I concluded its owner was dead and deleted it - and the owner was alive, republishing tiles.
+# Stopping a background task here kills the wrapper but can leave this script running underneath, so
+# "I stopped it" is not evidence that it stopped. Ask Windows instead.
+WINPID=$(cat /proc/$$/winpid 2>/dev/null || echo $$)
 if [ -f "$MARK" ]; then
-  echo "REFUSING to start: $MARK exists, written by pid $(cat "$MARK" 2>/dev/null)."
-  echo "Another run of this script is already going, or one died without clearing it."
-  echo "If you are certain nothing is running, delete the file and try again."
-  exit 1
+  OLD=$(awk '{print $1}' "$MARK" 2>/dev/null)
+  if [ -n "$OLD" ] && tasklist //FI "PID eq $OLD" 2>/dev/null | grep -q " $OLD "; then
+    echo "REFUSING to start: $MARK belongs to Windows pid $OLD, which is still running."
+    echo "Wait for it, or end that process deliberately - do not delete the marker to get past this."
+    exit 1
+  fi
+  echo "note: stale marker from Windows pid $OLD, which is no longer running - clearing it"
+  rm -f "$MARK"
 fi
-echo "$$ $(date -Iseconds)" > "$MARK"
+echo "$WINPID $(date -Iseconds)" > "$MARK"
 trap 'rm -f "$MARK"' EXIT INT TERM
 
 if [ -f data/ce/.ce_lock ]; then
