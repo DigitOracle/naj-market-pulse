@@ -264,14 +264,17 @@ SHOT_PLAN = {}
 
 
 @contextlib.contextmanager
-def shot(mark, n, target=None, label="", mode="speed"):
+def shot(mark, n, target=None, label="", mode="speed", punch=None):
     """Record one numbered shot. Everything outside a shot is discarded by cut().
 
     mode="speed"  a camera move: if it recorded long (the 3D always does), play it back faster to fit `target`.
     mode="hold"   a card or a held frame: never speed it up - take the LAST `target` seconds, so the film lands on
                   the settled state rather than racing through it.
+    punch=(cx, cy, z)  a camera push-in added at the cut: the frame eases from 1x to z around (cx, cy) in frame
+                  pixels, over the middle of the shot. For a phone: the map's label text stays ~12 px at every
+                  map zoom, too small to read on a handset, so the camera has to go in as well (Kendall, 28 Sep).
     """
-    SHOT_PLAN[str(n)] = {"target": target, "label": label, "mode": mode}
+    SHOT_PLAN[str(n)] = {"target": target, "label": label, "mode": mode, "punch": punch}
     mark("s%02d_in" % n)
     try:
         yield
@@ -1451,33 +1454,40 @@ def _pick_floor(pg, n):
 
 
 def journey10(pg, mark):
-    """EPISODE 08 - a UK family's day in Business Bay. Narrative approved by Kendall 28 Sep before filming.
+    """EPISODE 08 v2 - a UK family and Business Bay AS A WHOLE. Narrative v2 approved by Kendall 28 Sep.
 
-    Beats, in the approved order: the school run (no school inside Business Bay; Horizons English School, Outstanding,
-    2.4 km), a sick day (clinic 264 m, pharmacy 418 m, both exact), the hospital (Emirates Hospital 1.6 km), the park
-    (NO park layer lit - its rows are OpenStreetMap and unconfirmed; Naj names Al Safa Park, the nearest on the
-    Municipality's own list, ~2 km, over a wider view), the Red Line (Business Bay station 1.5 km), then who lives here
-    on the residents page (Europe the largest group; the UK among the four biggest nationalities).
-    Distances are straight-line from the centre of Business Bay, as the panel header says.
+    v1 quoted distances from the district centre to single places; Kendall: "we were talking about Business Bay on
+    a whole ... we shouldn't be saying kilometres ... just say how many". So each layer is pressed and the "count
+    within" filter (#scw: community / 1 / 2 / 3 / 5 / 10 km) is stepped out from the centre, and the counts climb
+    on camera. Only the two places Naj names get a zoom - Emirates Hospital and Business Bay station - and the zoom
+    goes to building level with a push-in at the cut so the labels read on a phone.
+
+    Counts read off the live map 28 Sep (community / 1 km / 3 km): schools 0/0/16, clinics 61/27/124,
+    pharmacies 26/19/78, hospitals 1/0/4, metro 1/0/2. School positions are KHDA 2-dp (bank blocker
+    khda_school_positions_rounded), so "sixteen within three kilometres" is soft at the edge. NO park layer.
     """
     pg.goto(url("/map"), wait_until="networkidle", timeout=90_000)
     pg.evaluate(CURSOR_JS)
     pg.wait_for_timeout(900)
     mark("open")
     search_pick(pg, DISTRICT_10)
+    # the place lands at the map centre (540, 960); the card covers x >= ~700, so push in on a point left of the
+    # pin: at 1.9x the pin sits right of centre and the card's edge stays out of frame
+    ZOOM_PUNCH = (420, 960, 1.9)
+
+    def scope(r, pause=1500):
+        glide_click(pg, pg.locator('#scw button[data-r="%s"]' % r), pause=pause)
 
     def zoom_to(n, k, row_text, label):
-        """Click the nearest row so the map flies to it and its card opens, then wheel in on it.
+        """Click the named row so the map flies to it and its card opens, then wheel in to building level.
 
-        openAmenity() centres the map on the place (zoom >= 15) - it lands at the frame centre, 540,960 - and the
-        three wheel ticks take it to street level. Distances in later lists stay measured from the centre of
-        Business Bay: the panel header still says so after a row click (probed 28 Sep)."""
-        with shot(mark, n, 5.0, label):
-            row = pg.locator("#panel .nk", has_text=row_text).first
-            glide_click(pg, row, pause=1300)
-            _wheel(pg, 540, 960, -3, step=170, ms=220)
-            pg.wait_for_timeout(2600)
-        # off camera (cut() drops everything between shots): close the card, clear the layer, back to the district
+        openAmenity() centres the map on the place (zoom >= 15) at the frame centre, 540,960; nine wheel ticks take
+        it to building level (three left the labels unreadable on a phone - Kendall, 28 Sep) and the cut adds a
+        push-in (ZOOM_PUNCH). Off camera afterwards: close the card, clear the layer, re-pick the district."""
+        with shot(mark, n, 6.5, label, punch=ZOOM_PUNCH):
+            glide_click(pg, pg.locator("#panel .nk", has_text=row_text).first, pause=1300)
+            _wheel(pg, 540, 960, -9, step=170, ms=160)
+            pg.wait_for_timeout(3600)
         try:
             pg.locator("#px").click(timeout=3000)
         except Exception:
@@ -1486,52 +1496,59 @@ def journey10(pg, mark):
         pg.wait_for_timeout(500)
         search_pick(pg, DISTRICT_10, pause=2600)
 
-    with shot(mark, 1, 3.5, "Business Bay, nothing lit"):
+    scope("area", pause=600)                           # off camera: start every layer on "in Business Bay"
+    with shot(mark, 1, 3.5, "Business Bay as a whole, nothing lit"):
         pg.wait_for_timeout(2600)
-    # the school run. NO row zoom here: Horizons English School's position is rounded to 2 dp and shared with the
-    # Japanese School, JSS, Harrow and DBS Mira (55.25, 25.19) - a zoom lands its ring on a pin labelled "Japanese
-    # School". 219 of 286 schools carry 2-dp positions. Hold the list until precise positions are sourced.
-    with shot(mark, 2, 4.5, "schools pressed - none inside"):
-        amenity(pg, "school", "ep08 school")
-        pg.wait_for_timeout(2400)
-    with shot(mark, 3, 5.0, "Horizons English School, Outstanding, UK", mode="hold"):
+    # schools: none inside, sixteen within 3 km
+    with shot(mark, 2, 5.0, "schools pressed - 0 in Business Bay"):
+        amenity(pg, "school", "ep08 school"); pg.wait_for_timeout(2600)
+    with shot(mark, 3, 5.5, "widen to 3 km - 16"):
+        scope("3", pause=1800); pg.wait_for_timeout(1800)
+    with shot(mark, 4, 4.5, "Horizons English School in the list", mode="hold"):
         pg.wait_for_timeout(4200)
-    # a sick day
-    with shot(mark, 4, 4.5, "clinics pressed"):
-        amenity(pg, "school", "ep08 school off"); pg.wait_for_timeout(700)
-        amenity(pg, "clinic", "ep08 clinic"); pg.wait_for_timeout(2200)
-    with shot(mark, 5, 3.0, "nearest clinic 264 m", mode="hold"):
-        pg.wait_for_timeout(2600)
-    zoom_to(6, "clinic", "COVENT CLINIC", "zoom: Covent Clinic")
-    with shot(mark, 7, 4.5, "pharmacies pressed"):
+    # clinics: 61 inside, 27 within 1 km
+    amenity(pg, "school", "ep08 school off"); pg.wait_for_timeout(500)   # off camera
+    scope("area", pause=900)
+    with shot(mark, 5, 5.0, "clinics pressed - 61 in Business Bay"):
+        amenity(pg, "clinic", "ep08 clinic"); pg.wait_for_timeout(2400)
+    with shot(mark, 6, 4.5, "narrow to 1 km - 27"):
+        scope("1", pause=1800); pg.wait_for_timeout(1600)
+    # pharmacies: 26 inside, 19 within 1 km
+    amenity(pg, "clinic", "ep08 clinic off"); pg.wait_for_timeout(500)   # off camera
+    scope("area", pause=900)
+    with shot(mark, 7, 4.5, "pharmacies pressed - 26 in Business Bay"):
         amenity(pg, "pharmacy", "ep08 pharmacy"); pg.wait_for_timeout(2200)
-    with shot(mark, 8, 3.0, "nearest pharmacy 418 m", mode="hold"):
-        pg.wait_for_timeout(2600)
-    zoom_to(9, "pharmacy", "Shefaa Al Madeena", "zoom: Shefaa Al Madeena")
-    # the hospital
-    with shot(mark, 10, 4.5, "hospitals pressed"):
+    with shot(mark, 8, 4.0, "narrow to 1 km - 19"):
+        scope("1", pause=1800); pg.wait_for_timeout(1400)
+    # hospitals: one inside - Emirates Hospital, zoomed - then four within 3 km
+    amenity(pg, "pharmacy", "ep08 pharmacy off"); pg.wait_for_timeout(500)   # off camera
+    scope("area", pause=900)
+    with shot(mark, 9, 4.5, "hospitals pressed - 1 in Business Bay"):
         amenity(pg, "hospital", "ep08 hospital"); pg.wait_for_timeout(2200)
-    with shot(mark, 11, 3.0, "Emirates Hospital 1.6 km", mode="hold"):
-        pg.wait_for_timeout(2600)
-    zoom_to(12, "hospital", "Emirates Hospital", "zoom: Emirates Hospital")
+    zoom_to(10, "hospital", "Emirates Hospital", "zoom: Emirates Hospital")
+    with shot(mark, 11, 5.5, "hospitals at 3 km - 4"):
+        scope("3", pause=700)
+        amenity(pg, "hospital", "ep08 hospital 3 km"); pg.wait_for_timeout(2600)
     # the park - no park layer; a wider view toward Al Safa
-    with shot(mark, 13, 5.0, "wider view, no park layer"):
+    amenity(pg, "hospital", "ep08 hospital off"); pg.wait_for_timeout(900)   # off camera
+    with shot(mark, 12, 5.0, "wider view, no park layer"):
         _wheel(pg, 300, 700, 2, step=170, ms=180)
         pg.wait_for_timeout(2200)
-    # the Red Line
-    with shot(mark, 14, 4.5, "metro pressed"):
+    # the Red Line: Business Bay has its own station
+    search_pick(pg, DISTRICT_10, pause=2400)          # off camera: back to the district view
+    scope("area", pause=600)
+    with shot(mark, 13, 4.5, "metro pressed - 1 in Business Bay"):
         amenity(pg, "metro", "ep08 metro"); pg.wait_for_timeout(2400)
-    with shot(mark, 15, 3.0, "Business Bay station 1.5 km", mode="hold"):
-        pg.wait_for_timeout(2600)
-    with shot(mark, 16, 5.0, "zoom: Business Bay Metro Station"):
+    # the map draws station labels smaller than hospital labels, so the metro push goes further (2.5x)
+    with shot(mark, 14, 6.5, "zoom: Business Bay Metro Station", punch=(450, 960, 2.5)):
         glide_click(pg, pg.locator("#panel .nk", has_text="Business Bay Metro").first, pause=1300)
-        _wheel(pg, 540, 960, -3, step=170, ms=220)
-        pg.wait_for_timeout(2600)
+        _wheel(pg, 540, 960, -9, step=170, ms=160)
+        pg.wait_for_timeout(3600)
     # who lives here
     try:
         pg.goto(rurl(), wait_until="networkidle", timeout=90_000)
         pg.evaluate(CURSOR_JS); pg.wait_for_timeout(2500)
-        with shot(mark, 17, 6.0, "who lives here: Business Bay, Europe expanded"):
+        with shot(mark, 15, 6.0, "who lives here: Business Bay, Europe expanded"):
             india = pg.get_by_role("button", name="India", exact=True)
             if india.count() and india.get_attribute("aria-pressed") == "true":
                 glide_click(pg, india, pause=700)
@@ -1539,7 +1556,7 @@ def journey10(pg, mark):
             # The residents page spells the row "Business Bay", mixed case - not the capitals DAMAC HILLS uses. Probed 28 Sep.
             glide_click_scrolled(pg, pg.get_by_text("Business Bay", exact=True).first, pause=2000)
             glide_click_scrolled(pg, pg.locator("div.bar.reg", has_text="Europe").first, pause=1800)
-        with shot(mark, 18, 5.0, "Europe the largest group, UK among the four biggest", mode="hold"):
+        with shot(mark, 16, 5.0, "Europe the largest group, UK among the four biggest", mode="hold"):
             pg.wait_for_timeout(4000)
     except Exception as e:
         print("   who-lives-here beat: %s" % str(e)[:90])
@@ -1706,6 +1723,20 @@ OUTNAME = {2: "demo02_damachills_screen.mp4", 3: "demo03_compare_versus_screen.m
            8: "demo07_habtoor_screen.mp4"}.get(VIDEO, "demo01_businessbay_screen.mp4")
 
 
+def punch_vf(punch, secs):
+    """zoompan filter: hold 1x for the first 30%, ease (smoothstep) to z by 75%, hold there to the end.
+
+    The frame is upscaled 2x first so zoompan's integer x/y rounding moves in half-pixel steps - at 1x the
+    push visibly shimmies. x/y are clamped so the crop never leaves the frame."""
+    cx, cy, z = punch
+    n = max(1, int(round(secs * FPS)))
+    e = "(st(0,clip((on/%d-0.30)/0.45,0,1))*ld(0)*ld(0)*(3-2*ld(0)))" % n
+    zexpr = "1+%.3f*%s" % (z - 1, e)
+    return ("scale=%d:%d:flags=lanczos,zoompan=z='%s':x='clip(%d-iw/zoom/2,0,iw-iw/zoom)':"
+            "y='clip(%d-ih/zoom/2,0,ih-ih/zoom)':d=1:s=%dx%d:fps=%d"
+            % (W * 2, H * 2, zexpr, cx * 2, cy * 2, W, H, FPS))
+
+
 def cut():
     j = os.path.join(RAW, "journey.webm")
     fly = os.path.join(RAW, "flythrough.mp4")
@@ -1732,8 +1763,11 @@ def cut():
             if hold and target and dur > target:
                 start, take = b - target, target                 # the settled tail, not the scramble into it
             p = os.path.join(RAW, "_s%02d.mp4" % n)
-            ff("-ss", str(start), "-t", str(take), "-i", j, *enc2, "-vf", ("setpts=PTS/%.4f," % factor) + vf, p)
             out_s = take if hold else (target if factor > 1.0 else dur)
+            shot_vf = ("setpts=PTS/%.4f," % factor) + vf
+            if spec.get("punch"):
+                shot_vf += "," + punch_vf(spec["punch"], out_s)
+            ff("-ss", str(start), "-t", str(take), "-i", j, *enc2, "-vf", shot_vf, p)
             parts.append(p); total += out_s
             print("   shot %02d %-24s %5.1fs -> %4.1fs  %s" % (n, (spec.get("label") or "")[:24], dur, out_s,
                   "hold" if hold else ("" if factor == 1.0 else "%.1fx" % factor)))
