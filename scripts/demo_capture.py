@@ -123,6 +123,15 @@ elif VIDEO == 8:
     FLOOR_8 = 86                    # the register puts ONE five-bedroom up here, and the card reads "Floor 86 - 4 homes"
     BUDGET_HI = 14
     APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
+elif VIDEO == 10:
+    # EPISODE 08 - "Can I walk to a pharmacy, a clinic and a good school?" Business Bay, the everyday-life question.
+    # Kendall picked it on 28 Sep. Read off the live map before a line was written: pharmacies 78 within 3 km (nearest
+    # Shefaa Al Madeena 418 m, exact), clinics 124 (nearest Covent Clinic 264 m), schools 16 within 3 km and NONE inside
+    # Business Bay - the nearest are 2.0 km. So the honest answer is two out of three, and the film says so.
+    # MAP ONLY (bible 14.3): the building page's LOCATION axis does not share a frame with the map layer.
+    DISTRICT_10 = os.environ.get("NAJMA_DISTRICT", "Business Bay")
+    APP = os.environ.get("AZIMUTH_URL", "https://azimuth-2.digitalchemy.workers.dev")
+    BUDGET_HI = 14
 elif VIDEO == 9:
     # THE PHARMACY BEAT - Kendall, 24 Sep: "now film the pharmacy beat".
     #
@@ -1441,6 +1450,41 @@ def _pick_floor(pg, n):
     print("   floor %d ->" % n, re.sub(r"\s+", " ", (pg.locator("#card").inner_text() or ""))[:110])
 
 
+def journey10(pg, mark):
+    """EPISODE 08 - pharmacy, clinic, school: three layers pressed in frame, each list held, one district.
+
+    Distances on screen are from the centre of Business Bay, and the panel header says so; the narration must too.
+    A distance prefixed with the approx sign is a DHA position rounded to ~555 m - never read it out as exact.
+    """
+    pg.goto(url("/map"), wait_until="networkidle", timeout=90_000)
+    pg.evaluate(CURSOR_JS)
+    pg.wait_for_timeout(900)
+    mark("open")
+    search_pick(pg, DISTRICT_10)
+    with shot(mark, 1, 3.5, "Business Bay, nothing lit"):
+        pg.wait_for_timeout(2600)
+    with shot(mark, 2, 4.5, "pharmacies pressed"):
+        amenity(pg, "pharmacy", "ep08 pharmacy")
+        pg.wait_for_timeout(2400)
+    with shot(mark, 3, 4.0, "nearest pharmacy, 418 m", mode="hold"):
+        pg.wait_for_timeout(3200)
+    with shot(mark, 4, 4.5, "clinics pressed"):
+        amenity(pg, "pharmacy", "ep08 pharmacy off")
+        pg.wait_for_timeout(700)
+        amenity(pg, "clinic", "ep08 clinic")
+        pg.wait_for_timeout(2200)
+    with shot(mark, 5, 4.0, "nearest clinic, 264 m", mode="hold"):
+        pg.wait_for_timeout(3200)
+    with shot(mark, 6, 4.5, "schools pressed"):
+        amenity(pg, "clinic", "ep08 clinic off")
+        pg.wait_for_timeout(700)
+        amenity(pg, "school", "ep08 school")
+        pg.wait_for_timeout(2200)
+    with shot(mark, 7, 5.0, "schools: none inside, nearest 2 km, rated", mode="hold"):
+        pg.wait_for_timeout(4000)
+    mark("end")
+
+
 def journey9(pg, mark):
     """THE PHARMACY BEAT - one question, answered on one surface, in four shots.
 
@@ -1517,7 +1561,7 @@ def capture(headed, slow):
 
         print("recording the journey:")
         try:
-            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7, 8: journey8, 9: journey9}.get(VIDEO, journey)(pg, mark)
+            {2: journey2, 3: journey3, 4: journey4, 5: journey5, 6: journey6, 7: journey7, 8: journey8, 9: journey9, 10: journey10}.get(VIDEO, journey)(pg, mark)
         finally:
             ctx.close()                       # the video is only written on close
             src = pg.video.path()
@@ -1543,7 +1587,7 @@ def ff(*args):
 # VIDEO 8 has no SHEET_PDF on purpose: its dossier is SCROLLED inside the journey (shots 12-17) rather than
 # appended page by page, because a flip reads as a slideshow and this document is the thing the client keeps.
 SHEET_PDF = (os.path.join(ROOT, "dist_dossier", "businessbay_73.pdf") if VIDEO == 7 else
-             None) if VIDEO in (3, 4, 5, 6, 7, 8, 9) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
+             None) if VIDEO in (3, 4, 5, 6, 7, 8, 9, 10) else os.path.join(ROOT, "data", "sheets", "damac_hills_loreto.pdf" if VIDEO == 2 else "peninsula_one.pdf")
 PAPER = "0x0E1310"          # the app's near-black, so the document sits on the film rather than in a window
 
 
