@@ -87,7 +87,7 @@ small children. Can you give me an overview of the district?"
 A cinematic vertical 9:16 shot, ten seconds, of the parent from reference 1, exactly as in
 the reference - same face, hair, build and clothing - sitting on a pale
 linen sofa in a bright, newly rented Dubai apartment, mid-move: two sealed cardboard boxes on
-a pale wooden floor behind her, a large window with soft, out-of-focus towers beyond, warm
+a pale wooden floor behind them, a large window with soft, out-of-focus towers beyond, warm
 late-afternoon light from the side. Calm, lived-in, real. Not a showroom.
 
 The two children from reference 2 are with the parent: the girl sits close alongside,
@@ -96,7 +96,7 @@ They are calm and quiet throughout. They look at the parent or at the toy, never
 lens. They NEVER speak.
 
 0-0.5 s: silent. The parent is already settled, looking just off the lens to camera left, as if
-at a friend sitting opposite her.
+at a friend sitting opposite.
 0.5-9.5 s: the parent speaks, warmly, with a natural British accent, in two easy breaths, to that
 friend just off camera: "Naj, you've been here fourteen years. I'm thinking of moving to
 Business Bay with my two small children. Can you give me an overview of the district?"
