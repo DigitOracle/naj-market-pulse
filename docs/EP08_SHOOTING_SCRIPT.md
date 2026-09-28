@@ -13,19 +13,28 @@ Every figure was read off the live map before the narrative went to Kendall, and
 ## 0 · HOW THE FILM IS ASSEMBLED
 
 ```
-[ OPENER 10 s ]  ->  [ CLIENT'S QUESTION ~11 s ]  ->  [ EPISODE ~70 s ]      ~1:31 all-in
-  fixed               HeyGen Cinematic, new face      live map + residents page, Naj composited by HeyGen
+[ SEEDANCE OPENER 10 s ] -> [ FLY-THROUGH 20 s ] -> [ CLIENT'S QUESTION ~11 s ] -> [ EPISODE ~70-85 s ]  ~2:00 all-in
+  fixed: gold N, Naj        Sobha's Unreal          HeyGen Cinematic,            live map + residents page,
+  walks in (bible 9.3)      Business Bay, no text   new face                     Naj composited by HeyGen
 ```
 
+**Order set by Kendall, 28 Sep:** the Seedance opener first, then the fly-through, then this episode. The opener is
+the fixed master `assets/brand/najma_opener_9x16.mp4` (10.05 s, 720x1280, 24 fps): used unchanged, scaled to
+1080x1920 at assembly. The opener still comes first, as the bible requires; the fly-through is the new second slot.
+
+**The fly-through** (via the Sobha session): 20 s of the Unreal Business Bay fly-through. A high establishing orbit
+(~7 s), a descent to the canal and towers with trees, cars and boats (~8 s), then a steady closing frame (~5 s) on the
+Marasi Drive canal side. 1080x1920, 25 fps, no text, logos or voice. File: `data/media/ep08/teaser_businessbay_9x16.mp4`.
+
 **Screen capture:** `NAJMA_VIDEO=10 python scripts/demo_capture.py all` (harness journey 10 = episode 08).
-14 shots, 67.4 s cut including a 9 s hold for the sign-off. Raw take 92.3 s at a steady 25 fps with no frame gaps.
+18 shots, 84.5 s cut including a 9 s hold for the sign-off (re-shot 28 Sep with the zoom beats).
 HeyGen fits the background to the narration.
 
 **Filmed in a window arranged with every running session** (Rings, DDA, the LOD 3 CityEngine bridge, the Unreal
 L_Dubai rebuild, Sobha). Free RAM fell to 0.6 GB during the take while Unreal imported; the frame timing was checked
 afterwards and held. Check with those sessions before any re-shoot.
 
-**Research only** (Kendall, 28 Sep): not for publication, so no on-screen AI disclosure. Reopen template §0.1 if a
+**Research only, internal only** (Kendall, 28 Sep): not for social media or publication, so no on-screen AI disclosure. Reopen template §0.1 if a
 cut is ever published.
 
 **No 3D beat.** The approved narrative has none. If Kendall wants B-roll, the natural slot is the hospital line: an
@@ -90,11 +99,16 @@ word for word before using it.**
 
 ---
 
-## 2 · THE WALKTHROUGH — approved narrative over 14 shots
+## 2 · THE WALKTHROUGH — approved narrative over 18 shots
 
 Map shots on `/map` with Business Bay picked; shots 13–14 on the residents page. **Map only** for amenities: the
 building page's LOCATION axis never shares a frame with the map layer (bible 14.3). **The park layer is never lit**:
 its rows are OpenStreetMap, unconfirmed by any official source.
+
+**Every list gets a zoom** (Kendall, 28 Sep): the nearest row is clicked, the map flies to it, the card opens, and the
+map wheels in to street level. Distances in the next list stay measured from the centre of Business Bay (probed: a
+row click does not move the reference point). Between beats, off camera, the card is closed, the layer cleared and
+Business Bay re-picked. **Schools are the exception**, see the correction below.
 
 | # | on screen | NAJ says |
 |---|---|---|
@@ -103,19 +117,39 @@ its rows are OpenStreetMap, unconfirmed by any official source.
 | 3 | held: the list, *Horizons English School · Outstanding · UK · 2.4 km* | "The best-rated British one nearby is Horizons English School, rated Outstanding, about two and a half kilometres away. A drive. Harrow is as close, but not yet inspected." |
 | 4 | **CLINICS** pressed | "If one of them wakes up with a temperature: a clinic under three hundred metres away," |
 | 5 | held: *Covent Clinic · 264 m* | |
-| 6 | **PHARMACIES** pressed | "a pharmacy about four hundred." |
-| 7 | held: *Shefaa Al Madeena · 418 m* | "Both walkable." |
-| 8 | **HOSPITALS** pressed | "The nearest hospital, Emirates Hospital, is about a kilometre and a half." |
-| 9 | held: *Emirates Hospital · 1.6 km* | "A short drive." |
-| 10 | layers off, the map pulls back to a wider view | "After school, the park. The nearest one on the Municipality's own list is Al Safa Park, about two kilometres away. Smaller green spaces closer aren't on any official list, so I won't promise one." |
-| 11 | **METRO** pressed | "And for you, the Red Line." |
-| 12 | held: *Business Bay Metro Station · Red line · 1.5 km* | "Business Bay station is about a kilometre and a half, around twenty minutes on foot." |
-| 13 | residents page: UK chip on, Business Bay card, Europe expanded | "You won't be the only Brits. About a quarter of your neighbours are European," |
-| 14 | held on the card | "and the British are among the four biggest nationalities. So the clinic and the pharmacy, you walk to. School, the hospital and the park, you drive." + sign-off |
+| 6 | row clicked: the map flies to Westburry Tower 1, Marasi Drive; card open | |
+| 7 | **PHARMACIES** pressed | "a pharmacy about four hundred." |
+| 8 | held: *Shefaa Al Madeena · 418 m* | "Both walkable." |
+| 9 | row clicked: zoom to U-Bora Tower 4, Marasi Drive; card open | |
+| 10 | **HOSPITALS** pressed | "The nearest hospital, Emirates Hospital, is about a kilometre and a half." |
+| 11 | held: *Emirates Hospital · 1.6 km* | "A short drive." |
+| 12 | row clicked: zoom to Emirates Hospital, Jumeirah; card open | |
+| 13 | the map pulls back to a wider view, no layer | "After school, the park. The nearest one on the Municipality's own list is Al Safa Park, about two kilometres away. Smaller green spaces closer aren't on any official list, so I won't promise one." |
+| 14 | **METRO** pressed | "And for you, the Red Line." |
+| 15 | held: *Business Bay Metro Station · Red line · 1.5 km* | "Business Bay station is about a kilometre and a half," |
+| 16 | row clicked: zoom to the station; card open | "around twenty minutes on foot." |
+| 17 | residents page: UK chip on, Business Bay card, Europe expanded | "You won't be the only Brits. About a quarter of your neighbours are European," |
+| 18 | held on the card | "and the British are among the four biggest nationalities. So the clinic and the pharmacy, you walk to. School, the hospital and the park, you drive." + sign-off |
 
 **Sign-off:** "Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity."
 
-Naj: about 194 words, ~70 s.
+Naj: about 194 words, ~70 s, over an 84.5 s background. The zoom shots add no words, so either HeyGen's fit or a
+trim of the holds closes the gap.
+
+### CORRECTION NEEDED — the school line (found 28 Sep, after approval; needs Kendall's OK)
+
+Zooming on Horizons put its ring on a pin labelled **"Japanese School"**. The KHDA register gives school positions to 2
+decimal places, and Horizons, Harrow, the Japanese School, JSS and DBS Mira all share one point (55.25, 25.19). The DDA
+session confirmed nothing official is finer. **Harrow's own KHDA address is in Al Barsha Second**, far from that point,
+so *"Harrow is as close"* is false. Horizons' KHDA area is Al Wasl, so "a couple of kilometres, a drive" still holds, but
+2.4 km is not exact. Bank blocker: `khda_school_positions_rounded`.
+
+Proposed replacement for shot 3 (drops the Harrow sentence, softens the distance):
+
+> "The best-rated British one nearby is Horizons English School, in Al Wasl, rated Outstanding. A couple of
+> kilometres. A drive."
+
+Shot 3 stays a hold on the list with no zoom. The take already filmed works with either wording.
 
 ---
 
@@ -127,8 +161,8 @@ Read from the live `azimuth-2` map on 28 Sep 2026, Business Bay picked, straight
 | said | on screen | source |
 |---|---|---|
 | no school inside Business Bay | SCHOOLS chip "16 · 0 in community" | KHDA + ESE registers |
-| Horizons English School, Outstanding, ~2.5 km | 2.4 km, Outstanding · UK | KHDA inspection rating |
-| Harrow as close, not yet inspected | Harrow International School 2.4 km, not yet inspected · UK | KHDA |
+| Horizons English School, Outstanding, a couple of km (proposed) | 2.4 km, Outstanding · UK, position rounded to 2 dp | KHDA inspection rating; area Al Wasl |
+| ~~Harrow as close~~ (FALSE, cut) | Harrow's pin sits at the shared rounded point; its address is Al Barsha Second | KHDA school_search |
 | clinic under 300 m | Covent Clinic 264 m (no ≈) | DHA facility register, exact position |
 | pharmacy ~400 m | Shefaa Al Madeena 418 m (no ≈) | DHA, exact position |
 | Emirates Hospital ~1.5 km | 1.6 km, General Hospital | DHA facility register |
@@ -152,7 +186,7 @@ Read from the live `azimuth-2` map on 28 Sep 2026, Business Bay picked, straight
 
 1. Generate the client question (section 1); check the words.
 2. Generate Naj over `data/demo/demo01_businessbay_screen.mp4` with the section 2 narration.
-3. Assemble opener → question → episode, hard cuts.
+3. Assemble Seedance opener → fly-through → question → episode, hard cuts; scale the 720x1280 opener to 1080x1920 and resample everything to 25 fps.
 4. Burn captions in the low centred band beneath Naj; fix at word level before grouping: "Horizons", "Harrow",
    "Covent", "Shefaa", "Al Safa", "Business Bay", every number.
 5. File to `Visualization_Engine\` and `Downloads\` (the `Downloads\31DigitAlchemy\Azimuth\` mirror no longer exists).
