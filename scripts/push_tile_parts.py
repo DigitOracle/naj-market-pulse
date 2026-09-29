@@ -16,6 +16,10 @@ failure took three districts' payloads on 23 Sep while the generate was perfectl
 
   python scripts/push_tile_parts.py althanyahfifth
   python scripts/push_tile_parts.py althanyahfifth --dry-run
+  python scripts/push_tile_parts.py althanyahfifth --ver v5     local-frame lane (Rings' names, 28 Sep):
+        sky_<slug>_v5_p<n> + skyparts_<slug>_v5 + skyorigin_<slug>. Never touches the v4 keys above.
+        skyorigin_<slug> = origin_v5.json: CE-frame = vertex + origin_ce_xyz, applied as the object's
+        position in float64. The index carries the same origin, so a reader holding one has the other.
 """
 import base64
 import gzip
@@ -56,7 +60,11 @@ def put(key, blob, ctype, tok, tries, wait):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    ver = sys.argv[sys.argv.index("--ver") + 1] if "--ver" in sys.argv else "v4"
+    argv = list(sys.argv[1:])
+    if "--ver" in argv:                      # drop the flag AND its value, or "v5" becomes the slug
+        i = argv.index("--ver"); del argv[i:i + 2]
+    args = [a for a in argv if not a.startswith("--")]
     if not args:
         print(__doc__)
         return 2
@@ -64,13 +72,35 @@ def main():
     dry = "--dry-run" in sys.argv
     tries = int(sys.argv[sys.argv.index("--tries") + 1]) if "--tries" in sys.argv else 5
     wait = int(sys.argv[sys.argv.index("--wait") + 1]) if "--wait" in sys.argv else 120
-    d = os.path.join(ROOT, "data", "ce", "_glb", "parts", slug)
+    d = os.path.join(ROOT, "data", "ce", "_glb", "parts", slug) if ver == "v4" else         os.path.join(ROOT, "data", "ce", "_glb", "parts", slug, ver)
     man = json.load(open(os.path.join(d, "manifest.json"), encoding="utf-8"))
+    if man.get("ver", "v4") != ver:
+        print("manifest in %s is %s, asked for %s - refusing" % (d, man.get("ver"), ver))
+        return 2
+    vs = "" if ver == "v4" else "_" + ver    # v4 keeps its published names exactly
+    origin = man.get("origin")
+    if ver != "v4" and not origin:
+        print("%s has no origin - a local-frame tile without its origin lands at 0,0. refusing" % slug)
+        return 2
     tok = None if dry else env_token("INGEST_TOKEN")
+    # The origin goes first: parts without it would draw 340 km from the city.
+    if origin and not dry:
+        okey = "skyorigin_%s" % slug
+        ok, back = put(okey, gzip.compress(json.dumps(origin).encode(), 9), "application/json", tok, tries, wait)
+        good = False
+        try:
+            good = json.loads(gzip.decompress(back)).get("origin_ce_xyz") == origin["origin_ce_xyz"]
+        except Exception:
+            pass
+        print("  %-28s origin %s -> stored=%s served-matches=%s" % (okey, origin["origin_ce_xyz"], ok, good))
+        if not (ok and good):
+            print("origin did not store - no parts pushed"); return 1
+    elif origin:
+        print("  %-28s origin %s  (dry run)" % ("skyorigin_%s" % slug, origin["origin_ce_xyz"]))
 
     stored, bad = [], []
     for it in man["items"]:
-        key = "sky_%s_p%d" % (slug, it["part"])
+        key = "sky_%s%s_p%d" % (slug, vs, it["part"])
         raw = open(os.path.join(d, it["file"]), "rb").read()
         blob = gzip.compress(raw, 9)
         if len(blob) > CAP:
@@ -95,8 +125,10 @@ def main():
     # The index lists only what actually STORED. A page told about a part that is not there would show a
     # district with a hole in it and no way to know why - the same failure as a bld3 tap hitting a 404.
     idx = {"slug": slug, "parts": len(stored), "buildings": sum(p["buildings"] for p in stored),
-           "key_pattern": "sky_%s_p<n>" % slug, "items": stored}
-    ikey = "skyparts_%s" % slug
+           "key_pattern": "sky_%s%s_p<n>" % (slug, vs), "items": stored}
+    if origin:
+        idx["ver"] = ver; idx["origin"] = origin
+    ikey = "skyparts_%s%s" % (slug, vs)
     if dry:
         print("  %-28s %d parts, %d buildings  (dry run)" % (ikey, idx["parts"], idx["buildings"]))
     else:

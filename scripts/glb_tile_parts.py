@@ -134,13 +134,15 @@ def main():
     ratio = whole_gz / float(raw)
     print("%s %s: %d buildings, %.2f MB raw, %.2f MB gzipped (ratio %.3f)"
           % (slug, ver, len(nodes), raw / 1048576.0, whole_gz / 1048576.0, ratio))
-    if whole_gz <= CAP:
+    # v4: a district under the cap keeps its single key. v5 (local frame) has no single-key home - the bare
+    # sky_<slug> is the textured default view - so every v5 district goes out as parts, even if that is one.
+    if whole_gz <= CAP and ver == "v4":
         print("  already under the 5 MB cap - a single key is correct, nothing to split")
         return 0
 
     costs = [((i, nd), node_cost(js, nd)) for i, nd in nodes]
     budget = int((target * 1048576) / ratio)      # raw bytes that should gzip to about the target
-    groups = pack(costs, budget)
+    groups = pack(costs, budget) if whole_gz > CAP else [[c[0] for c in costs]]
     print("  packing to %.1f MB gzipped per part -> %d parts" % (target, len(groups)))
     if dry:
         for n, g in enumerate(groups):
@@ -149,7 +151,9 @@ def main():
         print("  dry run - nothing written")
         return 0
 
-    out_dir = os.path.join(GLB, "parts", slug)
+    # v4 keeps its original folder (the published skyparts_<slug> was built from it); any other lane gets
+    # its own, so a v5 split can never overwrite the manifest the live v4 parts came from.
+    out_dir = os.path.join(GLB, "parts", slug) if ver == "v4" else os.path.join(GLB, "parts", slug, ver)
     os.makedirs(out_dir, exist_ok=True)
     parts, over = [], []
     for n, g in enumerate(groups):
@@ -165,7 +169,11 @@ def main():
         print("    p%-2d %5d buildings  %7.2f MB raw  %5.2f MB gz%s" % (n, len(g), size / 1048576.0, gz / 1048576.0, flag))
 
     man = {"slug": slug, "ver": ver, "parts": len(parts), "buildings": sum(p["buildings"] for p in parts),
-           "key": "sky_%s_%s_p<n>" % (slug, ver), "index_key": "skyparts_%s" % slug, "items": parts}
+           "key": "sky_%s_%s_p<n>" % (slug, ver),
+           "index_key": "skyparts_%s" % slug if ver == "v4" else "skyparts_%s_%s" % (slug, ver), "items": parts}
+    op = os.path.join(ROOT, "data", "ce", slug, "origin_%s.json" % ver)
+    if os.path.exists(op):                       # local-frame lanes: the placement travels with the parts
+        man["origin"] = json.load(open(op, encoding="utf-8"))
     json.dump(man, open(os.path.join(out_dir, "manifest.json"), "w", encoding="utf-8"), indent=1)
     print("  %d parts, %d buildings total, largest %.2f MB gz -> %s"
           % (len(parts), man["buildings"], max(p["gz"] for p in parts) / 1048576.0, out_dir))
