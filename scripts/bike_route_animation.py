@@ -149,7 +149,7 @@ def neighbourhoods(sel, comm):
             continue
         share = c.geometry.intersection(line).length / total
         if share > 0.005:
-            nm = disp.get(c.comm_num) or c.name_en.title().replace("'S", "'s")
+            nm = disp.get(c.comm_num) or re.sub(r"'([A-Z])", lambda m: "'" + m.group(1).lower(), c.name_en.title())
             out.append({"comm_num": int(c.comm_num), "dm_name": c.name_en, "name": nm, "share": round(share, 3)})
     return sorted(out, key=lambda h: -h["share"])
 
