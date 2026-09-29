@@ -60,7 +60,7 @@ Recording these because each was a confident claim that turned out to be wrong.
 
 1. **"The repo you read was stale."** It was not; ancestry showed the tree I read was ahead of the one the other session called live. Acting on that claim would have put edits in the wrong tree.
 2. **My own claim that stale files explained the low Municipality match.** Rebuilt from scratch, the figure is identical (21.8% across the map's districts). The real cause is that those districts genuinely match worse than the city as a whole.
-3. **A "duplicated read" I reported on 22 Sep** no longer exists; it was fixed in between. Rings was right to refuse to touch it.
+3. **All three panel defects I carried into the 29 Sep assignment were already fixed**, and I had not re-checked them against the current tree before assigning them. The duplicated read was gone; the no-op button is guarded by v223's "no dead control" test; the timing race is guarded by its own test. Rings refused to edit a deliberate, passing assertion on my say-so and reverted its own work instead, which was the right call — my proposed "always render the tab" fix would have reintroduced precisely the dead control v223 removed. The one leftover is an unreachable string, which is dead code rather than a missing message: v266 already says "no record yet" on the building page, where it belongs.
 4. **An alarming-looking configuration warning** turned out to be a deliberate off-switch plus a secret, not a defect.
 5. **My first fix ran a module that exits 0 and writes nothing** — the very failure this audit is about. Caught by checking the file was actually written.
 
