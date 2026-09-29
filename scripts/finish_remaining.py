@@ -131,6 +131,7 @@ def worker(name, q, dry):
             # a re-pull's --force applies to its FIRST attempt only: later attempts resume the checkpoint it started
             if kind == "repull" and n > 1: args += ["--order-by", "full"]
             log("[%s] %s %s (~%d pages) attempt %d" % (name, kind, ds, est, n))
+            _worker_state[name] = {"kind": kind, "dataset": ds, "attempt": n, "started": time.strftime("%Y-%m-%dT%H:%M:%S")}
             if dry: break
             with open(os.path.join(PROD, "finish_remaining_%s.log" % name), "a", encoding="utf-8") as lf:
                 subprocess.run(args, cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT)
@@ -147,6 +148,26 @@ def worker(name, q, dry):
     return
 
 
+HEARTBEAT = os.path.join(ROOT, "logs", "finish_remaining_heartbeat.json")
+_worker_state = {}
+
+
+def heartbeat_loop():
+    """29 Sep 2026: the finisher has died silently twice this week (no exit line, network and disk both clean at the time),
+    leaving nothing to diagnose from. This writes what's still running every 30 s, independent of the per-dataset event log
+    (which can go quiet for many minutes during a normal retry wait) - so the NEXT death at least leaves a last-known-alive
+    timestamp and per-worker state to narrow the window, even though it can't explain the two we've already had blind."""
+    while True:
+        try:
+            snap = {"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "pid": os.getpid(), "workers": dict(_worker_state)}
+            tmp = HEARTBEAT + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as f: json.dump(snap, f, indent=1)
+            os.replace(tmp, HEARTBEAT)
+        except Exception:
+            pass
+        time.sleep(30)
+
+
 def main():
     global LOG
     dry = "--dry" in sys.argv
@@ -154,6 +175,7 @@ def main():
     work = build()
     LOG = open(os.path.join(ROOT, "logs", "finish_remaining_%s.log" % time.strftime("%Y%m%d_%H%M")), "a", encoding="utf-8")
     log("%d datasets: %s" % (len(work), ", ".join("%s %d" % (k, sum(1 for w in work if w[0] == k)) for k in ("resume", "repull", "pull", "refused"))))
+    threading.Thread(target=heartbeat_loop, daemon=True).start()
     q = queue.Queue()
     for w in work: q.put(w)
     ts = [threading.Thread(target=worker, args=("w%d" % i, q, dry)) for i in range(1, nw + 1)]
