@@ -245,11 +245,96 @@ def not_dubai(name, address, lat=None, src=None):
     return bool(OTHER_EMIRATE.search(str(name or "")))
 
 
-def in_district(lon, lat, D):
-    for d in D:
-        b = d["bbox"]
-        if b[0] <= lon <= b[2] and b[1] <= lat <= b[3]: return d["slug"]
-    return None
+_DPOLY = None
+
+
+def _district_polygons():
+    """slug -> (rings list, centre), from data/board/district_polygons.geojson (scripts/build_district_polygons.py)."""
+    global _DPOLY
+    if _DPOLY is None:
+        cen = {d["slug"]: d["centre"] for d in
+               json.load(open(os.path.join(BOARD, "districts_geo.json"), encoding="utf-8"))["districts"]}
+        _DPOLY = {}
+        for f in json.load(open(os.path.join(BOARD, "district_polygons.geojson"), encoding="utf-8"))["features"]:
+            polys = f["geometry"]["coordinates"]
+            xs = [p[0] for poly in polys for p in poly[0]]
+            ys = [p[1] for poly in polys for p in poly[0]]
+            _DPOLY[f["properties"]["slug"]] = (polys, (min(xs), min(ys), max(xs), max(ys)),
+                                               cen.get(f["properties"]["slug"]))
+    return _DPOLY
+
+
+def _pip(x, y, ring):
+    inside = False
+    n = len(ring)
+    for i in range(n):
+        x1, y1 = ring[i]
+        x2, y2 = ring[(i + 1) % n]
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / (y2 - y1) + x1:
+            inside = not inside
+    return inside
+
+
+def in_district(lon, lat, D=None):
+    """The district whose Dubai Municipality boundary holds the point - or None.
+
+    Until 29 Sep 2026 this returned the FIRST district whose rectangular bbox held the point, so list order decided
+    overlaps: Business Bay Metro Station was tagged Al Wasl. Now it tests the DM community polygons each district maps
+    to (data/board/district_polygons.geojson). Where two districts share a community (JLT North, JLT South and Al
+    Thanyah 5 are all DM 393), the nearest district centre breaks the tie. D is accepted and ignored, for callers.
+    """
+    hits = []
+    for slug, (polys, b, centre) in _district_polygons().items():
+        if not (b[0] <= lon <= b[2] and b[1] <= lat <= b[3]):
+            continue
+        if any(_pip(lon, lat, poly[0]) and not any(_pip(lon, lat, h) for h in poly[1:]) for poly in polys):
+            hits.append((slug, centre))
+    if len(hits) > 1:
+        hits.sort(key=lambda h: (h[1][0] - lon) ** 2 + (h[1][1] - lat) ** 2 if h[1] else 9e9)
+    return hits[0][0] if hits else None
+
+
+_COMM2D = None
+
+
+def district_for(it):
+    """The district for one amenity record: its own DM parcel key when it has one, else the boundary test.
+
+    Some KHDA schools give a 7-digit DM parcel key as their address (comm_num = key // 10000). Their positions are
+    rounded to 2 dp (~550 m), so the parcel is the better witness: The Scholars School's rounded point falls inside
+    Business Bay, but its parcel is in community 351, not 346."""
+    global _COMM2D
+    ad = str(it.get("ad", "")).strip()
+    if it.get("k") == "school" and re.fullmatch(r"\d{7}", ad):
+        if _COMM2D is None:
+            _COMM2D = {}
+            m = json.load(open(os.path.join(BOARD, "district_communities.json"), encoding="utf-8"))["districts"]
+            for slug, v in m.items():
+                for n in v["comm_nums"]:
+                    _COMM2D.setdefault(n, slug)
+        return _COMM2D.get(int(ad) // 10000)
+    return in_district(it["lon"], it["lat"])
+
+
+def retag(path=None):
+    """Re-tag an existing amenities.json with the boundary test, without re-pulling any register."""
+    path = path or os.path.join(BOARD, "amenities.json")
+    doc = json.load(open(path, encoding="utf-8"))
+    before = collections.Counter(i.get("d") for i in doc["items"])
+    moved = 0
+    for it in doc["items"]:
+        d = district_for(it)
+        if d != it.get("d"):
+            moved += 1
+        if d:
+            it["d"] = d
+        else:
+            it.pop("d", None)
+    doc["districts_by"] = "DM community polygons (scripts/build_district_polygons.py), retagged %s" % time.strftime("%Y-%m-%d %H:%M")
+    json.dump(doc, open(path, "w", encoding="utf-8"), ensure_ascii=False)
+    after = collections.Counter(i.get("d") for i in doc["items"])
+    print("retagged %d items: %d changed district; untagged %d -> %d" % (len(doc["items"]), moved, before[None], after[None]))
+    return before, after
 
 
 def main():
@@ -259,6 +344,14 @@ def main():
     # Nothing automated calls this script - checked across .py, .sh, .md, .json and .yml - so inverting the
     # default breaks no caller, and the failure mode changes from "ships by accident" to "someone re-runs it".
     # --no-push is still accepted and now does nothing, so anyone with it in their notes is unaffected.
+    if "--retag" in sys.argv:           # re-tag districts on the existing output only - no register is re-pulled
+        retag()
+        if "--push" in sys.argv:        # opt-in, as below: only with the deploying session's agreement
+            doc = json.load(open(os.path.join(BOARD, "amenities.json"), encoding="utf-8"))
+            print("amenities ->", push("amenities", doc, env_token("INGEST_TOKEN")).get("ok"))
+        else:
+            print("  not pushed. Pass --retag --push to ship it, with the deploying session's agreement.")
+        return
     do_push = "--push" in sys.argv and "--no-push" not in sys.argv
     use_google = "--no-google" not in sys.argv
     D = json.load(open(os.path.join(BOARD, "districts_geo.json"), encoding="utf-8"))["districts"]
@@ -553,7 +646,7 @@ def main():
     print("  EV chargers: %d kept of %d (%d in another emirate)" % (_ev_kept, len(_ev), _ev_other))
 
     for it in items:
-        d = in_district(it["lon"], it["lat"], D)
+        d = district_for(it)
         if d: it["d"] = d
     json.dump(cache, open(REFINE, "w", encoding="utf-8"), ensure_ascii=False, indent=0)
     counts = collections.Counter(i["k"] for i in items); approx = collections.Counter(i["k"] for i in items if i.get("ap"))
