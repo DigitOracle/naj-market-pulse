@@ -187,6 +187,12 @@ filmed frames.
 
 ### Caveats behind the numbers
 
+- **The "in community" counts are a rectangle, not the Business Bay boundary** (found 29 Sep; bank blocker
+  `in_community_is_a_bbox`). By each place's own district tag, Business Bay has clinics 33 (screen: 61), pharmacies 19
+  (26), hospitals 0 (1: Emirates Hospital), metro 0 (1: Business Bay station), schools 0 (0). The radius counts (1 km,
+  3 km) are true distances and stand. Kendall's final HeyGen narration speaks none of these numbers, but the capture
+  shows them; a re-shoot after the amenity chips are fixed would correct the screen.
+
 - **Schools at 3 km are soft.** KHDA gives positions to 2 decimal places (bank blocker `khda_school_positions_rounded`),
   so a school near the 3 km line can fall either side of it. "None inside Business Bay" is safe. Harrow's pin sits at
   a shared rounded point while its address is Al Barsha Second, so **never say Harrow is nearby**.
