@@ -14,6 +14,8 @@ ride back) and ends on the route's stated length.
 Writes data/bike/route_<slug>_9x16.mp4 (1080x1920, 25 fps, silent).
 """
 import json
+import textwrap
+import time
 import math
 import os
 import re
@@ -24,7 +26,7 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.collections import LineCollection
-from pyproj import Transformer
+from shapely.geometry import box
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIKE = os.path.join(ROOT, "data", "bike")
@@ -33,6 +35,8 @@ W, H, FPS = 1080, 1920, 25
 JOIN_M = 60.0          # two segments whose nearest vertices are within this are joined there
 RETRACE_PACE = 0.3     # track already drawn is ridden ~3x faster, so the film spends its time on new track
 INTRO_S, HOLD_S = 1.5, 3.0
+MIN_HALF_M = 2600.0    # never frame tighter than ~5 km across, so a short route still shows its neighbourhoods
+LABEL_SHARE = 0.03     # name a neighbourhood holding at least 3% of the route
 
 
 def arg(name, default):
@@ -81,30 +85,90 @@ def plan_walk(P, seg_nodes, adj):
     Kendall, 29 Sep: the line must be one continuous run. The first version joined segments by shortest paths that
     crossed track it had not drawn yet, so the gold appeared in fragments ahead of the dot. Now every edge is drawn
     the first time the dot rides it, and at a dead end the dot rides back along its own gold to the last branch, so
-    what is drawn is always one connected line ending at the dot."""
-    start = int(np.argmin(P[:, 0]))
-    seen_edge, seen_node = set(), {start}
-    walk = [(start, True, False)]
-    stack = [start]
-    while stack:
-        u = stack[-1]
-        nxt = None
-        for v, d, j in sorted(adj[u], key=lambda e: e[1]):
-            if (min(u, v), max(u, v)) not in seen_edge and v not in seen_node:
-                nxt = (v, j)
-                break
-        if nxt:
-            v, j = nxt
-            seen_edge.add((min(u, v), max(u, v)))
-            seen_node.add(v)
-            walk.append((v, True, j))
-            stack.append(v)
+    what is drawn is always one connected line ending at the dot.
+
+    Some routes really are separate pieces - the Dubai Canal track runs on both banks, more than JOIN_M apart. There
+    the dot finishes one piece and glides, drawing nothing, straight to the nearest point of the next; returns the
+    number of such crossings."""
+    seen_edge, seen_node = set(), set()
+    walk, crossings = [], 0
+    cur = None
+    while len(seen_node) < len(P):
+        rest = np.array([i for i in range(len(P)) if i not in seen_node])
+        if cur is None:
+            start = int(rest[np.argmin(P[rest, 0])])                       # westmost point of the route
         else:
-            stack.pop()
-            if stack:
-                walk.append((stack[-1], False, False))          # back along drawn track
-    missing = len(P) - len(seen_node)
-    return walk, missing
+            start = int(rest[np.argmin(np.hypot(*(P[rest] - P[cur]).T))])   # nearest point of the next piece
+            walk.append((start, False, False))                              # the glide: no gold
+            crossings += 1
+        seen_node.add(start)
+        if cur is None:
+            walk.append((start, True, False))
+        stack = [start]
+        while stack:
+            u = stack[-1]
+            nxt = None
+            for v, d, j in sorted(adj[u], key=lambda e: e[1]):
+                if (min(u, v), max(u, v)) not in seen_edge and v not in seen_node:
+                    nxt = (v, j)
+                    break
+            if nxt:
+                v, j = nxt
+                seen_edge.add((min(u, v), max(u, v)))
+                seen_node.add(v)
+                walk.append((v, True, j))
+                stack.append(v)
+            else:
+                stack.pop()
+                if stack:
+                    walk.append((stack[-1], False, False))          # back along drawn track
+        cur = walk[-1][0]
+    return walk, crossings
+
+
+def display_names():
+    """comm_num -> the name people use: the app district's name where the community is one (Dubai Marina, not Marsa
+    Dubai), else the DM name in title case."""
+    names = {}
+    path = os.path.join(ROOT, "data", "board", "district_communities.json")
+    if os.path.exists(path):
+        for slug, v in json.load(open(path, encoding="utf-8"))["districts"].items():
+            for n in v["comm_nums"]:
+                names.setdefault(n, v["name"])
+    return names
+
+
+def neighbourhoods(sel, comm):
+    """The DM communities the route runs through, with the share of its track in each, longest first."""
+    line = sel.geometry.union_all()
+    total = line.length
+    disp = display_names()
+    out = []
+    for _, c in comm.iterrows():
+        if not c.geometry.intersects(line):
+            continue
+        share = c.geometry.intersection(line).length / total
+        if share > 0.005:
+            nm = disp.get(c.comm_num) or c.name_en.title().replace("'S", "'s")
+            out.append({"comm_num": int(c.comm_num), "dm_name": c.name_en, "name": nm, "share": round(share, 3)})
+    return sorted(out, key=lambda h: -h["share"])
+
+
+def record_neighbourhoods(route, km, hoods):
+    """data/bike/route_neighbourhoods.json - for the narrative: which neighbourhoods each route passes through."""
+    path = os.path.join(BIKE, "route_neighbourhoods.json")
+    for _ in range(20):                                   # renders run in parallel: retry a half-written read
+        try:
+            doc = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
+            break
+        except ValueError:
+            time.sleep(0.2)
+    else:
+        doc = {}
+    doc[route] = {"km": round(km, 1), "neighbourhoods": hoods}
+    tmp = path + ".%d.tmp" % os.getpid()
+    json.dump(doc, open(tmp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    os.replace(tmp, path)
 
 
 def main():
@@ -136,7 +200,7 @@ def main():
         drawn.append(drawn[-1] + (d if new_flags[i] and not join_flags[i] else 0.0))
     total_travel, total_drawn = travel[-1], drawn[-1]
     km_scale = stated_km / (total_drawn / 1000)          # web-mercator metres -> RTA's stated km (cos-lat factor)
-    print("route %s: stated %.1f km, %d segments, drawn %.1f merc-km, timeline %.1f, %d vertices unreached" %
+    print("route %s: stated %.1f km, %d segments, drawn %.1f merc-km, timeline %.1f, %d glide(s) between pieces" %
           (route, stated_km, len(segs), total_drawn / 1000, total_travel / 1000, jumps))
 
     # figure: land, the route faint, then gold as drawn
@@ -144,20 +208,35 @@ def main():
     ax = fig.add_axes([0.0, 0.14, 1.0, 0.70], facecolor=BG)
     comm = gpd.read_file(os.path.join(ROOT, "data", "board", "communities.geojson")).to_crs(3857)
     comm.plot(ax=ax, facecolor="#1a212b", edgecolor="#2b3441", linewidth=0.6)
+    hoods = neighbourhoods(sel, comm)
+    passed = comm[comm.comm_num.isin([h["comm_num"] for h in hoods])]
+    passed.plot(ax=ax, facecolor="#232c38", edgecolor="#4a5566", linewidth=1.2)   # the ones the route crosses
     sel.plot(ax=ax, color=FAINT, linewidth=2.4)
     x0, y0, x1, y1 = sel.total_bounds
     cx_, cy_ = (x0 + x1) / 2, (y0 + y1) / 2
     aspect = 0.70 * H / W                                   # axes height / width in pixels
-    half_w = max((x1 - x0) / 2, (y1 - y0) / 2 / aspect) * 1.12
+    half_w = max((x1 - x0) / 2, (y1 - y0) / 2 / aspect, MIN_HALF_M) * 1.12
     ax.set_xlim(cx_ - half_w, cx_ + half_w)
     ax.set_ylim(cy_ - half_w * aspect, cy_ + half_w * aspect)
     ax.set_axis_off()
+    xl, yl = ax.get_xlim(), ax.get_ylim()
+    for h in hoods:                                         # name each neighbourhood, inside the frame
+        if h["share"] < LABEL_SHARE:
+            continue
+        pt = passed[passed.comm_num == h["comm_num"]].geometry.iloc[0].intersection(
+            box(xl[0], yl[0], xl[1], yl[1])).representative_point()
+        ax.text(pt.x, pt.y, h["name"].upper(), color="#aab4c0", fontsize=15, ha="center", va="center",
+                weight="bold", alpha=0.85, zorder=3)
     trail = LineCollection([], colors=GOLD, linewidths=4.0, capstyle="round")
     ax.add_collection(trail)
     glow = ax.scatter([], [], s=900, color=GOLD, alpha=0.25, zorder=5)
     dot = ax.scatter([], [], s=170, color="#fff4d6", edgecolors=GOLD, linewidths=3, zorder=6)
     fig.text(0.06, 0.965, route, color=FG, fontsize=50, weight="bold", va="top")
     fig.text(0.06, 0.918, "Cycle track · RTA's published layer", color=MUTED, fontsize=25, va="top")
+    names = [h["name"] for h in hoods if h["share"] >= LABEL_SHARE]
+    fig.text(0.06, 0.885, "\n".join(textwrap.wrap("Passes through: " + " · ".join(names), 62)),
+             color=FG, fontsize=20, va="top", linespacing=1.3)
+    record_neighbourhoods(route, stated_km, hoods)
     counter = fig.text(0.06, 0.115, "", color=GOLD, fontsize=64, weight="bold", va="top")
     fig.text(0.06, 0.052, "Source: RTA bicycle tracks, Dubai open data portal, snapshot 21 Nov 2025. "
              "Length is RTA's own.", color=MUTED, fontsize=13)
