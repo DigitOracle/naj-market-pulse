@@ -189,6 +189,22 @@ def rebuild_needed(ctx):
     return ctx.get("new_sheets") or ctx.get("holds_changed")
 
 
+def stale(pattern, days=2):
+    """True when the newest file matching data/board/<pattern> is older than `days` (or missing).
+
+    29 Sep 2026 audit: unit_mix only ever ran on a day a developer sheet landed (rebuild_needed), so every
+    unitmix_*.json was 7 days old while the bldgfacts_* they enrich were refreshed daily. The enrichment layer
+    carries dld.property_id / dm.dm_building_id - the whole building wiring - so a week behind is a week of
+    wrong or missing ids on the building page. Age is now a reason to rebuild in its own right.
+    """
+    newest = max((os.path.getmtime(p) for p in glob.glob(os.path.join(ROOT, "data", "board", pattern))), default=0)
+    return (time.time() - newest) > days * 86400
+
+
+def unit_mix_due(ctx):
+    return bool(rebuild_needed(ctx)) or stale("unitmix_*.json", 2)
+
+
 # ---------- the chains ----------
 
 def daily(a):
@@ -222,6 +238,10 @@ def daily(a):
         S("building_meta", py("scripts/build_building_meta.py", "goldensymphony"), needs=["avail_index"]),
         S("graph_build", py("scripts/graph_build.py"), timeout=5400),
         S("graph_export", py("scripts/graph_export.py"), needs=["graph_build"]),   # golden gate -> lake publish -> export from the lake
+        # 29 Sep 2026 audit: key_bridge was in NO chain - every key_bridge_<slug>.json was 7.5 days old, built by hand on
+        # 22 Sep. It is the one crosswalk between a DLD property_id, its parcel and its DM building, so the whole building
+        # page inherits its age. Runs off the truth store, after graph_build, and only when it has gone stale.
+        S("key_bridge", py("scripts/key_bridge.py"), needs=["graph_build"], when=lambda ctx: stale("key_bridge_*.json", 2), timeout=5400),
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
         S("lake_expire", py("scripts/lake.py", "expire", "--days", "30")),
         # 24 Sep 2026 (Kendall: "add bukadra and rasalkhor to the daily refresh"): the two districts massed for Sobha get their
@@ -244,7 +264,7 @@ def sweep(a):
         S("avail_intervals", py("scripts/avail_intervals.py"), needs=["avail_volume"], when=rebuild_needed),
         S("avail_index", py("scripts/build_avail_index.py"), needs=["avail_volume"], when=rebuild_needed),
         S("remaining_inventory", py("scripts/remaining_inventory.py"), needs=["avail_index"], when=rebuild_needed, timeout=5400),
-        S("unit_mix", py("scripts/build_unit_mix.py"), needs=["avail_index"], when=rebuild_needed),
+        S("unit_mix", py("scripts/build_unit_mix.py"), needs=["avail_index"], when=unit_mix_due, timeout=5400),
         S("search_index", py("scripts/build_search_index.py"), needs=["remaining_inventory"], when=rebuild_needed),
         S("twin_audit", py("scripts/twin_audit.py"), retry=1),      # 13 Sep 15:00: an SSL EOF as the laptop dozed; rewrites one file, safe to repeat
         S("push_twin_audit", fn=push_twin_audit, needs=["twin_audit"], retry=1),

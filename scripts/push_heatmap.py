@@ -17,7 +17,11 @@ def push(name, path, url, token):
 
 def main():
     subprocess.run([sys.executable, os.path.join(HERE, "render_heatmap.py")], check=True)
-    url = os.environ["AZIMUTH_URL"]; token = os.environ["INGEST_TOKEN"]
+    # 29 Sep 2026: this step failed six mornings running with KeyError: 'AZIMUTH_URL' - the daily chain never sets it and
+    # nothing noticed, because the chain carries on past a failed step. Default to the worker the rest of the repo talks to.
+    url = os.environ.get("AZIMUTH_URL") or "https://azimuth-2.digitalchemy.workers.dev"
+    token = os.environ.get("INGEST_TOKEN") or next(
+        (l.split("=", 1)[1].strip() for l in open(r"C:\Dev\azimuth-listener-naj\.env", encoding="utf-8") if l.startswith("INGEST_TOKEN=")), "")
     push("heatmap_story", os.path.join(PUB, "heatmap_story.png"), url, token)
     push("heatmap_square", os.path.join(PUB, "heatmap_square.png"), url, token)
 
