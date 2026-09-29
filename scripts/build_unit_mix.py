@@ -517,6 +517,13 @@ def main():
           % (len(joins), _n_cards, len(refused)))
     for _a, _b in refused:
         print("      refused %-42s would have opened %s" % (_a[:42], _b))
+    # card_joins and unitmix_projects are ESTATE-WIDE, but they are built from the districts in THIS run. A run naming
+    # districts (to onboard one, e.g. wadialsafa3 on 29 Sep 2026) would replace both - on disk and on the worker - with
+    # that subset, and every developer card outside it would lose its "on the twin" link. So only a full run writes them.
+    if want:
+        print("  estate-wide card_joins / unitmix_projects NOT written: this run names %d district(s); run with no slug to rebuild them" % len(want))
+        print(f"TOTAL {dict(tot)} | projects indexed {len(projects_out)} (this run only)")
+        return
     json.dump({"generated": today, "joins": joins}, open(os.path.join(BOARD, "card_joins.json"), "w", encoding="utf-8"), ensure_ascii=False)
     if not dry: print("  card_joins ->", push("card_joins", {"generated": today, "joins": joins}, tok).get("ok"))
 
