@@ -92,6 +92,8 @@ def build():
             work.append(("resume", ds, est, []))
         elif st == "ok" and raw > rows and not v.get("repeats_kept"):
             work.append(("repull", ds, raw // 1000 + 1, ["--force", "--order-by", "full"]))
+        elif st == "non_tabular":
+            continue                          # KML/file on the portal, not a paginated dataset - see scripts/dda_fetch_portal_files.py
         elif st != "ok" and st in REFUSED:
             work.append(("refused", ds, 1, []))
         elif st != "ok":

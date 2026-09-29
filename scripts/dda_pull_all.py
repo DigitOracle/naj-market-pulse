@@ -25,6 +25,18 @@ import argparse, hashlib, json, os, re, shutil, sys, time, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import dda_api as api
 
+# 29 Sep 2026: 19 catalogue datasets always 404 on this row-API path because they are KML geometry or a plain file on the
+# portal, never provisioned as a paginated dataset at all - confirmed by testing both this path and the catalogue's own
+# listed /open/ endpoint, which 404s the same way. The catalogue's own "format" field is too unreliable to branch on (185
+# datasets that pull fine here carry a BLANK format, and dp_traffic_incidents is labelled "csv" yet still needed the portal
+# route) - so this is the confirmed list from scripts/dda_fetch_portal_files.py, not a heuristic. Skip them immediately
+# instead of burning 6 timeout/404 attempts each on datasets that cannot ever succeed this way.
+try:
+    from dda_fetch_portal_files import PORTAL_DATASETS
+    PORTAL_ONLY = {(entity, dataset) for entity, dataset, _ext in PORTAL_DATASETS.values()}
+except Exception:
+    PORTAL_ONLY = set()
+
 
 def replace_retry(src, dst, tries=8):
     """os.replace that survives a transient Windows lock. 23 Sep 2026: det_address, moving past its old wall for the first
@@ -254,6 +266,12 @@ def main():
         live_ckpt = os.path.exists(os.path.join(out_dir, f"{r['entity']}__{r['dataset']}.json.part.state"))
         if not a.force and prev.get("status") == "ok" and (a.stale_days <= 0 or age_days(prev) < a.stale_days) and not live_ckpt:
             n_skip += 1; continue
+        if (r["entity"], r["dataset"]) in PORTAL_ONLY and prev.get("status") != "ok":
+            man[key] = {"id": r["id"], "title": r["title"], "entity": r["entity"], "dataset": r["dataset"], "status": "non_tabular",
+                        "rows": 0, "columns": 0, "file": "", "seconds": 0, "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                        "note": "published as KML/file on the data.dubai portal, not a paginated dataset - "
+                                "run scripts/dda_fetch_portal_files.py instead"}
+            touched.add(key); n_skip += 1; continue
         if a.budget_minutes and time.time() - run_t0 > a.budget_minutes * 60:
             partial = len(todo) - i + 1; break
         base = f"{c['DDA_BASE_URL']}/secure/ddads/openapi/1.0.0/{r['entity']}/{r['dataset']}"
