@@ -3,16 +3,16 @@
 Kendall, 29 Sep 2026: "show only the first one and then we show a little dot that goes around it". The first route
 on the map is the longest, Saih Al Salam (113 km on RTA's layer).
 
-RTA's tracks are unordered segments that mostly meet mid-segment (T-junctions), so they do not chain end to end:
-Saih Al Salam's 16 segments form 12 pieces by endpoints alone, and a greedy chain leaves gaps of up to 4.9 km. The dot
-must never cross open ground, so every segment end is joined to the nearest point on the other segments (within
-JOIN_M), and between segments the dot rides the shortest path along track already drawn. New track is drawn in gold
-as the dot passes; the counter adds only new track, never the retrace, so it ends on the route's own length.
+RTA's tracks are unordered segments that mostly meet mid-segment, so they do not chain end to end. They are joined
+into one track graph (segments whose nearest vertices lie within JOIN_M are linked there), and the dot runs it
+depth-first: every stretch is drawn in gold the first time the dot rides it, and at a dead end the dot rides back
+along its own gold (faster) to the last branch. So the gold is always one continuous line ending at the dot - Kendall,
+29 Sep: "it should go on like a continuous thread". The counter adds only RTA track (not the short joins, not the
+ride back) and ends on the route's stated length.
 
     python scripts/bike_route_animation.py [--route "Saih Al Salam"] [--seconds 20]
 Writes data/bike/route_<slug>_9x16.mp4 (1080x1920, 25 fps, silent).
 """
-import heapq
 import json
 import math
 import os
@@ -30,7 +30,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BIKE = os.path.join(ROOT, "data", "bike")
 BG, FG, MUTED, GOLD, FAINT = "#0e1116", "#f2f4f7", "#9aa3ad", "#C5A56A", "#3a4452"
 W, H, FPS = 1080, 1920, 25
-JOIN_M = 60.0          # a segment end within this of another segment is a junction
+JOIN_M = 60.0          # two segments whose nearest vertices are within this are joined there
 RETRACE_PACE = 0.3     # track already drawn is ridden ~3x faster, so the film spends its time on new track
 INTRO_S, HOLD_S = 1.5, 3.0
 
@@ -40,87 +40,71 @@ def arg(name, default):
 
 
 def build_graph(segs):
-    """Nodes = every vertex (projected metres); edges = consecutive vertices, plus junction links."""
-    nodes, seg_nodes = [], []
-    for s in segs:
+    """Nodes = every vertex (projected metres); edges = consecutive vertices, plus junction links.
+
+    Tracks cross or touch partway along, not only at their ends (Saih Al Salam's one "separate" piece passes 22 m
+    from the main loop mid-segment), so any vertex within JOIN_M of a vertex on another segment is joined to the
+    nearest one there. link[] marks those joins: ridden and drawn for continuity, never counted as track."""
+    nodes, seg_nodes, seg_of = [], [], []
+    for si, s in enumerate(segs):
         ids = []
         for p in s:
             ids.append(len(nodes))
             nodes.append(p)
+            seg_of.append(si)
         seg_nodes.append(ids)
     P = np.array(nodes)
+    seg_of = np.array(seg_of)
     adj = [[] for _ in nodes]
 
-    def link(a, b):
+    def link(a, b, is_join):
         d = float(np.hypot(*(P[a] - P[b])))
-        adj[a].append((b, d))
-        adj[b].append((a, d))
+        adj[a].append((b, d, is_join))
+        adj[b].append((a, d, is_join))
 
     for ids in seg_nodes:
         for a, b in zip(ids, ids[1:]):
-            link(a, b)
+            link(a, b, False)
     for si, ids in enumerate(seg_nodes):
-        others = np.array([n for sj, o in enumerate(seg_nodes) if sj != si for n in o])
-        for end in (ids[0], ids[-1]):
-            d = np.hypot(*(P[others] - P[end]).T)
-            k = int(np.argmin(d))
-            if d[k] <= JOIN_M:
-                link(end, int(others[k]))
+        for sj in range(si + 1, len(seg_nodes)):
+            A, B = P[ids], P[seg_nodes[sj]]
+            d = np.hypot(A[:, None, 0] - B[None, :, 0], A[:, None, 1] - B[None, :, 1])
+            ia, ib = np.unravel_index(np.argmin(d), d.shape)
+            if d[ia, ib] <= JOIN_M:
+                link(ids[ia], seg_nodes[sj][ib], True)
     return P, seg_nodes, adj
 
 
-def dijkstra(adj, src):
-    dist, prev = {src: 0.0}, {}
-    q = [(0.0, src)]
-    while q:
-        d, u = heapq.heappop(q)
-        if d > dist.get(u, 1e18):
-            continue
-        for v, w in adj[u]:
-            nd = d + w
-            if nd < dist.get(v, 1e18):
-                dist[v], prev[v] = nd, u
-                heapq.heappush(q, (nd, v))
-    return dist, prev
-
-
-def path_to(prev, src, dst):
-    out = [dst]
-    while out[-1] != src:
-        out.append(prev[out[-1]])
-    return out[::-1]
-
-
 def plan_walk(P, seg_nodes, adj):
-    """[(node_id, is_new_track)] - the dot's route: every segment once, joined along drawn track."""
-    left = set(range(len(seg_nodes)))
-    first = min(left, key=lambda i: min(P[seg_nodes[i][0]][0], P[seg_nodes[i][-1]][0]))   # westmost end
-    ids = seg_nodes[first]
-    ids = ids if P[ids[0]][0] <= P[ids[-1]][0] else ids[::-1]
-    walk = [(n, True) for n in ids]
-    left.discard(first)
-    jumps = 0
-    while left:
-        cur = walk[-1][0]
-        dist, prev = dijkstra(adj, cur)
-        best = None
-        for i in left:
-            for ids in (seg_nodes[i], seg_nodes[i][::-1]):
-                if ids[0] in dist and (best is None or dist[ids[0]] < best[0]):
-                    best = (dist[ids[0]], i, ids)
-        if best is None:                  # unreachable along track: the dot hops (fades) to the nearest segment
-            i = min(left, key=lambda i: min(np.hypot(*(P[seg_nodes[i][0]] - P[cur])),
-                                            np.hypot(*(P[seg_nodes[i][-1]] - P[cur]))))
-            ids = seg_nodes[i] if np.hypot(*(P[seg_nodes[i][0]] - P[cur])) <= \
-                np.hypot(*(P[seg_nodes[i][-1]] - P[cur])) else seg_nodes[i][::-1]
-            walk.append((None, False))
-            jumps += 1
+    """[(node_id, is_new, is_join)] - a depth-first run over the track graph from its westmost end.
+
+    Kendall, 29 Sep: the line must be one continuous run. The first version joined segments by shortest paths that
+    crossed track it had not drawn yet, so the gold appeared in fragments ahead of the dot. Now every edge is drawn
+    the first time the dot rides it, and at a dead end the dot rides back along its own gold to the last branch, so
+    what is drawn is always one connected line ending at the dot."""
+    start = int(np.argmin(P[:, 0]))
+    seen_edge, seen_node = set(), {start}
+    walk = [(start, True, False)]
+    stack = [start]
+    while stack:
+        u = stack[-1]
+        nxt = None
+        for v, d, j in sorted(adj[u], key=lambda e: e[1]):
+            if (min(u, v), max(u, v)) not in seen_edge and v not in seen_node:
+                nxt = (v, j)
+                break
+        if nxt:
+            v, j = nxt
+            seen_edge.add((min(u, v), max(u, v)))
+            seen_node.add(v)
+            walk.append((v, True, j))
+            stack.append(v)
         else:
-            _, i, ids = best
-            walk += [(n, False) for n in path_to(prev, cur, ids[0])[1:]]
-        walk += [(n, True) for n in ids[1:]] if walk[-1][0] == ids[0] else [(n, True) for n in ids]
-        left.discard(i)
-    return walk, jumps
+            stack.pop()
+            if stack:
+                walk.append((stack[-1], False, False))          # back along drawn track
+    missing = len(P) - len(seen_node)
+    return walk, missing
 
 
 def main():
@@ -134,28 +118,25 @@ def main():
     segs = [list(line.coords) for geom in sel.geometry for line in getattr(geom, "geoms", [geom])]
     P, seg_nodes, adj = build_graph(segs)
     walk, jumps = plan_walk(P, seg_nodes, adj)
-    last_new = max(k for k, (_, new) in enumerate(walk) if new)
+    last_new = max(k for k, (_, new, _) in enumerate(walk) if new)
     walk = walk[:last_new + 1]                  # the dot stops where the last new track ends - no idle retrace
 
     # walk -> steps with cumulative travel and cumulative NEW track
-    pts, new_flags = [], []
-    for n, new in walk:
-        if n is None:
-            pts.append(None)
-            new_flags.append(False)
-        else:
-            pts.append(P[n])
-            new_flags.append(new)
+    pts, new_flags, join_flags = [], [], []
+    for n, new, j in walk:
+        pts.append(P[n])
+        new_flags.append(new)
+        join_flags.append(j)
     travel, drawn = [0.0], [0.0]
     for i in range(1, len(pts)):
         if pts[i] is None or pts[i - 1] is None:
             travel.append(travel[-1]); drawn.append(drawn[-1]); continue
         d = float(np.hypot(*(pts[i] - pts[i - 1])))
         travel.append(travel[-1] + d * (1.0 if new_flags[i] else RETRACE_PACE))   # timeline, not distance
-        drawn.append(drawn[-1] + (d if new_flags[i] else 0.0))
+        drawn.append(drawn[-1] + (d if new_flags[i] and not join_flags[i] else 0.0))
     total_travel, total_drawn = travel[-1], drawn[-1]
     km_scale = stated_km / (total_drawn / 1000)          # web-mercator metres -> RTA's stated km (cos-lat factor)
-    print("route %s: stated %.1f km, %d segments, drawn %.1f merc-km, timeline %.1f, %d hop(s)" %
+    print("route %s: stated %.1f km, %d segments, drawn %.1f merc-km, timeline %.1f, %d vertices unreached" %
           (route, stated_km, len(segs), total_drawn / 1000, total_travel / 1000, jumps))
 
     # figure: land, the route faint, then gold as drawn
