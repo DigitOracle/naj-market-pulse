@@ -33,6 +33,12 @@ CAP = 5 * 1024 * 1024
 
 
 def main():
+    # STOPPED 29 Sep 2026 by Kendall: no worker, listener or page reads bld3_* keys, so publishing them changes
+    # nothing a person can see and spends upload time. Refuses unless --allow-bld3 is typed, which is for the
+    # day a reader exists. The rollout hero route stops here too and, with no "failed 0" line, counts the district as not pushed.
+    if "--allow-bld3" not in sys.argv and "--dry-run" not in sys.argv:
+        print("bld3 publishing is stopped (no reader) - pass --allow-bld3 once a reader exists. nothing pushed.")
+        return 3
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args:
         print(__doc__)
