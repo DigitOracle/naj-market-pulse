@@ -73,6 +73,28 @@ def run(cmd, timeout=None):
     return p.returncode, ((p.stdout or "") + (p.stderr or "")).strip()
 
 
+def live_tile_textured(slug):
+    """True when the bare sky_<slug> the twin serves as its DEFAULT view carries facade textures (a v3 tile).
+
+    29 Sep 2026: 16 districts lost their textured default view because this rollout pushed its untextured v4 LOD 3
+    build over the bare key whenever the build fitted under the cap. The LOD 3 detail belongs in the opt-in skyparts
+    layer; the default view is the textured tile. None means the check itself failed - treated as textured, because
+    a failed check must never be the reason a textured tile is replaced."""
+    import gzip, struct
+    try:
+        r = subprocess.run(["curl", "-s", "--compressed", "-f", "https://azimuth-2.digitalchemy.workers.dev/img/sky_" + slug],
+                           capture_output=True, timeout=300)
+        if r.returncode != 0:
+            return False                     # no bare tile at all: nothing textured to protect
+        b = r.stdout
+        if b[:2] == bytes([0x1F, 0x8B]):
+            b = gzip.decompress(b)
+        n = struct.unpack("<I", b[12:16])[0]
+        return bool(json.loads(b[20:20 + n]).get("images"))
+    except Exception:
+        return None
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     min_tris = opt("--min-tris", 5000, int)
@@ -139,7 +161,15 @@ def main():
             continue
 
         fits = "GATE 2" in lines[2] and "PASS" in lines[2]
-        if fits:
+        tex = live_tile_textured(slug) if fits else False
+        if fits and tex is not False:
+            # the default view is textured (or the check failed): keep it, and do not count the district as failed
+            B.log("  KEEP  %s  live default tile is %s - v4 NOT pushed over it; LOD 3 stays opt-in" % (
+                slug, "textured" if tex else "unverifiable"))
+            st[slug] = {"route": "kept-textured", "buildings": ch.get("buildings"), "triangles": ch.get("triangles"),
+                        "generate_min": round(gen_min, 1), "served": None}
+            tile.append(slug)
+        elif fits:
             rc, out = run([PY, "scripts/push_sky_gz.py", slug, "--ver", "v4", "--live"], timeout=1800)
             served = "stored=True" in out and "served-as-gzip-glb=True" in out
             B.log("  TILE  %s  %s" % (slug, out.splitlines()[-1][:110] if out else "no output"))
