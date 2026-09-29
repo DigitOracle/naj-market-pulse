@@ -109,6 +109,15 @@ def status_of(ds):
     return v.get("status"), v
 
 
+def live_checkpoint(ds):
+    """True if a non-backup .part.state for this dataset still exists on disk. 29 Sep 2026: dm_container_of_the_consignments'
+    repull logged "-> ok 985946 of 5222714" while its own checkpoint sat unfinished at page 820/5223 - status_of() had fallen
+    back to a much older ok entry in MANIFEST.json (the pre-repeats_kept run) because the subprocess never got far enough to
+    write a fresh last_refresh_attempt. A checkpoint still on disk means THIS run did not finish, whatever the manifest says."""
+    return any("_backup" not in os.path.basename(p)
+               for p in glob.glob(os.path.join(PROD, "*__%s.json.part.state" % ds)))
+
+
 def worker(name, q, dry):
     env = dict(os.environ, PYTHONIOENCODING="utf-8", DDA_RATE_S="4.0", DDA_RATE_MAX="40")
     while True:
@@ -126,6 +135,10 @@ def worker(name, q, dry):
             with open(os.path.join(PROD, "finish_remaining_%s.log" % name), "a", encoding="utf-8") as lf:
                 subprocess.run(args, cwd=ROOT, env=env, stdout=lf, stderr=subprocess.STDOUT)
             st, v = status_of(ds)
+            if st == "ok" and live_checkpoint(ds):
+                # the manifest's ok entry predates this attempt (see live_checkpoint's docstring) - this run did not finish
+                log("[%s] %s -> ok reported but its checkpoint is still open - stale manifest entry, treating as incomplete" % (name, ds))
+                st = "incomplete"
             kept = "kept" if v.get("repeats_kept") else "NOT kept"
             log("[%s] %s -> %s %s of %s %s" % (name, ds, st, v.get("rows"), v.get("raw_rows"), kept))
             if st == "ok": break
