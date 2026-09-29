@@ -51,6 +51,7 @@ PORTAL_DATASETS = {
     462928: ("dm", "dm_dmgisnet_enterances-open-api", "kml"),
     702218851: ("esource", "esource_construction_cost_index_by_central_product_classification_2019_100-open-api", "txt"),
     466403: ("rta", "rta_metro_ridership-open-api", "txt"),
+    469979: ("dp", "dp_traffic_incidents-open-api", "csv"),  # tabular in the catalogue but 6x 408 on the row-API 29 Sep; portal fallback
 }
 
 
