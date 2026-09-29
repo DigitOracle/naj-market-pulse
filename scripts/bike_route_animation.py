@@ -35,6 +35,8 @@ W, H, FPS = 1080, 1920, 25
 JOIN_M = 60.0          # two segments whose nearest vertices are within this are joined there
 RETRACE_PACE = 0.3     # track already drawn is ridden ~3x faster, so the film spends its time on new track
 INTRO_S, HOLD_S = 1.5, 3.0
+SPLIT_M = 1000.0       # tracks of one RTA route more than this apart are different places: separate clips
+MIN_PIECE_M = 100.0    # drop a piece shorter than this
 MIN_HALF_M = 2600.0    # never frame tighter than ~5 km across, so a short route still shows its neighbourhoods
 LABEL_SHARE = 0.03     # name a neighbourhood holding at least 3% of the route
 
@@ -126,16 +128,46 @@ def plan_walk(P, seg_nodes, adj):
     return walk, crossings
 
 
+KEEP_CAPS = {"DAMAC", "JVC", "JLT", "JBR", "DIFC", "DIP", "DIC", "II", "III"}
+
+
+def _tidy(label):
+    """'Al KHAWANEEJ DISTRICT' -> 'Al Khawaneej District'; keeps DAMAC, JLT and the like."""
+    return " ".join(w if w in KEEP_CAPS or not w.isupper() or len(w) <= 1 else w.title() for w in label.split())
+
+
 def display_names():
-    """comm_num -> the name people use: the app district's name where the community is one (Dubai Marina, not Marsa
-    Dubai), else the DM name in title case."""
+    """comm_num -> the name people know, as the Najma maps show it (Kendall, 29 Sep: "the names need to be
+    recognizable, of the districts, similar to maps in najma").
+
+    First the Najma map's own district names (data/board/district_communities.json: Marsa Dubai -> "Dubai Marina",
+    DM 598 -> "Dubai Investments Park"); then a short hand list (COMMON); then the DM name as people write it
+    (common_name: Jumeira First -> "Jumeirah 1")."""
     names = {}
     path = os.path.join(ROOT, "data", "board", "district_communities.json")
     if os.path.exists(path):
         for slug, v in json.load(open(path, encoding="utf-8"))["districts"].items():
             for n in v["comm_nums"]:
                 names.setdefault(n, v["name"])
+    # The residents page's labels were tried and dropped: many are a project's name, not the area's ("Dubai Hills -
+    # Lambourghini" for Al Bada', "Site A" for Al Safouh Second). A short hand list instead, then tidied DM names.
+    for n, v in COMMON.items():
+        names.setdefault(n, v)
     return names
+
+
+COMMON = {382: "Dubai Internet City", 381: "Palm Jumeirah", 347: "Sobha Hartland", 383: "Barsha Heights",
+          394: "Emirates Living", 343: "Al Wasl"}
+
+
+def common_name(dm_name):
+    """How people write a DM community name: JUMEIRA FIRST -> Jumeirah 1, AL QOUZ THIRD -> Al Quoz 3."""
+    n = re.sub(r"'([A-Z])", lambda m: "'" + m.group(1).lower(), dm_name.title())
+    for a, b in (("First", "1"), ("Second", "2"), ("Third", "3"), ("Fourth", "4"), ("Fifth", "5"),
+                 ("Jumeira ", "Jumeirah "), ("Qouz", "Quoz"), ("Mushraif", "Mushrif"), ("Khwaneej", "Khawaneej"),
+                 ("Warqa'a", "Warqa"), ("Safouh", "Sufouh"), ("Yalayis", "Yelayiss"), ("Bada'", "Bada'a"), ("Ind.", "Industrial")):
+        n = re.sub(r"\b%s\b" % re.escape(a) if a[-1].isalnum() else re.escape(a), b, n)
+    return n
 
 
 def neighbourhoods(sel, comm):
@@ -149,7 +181,7 @@ def neighbourhoods(sel, comm):
             continue
         share = c.geometry.intersection(line).length / total
         if share > 0.005:
-            nm = disp.get(c.comm_num) or re.sub(r"'([A-Z])", lambda m: "'" + m.group(1).lower(), c.name_en.title())
+            nm = disp.get(c.comm_num) or common_name(c.name_en)
             out.append({"comm_num": int(c.comm_num), "dm_name": c.name_en, "name": nm, "share": round(share, 3)})
     return sorted(out, key=lambda h: -h["share"])
 
@@ -168,16 +200,75 @@ def record_neighbourhoods(route, km, hoods):
     doc[route] = {"km": round(km, 1), "neighbourhoods": hoods}
     tmp = path + ".%d.tmp" % os.getpid()
     json.dump(doc, open(tmp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    os.replace(tmp, path)
+    for _ in range(50):                                   # Windows refuses the swap while another render reads it
+        try:
+            os.replace(tmp, path)
+            break
+        except PermissionError:
+            time.sleep(0.2)
+
+
+def clips(g, disp=None):
+    """clip name -> (RTA route name, row index list). A route whose tracks lie more than SPLIT_M apart is split.
+
+    Kendall, 29 Sep, on the Jumeirah clip: "Why did you mix these two? These are different areas." RTA files an
+    inland loop in Al Merkadh under "Cycle Track - Jumeirah", and the Expo Route and Al Qudra likewise have pieces
+    kilometres apart, so grouping by RTA's name had the dot glide across the city. The largest piece keeps RTA's
+    name; every other piece is its own clip, named after the neighbourhood holding most of it."""
+    m = g.to_crs(32640)
+    disp = disp or display_names()
+    comm = gpd.read_file(os.path.join(ROOT, "data", "board", "communities.geojson")).to_crs(32640)
+    out = {}
+    for route, sub in m.groupby("route"):
+        if route == "Unnamed":
+            continue
+        idx = list(sub.index)
+        pts = [np.vstack([np.array(l.coords) for l in getattr(geom, "geoms", [geom])]) for geom in sub.geometry]
+        parent = list(range(len(idx)))
+
+        def find(i):
+            while parent[i] != i:
+                parent[i] = parent[parent[i]]
+                i = parent[i]
+            return i
+        for i in range(len(idx)):
+            for j in range(i + 1, len(idx)):
+                A, B = pts[i], pts[j]
+                if np.sqrt(((A[:, None, :] - B[None, :, :]) ** 2).sum(-1)).min() <= SPLIT_M:
+                    parent[find(i)] = find(j)
+        groups = {}
+        for i in range(len(idx)):
+            groups.setdefault(find(i), []).append(idx[i])
+        pieces = sorted(groups.values(), key=lambda ix: -m.loc[ix].length_m.sum())
+        for k, ix in enumerate(pieces):
+            if m.loc[ix].length_m.sum() < MIN_PIECE_M:
+                continue                                       # a stray of a few metres is not a route
+            if k == 0:
+                name = route
+            else:
+                line = m.loc[ix].geometry.union_all()
+                best = max(comm.itertuples(), key=lambda c: c.geometry.intersection(line).length)
+                name = disp.get(best.comm_num) or common_name(best.name_en)
+                if name in out or name == route:
+                    name = "%s (%s)" % (name, route)
+            out[name] = (route, ix)
+    return out
 
 
 def main():
+    if "--list" in sys.argv:
+        g = gpd.read_file(os.path.join(BIKE, "rta_bicycle_tracks_20251121.geojson"))
+        for name, (rta, ix) in sorted(clips(g).items(), key=lambda kv: -g.loc[kv[1][1]].length_m.sum()):
+            print("%s\t%s\t%.1f" % (name, rta, g.loc[ix].length_m.sum() / 1000))
+        return
     route = arg("--route", "Saih Al Salam")
     seconds = float(arg("--seconds", "20"))
     g = gpd.read_file(os.path.join(BIKE, "rta_bicycle_tracks_20251121.geojson"))
-    sel = g[g.route == route].to_crs(3857)
-    if sel.empty:
-        sys.exit("no route %r; routes: %s" % (route, sorted(g.route.unique())))
+    table = clips(g)
+    if route not in table:
+        sys.exit("no clip %r; clips: %s" % (route, sorted(table)))
+    rta_route, ix = table[route]
+    sel = g.loc[ix].to_crs(3857)
     stated_km = sel.length_m.sum() / 1000
     segs = [list(line.coords) for geom in sel.geometry for line in getattr(geom, "geoms", [geom])]
     P, seg_nodes, adj = build_graph(segs)
@@ -232,7 +323,9 @@ def main():
     glow = ax.scatter([], [], s=900, color=GOLD, alpha=0.25, zorder=5)
     dot = ax.scatter([], [], s=170, color="#fff4d6", edgecolors=GOLD, linewidths=3, zorder=6)
     fig.text(0.06, 0.965, route, color=FG, fontsize=50, weight="bold", va="top")
-    fig.text(0.06, 0.918, "Cycle track · RTA's published layer", color=MUTED, fontsize=25, va="top")
+    fig.text(0.06, 0.918, "Cycle track \u00b7 RTA's published layer" + ("" if rta_route == route else
+             " \u00b7 filed by RTA under \"%s\"" % rta_route), color=MUTED, fontsize=25 if rta_route == route else 21,
+             va="top")
     names = [h["name"] for h in hoods if h["share"] >= LABEL_SHARE]
     fig.text(0.06, 0.885, "\n".join(textwrap.wrap("Passes through: " + " · ".join(names), 62)),
              color=FG, fontsize=20, va="top", linespacing=1.3)
