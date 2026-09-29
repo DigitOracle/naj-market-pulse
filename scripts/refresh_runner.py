@@ -238,10 +238,15 @@ def daily(a):
         S("building_meta", py("scripts/build_building_meta.py", "goldensymphony"), needs=["avail_index"]),
         S("graph_build", py("scripts/graph_build.py"), timeout=5400),
         S("graph_export", py("scripts/graph_export.py"), needs=["graph_build"]),   # golden gate -> lake publish -> export from the lake
-        # 29 Sep 2026 audit: key_bridge was in NO chain - every key_bridge_<slug>.json was 7.5 days old, built by hand on
-        # 22 Sep. It is the one crosswalk between a DLD property_id, its parcel and its DM building, so the whole building
-        # page inherits its age. Runs off the truth store, after graph_build, and only when it has gone stale.
-        S("key_bridge", py("scripts/key_bridge.py"), needs=["graph_build"], when=lambda ctx: stale("key_bridge_*.json", 2), timeout=5400),
+        # 29 Sep 2026 audit: the key bridge - the one crosswalk from a DLD property_id to its parcel and its DM building -
+        # was only rebuilt by the WEEKLY gov chain (register_joins), so the daily building wiring inherited a week-old join.
+        # key_bridge.py is a job module, not a script: running it directly exits 0 and writes nothing, which is exactly the
+        # failure this audit is cataloguing. Call it the way register_joins does, and only when it has gone stale.
+        S("key_bridge", py("scripts/register_joins.py", "key_bridge"), needs=["graph_build"], held=(4,),
+          when=lambda ctx: stale("key_bridge_*.json", 2), timeout=5400),
+        # and then cut it per district: four scripts read data/board/key_bridge_<slug>.json daily and nothing wrote them
+        # (hand-made 22 Sep). An input with consumers and no producer cannot go stale loudly - it just stops matching.
+        S("key_bridge_cuts", py("scripts/emit_key_bridge_cuts.py"), needs=["key_bridge"], timeout=3600),
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
         S("lake_expire", py("scripts/lake.py", "expire", "--days", "30")),
         # 24 Sep 2026 (Kendall: "add bukadra and rasalkhor to the daily refresh"): the two districts massed for Sobha get their
