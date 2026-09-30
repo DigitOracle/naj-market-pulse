@@ -9,6 +9,7 @@ then reads every key back and checks its record count.
   python scripts/push_unitmix_files.py --first alyufrah1          one district, verified, then stop
   python scripts/push_unitmix_files.py --all --estate             every district, then the estate-wide keys
   python scripts/push_unitmix_files.py arjan liwan1               just these
+  python scripts/push_unitmix_files.py --kind bldgfacts motorcity   the same, for bldgfacts_<slug> (merged, not rebuilt)
 """
 import glob
 import json
@@ -37,27 +38,32 @@ def served(key):
 
 
 def main():
-    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    kind = sys.argv[sys.argv.index("--kind") + 1] if "--kind" in sys.argv else "unitmix"
+    assert kind in ("unitmix", "bldgfacts"), kind
+    argv = list(sys.argv[1:])
+    if "--kind" in argv:
+        i = argv.index("--kind"); del argv[i:i + 2]
+    args = [a for a in argv if not a.startswith("--")]
     if "--first" in sys.argv:
         slugs = args[:1]
     elif "--all" in sys.argv:
-        slugs = sorted(os.path.basename(p)[8:-5] for p in glob.glob(os.path.join(BOARD, "unitmix_*.json"))
+        slugs = sorted(os.path.basename(p)[len(kind) + 1:-5] for p in glob.glob(os.path.join(BOARD, kind + "_*.json"))
                        if not os.path.basename(p).startswith("unitmix_projects"))
     else:
         slugs = args
     tok = env_token("INGEST_TOKEN")
     bad = []
     for s in slugs:
-        doc = json.load(open(os.path.join(BOARD, "unitmix_%s.json" % s), encoding="utf-8"))
+        doc = json.load(open(os.path.join(BOARD, "%s_%s.json" % (kind, s)), encoding="utf-8"))
         n = len(doc["buildings_by_id"])
-        ok = push("unitmix_" + s, doc, tok).get("ok")
-        back = served("unitmix_" + s) or {}
+        ok = push(kind + "_" + s, doc, tok).get("ok")
+        back = served(kind + "_" + s) or {}
         m = len(back.get("buildings_by_id") or {})
         good = ok and m == n and back.get("generated") == doc.get("generated")
-        print("  unitmix_%-26s %5d records -> stored=%s served %d %s" % (s, n, ok, m, "OK" if good else "MISMATCH"))
+        print("  %s_%-26s %5d records -> stored=%s served %d %s" % (kind, s, n, ok, m, "OK" if good else "MISMATCH"))
         if not good:
             bad.append(s)
-    if "--estate" in sys.argv and not bad:
+    if "--estate" in sys.argv and kind == "unitmix" and not bad:
         cj = json.load(open(os.path.join(BOARD, "card_joins.json"), encoding="utf-8"))
         up = json.load(open(os.path.join(BOARD, "unitmix_projects_slim.json"), encoding="utf-8"))
         for key, doc, field in (("card_joins", cj, "joins"), ("unitmix_projects", up, "projects")):

@@ -172,7 +172,18 @@ def run(slug):
     GH = geojson_heights(slug)
     out, tot_env, tot_units, tot_reg, n_flag = {}, 0.0, 0, 0, 0
     lifted, conflicts = [], []
-    for r in (_rows_from_geojson(slug) if derived else csv.DictReader(open(rep, encoding="utf-8"))):
+    rows = _rows_from_geojson(slug) if derived else list(csv.DictReader(open(rep, encoding="utf-8")))
+    # 30 Sep 2026: footprints appended after the LOD 3 build (Ellington appends) are in the newer v3 report but not in
+    # v4, so they got no facts, no unit-mix record and no page - 23 buildings across 4 districts. Rows v4 lacks are
+    # taken from v3; every building v4 has keeps its v4 row exactly as before.
+    if not derived and rep is rep4 and os.path.exists(rep3):
+        have = {(r.get("shape") or "").split("_")[0] for r in rows}
+        extra = [r for r in csv.DictReader(open(rep3, encoding="utf-8"))
+                 if (r.get("shape") or "").startswith("b") and (r.get("shape") or "").split("_")[0] not in have]
+        if extra:
+            print("  %s: %d buildings not in report_v4 taken from report_v3" % (slug, len(extra)))
+            rows += extra
+    for r in rows:
         sh = r.get("shape") or ""
         if not sh.startswith("b"): continue
         try: i = int(sh[1:].split("_")[0])
