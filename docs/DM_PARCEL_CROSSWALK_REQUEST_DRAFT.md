@@ -22,6 +22,19 @@ We believe (b) is the likelier ask to succeed: a crosswalk is administrative dat
 already hold internally even where the building register itself has not been rebuilt, and
 it is the piece that would actually unlock the affected communities for us.
 
+**Additional ask (c), plot geometry, independent of (a)/(b):** the plot (parcel) polygon
+layer carrying the DM plot number (community number + plot number, e.g. 681-6177), via
+GeoDubai service 2165. (Free, about 5 working days, needs a government, semi-government or
+university sponsor; the sponsor is for Kendall to arrange.) No cadastral layer exists in
+the DDA open-data subscription (509 datasets checked, re-verified 22 Sep and 1 Oct 2026), and
+none is available through the Esri basemaps. Everything we hold with coordinates (194,882 DM
+makani entrance points, about 64,000 building footprints, community outlines) lacks a plot
+number, and every register keyed by plot number lacks coordinates. On 1 Oct 2026, DEWA
+move-ins reached only 638 of 230,475 registered plots (0.3%), because makani can only be tied
+to a plot through name-matched buildings. With plot polygons, a point-in-polygon join puts
+makani (and so DEWA) and building footprints onto plots directly, for the 74,854 DEWA
+makani that already have entrance coordinates.
+
 ## 2. What we measured, not assumed
 
 We hold two parcel numbering systems for the same land: the Land Department's own property
