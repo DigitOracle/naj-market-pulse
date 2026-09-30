@@ -6,7 +6,8 @@ spellings never meet - brokers, developer numbers and escrow agents joined at 0%
 through here: the SQL helpers inside DuckDB queries, the Python helpers in scripts.
 
   num_sql(col)          '3656.00' / ' 3656' / '3656'   -> 3656 (bigint), NULL when not a number
-  parcel_key_sql(col)   '6830847' / '6830847.00' / '683-847' -> 6830847 (community x 10000 + plot)
+  parcel_key_sql(col)   '6830847' / '6830847.00' / '683-847' -> 6830847 (community x 10000 + plot; x 100000 for a 5-digit plot)
+  comm_of_key_sql(col)  6830847 -> 683, 92111059 -> 921 (never parcel_key // 10000 - wrong on 8-digit keys)
   name_norm_sql(col)    'DAMAC Lagoons - NICE 1 ' -> 'DAMAC LAGOONS NICE 1'
   norm_number(v)        Python twin of num_sql: returns the canonical digit string ('2537'), or None
   parcel_key(v)         Python twin of parcel_key_sql: returns an int, or None
@@ -30,13 +31,24 @@ def parcel_key_sql(col):
     NEIGHBOURING community's. Read as community-plot, 693 of those 748 match a real DLD parcel; read as a number, 1 did.
     25 Sep 2026: zero is NO parcel, not parcel 0 - '0' and '0.0' keyed to 0 while '0.E-10' (the same 'none' in another
     export) keyed to NULL, so 4,784 parcel-less DM projects joined each other and anything else carrying 0 in one copy and
-    nothing in the other. Every spelling of zero is NULL now (graph_load_dm already guarded plot_no <> '0')."""
+    nothing in the other. Every spelling of zero is NULL now (graph_load_dm already guarded plot_no <> '0').
+    1 Oct 2026: a five-digit plot is community x 100000 + plot ('921-11059' -> 92111059, DLD's own 8-digit spelling); the
+    4-digit cap keyed every such community-plot spelling to NULL."""
     x = "trim(cast(%s as varchar))" % col
+    plot = "try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint)"
     return ("nullif((case when regexp_matches({x}, '^[0-9]+$') then try_cast({x} as bigint)"
             " when regexp_matches({x}, '^[0-9]+[.]0*$') then try_cast(split_part({x}, '.', 1) as bigint)"
-            " when regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$') and not regexp_matches({x}, '^0+[-.]')"
-            " then try_cast(regexp_extract({x}, '^([0-9]+)', 1) as bigint) * 10000"
-            " + try_cast(regexp_extract({x}, '([0-9]+)$', 1) as bigint) end), 0)").format(x=x)
+            " when (regexp_matches({x}, '^[0-9]{{1,4}}[-.][0-9]{{1,4}}$') or regexp_matches({x}, '^[0-9]{{1,3}}[-.][0-9]{{5}}$'))"
+            " and not regexp_matches({x}, '^0+[-.]')"
+            " then try_cast(regexp_extract({x}, '^([0-9]+)', 1) as bigint)"
+            " * (case when " + plot + " >= 10000 then 100000 else 10000 end) + " + plot + " end), 0)").format(x=x)
+
+
+def comm_of_key_sql(col):
+    """The Municipality community of a parcel key: 6816177 -> 681, and 92111059 (five-digit plot) -> 921. Every community
+    number is 101..991 (dm_community and lkp_areas, 1 Oct 2026), so an 8-digit key is 3 digits of community + 5 of plot.
+    Twin of comm_of_key() below."""
+    return "(case when {c} >= 10000000 then {c} // 100000 else {c} // 10000 end)".format(c=col)
 
 
 def parent_parcel_key_sql(col):
@@ -80,10 +92,19 @@ def parcel_key(v):
     n = norm_number(s)
     if n is not None:
         return int(n) or None                      # zero is no parcel (25 Sep 2026) - twin of the nullif in parcel_key_sql
-    m = re.match(r"^(\d{1,4})[-.](\d{1,4})$", s)
+    m = re.match(r"^(\d{1,4})[-.](\d{1,4})$", s) or re.match(r"^(\d{1,3})[-.](\d{5})$", s)
     if not m or int(m.group(1)) == 0:              # community 0 is not a community: '0-38' is no key, not parcel 38
         return None
-    return int(m.group(1)) * 10000 + int(m.group(2))
+    plot = int(m.group(2))
+    return (int(m.group(1)) * (100000 if plot >= 10000 else 10000) + plot) or None
+
+
+def comm_of_key(k):
+    """Twin of comm_of_key_sql(): 6816177 -> 681, 92111059 -> 921."""
+    if k is None:
+        return None
+    k = int(k)
+    return k // 100000 if k >= 10000000 else k // 10000
 
 
 def parent_parcel_key(v):

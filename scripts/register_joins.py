@@ -95,7 +95,7 @@ def read(paths):
 
 # 15 Sep 2026 (digital thread Q1): the number and parcel-key normalisers moved to scripts/keys.py so every script joins register
 # numbers the same way; the names num / parcel_key are kept here for the jobs below.
-from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql  # noqa: E402
+from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql, comm_of_key_sql as comm_of  # noqa: E402
 import gov_thread
 import key_bridge  # noqa: E402
 import bis_prices  # noqa: E402
@@ -207,11 +207,11 @@ def job_parcels(con):
         "select distinct '%s' as source, trim(cast(%s as varchar)) as raw, %s as parcel_key from %s where %s is not null"
         % (t, c, parcel_key(c), t, c) for t, c in sources))
     # 15 Sep 2026 (digital thread Q7): a parcel key IS community x 10000 + plot, so every parcel carries its Municipality community
-    # number without a spatial join: comm_num = parcel_key // 10000. Checked below against the DM building summary's own community_no
+    # number without a spatial join: comm_num = comm_of(parcel_key) (// 100000 on 8-digit keys, 1 Oct 2026). Checked below against the DM building summary's own community_no
     # and against the DLD land registry's community (munc_zip_code).
     for t in ("j_dm", "j_keys"):
         con.execute("alter table %s add column comm_num bigint" % t)
-        con.execute("update %s set comm_num = parcel_key // 10000 where parcel_key is not null" % t)
+        con.execute("update %s set comm_num = %s where parcel_key is not null" % (t, comm_of("parcel_key")))
     report, twin_in, twin_hit = [], 0, 0
     for t, _ in sources:
         raw, keyed, before, after = one(con, """select count(*), count(parcel_key),
@@ -222,9 +222,9 @@ def job_parcels(con):
         if t in ("plot", "building_parcel_dm"):
             twin_in += keyed
             twin_hit += after
-    dash, dash_hit, dash_same = one(con, """select count(*), count(d.parcel_key), count(*) filter (where k.parcel_key // 10000 = d.community_no)
+    dash, dash_hit, dash_same = one(con, """select count(*), count(d.parcel_key), count(*) filter (where %s = d.community_no)
         from (select distinct raw, parcel_key from j_keys where regexp_matches(raw, '^[0-9]+-[0-9]+$')) k
-        left join (select distinct parcel_key, community_no from j_dm) d using (parcel_key)""")
+        left join (select distinct parcel_key, community_no from j_dm) d using (parcel_key)""" % comm_of("k.parcel_key"))
     report.append("the 'community-plot' spelling: %s reach the summary, %s with the same community number"
                   % (pct(dash_hit, dash), format(dash_same, ",")))
     rows, parcels, heights = one(con, "select count(*), count(distinct parcel_key), count(height_m) from j_dm")
@@ -234,8 +234,8 @@ def job_parcels(con):
     try:
         LR = read(register_files("land_registry", "dld__land_registry__*.csv"))
         # the land registry's munc_zip_code is the community number (683 for parcel 6836248); munc_number is the plot (6248)
-        lboth, lsame = one(con, """select count(*), count(*) filter (where k // 10000 = m) from (select %s k, %s m from %s)
-                                   where k is not null and m is not null""" % (parcel_key("parcel_id"), num("munc_zip_code"), LR))
+        lboth, lsame = one(con, """select count(*), count(*) filter (where %s = m) from (select %s k, %s m from %s)
+                                   where k is not null and m is not null""" % (comm_of("k"), parcel_key("parcel_id"), num("munc_zip_code"), LR))
         report.append("community from the parcel key = the DLD land registry's community (munc_zip_code): " + pct(lsame, lboth))
     except Exception as e:
         report.append("land registry community check skipped: %s" % str(e)[:120])
@@ -926,7 +926,8 @@ def job_place_spine(con):
       lk_d_area       area:<area_id> - the DLD's areas, each with the Municipality community it sits in (lkp_areas), and what the registers
                       hold there: parcels, buildings, units, projects.
       lk_d_community  comm:<comm_num> - the Municipality's communities, from the areas that name one and from every parcel key on record
-                      (comm_num = parcel_key / 10000, exact on all 231,108 parcels). Carries what the community job already measured (name,
+                      (comm_num = keys.comm_of_key_sql: parcel_key // 10000, or // 100000 for an 8-digit key with a five-digit
+                      plot - 1 Oct 2026). Carries what the community job already measured (name,
                       point, population, bus coverage, DEWA move-ins) where it has it, so nothing is counted twice.
       lk_d_parcel     pcl:<parcel_key> - every registered land parcel: its area, community, project, land and property type, size, and
                       LINEAGE - separated_from is the property id of the parcel it was split from, and every one of the 110,951 splits
@@ -943,28 +944,57 @@ def job_place_spine(con):
     dbl = lambda c: "try_cast(%s as double)" % c
     cnt = lambda c: "try_cast(try_cast(%s as double) as bigint)" % c
     yes = lambda c: "case when trim(cast(%s as varchar)) in ('1', 'true', 'True') then true when trim(cast(%s as varchar)) in ('0', 'false', 'False') then false end" % (c, c)
+    # 1 Oct 2026: the DLD land-registry export leaves parcel_id NULL on 32,552 of 263,659 rows - every one a five-digit plot
+    # (8-digit parcel id); none of its 231,107 filled ids is 8 digits. The `where parcel_id is not null` below dropped them all,
+    # about one registered plot in eight. DLD's own buildings and units still carry those 8-digit ids and point back to their
+    # land through parent/grandparent_property_id, so the key is recovered from them - only where every record on that land
+    # agrees on ONE key (17,842 recovered, 0 ambiguous, 0 colliding with a filed key on 1 Oct). Land with no building or unit
+    # on it (14,710, mostly vacant) has nothing to recover from and stays out.
+    con.execute("""create or replace temp table j_pl_recover as
+        select land_pid, min(pk) parcel_key from (
+            select %s land_pid, %s pk from %s where %s is not null
+            union all select %s, %s from %s where %s is not null
+            union all select %s, %s from %s where %s is not null) c
+        where land_pid is not null and pk is not null
+        group by 1 having count(distinct pk) = 1""" % (
+        num("parent_property_id"), parcel_key("parcel_id"), B, parcel_key("parcel_id"),
+        num("parent_property_id"), parcel_key("parcel_id"), U, parcel_key("parcel_id"),
+        num("grandparent_property_id"), parcel_key("parcel_id"), U, parcel_key("parcel_id")))
+    pk_expr = "coalesce(%s, r.parcel_key)" % parcel_key("l.parcel_id")
     con.execute("""create or replace temp table j_pl_parcel as
-        select %s parcel_key, %s property_id, %s area_id, %s project_id, %s land_number, %s land_sub_number, %s land_type,
+        select %s parcel_key, case when %s is not null then 'land_registry' else 'recovered_from_buildings_units' end key_source,
+               %s property_id, %s area_id, %s project_id, %s land_number, %s land_sub_number, %s land_type,
                %s property_type, %s property_sub_type, %s actual_area, %s is_free_hold, %s is_registered, %s master_project_id,
                %s master_project_en, %s zone_id, %s munc_zip_code, %s separated_from
-        from %s where %s is not null
-        qualify row_number() over (partition by %s order by property_id) = 1""" % (
-        parcel_key("parcel_id"), num("property_id"), num("area_id"), num("project_id"), txt("land_number"), txt("land_sub_number"),
-        txt("land_type_en"), txt("property_type_en"), txt("property_sub_type_en"), dbl("actual_area"), yes("is_free_hold"),
-        yes("is_registered"), num("master_project_id"), txt("master_project_en"), num("zone_id"), num("munc_zip_code"),
-        num("separated_from"), L, parcel_key("parcel_id"), parcel_key("parcel_id")))
+        from %s l left join j_pl_recover r on r.land_pid = %s
+        where %s is not null
+        qualify row_number() over (partition by %s order by (%s is null), property_id) = 1""" % (
+        pk_expr, parcel_key("l.parcel_id"),
+        num("l.property_id"), num("l.area_id"), num("l.project_id"), txt("l.land_number"), txt("l.land_sub_number"),
+        txt("l.land_type_en"), txt("l.property_type_en"), txt("l.property_sub_type_en"), dbl("l.actual_area"), yes("l.is_free_hold"),
+        yes("l.is_registered"), num("l.master_project_id"), txt("l.master_project_en"), num("l.zone_id"), num("l.munc_zip_code"),
+        num("l.separated_from"), L, num("l.property_id"), pk_expr, pk_expr, parcel_key("l.parcel_id")))
+    # a building filed without a parcel id takes its land's key (parent_property_id is the land's property id)
     con.execute("""create or replace temp table j_pl_bld as
-        select %s property_id, %s parcel_key, %s project_id, %s area_id, %s building_number, %s parent_property_id, %s floors,
+        select %s property_id, coalesce(%s, lp.parcel_key) parcel_key, %s project_id, %s area_id, %s building_number, %s parent_property_id, %s floors,
                %s bld_levels, %s flats, %s offices, %s shops, %s car_parks, %s elevators, %s built_up_area, %s actual_area,
-               %s property_sub_type, %s is_registered, %s master_project_en, try_cast(left(trim(creation_date), 10) as date) creation_date
-        from %s where %s is not null
-        qualify row_number() over (partition by %s order by creation_date desc nulls last) = 1""" % (
-        num("property_id"), parcel_key("parcel_id"), num("project_id"), num("area_id"), txt("building_number"), num("parent_property_id"),
-        cnt("floors"), cnt("bld_levels"), cnt("flats"), cnt("offices"), cnt("shops"), cnt("car_parks"), cnt("elevators"),
-        dbl("built_up_area"), dbl("actual_area"), txt("property_sub_type_en"), yes("is_registered"), txt("master_project_en"),
-        B, num("property_id"), num("property_id")))
+               %s property_sub_type, %s is_registered, %s master_project_en, try_cast(left(trim(b.creation_date), 10) as date) creation_date
+        from %s b left join j_pl_parcel lp on lp.property_id = %s
+        where %s is not null
+        qualify row_number() over (partition by %s order by b.creation_date desc nulls last) = 1""" % (
+        num("b.property_id"), parcel_key("b.parcel_id"), num("b.project_id"), num("b.area_id"), txt("b.building_number"), num("b.parent_property_id"),
+        cnt("b.floors"), cnt("b.bld_levels"), cnt("b.flats"), cnt("b.offices"), cnt("b.shops"), cnt("b.car_parks"), cnt("b.elevators"),
+        dbl("b.built_up_area"), dbl("b.actual_area"), txt("b.property_sub_type_en"), yes("b.is_registered"), txt("b.master_project_en"),
+        B, num("b.parent_property_id"), num("b.property_id"), num("b.property_id")))
+    # 1 Oct 2026: 92,318 units carry no parcel id; 59,250 of them sit in a keyed building or on keyed land and take that key
     con.execute("""create or replace temp table j_pl_units as
-        select %s area_id, %s parcel_key, count(*) units from %s group by 1, 2""" % (num("area_id"), parcel_key("parcel_id"), U))
+        select %s area_id, coalesce(%s, pb.parcel_key, lp.parcel_key, lg.parcel_key) parcel_key, count(*) units
+        from %s u
+        left join j_pl_bld pb on pb.property_id = %s
+        left join j_pl_parcel lp on lp.property_id = %s
+        left join j_pl_parcel lg on lg.property_id = %s
+        group by 1, 2""" % (num("u.area_id"), parcel_key("u.parcel_id"), U,
+                            num("u.parent_property_id"), num("u.parent_property_id"), num("u.grandparent_property_id")))
     con.execute("""create or replace temp table j_pl_areas as
         select %s area_id, %s name_en, %s name_ar, %s comm_num from %s where %s is not null
         qualify row_number() over (partition by %s order by name_en) = 1""" % (
@@ -983,8 +1013,8 @@ def job_place_spine(con):
                max(generation) >= 8 lineage_loop            -- 159 parcels name each other as the parcel they were split from
         from walk group by 1""")
     con.execute("""create or replace temp table j_d_parcel as
-        select 'pcl:' || cast(p.parcel_key as varchar) canonical_id, p.parcel_key, p.property_id, p.area_id, a.name_en area_name_en,
-               p.parcel_key // 10000 comm_num, p.project_id, p.land_number, p.land_sub_number, p.land_type, p.property_type,
+        select 'pcl:' || cast(p.parcel_key as varchar) canonical_id, p.parcel_key, p.key_source, p.property_id, p.area_id, a.name_en area_name_en,
+               %s comm_num, p.project_id, p.land_number, p.land_sub_number, p.land_type, p.property_type,
                p.property_sub_type, p.actual_area, p.is_free_hold, p.is_registered, p.master_project_id, p.master_project_en, p.zone_id,
                p.munc_zip_code, p.separated_from parent_property_id, l.parent_parcel_key,
                case when l.lineage_loop then null else coalesce(l.split_generation, 0) end split_generation,
@@ -994,9 +1024,10 @@ def job_place_spine(con):
         from j_pl_parcel p left join j_pl_areas a on a.area_id = p.area_id left join j_pl_lineage l on l.parcel_key = p.parcel_key
         left join (select parcel_key, count(*) buildings from j_pl_bld where parcel_key is not null group by 1) b on b.parcel_key = p.parcel_key
         left join (select parcel_key, count(*) dm_buildings from lk_dm_buildings where parcel_key is not null group by 1) d on d.parcel_key = p.parcel_key
-        left join (select parcel_key, sum(units) units from j_pl_units where parcel_key is not null group by 1) u on u.parcel_key = p.parcel_key""")
+        left join (select parcel_key, sum(units) units from j_pl_units where parcel_key is not null group by 1) u on u.parcel_key = p.parcel_key"""
+        % comm_of("p.parcel_key"))
     con.execute("""create or replace temp table j_d_building as
-        select 'bld:' || cast(b.property_id as varchar) canonical_id, b.property_id, b.parcel_key, b.parcel_key // 10000 comm_num,
+        select 'bld:' || cast(b.property_id as varchar) canonical_id, b.property_id, b.parcel_key, """ + comm_of("b.parcel_key") + """ comm_num,
                b.area_id, a.name_en area_name_en, b.project_id, b.building_number, b.parent_property_id, b.floors, b.bld_levels, b.flats,
                b.offices, b.shops, b.car_parks, b.elevators, b.built_up_area, b.actual_area, b.property_sub_type, b.is_registered,
                b.master_project_en, b.creation_date, coalesce(d.dm_buildings, 0) dm_buildings_on_parcel
