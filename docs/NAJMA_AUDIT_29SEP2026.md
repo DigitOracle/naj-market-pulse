@@ -38,7 +38,7 @@ Each of these was invisible from the screen. None was found by reading output; a
 | # | Problem | Measured | Owner |
 |---|---|---|---|
 | 1 | Municipality building records reach only **43.1%** of DLD buildings (parcel reaches 97.7%). Floors, permits and usages live there, so this is the hard ceiling on what any building page can say | 110,720 / 257,039 | Gov data |
-| 2 | Not a data limit — a **join that collapses in specific districts**: Al Thanayah Fourth 99.9%, Al Yelayiss 1 0.07%, Madinat Hind 4 0.04%, Al Yufrah 1 0.03% | measured today | Gov data |
+| 2 | **Cause found, 30 Sep — and it is not ours to fix.** In the failing communities the Municipality's building register has never been re-issued at individual-plot level: it still sits on a masterplan grid. Al Yelayiss 1 — DLD 7,505 registered plots against 44 Municipality parcels, 2 in common. Madinat Hind 4 — 13,406 against 580, 6 in common. Al Yufrah 1 — 3,758 against 5, 3 in common. The join is exact and correct; the two registers describe the same ground at different granularity. A smooth gradient from 0% to 99.9% across 89 areas, tracking how built-out each community is: worst Al Hebiah Sixth, Palm Deira, Al Barsha South Fifth, Palm Jabal Ali (0.0%); best Al Thanayah Fourth, Al Merkadh, Wadi Al Safa 6 (99.8–99.9%) | measured 30 Sep | Gov data — **ceiling, not a defect** |
 | 3 | **89% of buildings have no name.** Their pages read "Unnamed building" | 7,116 named / 67,811 | 3D + data |
 | 4 | Only **2.5%** of footprints carry a register id and **1.2%** a Municipality id in the enrichment files | 1,705 / 822 of 67,811 | Data (mine) |
 | 5 | Map decides which building you tapped by **nearest centre within 30 m**, though each mesh carries its id | — | Rings (built, awaiting go) |
@@ -84,7 +84,8 @@ Recording these because each was a confident claim that turned out to be wrong.
 5. **Finish the move off CityEngine's interactive app.** The headless route is proven and removes the memory leaks, the crashes and the contention with Unreal.
 6. **Stream large downloads.** One job should not be able to take the machine away from the others.
 7. **Authorise HeyGen** so video renders stop being a manual paste.
-8. **Do not let a join's citywide average stand in for a district.** 99.9% and 0.04% average to a number that describes nowhere.
+8. **Do not let a join's citywide average stand in for a district.** 99.9% and 0.04% average to a number that describes nowhere. Asking for the per-district figure is what turned "our join is broken" into "the two registers describe the same ground at different granularity" — a finding we can state to a client rather than a bug we would have hunted for weeks.
+9. **An absent record is not a fact about the building.** Where the Municipality has issued no per-plot record, the page must say the record does not exist, never imply the building has no floors or permits.
 
 ## 7. Needs you
 
