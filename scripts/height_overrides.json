@@ -1,111 +1,221 @@
 {
- "generated": "2026-09-25",
+ "generated": "2026-09-26",
  "basis": "geojson name vs bldgfacts name; see height_overrides_README.md",
  "districts": {
   "businessbay": {
    "620": {
     "height_m": 153.6,
-    "why": "Canal Heights 2 in bldgfacts, '2' in the geojson - same building. Register 153.6 = 48 floors x 3.2; massed 88.0 is a part-built OSM capture."
+    "why": "Canal Heights 2 in bldgfacts, '2' in the geojson - same building. Register 153.6 = 48 floors x 3.2; massed 88.0 is a part-built OSM capture.",
+    "fp": {
+     "lon": 55.2797248,
+     "lat": 25.1837728,
+     "area_m2": 3776.6
+    }
    },
    "589": {
     "height_m": 140.8,
-    "why": "ONE River Point in both. Register 140.8 = 44 floors x 3.2; massed 88.0 is a part-built OSM capture."
+    "why": "ONE River Point in both. Register 140.8 = 44 floors x 3.2; massed 88.0 is a part-built OSM capture.",
+    "fp": {
+     "lon": 55.2611432,
+     "lat": 25.1817323,
+     "area_m2": 4374.6
+    }
    },
    "650": {
     "height_m": 96.0,
-    "why": "Binghatti Aquarise in bldgfacts, 'Aquarise' in the geojson - same building. Register 96.0 = 30 floors x 3.2; massed 32.0 is part-built."
+    "why": "Binghatti Aquarise in bldgfacts, 'Aquarise' in the geojson - same building. Register 96.0 = 30 floors x 3.2; massed 32.0 is part-built.",
+    "fp": {
+     "lon": 55.2732568,
+     "lat": 25.1765424,
+     "area_m2": 8404.4
+    }
    },
    "154": {
     "hold": true,
-    "why": "HOLD at 110.0. The register row is Tiger Sky Tower (390.4 = 122 floors) but this footprint is named UPSIDE Living by SRG in the geojson and bldgfacts gives 30 storeys. Two buildings on one parcel; applying 390.4 would put Tiger Sky's height on a different tower. Most conspicuous building in the district, so the wrong fix is worse than the placeholder."
+    "why": "HOLD at 110.0. The register row is Tiger Sky Tower (390.4 = 122 floors) but this footprint is named UPSIDE Living by SRG in the geojson and bldgfacts gives 30 storeys. Two buildings on one parcel; applying 390.4 would put Tiger Sky's height on a different tower. Most conspicuous building in the district, so the wrong fix is worse than the placeholder.",
+    "fp": {
+     "lon": 55.2896438,
+     "lat": 25.1849209,
+     "area_m2": 3647.4
+    }
    }
   },
   "dubaimarina": {
    "504": {
     "height_m": 237.6,
-    "why": "Sobha SeaHaven Tower A (the named 'Sobha Seahaven' parcel footprint, project 2550): 66 floors per listing sites (propsearch.ae, Bayut; researched 24 Sep 2026) x 3.6 m. Massed 24.0 m was the site under construction."
+    "why": "Sobha SeaHaven Tower A (the named 'Sobha Seahaven' parcel footprint, project 2550): 66 floors per listing sites (propsearch.ae, Bayut; researched 24 Sep 2026) x 3.6 m. Massed 24.0 m was the site under construction.",
+    "fp": {
+     "lon": 55.143397,
+     "lat": 25.0893257,
+     "area_m2": 445.1
+    }
    }
   },
   "althanyahfifth": {
    "1948": {
     "height_m": 94.8,
-    "why": "ELTIERA VIEWS (DLD project 4116, Ellington): DLD units register top floor 26 -> (26+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "ELTIERA VIEWS (DLD project 4116, Ellington): DLD units register top floor 26 -> (26+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.1544154,
+     "lat": 25.060954,
+     "area_m2": 250.6
+    }
    }
   },
   "arjan": {
    "388": {
     "height_m": 34.3,
-    "why": "ARBOR VIEW (DLD project 2814, Ellington): DM permit 7 floors, 34.3 m; massed 12.0 m was a stub/part capture."
+    "why": "ARBOR VIEW (DLD project 2814, Ellington): DM permit 7 floors, 34.3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.2300304,
+     "lat": 25.0640939,
+     "area_m2": 3330.0
+    }
    }
   },
   "jumeirahvillagecircle": {
    "942": {
     "height_m": 20.0,
-    "why": "BELGRAVIA III (DLD 1922, Ellington), claimed by position: DLD units register top floor 4."
+    "why": "BELGRAVIA III (DLD 1922, Ellington), claimed by position: DLD units register top floor 4.",
+    "fp": {
+     "lon": 55.1996477,
+     "lat": 25.0593837,
+     "area_m2": 2486.1
+    }
    },
    "1346": {
     "height_m": 20.0,
-    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4."
+    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4.",
+    "fp": {
+     "lon": 55.2039183,
+     "lat": 25.0483928,
+     "area_m2": 2741.5
+    }
    },
    "1347": {
     "height_m": 20.0,
-    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4."
+    "why": "BELGRAVIA SQUARE (DLD 2100, Ellington), claimed by position: DLD units register top floor 4.",
+    "fp": {
+     "lon": 55.2042059,
+     "lat": 25.0487728,
+     "area_m2": 2450.2
+    }
    },
    "641": {
     "height_m": 20.0,
-    "why": "Belgravia 2 (DLD project 1820, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+    "why": "Belgravia 2 (DLD project 1820, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.2044217,
+     "lat": 25.0497169,
+     "area_m2": 2414.2
+    }
    },
    "865": {
     "height_m": 20.0,
-    "why": "EATON PLACE (DLD project 1871, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+    "why": "EATON PLACE (DLD project 1871, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.200128,
+     "lat": 25.0603627,
+     "area_m2": 2669.5
+    }
    },
    "1431": {
     "height_m": 20.0,
-    "why": "HARRINGTON HOUSE (DLD project 2277, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "HARRINGTON HOUSE (DLD project 2277, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.2012108,
+     "lat": 25.0511677,
+     "area_m2": 2791.5
+    }
    },
    "1241": {
     "height_m": 47.2,
-    "why": "HILLMONT RESIDENCES BY ELLINGTON (DLD project 3081, Ellington): DLD units register top floor 12 -> (12+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "HILLMONT RESIDENCES BY ELLINGTON (DLD project 3081, Ellington): DLD units register top floor 12 -> (12+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.203461,
+     "lat": 25.0595905,
+     "area_m2": 1691.8
+    }
    },
    "799": {
     "height_m": 60.8,
-    "why": "THE PORTMAN (DLD project 2537, Ellington): DLD units register top floor 16 -> (16+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture."
+    "why": "THE PORTMAN (DLD project 2537, Ellington): DLD units register top floor 16 -> (16+1) x 3.4 + 3 m; massed 6.2 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.2199954,
+     "lat": 25.0564689,
+     "area_m2": 783.7
+    }
    },
    "999": {
     "height_m": 20.0,
-    "why": "BELGRAVIA III (DLD project 1922, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "BELGRAVIA III (DLD project 1922, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.199944,
+     "lat": 25.0598766,
+     "area_m2": 2838.8
+    }
    },
    "1492": {
     "height_m": 20.0,
-    "why": "OAKLEY SQUARE RESIDENCES (DLD project 2304, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "OAKLEY SQUARE RESIDENCES (DLD project 2304, Ellington): DLD units register top floor 4 -> (4+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.211942,
+     "lat": 25.0597207,
+     "area_m2": 2489.3
+    }
    }
   },
   "jumeirahvillagetriangle": {
    "1279": {
     "height_m": 23.4,
-    "why": "BELMONT RESIDENCES (DLD project 2639, Ellington): DLD units register top floor 5 -> (5+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "BELMONT RESIDENCES (DLD project 2639, Ellington): DLD units register top floor 5 -> (5+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.1953892,
+     "lat": 25.0450316,
+     "area_m2": 13.7
+    }
    }
   },
   "palmjumeirah": {
    "2468": {
     "height_m": 30.2,
-    "why": "ELLINGTON BEACH HOUSE (DLD project 2437, Ellington): DLD units register top floor 7 -> (7+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "ELLINGTON BEACH HOUSE (DLD project 2437, Ellington): DLD units register top floor 7 -> (7+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.1411708,
+     "lat": 25.1398807,
+     "area_m2": 3942.5
+    }
    }
   },
   "samaaljadaf": {
    "299": {
     "height_m": 40.4,
-    "why": "ART BAY WEST (DLD project 2996, Ellington): DLD units register top floor 10 -> (10+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture."
+    "why": "ART BAY WEST (DLD project 2996, Ellington): DLD units register top floor 10 -> (10+1) x 3.4 + 3 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.3366679,
+     "lat": 25.2280782,
+     "area_m2": 27.5
+    }
    }
   },
   "sobhaheartland": {
    "179": {
     "height_m": 63.0,
-    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 12.0 m was a stub/part capture."
+    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 12.0 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.3112241,
+     "lat": 25.1787063,
+     "area_m2": 482.5
+    }
    },
    "286": {
     "height_m": 63.0,
-    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 28.6 m was a stub/part capture."
+    "why": "BERKELEY PLACE (DLD project 2417, Ellington): DM permit 14 floors, 63.0 m; massed 28.6 m was a stub/part capture.",
+    "fp": {
+     "lon": 55.3114994,
+     "lat": 25.1784169,
+     "area_m2": 4456.0
+    }
    }
   }
  }

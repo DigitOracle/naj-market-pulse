@@ -291,6 +291,9 @@ def main():
     hover_path = os.path.join(HERE, "height_overrides.json")   # TRACKED: data/ is gitignored, and a
     if os.path.exists(hover_path):                            # reviewed decision must survive in git
         hover = json.load(open(hover_path, encoding="utf-8")).get("districts", {}).get(SLUG, {})
+    # 30 Sep 2026: drop any reviewed height whose footprint is no longer the one it was reviewed on (reordered geojson)
+    sys.path.insert(0, os.path.dirname(hover_path)); import height_overrides_guard
+    hover = height_overrides_guard.filter(SLUG, hover, feats, log)
     lifted, conflicts, overridden, held = 0, [], 0, 0
     for s, fi in zip(shapes, mapping):
         if SUBSET is not None and fi not in SUBSET: continue
