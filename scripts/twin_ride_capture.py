@@ -153,6 +153,9 @@ RIDE_JS = r"""
     S.cam.near = 1.0; S.cam.updateProjectionMatrix();    // the page's 6 m near plane would clip the lane at rider height
   }
   S.ctl.autoRotate = false; S.ctl.enabled = false;
+  // the page's orbit limits keep its camera looking DOWN from a distance; a rider looks up at the towers. With them on,
+  // aiming up at a landmark lifted the camera ~180 m to the target's height and levelled it (30 Sep).
+  S.ctl.minPolarAngle = 0; S.ctl.maxPolarAngle = Math.PI; S.ctl.minDistance = 0; S.ctl.maxDistance = Infinity;
   const up = new T.Vector3(0, 1, 0);
   window.__rideSet = (f, o) => {                          // f in [0,1]
     const s = f * L;
@@ -184,18 +187,64 @@ RIDE_JS = r"""
     const c = bb.getCenter(new T.Vector3()), h = bb.max.y - bb.min.y;
     let best = 0, bd = 1e12;
     for (let i = 0; i < pts.length; i++) { const d = (pts[i].x - c.x) ** 2 + (pts[i].z - c.z) ** 2; if (d < bd) { bd = d; best = i; } }
-    return { label, s: cum[best], dist: Math.round(Math.sqrt(bd)), aim: [c.x, bb.min.y + 0.55 * h, c.z] };
+    // aim at the middle of what stands above the street the rider is on
+    const gy = pts[best].y - route.lift, topY = Math.max(bb.max.y, gy + 20);
+    // a clear viewpoint: try bearings around the tower at 1.6-2.4x its height, pick the first whose line of sight to
+    // its upper half is not blocked by another building (Churchill Tower's first view was the face of a neighbour)
+    const H = Math.max(40, topY - gy), aimP = new T.Vector3(c.x, gy + 0.55 * H, c.z), own = new Set(a.meshes.map(i => S.meshes[i]));
+    const others = S.meshes.filter(m => m && !own.has(m));
+    const rc = new T.Raycaster(); let view = null;
+    const toRoute = pts[best].clone().sub(new T.Vector3(c.x, pts[best].y, c.z)).setY(0).normalize();
+    const base0 = Math.atan2(toRoute.z, toRoute.x);
+    outer: for (const k of [2.0, 2.4, 2.9]) for (const d of [0, 0.5, -0.5, 1.0, -1.0, 1.5, -1.5, 2.2, -2.2, 3.14]) {
+      const ang = base0 + d, dist = Math.max(320, k * H);
+      const vp = new T.Vector3(c.x + Math.cos(ang) * dist, gy + 0.6 * H, c.z + Math.sin(ang) * dist);
+      const dir = aimP.clone().sub(vp); const len = dir.length(); rc.set(vp, dir.normalize()); rc.far = len - 0.35 * H;
+      if (!rc.intersectObjects(others, false).length) { view = vp.toArray(); break outer; }
+    }
+    return { label, s: cum[best], dist: Math.round(Math.sqrt(bd)), aim: [c.x, gy + 0.5 * (topY - gy), c.z], view,
+             mesh: a.meshes.slice() };
   });
   const lab = document.createElement("div"); lab.id = "ridelab";
   lab.style.cssText = "position:fixed;left:0;right:0;top:34%;text-align:center;z-index:99;opacity:0;color:#f2f4f7;"
     + "font:700 58px system-ui;text-shadow:0 3px 18px #000,0 0 4px #000";
   document.body.appendChild(lab);
   const mid = pts.reduce((m, q) => m.add(q), new T.Vector3()).multiplyScalar(1 / pts.length);
+  const HL = new T.MeshStandardMaterial({ color: 0xEADBB9, emissive: 0xC5A56A, emissiveIntensity: 0,
+                                          roughness: 0.55, metalness: 0.1, transparent: true, opacity: 1 });
+  const lit = new Set();
   window.__rideFrame = (sv, o, ex) => {
     const b = pose(sv, o); let pos = b.pos.clone(), tgt = b.tgt.clone();
-    if (ex.aim && ex.w > 0) {                                  // turn to the landmark, rising a little to take it in
-      const aim = new T.Vector3(...ex.aim);
-      tgt.lerp(aim, ex.w); pos.add(up.clone().multiplyScalar(ex.w * o.height * 1.5));
+    // light the landmark while the camera is on it: JW Marriott Marquis is modelled as clear glass and reads as a
+    // dark ghost from the ground, and a named building should never leave the viewer guessing which one it is
+    const want = new Set(ex.mesh && ex.w > 0.05 ? ex.mesh : []);
+    for (const i of Array.from(lit)) if (!want.has(i)) { const m = S.meshes[i]; if (m) m.material = m.userData.__orig; lit.delete(i); }
+    for (const i of want) {                                  // a warm glow on the model's own materials, not a swap
+      const m = S.meshes[i]; if (!m) continue;
+      if (!lit.has(i)) {
+        m.userData.__orig = m.material;
+        m.material = (Array.isArray(m.material) ? m.material : [m.material]).map(x => { const c = x.clone();
+          if (c.emissive) c.emissive.set(0xC5A56A); c.transparent = false; c.opacity = 1;
+          if ("transmission" in c) c.transmission = 0;                 // clear glass (JW Marriott) renders near-black
+          c.userData.glow = /glassclear/.test(m.name || "") ? 0.75 : 0.28; return c; });
+        if (m.material.length === 1) m.material = m.material[0];
+        lit.add(i);
+      }
+      for (const c of (Array.isArray(m.material) ? m.material : [m.material])) if ("emissiveIntensity" in c) c.emissiveIntensity = (c.userData.glow || 0.28) * ex.w;
+    }
+    if (ex.aim && ex.w > 0) {
+      // lift off the lane and swing back to frame the whole tower from above and to the side, like a drone - a
+      // turn at street level only showed a dark wall of glass (30 Sep); then drop back onto the lane
+      const mid = new T.Vector3(...ex.aim), gy = b.p.y - route.lift, H = Math.max(40, 2 * (mid.y - gy));
+      const base = new T.Vector3(mid.x, gy, mid.z);
+      const away = b.p.clone().sub(base).setY(0); if (away.lengthSq() < 1) away.set(1, 0, 0); away.normalize();
+      const side = new T.Vector3(-away.z, 0, away.x);
+      const orbitTgt = base.clone().add(up.clone().multiplyScalar(0.45 * H));
+      const orbitPos = ex.view ? new T.Vector3(...ex.view)
+                               : base.clone().add(away.multiplyScalar(Math.max(320, 1.6 * H))).add(side.multiplyScalar(0.35 * H))
+                                     .add(up.clone().multiplyScalar(0.6 * H));
+      const e = ex.w * ex.w * (3 - 2 * ex.w);
+      pos.lerp(orbitPos, e); tgt.lerp(orbitTgt, e);
     }
     lab.textContent = ex.label || ""; lab.style.opacity = String(Math.max(0, Math.min(1, (ex.w - 0.45) * 2.5)));
     if (ex.intro !== undefined && ex.intro < 1) {              // from high over the district down to the rider
@@ -287,8 +336,11 @@ def main():
         for m in marks:
             print("  stop %-26s %s" % (m["label"], "MISSING" if m.get("missing") else "%d m from track" % m["dist"]))
         L = info["metres"] * END_AT
-        frames = [(0.0, {"intro": 0.0, "w": 0})] * int(0.8 * FPS)
-        frames += [(0.0, {"intro": k / (INTRO_S * FPS), "w": 0}) for k in range(int(INTRO_S * FPS))]
+        place = arg("--place", "")
+        # the place's name over the high view, fading as the camera comes down
+        frames = [(0.0, {"intro": 0.0, "w": 1.0, "label": place})] * int(0.8 * FPS)
+        frames += [(0.0, {"intro": k / (INTRO_S * FPS), "w": max(0.0, 1 - k / (0.45 * INTRO_S * FPS)),
+                          "label": place}) for k in range(int(INTRO_S * FPS))]
         knots = [0.0] + [m["s"] for m in use] + [L]
         ride_frames = int(seconds * FPS)
         span = sum(knots[i + 1] - knots[i] for i in range(len(knots) - 1)) or 1
@@ -303,7 +355,7 @@ def main():
                 for k in range(ns):
                     w = min(1.0, k / nt, (ns - 1 - k) / nt)
                     w = w * w * (3 - 2 * w)
-                    frames.append((b, {"w": w, "aim": m["aim"], "label": m["label"]}))
+                    frames.append((b, {"w": w, "aim": m["aim"], "label": m["label"], "mesh": m["mesh"], "view": m.get("view")}))
         frames += [(L, {"w": 0})] * int(2.5 * FPS)
         json.dump(frames, open(sched_cache, "w"))
         return frames
