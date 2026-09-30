@@ -1,0 +1,777 @@
+/**
+ * Najma district rule v6.1 (LAB, CityEngine 2026.1, research only) = najma_v3.cga + 3D facade detail + Unreal PBR looks.
+ *
+ * v6.1 (1 Oct 2026, from the no-Unreal film score: v6 read too PALE next to Unreal, dE 27.6 vs v4's 26.8, the t34 s oval
+ * tower white where Unreal is dark blue): the photo textures are now TINTED by the Unreal palette colour of their role
+ * (material.color multiplies the texture - glass by the vision palette, walls / podium by the wall palette; per facade
+ * class when no look is pushed: glassblue -> blue_glass, glassclear -> clear_glass, glassbronze -> bronze_glass, render ->
+ * cream_render, stone -> sandstone, concrete -> pale_concrete, brick -> terracotta), and photo glass gets reflective PBR:
+ * metallic 0.4 (texGlassMetal), roughness 0.12 (texGlassRough), glass tint at tintGlassMix 0.5 of the palette colour (in
+ * linear). Chosen by a sweep through the no-Unreal film renderer (4 stills, mean dE vs Unreal): full-strength tint with
+ * metallic 0.5-0.6 turns the t21 canal tower near-black (dE 40); 0.5 tint / 0.4 / 0.12 scores 26.35 (v4 26.8, v6 27.6).
+ * attrs tintGlass / tintWalls (default true) switch the tint off per role. Everything else is v6.
+ *
+ * MASTER SWITCH  facadeDetail (default true). facadeDetail = false runs EXACTLY the v3 derivation: every v3 rule, attr and
+ * function below is v3 verbatim except for guarded `case dOn ...` branches placed in front of the v3 branches (Building,
+ * PodiumFacade, ShaftFacade, LowFacade, CrownBand, Roof, and bldgH's typeHeights case) and the LOD annotation (@Enum for the
+ * Unreal LOD export), and dOn is false whenever facadeDetail is false. Same geometry, same leaf shapes (TexFacade. TexRoof.
+ * CrownBand. Ghost. PlainPaint. Wall. ...), no material.name / PBR attribute is set - verified with PyPRT on Business Bay,
+ * 655 / 655 buildings identical (faces, UVs, materials, textures, names, reports), see NOTES.md. The detail also needs
+ * textured = true (the untextured v2 look is a palette-classified colour code and must not get PBR colours) and LOD >= 1
+ * (LOD 0 = Plain, pipeline = Ghost: unchanged).
+ *
+ * What facadeDetail = true adds (all numbers are attrs, see the "v6" groups below). The v3 photo facade is ALWAYS kept -
+ * the detail is ADDED on the texture's own storey / bay grid:
+ *   glass classes (glassblue / glassclear / glassbronze), mid-rise (>= facadeMin) and tower shafts, glassTexture = true:
+ *       v3's photo curtain wall with glossy glass PBR on it (metallic <= texGlassMetal, roughness >= texGlassRough), a
+ *       slab-edge ledge (ledgeH x bandProj) on every floor line of the texture, and a vertical fin from ESRI.lib
+ *       Components/Element/Shading/Subcomponents/Structure/Shading_Structure_Vertical_Fin.cga (finProj deep; LOD 1 one quad,
+ *       LOD 2 a finW box) on every bay line of the texture and at every facet start (curved towers: one per facet).
+ *       glassTexture = false: the untextured Unreal M_DA_Facade curtain wall (vision + bandW spandrel every ueFloorH 3.6 m,
+ *       fins every finStep panes of paneW 1.5 m). Low glass buildings keep the v3 texture (+ glass PBR).
+ *   residential (see `balcOn`): balconies from ESRI.lib Components/Element/Balcony/Subcomponents/
+ *       Balcony_Structure_Rectangular_With_Railings_On_Top_Of_Slab.cga with the railing from
+ *       Components/Element/Railing/Balcony_Railing.cga ("Solid" glass panel at LOD 1, "Solid Panels With Top Bar" at
+ *       LOD 2), on the photo texture's own storey / bay grid (so a slab sits on every floor line), every balconyEvery-th bay
+ *       (auto: 2nd; a facet narrower than that gets one on its first bay) or one continuous balcony per floor
+ *       (balconyContinuous = 1), never on the first storey of a face and never on a tower podium. No balconies on
+ *       warehouse / school / mosque / retail / other / villa / townhouse types.
+ *   every surface: PBR by facade ROLE with Unreal's palette (scripts/ue_sobha_pbr.py PALETTE, linear values converted
+ *       to CGA sRGB with gamma 2.2 - CE's glTF export writes baseColorFactor = cga^2.2, measured on
+ *       sky_businessbay_v2_0.glb), material.shader = "CityEnginePBRShader" (without it CE's glTF / Datasmith export
+ *       drops roughness and metallic - najma_v4 set them and sky_businessbay_v4_0.glb carries metallic 0 / no
+ *       roughness), and material.name = "<look>_<role>[_<status>]" with the role tokens ue_sobha_pbr.ROLE_OF matches:
+ *       vision spandrel slab_band fin balcony_slab balustrade mullion parapet roof wall podium_wall.
+ *       <look> = attr look (facade_refs.json look) or the facade class. Photo textures stay on walls / podium / roofs.
+ *
+ * Building type: attr btype (lab_buildingtype_match.py taxonomy: villa townhouse lowrise_apt|lowrise_apartment tower
+ * warehouse school mosque retail other). "" = v3 inference (height classes; residential = the v3 texture's own usage,
+ * "_Residential_" in the ESRI file name). typeHeights (default false) lets a type replace the 12 m placeholder height
+ * (PATCH_buildingtype.diff numbers) - off by default because it changes massing.
+ * Landmark hook: attr landmark (+ lmLOD lmFloors lmAz0..2 lmLen0..2, the landmark_table.json cga block). landmark != ""
+ * routes the building through Landmark / LandmarkBuild; today that is the generic v6 build plus a report. To switch the
+ * families on: import lmk : "lab/landmarks/landmarks.cga" and make LandmarkBuild --> lmk.Landmark (see NOTES.md).
+ *
+ * Triangle budget (LOD 1, Business Bay, 655 shapes): ~307k triangles (v3: 20k), packed web tile ~6.1 MB / ~1.4 MB gzip
+ * (limit 5 MB gzip). Knobs: finEvery, balconyEvery, bandProj (0 = no ledges), finProj (0 = no fins). Details: NOTES.md.
+ */
+version "2026.1"
+
+// ---------------------------------------------------------------- ESRI.lib 2026 components (v6)
+@Hidden
+import Fin : "/ESRI.lib/rules/Components/Element/Shading/Subcomponents/Structure/Shading_Structure_Vertical_Fin.cga" (
+    Alignment_X = "Use Relative_Position_X",
+    Relative_Position_X = 0.5,
+    Shading_Panel_Width = finWEff,
+    Shading_Panel_Depth = finProj,
+    Shading_Panel_Overhang_Y = 0,
+    ShadingPanel --> FinLeaf )
+
+@Hidden
+import FinE : "/ESRI.lib/rules/Components/Element/Shading/Subcomponents/Structure/Shading_Structure_Vertical_Fin.cga" (
+    Alignment_X = "Use Relative_Position_X",
+    Relative_Position_X = 0,              // on the bay line of the photo texture (textured curtain wall)
+    Shading_Panel_Width = finWEff,
+    Shading_Panel_Depth = finProj,
+    Shading_Panel_Overhang_Y = 0,
+    ShadingPanel --> FinLeaf )
+
+@Hidden
+import Balc : "/ESRI.lib/rules/Components/Element/Balcony/Subcomponents/Balcony_Structure_Rectangular_With_Railings_On_Top_Of_Slab.cga" (
+    Balcony_Depth = balconyD,
+    Slab_Height = balconySlabT,
+    Front_Railing_Height = balustradeH,
+    Front_Railing_Depth = 0,
+    Front_Railing_Setback_Depth = 0,
+    Has_Roof = false,
+    Has_Left_Railing = sideRails,
+    Has_Right_Railing = sideRails,
+    Floor_Slab_Type = "Inside",
+    FrontRailingSlot --> BalRail,
+    LeftRailingSlot --> BalRail,
+    RightRailingSlot --> BalRail,
+    Flooring --> BalSlab,
+    SlabSide --> BalSlabSide,
+    SlabBottom --> BalSlabBottom )
+
+@Hidden
+import Rail : "/ESRI.lib/rules/Components/Element/Railing/Balcony_Railing.cga" (
+    Railing_Type = railType,
+    Panel --> BalGlass,
+    HorizontalBar --> RailBar,
+    VerticalBar --> RailBar )
+
+// ---------------------------------------------------------------- object attributes
+attr status      = "existing"     // existing | construction | pipeline
+attr bHeight     = 12             // m — OSM height or levels x 3.2 at export; 12 = placeholder
+attr levels      = ""             // OSM building:levels (string column in the SHP)
+attr pctComplete = 100
+@Enum("auto", "glassblue", "glassclear", "glassbronze", "stone", "render", "concrete", "brick")
+attr fclass      = "auto"         // facade class (scripts/facade_classes.py -> object attr)
+attr fvar        = -1             // deterministic variant, feature index % 3 (ce_batch_v2.py)
+
+// ---------------------------------------------------------------- design controls
+attr textured      = true         // true = ESRI.lib facade textures; false = v2 colour-only look
+@Enum(0, 1, 2)                    // v6: was @Range(min=0, max=2, stepsize=1, restricted=true) in v3 - same values; an @Enum LOD attr
+attr LOD           = 1            //     is what CityEngine's Unreal exporter needs for setExportLod / setLODAttribute("LOD")
+@Range(min=-1, max=2, stepsize=1, restricted=true)
+attr facadeVariant = -1           // -1 = auto (fvar, else footprint-area hash); 0/1/2 pins
+@Range(min=1, max=6, stepsize=1, restricted=true)
+attr bandEvery     = 1            // storeys per slab band at LOD 1 (untextured only); v6: floors per curtain-wall band (budget knob)
+attr floorH        = 3.4
+attr podiumFloorH  = 4.5
+attr podiumOut     = 1.0          // podium outset beyond the footprint, m
+attr towerMin      = 60
+attr facadeMin     = 20
+attr placeholderH  = 12
+attr crownPct      = 0.02
+attr tileW         = 3.4          // m per texture bay (one "_tNNN" column)
+attr roofTile      = 28           // m per flat-roof texture repeat
+
+// ---------------------------------------------------------------- v6: master switch + building type + landmark hook
+@Group("v6 Facade detail", 80)
+@Order(1)
+attr facadeDetail  = true         // false = najma_v3 exactly
+@Group("v6 Facade detail", 80)
+@Order(2)
+@Enum("", "villa", "townhouse", "lowrise_apt", "lowrise_apartment", "tower", "warehouse", "school", "mosque", "retail", "other")
+attr btype         = ""           // data/lab/buildingtype/types_<slug>.json; "" = infer from height / texture usage (v3)
+@Group("v6 Facade detail", 80)
+@Order(3)
+attr typeHeights   = false        // true: a typed building on the 12 m placeholder gets its type's typical height
+
+@Group("v6 Landmark", 82)
+@Order(1)
+attr landmark      = ""           // landmark_table.json family ("" = generic). Hook only - see LandmarkBuild
+@Group("v6 Landmark", 82)
+@Order(2)
+@Range(min=0, max=2, stepsize=1, restricted=true)
+attr lmLOD         = 2
+@Group("v6 Landmark", 82)
+@Order(3)
+attr lmFloors      = 0
+@Group("v6 Landmark", 82)
+@Order(4)
+attr lmAz0         = 0
+@Group("v6 Landmark", 82)
+@Order(5)
+attr lmAz1         = 0
+@Group("v6 Landmark", 82)
+@Order(6)
+attr lmAz2         = 0
+@Group("v6 Landmark", 82)
+@Order(7)
+attr lmLen0        = 0
+@Group("v6 Landmark", 82)
+@Order(8)
+attr lmLen1        = 0
+@Group("v6 Landmark", 82)
+@Order(9)
+attr lmLen2        = 0
+
+// ---------------------------------------------------------------- v6: facade rhythm (defaults = Unreal M_DA_Facade2, scripts/ue_bb_facade.py)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(1)
+attr ueFloorH      = 3.6          // FloorH: one curtain-wall floor
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(2)
+attr bandW         = 0.9          // BandW: spandrel / slab band height at the top of each floor
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(3)
+attr paneW         = 1.5          // PaneW: pane rhythm along the wall (facade_refs looks push their own paneW)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(4)
+attr finW          = 0.12         // MullW: fin / mullion width
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(5)
+attr finProj       = 0.50         // fin projection, m (0 = no fins; looks push 0 - 0.25)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(6)
+@Range(min=0, max=8, stepsize=1, restricted=true)
+attr finEvery      = 0            // a fin every N bays of the photo texture (glassTexture) / N panes (untextured);
+                                  // 0 = auto: textured every bay (~3.4 m); untextured LOD 1 every 4th pane, LOD 2 every pane
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(7)
+attr bandProj      = 0.30         // slab-edge ledge projection (textured) / band box projection at LOD 2 (untextured)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(8)
+attr glassTexture  = true         // true: glass keeps v3's photo texture (reflective PBR on it) + slab-edge ledges on the
+                                  //   texture's own floor lines + fins on its bay lines; false: untextured M_DA_Facade
+                                  //   curtain wall (vision + bandW spandrel every ueFloorH) - the Unreal-parity look
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(10)
+attr ledgeH        = 0.30         // slab-edge ledge height on the textured curtain wall
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(12)
+attr texGlassMetal = 0.40         // photo-textured glass: metallic cap (v6.1; v6 had 0.10). Film sweep 1 Oct: 0.4-0.6 all
+                                  //   pass on the t34 oval, but 0.5-0.6 turn the t21 canal tower near-black (dE 40)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(13)
+attr texGlassRough = 0.12         // photo-textured glass: roughness floor (v6.1 film sweep; v6 had 0.12)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(14)
+attr tintGlass     = true         // v6.1: photo glass x the vision palette colour (Unreal's glass colour)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(16)
+attr tintGlassMix  = 0.5          // v6.1: strength of the glass tint in linear colour (1 = the palette colour itself, 0 = white).
+                                  //   Film sweep 1 Oct (mean dE vs Unreal, 4 stills): 1.0 -> 28.7, 0.7 -> 27.0, 0.6 -> 26.6,
+                                  //   0.5 -> 26.35 (v4 26.8, v6 27.6)
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(15)
+attr tintWalls     = true         // v6.1: photo walls / podium x the wall palette colour
+@Group("v6 Rhythm (Unreal M_DA_Facade)", 84)
+@Order(11)
+attr detailMinW    = 2.0          // curtain-wall faces narrower than this stay one plain vision quad (2 m: curved towers band evenly)
+
+// ---------------------------------------------------------------- v6: balconies (names as in facade_refs.json "cga" blocks)
+@Group("v6 Balconies", 86)
+@Order(1)
+attr balconyMinH       = -1       // -1 = auto (residential non-glass >= facadeMin); >= 0 = a look's value, any class
+@Group("v6 Balconies", 86)
+@Order(2)
+attr balconyContinuous = 0        // 1 = one balcony across the face on every floor
+@Group("v6 Balconies", 86)
+@Order(3)
+@Range(min=0, max=8, stepsize=1, restricted=true)
+attr balconyEvery      = 0        // a balcony every N bays; 0 = auto (every 2nd bay)
+@Group("v6 Balconies", 86)
+@Order(4)
+attr balconyD          = 1.4
+@Group("v6 Balconies", 86)
+@Order(5)
+attr balconySlabT      = 0.2
+@Group("v6 Balconies", 86)
+@Order(6)
+attr balustradeH       = 1.1
+@Group("v6 Balconies", 86)
+@Order(7)
+attr balconyMinFaceW   = 2.5      // faces narrower than this get no balconies
+
+// ---------------------------------------------------------------- v6: look (Unreal palette names, facade_refs.json "unreal" block)
+@Group("v6 Look (Unreal palette)", 88)
+@Order(1)
+attr look          = ""           // facade_refs.json look name; "" = the facade class
+@Group("v6 Look (Unreal palette)", 88)
+@Order(2)
+attr palWalls      = ""
+@Group("v6 Look (Unreal palette)", 88)
+@Order(3)
+attr palSlabs      = ""
+@Group("v6 Look (Unreal palette)", 88)
+@Order(4)
+attr palVision     = ""
+@Group("v6 Look (Unreal palette)", 88)
+@Order(5)
+attr palFins       = ""
+@Group("v6 Look (Unreal palette)", 88)
+@Order(6)
+attr palCrown      = ""
+
+const TEXLIB  = "/ESRI.lib/assets/Facades/International/Upperfloors/"
+const ROOFLIB = "/ESRI.lib/assets/Roofs/Flat/"
+
+// ---------------------------------------------------------------- derived quantities
+lvl        = float(levels)
+hasLevels  = lvl > 0
+bldgH      = case typeHeights && dOn && btype != "" && bHeight == placeholderH && !hasLevels : typeH     // v6 only (off by default)
+             case bHeight > 0 && !(bHeight == placeholderH && hasLevels) : bHeight
+             case hasLevels : lvl * floorH
+             else : placeholderH
+isTower    = bldgH >= towerMin
+isMid      = bldgH >= facadeMin
+podiumN    = case bldgH < 90 : 4  case bldgH < 150 : 5  else : 6
+podiumH    = podiumN * podiumFloorH
+crownH     = bldgH * crownPct
+shaftH     = bldgH - podiumH - crownH
+storeysEst = case isTower : podiumN + rint(shaftH / floorH)  else : max(1, rint(bldgH / floorH))
+statusOpacity = case status == "construction" : 0.8  else : 1
+
+cls        = case fclass != "auto" && fclass != "" : fclass
+             case bldgH > 100 : "glassblue"
+             case bldgH > 40  : "concrete"
+             else : "render"
+isGlass(c) = c == "glassblue" || c == "glassclear" || c == "glassbronze"
+texturedFlag = case textured : 1 else : 0
+
+variantOf(a) = case facadeVariant >= 0 : facadeVariant
+               case fvar >= 0 : fvar
+               else : floor(a) % 3
+bandRatio(v) = case v == 0 : 0.30  case v == 1 : 0.36  else : 0.42
+mullionW(v)  = case v == 0 : 1.6   case v == 1 : 1.8   else : 2.1
+
+// ---------------------------------------------------------------- texture table (class x variant)
+texBase(c, v) =
+    case c == "glassblue"   && v == 1 : "u_f017_t018_Office_000"
+    case c == "glassblue"   && v == 2 : "u_f028_t007_Office_000"
+    case c == "glassblue"             : "u_f014_t009_Office_000"
+    case c == "glassclear"  && v == 1 : "u_f029_t005_Office_000"
+    case c == "glassclear"  && v == 2 : "u_f025_t010_Office_000"
+    case c == "glassclear"            : "u_f012_t006_Office_000"
+    case c == "glassbronze" && v == 1 : "u_f024_t015_Office_000"
+    case c == "glassbronze"           : "u_f017_t009_Office_000"
+    case c == "stone"       && v == 1 : "u_f006_t006_Office_003"
+    case c == "stone"       && v == 2 : "u_f016_t008_Office_000"
+    case c == "stone"                 : "u_f005_t005_Residential_000"
+    case c == "concrete"    && v == 1 : "u_f004_t006_Residential_008"
+    case c == "concrete"    && v == 2 : "u_f020_t007_Office_000"
+    case c == "concrete"              : "u_f005_t008_Office_000"
+    case c == "brick"                 : "u_f006_t007_Residential_000"
+    case v == 1                       : "u_f005_t006_Residential_005"     // render
+    case v == 2                       : "u_f006_t004_Office_000"
+    else                              : "u_f007_t007_Residential_000"
+podiumBase(c) = case isGlass(c) : "u_f003_t007_Office_002" else : "u_f004_t009_Office_001"
+roofFile(v)   = case v == 1 : "flatRoof_29.jpg"  case v == 2 : "flatRoof_26.jpg"  else : "flatRoof_24.jpg"
+
+// grid encoded in the ESRI file name: "u_f014_t009_..." -> 14 storeys, 9 bays
+// (parameter is "tx", never "t": t is the translate operation and a parameter named t fails to compile)
+nFloors(tx) = float(substring(tx, 3, 6))
+nTiles(tx)  = float(substring(tx, 8, 11))
+
+// texture size in metres so that an integer number of bays / storeys fits the face exactly
+fitW(tx)     = case scope.sx > 0.5 * tileW : scope.sx / max(1, rint(scope.sx / tileW)) * nTiles(tx)
+               else                        : scope.sx * nTiles(tx) * 5
+fitH(tx, fh) = case scope.sy > 0.75 * fh   : scope.sy / max(1, rint(scope.sy / fh)) * nFloors(tx)
+               else                        : scope.sy * nFloors(tx) * 10
+
+// ---------------------------------------------------------------- palette (in-family only, untextured look)
+// Same table as v2, verified by ce_batch_v2.py --palette. Never add a hue here.
+col_glassblue(st)   = case st == "construction" : "#3EA292" case st == "pipeline" : "#DBB265" else : "#485665"
+col_glassclear(st)  = case st == "construction" : "#5F948C" case st == "pipeline" : "#C5AF86" else : "#555C64"
+col_glassbronze(st) = case st == "construction" : "#5D857E" case st == "pipeline" : "#B7A788" else : "#494F55"
+col_stone(st)       = case st == "construction" : "#688C87" case st == "pipeline" : "#BCAC90" else : "#515656"
+col_render(st)      = case st == "construction" : "#67928B" case st == "pipeline" : "#C1AF8E" else : "#545A61"
+col_concrete(st)    = case st == "construction" : "#67837F" case st == "pipeline" : "#B3A792" else : "#4F5257"
+col_brick(st)       = case st == "construction" : "#349788" case st == "pipeline" : "#D5AB5D" else : "#3B4858"
+col_slab(st)        = case st == "construction" : "#35756B" case st == "pipeline" : "#A78C5A" else : "#303943"
+col_window(st)      = case st == "construction" : "#2F8175" case st == "pipeline" : "#B99656" else : "#313C49"
+col_crown(st)       = case st == "construction" : "#427A71" case st == "pipeline" : "#AE966B" else : "#363E47"
+col_roof(st)        = case st == "construction" : "#37796F" case st == "pipeline" : "#AD915D" else : "#323B46"
+col_base(st)        = case st == "construction" : "#3E8A7E" case st == "pipeline" : "#C5A56A" else : "#39434F"
+
+wallCol(c) = case c == "glassblue"   : col_glassblue(status)
+             case c == "glassclear"  : col_glassclear(status)
+             case c == "glassbronze" : col_glassbronze(status)
+             case c == "stone"       : col_stone(status)
+             case c == "concrete"    : col_concrete(status)
+             case c == "brick"       : col_brick(status)
+             else                    : col_render(status)
+
+// ================================================================ v6 functions
+// master switch: every v6 branch is guarded by dOn, so facadeDetail = false (or textured = false, or LOD 0) is v3
+dOn        = facadeDetail && textured && LOD >= 1
+
+// building type (lab_buildingtype_match.py spelling "lowrise_apartment" accepted as well)
+btN        = case btype == "lowrise_apartment" : "lowrise_apt"  else : btype
+isHouseT   = btN == "villa" || btN == "townhouse"
+isNonResT  = btN == "warehouse" || btN == "school" || btN == "mosque" || btN == "retail" || btN == "other"
+typeH      = case isHouseT                          : 8.0     // G+1 + parapet   (PATCH_buildingtype.diff)
+             case btN == "warehouse"                : 10.0
+             case btN == "school" || btN == "mosque" : 10.0
+             case btN == "lowrise_apt"              : 13.6    // G+3
+             case btN == "retail" || btN == "other"  : 6.0
+             else                                   : placeholderH
+isResTex(c, v) = find(texBase(c, v), "Residential", 0) >= 0
+resTexOf(c)    = case c == "stone"    : "u_f005_t005_Residential_000"
+                 case c == "concrete" : "u_f004_t006_Residential_008"
+                 case c == "brick"    : "u_f006_t007_Residential_000"
+                 else                 : "u_f007_t007_Residential_000"
+
+// balconies: residential only, never on warehouse / school / mosque / retail / other / villa / townhouse
+balcOn(c, v) = case !dOn || isHouseT || isNonResT : false
+               case balconyMinH >= 0     : bldgH >= balconyMinH       // a facade_refs look asked for them (any class)
+               case isGlass(c)           : false                      // untyped glass -> fins, not balconies
+               case btN == "lowrise_apt" : true
+               case btN == "tower"       : isMid
+               else                      : isMid && isResTex(c, v)    // untyped: the v3 texture's own usage decides
+// a residential building whose v3 texture is an office one gets the residential texture of its class (so balconies sit on flats)
+dTexBase(c, v) = case balcOn(c, v) && !isGlass(c) && !isResTex(c, v) : resTexOf(c)  else : texBase(c, v)
+glassOn(c)   = dOn && isGlass(c) && isMid && btN != "warehouse"
+finStep      = case finEvery > 0 : finEvery  case LOD >= 2 : 1  else : 4     // untextured curtain wall: panes
+finBays      = case finEvery > 0 : finEvery  else : 1                          // textured curtain wall: texture bays
+balcStep     = case balconyEvery > 0 : balconyEvery  else : 2
+sideRails    = LOD >= 2 || balconyContinuous > 0
+finWEff      = case LOD >= 2 : finW  else : 0                      // LOD 1 fin = one quad (see FinLeaf)
+railType     = case LOD >= 2 : "Solid Panels With Top Bar"  else : "Solid"
+fitStorey(fh) = scope.sy / max(1, rint(scope.sy / fh))           // the texture's own storey height on this face (fitH)
+fitBay        = scope.sx / max(1, rint(scope.sx / tileW))         // the texture's own bay width on this face (fitW)
+// a face that can hold at least one balcony (so the recompose inline never folds an empty layout)
+balcFits(fh)  = scope.sx >= balconyMinFaceW && scope.sy >= 2 * fh
+
+// ---------------------------------------------------------------- v6 PBR palette = scripts/ue_sobha_pbr.py PALETTE (LINEAR rgb, roughness,
+// metallic, specular), plus the M_DA_Facade2 defaults of scripts/ue_bb_facade.py (da_*) = today's Business Bay look in Unreal.
+// Unknown names fall back to white, as ue_sobha_pbr.instance() does.
+palT(n) =
+    case n == "white"           : [0.80, 0.80, 0.78, 0.55, 0.0, 0.5]
+    case n == "pale_concrete"   : [0.62, 0.60, 0.56, 0.80, 0.0, 0.4]
+    case n == "warm_render"     : [0.62, 0.52, 0.40, 0.85, 0.0, 0.4]
+    case n == "cream_render"    : [0.72, 0.66, 0.54, 0.85, 0.0, 0.4]
+    case n == "dark_bronze"     : [0.18, 0.12, 0.08, 0.40, 0.7, 0.5]
+    case n == "bronze"          : [0.35, 0.22, 0.12, 0.35, 0.8, 0.5]
+    case n == "gold"            : [0.75, 0.55, 0.25, 0.30, 1.0, 0.5]
+    case n == "blue_glass"      : [0.14, 0.28, 0.46, 0.06, 0.6, 1.0]
+    case n == "deep_blue_glass" : [0.07, 0.18, 0.34, 0.05, 0.6, 1.0]
+    case n == "clear_glass"     : [0.32, 0.40, 0.44, 0.05, 0.5, 1.0]
+    case n == "bronze_glass"    : [0.34, 0.24, 0.15, 0.06, 0.5, 1.0]
+    case n == "tinted_glass"    : [0.18, 0.24, 0.28, 0.08, 0.4, 1.0]
+    case n == "akoya_glass"     : [0.20, 0.30, 0.40, 0.06, 0.5, 1.0]
+    case n == "dark_glass"      : [0.08, 0.10, 0.12, 0.06, 0.5, 1.0]
+    case n == "sandstone"       : [0.66, 0.55, 0.40, 0.85, 0.0, 0.4]
+    case n == "dark"            : [0.10, 0.10, 0.10, 0.60, 0.0, 0.4]
+    case n == "roof"            : [0.32, 0.32, 0.31, 0.90, 0.0, 0.3]
+    case n == "champagne_glass" : [0.46, 0.36, 0.22, 0.05, 0.7, 1.0]
+    case n == "ivory_stone"     : [0.78, 0.72, 0.60, 0.70, 0.0, 0.45]
+    case n == "rose_bronze"     : [0.42, 0.26, 0.18, 0.30, 0.85, 0.6]
+    case n == "terracotta"      : [0.36, 0.16, 0.10, 0.80, 0.0, 0.30]
+    case n == "concrete_frame"  : [0.34, 0.33, 0.31, 0.92, 0.0, 0.25]
+    case n == "scaffold_glass"  : [0.07, 0.13, 0.16, 0.20, 0.3, 0.8]
+    case n == "da_glass"        : [0.25, 0.32, 0.38, 0.08, 0.6, 0.6]
+    case n == "da_frame"        : [0.55, 0.56, 0.57, 0.40, 0.8, 0.6]
+    case n == "da_spandrel"     : [0.18, 0.20, 0.22, 0.30, 0.4, 0.6]
+    case n == "da_roof"         : [0.45, 0.44, 0.42, 0.85, 0.0, 0.6]
+    else                        : [0.80, 0.80, 0.78, 0.55, 0.0, 0.5]
+lin2c(x)   = pow(min(1, max(0, x)), 1 / 2.2)                      // linear -> CGA sRGB (CE exports cga^2.2)
+tintC(p, i, tint) = case tint : lin2c(p[i])  else : 1            // textured faces: palette colour x photo (v6.1), or white
+glassTintC(p, i)  = lin2c(1 - tintGlassMix + tintGlassMix * p[i])  // photo glass: tintGlassMix of the palette colour, in linear
+texC(role, p, i, tint) = case role == "vision" && tint : glassTintC(p, i)  else : tintC(p, i, tint)
+texMetal(role, p) = case role == "vision" : min(p[4], texGlassMetal)  else : p[4]
+texRough(role, p) = case role == "vision" : max(p[3], texGlassRough)  else : p[3]
+
+// role palettes: the pushed look palette, else the facade-class default (glassblue -> blue_glass ...)
+defVision(c) = case c == "glassblue" : "blue_glass"  case c == "glassclear" : "clear_glass"  case c == "glassbronze" : "bronze_glass"
+               else : "tinted_glass"
+defWalls(c)  = case isGlass(c) : "white"  case c == "stone" : "sandstone"  case c == "concrete" : "pale_concrete"
+               case c == "brick" : "terracotta"  else : "cream_render"
+defSlabs(c)  = case isGlass(c) : "da_spandrel"  else : "white"
+defFins(c)   = case isGlass(c) : "white"  else : defWalls(c)
+defCrown(c)  = case isGlass(c) : "da_spandrel"  else : "pale_concrete"   // glass: dark crown as in v3
+visPal   = case palVision != "" : palVision  else : defVision(cls)
+wallPal  = case palWalls  != "" : palWalls   else : defWalls(cls)
+slabPal  = case palSlabs  != "" : palSlabs   else : defSlabs(cls)
+finPal   = case palFins   != "" : palFins    case palCrown != "" : palCrown  else : defFins(cls)
+crownPal = case palCrown  != "" : palCrown   case palSlabs != "" : palSlabs  else : defCrown(cls)
+ledgePal = case palSlabs  != "" : palSlabs   case isGlass(cls) : "da_spandrel"  else : "white"
+lookName = case look != "" : look  else : cls
+matName(role) = case status == "existing" : lookName + "_" + role  else : lookName + "_" + role + "_" + status
+
+// ---------------------------------------------------------------- start
+@StartRule
+Lot -->
+    cleanupGeometry(all, 0.3)
+    report("Footprint_m2", geometry.area)
+    report("Height_m", bldgH)
+    report("Storeys_est", storeysEst)
+    report("Class." + cls, 1)
+    report("Variant", variantOf(geometry.area))
+    report("Textured", texturedFlag)
+    set(material.opacity, statusOpacity)
+    Building(variantOf(geometry.area), cls)
+
+Building(v, c) -->
+    case status == "pipeline" : Ghost
+    case LOD == 0             : Plain
+    case dOn && landmark != "" : Landmark(v, c)
+    case isTower              : Tower(v, c)
+    else                      : Low(v, c)
+
+// pipeline ghost — design unknown, so no facade family and no texture; exact status colour, translucent
+Ghost -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    color(col_base("pipeline"))
+    set(material.opacity, 0.4)
+    Ghost.
+
+// LOD 0 — the v1 look: plain extrusion, exact status colour
+Plain -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    PlainPaint
+PlainPaint -->
+    case status == "construction" :
+        color(col_base("construction"))
+        split(y){ bldgH * pctComplete / 100 : PlainPaint. | ~1 : set(material.opacity, 0.25) PlainPaint. }
+    else :
+        color(col_base(status))
+        PlainPaint.
+
+// ---------------------------------------------------------------- v6 landmark hook
+// landmark != "" (and detail on): today the generic v6 build + a report. Switch the families on in LandmarkBuild.
+Landmark(v, c) -->
+    report("Landmark." + landmark, 1)
+    LandmarkBuild(v, c)
+LandmarkBuild(v, c) -->
+    case isTower : Tower(v, c)
+    else         : Low(v, c)
+
+// ---------------------------------------------------------------- tower: podium + shaft + crown
+Tower(v, c) -->
+    [ offset(podiumOut, inside) Podium(v, c) ]
+    t(0, podiumH, 0)
+    extrude(bldgH - podiumH)
+    split(y){ ~1 : Shaft(v, c) | crownH : Crown(v) }
+
+Podium(v, c) -->
+    extrude(podiumH)
+    [ StoreyReports(podiumFloorH) ]
+    comp(f){ side : PodiumFacade(v, c) | top : Roof(v) }
+
+PodiumFacade(v, c) -->
+    case dOn      : DTexFacade(podiumBase(c), podiumFloorH, "podium_wall", wallPal, tintWalls || look != "")
+    case textured : TexFacade(podiumBase(c), podiumFloorH)
+    case LOD >= 1 : split(y){ ~podiumFloorH : FloorBand(v, c) }*
+    else          : Wall(c)
+
+Shaft(v, c) -->
+    [ StoreyReports(floorH) ]
+    comp(f){ side : ShaftFacade(v, c) }
+
+ShaftFacade(v, c) -->
+    case glassOn(c)             : GlassWall(v, c)
+    case dOn && balcOn(c, v)    : ResWall(dTexBase(c, v), floorH)
+    case dOn                    : DTexFacade(texBase(c, v), floorH, "wall", wallPal, tintWalls || look != "")
+    case textured : TexFacade(texBase(c, v), floorH)
+    case LOD >= 1 : split(y){ ~(floorH * bandEvery) : FloorBand(v, c) }*
+    else          : Wall(c)
+
+Crown(v) -->
+    comp(f){ side : CrownBand | top : Roof(v) }
+CrownBand -->
+    case dOn : Pbr("parapet", crownPal, 1, 0)
+    else     : color(col_crown(status)) CrownBand.
+
+// ---------------------------------------------------------------- low / mid buildings
+Low(v, c) -->
+    extrude(bldgH)
+    [ StoreyReports(floorH) ]
+    comp(f){ side : LowFacade(v, c) | top : Roof(v) }
+
+LowFacade(v, c) -->
+    case glassOn(c)             : GlassWall(v, c)
+    case dOn && balcOn(c, v)    : ResWall(dTexBase(c, v), floorH)
+    case dOn && isGlass(c)      : DTexFacade(texBase(c, v), floorH, "vision", visPal, tintGlass)
+    case dOn                    : DTexFacade(texBase(c, v), floorH, "wall", wallPal, tintWalls || look != "")
+    case textured          : TexFacade(texBase(c, v), floorH)
+    case LOD >= 1 && isMid : split(y){ ~(floorH * bandEvery) : FloorBand(v, c) }*
+    case LOD >= 1          : split(y){ ~1 : Wall(c) | 0.35 : Spandrel }
+    else                   : Wall(c)
+
+// ---------------------------------------------------------------- textured faces
+// whole face, one texture: N bays across, M storeys up, top storey aligned with the top edge
+TexFacade(tx, fh) -->
+    color("#FFFFFF")
+    setupProjection(0, scope.xy, fitW(tx), fitH(tx, fh), 0, scope.sy - fitH(tx, fh))
+    projectUV(0)
+    texture(TEXLIB + tx + ".jpg")
+    TexFacade.
+
+TexRoof(v) -->
+    color("#FFFFFF")
+    setupProjection(0, scope.xy, roofTile, roofTile)
+    projectUV(0)
+    texture(ROOFLIB + roofFile(v))
+    TexRoof.
+
+// ---------------------------------------------------------------- facade family (untextured v2 look)
+FloorBand(v, c) -->
+    split(y){ bandRatio(v) * floorH : Spandrel | ~1 : Vision(v, c) }
+
+Vision(v, c) -->
+    case LOD >= 2 && isGlass(c) : split(x){ ~mullionW(v) : Panel(c) }*
+    case LOD >= 2               : split(x){ ~3.4 : PunchedBay(c) }*
+    else                        : Wall(c)
+
+Panel(c)      --> split(x){ 0.07 : Mullion | ~1 : Wall(c) | 0.07 : Mullion }
+PunchedBay(c) --> split(x){ ~1 : Wall(c) | 1.2 : WindowStrip(c) | ~1 : Wall(c) }
+WindowStrip(c) --> split(y){ ~0.7 : Wall(c) | 1.6 : Window | ~0.3 : Wall(c) }
+
+Spandrel --> color(col_slab(status))   Spandrel.
+Mullion  --> color(col_slab(status))   Mullion.
+Window   --> color(col_window(status)) Window.
+Wall(c)  --> color(wallCol(c))         Wall.
+Roof(v)  -->
+    case dOn      : DTexRoof(v)
+    case textured : TexRoof(v)
+    else          : color(col_roof(status)) Roof.
+
+// ---------------------------------------------------------------- reports
+// runs on a scope copy of every extruded part: one GFA value + one Storeys tick per slab
+StoreyReports(fh) -->
+    split(y){ ~fh : Storey }*
+Storey     --> comp(f){ bottom : StoreySlab }
+StoreySlab --> report("GFA", geometry.area) report("Storeys", 1) NIL
+
+// ================================================================ v6 facade detail (reached only when dOn)
+// ---------------------------------------------------------------- textured faces with PBR (walls, podium, low glass, roofs)
+// same projection as TexFacade / TexRoof; the texture stays, the material gets the role's roughness / metallic / specular.
+// tint = true multiplies the photo by the pushed look's colour (only when a look is pushed; class defaults stay white).
+DTexFacade(tx, fh, role, pn, tint) -->
+    setupProjection(0, scope.xy, fitW(tx), fitH(tx, fh), 0, scope.sy - fitH(tx, fh))
+    projectUV(0)
+    texture(TEXLIB + tx + ".jpg")
+    PbrTex(role, pn, tint)
+
+DTexRoof(v) -->
+    setupProjection(0, scope.xy, roofTile, roofTile)
+    projectUV(0)
+    texture(ROOFLIB + roofFile(v))
+    PbrTex("roof", "roof", false)
+
+PbrTex(role, pn, tint)
+    with( p := palT(pn) ) -->
+    color(texC(role, p, 0, tint), texC(role, p, 1, tint), texC(role, p, 2, tint))
+    set(material.shader, "CityEnginePBRShader")
+    set(material.roughness, texRough(role, p))
+    set(material.metallic, texMetal(role, p))
+    set(material.specular.r, p[5]) set(material.specular.g, p[5]) set(material.specular.b, p[5])
+    set(material.name, matName(role))
+    report("Faces", geometry.nFaces)
+    report("Faces." + role, geometry.nFaces)
+    PbrTex.
+
+// ---------------------------------------------------------------- untextured PBR leaf: every curtain-wall / fin / balcony surface
+Pbr(role, pn, dim, rb)
+    with( p := palT(pn) ) -->
+    color(lin2c(p[0] * dim), lin2c(p[1] * dim), lin2c(p[2] * dim))
+    set(material.shader, "CityEnginePBRShader")
+    set(material.roughness, min(1, p[3] + rb))
+    set(material.metallic, p[4])
+    set(material.specular.r, p[5]) set(material.specular.g, p[5]) set(material.specular.b, p[5])
+    set(material.name, matName(role))
+    report("Faces", geometry.nFaces)
+    report("Faces." + role, geometry.nFaces)
+    Pbr.
+
+// ---------------------------------------------------------------- glass: curtain wall with the Unreal floor rhythm + ESRI fins
+// inline(recompose) folds the whole face (floors, bands, fins, balconies) into ONE leaf that keeps every part's material.
+// Why (measured with PyPRT on the 2026-compiled package, 30 Sep): the ESRI components insert primitiveQuad / primitiveCube,
+// and the glTF encoder names such a leaf after the ASSET ("builtin:cube", "builtin:quad") instead of the shape name
+// b<i>_<class>_s<status> - glb_merge_per_building would split Business Bay into 65,794 "buildings". inline(append) names
+// the result "merged"; inline(recompose) keeps the name of the FIRST shape, so the first shape must be a piece of the
+// facade face itself (here: floor 0's glass). It also turns ~150k leaf meshes into one per face (small AS_GENERATED JSON).
+GlassWall(v, c) -->
+    case !glassTexture : GlassWallFlat(v, c)
+    case scope.sx < detailMinW : DTexFacade(texBase(c, v), floorH, "vision", visPal, tintGlass)
+    else :
+        inline(recompose) GlassTexParts(v, c)
+        CurtainWall.
+
+// textured curtain wall (default): the v3 photo facade stays (reflective glass PBR on it) and the geometry is ADDED on its own
+// grid - a slab-edge ledge on every floor line of the texture, a fin on every texture bay line, and (if a look asks) balconies
+GlassTexParts(v, c) -->
+    [ DTexFacade(texBase(c, v), floorH, "vision", visPal, tintGlass) ]     // FIRST: the named anchor = v3's textured face
+    [ Ledges(floorH) ]
+    [ GlassTexBalconies(v, c) ]
+    FinRowTex
+
+GlassTexBalconies(v, c) -->
+    case balcOn(c, v) && balcFits(floorH) : BalconyLayer(floorH)
+    else : NIL
+
+// one ledge per floor line of the texture (not the face's ground line): ledgeH tall, bandProj deep, fresh box (see FinLeaf)
+Ledges(fh) -->
+    case bandProj <= 0 || scope.sy < 2 * fh : NIL
+    else : split(y){ ~fitStorey(fh) : LedgeAt }*
+LedgeAt -->
+    case split.index < 1 : NIL
+    else :
+        s('1, ledgeH, 0) t(0, -0.5 * ledgeH, 0)
+        s('1, '1, bandProj) primitiveCube
+        comp(f){ front : LedgeLeaf | top : LedgeLeaf | bottom : LedgeSoffit }
+LedgeLeaf   --> Pbr("slab_band", ledgePal, 1, 0)
+LedgeSoffit -->                           // web (LOD 1): the double-sided top covers it
+    case LOD >= 2 : Pbr("slab_band", ledgePal, 1, 0)
+    else : NIL
+
+// fins on the texture's bay lines, starting at the face's own start corner (so a faceted / curved tower gets one at every
+// facet joint), full height of the face
+FinRowTex -->
+    case finProj <= 0 || scope.sx < 1.0 : NIL
+    else : split(x){ ~(fitBay * finBays) : FinE.start }*
+
+// untextured curtain wall (glassTexture = false): Unreal's M_DA_Facade as geometry
+GlassWallFlat(v, c) -->
+    case scope.sx < detailMinW : GlassVision
+    else :
+        inline(recompose) GlassWallParts(v, c)
+        CurtainWall.
+GlassWallParts(v, c) -->
+    [ split(y){ ~(ueFloorH * bandEvery) : GlassFloor(v, c) }* ]      // FIRST: named anchor (see above); bandEvery > 1 = budget knob
+    FinRow
+
+// one floor: optional balcony (a look asked for it) + vision glass + the band at the top of the floor
+GlassFloor(v, c) -->
+    [ GlassBalconies(v, c) ]
+    split(y){ ~1 : GlassVision | bandW : GlassBand }
+
+GlassBalconies(v, c) -->
+    case balcOn(c, v) && split.index >= 1 && scope.sx >= balconyMinFaceW : BalconyRow
+    else : NIL
+
+GlassVision --> Pbr("vision", visPal, 1, 0)
+
+GlassBand -->
+    case LOD >= 2 && bandProj > 0 :      // a fresh box (not extrude of the split piece: see FinLeaf) from the wall plane outwards
+        s('1, '1, bandProj) primitiveCube
+        comp(f){ front : GlassBandLeaf | top : GlassBandLeaf | bottom : GlassBandLeaf }  // outer face, upper face, soffit
+    else : GlassBandLeaf
+// a look with slabs (hartland white, ell ivory stone ...) = slab band; else the spandrel (vision, darker, rougher: ue_sobha_pbr)
+GlassBandLeaf -->
+    case palSlabs != "" : Pbr("slab_band", slabPal, 1, 0)
+    else                : Pbr("spandrel", visPal, 0.75, 0.10)
+
+// vertical fins, full height of the face, one in the middle of every finStep-pane cell (never on a corner)
+FinRow -->
+    case finProj <= 0 || finW <= 0 : NIL
+    case scope.sx < paneW * finStep : NIL
+    else : split(x){ ~(paneW * finStep) : Fin.start }*
+// ESRI Shading_Structure_Vertical_Fin: a finW x finProj box; its left face (x = 0) lies on the wall -> dropped, so is top / bottom
+// (LOD 1: finWEff = 0, so the component emits ONE quad perpendicular to the wall - 2 triangles, seen from both sides because
+// CityEngine writes doubleSided materials; LOD 2: the finW box, 3 visible faces = 6 triangles, for Unreal)
+// primitiveQuad gives the LOD 1 fin FRESH geometry: the component's own quad is a transformed split piece of the wall, and
+// inline(recompose) (GlassWall) reconnects split pieces by their tracking - it pulled every fin cell back into the wall plane
+// as a 6 m grey panel (seen in the first PyPRT render, 30 Sep). The LOD 2 box is already fresh (primitiveCube).
+FinLeaf -->
+    case finWEff <= 0 : primitiveQuad Pbr("fin", finPal, 1, 0)
+    else : comp(f){ left : NIL | top : NIL | bottom : NIL | all : Pbr("fin", finPal, 1, 0) }
+
+// ---------------------------------------------------------------- residential: photo texture + ESRI balconies on the texture's storey / bay grid
+// the textured wall and all its balconies as ONE leaf named after the building (see GlassWall: the wall face goes first)
+ResWall(tx, fh) -->
+    case !balcFits(fh) : DTexFacade(tx, fh, "wall", wallPal, tintWalls || look != "")
+    else :
+        inline(recompose) ResWallParts(tx, fh)
+        ResidentialFacade.
+ResWallParts(tx, fh) -->
+    [ DTexFacade(tx, fh, "wall", wallPal, tintWalls || look != "") ]   // FIRST: named anchor
+    BalconyLayer(fh)
+BalconyLayer(fh) -->
+    split(y){ ~fitStorey(fh) : BalconyStorey }*
+BalconyStorey -->
+    case split.index < 1 : NIL                  // never on the first storey of a face (lobby / podium level)
+    else : BalconyRow
+
+// one storey strip: one continuous balcony, or one balcony every balcStep-th texture bay
+BalconyRow -->
+    case balconyContinuous > 0 : split(x){ 0.3 : NIL | ~1 : BalconyAt | 0.3 : NIL }
+    else : split(x){ ~fitBay : BalconyBay }*
+BalconyBay -->
+    case split.total < balcStep && split.index == 0 : split(x){ 0.15 : NIL | ~1 : BalconyAt | 0.15 : NIL }
+    case split.total < balcStep : NIL
+    case split.index % balcStep != floor(balcStep / 2) : NIL      // the middle bay of every balcStep group
+    else : split(x){ 0.15 : NIL | ~1 : BalconyAt | 0.15 : NIL }
+BalconyAt --> Balc.start
+
+// extension targets of the ESRI balcony / railing components
+BalRail  --> Rail.start
+BalSlab  --> Pbr("balcony_slab", slabPal, 1, 0)
+// LOD 1 budget: the slab keeps its top and its front edge only (the ends are balconySlabT x balconyD, the soffit is seen only
+// from below and the double-sided top covers it on the web); LOD 2 keeps all five faces. The ESRI Slab rule sends front, left
+// and right through SlabSide after alignScopeToGeometry(zUp, any, world.lowest), so an end face has scope.sx = balconyD.
+BalSlabSide -->
+    case LOD < 2 && scope.sx <= balconyD + 0.01 : NIL
+    else : Pbr("balcony_slab", slabPal, 1, 0)
+BalSlabBottom -->
+    case LOD < 2 : NIL
+    else : Pbr("balcony_slab", slabPal, 1, 0)
+BalGlass --> set(material.opacity, 0.8) Pbr("balustrade", visPal, 1, 0)     // 0.8: reads as a dark rail band on white render at mid-range
+RailBar  --> Pbr("mullion", finPal, 1, 0)

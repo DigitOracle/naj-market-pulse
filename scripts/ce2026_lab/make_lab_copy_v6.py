@@ -22,7 +22,7 @@ subs = [
     ('CEDIR = r"C:\\Dev\\ce2026_lab\\data_ce"; GLB',
      'CEDIR = r"C:\\Dev\\ce2026_lab\\data_ce_v6"; GLB'),
     ('RULE_WS = f"/najma/rules/najma_{VER}.cga"; ',
-     'RULE_WS = "/najma/rules/najma_v6.cga"; '),
+     'RULE_WS = "/najma/rules/najma_v6_1.cga"; '),
     ('            if fn.endswith(".cga"): shutil.copy2(os.path.join(root, fn), os.path.join(dst, fn))\n',
      '            if fn.endswith(".cga"): shutil.copy2(os.path.join(root, fn), os.path.join(dst, fn))\n'
      '    for fn in os.listdir(r"C:\\Dev\\ce2026_lab\\rules_v6"):   # lab: stage the v6 facade rule beside the repo rules\n'
