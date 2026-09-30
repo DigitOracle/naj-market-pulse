@@ -87,13 +87,19 @@ def build():
     work = []
     for k, v in m.items():
         ds = k.split("/")[1]; st = v.get("status"); raw, rows = v.get("raw_rows") or 0, v.get("rows") or 0
+        if st == "non_tabular":
+            # 30 Sep 2026: a leftover checkpoint from before this dataset was known portal-only otherwise beat this check
+            # every time (rta_metro_ridership looped through 6+ pointless "resume" attempts, each correctly re-marked
+            # non_tabular by dda_pull_all.py without ever touching the network, because build() checked `ds in parts` first).
+            for ext in (".part", ".part.state", ".part.samples", ".part.lock"):
+                p = os.path.join(PROD, f"{k.split('/')[0]}__{ds}.json{ext}")
+                if os.path.exists(p): os.remove(p)
+            continue                          # KML/file on the portal, not a paginated dataset - see scripts/dda_fetch_portal_files.py
         if ds in parts:
             est = max(1, (parts[ds].get("last_page_est") or 0) - parts[ds].get("page", 0)) if parts[ds].get("last_page_est") else 3000
             work.append(("resume", ds, est, []))
         elif st == "ok" and raw > rows and not v.get("repeats_kept"):
             work.append(("repull", ds, raw // 1000 + 1, ["--force", "--order-by", "full"]))
-        elif st == "non_tabular":
-            continue                          # KML/file on the portal, not a paginated dataset - see scripts/dda_fetch_portal_files.py
         elif st != "ok" and st in REFUSED:
             work.append(("refused", ds, 1, []))
         elif st != "ok":
