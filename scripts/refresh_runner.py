@@ -247,6 +247,10 @@ def daily(a):
         # and then cut it per district: four scripts read data/board/key_bridge_<slug>.json daily and nothing wrote them
         # (hand-made 22 Sep). An input with consumers and no producer cannot go stale loudly - it just stops matching.
         S("key_bridge_cuts", py("scripts/emit_key_bridge_cuts.py"), needs=["key_bridge"], timeout=3600),
+        # 30 Sep 2026: read lk_join_log and say out loud how stale each register join is. The log was always written and
+        # never read, which is how gov_thread sat six days old with nobody told. exit 1 = something is past --max-days,
+        # recorded as a WARNING: a stale join is worth knowing about and never a reason to stop the morning.
+        S("join_freshness", py("scripts/check_join_freshness.py"), warn=(1,), timeout=900),
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
         S("lake_expire", py("scripts/lake.py", "expire", "--days", "30")),
         # 24 Sep 2026 (Kendall: "add bukadra and rasalkhor to the daily refresh"): the two districts massed for Sobha get their
