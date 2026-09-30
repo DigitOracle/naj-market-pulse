@@ -40,6 +40,11 @@ subs = [
      '                t1 = time.time(); ce.export(shapes, u); log(f"  datasmith export {time.time() - t1:.1f}s")\n'
      '            except Exception as _e:\n'
      '                log(f"  datasmith export FAILED: {str(_e)[:200]}")\n'),
+    ('        s.setExistingFiles(GLTFExportModelSettings.OVERWRITE)\n',
+     '        s.setExistingFiles(GLTFExportModelSettings.OVERWRITE)\n'
+     '        if os.environ.get("CE2026_GLTF_OFFSET"):   # lab: export relative to the district origin (precision test)\n'
+     '            _off = [float(v) for v in os.environ["CE2026_GLTF_OFFSET"].split(",")]\n'
+     '            s.setGlobalOffset(_off); log(f"  glTF global offset {_off}")\n'),
 ]
 for a, b in subs:
     assert src.count(a) == 1, "no unique match for: " + a[:70]
