@@ -9,7 +9,7 @@ import traceback
 LAB = r"C:\Dev\ce2026_lab"
 SLUG = os.environ.get("CE2026_SLUG", "burjkhalifa")
 R = {"slug": SLUG, "started": time.strftime("%Y-%m-%dT%H:%M:%S")}
-sys.argv = ["ce2026_batch.py", "--v3", SLUG]
+sys.argv = ["ce2026_batch.py", "--v3", SLUG] + (["--allow-marina"] if SLUG == "dubaimarina" else [])   # Kendall approved its rebuild 29 Sep
 os.environ["CE2026_UNATTENDED"] = "1"
 sys.path.insert(0, LAB)
 t0 = time.time()

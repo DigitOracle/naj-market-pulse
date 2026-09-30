@@ -8,6 +8,8 @@ src = open(SRC, encoding="utf-8").read()
 
 LOGLINE = '    open(os.path.join(GLB, f"ce_batch_{VER}_last.log"), "w", encoding="utf-8").write("\\n".join(log_lines))\n'
 subs = [
+    # NOT noUIupdate: tried 30 Sep and it deadlocked CityEngine inside an unattended startup script (UI thread
+    # stalled, 0.2 s CPU in 20 s). Per-call cost (~0.3-0.5 s) is accepted; the runner timeout is sized for it.
     # reviewed heights live beside the production script; the lab copy must read the SAME file (30 Sep: without it,
     # Business Bay b650 Aquarise built at its part-built 32 m instead of the reviewed 96 m)
     ('    hover_path = os.path.join(HERE, "height_overrides.json")',
