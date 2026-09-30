@@ -45,7 +45,7 @@ CAPTION_JS = """(t) => { const d = document.createElement('div'); d.id = 'rideca
 RIDE_JS = r"""
 (route) => {
   const R = window.__ride, T = R.THREE, S = window.__sky;
-  const pts = route.coords.map(c => R.at(c[0], c[1])).filter(Boolean).map(p => p.add(new T.Vector3(0, 4, 0)));
+  const pts = route.coords.map(c => R.at(c[0], c[1])).filter(Boolean).map(p => p.add(new T.Vector3(0, route.lift, 0)));
   const cum = [0];
   for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + pts[i].distanceTo(pts[i - 1]));
   const L = cum[cum.length - 1];
@@ -59,24 +59,27 @@ RIDE_JS = r"""
   const curve = new T.CatmullRomCurve3(pts.filter((p, i) => i === 0 || p.distanceTo(pts[i - 1]) > 1.5), false, "centripetal");
   const segs = Math.min(6000, Math.max(400, Math.round(L / 2)));
   const radial = 6;
-  const tube = new T.Mesh(new T.TubeGeometry(curve, segs, 6, radial, false),
+  const tube = new T.Mesh(new T.TubeGeometry(curve, segs, route.tube, radial, false),
                           new T.MeshBasicMaterial({ color: 0xC5A56A, toneMapped: false }));
   tube.layers.enable(1);                                 // the page's bloom layer
-  tube.geometry.setDrawRange(0, 0);
+  tube.geometry.setDrawRange(0, route.ahead ? Infinity : 0);   // first person: the whole route shows ahead
   R.scene.add(tube);
-  const dot = new T.Mesh(new T.SphereGeometry(18, 24, 16), new T.MeshBasicMaterial({ color: 0xFFF4D6, toneMapped: false }));
+  const dot = new T.Mesh(new T.SphereGeometry(route.dot, 24, 16), new T.MeshBasicMaterial({ color: 0xFFF4D6, toneMapped: false }));
   dot.layers.enable(1);
+  dot.visible = !route.ahead;                            // first person: the camera is the rider
   R.scene.add(dot);
   S.ctl.autoRotate = false; S.ctl.enabled = false;
   const up = new T.Vector3(0, 1, 0);
   window.__rideSet = (f, o) => {                          // f in [0,1]
     const s = f * L;
-    tube.geometry.setDrawRange(0, Math.round(f * segs) * radial * 6);
+    if (!route.ahead) tube.geometry.setDrawRange(0, Math.round(f * segs) * radial * 6);
     const p = at(s); dot.position.copy(p);
     const a = at(s - o.smooth), b = at(s + o.smooth);
     const dir = b.clone().sub(a).setY(0); if (dir.lengthSq() < 1e-6) dir.set(0, 0, -1); dir.normalize();
     const pos = p.clone().sub(dir.clone().multiplyScalar(o.back)).add(up.clone().multiplyScalar(o.height));
-    const tgt = at(s + o.look);
+    // look along the direction of travel, a little above the track - at(s + look) clamps at the route's end and
+    // pitched the last frames straight down at the ground
+    const tgt = p.clone().add(dir.clone().multiplyScalar(o.look)).add(up.clone().multiplyScalar(o.height * 0.35));
     S.cam.position.lerp(pos, o.ease); S.ctl.target.lerp(tgt, o.ease);
     S.cam.lookAt(S.ctl.target);
   };
@@ -95,12 +98,24 @@ def main():
     district = arg("--district", "burjkhalifa")
     seconds = float(arg("--seconds", "18"))
     route = json.load(open(os.path.join(BIKE, "rides", ride + ".json"), encoding="utf-8"))
-    frames_dir = os.path.join(BIKE, "_twin_frames_%s_%d" % (ride, int(time.time())))   # fresh folder each run
+    frames_dir = arg("--resume", "") or os.path.join(BIKE, "_twin_frames_%s_%d" % (ride, int(time.time())))
+    # --resume <folder>: carry on in a folder a failed run left, from its next missing frame
     os.makedirs(frames_dir, exist_ok=True)
     # Downtown's towers reach 828 m, so a street-level chase flies through them: this is a drone chase, high and
     # behind, looking down at the dot (scene units are metres - 1 km east measures 1,008 m).
     opts = {"back": float(arg("--back", "520")), "height": float(arg("--height", "420")),
-            "look": float(arg("--look", "60")), "smooth": 260.0, "ease": 1.0}
+            "look": float(arg("--look", "60")), "smooth": float(arg("--smooth", "260")), "ease": 1.0}
+    # --view first: Kendall, 29 Sep - "make the camera angle lower, so it's almost like a first person view".
+    # The Boulevard track runs along streets, so a camera ~14 m up and 25 m behind stays clear of the towers;
+    # at that range the tube and dot must shrink and sit low, or they fill the frame.
+    if arg("--view", "drone") == "first":
+        opts.update({"back": float(arg("--back", "25")), "height": float(arg("--height", "14")),
+                     "look": float(arg("--look", "90")), "smooth": float(arg("--smooth", "60"))})
+    first = arg("--view", "drone") == "first"
+    route["lift"] = 1.5 if first else 4.0
+    route["tube"] = 0.75 if first else 6.0
+    route["dot"] = 1.6 if first else 18.0
+    route["ahead"] = first     # first person: behind the camera a growing trail is invisible, so show the road ahead
 
     def patch(r):
         resp = r.fetch()
@@ -110,7 +125,7 @@ def main():
         r.fulfill(response=resp, body=body)
 
     n = int(seconds * FPS)
-    total = n + int(2.5 * FPS)                             # plus a 2.5 s hold on the finished route
+    total = n + (0 if "--no-hold" in sys.argv else int(2.5 * FPS))   # plus a 2.5 s hold on the finished route
     CHUNK = int(arg("--chunk", "24"))
     caption = ("%s cycle track<br><span style='font-weight:400;font-size:28px;color:#C5A56A'>%s &middot; %.1f km on "
                "RTA&#39;s layer</span>" % (route["route"], arg("--place", "Downtown Dubai"), route["km"]))
@@ -150,7 +165,7 @@ def main():
     # The machine runs Unreal alongside, and one browser dies after ~30 WebGL frames on 0.4 GB free. So film in
     # chunks, a fresh browser each, resuming at the next frame. The camera is a pure function of the route position
     # (ease 1), so a chunk boundary is invisible.
-    nxt, stalls = 0, 0
+    nxt, stalls = len([f for f in os.listdir(frames_dir) if f.endswith(".png")]), 0
     with sync_playwright() as p:
         while nxt < total and stalls < 6:
             got = session(p, nxt)
@@ -160,7 +175,7 @@ def main():
     if nxt < total:
         sys.exit("stopped at frame %d of %d" % (nxt, total))
 
-    out = os.path.join(BIKE, "twin_ride_%s_9x16.mp4" % ride)
+    out = os.path.join(BIKE, "twin_ride_%s%s_9x16.mp4" % (ride, "_first" if first else ""))
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-framerate", str(FPS), "-i",
                     os.path.join(frames_dir, "f%05d.png"), "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
                     out], check=True)
