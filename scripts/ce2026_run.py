@@ -36,6 +36,13 @@ CE_EXE = r"C:\Program Files\ArcGIS\CityEngine2026.1\CityEngine.exe"
 PROD_WS = r"C:\Users\kwils\OneDrive\Documents\CityEngine\Default Workspace\najma"
 VENV = os.path.join(LAB, "venv311")
 INPUTS = ("buildings.geojson", "facade_v2.json", "heights_register.json", "facade_match.json")
+# --variant v3o: the same v3 build exported RELATIVE TO THE DISTRICT ORIGIN (glTF global offset, 0.1 mm precision),
+# into data_ce_v3o; after parity the tile is stamped with its origin (glb_stamp_origin.py) and packed (glb_pack_v3.mjs).
+VARIANT = ""
+
+
+def _vdir():
+    return "data_ce_v3o" if VARIANT == "v3o" else "data_ce"
 
 
 def log(*a):
@@ -45,8 +52,9 @@ def log(*a):
 def stage(slug):
     """Fresh copies of this district's inputs and production scene into the lab."""
     src = os.path.join(ROOT, "data", "ce", slug)
-    dst = os.path.join(LAB, "data_ce", slug)
+    dst = os.path.join(LAB, _vdir(), slug)
     os.makedirs(dst, exist_ok=True)
+    os.makedirs(os.path.join(LAB, _vdir(), "_glb"), exist_ok=True)   # the build writes its GLB and log here
     for f in INPUTS:
         if os.path.exists(os.path.join(src, f)):
             shutil.copy2(os.path.join(src, f), os.path.join(dst, f))
@@ -54,9 +62,9 @@ def stage(slug):
     if not os.path.exists(scene):
         raise FileNotFoundError("no production scene " + scene)
     shutil.copy2(scene, os.path.join(LAB, "najma", "scenes", slug + ".cej"))
-    for f in glob.glob(os.path.join(LAB, "data_ce", "_glb", "sky_%s_v3*" % slug)):
+    for f in glob.glob(os.path.join(LAB, _vdir(), "_glb", "sky_%s_v3*" % slug)):
         os.remove(f)                                     # never compare against a previous lab run
-    lock = os.path.join(LAB, "data_ce", ".ce_lock")
+    lock = os.path.join(LAB, _vdir(), ".ce_lock")
     if os.path.exists(lock):
         os.remove(lock)                                  # the lab lock belongs to this runner alone
 
@@ -75,13 +83,19 @@ def build(slug, timeout):
         # a second CityEngine cannot open a workspace the first still holds; it would exit at once and every later
         # district would "fail" in seconds (30 Sep: one hang turned into three failures this way)
         return {"ok": False, "error": "CityEngine 2026.1 already running (%s) - not launching" % "; ".join(busy), "blocked": True}
-    res = os.path.join(LAB, "out", "run_lab.json")
+    res = os.path.join(LAB, "out", "run_lab_v3o.json" if VARIANT == "v3o" else "run_lab.json")
     if os.path.exists(res):
         os.remove(res)
     env = dict(os.environ, CE2026_SLUG=slug)
+    if VARIANT == "v3o":
+        o = json.load(open(os.path.join(ROOT, "data", "ce", slug, "origin_v5.json"), encoding="utf-8"))["origin_ce_xyz"]
+        env["CE2026_GLTF_OFFSET"] = ",".join(str(-float(v)) for v in o)
     t = time.time()
-    p = subprocess.Popen([CE_EXE, "-data", LAB, "-vmargs",
-                          "-DpythonStartupScript=" + os.path.join(LAB, "run_lab.py"),
+    # -Xmx12G: CityEngine.ini caps the JVM heap at 6 GB, and the larger districts then raise two "Low Memory" dialogs
+    # AFTER the build, which block the unattended exit (Palm Jumeirah and burjkhalifa v3o, 30 Sep - 1 Oct). The ini has
+    # --launcher.appendVmargs, so this later -Xmx wins. The machine has 32 GB; one CityEngine runs at a time.
+    p = subprocess.Popen([CE_EXE, "-data", LAB, "-vmargs", "-Xmx12G",
+                          "-DpythonStartupScript=" + os.path.join(LAB, "run_lab_v3o.py" if VARIANT == "v3o" else "run_lab.py"),
                           "-DpythonStartupEnvironment=" + VENV], env=env)
     try:
         p.wait(timeout=timeout)
@@ -112,7 +126,7 @@ def glb_stats(p):
 
 
 def parity(slug):
-    new_p = os.path.join(LAB, "data_ce", "_glb", "sky_%s_v3_0.glb" % slug)
+    new_p = os.path.join(LAB, _vdir(), "_glb", "sky_%s_v3_0.glb" % slug)
     old_p = os.path.join(ROOT, "data", "ce", "_glb", "sky_%s_v3_0.merged.glb" % slug)
     if not os.path.exists(new_p):
         return {"parity": False, "why": "no lab GLB"}
@@ -128,8 +142,41 @@ def parity(slug):
             "images": [n["images"], o["images"]], "bytes": [n["bytes"], o["bytes"]]}
 
 
+def finish_v3o(slug):
+    """Stamp the origin into the lab tile, pack it like production, and prove the precision."""
+    import gzip, shutil as _sh
+    import numpy as np
+    src = os.path.join(LAB, "data_ce_v3o", "_glb", "sky_%s_v3_0.glb" % slug)
+    dst = os.path.join(LAB, "data_ce_v3o", "_glb", "sky_%s_v3o_0.glb" % slug)
+    _sh.copy2(src, dst)
+    subprocess.run([sys.executable, os.path.join(HERE, "glb_stamp_origin.py"), dst,
+                    os.path.join(ROOT, "data", "ce", slug, "origin_v5.json")], check=True, capture_output=True)
+    b = open(dst, "rb").read(); n = struct.unpack("<I", b[12:16])[0]; j = json.loads(b[20:20 + n])
+    off = 20 + n; bl = struct.unpack("<I", b[off:off + 4])[0]; B = b[off + 8:off + 8 + bl]
+    mx, zs = 0.0, []
+    for me in j["meshes"]:
+        for pr in me["primitives"]:
+            a = j["accessors"][pr["attributes"]["POSITION"]]; bv = j["bufferViews"][a["bufferView"]]
+            v = np.frombuffer(B, dtype=np.float32, count=a["count"] * 3,
+                              offset=bv.get("byteOffset", 0) + a.get("byteOffset", 0)).reshape(-1, 3)
+            mx = max(mx, float(np.abs(v).max())); zs.append(v[:, 2])
+    frac = int(len(np.unique(np.round(np.mod(np.concatenate(zs).astype(np.float64), 1.0), 4))))
+    pk = subprocess.run(["node", os.path.join(HERE, "glb_pack_v3.mjs"), dst], capture_output=True, text=True)
+    out = subprocess.run([sys.executable, os.path.join(HERE, "glb_stamp_origin.py"), dst, "--check"],
+                         capture_output=True, text=True).stdout.strip()
+    stamped = json.loads(out) if out and out != "None" else None
+    gz = len(gzip.compress(open(dst, "rb").read(), 9)) / 1048576.0
+    ok = mx < 20000 and frac > 50 and stamped is not None and gz <= 5.0 and pk.returncode == 0
+    return {"v3o_ok": ok, "v3o_max_coord": round(mx, 1), "v3o_z_fractions": frac, "v3o_origin": stamped,
+            "v3o_gz_mb": round(gz, 2)}
+
+
 def main():
+    global VARIANT
     args = sys.argv[1:]
+    if "--variant" in args:
+        i = args.index("--variant"); VARIANT = args[i + 1]; del args[i:i + 2]
+        subprocess.run([sys.executable, os.path.join(LAB, "make_lab_copy_%s.py" % VARIANT)], check=True)
     timeout = 3600
     if "--timeout" in args:
         i = args.index("--timeout"); timeout = int(args[i + 1]); del args[i:i + 2]
@@ -143,11 +190,17 @@ def main():
             stage(slug)
             r = build(slug, timeout)
             r.update(parity(slug) if r.get("ok") else {"parity": False})
+            if VARIANT == "v3o" and r.get("parity"):
+                r.update(finish_v3o(slug))
         except Exception as e:
             r = {"ok": False, "error": repr(e)[:300], "parity": False}
         out["districts"][slug] = r
-        log("  %s  ok=%s parity=%s  %s  buildings %s  triangles %s  (%ss)" % (
-            slug, r.get("ok"), r.get("parity"), r.get("error", "") or "", r.get("buildings"), r.get("triangles"), r.get("wall_s")))
+        v3o = ""
+        if "v3o_ok" in r:
+            v3o = "  v3o %s: max|coord| %s m, %s z fractions, origin %s, %s MB gz" % (
+                "OK" if r["v3o_ok"] else "FAIL", r["v3o_max_coord"], r["v3o_z_fractions"], r["v3o_origin"], r["v3o_gz_mb"])
+        log("  %s  ok=%s parity=%s  %s  buildings %s  triangles %s  (%ss)%s" % (
+            slug, r.get("ok"), r.get("parity"), r.get("error", "") or "", r.get("buildings"), r.get("triangles"), r.get("wall_s"), v3o))
         json.dump(out, open(path, "w", encoding="utf-8"), indent=1)
         if r.get("blocked"):
             log("  STOPPING the batch: CityEngine 2026.1 is still open (a dialog such as 'License validation failed' "
