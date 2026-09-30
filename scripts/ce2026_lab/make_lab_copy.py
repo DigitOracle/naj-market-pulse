@@ -8,6 +8,10 @@ src = open(SRC, encoding="utf-8").read()
 
 LOGLINE = '    open(os.path.join(GLB, f"ce_batch_{VER}_last.log"), "w", encoding="utf-8").write("\\n".join(log_lines))\n'
 subs = [
+    # reviewed heights live beside the production script; the lab copy must read the SAME file (30 Sep: without it,
+    # Business Bay b650 Aquarise built at its part-built 32 m instead of the reviewed 96 m)
+    ('    hover_path = os.path.join(HERE, "height_overrides.json")',
+     '    hover_path = os.path.join(ROOT, "scripts", "height_overrides.json")'),
     ('HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.abspath(os.path.join(HERE, ".."))',
      'HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = r"C:\\Dev\\naj-market-pulse"'),
     ('CEDIR = os.path.join(ROOT, "data", "ce"); GLB = os.path.join(CEDIR, "_glb")',

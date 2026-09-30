@@ -61,7 +61,20 @@ def stage(slug):
         os.remove(lock)                                  # the lab lock belongs to this runner alone
 
 
+def ce2026_running():
+    """PIDs of CityEngine 2026.1 processes (2025.1 is ignored - it is a different install and workspace)."""
+    r = subprocess.run(["powershell", "-NoProfile", "-Command",
+                        "Get-Process CityEngine -EA SilentlyContinue | Where-Object { $_.Path -like '*CityEngine2026*' } | "
+                        "ForEach-Object { '' + $_.Id + '|' + $_.MainWindowTitle }"], capture_output=True, text=True)
+    return [l.strip() for l in r.stdout.splitlines() if l.strip()]
+
+
 def build(slug, timeout):
+    busy = ce2026_running()
+    if busy:
+        # a second CityEngine cannot open a workspace the first still holds; it would exit at once and every later
+        # district would "fail" in seconds (30 Sep: one hang turned into three failures this way)
+        return {"ok": False, "error": "CityEngine 2026.1 already running (%s) - not launching" % "; ".join(busy), "blocked": True}
     res = os.path.join(LAB, "out", "run_lab.json")
     if os.path.exists(res):
         os.remove(res)
@@ -73,7 +86,8 @@ def build(slug, timeout):
     try:
         p.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
-        return {"ok": False, "error": "timeout after %ds - CityEngine left running for inspection (pid %d)" % (timeout, p.pid)}
+        title = "; ".join(ce2026_running())
+        return {"ok": False, "blocked": True, "error": "timeout after %ds - CityEngine left running for inspection (%s)" % (timeout, title or p.pid)}
     r = json.load(open(res, encoding="utf-8")) if os.path.exists(res) else {"ok": False, "error": "no run_lab.json"}
     r["wall_s"] = round(time.time() - t, 1)
     return r
@@ -135,6 +149,10 @@ def main():
         log("  %s  ok=%s parity=%s  %s  buildings %s  triangles %s  (%ss)" % (
             slug, r.get("ok"), r.get("parity"), r.get("error", "") or "", r.get("buildings"), r.get("triangles"), r.get("wall_s")))
         json.dump(out, open(path, "w", encoding="utf-8"), indent=1)
+        if r.get("blocked"):
+            log("  STOPPING the batch: CityEngine 2026.1 is still open (a dialog such as 'License validation failed' "
+                "blocks its exit). Close it, then re-run the remaining districts.")
+            break
     good = [s for s, r in out["districts"].items() if r.get("parity")]
     log("=== %d of %d built with exact parity: %s" % (len(good), len(slugs), " ".join(good) or "none"))
     log("report: " + os.path.relpath(path, ROOT))
