@@ -20,6 +20,13 @@ Yelayiss, Palm Deira) it is all of them - those districts get an honest zero rat
 """
 import re
 
+if __name__ == "__main__":
+    # 30 Sep 2026: this is a job module for register_joins.py's dispatcher, not a standalone script - running it directly
+    # (`python scripts/key_bridge.py`) imports the module, defines job_key_bridge(), and exits 0 having done nothing at all,
+    # which the 29 Sep audit found and flagged as exactly the kind of silent no-op a scheduled job must never be.
+    import sys
+    sys.exit("key_bridge.py has no standalone entry point - run it via: python scripts/register_joins.py key_bridge")
+
 PROPERTY = """
     select cast(cast(b.property_id as bigint) as varchar)                                                   property_id,
            cast(cast(b.parent_property_id as bigint) as varchar)                                            parent_property_id,

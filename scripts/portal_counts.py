@@ -11,7 +11,7 @@ part before them are not double-counted (load_portal_parts.drop_format_copies).
 Writes data/raw_downloads/dda/prod/portal_counts.json (not MANIFEST.json, which running pulls rewrite).
     python scripts/portal_counts.py
 """
-import glob, json, os, sys
+import glob, json, os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import duckdb
 import load_portal_parts as L
@@ -161,8 +161,20 @@ def main():
     print("lake behind the download: %d (publish pending, or the loader collapsed rows)" % len(lag))
     for k, o in sorted(lag)[:40]:
         print("  LAKE BEHIND %-56s lake %10s  downloaded %10s" % (k[:56], format(o["lake_rows"], ","), format(o["kept"], ",")))
+    # 30 Sep 2026: the gate had gone stale silently for days after the pull settled - nobody could tell without re-reading the
+    # log by hand. This is the one thing a monitor should be able to check without re-running the gate itself: when it last
+    # completed for real, and whether that run found the register empty (0 datasets checked is a broken run, not a clean one).
+    json.dump({"last_run": time.strftime("%Y-%m-%dT%H:%M:%S"), "datasets_checked": len(out), "with_portal_count": len(rows),
+               "unexplained": len(unexplained), "exit_ok": len(unexplained) == 0},
+              open(os.path.join(PROD, "portal_counts_status.json"), "w", encoding="utf-8"), indent=1)
+    if len(out) == 0:
+        print("REFUSING TO REPORT CLEAN: matched zero datasets against the portal - the gate itself is broken, not the pull")
+        return -1                                                 # a distinct signal from "N unexplained": this run produced nothing
     return len(unexplained)
 
 
 if __name__ == "__main__":
-    sys.exit(1 if main() else 0)     # non-zero while anything finished differs from the portal without a written reason
+    n = main()
+    if n < 0:
+        sys.exit(2)               # the gate produced nothing at all - a broken run, never treat this as "0 unexplained"
+    sys.exit(1 if n else 0)       # non-zero while anything finished differs from the portal without a written reason

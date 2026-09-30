@@ -293,6 +293,10 @@ def gov_weekly(a):
         S("lake_publish", py("scripts/lake.py", "publish", "--note", "gov-weekly after the realness gate"), needs=["realness_gate"], held=(4,)),
         # 18 Sep 2026: the freshly published g_* tables onto the digital thread (spine keys, licence spine, dataset links)
         S("gov_thread", py("scripts/register_joins.py", "gov_thread"), needs=["lake_publish"], held=(4,)),
+        # 30 Sep 2026: the gate had gone stale silently for days after the pull settled - nothing was running it on a
+        # schedule at all. Exit 1 (unexplained differences exist) is the gate's normal steady state, not a pipeline
+        # failure; exit 2 (matched zero datasets - the gate itself broken) is what should actually raise a flag.
+        S("portal_counts", py("scripts/portal_counts.py"), needs=["lake_publish"], ok=(0, 1), warn=(2,)),
         # 14 Sep 2026: the registers the key joins read, every part of each newest extract, before the contract counts parts
         S("portal_pull_joined", py("scripts/datadubai_pull_all.py", "--only", JOINED_REGISTERS), timeout=2 * 3600, env={"DD_PAUSE": "5"}),
         S("portal_contract", py("scripts/portal_manifest_check.py"), held=(4,)),

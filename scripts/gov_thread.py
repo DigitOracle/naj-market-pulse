@@ -29,6 +29,12 @@ import re
 
 from keys import num_sql as num, parcel_key_sql as parcel_key, name_norm_sql as name_norm
 
+if __name__ == "__main__":
+    # 30 Sep 2026: a job module for register_joins.py's dispatcher, not a standalone script - run directly it imports cleanly
+    # and exits 0 having built nothing, the same silent no-op the 29 Sep audit flagged on key_bridge.py.
+    import sys
+    sys.exit("gov_thread.py has no standalone entry point - run it via: python scripts/register_joins.py gov_thread")
+
 CONNECTED = 0.5
 NEAR_KM = 3.0
 
