@@ -36,9 +36,18 @@ LINKS = ["footprint", "model", "map", "record", "facts", "register", "name"]
 
 
 def fetch(key):
-    # curl, not urllib: the worker refuses the Python-urllib user agent with 403 (see worker-repos memory)
-    r = subprocess.run(["curl", "-s", "--compressed", "-f", W + key], capture_output=True, timeout=300)
-    return r.stdout if r.returncode == 0 else None
+    # curl, not urllib: the worker refuses the Python-urllib user agent with 403 (see worker-repos memory).
+    # Retried: on 30 Sep one failed fetch of anchors_dubaiproductioncity read as "no map" and reported 1,270 buildings
+    # untappable that were fine. A 404 is an answer and returns at once; a transport error is not, and is retried.
+    for attempt in range(4):
+        r = subprocess.run(["curl", "-s", "--compressed", "-w", "\n%{http_code}", W + key], capture_output=True, timeout=300)
+        body, _, code = r.stdout.rpartition(b"\n")
+        if code == b"200":
+            return body
+        if code == b"404":
+            return None
+        time.sleep(3 * (attempt + 1))
+    raise RuntimeError("could not fetch %s after 4 attempts (last HTTP %s) - not treating it as missing" % (key, code.decode() or "none"))
 
 
 def js(key):
