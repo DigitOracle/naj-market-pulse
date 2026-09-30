@@ -68,6 +68,65 @@ RIDE_JS = r"""
   dot.layers.enable(1);
   dot.visible = !route.ahead;                            // first person: the camera is the rider
   R.scene.add(dot);
+  if (route.lane) {                                      // a painted cycle lane, as Dubai lays them (Kendall's photos,
+    tube.visible = false;                                // 30 Sep): red, white centre line, yellow edges, symbols
+    const cv = document.createElement("canvas"); cv.width = 256; cv.height = 2560;   // 3.0 m wide x 30 m long
+    const g = cv.getContext("2d"), M = 256 / 3.0;         // px per metre
+    g.fillStyle = "#B4463E"; g.fillRect(0, 0, 256, 2560);
+    g.fillStyle = "#E8B923"; g.fillRect(0, 0, 0.16 * M, 2560); g.fillRect(256 - 0.16 * M, 0, 0.16 * M, 2560);
+    g.fillStyle = "#F4F1EA"; g.fillRect(128 - 0.06 * M, 0, 0.12 * M, 2560);
+    g.strokeStyle = "#F4F1EA"; g.fillStyle = "#F4F1EA"; g.lineWidth = 0.07 * M; g.lineCap = "round";
+    const bike = (cx, cy, s) => {                       // a plain bicycle pictogram, s = wheel radius in px
+      g.beginPath(); g.arc(cx - 1.25 * s, cy, s, 0, 7); g.stroke();
+      g.beginPath(); g.arc(cx + 1.25 * s, cy, s, 0, 7); g.stroke();
+      g.beginPath(); g.moveTo(cx - 1.25 * s, cy); g.lineTo(cx - 0.2 * s, cy - 1.1 * s); g.lineTo(cx + 0.9 * s, cy - 1.1 * s);
+      g.lineTo(cx + 1.25 * s, cy); g.moveTo(cx - 0.2 * s, cy - 1.1 * s); g.lineTo(cx, cy); g.lineTo(cx + 0.9 * s, cy - 1.1 * s);
+      g.moveTo(cx - 0.35 * s, cy - 1.45 * s); g.lineTo(cx - 0.05 * s, cy - 1.45 * s);
+      g.moveTo(cx + 0.9 * s, cy - 1.1 * s); g.lineTo(cx + 0.8 * s, cy - 1.6 * s); g.stroke();
+    };
+    const scooter = (cx, cy, s) => {
+      g.beginPath(); g.arc(cx - 1.2 * s, cy, 0.6 * s, 0, 7); g.stroke();
+      g.beginPath(); g.arc(cx + 1.2 * s, cy, 0.6 * s, 0, 7); g.stroke();
+      g.beginPath(); g.moveTo(cx - 1.2 * s, cy - 0.1 * s); g.lineTo(cx + 1.0 * s, cy - 0.1 * s); g.lineTo(cx + 1.2 * s, cy - 2.2 * s);
+      g.lineTo(cx + 0.8 * s, cy - 2.2 * s); g.stroke();
+    };
+    const arrow = (cx, cy, up) => {                     // up: pointing along the direction of travel
+      const d = up ? -1 : 1; g.beginPath();
+      g.moveTo(cx, cy + d * 1.1 * M); g.lineTo(cx - 0.35 * M, cy + d * 0.4 * M); g.lineTo(cx - 0.12 * M, cy + d * 0.4 * M);
+      g.lineTo(cx - 0.12 * M, cy - d * 1.0 * M); g.lineTo(cx + 0.12 * M, cy - d * 1.0 * M); g.lineTo(cx + 0.12 * M, cy + d * 0.4 * M);
+      g.lineTo(cx + 0.35 * M, cy + d * 0.4 * M); g.closePath(); g.fill();
+    };
+    const R_ = 192, L_ = 64;                             // right and left lane centres (px)
+    g.save(); g.translate(R_, 5 * M); g.rotate(-Math.PI / 2); bike(0, 0, 0.3 * M); g.restore();
+    g.save(); g.translate(R_, 8.5 * M); g.rotate(-Math.PI / 2); scooter(0, 0, 0.25 * M); g.restore();
+    arrow(R_, 12 * M, true);
+    arrow(L_, 5 * M, false);
+    g.save(); g.translate(L_, 8.5 * M); g.rotate(Math.PI / 2); bike(0, 0, 0.3 * M); g.restore();
+    g.beginPath(); g.arc(L_, 12.5 * M, 0.4 * M, 0, 7); g.fill();
+    g.fillStyle = "#B4463E"; g.font = "bold " + Math.round(0.42 * M) + "px system-ui"; g.textAlign = "center";
+    g.textBaseline = "middle"; g.save(); g.translate(L_, 12.5 * M); g.rotate(Math.PI); g.fillText("20", 0, 0); g.restore();
+    const tex = new T.CanvasTexture(cv); tex.wrapS = T.ClampToEdgeWrapping; tex.wrapT = T.RepeatWrapping;
+    tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 16;
+    // ribbon along the smoothed path, 3 m wide, just above the ground
+    const n = Math.max(2, Math.round(L / 1.2)), sp = curve.getSpacedPoints(n);
+    const pos = [], uv = [], idx = []; let dist = 0;
+    for (let i = 0; i <= n; i++) {
+      const a = sp[Math.max(0, i - 1)], b = sp[Math.min(n, i + 1)];
+      const t = b.clone().sub(a).setY(0).normalize(), side = new T.Vector3(-t.z, 0, t.x).multiplyScalar(1.5);
+      if (i > 0) dist += sp[i].distanceTo(sp[i - 1]);
+      const c = sp[i].clone(); c.y -= route.lift - 0.25;
+      pos.push(...c.clone().add(side).toArray(), ...c.clone().sub(side).toArray());
+      uv.push(1, dist / 30, 0, dist / 30);
+      if (i < n) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
+    }
+    const geo = new T.BufferGeometry();
+    geo.setAttribute("position", new T.Float32BufferAttribute(pos, 3));
+    geo.setAttribute("uv", new T.Float32BufferAttribute(uv, 2)); geo.setIndex(idx); geo.computeVertexNormals();
+    const lane = new T.Mesh(geo, new T.MeshStandardMaterial({ map: tex, roughness: 0.9, metalness: 0,
+      side: T.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }));
+    lane.receiveShadow = true; R.scene.add(lane);
+    S.cam.near = 1.0; S.cam.updateProjectionMatrix();    // the page's 6 m near plane would clip the lane at rider height
+  }
   S.ctl.autoRotate = false; S.ctl.enabled = false;
   const up = new T.Vector3(0, 1, 0);
   window.__rideSet = (f, o) => {                          // f in [0,1]
@@ -116,6 +175,13 @@ def main():
     route["tube"] = 0.75 if first else 6.0
     route["dot"] = 1.6 if first else 18.0
     route["ahead"] = first     # first person: behind the camera a growing trail is invisible, so show the road ahead
+    route["lane"] = arg("--view", "drone") == "rider"
+    if route["lane"]:
+        # --view rider: Kendall, 30 Sep, with photos of the real lane - "make it slower and make it look like a bike
+        # track". A painted red lane on the ground, the camera at a rider's eye, slow.
+        route.update({"ahead": True, "lift": 1.5, "dot": 0.1})
+        opts.update({"back": float(arg("--back", "6")), "height": float(arg("--height", "3.5")),
+                     "look": float(arg("--look", "40")), "smooth": float(arg("--smooth", "25"))})
 
     def patch(r):
         resp = r.fetch()
@@ -127,6 +193,7 @@ def main():
     n = int(seconds * FPS)
     total = n + (0 if "--no-hold" in sys.argv else int(2.5 * FPS))   # plus a 2.5 s hold on the finished route
     CHUNK = int(arg("--chunk", "24"))
+    END_AT = 0.985 if route.get("lane") else 1.0      # a rider stops before the lane ends, not past it
     caption = ("%s cycle track<br><span style='font-weight:400;font-size:28px;color:#C5A56A'>%s &middot; %.1f km on "
                "RTA&#39;s layer</span>" % (route["route"], arg("--place", "Downtown Dubai"), route["km"]))
 
@@ -147,7 +214,7 @@ def main():
                 print("ride %s in %s: %d points, %d m in scene" % (ride, district, info["points"], info["metres"]))
             done = start
             for i in range(start, min(total, start + CHUNK)):
-                f = min(1.0, i / max(1, n - 1))
+                f = min(1.0, i / max(1, n - 1)) * END_AT
                 pg.evaluate("([f,o]) => window.__rideSet(f,o)", [f, opts])
                 pg.evaluate("() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))")
                 pg.screenshot(path=os.path.join(frames_dir, "f%05d.png" % i))
@@ -175,7 +242,8 @@ def main():
     if nxt < total:
         sys.exit("stopped at frame %d of %d" % (nxt, total))
 
-    out = os.path.join(BIKE, "twin_ride_%s%s_9x16.mp4" % (ride, "_first" if first else ""))
+    out = os.path.join(BIKE, "twin_ride_%s%s_9x16.mp4" % (ride, "_rider" if route.get("lane") else
+                                                           ("_first" if first else "")))
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-framerate", str(FPS), "-i",
                     os.path.join(frames_dir, "f%05d.png"), "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
                     out], check=True)
