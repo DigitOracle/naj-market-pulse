@@ -282,7 +282,12 @@ def main():
         if not take_lock(lock):
             api.log(f"{key}: another live process is pulling this dataset ({os.path.basename(lock)}) - left to it")
             n_skip += 1; continue
-        rows = []; status = "ok"; note = ""; t0 = time.time(); seen = set()
+        # 29 Sep 2026: rows used to hold every record for the whole pull just so the final write could serialize them in one
+        # shot - each record is ALREADY durable in the .part checkpoint (one JSON object per line, appended as it's fetched),
+        # so keeping a second full copy in memory bought nothing but the multi-million-row spikes (7-8 GB) that twice forced
+        # other sessions to pause Unreal/CityEngine renders for RAM. Now only a row count and the first 200 rows' column
+        # names are held; the final write streams straight from the checkpoint file instead of from an in-memory list.
+        n_rows = 0; col_keys = set(); status = "ok"; note = ""; t0 = time.time(); seen = set()
         order = None; last_est = None; raw_rows = 0; dry = 0; ended_by = ""; last_page = 0; start_page = 1
         sample_pages = []; samples = {}; got1 = None; selfcheck = ""
         resumed = False
@@ -301,17 +306,19 @@ def main():
                     raise ValueError(f"page size changed ({st.get('page_size')} -> {a.page_size})")
                 with open(part, encoding="utf-8") as pf:
                     for line in pf:
-                        try: rows.append(json.loads(line))
+                        try: rec = json.loads(line)
                         except Exception: break                # a torn last line from a power cut: keep what parsed
+                        seen.add(rec_hash(rec)); n_rows += 1
+                        if len(col_keys) < 500: col_keys |= set(rec.keys())    # enough columns seen well before 200 rows
                 order = st.get("order_by"); last_est = st.get("last_page_est"); raw_rows = int(st.get("raw_rows", 0))
                 start_page = int(st["page"]) + 1; last_page = int(st["page"]); sample_pages = st.get("sample_pages") or []
                 keep = bool(st.get("repeats_kept"))
                 samples = json.load(open(psamp, encoding="utf-8")) if os.path.exists(psamp) else {}
-                for rec in rows: seen.add(rec_hash(rec))
                 resumed = True
-                api.log(f"{key}: resuming at page {start_page} with {len(rows):,} rows checkpointed (order_by={order})")
+                api.log(f"{key}: resuming at page {start_page} with {n_rows:,} rows checkpointed (order_by={order})")
             except Exception as e:
-                rows = []; seen = set(); order = None; last_est = None; raw_rows = 0; start_page = 1; last_page = 0; sample_pages = []; samples = {}
+                n_rows = 0; col_keys = set(); seen = set(); order = None; last_est = None; raw_rows = 0
+                start_page = 1; last_page = 0; sample_pages = []; samples = {}
                 api.log(f"{key}: checkpoint discarded ({str(e)[:70]}), starting over")
         if not resumed:
             for p_ in (part, pstate, psamp):                   # fresh start (or --force): no stale checkpoint may survive
@@ -372,7 +379,7 @@ def main():
                 if page == 1 and order is None and got1 is not None:
                     got = got1                                     # already fetched unordered, and page 1 is stable
                 else:
-                    code, raw, tok = fetch_page(c, base, page, a.page_size, order, tok, f"{label}({len(rows):,} rows held)")
+                    code, raw, tok = fetch_page(c, base, page, a.page_size, order, tok, f"{label}({n_rows:,} rows held)")
                     got, st_, nt_ = parse_page(code, raw)
                     # 24 Sep 2026: payment vouchers (page 521) and flight arrivals (page 204) returned 408 on every retry while
                     # other lanes kept pulling - one page too slow for the gateway's ~30 s limit, not an outage. Page N at size S
@@ -394,7 +401,9 @@ def main():
                 for rec, h in zip(got, hs):
                     if h in seen and not keep: continue            # unordered: a repeat is the gateway serving a row twice - dropped
                     seen.add(h); new.append(rec)
-                rows += new; last_page = page
+                n_rows += len(new); last_page = page
+                if len(col_keys) < 500:
+                    for rec in new[:200]: col_keys |= set(rec.keys())
                 dry = 0 if new else dry + 1
                 if page in sample_pages:
                     samples[str(page)] = hs
@@ -411,7 +420,7 @@ def main():
                 if last_est is not None and page >= last_est: ended_by = "last_page"; break
                 if last_est is None and dry >= STALL_PAGES: ended_by = "no_new_rows"; break
             if status == "ok" and not ended_by:                    # the loop ran out of pages without reaching the end of the dataset
-                status = "max_pages"; note = f"stopped at the --max-pages ceiling ({a.max_pages}) with {len(rows):,} rows; the checkpoint keeps them"
+                status = "max_pages"; note = f"stopped at the --max-pages ceiling ({a.max_pages}) with {n_rows:,} rows; the checkpoint keeps them"
         if status == "ok" and samples:                             # self-check: the pages fetched must come back the same
             bad = []
             for p_, want in sorted(samples.items(), key=lambda kv: int(kv[0])):
@@ -421,18 +430,34 @@ def main():
                 if [rec_hash(x) for x in got] != want: bad.append(f"page {p_} changed")
             selfcheck = "mismatch" if bad else "ok"
             if bad: status = "unstable"; note = "self-check failed: " + "; ".join(bad)
-        cols = sorted({k for row in rows[:200] for k in (row or {}).keys()}) if rows else []
+        cols = sorted(col_keys)
         if status == "ok":
+            # 29 Sep 2026: every record is already durable in `part`, one JSON object per line, appended as it was fetched
+            # (both a fresh pull and a resume flow through the same checkpoint-append above) - so the final file is streamed
+            # straight from it instead of from an in-memory list. The envelope is built as a dict for correctness (matches
+            # the old key order and escaping exactly via json.dumps), then its closing '}' is dropped and "results" is
+            # written as a raw array literal, copying each already-valid-JSON line through unparsed.
+            envelope = {"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
+                        "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": n_rows, "columns": cols, "order_by": order, "repeats_kept": keep}
             with open(os.path.join(out_dir, fn + ".tmp"), "w", encoding="utf-8") as of:
-                json.dump({"id": r["id"], "title": r["title"], "organization": r["organization"], "entity": r["entity"], "dataset": r["dataset"], "env": env,
-                           "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "rows": len(rows), "columns": cols, "order_by": order, "repeats_kept": keep, "results": rows}, of, ensure_ascii=False)
+                of.write(json.dumps(envelope, ensure_ascii=False)[:-1])   # drop the closing '}'
+                of.write(', "results": [')
+                first = True
+                if os.path.exists(part):
+                    with open(part, encoding="utf-8") as pf:
+                        for line in pf:
+                            line = line.rstrip("\n")
+                            if not line: continue                # a torn last line already stopped resume-loading above; never written here
+                            if not first: of.write(",")
+                            of.write(line); first = False
+                of.write("]}")
             replace_retry(os.path.join(out_dir, fn + ".tmp"), os.path.join(out_dir, fn))   # never a half-written final file
             for p_ in (part, pstate, psamp):
                 if os.path.exists(p_): os.remove(p_)
             n_ok += 1
         else:
             n_fail += 1
-        entry = {"id": r["id"], "title": r["title"], "entity": r["entity"], "dataset": r["dataset"], "status": status, "rows": len(rows), "columns": len(cols),
+        entry = {"id": r["id"], "title": r["title"], "entity": r["entity"], "dataset": r["dataset"], "status": status, "rows": n_rows, "columns": len(cols),
                  "file": fn if status == "ok" else "", "seconds": round(time.time() - t0, 1), "pulled": time.strftime("%Y-%m-%dT%H:%M:%S"), "note": note,
                  "pages": last_page, "last_page": last_est, "raw_rows": raw_rows, "order_by": order, "repeats_kept": keep, "selfcheck": selfcheck,
                  "ended_by": ended_by if status == "ok" else status}
@@ -442,14 +467,14 @@ def main():
         else:
             man[key] = entry
         touched.add(key)
-        api.log(f"[{i}/{len(todo)}] {key}: {status} rows={len(rows)} cols={len(cols)}" + (f" order_by={order}" if order else "") + (f" ({note[:80]})" if note and status != "ok" else ""))
+        api.log(f"[{i}/{len(todo)}] {key}: {status} rows={n_rows} cols={len(cols)}" + (f" order_by={order}" if order else "") + (f" ({note[:80]})" if note and status != "ok" else ""))
         if status == "blocked":
             # 24 Sep 2026: an append-only record of every firewall block, beside the manifest. The manifest note is replaced
             # on the dataset's next run and the log is long; a lockout ticket needs "when, which dataset, which support ID"
             # in seconds. Azimuth Rings asked whether the ID was kept durably - it now is.
             with open(os.path.join(out_dir, "waf_blocks.jsonl"), "a", encoding="utf-8") as bf:
                 bf.write(json.dumps({"at": time.strftime("%Y-%m-%dT%H:%M:%S"), "dataset": key, "page": entry.get("pages"),
-                                     "rows_banked": len(rows), "note": note}, ensure_ascii=False) + chr(10))
+                                     "rows_banked": n_rows, "note": note}, ensure_ascii=False) + chr(10))
         save()                                                     # every dataset: the loader reads the manifest, and a giant can take hours
         release_lock(lock)
     save()
