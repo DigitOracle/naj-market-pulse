@@ -17,6 +17,7 @@ Reads data/bike/rides/<ride>.json (coords in drawing order, from the route anima
 Writes data/bike/twin_ride_<ride>_9x16.mp4.
 """
 import json
+import re
 import os
 import time
 import subprocess
@@ -107,24 +108,48 @@ RIDE_JS = r"""
     g.textBaseline = "middle"; g.save(); g.translate(L_, 12.5 * M); g.rotate(Math.PI); g.fillText("20", 0, 0); g.restore();
     const tex = new T.CanvasTexture(cv); tex.wrapS = T.ClampToEdgeWrapping; tex.wrapT = T.RepeatWrapping;
     tex.colorSpace = T.SRGBColorSpace; tex.anisotropy = 16;
-    // ribbon along the smoothed path, 3 m wide, just above the ground
+    // ribbons along the smoothed path: halfW each side of centre, lifted `up` above the ground, texture repeating
+    // every vRep metres along and uRep times across
     const n = Math.max(2, Math.round(L / 1.2)), sp = curve.getSpacedPoints(n);
-    const pos = [], uv = [], idx = []; let dist = 0;
-    for (let i = 0; i <= n; i++) {
-      const a = sp[Math.max(0, i - 1)], b = sp[Math.min(n, i + 1)];
-      const t = b.clone().sub(a).setY(0).normalize(), side = new T.Vector3(-t.z, 0, t.x).multiplyScalar(1.5);
-      if (i > 0) dist += sp[i].distanceTo(sp[i - 1]);
-      const c = sp[i].clone(); c.y -= route.lift - 0.25;
-      pos.push(...c.clone().add(side).toArray(), ...c.clone().sub(side).toArray());
-      uv.push(1, dist / 30, 0, dist / 30);
-      if (i < n) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
+    const ribbon = (halfW, upM, uRep, vRep, map, offset, shift) => {   // shift: metres to the rider's right
+      const pos = [], uv = [], idx = []; let dist = 0;
+      for (let i = 0; i <= n; i++) {
+        const a = sp[Math.max(0, i - 1)], b = sp[Math.min(n, i + 1)];
+        const t = b.clone().sub(a).setY(0).normalize(), side = new T.Vector3(-t.z, 0, t.x).multiplyScalar(halfW);
+        if (i > 0) dist += sp[i].distanceTo(sp[i - 1]);
+        const c = sp[i].clone().add(new T.Vector3(-t.z, 0, t.x).multiplyScalar(shift || 0)); c.y -= route.lift - upM;
+        pos.push(...c.clone().add(side).toArray(), ...c.clone().sub(side).toArray());
+        uv.push(uRep, dist / vRep, 0, dist / vRep);
+        if (i < n) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
+      }
+      const geo = new T.BufferGeometry();
+      geo.setAttribute("position", new T.Float32BufferAttribute(pos, 3));
+      geo.setAttribute("uv", new T.Float32BufferAttribute(uv, 2)); geo.setIndex(idx); geo.computeVertexNormals();
+      const m = new T.Mesh(geo, new T.MeshStandardMaterial({ map, roughness: 0.9, metalness: 0, side: T.DoubleSide,
+        polygonOffset: true, polygonOffsetFactor: offset, polygonOffsetUnits: offset }));
+      m.receiveShadow = true; R.scene.add(m); return m;
+    };
+    // the promenade under it: Kendall, 30 Sep - "can we put concrete underneath ... a sidewalk? people are walking
+    // in these same areas". Light pavers with darker banding, as in his photos of the real track; 9 m wide.
+    const pv = document.createElement("canvas"); pv.width = 512; pv.height = 512;           // one tile = 3 m x 3 m
+    const q = pv.getContext("2d"), P = 512 / 3.0;
+    q.fillStyle = "#BDB7AC"; q.fillRect(0, 0, 512, 512);                                      // grout
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let row = 0; row < 15; row++) {                                                      // 0.2 m courses
+      const y = row * 0.2 * P, band = row === 7 || row === 8;
+      for (let x = (row % 2) * -0.3 * P; x < 512; x += 0.6 * P) {                            // 0.6 m pavers, staggered
+        const g = band ? 150 + rnd() * 12 : 214 + rnd() * 14;
+        q.fillStyle = "rgb(" + Math.round(g) + "," + Math.round(g - 3) + "," + Math.round(g - 9) + ")";
+        q.fillRect(x + 1.5, y + 1.5, 0.6 * P - 3, 0.2 * P - 3);
+      }
     }
-    const geo = new T.BufferGeometry();
-    geo.setAttribute("position", new T.Float32BufferAttribute(pos, 3));
-    geo.setAttribute("uv", new T.Float32BufferAttribute(uv, 2)); geo.setIndex(idx); geo.computeVertexNormals();
-    const lane = new T.Mesh(geo, new T.MeshStandardMaterial({ map: tex, roughness: 0.9, metalness: 0,
-      side: T.DoubleSide, polygonOffset: true, polygonOffsetFactor: -4, polygonOffsetUnits: -4 }));
-    lane.receiveShadow = true; R.scene.add(lane);
+    const ptex = new T.CanvasTexture(pv); ptex.wrapS = T.RepeatWrapping; ptex.wrapT = T.RepeatWrapping;
+    ptex.colorSpace = T.SRGBColorSpace; ptex.anisotropy = 16;
+    // Kendall, 30 Sep: "the biking is on the left and the concrete walking is on the right" - so the paving runs from
+    // 0.5 m left of the lane to WALK m right of it; the rider stays in the lane
+    const WALK = route.walk || 6, LEFT = 2.0, RIGHT = 1.5 + WALK;
+    ribbon((LEFT + RIGHT) / 2, 0.15, (LEFT + RIGHT) / 3, 3, ptex, -2, (RIGHT - LEFT) / 2);    // promenade, under
+    ribbon(1.5, 0.25, 1, 30, tex, -4);                                                       // the cycle lane, on top
     S.cam.near = 1.0; S.cam.updateProjectionMatrix();    // the page's 6 m near plane would clip the lane at rider height
   }
   S.ctl.autoRotate = false; S.ctl.enabled = false;
@@ -143,6 +168,43 @@ RIDE_JS = r"""
     S.cam.lookAt(S.ctl.target);
   };
   window.__rideSnap = (o) => { window.__rideSet(0, Object.assign({}, o, { ease: 1 })); };
+  // TOUR: Kendall, 30 Sep - start at the "10,000 foot view", fly down, then ride, pausing at three or four of the
+  // most recognisable buildings so the viewer knows they are in Business Bay.
+  const pose = (s, o) => {
+    const p = at(s), a = at(s - o.smooth), b = at(s + o.smooth);
+    const dir = b.clone().sub(a).setY(0); if (dir.lengthSq() < 1e-6) dir.set(0, 0, -1); dir.normalize();
+    return { p, dir, pos: p.clone().sub(dir.clone().multiplyScalar(o.back)).add(up.clone().multiplyScalar(o.height)),
+             tgt: p.clone().add(dir.clone().multiplyScalar(o.look)).add(up.clone().multiplyScalar(o.height * 0.35)) };
+  };
+  window.__rideLandmarks = (names) => names.map(([key, label]) => {   // [anchor name, label] -> aim point + route s
+    const a = (S.anch.anchors || []).find(x => x.meshes && x.meshes.length &&
+      [x.dev_project, x.name, x.place_label].some(v => v && String(v).toLowerCase() === key.toLowerCase()));
+    if (!a) return { label, missing: true };
+    const bb = new T.Box3(); a.meshes.forEach(i => { const m = S.meshes[i]; if (m) bb.expandByObject(m); });
+    const c = bb.getCenter(new T.Vector3()), h = bb.max.y - bb.min.y;
+    let best = 0, bd = 1e12;
+    for (let i = 0; i < pts.length; i++) { const d = (pts[i].x - c.x) ** 2 + (pts[i].z - c.z) ** 2; if (d < bd) { bd = d; best = i; } }
+    return { label, s: cum[best], dist: Math.round(Math.sqrt(bd)), aim: [c.x, bb.min.y + 0.55 * h, c.z] };
+  });
+  const lab = document.createElement("div"); lab.id = "ridelab";
+  lab.style.cssText = "position:fixed;left:0;right:0;top:34%;text-align:center;z-index:99;opacity:0;color:#f2f4f7;"
+    + "font:700 58px system-ui;text-shadow:0 3px 18px #000,0 0 4px #000";
+  document.body.appendChild(lab);
+  const mid = pts.reduce((m, q) => m.add(q), new T.Vector3()).multiplyScalar(1 / pts.length);
+  window.__rideFrame = (sv, o, ex) => {
+    const b = pose(sv, o); let pos = b.pos.clone(), tgt = b.tgt.clone();
+    if (ex.aim && ex.w > 0) {                                  // turn to the landmark, rising a little to take it in
+      const aim = new T.Vector3(...ex.aim);
+      tgt.lerp(aim, ex.w); pos.add(up.clone().multiplyScalar(ex.w * o.height * 1.5));
+    }
+    lab.textContent = ex.label || ""; lab.style.opacity = String(Math.max(0, Math.min(1, (ex.w - 0.45) * 2.5)));
+    if (ex.intro !== undefined && ex.intro < 1) {              // from high over the district down to the rider
+      const k = ex.intro, e = k * k * k * (k * (k * 6 - 15) + 10);
+      const hiT = mid.clone(), hiP = mid.clone().sub(b.dir.clone().multiplyScalar(1800)).add(up.clone().multiplyScalar(2600));
+      pos = hiP.lerp(pos, e); tgt = hiT.lerp(tgt, e);
+    }
+    S.cam.position.copy(pos); S.ctl.target.copy(tgt); S.cam.lookAt(tgt);
+  };
   return { points: pts.length, metres: Math.round(L) };
 }
 """
@@ -184,11 +246,24 @@ def main():
                      "look": float(arg("--look", "40")), "smooth": float(arg("--smooth", "25"))})
 
     def patch(r):
-        resp = r.fetch()
-        body = resp.text()
-        if HOOK_AT in body:
-            body = body.replace(HOOK_AT, HOOK + HOOK_AT, 1)
-        r.fulfill(response=resp, body=body)
+        # Never let a failure escape: Playwright's error text carries the request URL, and the URL carries the
+        # CLIENT key - on 30 Sep a 30 s fetch timeout printed it into the run log. Abort quietly instead; the
+        # session fails and the chunk loop retries with a fresh browser.
+        for _ in range(3):
+            try:
+                resp = r.fetch(timeout=90_000)
+                body = resp.text()
+                if HOOK_AT in body:
+                    body = body.replace(HOOK_AT, HOOK + HOOK_AT, 1)
+                r.fulfill(response=resp, body=body)
+                return
+            except Exception:
+                time.sleep(3)
+        try:
+            r.abort()
+        except Exception:
+            pass
+        print("  twin page fetch failed three times (URL withheld)")
 
     n = int(seconds * FPS)
     total = n + (0 if "--no-hold" in sys.argv else int(2.5 * FPS))   # plus a 2.5 s hold on the finished route
@@ -196,6 +271,42 @@ def main():
     END_AT = 0.985 if route.get("lane") else 1.0      # a rider stops before the lane ends, not past it
     caption = ("%s cycle track<br><span style='font-weight:400;font-size:28px;color:#C5A56A'>%s &middot; %.1f km on "
                "RTA&#39;s layer</span>" % (route["route"], arg("--place", "Downtown Dubai"), route["km"]))
+
+    TOUR = bool(arg("--stops", ""))
+    STOPS = [x.split("=", 1) if "=" in x else [x, x] for x in arg("--stops", "").split("|") if x]
+    INTRO_S, STOP_S, TURN_S = 6.0, 4.5, 1.0
+    sched_cache = os.path.join(frames_dir, "_schedule.json")
+
+    def schedule_for(pg, info):
+        """[(s, extra)] per frame: intro fly-down, eased travel between stops, a turn-and-hold at each stop.
+        Computed once (first session) and cached in the frames folder, so every chunk films the same timeline."""
+        if os.path.exists(sched_cache):
+            return json.load(open(sched_cache))
+        marks = pg.evaluate("(n) => window.__rideLandmarks(n)", STOPS)
+        use = sorted([m for m in marks if not m.get("missing") and m["dist"] <= 450], key=lambda m: m["s"])
+        for m in marks:
+            print("  stop %-26s %s" % (m["label"], "MISSING" if m.get("missing") else "%d m from track" % m["dist"]))
+        L = info["metres"] * END_AT
+        frames = [(0.0, {"intro": 0.0, "w": 0})] * int(0.8 * FPS)
+        frames += [(0.0, {"intro": k / (INTRO_S * FPS), "w": 0}) for k in range(int(INTRO_S * FPS))]
+        knots = [0.0] + [m["s"] for m in use] + [L]
+        ride_frames = int(seconds * FPS)
+        span = sum(knots[i + 1] - knots[i] for i in range(len(knots) - 1)) or 1
+        for i in range(len(knots) - 1):
+            a, b = knots[i], knots[i + 1]
+            nf = max(2, int(ride_frames * (b - a) / span))
+            for k in range(nf):
+                u = k / (nf - 1); e = u * u * (3 - 2 * u)           # ease out of and into each stop
+                frames.append((a + (b - a) * e, {"w": 0}))
+            if i < len(use):
+                m = use[i]; ns = int(STOP_S * FPS); nt = int(TURN_S * FPS)
+                for k in range(ns):
+                    w = min(1.0, k / nt, (ns - 1 - k) / nt)
+                    w = w * w * (3 - 2 * w)
+                    frames.append((b, {"w": w, "aim": m["aim"], "label": m["label"]}))
+        frames += [(L, {"w": 0})] * int(2.5 * FPS)
+        json.dump(frames, open(sched_cache, "w"))
+        return frames
 
     def session(p, start):
         """One browser: load the twin, build the ride, film frames from `start` for up to CHUNK frames."""
@@ -213,15 +324,21 @@ def main():
             if start == 0:
                 print("ride %s in %s: %d points, %d m in scene" % (ride, district, info["points"], info["metres"]))
             done = start
-            for i in range(start, min(total, start + CHUNK)):
-                f = min(1.0, i / max(1, n - 1)) * END_AT
-                pg.evaluate("([f,o]) => window.__rideSet(f,o)", [f, opts])
+            sched = schedule_for(pg, info) if TOUR else None
+            for i in range(start, min(len(sched) if sched else total, start + CHUNK)):
+                if sched:
+                    sv, ex = sched[i]
+                    pg.evaluate("([s,o,e]) => window.__rideFrame(s,o,e)", [sv, opts, ex])
+                else:
+                    f = min(1.0, i / max(1, n - 1)) * END_AT
+                    pg.evaluate("([f,o]) => window.__rideSet(f,o)", [f, opts])
                 pg.evaluate("() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))")
                 pg.screenshot(path=os.path.join(frames_dir, "f%05d.png" % i))
                 done = i + 1
             return done
         except Exception as e:
-            print("  browser stopped after frame %d: %s" % (start, str(e).splitlines()[0][:80]))
+            msg = re.sub(r"key=[^&\s]+", "key=[redacted]", str(e).splitlines()[0])[:80]   # never log the key
+            print("  browser stopped after frame %d: %s" % (start, msg))
             return max(start, len([f for f in os.listdir(frames_dir) if f.endswith(".png")]))
         finally:
             try:
@@ -232,14 +349,18 @@ def main():
     # The machine runs Unreal alongside, and one browser dies after ~30 WebGL frames on 0.4 GB free. So film in
     # chunks, a fresh browser each, resuming at the next frame. The camera is a pure function of the route position
     # (ease 1), so a chunk boundary is invisible.
+    if TOUR:
+        total = None                                           # set from the schedule in the first session
     nxt, stalls = len([f for f in os.listdir(frames_dir) if f.endswith(".png")]), 0
     with sync_playwright() as p:
-        while nxt < total and stalls < 6:
+        while (total is None or nxt < total) and stalls < 6:
             got = session(p, nxt)
+            if TOUR and total is None and os.path.exists(sched_cache):
+                total = len(json.load(open(sched_cache)))
             stalls = stalls + 1 if got == nxt else 0
             nxt = got
-            print("  %d / %d frames" % (nxt, total))
-    if nxt < total:
+            print("  %d / %s frames" % (nxt, total if total is not None else "?"))
+    if total is None or nxt < total:
         sys.exit("stopped at frame %d of %d" % (nxt, total))
 
     out = os.path.join(BIKE, "twin_ride_%s%s_9x16.mp4" % (ride, "_rider" if route.get("lane") else
