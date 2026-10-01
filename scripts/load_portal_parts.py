@@ -48,13 +48,23 @@ DATASETS = {                               # short name -> portal file stem
 # part03 = part01 except one row whose backslash is escaped differently ('JEDDAH\\' vs 'JEDDAH\'); part01 = the whole
 # file, 1,032,055 rows, under the Excel cap. Checked 24 Sep 2026.
 ONLY = {"food_health_certificate": ("01",)}
-STAMPS = {"customers_master_data": "2026-09-14"}   # export date where it is not STAMP (keyed by stem)
+STAMPS = {"customers_master_data": "2026-09-14"}   # export date where it is pinned (keyed by stem)
+# 1 Oct 2026: datadubai_pull_parts.py lands each new extract as <stem>__<date>__partNN.csv.gz (kept gzipped - the disk is 96%
+# full and an Ejari part is 480 MB uncompressed). Stems listed here load the NEWEST date on disk, so a daily pull needs no edit.
+NEWEST = {"dld__rent_contracts"}
 csv.field_size_limit(1 << 30)
 
 
+def newest_stamp(stem):
+    dates = {m.group(1) for p in glob.glob(os.path.join(DD, "%s__*__part*" % stem))
+             for m in [re.search(r"__(\d{4}-\d{2}-\d{2})__part", os.path.basename(p))] if m}
+    return max(dates) if dates else STAMP
+
+
 def parts(stem):
-    ps = sorted(glob.glob(os.path.join(DD, "%s__%s__part*" % (stem, STAMPS.get(stem, STAMP)))))
-    ps = [p for p in ps if p.lower().endswith((".csv", ".json"))]
+    stamp = newest_stamp(stem) if stem in NEWEST else STAMPS.get(stem, STAMP)
+    ps = sorted(glob.glob(os.path.join(DD, "%s__%s__part*" % (stem, stamp))))
+    ps = [p for p in ps if p.lower().endswith((".csv", ".csv.gz", ".json"))]
     if stem in ONLY:
         ps = [p for p in ps if os.path.basename(p).split("__part")[1][:2] in ONLY[stem]]
     return ps
@@ -62,8 +72,10 @@ def parts(stem):
 
 def count_part(p):
     """Rows in one part, counted without DuckDB so the two counts are independent."""
-    if p.lower().endswith(".csv"):
-        with open(p, encoding="utf-8", errors="replace", newline="") as fh:
+    if p.lower().endswith((".csv", ".csv.gz")):
+        import gzip
+        opener = gzip.open if p.lower().endswith(".gz") else open
+        with opener(p, "rt", encoding="utf-8", errors="replace", newline="") as fh:
             return sum(1 for _ in csv.reader(fh)) - 1
     with open(p, "rb") as fh:
         head = fh.read(64).lstrip()
@@ -77,7 +89,7 @@ def count_part(p):
 
 def select_sql(p):
     q = p.replace("\\", "/").replace("'", "''")
-    if p.lower().endswith(".csv"):
+    if p.lower().endswith((".csv", ".csv.gz")):
         return "select * from read_csv('%s', all_varchar=true, header=true, max_line_size=16777216)" % q
     return "select * from read_json('%s', format='auto', maximum_object_size=268435456)" % q
 
@@ -105,7 +117,7 @@ def drop_format_copies(con, ps):
     and tram alternate like this, so summing every part DOUBLED them (42,987,159 metro taps published where ~22.0M are real)
     and the row-count contract, comparing the lake to that same sum, confirmed the doubling instead of catching it. A JSON
     part is now dropped only when it matches the CSV part before it row for row; one that differs is kept and loaded."""
-    num = lambda p: int(re.search(r"__part(\d+)\.(?:csv|json)$", p, re.I).group(1))
+    num = lambda p: int(re.search(r"__part(\d+)\.(?:csv|json)(?:\.gz)?$", p, re.I).group(1))
     by_num = {num(p): p for p in ps}
     keep, dropped = [], []
     for p in ps:
@@ -125,10 +137,25 @@ def drop_format_copies(con, ps):
     return keep, dropped
 
 
+def already_held(con, stem, table):
+    """1 Oct 2026: a daily step must not spend 25 minutes re-loading an extract the lake already holds. The Ejari rows carry
+    the extract's own load_timestamp (cut time), whose date is the folder date the parts are named after."""
+    if stem not in NEWEST:
+        return False
+    stamp = newest_stamp(stem)
+    try:
+        held = con.execute("select max(substr(cast(load_timestamp as varchar), 1, 10)) from %s" % table).fetchone()[0]
+    except Exception:
+        return False
+    return held == stamp
+
+
 def load(con, short, stem, dry):
     ps = parts(stem)
     if not ps:
         print("%-20s no parts on disk - skipped" % short); return None
+    if already_held(con, stem, "pp_" + stem):
+        print("%-20s extract %s already in the lake - nothing to load" % (short, newest_stamp(stem))); return True
     t0 = time.time()
     ps, dropped = drop_format_copies(con, ps)
     if dropped:

@@ -59,6 +59,25 @@ def main():
            "fields": ["project", "area", "start_date", "band", "reg_type", "contracts"],
            "rows": [list(r) for r in rows],
            "new_contracts_in_window": sum(r[5] for r in rows if r[4] == "New")}
+    # the DLD gateway feed (fetch_dld.py, daily) carries REGISTRATION_DATE - the filing time - which the portal export lacks;
+    # the newest rents-<date>.csv shows filings in scope since 29 Sep, so the two channels can be compared
+    gw = sorted(glob.glob(os.path.join(ROOT, "data", "rents-20??-??-??*.csv")))
+    if gw:
+        g = gw[-1]
+        try:
+            filed = con.execute(f"""select PROJECT_EN, substr(REGISTRATION_DATE, 1, 16) filed_at, substr(START_DATE, 1, 10) start_on, VERSION_EN,
+                                           PROP_SUB_TYPE_EN
+                                    from read_csv('{g.replace(os.sep, "/")}', all_varchar=true, header=true)
+                                    where (upper(trim(PROJECT_EN)) in ({names}) or regexp_matches(lower(coalesce(PROJECT_EN, '')), '{PATTERN}'))
+                                      and REGISTRATION_DATE >= '{FROM}' order by REGISTRATION_DATE""").fetchall()
+            out["gateway_feed"] = {"file": os.path.basename(g), "newest_registration": con.execute(
+                f"select max(REGISTRATION_DATE) from read_csv('{g.replace(os.sep, '/')}', all_varchar=true, header=true)").fetchone()[0],
+                "fields": ["project", "filed_at", "start_on", "version", "sub_type"], "rows": [list(r) for r in filed],
+                "note": "AYKON CITY and AYKON CITY 2 list the same contracts under both labels - count once"}
+            print("gateway feed %s: %d filings in scope since %s (newest registration %s)" % (
+                os.path.basename(g), len(filed), FROM, out["gateway_feed"]["newest_registration"]))
+        except Exception as e:
+            out["gateway_feed"] = {"file": os.path.basename(g), "error": str(e)[:160]}
     os.makedirs(OUT, exist_ok=True)
     json.dump(out, open(os.path.join(OUT, "damac_maison_%s.json" % stamp), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("extract %s (%d parts, %.0fs); newest start date anywhere: %s" % (stamp, len(ps), time.time() - t0, max_start))
