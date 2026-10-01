@@ -222,28 +222,53 @@ def main():
                 .replace("__SUB__", "%s &middot; %.1f km on RTA&#39;s layer" % (place, route["km"]))
                 .replace("__SRC__", "Route: RTA bicycle tracks (open data, Nov 2025). Blocks: Najma massing, LOD 100; "
                                     "some heights are estimates. Ground: Najma context layer. Research only."))
-    fdir = os.path.join(BIKE, "_blocks_frames_%s_%d" % (ride, int(time.time())))
+    # --resume <folder>: carry on in a folder a failed run left, skipping frames already there
+    fdir = arg("--resume", "") or os.path.join(BIKE, "_blocks_frames_%s_%d" % (ride, int(time.time())))
     os.makedirs(fdir, exist_ok=True)
     data = {"center": centre, "route": pts, "blocks": {"type": "FeatureCollection", "features": bfeat},
             "ground": {"type": "FeatureCollection", "features": gfeat}}
-    with sync_playwright() as p:
+    # the page and its data as files: an init script carrying ~12 MB of JSON never reached set_content's page
+    open(os.path.join(fdir, "data.js"), "w", encoding="utf-8").write("window.__D=" + json.dumps(data, separators=(",", ":")) + ";")
+    open(os.path.join(fdir, "index.html"), "w", encoding="utf-8").write(html)
+    limit = int(arg("--frames", "0")) or len(frames)
+    pick = [int(x) for x in arg("--pick", "").split(",") if x]           # preview: just these frame numbers
+    todo = [(i, frames[i]) for i in pick if i < len(frames)] if pick else list(enumerate(frames[:limit]))
+    print("timeline %d frames (%.1f s)" % (len(frames), len(frames) / FPS))
+
+    def session(p, items):
+        """One browser for as many frames as it lasts; returns how many it wrote. A screenshot stalled at frame
+        1,042 of the first full run (2 GB free), so runs are retried in fresh browsers until done."""
         br = p.chromium.launch(args=["--use-angle=d3d11", "--ignore-gpu-blocklist", "--enable-webgl"])
-        pg = br.new_context(viewport={"width": W, "height": H}).new_page()
-        pg.on("console", lambda m: m.type in ("error", "warning") and print("  [page]", m.text[:160]))
-        pg.on("pageerror", lambda e: print("  [page error]", str(e)[:160]))
-        # the page and its data as files: an init script carrying ~12 MB of JSON never reached set_content's page
-        open(os.path.join(fdir, "data.js"), "w", encoding="utf-8").write("window.__D=" + json.dumps(data, separators=(",", ":")) + ";")
-        open(os.path.join(fdir, "index.html"), "w", encoding="utf-8").write(html)
-        pg.goto("file:///" + os.path.join(fdir, "index.html").replace("\\", "/"), wait_until="load", timeout=120_000)
-        pg.wait_for_function("() => window.__ready === true", timeout=120_000)
-        limit = int(arg("--frames", "0")) or len(frames)
-        pick = [int(x) for x in arg("--pick", "").split(",") if x]       # preview: just these frame numbers
-        todo = [(i, frames[i]) for i in pick if i < len(frames)] if pick else list(enumerate(frames[:limit]))
-        print("timeline %d frames (%.1f s)" % (len(frames), len(frames) / FPS))
-        for i, fr in todo:
-            pg.evaluate("(fr) => window.__frame(fr)", fr)
-            pg.screenshot(path=os.path.join(fdir, "f%05d.png" % i))
-        br.close()
+        done = 0
+        try:
+            pg = br.new_context(viewport={"width": W, "height": H}).new_page()
+            pg.on("pageerror", lambda e: print("  [page error]", str(e)[:160]))
+            pg.goto("file:///" + os.path.join(fdir, "index.html").replace("\\", "/"), wait_until="load", timeout=120_000)
+            pg.wait_for_function("() => window.__ready === true", timeout=120_000)
+            for i, fr in items:
+                pg.evaluate("(fr) => window.__frame(fr)", fr)
+                pg.screenshot(path=os.path.join(fdir, "f%05d.png" % i), timeout=90_000)
+                done += 1
+        except Exception as e:
+            print("  browser stopped after %d frames: %s" % (done, str(e).splitlines()[0][:90]))
+        finally:
+            try:
+                br.close()
+            except Exception:
+                pass
+        return done
+
+    with sync_playwright() as p:
+        stalls = 0
+        while stalls < 5:
+            left = [(i, fr) for i, fr in todo if not os.path.exists(os.path.join(fdir, "f%05d.png" % i))]
+            if not left:
+                break
+            print("  %d frames to go" % len(left))
+            stalls = 0 if session(p, left) else stalls + 1
+        left = [i for i, _ in todo if not os.path.exists(os.path.join(fdir, "f%05d.png" % i))]
+        if left:
+            sys.exit("stopped with %d frames missing, from %d; resume with --resume %s" % (len(left), left[0], fdir))
     if arg("--pick", ""):
         print("preview frames in", fdir)
         return
