@@ -118,10 +118,15 @@ def pull(endpoint, make_payload, windows, cols, key_fn, max_passes=1):
     return rows
 
 
-def windows(days_back, step):
-    """Split the trailing window into <=step-day chunks (deep pagination drifts on the API)."""
-    end = date.today()
-    start = end - timedelta(days=days_back)
+def windows(days_back, step, ahead=0):
+    """Split the trailing window into <=step-day chunks (deep pagination drifts on the API).
+
+    ahead: also cover start dates up to `ahead` days in the FUTURE. 1 Oct 2026: the rents endpoint filters on the contract's
+    START date, and most Ejari contracts are filed before they start (34% filed 1-7 days ahead, 25% more than a week ahead,
+    measured on 57k contracts). A pull that stops at today never sees a contract filed today that starts next week, so "filed
+    yesterday" undercounted by about half. The cap splitter in pull() absorbs the extra volume."""
+    end = date.today() + timedelta(days=ahead)
+    start = date.today() - timedelta(days=days_back)
     out, cur = [], start
     while cur < end:
         nxt = min(cur + timedelta(days=step), end)
@@ -190,7 +195,8 @@ def main():
     tx = complete_transactions(tx, tx_days)
     write_csv("transactions", TX_COLS, tx)
 
-    rents = pull("rents", rent_payload, windows(rent_days, 6), RENT_COLS,
+    rent_ahead = int(os.environ.get("DLD_RENT_AHEAD_DAYS", "60"))   # forward-dated contracts (see windows())
+    rents = pull("rents", rent_payload, windows(rent_days, 6, ahead=rent_ahead), RENT_COLS,
                  key_fn=lambda r: json.dumps([r.get(c) for c in RENT_COLS], ensure_ascii=False))
     write_csv("rents", RENT_COLS, rents)
 
