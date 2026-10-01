@@ -6,7 +6,9 @@ additions: scroll down the results list, scroll through the PDF, and show the bu
 **Research only, internal only.** Filmed on the CLIENT key — never the read key (Kendall's own screenshots of this flow
 carry the read key in the address bar; that link must never be on camera).
 
-**ON HOLD until v283 is live.** Rings (1 Oct): the brief changes in v283 — multi-select bedrooms, target + "stretch up to"
+**FILMED 1 Oct 2026 on v283.1, on the JVC example** (Kendall: use the example whose PDF already carries photos). The Business Bay version below is superseded; the approved JVC narrative is in section 1b.
+
+**Was ON HOLD until v283 was live.** Rings (1 Oct): the brief changes in v283 — multi-select bedrooms, target + "stretch up to"
 budget, a furnished step, must / nice / don't-care must-haves, a side-by-side area comparison, live START cards, tappable
 blocks, search retry. Rings will send routes, stable selectors, PDF timings and figure definitions when it ships. The
 narrative's steps are then re-checked against the new flow before filming; any change to Naj's words goes back to Kendall.
@@ -25,7 +27,25 @@ narrative's steps are then re-checked against the new flow before filming; any c
 > are in Business Bay, the ten buildings in gold. From a WhatsApp message to a professional shortlist, in under a
 > minute. Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity.
 
-## 2 · SHOTS
+## 1b · NAJ — JVC version (approved 1 Oct, filmed)
+
+> A client messages me: "I need a one-bed in JVC, around sixty-five thousand a year." Here's how I answer that in under
+> a minute. I open Azimuth and tell it what they want. To rent. An apartment, one bedroom. Sixty to sixty-eight
+> thousand. Jumeirah Village Circle. And that's the brief. Ninety-three buildings fit, ranked by what one-beds there
+> actually rent for, from the Ejari contracts, not asking prices. Binghatti Amber: typical rent sixty-six thousand,
+> and twenty-seven new lettings in the last two months. Bloom Towers, sixty-five thousand. Every number comes from the
+> register. If it isn't registered, it isn't on the screen. I pick the ten I like, and choose what to send. One tap,
+> and I have a single comparison sheet, with photos and a map, ready for my client. And if they want to see where these
+> are, here they are in JVC, the ten buildings in gold. From a WhatsApp message to a professional shortlist, in under a
+> minute. Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity.
+
+Film: START → brief (rent, apartment, 1 bed, 60k–68k, either, JVC, must-haves skipped) → results (93 match) scrolled →
+Show 20, Ghalia (no photos yet) swapped for Binghatti Tulip → Compare 10 PDF (two landscape pages, all ten with
+developer photos) read across → JVC in blocks, the chosen in gold (the page shows "The 9": one has no plot in the
+blocks layer) → Bloom Towers' own three-page PDF (Kendall: "the 3 page .pdf needs to go at the end"), last page held.
+96.9 s. `python scripts/brief_capture.py`.
+
+## 2 · SHOTS (Business Bay version, superseded)
 
 | # | on screen | Naj |
 |---|---|---|

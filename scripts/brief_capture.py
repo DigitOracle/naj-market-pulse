@@ -64,21 +64,21 @@ def part_a(pg, marks, t0):
     pg.evaluate(D.CURSOR_JS)
     pg.wait_for_timeout(1200)
     glide_click(pg, pg.locator("#ftype").get_by_text("Apartment", exact=True), 500)
-    glide_click(pg, pg.locator('#fbeds [data-v="studio"]'), 700)
+    glide_click(pg, pg.locator('#fbeds [data-v="1"]'), 700)
     glide_click(pg, pg.locator("#fnextbd:visible, #fnextb:visible").first, 900)
-    type_slow(pg, pg.locator("#fmin"), "50k", 300)
-    type_slow(pg, pg.locator("#fmax"), "70k", 700)
+    type_slow(pg, pg.locator("#fmin"), "60k", 300)
+    type_slow(pg, pg.locator("#fmax"), "68k", 700)
     glide_click(pg, pg.locator("#s-budget button:visible", has_text="NEXT").first, 900)
     glide_click(pg, pg.locator("#s-furn").get_by_text("Either", exact=True).first, 500)
     nb = pg.locator("#s-furn button:visible", has_text="NEXT")
     if nb.count():
         glide_click(pg, nb.first, 900)
-    type_slow(pg, pg.locator("#fdq"), "bus", 900)
-    glide_click(pg, pg.locator("#s-where").get_by_text("Business Bay", exact=True).first, 700)
+    type_slow(pg, pg.locator("#fdq"), "jumeirah village", 900)
+    glide_click(pg, pg.locator("#s-where").get_by_text("Jumeirah Village Circle", exact=True).first, 700)
     glide_click(pg, pg.locator("#fnextw"), 900)
-    glide_click(pg, pg.locator('.wr[data-k="metro"] button[data-l="must"]'), 900)
-    glide_click(pg, pg.locator("#fgo"), 0)
-    pg.wait_for_selector("#bres .bcard, #bres > *:nth-child(3)", timeout=60_000)
+    glide_click(pg, pg.locator("#fskip"), 0)                            # no must-haves for this one
+    pg.wait_for_function("() => { const b = document.getElementById('bres'); return b && b.querySelector('#row0') }",
+                         timeout=120_000)
     pg.wait_for_timeout(2500)
     mark("results")
     # the slow scroll down the list, to the register note at its foot
@@ -86,7 +86,25 @@ def part_a(pg, marks, t0):
     for _ in range(60):
         pg.mouse.wheel(0, 38)
         pg.wait_for_timeout(110)
-    pg.wait_for_timeout(1500)
+    pg.wait_for_timeout(1200)
+    # "Show 20" redraws the list and re-ticks the default ten, so: show 20 FIRST, then untick Ghalia (no photos yet),
+    # then tick the first further building whose card says it has developer photos on file
+    if pg.locator('#bres input[type=checkbox][aria-label="choose GHALIA"]').count() and pg.locator("#more20").count():
+        glide_click(pg, pg.locator("#more20"), 2500)
+        gh = pg.locator('#bres input[type=checkbox][aria-label="choose GHALIA"]').first
+        if gh.is_checked():
+            glide_click(pg, gh, 700)
+        for k in range(10, 20):
+            row = pg.locator("#row%d" % k)
+            if not row.count():
+                break
+            if "photos on file" in row.inner_text():
+                box = row.locator("input[type=checkbox]").first
+                if not box.is_checked():
+                    glide_click(pg, box, 900)
+                print("  swapped Ghalia for", row.locator(".nm").first.inner_text())
+                break
+    pg.wait_for_timeout(1000)
     mark("results_end")
     glide_click(pg, pg.locator("#o-c10"), 0)
     ready = pg.locator("#jobs a", has_text=re.compile("Open the PDF", re.I))
@@ -96,7 +114,23 @@ def part_a(pg, marks, t0):
     href = ready.first.get_attribute("href")
     blocks = pg.locator("#o-blocks")
     bhref = blocks.get_attribute("href") if blocks.count() else None
-    return href, bhref
+    pg.locator("#o-ind").click()                                        # off camera: the cut ends at pdf_ready
+    one = pg.locator("#jobs div", has_text=re.compile(r"^Bloom Towers . its own PDF", re.I)).locator("a", has_text="Open the PDF")
+    one.first.wait_for(timeout=180_000)
+    return href, bhref, one.first.get_attribute("href")
+
+
+def save_pdf(pg, ctx, href, path):
+    import base64
+    if href.startswith("blob:") or href.startswith("data:"):
+        b64 = pg.evaluate("""async (u) => { const b = await (await fetch(u)).arrayBuffer(); let s = "";
+            const a = new Uint8Array(b); for (let i = 0; i < a.length; i += 32768) s += String.fromCharCode(...a.subarray(i, i + 32768));
+            return btoa(s); }""", href)
+        body = base64.b64decode(b64)
+    else:
+        body = ctx.request.get(href if href.startswith("http") else D.APP.rstrip("/") + href, timeout=120_000).body()
+    open(path, "wb").write(body)
+    print("saved %s: %d KB" % (os.path.basename(path), len(body) // 1024))
 
 
 def part_b(pg, marks, t0, bhref):
@@ -116,25 +150,33 @@ def part_b(pg, marks, t0, bhref):
     mark("end")
 
 
-def pdf_scroll(pdf, secs_per_page=6.5):
+def pdf_scroll(pdf, secs_per_page=6.5, tag="pdf"):
     """The PDF, page by page, read across: each landscape A4 page shown tall enough to read (~1,400 px) and panned
     left to right, so the phone frame travels over the comparison table and then the map."""
     import fitz
     doc = fitz.open(pdf)
     clips = []
     for i, page in enumerate(doc):
-        png = os.path.join(OUT, "_pdf_p%d.png" % (i + 1))
+        png = os.path.join(OUT, "_%s_p%d.png" % (tag, i + 1))
         zoom = 1400 / page.rect.height
         page.get_pixmap(matrix=fitz.Matrix(zoom, zoom)).save(png)
         import PIL.Image
         pw, ph = PIL.Image.open(png).size
-        span = max(0, pw - W)
         hold = 1.0
-        x = "if(lt(t,{h}),0,if(gt(t,{e}),{s},{s}*(1-cos(PI*(t-{h})/({e}-{h})))/2))".format(h=hold, e=secs_per_page - hold, s=span)
-        clip = os.path.join(OUT, "_pdf_%d.mp4" % (i + 1))
+        clip = os.path.join(OUT, "_%s_%d.mp4" % (tag, i + 1))
+        if pw > ph:                                    # landscape: read across
+            span = max(0, pw - W)
+            x = "if(lt(t,{h}),0,if(gt(t,{e}),{s},{s}*(1-cos(PI*(t-{h})/({e}-{h})))/2))".format(h=hold, e=secs_per_page - hold, s=span)
+            vf = "pad=iw:%d:0:(oh-ih)/2:%s,crop=%d:%d:'%s':0,format=yuv420p" % (H, PAPER, W, H, x)
+        else:                                          # portrait: fit the width, read down
+            page.get_pixmap(matrix=fitz.Matrix(W / page.rect.width, W / page.rect.width)).save(png)
+            pw, ph = PIL.Image.open(png).size
+            span = max(0, ph - H)
+            y = "if(lt(t,{h}),0,if(gt(t,{e}),{s},{s}*(1-cos(PI*(t-{h})/({e}-{h})))/2))".format(h=hold, e=secs_per_page - hold, s=span)
+            vf = ("crop=%d:%d:0:'%s',format=yuv420p" % (W, H, y)) if span else \
+                 "pad=%d:%d:(ow-iw)/2:(oh-ih)/2:%s,format=yuv420p" % (W, H, PAPER)
         ff("-loop", "1", "-framerate", str(FPS), "-i", png, "-t", str(secs_per_page),
-           "-vf", "pad=iw:%d:0:(oh-ih)/2:%s,crop=%d:%d:'%s':0,format=yuv420p" % (H, PAPER, W, H, x),
-           "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", "-r", str(FPS), clip)
+           "-vf", vf, "-c:v", "libx264", "-crf", "18", "-preset", "medium", "-an", "-r", str(FPS), clip)
         clips.append(clip)
     print("pdf: %d pages, %.1f s each, panned across" % (len(clips), secs_per_page))
     return clips
@@ -155,7 +197,8 @@ def main():
         pg = ctx.new_page()
         t0 = time.monotonic()
         try:
-            href, bhref = part_a(pg, marks, t0)
+            href, bhref, ind = part_a(pg, marks, t0)
+            save_pdf(pg, ctx, ind, os.path.join(OUT, "building.pdf"))
             pdf = os.path.join(OUT, "compare10.pdf")
             if href.startswith("blob:") or href.startswith("data:"):
                 # the PDF is built in the page and offered as a blob: read its bytes from inside the page
@@ -194,8 +237,19 @@ def assemble(raw, marks):
     tail = os.path.join(OUT, "_tail.mp4")
     ff("-loop", "1", "-framerate", str(FPS), "-i", last, "-t", "6", "-vf", "format=yuv420p",
        "-c:v", "libx264", "-crf", "18", "-an", "-r", str(FPS), tail)
+    # the end (Kendall, 1 Oct): the building's own three-page PDF after the blocks, its last page held for the sign-off
+    bpdf = os.path.join(OUT, "building.pdf")
+    endclips = pdf_scroll(bpdf, secs_per_page=6.0, tag="bld") if os.path.exists(bpdf) else []
+    if endclips:
+        lastp = os.path.join(OUT, "_bld_last.png")
+        ff("-sseof", "-0.2", "-i", endclips[-1], "-frames:v", "1", "-update", "1", lastp)
+        ff("-loop", "1", "-framerate", str(FPS), "-i", lastp, "-t", "6", "-vf", "format=yuv420p",
+           "-c:v", "libx264", "-crf", "18", "-an", "-r", str(FPS), tail)
+        seq = [a] + pdfclips + [b] + endclips + [tail]
+    else:
+        seq = [a] + pdfclips + [b, tail]
     listing = os.path.join(OUT, "_concat.txt")
-    open(listing, "w").write("".join("file '%s'\n" % x.replace("\\", "/") for x in [a] + pdfclips + [b, tail]))
+    open(listing, "w").write("".join("file '%s'\n" % x.replace("\\", "/") for x in seq))
     out = os.path.join(OUT, "brief_9x16.mp4")
     ff("-f", "concat", "-safe", "0", "-i", listing, "-c", "copy", out)
     secs = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", out],
