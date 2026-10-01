@@ -51,15 +51,21 @@ def clean_ws(s):
 
 
 def district_areas(con):
-    rows = con.execute("""
-        select distinct sc.district, k.dld_area_names
-        from sub_community sc join sub_community_dm scd on scd.sub_id = sc.sub_id
-        join lk_community k on k.comm_num = try_cast(scd.comm_num as bigint)
-        where k.dld_area_names is not null""").fetchall()
-    area_to_district = {}
-    for d, a in rows:
-        area_to_district.setdefault(a, d)
-    return area_to_district
+    """[(DLD area, app district)] - an area can serve two districts (Al Thanyah Fifth = jltnorth + althanyahfifth), so this
+    is pairs, not a dict. Source of record: dld_rent_buildings.DLD_AREA (the twin's own map, corrected 9 and 21 Sep 2026 -
+    Sobha Hartland = Al Merkadh, Meydan One = Nad Al Shiba First, Liwan = Wadi Al Safa 2); the sub_community crosswalk only
+    fills areas that map has not named. 1 Oct 2026: the crosswalk alone left six districts with no Ejari file."""
+    from dld_rent_buildings import DLD_AREA
+    pairs = [(a, d) for a, ds in DLD_AREA.items() for d in ds]
+    named = set(DLD_AREA)
+    for d, a in con.execute("""
+            select distinct sc.district, k.dld_area_names
+            from sub_community sc join sub_community_dm scd on scd.sub_id = sc.sub_id
+            join lk_community k on k.comm_num = try_cast(scd.comm_num as bigint)
+            where k.dld_area_names is not null""").fetchall():
+        if a not in named and (a, d) not in pairs:
+            pairs.append((a, d))
+    return pairs
 
 
 def beds_left_keys():
@@ -74,13 +80,14 @@ def beds_left_keys():
 
 def main():
     write_lake = "--no-lake" not in sys.argv
-    con = lake.connect(read_only=not write_lake)
+    con = lake.connect(read_only=True)          # reads only; released before the aggregation
     t0 = time.time()
     as_of = con.execute("select max(try_cast(substr(load_timestamp, 1, 10) as date)) from pp_dld__rent_contracts").fetchone()[0]
     print("extract date (as_of):", as_of)
-    a2d = district_areas(con)
     con.execute("create temp table d2a (area varchar, district varchar)")
-    con.executemany("insert into d2a values (?, ?)", [(a, d) for a, d in a2d.items()])
+    con.executemany("insert into d2a values (?, ?)", district_areas(con))
+    # an area shared by two districts appears under each district; Dubai-wide rollups count it once, under its first district
+    con.execute("create temp table prim as select area, min(district) district from d2a group by 1")
     band_sql = "case " + " ".join("when ejari_property_sub_type_en = '%s' then '%s'" % (k.replace("'", "''"), v) for k, v in BANDS.items()) + " else 'other' end"
     con.execute(f"""create temp table base as
         select try_cast(contract_start_date as date) d, coalesce(x.district, '') district, r.area_name_en area,
@@ -101,6 +108,11 @@ def main():
         join lk_d_project p on p.project_id = pn.project_id
         left join lk_d_developer dv on dv.developer_number = p.developer_number
         where pn.pn is not null group by 1""")
+    con.execute("create temp table pnames as select distinct try_cast(project_number as bigint) pn, name_ar "
+                "from lk_d_project where project_number is not null")
+    # every lake read is done: release the catalogue before the long aggregation - on this lake any attached connection,
+    # read-only included, locks the SQLite catalogue for everyone while it lives (1 Oct 2026: seconds, not minutes)
+    con.execute("USE memory"); con.execute("DETACH %s" % lake.ALIAS)
     con.execute(f"""create temp table desk as
         select project, beds from base
         where beds = 'office' and reg_type = 'New' and d between date '{as_of}' - interval 30 day and date '{as_of}'
@@ -150,9 +162,8 @@ def main():
     idx_rows = con.execute("""
         select a.project_number, any_value(a.project), coalesce(any_value(a.project_ar), any_value(p.name_ar)), any_value(a.area),
                any_value(nullif(a.district, '')), any_value(a.developer)
-        from agg a left join (select distinct try_cast(project_number as bigint) pn, name_ar from lk_d_project where project_number is not null) p
-          on p.pn = a.project_number
-        where a.project_number is not null group by 1""").fetchall()
+        from agg a left join pnames p on p.pn = a.project_number
+        where a.project_number is not null and (a.district = '' or (a.area, a.district) in (select area, district from prim)) group by 1""").fetchall()
     index = {}
     for pn, name_en, name_ar, area, district, developer in idx_rows:
         k = keys.get((district or "", (name_en or "").lower())) if name_en else None
@@ -160,9 +171,10 @@ def main():
                           "key": k or ("dld:" + norm_key(name_en) if name_en else None), "developer": developer}
     json.dump({"as_of": as_of.isoformat(), "source": source, "projects": len(index), "index": index},
               open(os.path.join(OUT, "ejari_projects_index.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    per_area = con.execute("""select d, area, beds, reg_type, sum(contracts), sum(props) from agg group by all order by 1, 2, 3, 4""").fetchall()
+    once = "(district = '' or (area, district) in (select area, district from prim))"
+    per_area = con.execute("select d, area, beds, reg_type, sum(contracts), sum(props) from agg where %s group by all order by 1, 2, 3, 4" % once).fetchall()
     per_dev = con.execute("""select d, developer_number, any_value(developer), beds, reg_type, sum(contracts), sum(props)
-                             from agg where developer_number is not null group by d, developer_number, beds, reg_type order by 1, 2, 4, 5""").fetchall()
+                             from agg where developer_number is not null and %s group by d, developer_number, beds, reg_type order by 1, 2, 4, 5""" % once).fetchall()
     json.dump({"as_of": as_of.isoformat(), "source": source, "caveat": caveat,
                "per_area": {"fields": ["date", "area", "beds", "reg_type", "contracts", "props"],
                             "rows": [[r[0].isoformat(), r[1], r[2], r[3], r[4], r[5]] for r in per_area]},
@@ -194,8 +206,12 @@ def main():
                 try: con.execute("ROLLBACK")
                 except Exception: pass
                 raise
-        lake.retry(body, "lk_ejari_daily")
-        print("published lk_ejari_daily:", con.execute("select count(*) from lk_ejari_daily").fetchone()[0], "rows")
+        lake.attach(con, read_only=False); con.execute("USE %s" % lake.ALIAS)      # one short write window
+        try:
+            lake.retry(body, "lk_ejari_daily")
+            print("published lk_ejari_daily:", con.execute("select count(*) from lk_ejari_daily").fetchone()[0], "rows")
+        finally:
+            con.execute("USE memory"); con.execute("DETACH %s" % lake.ALIAS)
 
 
 if __name__ == "__main__":

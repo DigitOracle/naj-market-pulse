@@ -34,8 +34,16 @@ FIELDS_FILED = FIELDS + ["project_candidates", "project_ambiguous", "master_proj
 
 def main():
     write_lake = "--no-lake" not in sys.argv
-    con = lake.connect(read_only=not write_lake)
+    con = lake.connect(read_only=True)          # reads only; released before anything slow
     t0 = time.time()
+    # the only lake reads: the area->district pairs and the project names. Then the catalogue is released - on this lake any
+    # attached connection, read-only included, locks the SQLite catalogue for everyone (1 Oct 2026: seconds, not minutes)
+    con.execute("create temp table d2a (area varchar, district varchar)")
+    con.executemany("insert into d2a values (?, ?)", district_areas(con))
+    con.execute("create temp table prim as select area, min(district) district from d2a group by 1")
+    con.execute("create temp table pnames as select try_cast(p.project_number as bigint) pn, p.name_en, p.name_ar, d.name_en developer "
+                "from lk_d_project p left join lk_d_developer d on d.developer_number = p.developer_number where p.project_number is not null")
+    con.execute("USE memory"); con.execute("DETACH %s" % lake.ALIAS)
     files = sorted(glob.glob(os.path.join(ROOT, "data", "rents-20??-??-??*.csv")))
     if not files:
         sys.exit("no data/rents-*.csv on disk")
@@ -54,9 +62,6 @@ def main():
                list_sort(list(distinct project)) labels, count(distinct project) n_labels
         from rows group by reg, st, en, amt, rent_s, sqm, sub_type, usage, ver, rooms, area""")
     n_contracts, n_multi = con.execute("select count(*), count(*) filter (where n_labels > 1) from contracts").fetchone()
-    a2d = district_areas(con)
-    con.execute("create temp table d2a (area varchar, district varchar)")
-    con.executemany("insert into d2a values (?, ?)", [(a, d) for a, d in a2d.items()])
     con.execute(f"""create temp table base as
         select try_cast(substr(c.reg, 1, 10) as date) d, coalesce(x.district, '') district, c.area,
                case when c.n_labels = 1 then c.labels[1] end project, c.labels, c.n_labels > 1 ambiguous, c.master,
@@ -76,8 +81,7 @@ def main():
             if v.get("name_en"):
                 name_to[clean_ws(v["name_en"]).lower()] = (int(pn), v.get("name_ar"), v.get("developer"))
     if not name_to:
-        for pn, name, ar, dev in con.execute("""select try_cast(p.project_number as bigint), p.name_en, p.name_ar, d.name_en
-                from lk_d_project p left join lk_d_developer d on d.developer_number = p.developer_number where p.project_number is not null""").fetchall():
+        for pn, name, ar, dev in con.execute("select pn, name_en, name_ar, developer from pnames").fetchall():
             if name:
                 name_to.setdefault(clean_ws(name).lower(), (pn, ar, dev))
     desk = set(r[0] for r in con.execute(f"""select project from base where sub_type = 'Office' and reg_type = 'New' and project is not null
@@ -119,7 +123,8 @@ def main():
         json.dump(dict(head, rows=rs), open(os.path.join(OUT, "ejari_filed_%s.json" % dname), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
         json.dump(dict(head, window="last 30 days", rows=[r for r in rs if r["date"] >= recent_from]),
                   open(os.path.join(OUT, "ejari_filed_recent_%s.json" % dname), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    per_area = con.execute("select d, area, sub_type, reg_type, count(*) from base group by all order by 1, 2, 3, 4").fetchall()
+    per_area = con.execute("""select d, area, sub_type, reg_type, count(*) from base
+                              where district = '' or (area, district) in (select area, district from prim) group by all order by 1, 2, 3, 4""").fetchall()
     json.dump({"as_of": as_of, "basis": "filed", "source": source, "caveat": caveat,
                "per_area": {"fields": ["date", "area", "sub_type", "reg_type", "contracts"], "rows": [[r[0].isoformat(), r[1], r[2], r[3], r[4]] for r in per_area]}},
               open(os.path.join(OUT, "ejari_filed_dubai.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
@@ -145,8 +150,12 @@ def main():
                 try: con.execute("ROLLBACK")
                 except Exception: pass
                 raise
-        lake.retry(body, "lk_ejari_filed")
-        print("published lk_ejari_filed:", con.execute("select count(*) from lk_ejari_filed").fetchone()[0], "rows")
+        lake.attach(con, read_only=False); con.execute("USE %s" % lake.ALIAS)      # one short write window
+        try:
+            lake.retry(body, "lk_ejari_filed")
+            print("published lk_ejari_filed:", con.execute("select count(*) from lk_ejari_filed").fetchone()[0], "rows")
+        finally:
+            con.execute("USE memory"); con.execute("DETACH %s" % lake.ALIAS)
 
 
 if __name__ == "__main__":
