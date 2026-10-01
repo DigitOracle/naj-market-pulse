@@ -21,14 +21,13 @@ narrative's steps are then re-checked against the new flow before filming; any c
 [ THE GOLDEN STAR 10.05 s ] → [ SOPHIE'S QUESTION 10 s ] → [ THE BRIEF + Naj, 96.9 s ]   ≈ 1:57
 ```
 
-The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. **She types
-her request to Naj in WhatsApp (Kendall, 1 Oct)**. She is silent and no words are spoken. This is the narrative's "a client asked me on
-WhatsApp". Seedance can't be trusted to render readable text on a phone screen, so the screen faces away from the camera, and the message
-is added in post as a plain chat bubble that types itself out over the shot. It carries no WhatsApp logo or branding.
+The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. She types her request to Naj in WhatsApp. **WhatsApp must be visible on her phone (Kendall, 1 Oct)**, so the shot is over her shoulder with the screen in frame. She is silent. This is the narrative's "a client asked me on WhatsApp".
 
-**The message (the bubble text):**
+**The message:**
 
 > Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around 65k a year. Can you help?
+
+**If Seedance garbles the text on screen** (it often does), I replace the screen in post. A crisp WhatsApp chat is rendered at the phone's size, pinned to the screen's four corners and tracked, and it types out the message above. Her hands, the phone and the room stay as rendered.
 
 ### Reference image — Sophie (paste into ChatGPT, image generation)
 
@@ -45,31 +44,28 @@ Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p. Put Sophie's i
 ```
 NO DIALOGUE. Nobody speaks in this shot. Only quiet room sound and soft phone key taps.
 
-A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a folded jacket, a large window behind with soft out-of-focus towers, warm late-afternoon light from the side. Real, a little unsettled. Not a showroom.
+A cinematic vertical 9:16 over-the-shoulder shot, ten seconds, of the woman from reference 1 - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a large window ahead of her with soft out-of-focus towers, warm late-afternoon light.
 
-She holds a plain dark smartphone in both hands at chest height and types a message with her thumbs. The phone screen faces her, away from the camera, so the screen is never visible to the viewer.
+The camera is just behind and above her right shoulder, looking down past her cheek at the smartphone she holds in both hands at chest height. Her face is visible in soft three-quarter profile at the top of the frame; the phone screen is large, bright, flat-on to the camera and in sharp focus in the lower half of the frame.
 
-0-1 s: she looks down at the phone, thinking, thumb hovering.
-1-7 s: she types steadily with both thumbs, pauses once briefly to think, then carries on. A small, focused expression.
-7-8 s: she taps send with one thumb, a small decisive tap.
-8-10 s: she lowers the phone slightly, glances up toward the window, a small hopeful smile, then holds still.
+ON THE PHONE SCREEN: the WhatsApp chat app, light mode. A green header bar with a round contact photo and the contact name "Naj". The beige patterned WhatsApp chat background. The keyboard open at the bottom. She is typing in the message box: "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around 65k a year. Can you help?"
 
-CAMERA: static camera for the whole shot, medium shot from the waist up, slightly to her side, 50mm, shallow depth of field. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible anywhere in the shot.
-GRADE: natural daylight, warm but not orange; skin looks like skin. Documentary, not advert.
+0-1 s: thumbs hover over the keyboard, she thinks.
+1-7 s: she types steadily with both thumbs; the text grows in the message box.
+7-8 s: she taps the green round send button; the message jumps up into a light-green outgoing bubble on the right with two grey ticks.
+8-10 s: she lowers her thumbs and holds the phone still, the sent bubble clearly visible; a small hopeful smile in profile.
 
-DO NOT: let anyone speak or mouth words. Do not show the phone screen or any text on it. Do not add other people or pets. Do not add text, captions, subtitles, chat bubbles, logos or watermarks - the message is added later. Do not move the camera. No music cues, lens flares or particles.
+CAMERA: static camera for the whole shot, 50mm, focus on the phone screen with her profile slightly soft. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
+GRADE: natural daylight, warm but not orange; the phone screen bright and readable, not blown out; skin looks like skin. Documentary, not advert.
+
+DO NOT: let anyone speak or mouth words. Do not show any app other than WhatsApp, any notifications, other chats or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
 ```
-
-**In post (I build it):**
-- The bubble types itself out from about 1 s to 7 s.
-- It shows "sent" with the double ticks at the 7.5 s send tap, and holds to 10 s.
-- It sits in the upper third, inside the 9:16 safe zone, with no WhatsApp logo.
 
 **Check the render before use:**
 - She never mouths words.
-- The phone screen is never visible.
+- WhatsApp is recognisable and the screen stays in frame for all ten seconds.
+- Check whether the typed text is legible and correct. If it isn't, use the screen replacement above.
 - The send tap lands near 7-8 s.
-- Her face holds for the full ten seconds.
 
 ## 1 · NAJ (HeyGen), ~80 s
 
