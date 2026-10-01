@@ -259,6 +259,9 @@ def daily(a):
         S("ejari_load", py("scripts/load_portal_parts.py", "rent_contracts"), needs=["ejari_pull"], timeout=3600),
         S("ejari_daily", py("scripts/build_ejari_daily.py"), needs=["ejari_load"], timeout=1800),
         S("ejari_filed", py("scripts/build_ejari_filed.py"), needs=["fetch_dld"], timeout=1800),
+        # 1 Oct 2026 (Kendall: "Ejari push + chain"): nothing published the Ejari files to KV, so the contracts page and the
+        # morning Ejari card went stale. push_ejari skips unchanged files by hash and reads each one back with the key.
+        S("push_ejari", py("scripts/push_ejari.py", "--push"), needs=["ejari_daily", "ejari_filed"], retry=1, timeout=1800),
         S("ejari_watch_damac", py("scripts/ejari_watch_damac.py"), needs=["ejari_pull"], timeout=900,
           when=lambda ctx: dt.date.today() <= dt.date(2026, 10, 15)),
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
