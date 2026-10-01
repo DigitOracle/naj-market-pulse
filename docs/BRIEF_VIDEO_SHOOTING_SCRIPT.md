@@ -54,32 +54,28 @@ DIALOGUE (the only words spoken in this shot, by the woman from reference 1, onc
 
 A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on a sofa in her London flat on a grey, soft-lit afternoon. Behind her, a tall window with London rooftops and The Shard soft and out of focus in the distance; a couple of half-packed moving boxes and a rolled rug by the wall. Calm, real, a little excited. Not a showroom.
 
-Front three-quarter medium shot, waist up, from slightly to her right: her face clearly visible, the smartphone in both hands at chest height, tilted toward the camera so its screen is visible and sharp in the lower part of the frame.
+Front three-quarter medium shot, waist up, from slightly to her right: her face clearly visible. She holds her smartphone naturally in both hands, low at chest height, the screen angled toward her as anyone would hold a phone. The screen is only glimpsed at an angle, soft and partly turned away: enough to recognise WhatsApp's green header and chat bubbles, never presented to the camera, never the focus of the shot.
 
-ON THE PHONE SCREEN: WhatsApp, light mode. Green header bar with a round contact photo and the name "Naj". Beige patterned chat background. Keyboard open. The message she types, in short, clean, correctly spelled lines:
-Hi Naj, I'm Sophie.
-New job in Dubai next month.
-Need a 1-bed in JVC, ~65k a year.
-Can you help?
+ON THE PHONE SCREEN (glimpsed only): WhatsApp, light mode - green header bar, beige patterned chat, keyboard open. The text on it is too small and soft to read.
 
 0-0.3 s: she looks down at the WhatsApp screen, thumbs ready.
 0.3-7.5 s: eyes on the screen, she types with both thumbs and says the words softly aloud as she types them, in a natural British accent: "Hi Naj, I'm Sophie. New job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year..."
-7.5-8 s: she taps the green send button; the message moves up into one light-green outgoing bubble on the right, with two grey ticks. She lifts her head and turns to look straight into the camera.
+7.5-8 s: she taps send with her thumb, lowers the phone slightly, lifts her head and turns to look straight into the camera.
 8-9.3 s: looking straight into the camera, with a small hopeful smile, she says: "Can you help?"
 9.3-10 s: silent, holding the look and the smile.
 
 PRONUNCIATION: "JVC" is three separate letters, JAY - VEE - SEE. "Naj" as in the reference audio of the series.
 
-CAMERA: static camera for the whole shot, 50mm, shallow depth of field, her face and the phone screen both in focus. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
-GRADE: soft natural London daylight, cool-neutral, not blue; the screen bright and readable, not blown out; skin looks like skin. Documentary, not advert.
+CAMERA: static camera for the whole shot, 50mm, shallow depth of field, focus on her face. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
+GRADE: soft natural London daylight, cool-neutral, not blue; skin looks like skin. Documentary, not advert.
 
-DO NOT: say any words except "Hi Naj, I'm Sophie. New job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year... Can you help?" - nothing before, nothing after. Do not look at the camera before 7.5 s. Do not misspell or repeat words on the screen. Do not put her message in a white bubble or on the left. Do not show Dubai outside the window. Do not show any app other than WhatsApp, notifications or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
+DO NOT: say any words except "Hi Naj, I'm Sophie. New job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year... Can you help?" - nothing before, nothing after. Do not look at the camera before 7.5 s. Do not hold the phone up or turn its screen to the camera. Do not show readable text on the screen. Do not show Dubai outside the window. Do not show any app other than WhatsApp, notifications or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
 ```
 
 **Check the render before use:**
 - Transcribe it. Every word must be there, with "JVC" said as letters.
 - "Can you help?" must be said to camera after the turn.
-- Read the message on screen at full size.
+- The phone must look natural, with WhatsApp only glimpsed.
 - The window must show London, not Dubai.
 - Her face must match the slot 1 reference.
 
