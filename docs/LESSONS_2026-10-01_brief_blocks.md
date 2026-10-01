@@ -23,10 +23,10 @@ Data published: beds_left (37 districts), brochures, brief map layers, and block
   - Guard the morning feed TWICE: at the start AND just before the deploy step. A slow upload can run into 06:00.
   - Keep code deploys and slow data uploads separable (`SKIP_BLOCKS=1`), so a flaky network doesn't hold back a code release.
 - **Push-routing in the shared repo:** cherry-pick each requested commit alone onto origin/main in a scratch worktree. Lane commits can depend on earlier lane commits, so check `git cherry -v origin/main main` for what's really missing. Verify who owns a commit before declining it (430b78c was CityEngine's).
+- **Never edit a script while someone may be running it.** Kendall ran deploy_v278.sh in his terminal while I patched it. Bash reads scripts as it goes, so his run finished the blocks upload (all 45 MATCHES) and then died on a half-written line. Copy to a new file name instead.
 - **Overpass is unreliable at night:** expect 504s. Overture's road and building layers give the same OSM data in one download.
 
 ## Open after this run
-- Re-publish the 45 districts' blocks with the cap: deploy_v278.sh step 1, after 06:35.
 - The Ejari "contracts signed" search: the second START card (DDA builds lk_ejari_daily).
 - Tap cards for about 370k footprints (DDA builds tapcard_<slug>.json). For full coverage the GeoDubai request needs a sponsor.
 - The 203 city communities (data/blocks_city) are built, not published. Their type hints are still landing.
