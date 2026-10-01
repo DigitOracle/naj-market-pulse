@@ -251,6 +251,16 @@ def daily(a):
         # never read, which is how gov_thread sat six days old with nobody told. exit 1 = something is past --max-days,
         # recorded as a WARNING: a stale join is worth knowing about and never a reason to stop the morning.
         S("join_freshness", py("scripts/check_join_freshness.py"), warn=(1,), timeout=900),
+        # 1 Oct 2026 (Kendall: yes to the daily Ejari chain). The portal cuts a new Ejari extract ~00:46 Dubai most days: pull it
+        # gzipped and verified, load the newest (seconds when the lake already holds it), build the per-day tables the
+        # "contracts signed" card, the search and the morning Ejari card read (start-date basis and filed-date basis), and run
+        # the DAMAC Maison register-lag watch until 15 Oct. The load writes the lake for ~15 min, so it sits in the chain, sequenced.
+        S("ejari_pull", py("scripts/datadubai_pull_parts.py", "rent_contracts"), timeout=3600, warn=(3,)),
+        S("ejari_load", py("scripts/load_portal_parts.py", "rent_contracts"), needs=["ejari_pull"], timeout=3600),
+        S("ejari_daily", py("scripts/build_ejari_daily.py"), needs=["ejari_load"], timeout=1800),
+        S("ejari_filed", py("scripts/build_ejari_filed.py"), needs=["fetch_dld"], timeout=1800),
+        S("ejari_watch_damac", py("scripts/ejari_watch_damac.py"), needs=["ejari_pull"], timeout=900,
+          when=lambda ctx: dt.date.today() <= dt.date(2026, 10, 15)),
         S("gov_contract", py("scripts/gov_contract_check.py"), needs=["graph_build"], held=(4,)),
         S("lake_expire", py("scripts/lake.py", "expire", "--days", "30")),
         # 24 Sep 2026 (Kendall: "add bukadra and rasalkhor to the daily refresh"): the two districts massed for Sobha get their
@@ -301,6 +311,7 @@ def gov_weekly(a):
         # schedule at all. Exit 1 (unexplained differences exist) is the gate's normal steady state, not a pipeline
         # failure; exit 2 (matched zero datasets - the gate itself broken) is what should actually raise a flag.
         S("portal_counts", py("scripts/portal_counts.py"), needs=["lake_publish"], ok=(0, 1), warn=(2,)),
+        # 1 Oct 2026: the Ejari steps moved to the DAILY chain (Kendall's yes) - see ejari_pull there.
         # 14 Sep 2026: the registers the key joins read, every part of each newest extract, before the contract counts parts
         S("portal_pull_joined", py("scripts/datadubai_pull_all.py", "--only", JOINED_REGISTERS), timeout=2 * 3600, env={"DD_PAUSE": "5"}),
         S("portal_contract", py("scripts/portal_manifest_check.py"), held=(4,)),
