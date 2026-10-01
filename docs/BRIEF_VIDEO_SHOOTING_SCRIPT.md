@@ -89,7 +89,7 @@ DO NOT: say any words except "Hi Naj, I'm Sophie. New job in Dubai next month. I
 > register. If it isn't registered, it isn't on the screen. I pick the ten I like, and choose what to send. One tap, and
 > I have a single comparison sheet with a map, ready for my client. And if they want to see where these are, here they
 > are in Business Bay, the ten buildings in gold. From a WhatsApp message to a professional shortlist, in under a
-> minute. Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity.
+> minute. Welcome to Najma. Dubai, decoded, one tap at a time. Complexity into clarity.
 
 ## 1b · NAJ — JVC version (approved 1 Oct, filmed)
 
@@ -101,7 +101,7 @@ DO NOT: say any words except "Hi Naj, I'm Sophie. New job in Dubai next month. I
 > register. If it isn't registered, it isn't on the screen. I pick the ten I like, and choose what to send. One tap,
 > and I have a single comparison sheet, with photos and a map, ready for my client. And if they want to see where these
 > are, here they are in JVC, the ten buildings in gold. From a WhatsApp message to a professional shortlist, in under a
-> minute. Welcome to Azimuth. Dubai, decoded, one tap at a time. Complexity into clarity.
+> minute. Welcome to Najma. Dubai, decoded, one tap at a time. Complexity into clarity.
 
 Film: START → brief (rent, apartment, 1 bed, 60k–68k, either, JVC, must-haves skipped) → results (93 match) scrolled →
 Show 20, Ghalia (no photos yet) swapped for Binghatti Tulip → Compare 10 PDF (two landscape pages, all ten with
@@ -133,11 +133,11 @@ It has 230 words, about 84 s of speech plus 13 s of breaks. HeyGen should show a
 | 79.0–82.6 | page 2: where it is | Where it sits in the community, on its own map. |
 | 85.0–86.5 | page 3: one-bedroom layouts | And the one-bedroom layouts. |
 | 86.8–90.8 | layouts | From one WhatsApp message to a shortlist, in under a minute. |
-| 90.9–96.0 | last page held | Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity. |
+| 90.9–96.0 | last page held | Welcome to Najma. Dubai, decoded — one tap at a time. Complexity into clarity. |
 
 **Paste into HeyGen (paragraph only, no tags; Kendall 1 Oct). 262 words, about 95.4 s; the pauses that the table's breaks gave are now words, placed where the screen holds:**
 
-> A client asked me on WhatsApp: a one-bed in JVC, around sixty-five thousand dirhams a year. Renting, apartment, one bedroom. Sixty to sixty-eight thousand — that's their real range, not a wish, so I don't stretch it. Furnished or not, they don't mind. And it has to be Jumeirah Village Circle. That's where they want to live. Anything else they must have? Not this time. That's the brief. Ninety-three buildings fit. And they're ranked by what one-beds there actually rent for — signed Ejari contracts, not asking prices. Every number comes from the register. If it isn't registered, it isn't on the screen. One of the top ten has no photos yet, so I swap it for one that does. Now, what do I send? Something my client can actually read. One tap, and it's ready to send. One comparison sheet. All ten, side by side, each with its photo and its real rent, so nothing is hidden. And a map, so they can see exactly where each one sits in JVC. If they'd rather see it in three dimensions, here's JVC in blocks, with their shortlist in gold. They can see how it all fits together before a single viewing. And when one catches their eye, say Bloom Towers, it has its own three-page file. Where it sits in the community, on its own map. And the one-bedroom layouts, so they know the space before they ever walk in. From one WhatsApp message to a shortlist, in under a minute. Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity.
+> A client asked me on WhatsApp: a one-bed in JVC, around sixty-five thousand dirhams a year. Renting, apartment, one bedroom. Sixty to sixty-eight thousand — that's their real range, not a wish, so I don't stretch it. Furnished or not, they don't mind. And it has to be Jumeirah Village Circle. That's where they want to live. Anything else they must have? Not this time. That's the brief. Ninety-three buildings fit. And they're ranked by what one-beds there actually rent for — signed Ejari contracts, not asking prices. Every number comes from the register. If it isn't registered, it isn't on the screen. One of the top ten has no photos yet, so I swap it for one that does. Now, what do I send? Something my client can actually read. One tap, and it's ready to send. One comparison sheet. All ten, side by side, each with its photo and its real rent, so nothing is hidden. And a map, so they can see exactly where each one sits in JVC. If they'd rather see it in three dimensions, here's JVC in blocks, with their shortlist in gold. They can see how it all fits together before a single viewing. And when one catches their eye, say Bloom Towers, it has its own three-page file. Where it sits in the community, on its own map. And the one-bedroom layouts, so they know the space before they ever walk in. From one WhatsApp message to a shortlist, in under a minute. Welcome to Najma. Dubai, decoded — one tap at a time. Complexity into clarity.
 
 The blocks page shows nine buildings, not ten, because one has no plot in the blocks layer. That is why the line says "their shortlist" and gives no number.
 
