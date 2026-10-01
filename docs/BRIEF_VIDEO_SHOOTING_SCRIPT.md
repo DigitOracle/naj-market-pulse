@@ -37,35 +37,40 @@ A photorealistic reference photograph of a British woman of about twenty-eight, 
 
 She is generated and fictional. No real person is depicted.
 
-### The shot — paste into HeyGen Cinematic "Describe your shot"
+### The shot — paste into HeyGen Cinematic "Describe your shot" (v3, 1 Oct: silent; she looks at WhatsApp, then turns to camera)
 
-Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p. Put Sophie's image in slot 1.
+Take 1 (`Hopeful_Dubai_Apartment_Message.mp4`, 15:16) worked on look and WhatsApp, but the message came out garbled ("need it need need oned 6VEk"). It also stayed in a white incoming-style bubble, with only "Can you h…" sent. Kendall: no talking; she types looking at the screen, then turns to camera with a small hopeful smile. This version shortens the message so it renders, and spells out the outgoing bubble.
+
+Settings: 9:16, 10 s, Enhance prompt OFF, 1080p. Put Sophie's image in slot 1.
 
 ```
-DIALOGUE (the only words spoken in this shot, by the woman from reference 1, once, aloud, as she types them):
-"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
+NO DIALOGUE. Nobody speaks in this shot. Only quiet room sound and soft phone key taps.
 
-A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a large window behind with soft out-of-focus towers, warm late-afternoon light from the side. Real, a little unsettled. Not a showroom.
+A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on the edge of a bed in a high-floor Dubai serviced apartment, mid-move: an open suitcase beside her, a large window with the soft hazy Dubai skyline behind, warm late-afternoon light from the side. Real, a little unsettled. Not a showroom.
 
-Front three-quarter medium shot, waist up. Her face is clearly visible for the whole shot. She holds a smartphone in both hands at chest height, tilted slightly toward the camera, so the screen is visible in the lower part of the frame: the WhatsApp chat app, light mode, green header bar with a round contact photo and the name "Naj", beige patterned chat background, keyboard open, her message growing in the message box.
+Over-the-shoulder three-quarter shot from her right, waist up: her face in soft profile at the top of the frame, the smartphone held in both hands at chest height, its screen large, bright and sharp in the lower half of the frame.
 
-0-0.5 s: silent, thumbs over the keyboard, she glances down at the phone.
-0.5-9 s: she types with both thumbs and says the message aloud as she types it, warmly, with a natural British accent, half to herself and half to Naj, glancing between the phone and just off camera: "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
-9-10 s: she taps the green send button; the message jumps into a light-green bubble with two grey ticks. She looks up with a small hopeful smile and holds still.
+ON THE PHONE SCREEN: WhatsApp, light mode. Green header bar with a round contact photo and the name "Naj". Beige patterned chat background. Keyboard open. She types this message in the text box at the bottom, in short, clean, correctly spelled lines:
+Hi Naj, I'm Sophie.
+New job in Dubai next month.
+Need a 1-bed in JVC, ~65k a year.
+Can you help?
 
-PRONUNCIATION: "JVC" is three separate letters, JAY - VEE - SEE.
+0-1 s: she looks down at the WhatsApp screen, thumbs hovering, thinking.
+1-7 s: she types steadily with both thumbs, eyes on the screen the whole time; the message grows in the text box.
+7-8 s: she taps the round green send button. The whole message moves up into ONE light-green outgoing bubble on the RIGHT side of the chat, with the time and two grey ticks. The text box is empty again.
+8-10 s: she lifts her head and turns to look straight into the camera with a small, hopeful smile, phone still in her hands, the sent green bubble visible on the screen. She holds that look until the end.
 
-CAMERA: static camera for the whole shot, 50mm, shallow depth of field with both her face and the phone screen in focus. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
-GRADE: natural daylight, warm but not orange; the phone screen bright and readable, not blown out; skin looks like skin. Documentary, not advert.
+CAMERA: static camera for the whole shot, 50mm, shallow depth of field, the phone screen in sharp focus. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
+GRADE: natural daylight, warm but not orange; the screen bright and readable, not blown out; skin looks like skin. Documentary, not advert.
 
-DO NOT: say any words except "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?" - nothing before, nothing after, no greeting, no reaction line. Do not show any app other than WhatsApp, notifications or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
+DO NOT: let her speak or mouth words. Do not misspell or repeat words in the message. Do not put her message in a white bubble or on the left. Do not show any app other than WhatsApp, notifications, other chats or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
 ```
 
 **Check the render before use:**
-- Transcribe it, and check every word, with "JVC" said as letters.
-- Her face and lip-sync must hold for the full ten seconds.
-- WhatsApp must be recognisable on the screen.
-- The send lands near 9 s.
+- Read the message at full size: every word spelled right, in one green bubble on the right.
+- She looks at the screen until about 8 s, then turns to camera with the smile.
+- Her face matches the slot 1 reference. In take 1 it did not.
 
 ## 1 · NAJ (HeyGen), ~80 s
 
