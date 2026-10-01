@@ -35,7 +35,8 @@ DLD_AREA = {
     'Al Hebiah First': ['motorcity'],
     'Palm Deira': ['palmdeira'],
     'Al Jadaf': ['samaaljadaf'],
-    'Nad Al Shiba First': ['meydanone'],        # DM community polygon: Meydan One twin district = NADD AL SHIBA FIRST (checked 9 Sep 2026)
+    'Nad Al Shiba First': ['meydanone', 'goldensymphony'],   # DM community polygon: Meydan One twin district = NADD AL SHIBA FIRST (checked 9 Sep 2026);
+                                                              # goldensymphony's one tower (Imtiaz Symphony) sits in it too (DM polygon, 1 Oct 2026)
     'Al Thanyah Fifth': ['jltnorth', 'althanyahfifth'],
     'Al Thanyah Third': ['jltsouth'],
     'Al Barshaa South Third': ['arjan'],
@@ -47,7 +48,8 @@ DLD_AREA = {
     'Al Barshaa South Second': ['dubaisciencepark'],
     'Al Hebiah Fourth': ['dubaisportscity'],
     'Al Hebiah Second': ['dubaistudiocity'],
-    'Wadi Al Safa 3': ['majan'],
+    'Wadi Al Safa 3': ['majan', 'wadialsafa3'],   # 1 Oct 2026: 1,425 of wadialsafa3's 2,609 footprints are in DM WADI AL SAFA 3 (999 in
+                                                  # NADD AL SHIBA FOURTH, which has no Ejari projects - a villa area)
     'Al Merkadh': ['sobhaheartland'],           # DM community polygon: Sobha Hartland twin district = AL MERKADH (the two were swapped until 9 Sep 2026)
     'Nadd Hessa': ['siliconoasis'],
     'Al Hebiah Fifth': ['alhebiahfifth'],
