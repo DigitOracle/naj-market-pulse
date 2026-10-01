@@ -46,6 +46,42 @@ def stem(s): return re.sub(STOP, " ", str(s or "").lower())
 def nkey(s): return norm(stem(s))
 
 
+DECISIONS = os.path.join(ROOT, "data", "identity", "decisions.json")
+def binding_decisions(slug):
+    """Hand decisions on footprint bindings (data/identity/decisions.json, job "footprint_binding"; Kendall, 30 Sep 2026). They
+    always win. reject: that register building never binds to that footprint, whatever stage finds it (a Places search can return
+    the NEIGHBOUR as its second result - Binghatti Circle's did, and the <= 8 m gate took Binghatti Amber's footprint for it).
+    accept: that building binds to that footprint first, as the primary. A reject with "i": "*" keeps the building off every
+    footprint in the district (its site is not on the model). Returns (rejects, accepts {nkey(name): i})."""
+    try: d = json.load(open(DECISIONS, encoding="utf-8")).get("decisions") or []
+    except Exception: d = []
+    d = [x for x in d if x.get("job") == "footprint_binding" and x.get("slug") == slug and x.get("i") is not None]
+    fp = lambda v: "*" if str(v) == "*" else str(int(v))
+    rej = set()
+    for x in d:
+        if x.get("decision") != "reject": continue
+        if x.get("name"): rej.add((fp(x["i"]), nkey(x["name"])))
+        if x.get("property_id"): rej.add((fp(x["i"]), "pid:" + str(x["property_id"])))
+    acc = {nkey(x["name"]): int(x["i"]) for x in d if x.get("decision") == "accept" and x.get("name") and str(x["i"]) != "*"}
+    return rej, acc
+def rejected(rej, i, *names, pid=None):
+    if not rej: return False
+    keys = [nkey(n) for n in names if n] + (["pid:" + str(pid)] if pid is not None else [])
+    return any((str(int(i)), k) in rej or ("*", k) in rej for k in keys)
+def purge_rejected(bound, rej, name_keys, pid_key=None):
+    """drop earlier bindings a hand decision rejects: a rejected primary takes its footprint's record with it (the loop rebuilds
+    it, 'also' list included); a rejected 'also' entry is removed from the list"""
+    for k in list(bound):
+        v = bound[k]
+        if rejected(rej, k, *[v.get(n) for n in name_keys], pid=v.get(pid_key) if pid_key else None):
+            del bound[k]; continue
+        if v.get("also"):
+            keep = [x for x in v["also"] if not rejected(rej, k, *[x.get(n) for n in name_keys], pid=x.get(pid_key) if pid_key else None)]
+            if len(keep) != len(v["also"]):
+                if keep: v["also"] = keep
+                else: del v["also"]
+
+
 def main():
     geocode = "--no-geocode" not in sys.argv; lim = int(sys.argv[sys.argv.index("--limit") + 1]) if "--limit" in sys.argv else 10 ** 9
     want = [a for a in sys.argv[1:] if not a.startswith("--") and not a.isdigit()]
@@ -71,13 +107,15 @@ def main():
             polys.append(transform(TO_UTM, shape(f["geometry"]))); idx.append(i)
         tree = STRtree(polys) if polys else None
         bound = out.setdefault(slug, {})
+        rej, acc = binding_decisions(slug)                       # hand decisions (decisions.json, job footprint_binding) always win
+        purge_rejected(bound, rej, ("building", "project"))
         for k in list(bound):                                    # re-check earlier geocoded bindings under the tighter gate
             v = bound[k]
             if v.get("method") == "geocoded" and not ((v.get("dist_m") or 99) <= 8.0 or same_building(v.get("building"), v.get("place_name"))):
                 unbound.setdefault(slug, []).append({"building": v.get("building"), "project": v.get("project"), "sales": v.get("sales"), "why": "geocode rejected: place name does not match"}); del bound[k]
         taken = {int(k) for k in bound}
         s1 = s2 = miss = 0
-        for b in sorted(T, key=lambda x: -x["sales"]):
+        for b in sorted(T, key=lambda x: (nkey(x["building"]) not in acc, -x["sales"])):   # a hand-accepted building binds first
             name = b["building"]; rec = None
             if not name: continue
             k1, k2 = norm(name), nkey(name)
@@ -85,7 +123,10 @@ def main():
             if not cand and k2 and len(k2) >= 6:            # unique containment either way
                 hits = {i for kk, ii in bykey.items() if kk and (k2 in kk or kk in k2) and min(len(kk), len(k2)) >= 6 for i in ii}
                 cand = hits if len(hits) == 1 else None
-            if cand and len(cand) == 1:
+            if cand: cand = {c for c in cand if not rejected(rej, c, name, b.get("project"))}
+            if k2 in acc:
+                i = acc[k2]; rec = {"method": "hand decision", "dist_m": 0.0}; s1 += 1
+            elif cand and len(cand) == 1:
                 i = next(iter(cand)); rec = {"method": "name match", "dist_m": 0.0}; s1 += 1
             elif geocode and tree is not None and ngeo < lim:
                 q = f"{name}, {AREA_LABEL.get(slug, slug)}, Dubai"
@@ -99,7 +140,7 @@ def main():
                     loc = pl.get("location") or {}; pt = Point(TO_UTM(loc.get("longitude", 0), loc.get("latitude", 0)))
                     j = tree.nearest(pt); d = polys[j].distance(pt)
                     pn = (pl.get("displayName") or {}).get("text") or ""
-                    if d <= NEAR_M and (d <= 8.0 or same_building(name, pn)):
+                    if d <= NEAR_M and (d <= 8.0 or same_building(name, pn)) and not rejected(rej, idx[j], name, b.get("project")):
                         i = idx[j]; rec = {"method": "geocoded", "dist_m": round(d, 1), "place_id": pl.get("id"), "place_name": pn}; s2 += 1; break
             if not rec: miss += 1; unbound.setdefault(slug, []).append({"building": name, "project": b["project"], "sales": b["sales"]}); continue
             if i in taken and bound.get(str(i), {}).get("building") != name:

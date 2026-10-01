@@ -23,6 +23,7 @@ sys.path.insert(0, HERE)
 from build_avail_index import env_token  # noqa: E402
 from geocode_projects import places_text, BUILDINGISH, NOT_BUILDING  # noqa: E402
 from bind_dld_buildings import norm, nkey, same_building, AREA_LABEL, TO_UTM, NEAR_M, MIN_H, CE, NAMES, DLD, OUTD, CACHE  # noqa: E402
+from bind_dld_buildings import binding_decisions, rejected, purge_rejected  # noqa: E402  hand decisions (decisions.json, job footprint_binding)
 OUT = os.path.join(OUTD, "reg_bindings.json"); TX = os.path.join(OUTD, "tx_bindings.json")
 
 
@@ -52,9 +53,12 @@ def main():
             if float(f["properties"].get("bHeight") or 0) < MIN_H: continue
             polys.append(transform(TO_UTM, shape(f["geometry"]))); idx.append(i); hts.append(float(f["properties"].get("bHeight") or 0))
         tree = STRtree(polys) if polys else None
-        bound = out.setdefault(slug, {}); taken = {int(k) for k in bound}
+        bound = out.setdefault(slug, {})
+        rej, acc = binding_decisions(slug)                                # hand decisions always win (Kendall, 30 Sep 2026)
+        purge_rejected(bound, rej, ("name", "project"), "property_id")
+        taken = {int(k) for k in bound}
         s1 = s2 = s3 = miss = 0
-        for b in sorted(U, key=lambda x: -x["units"]):
+        for b in sorted(U, key=lambda x: (nkey(x.get("name")) not in acc, -x["units"])):   # a hand-accepted building binds first
             name = b.get("name"); rec = None
             if not name or b["units"] < 3: continue
             k1, k2 = norm(name), nkey(name)
@@ -62,7 +66,10 @@ def main():
             if not cand and k2 and len(k2) >= 6:
                 hits = {i for kk, ii in bykey.items() if kk and (k2 in kk or kk in k2) and min(len(kk), len(k2)) >= 6 for i in ii}
                 cand = hits if len(hits) == 1 else None
-            if cand and len(cand) == 1:
+            if cand: cand = {c for c in cand if not rejected(rej, c, name, b.get("project"), pid=b.get("property_id"))}
+            if k2 in acc:
+                i = acc[k2]; rec = {"method": "hand decision", "dist_m": 0.0}; s1 += 1
+            elif cand and len(cand) == 1:
                 i = next(iter(cand)); rec = {"method": "name match", "dist_m": 0.0}; s1 += 1
             elif geocode and tree is not None and ngeo < lim:
                 q = f"{name}, {AREA_LABEL.get(slug, slug)}, Dubai"
@@ -76,7 +83,7 @@ def main():
                     loc = pl.get("location") or {}; pt = Point(TO_UTM(loc.get("longitude", 0), loc.get("latitude", 0)))
                     j = tree.nearest(pt); d = polys[j].distance(pt)
                     pn = (pl.get("displayName") or {}).get("text") or ""
-                    if d <= NEAR_M and (d <= 8.0 or same_building(name, pn)):
+                    if d <= NEAR_M and (d <= 8.0 or same_building(name, pn)) and not rejected(rej, idx[j], name, b.get("project"), pid=b.get("property_id")):
                         i = idx[j]; rec = {"method": "geocoded", "dist_m": round(d, 1), "place_id": pl.get("id"), "place_name": pn}; s2 += 1; break
             if not rec and geocode and tree is not None:
                 # stage 3: structure match - the register's floor count picks the one plausible footprint near the geocoded point
@@ -91,7 +98,7 @@ def main():
                     exp = fl * 3.2; band = []
                     for j in tree.query(pt.buffer(90)):
                         d = polys[j].distance(pt)
-                        if d > 90 or idx[j] in taken: continue
+                        if d > 90 or idx[j] in taken or rejected(rej, idx[j], name, b.get("project"), pid=b.get("property_id")): continue
                         h = hts[j]
                         if abs(h - exp) / exp <= 0.25: band.append((d, j, h))
                     if len(band) == 1:

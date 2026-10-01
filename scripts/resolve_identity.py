@@ -359,7 +359,7 @@ def resolve(building, evidence, min_conf):
     src = top["source"]
     if src in AUTHORITATIVE: grade = "VERIFIED"
     elif src == "dld":                                  # the register's own building name: VERIFIED when the map already agreed (name match),
-        grade = "VERIFIED" if "name match" in (top.get("method") or "") else "MATCHED"   # MATCHED when placed by geocoding (register + place location)
+        grade = "VERIFIED" if ("name match" in (top.get("method") or "") or "hand decision" in (top.get("method") or "")) else "MATCHED"   # MATCHED when placed by geocoding (register + place location); a binding decided by hand (data/identity/decisions.json, job footprint_binding) is VERIFIED
     elif pick in ("STRUCTURAL_ID", "PLOT_ID", "ADDRESS"): grade = "STRUCTURALLY_IDENTIFIED"
     elif src in SURVEY: grade = "MATCHED"
     else: grade = "INFERRED"

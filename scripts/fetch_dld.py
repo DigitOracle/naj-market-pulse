@@ -73,14 +73,31 @@ def rent_payload(frm, to, take="1", skip="0"):
             "P_TAKE": take, "P_SKIP": skip, "P_SORT": ""}
 
 
+# 30 Sep 2026: the gateway reports at most this many rows for one query, whatever the window really holds, and the paging
+# below trusts the reported total - so a busy window was silently cut. The 30 Sep rents pull came back 56,401 rows against
+# ~71,000 on every day before it; the 2 Sep -> 8 Sep window said 14,000, while its two halves said 8,580 and 9,379 (17,959).
+# A window that reports the cap is split in half and each half asked again, until every piece is under it.
+CAP = int(os.environ.get("DLD_CAP", "14000"))
+
+
 def pull(endpoint, make_payload, windows, cols, key_fn, max_passes=1):
     """Pull every window paged, dedupe by key_fn, return list of dicts limited to cols. With max_passes > 1 a window is
     paged again until a whole pass adds no new key; a window whose unique keys reach the reported total stops at once.
-    The log line per window says how many keys each pass added."""
+    A window whose reported total reaches CAP is split in half first. The log line per window says how many keys each
+    pass added."""
     rows, seen = [], set()
-    for frm, to in windows:
+    todo = list(windows)
+    while todo:
+        frm, to = todo.pop(0)
         probe = post(endpoint, make_payload(mdy(frm), mdy(to)))
         total = probe[0]["TOTAL"] if probe else 0
+        if total >= CAP:
+            if (to - frm).days >= 2:
+                mid = frm + timedelta(days=(to - frm).days // 2)
+                print(f"  {endpoint} {frm} -> {to}: {total} reported, the gateway's cap - splitting at {mid}")
+                todo[0:0] = [(frm, mid), (mid, to)]
+                continue
+            print(f"  {endpoint} {frm} -> {to}: {total} reported, the cap, on a window too short to split - MAY BE INCOMPLETE", file=sys.stderr)
         start, added = len(seen), []
         for p in range(max_passes):
             n = 0

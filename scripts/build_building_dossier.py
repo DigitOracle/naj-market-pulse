@@ -22,7 +22,7 @@ we read, and this document is about the building, not the listing.
   python scripts/build_building_dossier.py --district businessbay --id 170 --push
   python scripts/build_building_dossier.py --district businessbay --top 5        the five with the most floors
 """
-import argparse, datetime as dt, html, json, math, os, sys, urllib.parse, urllib.request
+import argparse, datetime as dt, html, json, math, os, re, sys, urllib.parse, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, ".."))
@@ -100,6 +100,17 @@ def mark():
     return '<img class=mark src="data:image/png;base64,%s" alt="Azimuth">' % base64.b64encode(open(f, "rb").read()).decode()
 
 
+def najma_mark():
+    """The Najma logo in the header (Kendall, 30 Sep 2026: "ensure the najma logo is on the sheet as well"). It replaces the
+    Azimuth mark there - that mark is the same N-and-star emblem without the NAJMA wordmark, so both side by side read as a
+    duplicate. From Brand_and_Legal/Logos/Najma_Logo.png, cropped and scaled to print size (the original is 900 KB), embedded."""
+    import base64
+    f = os.path.join(ROOT, "data", "brand", "najma_logo.png")
+    if not os.path.exists(f):
+        return ""
+    return '<img class=najma src="data:image/png;base64,%s" alt="Najma">' % base64.b64encode(open(f, "rb").read()).decode()
+
+
 # --------------------------------------------------------------------------------------------------------------------------
 def gather(district, bid):
     """The same files the building page reads, in one record. If the two registers do not both hold it, there is no dossier."""
@@ -124,6 +135,386 @@ def gather(district, bid):
 
 
 # --------------------------------------------------------------------------------------------------------------------------
+# THE HOME TYPES (Kendall, 30 Sep 2026, on a dossier made for "1 bedroom, JVC, AED 65K": "This floor plate is useless ... unless
+# somebody asked for a specific floor. What we should be showing is ... the different one bedroom types"). The old page drew
+# whichever floor held the most homes - on Binghatti Nova that was level 1, the podium, whose terrace flats are like no other
+# floor. A client asking for a one-bedroom wants the KINDS of one-bedroom the building has, how many, where, and what each
+# lets and sells for. Homes in the same position on successive floors share a layout (x06 on every floor is one stack), so a
+# type is a stack - or several stacks of the same size and balcony - read straight off the Land Department units register.
+def _stack_pos(u):
+    s = str(u or "").strip()
+    return s[-2:] if s.isdigit() and len(s) >= 3 else None
+
+
+def _med(xs):
+    xs = sorted(xs)
+    if not xs:
+        return None
+    n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2.0
+
+
+def _positions(ps):
+    """x04, x06-x11 - the stack positions, consecutive runs joined."""
+    nums = sorted(int(p) for p in ps if p and p.isdigit())
+    runs, out = [], []
+    for n in nums:
+        if runs and n == runs[-1][1] + 1:
+            runs[-1][1] = n
+        else:
+            runs.append([n, n])
+    for a, b in runs:
+        out.append("x%02d" % a if a == b else "x%02d–x%02d" % (a, b))
+    return ", ".join(out)
+
+
+def home_types(G, beds=None):
+    """{class: {"types": [...], "special": {level: [flat, ...]}}} from the units register. beds narrows to one class."""
+    fl = ((G.get("flats") or {}).get("floors")) or {}
+    by_c = {}
+    for lvl, us in fl.items():
+        try:
+            L = int(lvl)
+        except (TypeError, ValueError):
+            continue
+        for x in us or []:
+            c = x.get("c")
+            if not c or c == "other" or not x.get("sqft") or (beds and c != beds):
+                continue
+            by_c.setdefault(c, []).append((L, x))
+    out = {}
+    for c, rows in by_c.items():
+        stacks = {}
+        for L, x in rows:
+            stacks.setdefault(_stack_pos(x.get("u")) or ("u:" + str(x.get("u"))), []).append((L, x))
+        norm, special = [], {}
+        for pos, us in stacks.items():
+            ms, mb = _med([x["sqft"] for _, x in us]), _med([x.get("bal") or 0 for _, x in us])
+            keep = []
+            for L, x in us:   # a flat unlike the rest of its stack - a podium terrace, a penthouse - is shown on its own
+                if len(us) >= 3 and (abs(x["sqft"] - ms) > 0.05 * ms or abs((x.get("bal") or 0) - mb) > max(25, 0.4 * mb)):
+                    special.setdefault(L, []).append(x)
+                else:
+                    keep.append((L, x))
+            if len(keep) >= 2:
+                norm.append({"pos": pos, "ms": _med([x["sqft"] for _, x in keep]), "mb": _med([x.get("bal") or 0 for _, x in keep]), "units": keep})
+            else:
+                for L, x in keep:
+                    special.setdefault(L, []).append(x)
+        types = []
+        for st in sorted(norm, key=lambda s: s["ms"]):
+            t = types[-1] if types else None
+            if t and abs(st["ms"] - t["ms"]) <= 0.025 * t["ms"] and abs(st["mb"] - t["mb"]) <= max(15, 0.2 * t["mb"]):
+                t["stacks"].append(st["pos"]); t["units"] += st["units"]
+                t["ms"] = _med([x["sqft"] for _, x in t["units"]]); t["mb"] = _med([x.get("bal") or 0 for _, x in t["units"]])
+            else:
+                types.append({"stacks": [st["pos"]], "units": list(st["units"]), "ms": st["ms"], "mb": st["mb"]})
+        for i, t in enumerate(types):
+            sz = [x["sqft"] for _, x in t["units"]]; bl = [x.get("bal") or 0 for _, x in t["units"]]; lv = [L for L, _ in t["units"]]
+            t.update({"label": chr(65 + i), "n": len(t["units"]), "smin": min(sz), "smax": max(sz), "bmin": min(bl), "bmax": max(bl),
+                      "lmin": min(lv), "lmax": max(lv), "where": _positions(t["stacks"])})
+        out[c] = {"types": types, "special": special}
+    return out
+
+
+def _latest_csv(prefix):
+    """The newest data/<prefix>-YYYY-MM-DD*.csv; of two files for one day, the larger (the other may be a short pull)."""
+    import glob
+    best = None
+    for f in glob.glob(os.path.join(ROOT, "data", prefix + "-20??-??-??*.csv")):
+        key = (os.path.basename(f)[len(prefix) + 1:len(prefix) + 11], os.path.getsize(f))
+        if best is None or key > best[0]:
+            best = (key, f)
+    return best[1] if best else None
+
+
+ROOMS_OF = {"studio": ("studio",), "1": ("1 b/r",), "2": ("2 b/r",), "3": ("3 b/r",), "4": ("4 b/r",)}
+
+
+def type_prices(types, scheme, c):
+    """Each type's rent (Ejari) and sale (Land Department) evidence, placed by registered area. Types whose size ranges overlap
+    cannot be told apart by area, so they share one band and one figure, and say so."""
+    import csv
+    scheme = (scheme or "").strip().lower()
+    if not scheme or not types:
+        return [], {}
+    bands = []   # [lo, hi, [type labels]]
+    for t in sorted(types, key=lambda t: t["smin"]):
+        lo, hi = t["smin"] * 0.99, t["smax"] * 1.01
+        if bands and lo <= bands[-1][1]:
+            bands[-1][1] = max(bands[-1][1], hi); bands[-1][2].append(t["label"])
+        else:
+            bands.append([lo, hi, [t["label"]]])
+    ev = {i: {"rent": [], "new": 0, "sale": []} for i in range(len(bands))}
+    def band_of(sqft):
+        for i, b in enumerate(bands):
+            if b[0] <= sqft <= b[1]:
+                return i
+        return None
+    info = {}
+    rf = _latest_csv("rents")
+    if rf:
+        info["rents"] = os.path.basename(rf)
+        for row in csv.DictReader(open(rf, encoding="utf-8-sig", errors="replace")):
+            if (row.get("PROJECT_EN") or "").strip().lower() != scheme:
+                continue
+            if (row.get("PROP_SUB_TYPE_EN") or "").strip().lower() not in ("flat", "studio"):
+                continue
+            try:
+                a, amt = float(row.get("ACTUAL_AREA") or 0) * SQM, float(row.get("ANNUAL_AMOUNT") or 0)
+            except ValueError:
+                continue
+            i = band_of(a) if amt > 0 else None
+            if i is not None:
+                ev[i]["rent"].append(amt); ev[i]["new"] += 1 if (row.get("VERSION_EN") or "").lower().startswith("new") else 0
+    tf = _latest_csv("transactions")
+    if tf:
+        info["sales"] = os.path.basename(tf)
+        want = ROOMS_OF.get(c, ())
+        for row in csv.DictReader(open(tf, encoding="utf-8-sig", errors="replace")):
+            if (row.get("PROJECT_EN") or "").strip().lower() != scheme or (row.get("GROUP_EN") or "") != "Sales":
+                continue
+            if want and (row.get("ROOMS_EN") or "").strip().lower() not in want:
+                continue
+            try:
+                a, v = float(row.get("PROCEDURE_AREA") or row.get("ACTUAL_AREA") or 0) * SQM, float(row.get("TRANS_VALUE") or 0)
+            except ValueError:
+                continue
+            i = band_of(a) if v > 0 else None
+            if i is not None:
+                ev[i]["sale"].append(v)
+    out = []
+    for i, b in enumerate(bands):
+        e = ev[i]
+        out.append({"labels": b[2], "rent": _med(e["rent"]), "rn": len(e["rent"]), "new": e["new"],
+                    "rlo": sorted(e["rent"])[len(e["rent"]) // 4] if len(e["rent"]) >= 4 else None,
+                    "rhi": sorted(e["rent"])[(3 * len(e["rent"])) // 4] if len(e["rent"]) >= 4 else None,
+                    "sale": _med(e["sale"]), "sn": len(e["sale"])})
+    return out, info
+
+
+def types_block(G, beds=None, plain=False, budget=None):
+    """The home-types section: one table per bedroom class (or only the class asked for)."""
+    ht = home_types(G, beds)
+    if not ht:
+        return ""
+    r = G["r"]
+    scheme = ((r.get("rent") or {}).get("scheme")) or ((r.get("sales") or {}).get("name")) or r.get("name")
+    order = [k for k in ("studio", "1", "2", "3", "4") if k in ht]
+    html, info_all = "", {}
+    for c in order:
+        types, special = ht[c]["types"], ht[c]["special"]
+        prices, info = type_prices(types, scheme, c)
+        info_all.update(info)
+        by_label = {}
+        for p in prices:
+            for lab in p["labels"]:
+                by_label[lab] = dict(p, shared=len(p["labels"]) > 1)
+        rows = ""
+        for t in types:
+            p = by_label.get(t["label"]) or {}
+            eq = " =" if p.get("shared") else ""
+            rent = ("AED %s%s<br><small>%d contract%s%s%s</small>" % (
+                fmt(round(p["rent"] / 500.0) * 500 if plain else p["rent"]), eq, p["rn"], "" if p["rn"] == 1 else "s", (", %d new" % p["new"]) if p.get("new") else "",
+                (" · middle half %s–%s" % (fmt(p["rlo"]), fmt(p["rhi"]))) if p.get("rlo") else "")) if p.get("rn") else "—"
+            sale = ("%s%s<br><small>%d sale%s</small>" % (aed(p["sale"]), eq, p["sn"], "" if p["sn"] == 1 else "s")) if p.get("sn") else "—"
+            size = ("%s sq ft" % fmt(t["smin"])) if t["smin"] == t["smax"] else ("%s–%s sq ft" % (fmt(t["smin"]), fmt(t["smax"])))
+            bal = ("%s" % fmt(t["bmin"])) if t["bmin"] == t["bmax"] else ("%s–%s" % (fmt(t["bmin"]), fmt(t["bmax"])))
+            lv = ("level %d" % t["lmin"]) if t["lmin"] == t["lmax"] else ("levels %d–%d" % (t["lmin"], t["lmax"]))
+            rows += ("<tr><td><b>%s</b></td><td>%s</td><td>%s sq ft</td><td>%d<br><small>%s</small></td><td>%s<br><small>%s</small></td>"
+                     "<td>%s</td><td>%s</td></tr>" % (t["label"], size, bal, t["n"], "stack" + ("s" if len(t["stacks"]) > 1 else "") + " " + E(t["where"]),
+                                                        lv, "", rent, sale)) if not plain else (
+                     "<tr><td><b>%s</b></td><td>%s</td><td>%s sq ft</td><td>%d</td><td>%s</td><td>%s</td></tr>"
+                     % (t["label"], size, bal, t["n"], lv, rent))
+        for L in sorted(special):
+            xs = special[L]; sz = [x["sqft"] for x in xs]; bl = [x.get("bal") or 0 for x in xs]
+            rows += ('<tr class=sp><td>—</td><td>%s–%s sq ft</td><td>%s–%s sq ft</td><td>%d</td><td>level %d<br><small>%s</small></td>'
+                     '<td colspan=2><small>unlike the rest of their stacks%s - priced one by one, not as a type</small></td></tr>'
+                     % (fmt(min(sz)), fmt(max(sz)), fmt(min(bl)), fmt(max(bl)), len(xs), L, E(", ".join(str(x.get("u")) for x in xs[:12])),
+                        " (larger terraces)" if max(bl) > 2 * (_med([t["mb"] for t in types]) or 1) else ""))
+            if plain:
+                rows = rows.replace("<td colspan=2><small>unlike", "<td><small>unlike").replace("unlike the rest of their stacks", "one-off homes on this level").replace(" - priced one by one, not as a type", ", each different")
+        if budget:   # v273 - what the client's budget gets them in this building, in one plain paragraph
+            within, near, over, none = [], [], [], []
+            for t in types:
+                pr = by_label.get(t["label"]) or {}
+                (none if not pr.get("rn") else within if pr["rent"] <= budget * 1.03 else near if pr["rent"] <= budget * 1.10 else over).append((t, pr))
+            def _nm(xs):
+                labs = [t["label"] for t, _ in xs]
+                return ("type " + labs[0]) if len(labs) == 1 else ("types " + ", ".join(labs[:-1]) + " and " + labs[-1])
+            def _sz(xs):
+                return "%s\u2013%s sq ft" % (fmt(min(t["smin"] for t, _ in xs)), fmt(max(t["smax"] for t, _ in xs)))
+            said = []
+            if within:
+                said.append("%s (%s) let for a median of about AED %s \u2014 within budget" % (_nm(within), _sz(within), fmt(round(_med([p["rent"] for _, p in within]) / 500.0) * 500)))
+            if near:
+                said.append("%s (%s) at about AED %s \u2014 a little above" % (_nm(near), _sz(near), fmt(round(_med([p["rent"] for _, p in near]) / 500.0) * 500)))
+            if over:
+                said.append("%s (%s) at about AED %s \u2014 above it" % (_nm(over), _sz(over), fmt(round(_med([p["rent"] for _, p in over]) / 500.0) * 500)))
+            if none:
+                said.append("%s (%s) had no lets registered in the period, so their rent is not known" % (_nm(none), _sz(none)))
+            if said:
+                html += '<div class=budget><b>At AED %s a year:</b> %s.</div>' % (fmt(budget), "; ".join(said))
+        name = TYPE_NAME.get(c, c)
+        html += ('<h3>%s · %d types across %d homes</h3>' % (E(name), len(types), sum(t["n"] for t in types) + sum(len(v) for v in special.values()))
+                 + ('<table class=types><tr><th>Type</th><th>Size</th><th>Balcony</th><th>Homes</th><th>Floors</th><th>Rents for, a year</th></tr>' if plain else '<table class=types><tr><th>Type</th><th>Size</th><th>Balcony</th><th>Homes</th><th>Where</th><th>Rents for, a year</th><th>Sold for</th></tr>')
+                 + rows + "</table>")
+    if not html:
+        return ""
+    title = ("The %s types" % TYPE_NAME.get(beds, beds).lower().replace(" bedroom", "-bedroom")) if beds else "The home types"
+    note = ("Types are read from the Land Department units register: homes in the same position on successive floors share a layout, "
+            "so a type is a stack of alike homes (x06 = flat 06 on every floor), grouped with any other stack of the same size and balcony. "
+            "Sizes are as registered. Rents are Ejari contracts registered against the scheme <b>%s</b>%s; sales are Land Department sales%s. "
+            "Both are placed on a type by their registered area; where two types are the same size their contracts cannot be told apart "
+            "and share one figure (marked =). Homes unlike the rest of their stack - a podium terrace, a penthouse - are listed on their own. "
+            "Which of these is free today is not in any register: check with the building's leasing team or the listing broker."
+            % (E(scheme), (" (%s)" % E(info_all["rents"])) if info_all.get("rents") else "", (" (%s)" % E(info_all["sales"])) if info_all.get("sales") else ""))
+    if plain:
+        note = ("Each type is a set of identical homes in the same position on every floor, as registered with the Dubai Land Department. "
+                "Rents are what these homes were actually let for, from contracts registered with Ejari%s, matched to a type by size; "
+                "types of the same size share one figure (marked =). Which homes are free today is confirmed with the leasing team."
+                % ((" (%s)" % E(info_all["rents"])) if info_all.get("rents") else ""))
+    return '<div class=sec><h2>%s%s</h2>%s<div class=src>%s</div></div>' % (ICON.get("plate", ""), E(title), html, note)
+
+
+# v273 - when the units register holds no flat-by-flat record for a building (Bloom Heights, Binghatti Amber on 30 Sep 2026),
+# the types table cannot be drawn - but a client asking "a 1-bed for AED 65K" still needs the one figure that matters: what
+# 1-bed homes here actually let for. From the Ejari contracts registered against the scheme, bedrooms estimated from size with
+# the bands measured on 760,600 contracts (data/dld/rent_bed_bands.json); the upper edge is held at the 1-bed 75th percentile
+# (84 m2) because in JVC 2-beds start near there. Identical contracts are counted once (Ejari files some twice).
+def ejari_fallback(G, beds, budget=None):
+    import csv
+    if not beds:
+        return ""
+    r = G["r"]
+    scheme = (((r.get("rent") or {}).get("scheme")) or r.get("name") or "").strip().lower()
+    rf = _latest_csv("rents")
+    if not scheme or not rf:
+        return ""
+    try:
+        bb = json.load(open(os.path.join(ROOT, "data", "dld", "rent_bed_bands.json"), encoding="utf-8"))["flat"]
+    except Exception:
+        bb = {"city": {"cuts": [52, 92, 162], "quantiles": {}}, "areas": {}}
+    rows, seen, area = [], set(), None
+    for row in csv.DictReader(open(rf, encoding="utf-8-sig", errors="replace")):
+        if (row.get("PROJECT_EN") or "").strip().lower() != scheme:
+            continue
+        if (row.get("PROP_SUB_TYPE_EN") or "").strip().lower() not in ("flat", "studio"):
+            continue
+        k = (row.get("REGISTRATION_DATE"), row.get("START_DATE"), row.get("END_DATE"), row.get("ANNUAL_AMOUNT"), row.get("ACTUAL_AREA"), row.get("VERSION_EN"))
+        if k in seen:
+            continue
+        seen.add(k)
+        try:
+            rows.append((float(row.get("ACTUAL_AREA") or 0), float(row.get("ANNUAL_AMOUNT") or 0), (row.get("VERSION_EN") or "").lower().startswith("new"), (row.get("REGISTRATION_DATE") or "")[:10]))
+        except ValueError:
+            continue
+        area = area or row.get("AREA_EN")
+    cuts = ((bb.get("areas") or {}).get(area) or {}).get("cuts") or bb["city"]["cuts"]
+    q75 = (((bb.get("city") or {}).get("quantiles") or {}).get(beds) or {}).get("0.75")
+    idx = {"studio": 0, "1": 1, "2": 2, "3": 3}.get(beds)
+    if idx is None:
+        return ""
+    lo = 0 if idx == 0 else cuts[idx - 1]
+    hi = cuts[idx] if idx < len(cuts) else 10 ** 6
+    if q75:
+        hi = min(hi, q75)
+    got = [x for x in rows if lo <= x[0] < hi and x[1] > 0]
+    if len(got) < 3:
+        return ""
+    rents = sorted(x[1] for x in got)
+    med = _med(rents); q1, q3 = rents[len(rents) // 4], rents[(3 * len(rents)) // 4]
+    r500 = lambda v: fmt(round(v / 500.0) * 500)
+    size = "%s–%s sq ft" % (fmt(min(x[0] for x in got) * SQM), fmt(max(x[0] for x in got) * SQM))
+    name = TYPE_NAME.get(beds, beds).lower().replace(" bedroom", "-bedroom")
+    body = (row_html("Typical rent", "about AED %s a year" % r500(med)) + row_html("Middle half of rents", "AED %s–%s" % (r500(q1), r500(q3)))
+            + row_html("Homes let", "%d, %d of them new lettings" % (len(got), sum(1 for x in got if x[2])))
+            + row_html("Sizes let", size) + row_html("Latest contract", max(x[3] for x in got)))
+    if budget:
+        verdict = "within budget" if med <= budget * 1.03 else "a little above" if med <= budget * 1.10 else "above it"
+        body = '<div class=budget><b>At AED %s a year:</b> %s homes here let for a median of about AED %s — %s.</div>' % (fmt(budget), name, r500(med), verdict) + body
+    note = ("What %s homes in this building were actually let for, from contracts registered with Ejari (%s), counted once each. "
+            "Ejari rarely records bedrooms, so a %s is read from size (%s–%s m²). The Land Department holds no flat-by-flat "
+            "record for this building, so its layouts cannot be listed type by type. Which homes are free is confirmed with the leasing team."
+            % (name, E(os.path.basename(rf)), name, fmt(lo), fmt(hi)))
+    return '<div class=sec><h2>%sWhat a %s here lets for</h2>%s<div class=src>%s</div></div>' % (ICON.get("plate", ""), E(name), body, note)
+
+
+def row_html(k, v):
+    return '<div class=row><span>%s</span><b>%s</b></div>' % (E(k), E(v)) if v not in (None, "", 0) else ""
+
+
+# v273 - what the registers cannot say and a client asks first: what it looks like, the gym, the pool, the plans (Kendall,
+# 30 Sep 2026). From data/brand/buildings/<district>_<id>/brochure.json, sourced from the developer's OWN project page and
+# credited under every photo - never a listing portal (a portal once put the wrong building's pictures on a live sheet).
+def _brochure(G):
+    d = os.path.join(ROOT, "data", "brand", "buildings", "%s_%s" % (G["d"], G["id"]))
+    f = os.path.join(d, "brochure.json")
+    if not os.path.exists(f):
+        return None, d
+    try:
+        return json.load(open(f, encoding="utf-8")), d
+    except Exception:
+        return None, d
+
+
+def _embed(path, max_w=1400):
+    """An image as a data URI, scaled down and re-encoded so a forwarded PDF stays small."""
+    import base64, io as _io
+    try:
+        from PIL import Image
+        im = Image.open(path)
+        im = im.convert("RGB") if im.mode not in ("RGB", "L") else im
+        if im.width > max_w:
+            im = im.resize((max_w, round(im.height * max_w / im.width)), Image.LANCZOS)
+        buf = _io.BytesIO(); im.save(buf, "JPEG", quality=82, optimize=True)
+        return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+    except Exception:
+        return ""
+
+
+def _credit(x, b):
+    u = (x or {}).get("source_url") or (b or {}).get("source_url") or ""
+    host = re.sub(r"^https?://(www\.)?", "", u).split("/")[0] if u else ""
+    return ("from %s" % E(host)) if host else ""
+
+
+def brochure_hero(G):
+    b, d = _brochure(G)
+    ph = (b or {}).get("photos") or []
+    ext = next((p for p in ph if "exterior" in (p.get("file") or "").lower()), ph[0] if ph else None)
+    if not ext:
+        return ""
+    src = _embed(os.path.join(d, ext["file"]))
+    return ('<img class=hero src="%s" alt="%s"><div class=cap>%s · %s</div>' % (src, E(ext.get("caption") or ""), E(ext.get("caption") or ""), _credit(None, b))) if src else ""
+
+
+def brochure_block(G):
+    b, d = _brochure(G)
+    if not b:
+        return ""
+    out = ""
+    am = b.get("amenities") or []
+    ph = [p for p in (b.get("photos") or []) if "exterior" not in (p.get("file") or "").lower()]
+    if am or ph:
+        out += '<h3>In the building</h3>'
+        if am:
+            out += '<ul class=am>' + "".join("<li>%s</li>" % E(a) for a in am) + "</ul>"
+        imgs = [(p, _embed(os.path.join(d, p["file"]), 700)) for p in ph[:6]]
+        imgs = [(p, s) for p, s in imgs if s]
+        if imgs:
+            out += '<div class=gal>' + "".join('<figure style="margin:0"><img src="%s" alt="%s"><div class=cap>%s</div></figure>'
+                                              % (s, E(p.get("caption") or ""), E(p.get("caption") or "")) for p, s in imgs) + "</div>"
+        out += '<div class=src>Amenities and photos %s, the developer\'s own project page (retrieved %s).</div>' % (_credit(None, b), E(b.get("retrieved") or ""))
+    pl = b.get("plans") or []
+    pimgs = [(p, _embed(os.path.join(d, p["file"]), 900)) for p in pl[:4]]
+    pimgs = [(p, s) for p, s in pimgs if s]
+    if pimgs:
+        out += '<h3>Floor plans</h3><div class=plans>' + "".join('<figure style="margin:0"><img src="%s"><div class=cap>%s · %s</div></figure>'
+                                                               % (s, E(p.get("caption") or ""), _credit(None, b)) for p, s in pimgs) + "</div>"
+    return '<div class=sec>%s</div>' % out if out else ""
+
+
 def plate_svg(G, level):
     """The floor plate, drawn the way the page draws it: the surveyed outline, the homes at the register's sizes (or, where a
     model was handed over, exactly where the model puts them), the cores, and north."""
@@ -307,6 +698,14 @@ def sections(G):
         facts.append(("Makani", str(r["makani"]["makani"])))
     if G["a"].get("lat"):
         facts.append(("Position", "%.4f N  %.4f E" % (G["a"]["lat"], G["a"]["lon"])))
+    if facts and G.get("audience") == "rent":   # v273 - a tenant's version: plain words, no register-only rows
+        homes = u.get("total_units") or dld.get("units_registered")
+        cars = u.get("car_parks") or dm.get("indoor_parking")
+        keep = {"Developer": "Developer", "Homes registered": "Homes in the building", "Height": "Height", "Completed": "Completed",
+                "Lifts": "Lifts", "Stack": "Floors"}
+        facts = [(keep[k], v) for k, v in facts if k in keep]
+        if cars:
+            facts.append(("Parking", "%s spaces for %s homes" % (fmt(cars), fmt(homes)) if homes else fmt(cars) + " spaces"))
     if facts:
         out.append(("The building", "".join(row(k, v) for k, v in facts)))
 
@@ -553,12 +952,18 @@ def build_html(G):
     when = dt.date.today().strftime("%d %B %Y")
     asof = (G["stack"].get("sources") or [""])[0]
     secs = sections(G)
+    rent = G.get("audience") == "rent"
+    if rent:   # v273 - what a tenant asked for; the buyer and investor material stays in the full dossier
+        TENANT = ("The building", "Around it", "Shops and groceries", "What it sees over")
+        secs = [(h, b) for h, b in secs if h in TENANT]
+        secs = [("Views" if h == "What it sees over" else h,
+                 b.replace(">blocked<", ">faces the next building<") if h == "What it sees over" else b) for h, b in secs]
 
-    # ---- the floor page: the plate large, what stands on that floor, and which levels repeat it ----------------------------
-    lvl, best = None, -1
-    for f in (r.get("floors") or []):
-        if (f.get("k") or 0) > best:
-            best, lvl = f.get("k") or 0, f.get("l")
+    # ---- the floor page: only when a floor was asked for (--floor). v273: it used to draw whichever floor held the most homes,
+    # which answers a question nobody asked - the home types below answer the one they did (Kendall, 30 Sep 2026). --------------
+    lvl = G.get("floor")
+    if lvl is not None:
+        lvl = next((f.get("l") for f in (r.get("floors") or []) if str(f.get("l")) == str(lvl)), lvl)
     svg, p = plate_svg(G, lvl) if lvl is not None else (None, None)
     flats = ((G["flats"] or {}).get("floors") or {}).get(str(lvl)) if G["flats"] else None
 
@@ -613,6 +1018,8 @@ def build_html(G):
                        % (ICON["plate"], E(lvl), svg, legend,
                           ('<div class=rng>%s</div>' % E(rng)) if rng else "", side, says_plate(p, G["plate_note"])))
 
+    plate_block = (types_block(G, G.get("beds"), plain=rent, budget=G.get("budget")) or ejari_fallback(G, G.get("beds"), G.get("budget"))) + brochure_block(G) + plate_block
+    hero = brochure_hero(G)
     head = "".join('<div class=sec><h2>%s%s</h2>%s</div>' % (head_for(h), E(h), b) for h, b in secs)
     return """<!doctype html><meta charset=utf-8><title>%(name)s</title><style>
 @page{size:A4;margin:14mm 13mm 15mm}
@@ -637,6 +1044,13 @@ td{padding:3px 5px 3px 0;border-bottom:1px dotted %(rule)s}
 .brand{display:flex;align-items:center;gap:9px;text-align:right;color:%(muted)s;font:600 10px/1.5 "Segoe UI";letter-spacing:.16em}
 .brand small{letter-spacing:.04em;font-weight:400;font-size:8.5px}
 .mark{height:54px;width:auto}
+.najma{height:84px;width:auto;margin-right:4px}
+.agent{margin-top:14px;padding:8px 10px;border:1px solid %(gold)s;border-radius:6px;font-size:11px}.agent b{color:%(gold)s;margin-right:8px}
+.hero{width:100%%;max-height:230px;object-fit:cover;border-radius:6px;margin:0 0 6px}.cap{color:%(muted)s;font-size:8.5px;margin:0 0 12px}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.gal img{width:100%%;height:110px;object-fit:cover;border-radius:4px}
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.plans img{width:100%%;height:auto;border:1px solid %(rule)s}
+.am{columns:2;margin:0;padding-left:16px}.budget{margin:8px 0;padding:7px 9px;background:#FAF8F3;border-left:3px solid %(gold)s;font-size:11px}
+table.types td{vertical-align:top}table.types small{color:%(muted)s;font-size:8.5px}tr.sp td{color:%(muted)s}
 .ft{margin-top:16px;padding-top:7px;border-top:1px solid %(rule)s;color:%(muted)s;font-size:9px}
 .rng{margin-top:7px;padding:6px 8px;background:#FAF8F3;border-left:2px solid %(gold)s;font-size:9.5px;color:%(muted)s}
 h3{font:600 10px/1.3 "Segoe UI";letter-spacing:.1em;text-transform:uppercase;color:%(navy)s;margin:0 0 5px}
@@ -650,16 +1064,31 @@ h3{font:600 10px/1.3 "Segoe UI";letter-spacing:.1em;text-transform:uppercase;col
 .mini i{display:block;height:3px;border-radius:2px;background:%(gold)s}
 </style>
 <div class=hd><div><h1>%(name)s</h1><div class=sub>%(dev)s%(district)s</div></div>
-<div class=brand>%(mark)s<div>AZIMUTH<br><small>DigitAlchemy®</small><br><small>%(when)s</small></div></div></div>
-<div class=cols>%(head)s</div>
-<div class=sec>%(plate)s</div>
-<div class=ft>Every figure above names the register it came from. The registers: the Dubai Land Department (units, sales,
-rents through Ejari, projects, land), Dubai Municipality (the floor register, permits, Makani) and KHDA (schools).
-Register data as at %(asof)s. Prepared for one named recipient; it is not a listing and not an offer.<br>
-contact@digitalabbot.io · +971 56 227 6093</div>
+<div class=brand>%(najma)s<div>AZIMUTH<br><small>DigitAlchemy®</small><br><small>%(when)s</small></div></div></div>
+%(body)s
+%(foot)s
 """ % {"name": E(name), "dev": E(dev + " · " if dev else ""), "district": E(G["district_name"]), "when": E(when),
-       "head": head, "plate": plate_block, "mark": mark(), "asof": E(asof or when), "ink": INK, "navy": NAVY, "gold": GOLD,
+       "body": (hero + '<div class=sec>%s</div><div class=cols>%s</div>' % (plate_block, head)) if rent
+               else ('<div class=cols>%s</div><div class=sec>%s</div>' % (head, plate_block)),
+       "foot": FOOT_RENT % {"asof": E(when)} if rent else FOOT_FULL % {"asof": E(asof or when)},
+       "mark": mark(), "najma": najma_mark(), "ink": INK, "navy": NAVY, "gold": GOLD,
        "muted": MUTED, "rule": RULE}
+
+
+FOOT_FULL = ('<div class=ft>Every figure above names the register it came from. The registers: the Dubai Land Department (units, sales,'
+             ' rents through Ejari, projects, land), Dubai Municipality (the floor register, permits, Makani) and KHDA (schools).'
+             ' Register data as at %(asof)s. Prepared for one named recipient; it is not a listing and not an offer.<br>'
+             'contact@digitalabbot.io · +971 56 227 6093</div>')
+# v273 - the tenant's version names the person to call. Kendall, 30 Sep 2026: "for the footer, all we're going to do is put
+# curated by Najjuko ... a WhatsApp symbol ... +971 56 548 4397 ... Dubai Decoded" (confirmed by Kendall). Sources are credited
+# where they are used, under each photo and table, not here.
+WA_ICON = ('<svg viewBox="0 0 24 24" width="14" height="14" style="vertical-align:-2px;margin:0 5px 0 12px"><circle cx="12" cy="12" r="12" fill="#25D366"/>'
+           '<path fill="#fff" d="M12 5.2a6.8 6.8 0 0 0-5.9 10.2L5.2 18.8l3.5-.9A6.8 6.8 0 1 0 12 5.2zm0 12.4a5.6 5.6 0 0 1-2.9-.8l-.2-.1-2.1.5.6-2-.1-.2'
+           'a5.6 5.6 0 1 1 4.7 2.6zm3.1-4.2c-.2-.1-1-.5-1.2-.5-.2-.1-.3-.1-.4.1l-.5.7c-.1.1-.2.1-.4 0a4.6 4.6 0 0 1-2.3-2c-.2-.3.2-.3.5-1'
+           '.1-.1 0-.3 0-.4l-.5-1.3c-.1-.3-.3-.3-.4-.3h-.4a.7.7 0 0 0-.5.3 2.2 2.2 0 0 0-.7 1.6 3.8 3.8 0 0 0 .8 2 8.7 8.7 0 0 0 3.3 2.9'
+           'c1.2.5 1.7.6 2.3.5a2 2 0 0 0 1.3-.9 1.6 1.6 0 0 0 .1-.9c-.1-.1-.2-.1-.4-.2z"/></svg>')
+FOOT_RENT = ('<div class=agent style="text-align:center">Curated by <b style="margin:0">Najjuko</b> · Dubai Decoded' + WA_ICON + '+971 56 548 4397</div>'
+             '<!-- %(asof)s -->')
 
 
 MANIFEST = os.path.join(ROOT, "data", "board", "dossier_manifest.json") if "ROOT" in dir() else None
@@ -736,11 +1165,12 @@ def push(G, pdf_path, pages):
         return False
 
 
-def one(district, bid, do_push):
+def one(district, bid, do_push, beds=None, floor=None, audience=None, budget=None):
     G = gather(district, bid)
     if not G:
         print("%s/%s: not in both registers" % (district, bid))
         return False
+    G["beds"], G["floor"], G["audience"], G["budget"] = beds, floor, audience, budget
     os.makedirs(OUT, exist_ok=True)
     stem = "%s_%s" % (district, bid)
     hp = os.path.join(OUT, stem + ".html")
@@ -772,6 +1202,10 @@ def main():
     ap.add_argument("--all", action="store_true", help="every building in the district that meets both registers")
     ap.add_argument("--push", action="store_true")
     ap.add_argument("--force", action="store_true", help="rebuild even if the manifest says it is already stored")
+    ap.add_argument("--beds", choices=["studio", "1", "2", "3", "4"], help="the request: show only this bedroom class's types")
+    ap.add_argument("--floor", help="draw this level's floor plate as well (only when a floor was asked for)")
+    ap.add_argument("--audience", choices=["rent"], help="rent: the tenant's version - plain words, no buyer or investor sections")
+    ap.add_argument("--budget", type=int, help="the client's budget (AED a year for rent) - adds what it gets them here")
     a = ap.parse_args()
     if a.top or a.all:
         stack = rd("stack_%s.json" % a.district) or {}
@@ -795,7 +1229,7 @@ def main():
                     continue
                 stale += 1
             try:
-                n += 1 if one(a.district, i, a.push) else 0
+                n += 1 if one(a.district, i, a.push, a.beds, a.floor, a.audience, a.budget) else 0
             except Exception as e:
                 bad.append(i)
                 print("  %s_%s FAILED: %s" % (a.district, i, str(e).splitlines()[0][:90]))
@@ -808,7 +1242,7 @@ def main():
         return 0
     if not a.id:
         ap.error("--id or --top")
-    return 0 if one(a.district, a.id, a.push) else 1
+    return 0 if one(a.district, a.id, a.push, a.beds, a.floor, a.audience, a.budget) else 1
 
 
 if __name__ == "__main__":
