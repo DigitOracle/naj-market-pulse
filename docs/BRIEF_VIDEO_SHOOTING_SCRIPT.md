@@ -21,13 +21,13 @@ narrative's steps are then re-checked against the new flow before filming; any c
 [ THE GOLDEN STAR 10.05 s ] → [ SOPHIE'S QUESTION 10 s ] → [ THE BRIEF + Naj, 96.9 s ]   ≈ 1:57
 ```
 
-The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. She types her request to Naj in WhatsApp. **WhatsApp must be visible on her phone (Kendall, 1 Oct)**, so the shot is over her shoulder with the screen in frame. She is silent. This is the narrative's "a client asked me on WhatsApp".
+The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. She types her request to Naj in WhatsApp, says the words aloud as she types them, and has WhatsApp visible on her phone (Kendall, 1 Oct). So the shot is front three-quarter, with her face for the lip-sync and the phone tilted so its screen shows. This is the narrative's "a client asked me on WhatsApp".
 
-**The message:**
+**The line:** 25 words, about 9.1 s.
 
-> Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around 65k a year. Can you help?
+> "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
 
-**If Seedance garbles the text on screen** (it often does), I replace the screen in post. A crisp WhatsApp chat is rendered at the phone's size, pinned to the screen's four corners and tracked, and it types out the message above. Her hands, the phone and the room stay as rendered.
+**If Seedance garbles the text on screen**, I replace the screen in post. A crisp WhatsApp chat is pinned to the phone and tracked, and it types the message.
 
 ### Reference image — Sophie (paste into ChatGPT, image generation)
 
@@ -42,30 +42,30 @@ She is generated and fictional. No real person is depicted.
 Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p. Put Sophie's image in slot 1.
 
 ```
-NO DIALOGUE. Nobody speaks in this shot. Only quiet room sound and soft phone key taps.
+DIALOGUE (the only words spoken in this shot, by the woman from reference 1, once, aloud, as she types them):
+"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
 
-A cinematic vertical 9:16 over-the-shoulder shot, ten seconds, of the woman from reference 1 - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a large window ahead of her with soft out-of-focus towers, warm late-afternoon light.
+A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a large window behind with soft out-of-focus towers, warm late-afternoon light from the side. Real, a little unsettled. Not a showroom.
 
-The camera is just behind and above her right shoulder, looking down past her cheek at the smartphone she holds in both hands at chest height. Her face is visible in soft three-quarter profile at the top of the frame; the phone screen is large, bright, flat-on to the camera and in sharp focus in the lower half of the frame.
+Front three-quarter medium shot, waist up. Her face is clearly visible for the whole shot. She holds a smartphone in both hands at chest height, tilted slightly toward the camera, so the screen is visible in the lower part of the frame: the WhatsApp chat app, light mode, green header bar with a round contact photo and the name "Naj", beige patterned chat background, keyboard open, her message growing in the message box.
 
-ON THE PHONE SCREEN: the WhatsApp chat app, light mode. A green header bar with a round contact photo and the contact name "Naj". The beige patterned WhatsApp chat background. The keyboard open at the bottom. She is typing in the message box: "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around 65k a year. Can you help?"
+0-0.5 s: silent, thumbs over the keyboard, she glances down at the phone.
+0.5-9 s: she types with both thumbs and says the message aloud as she types it, warmly, with a natural British accent, half to herself and half to Naj, glancing between the phone and just off camera: "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
+9-10 s: she taps the green send button; the message jumps into a light-green bubble with two grey ticks. She looks up with a small hopeful smile and holds still.
 
-0-1 s: thumbs hover over the keyboard, she thinks.
-1-7 s: she types steadily with both thumbs; the text grows in the message box.
-7-8 s: she taps the green round send button; the message jumps up into a light-green outgoing bubble on the right with two grey ticks.
-8-10 s: she lowers her thumbs and holds the phone still, the sent bubble clearly visible; a small hopeful smile in profile.
+PRONUNCIATION: "JVC" is three separate letters, JAY - VEE - SEE.
 
-CAMERA: static camera for the whole shot, 50mm, focus on the phone screen with her profile slightly soft. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
+CAMERA: static camera for the whole shot, 50mm, shallow depth of field with both her face and the phone screen in focus. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible.
 GRADE: natural daylight, warm but not orange; the phone screen bright and readable, not blown out; skin looks like skin. Documentary, not advert.
 
-DO NOT: let anyone speak or mouth words. Do not show any app other than WhatsApp, any notifications, other chats or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
+DO NOT: say any words except "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?" - nothing before, nothing after, no greeting, no reaction line. Do not show any app other than WhatsApp, notifications or other contact names. Do not add other people or pets. Do not add captions, subtitles or watermarks outside the phone screen. Do not move the camera. No music cues, lens flares or particles.
 ```
 
 **Check the render before use:**
-- She never mouths words.
-- WhatsApp is recognisable and the screen stays in frame for all ten seconds.
-- Check whether the typed text is legible and correct. If it isn't, use the screen replacement above.
-- The send tap lands near 7-8 s.
+- Transcribe it, and check every word, with "JVC" said as letters.
+- Her face and lip-sync must hold for the full ten seconds.
+- WhatsApp must be recognisable on the screen.
+- The send lands near 9 s.
 
 ## 1 · NAJ (HeyGen), ~80 s
 
