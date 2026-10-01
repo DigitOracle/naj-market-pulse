@@ -444,6 +444,41 @@ way: still opener + Business Bay / Binghatti Aquarise journey, 27 Sep 2026, 1:20
 ⚠️ **The Seedance master is 720p**, although §9.2 says to set 1080p. It upscales acceptably, but a 1080p re-export is
 worth having if one exists.
 
+## 9.4 The standard sequence — opener, the client's question, the piece
+
+**Kendall, 1 Oct 2026:** *"we have a standard bible for these type of videos, first the Naj opener, then you give a
+seedance prompt for someone asking, Najj, I am xxx, then this video"*. This is the fixed shape of every app-piece video.
+
+```
+[ THE GOLDEN STAR 10 s ] → [ THE CLIENT'S QUESTION ~10 s ] → [ THE PIECE + Naj's HeyGen narrative ] → post
+  fixed master §9.3          HeyGen Cinematic (Seedance)      capture harness film; narrative fitted to the cut
+```
+
+1. **The Golden Star** (§9.3). It is unchanged on every video.
+2. **The client's question.** A Seedance clip made in HeyGen Cinematic, with the same settings as §9.2 and the Episode 08 question:
+   - Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p.
+   - **Who speaks:** one person, a fictional client, speaking to Naj off camera.
+   - **The line's shape:** *"Naj, I'm [name]. [one line of who they are]. [the ask, in the words a client would use]. [can you help / what's out there?]"*
+   - **Length:** at most 27 words (about 10 s at 0.364 s per word).
+   - **Who writes it:** I write it. Kendall pastes it into HeyGen.
+   - **Every prompt carries:**
+     - a DIALOGUE block that says those exact words once;
+     - "static camera", with no visible equipment or crew;
+     - a PRONUNCIATION block for every place name (Business Bay → "bay", JVC → J-V-C);
+     - a DO NOT block.
+   - **The face:** a reference image of a fictional client, generated in ChatGPT, unless Kendall supplies his avatar.
+   - **Check the render** with a transcript before using it.
+3. **The piece.** This is the filmed app journey, with Naj's HeyGen narrative fitted second by second to the cut (§5). The narrative opens *"A client asked me…"* and closes with the sign-off.
+
+**Assembly:**
+- Make hard cuts throughout.
+- Scale everything to 1080×1920 and conform to the piece's frame rate.
+- Keep each clip's own audio.
+
+**Examples:**
+- Episode 08 (Business Bay overview): Kendall's avatar with two children.
+- The Brief (JVC one-bed): a fictional young professional, in `docs/BRIEF_VIDEO_SHOOTING_SCRIPT.md` §0.
+
 ---
 
 ## 10. Caption, hashtags, CTA — the missing half of Stage 2

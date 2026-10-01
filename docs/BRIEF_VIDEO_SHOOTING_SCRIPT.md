@@ -15,6 +15,72 @@ narrative's steps are then re-checked against the new flow before filming; any c
 
 ---
 
+## 0 · THE SEQUENCE (bible §9.4) and THE CLIENT'S QUESTION
+
+```
+[ THE GOLDEN STAR 10.05 s ] → [ SOPHIE'S QUESTION 10 s ] → [ THE BRIEF + Naj, 96.9 s ]   ≈ 1:57
+```
+
+The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. She records
+a video message to Naj from a serviced apartment, the kind people stay in during their first weeks. This is what the
+narrative calls "a client asked me on WhatsApp".
+
+**The line:** 25 words, about 9.1 s.
+
+> **"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"**
+
+### Reference image — Sophie (paste into ChatGPT, image generation)
+
+```
+A photorealistic reference photograph of a British woman of about twenty-eight, chest-up, against a plain soft-grey
+studio wall, even soft daylight. Shoulder-length straight dark-blonde hair, light make-up, small gold stud earrings,
+a plain white linen shirt. Calm, friendly, natural expression, looking at the camera. Natural skin, natural
+proportions. Vertical 9:16, 50mm lens, sharp focus. No text, no logos, no other people, no props.
+```
+
+She is generated and fictional. No real person is depicted.
+
+### The shot — paste into HeyGen Cinematic "Describe your shot"
+
+Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p. Put Sophie's image in slot 1.
+
+```
+DIALOGUE (the only words spoken in this shot, by the woman from reference 1, once):
+"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around
+sixty-five thousand a year. Can you help?"
+
+A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face,
+hair and clothing - sitting at a small desk by the window of a modern Dubai serviced apartment. An open suitcase and a
+folded jacket on the bed behind her, a laptop closed beside her, soft out-of-focus towers through the window, warm
+late-afternoon light from the side. Real, a little unsettled, mid-move. Not a showroom.
+
+She is recording a video message on her phone, held at arm's length just below the frame, so she looks almost straight
+into the lens, as if into her phone's front camera. The phone itself is never visible.
+
+0-0.5 s: silent. She is settled, looking at the lens.
+0.5-9.5 s: she speaks warmly, with a natural British accent, in two easy breaths, to Naj: "Hi Naj, I'm Sophie. I start
+a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
+On "around sixty-five thousand" she gives a small, hopeful shrug.
+9.5-10 s: silent. A small hopeful smile, eyebrows slightly raised, waiting for the answer. Completely still.
+
+PRONUNCIATION: "JVC" is three separate letters, JAY - VEE - SEE.
+
+CAMERA: static camera for the whole shot, chest-up, 35mm, shallow depth of field. No pan, tilt, push or drift.
+No camera, tripod, phone, crew or equipment visible anywhere in the shot.
+GRADE: natural daylight, warm but not orange; skin looks like skin. Documentary, not advert.
+
+DO NOT: say any words except "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC,
+around sixty-five thousand a year. Can you help?" - nothing before, nothing after, no greeting, no reaction line. Do
+not add other people or pets. Do not add text, captions, subtitles, logos or watermarks. Do not move the camera. No
+music cues, lens flares or particles.
+```
+
+**Check the render before use:**
+- Transcribe it with faster_whisper, word timestamps.
+- Every word must be there, with "JVC" as letters and "sixty-five thousand".
+- "Naj" must be said the way the opener says it.
+- Her face must hold for the full ten seconds.
+
 ## 1 · NAJ (HeyGen), ~80 s
 
 > A client messages me: "I need a studio in Business Bay, fifty to seventy thousand a year, near the metro." Here's how I
