@@ -35,6 +35,46 @@ to a plot through name-matched buildings. With plot polygons, a point-in-polygon
 makani (and so DEWA) and building footprints onto plots directly, for the 74,854 DEWA
 makani that already have entrance coordinates.
 
+**Ask (c), second layer — building footprints with the DM building identifier.** Alongside the
+plot polygons, the Municipality's building-footprint (building outline) layer carrying the
+`building_id` used in the Building Summary Information dataset, and the plot number each
+outline sits on. Reason: plot polygons alone resolve a footprint to a plot, and 59,329 of the
+248,317 registered plots on our thread hold two or more Municipality buildings (15,534 hold six
+or more — compounds and villa clusters, about 410,000 buildings in all). On those plots a plot
+polygon cannot say WHICH building a footprint is; the footprint layer with `building_id` does,
+directly, for all 533,411 buildings in the summary dataset, with no heuristic matching. Together
+the two layers would let every one of the roughly 370,000 building footprints we model be tied
+to its municipal record (name, floors, height, usage, completion, units) and to the Land
+Department register through the plot. Attributes requested: `building_id`, plot number,
+community number, outline geometry — no ownership, occupancy or personal data.
+
+**Sponsoring entity (to be completed by Dr. Wilson before sending):**
+
+> Sponsor: `[ENTITY NAME — government, semi-government or university]`
+> Contact at sponsor: `[name, role, official e-mail]`
+> Sponsor's letter/undertaking: `[attached / to follow]`
+
+What is known about the requirement, as of 1 Oct 2026 (verify on the GeoDubai portal before
+sending — the public service page does not list documents or fees):
+- DM's GIS Services page describes service 2165 ("Apply for Geospatial Maps and Data") as open
+  to "governmental departments, authorities, institutions, building consultants, contractors,
+  and citizens" — "institutions" is the category a university sponsor falls under. Source:
+  dm.gov.ae › Planning and Construction › GIS › GIS Services.
+- Our 23 Sep 2026 filing of this service (docs/GEODUBAI_2165_REQUEST.md) went in under
+  applicant category "Researcher", with the coverage-area KML as required document 1
+  (docs/GEODUBAI_2165_coverage_area.md).
+- The LOD 3 lane's finding (22 Sep, re-verified 1 Oct): the service is free, takes about five
+  working days, and a researcher's request needs a government, semi-government or university
+  sponsor. Which letter or form the sponsor supplies is not published; ask the GIS Centre
+  (GeoDubai portal, www.geodubai.ae) when lodging.
+- Candidates Dr. Wilson can consider: Golden Gate University (his adjunct appointment — the
+  natural "institution"), a UAE university partner, or a government entity already using the
+  data (DDA, as the open-data publisher). The sponsor only needs to vouch for the research use;
+  it does not take on the undertakings in section 5, which remain Dr. Wilson's.
+- Related DM services on the same page, for reference only: 2163 "Request Online Access to
+  Geographical Databases" (government entities) and 3712 "Request Access to Amakin Browser"
+  (government institutions — planning, building and land information).
+
 ## 2. What we measured, not assumed
 
 We hold two parcel numbering systems for the same land: the Land Department's own property
