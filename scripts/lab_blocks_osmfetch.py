@@ -233,6 +233,53 @@ def fetch_city(slug, feats, log=print, refresh=False):
     return out, prov
 
 
+def uncovered(feats):
+    """The footprints NOT inside any cached fetch's cells (what a query would still have to fetch)."""
+    idx = _cells_index()
+    boxes = [b for b in (_fbox(f) for f in feats) if b]
+    if not boxes:
+        return []
+    S = min(b[0] for b in boxes); W = min(b[1] for b in boxes); N = max(b[2] for b in boxes); E = max(b[3] for b in boxes)
+    near = [c for k, cs in idx.items() for c in cs if not (c[0] > N or c[2] < S or c[1] > E or c[3] < W)]
+    return [f for f in feats if (lambda b: b and not any(c[0] <= b[0] and c[1] <= b[1] and b[2] <= c[2] and b[3] <= c[3] for c in near))(_fbox(f))]
+
+
+def fetch_batch(name, feats, log=print):
+    """ONE query for several small communities' footprints not yet inside a cached fetch (fewer, larger requests: the same
+    data, a fraction of the queueing on a 504-ing server). Saved as city/osm__batch_<name>.json and registered in the cells
+    index, so each community's own fetch_city then finds its footprints covered and sends nothing."""
+    dst = os.path.join(CITY_OUT, "osm__batch_%s.json" % name)
+    if os.path.exists(dst):
+        return dst
+    idx = _cells_index()
+    boxes = [b for b in (_fbox(f) for f in feats) if b]
+    if not boxes:
+        return None
+    S = min(b[0] for b in boxes); W = min(b[1] for b in boxes); N = max(b[2] for b in boxes); E = max(b[3] for b in boxes)
+    near = [c for k, cs in idx.items() for c in cs if not (c[0] > N or c[2] < S or c[1] > E or c[3] < W)]
+    todo = [f for f in feats if (lambda b: b and not any(c[0] <= b[0] and c[1] <= b[1] and b[2] <= c[2] and b[3] <= c[3] for c in near))(_fbox(f))]
+    if not todo:
+        return None
+    cells = cells_from_feats(todo)
+    wait = PAUSE_S - (time.time() - _last_fetch[0])
+    if _last_fetch[0] and wait > 0:
+        log("  pausing %d s (polite)" % wait); time.sleep(wait)
+    t = time.time()
+    try:
+        els, url = fetch(query(cells), log)
+    finally:
+        _last_fetch[0] = time.time()
+    tmp = dst + ".tmp"
+    json.dump({"fetched": time.strftime("%Y-%m-%dT%H:%M:%S"), "mirror": url, "cells_s_w_n_e": cells, "batch": name,
+               "query": query(cells), "elements": els}, open(tmp, "w", encoding="utf-8"), ensure_ascii=False)
+    os.replace(tmp, dst)
+    idx = _cells_index(); idx["city/osm__batch_%s.json" % name] = cells
+    tmp = CELLS_INDEX + ".tmp"; json.dump(idx, open(tmp, "w", encoding="utf-8")); os.replace(tmp, CELLS_INDEX)
+    log("  batch %-20s fetched: %d cells for %d footprints, %d elements (%.1f s, %s)"
+        % (name, len(cells), len(todo), len(els), time.time() - t, url.split("//")[1].split("/")[0]))
+    return dst
+
+
 if __name__ == "__main__":
     for s in [a for a in sys.argv[1:] if not a.startswith("--")]:
         fetch_district(s, refresh="--refresh" in sys.argv)

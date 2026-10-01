@@ -40,7 +40,7 @@ DLD = os.path.join(DATA, "raw_downloads", "dd", "dld__buildings__2026-09-25.csv"
 DM_GLOB_DIR = os.path.join(DATA, "raw_downloads"); DM_PREFIX = "building_summary_information_2026-08-31_"
 STATE = os.path.join(OUT, "_qa_state.json"); SUMMARY = os.path.join(OUT, "QA_SUMMARY.md"); HEAD = os.path.join(OUT, "_summary_head.md")
 REG_CACHE = os.path.join(OUT, "_registers_by_community.json")
-TOL = 0.20; CENT_TOL_M = 1.0; LIVE_MAX_AGE = 3600; POLL_S = 12 * 60; STABLE_S = 30 * 60; MAX_S = 6 * 3600
+TOL = 0.20; TALL_CHECK_M = 20.0; CENT_TOL_M = 1.0; LIVE_MAX_AGE = 3600; POLL_S = 12 * 60; STABLE_S = 30 * 60; MAX_S = 6 * 3600
 RX_TOWER = re.compile(r"\btowers?\b", re.I)
 RX_NOT_TOWER = re.compile(r"\b(water|clock|cooling|telecom|radio|observation|control)\s+tower\b", re.I)
 M_LAT = 110850.0; M_LON = 101200.0          # metres per degree at ~25.1 N
@@ -119,6 +119,17 @@ def valid_rings(f):
     return False
 
 
+HINT_TYPES = {"villa", "townhouse", "lowrise_apt", "tower", "warehouse", "mall", "retail", "school", "mosque", "other"}
+
+
+def differs(typical, hint):
+    """typical_<x> (the heights lane) vs this lane's hint: only a real type conflict counts - typical_small and other
+    size rules are not types, and villa / townhouse are one family (same typical height band)."""
+    if typical not in HINT_TYPES: return False
+    if {typical, hint} <= {"villa", "townhouse"}: return False
+    return typical != hint
+
+
 # ------------------------------------------------------------------ the live twin
 def live_bldgfacts(slug, log=print):
     dst = os.path.join(LIVE, "bldgfacts_%s.json" % slug)
@@ -152,7 +163,7 @@ def live_bldgfacts(slug, log=print):
 def flag(flags, check, sev, ids, detail=None, note=None):
     if not ids and not detail: return
     f = {"check": check, "severity": sev, "n": len(ids) if ids else len(detail or [])}
-    if ids: f["ids"] = sorted(ids)[:500]
+    if ids: f["ids"] = sorted(ids, key=lambda v: (not isinstance(v, int), v if isinstance(v, int) else 0))[:5000]
     if detail: f["detail"] = detail[:60]
     if note: f["note"] = note
     flags.append(f)
@@ -243,26 +254,34 @@ def qa_ce(slug, log=print):
         lb = lbf.get(str(i)) or {}; hl = num(lb.get("height_m"))
         if hl and hl > 0 and abs(h - hl) / hl > TOL:
             diffs_live.append({"i": i, "h": h, "live_h": hl, "hs": pr.get("hs"), "ratio": round(h / hl, 2)})
+        # (02:45: generalised from "exactly 12 m" - the heights lane now fills unknowns with community medians / typical_*,
+        # so a tall building can be drawn at 11.7 m or 8 m instead: any block under 20 m with tall evidence is checked)
         if abs(h - 12.0) < 0.05:
             h12 += 1
-            why = []
-            if hf and hf >= 20: why.append("bldgfacts %.0f m" % hf)
-            if hl and hl >= 20 and hl != hf: why.append("live %.0f m" % hl)
+        if h < TALL_CHECK_M:
+            # evidence as heights (storeys x 3.2 m): strong = a measured / registered source says 20 m+ AND the block is under
+            # 60 % of it (a 6-storey building drawn at 19.2 m is consistent, not a defect)
+            why, ev = [], []
+            if hf and hf >= 20: why.append("bldgfacts %.0f m" % hf); ev.append(hf)
+            if hl and hl >= 20 and hl != hf: why.append("live %.0f m" % hl); ev.append(hl)
             st = num(b.get("storeys")) or num(lb.get("storeys"))
-            if st and st >= 6: why.append("bldgfacts %d storeys" % st)
+            if st and st >= 6: why.append("bldgfacts %d storeys" % st); ev.append(st * 3.2)
             a = a_by_i.get(i) or {}
             lv = num(a.get("levels"))
-            if lv and lv >= 6: why.append("register %d storeys" % lv)
+            if lv and lv >= 6: why.append("register %d storeys" % lv); ev.append(lv * 3.2)
             rh = num(hreg.get(str(i)))
-            if rh and rh >= 20: why.append("heights_register %.0f m" % rh)
+            if rh and rh >= 20: why.append("heights_register %.0f m" % rh); ev.append(rh)
             nm = " / ".join(x for x in {pr.get("n") or "", a.get("name") or "", b.get("name") or "",
                                          (fp[i].get("properties") or {}).get("name") or "" if 0 <= i < n else ""} if x)
-            if nm and RX_TOWER.search(nm) and not RX_NOT_TOWER.search(nm): why.append("name '%s'" % nm[:60])
+            named = bool(nm and RX_TOWER.search(nm) and not RX_NOT_TOWER.search(nm))
+            if named: why.append("name '%s'" % nm[:60])
             t = (th.get(str(i)) or {})
             if t.get("type") == "tower": why.append("type hint tower (%s/%s)" % (t.get("src"), t.get("conf")))
-            if why:
-                t12.append({"i": i, "why": why, "name": nm[:80] or None, "hs": pr.get("hs"),
-                            "strong": any(w.startswith(("bldgfacts", "live", "register", "heights_register")) for w in why)})
+            strong = bool(ev) and max(ev) >= 20 and h < 0.6 * max(ev)
+            soft = not ev and (named or t.get("type") == "tower") and h <= 12.5
+            if strong or soft:
+                t12.append({"i": i, "h": h, "why": why, "evidence_m": round(max(ev), 1) if ev else None, "name": nm[:80] or None,
+                            "hs": pr.get("hs"), "strong": strong})
     # the coordinator's register_lifts_<slug>.json (30 Sep 23:55): register heights the v4 massing already carries but the
     # stale bldgfacts (24 Sep) still shows as 12 m - the explanation, and the fix, for most measured 12 m towers
     lifts = (jload(os.path.join(OUT, "register_lifts_%s.json" % slug), {}) or {}).get("lifts") or {}
@@ -271,9 +290,9 @@ def qa_ce(slug, log=print):
         if lf: x["register_lift_m"] = lf.get("height_m")
     strong = [x for x in t12 if x["strong"]]; weak = [x for x in t12 if not x["strong"]]
     flag(flags, "tower_at_12m", "high", [x["i"] for x in strong], strong,
-         note="block is 12 m but a measured / registered height or storey count says 20 m+ / 6+ storeys")
+         note="block drawn under 20 m (12 m placeholder, community median or typical_*) but a measured / registered height or storey count says 20 m+ / 6+ storeys")
     flag(flags, "tower_at_12m_soft", "medium", [x["i"] for x in weak], weak,
-         note="block is 12 m; only a name or the type hint says tower (no measured height)")
+         note="block drawn under 20 m; only a name or the type hint says tower (no measured height)")
     # a bldgfacts height of exactly 12.0 is the pipeline placeholder: a block that differs from it by a measured source is an
     # improvement, not a conflict - reported apart, at info
     sup = [d for d in diffs if abs(d["bldgfacts_h"] - 12.0) < 0.05 and d.get("hs") not in ("unknown", "default12", None)]
@@ -295,6 +314,28 @@ def qa_ce(slug, log=print):
     drift = [k for k, v in bf.items() if k in lbf and num(v.get("height_m")) != num(lbf[k].get("height_m"))] if live else []
     flag(flags, "local_vs_live_bldgfacts_drift", "info", [int(k) for k in drift],
          note="data/board/bldgfacts_%s.json height_m differs from the live twin's for these" % slug)
+    # 02:50 - district-wide fills (community_median): one median for every unknown block, so in a tower district a 40 m2
+    # guardhouse becomes a 90 m needle, and in JVC a G+4 block becomes a 6 m bungalow
+    needles, flat, tall_other = [], [], []
+    cm_h = Counter()
+    for f in B:
+        pr = f["properties"]; hs_ = str(pr.get("hs") or "")
+        if not hs_.startswith(("community_median", "district_median")): continue
+        h = num(pr.get("h")) or 0; cm_h[round(h, 1)] += 1
+        _, area = geom_centroid(f.get("geometry"))
+        t = (th.get(str(pr.get("i"))) or {}).get("type")
+        if h >= 25 and area < 200:
+            needles.append({"i": pr["i"], "h": h, "area_m2": round(area), "type_hint": t})
+        elif h >= 25 and t == "other":
+            tall_other.append({"i": pr["i"], "h": h, "area_m2": round(area), "type_hint": t})
+        elif h < 9 and t in ("tower", "lowrise_apt", "mall", "school"):
+            flat.append({"i": pr["i"], "h": h, "area_m2": round(area), "type_hint": t})
+    flag(flags, "median_fill_needle", "high", [x["i"] for x in needles], sorted(needles, key=lambda x: x["area_m2"]),
+         note="community_median of 25 m+ on a footprint under 200 m2: a guardhouse / shed / kiosk drawn as a tower")
+    flag(flags, "median_fill_tall_on_other", "medium", [x["i"] for x in tall_other], sorted(tall_other, key=lambda x: x["area_m2"]),
+         note="community_median of 25 m+ on a 200 m2+ footprint the type hints call 'other' (podium, car park, service block?)")
+    flag(flags, "median_fill_flattens_block", "medium", [x["i"] for x in flat], flat,
+         note="community_median under 9 m on a footprint typed tower / lowrise_apt / mall / school")
     tall = sorted(({"i": f["properties"]["i"], "h": f["properties"]["h"], "n": f["properties"].get("n")} for f in B
                    if (num(f["properties"].get("h")) or 0) > 300), key=lambda x: -x["h"])
     flag(flags, "over_300m_review", "info", [x["i"] for x in tall], tall)
@@ -307,7 +348,7 @@ def qa_ce(slug, log=print):
         if hs.startswith("typical_"):
             want = hs[len("typical_"):]
             typ_conf["%s/%s" % (hs, t.get("conf"))] += 1
-            if th and t.get("type") and t.get("type") != want: typ_mis.append({"i": pr["i"], "hs": hs, "type_hint": t.get("type")})
+            if th and t.get("type") and differs(want, t.get("type")): typ_mis.append({"i": pr["i"], "hs": hs, "type_hint": t.get("type")})
             if t.get("conf") == "low": typ_low.append({"i": pr["i"], "hs": hs, "type_hint_src": t.get("src")})
         elif hs in ("unknown", "default12") and t.get("type") in ("villa", "townhouse", "warehouse") and t.get("conf") in ("high", "medium"):
             pending.append(pr["i"])
@@ -326,11 +367,11 @@ def qa_ce(slug, log=print):
         "counts": {"blocks": len(B), "footprints": n, "drawable_footprints": len(drawable), "streets": len(S), "missing": len(miss_draw),
                    "missing_no_geometry": len(miss_nogeom), "extra": len(extra) + len(bad_id), "duplicates": len(dup),
                    "id_geometry_mismatch": len(shifted), "h_12m": h12, "tower_at_12m": len(strong), "tower_at_12m_explained_by_register_lifts": sum(1 for x in strong if x.get("register_lift_m")),
-                   "tower_at_12m_soft": len(weak),
+                   "tower_at_12m_soft": len(weak), "median_fill": sum(cm_h.values()), "median_fill_needles": len(needles), "median_fill_tall_on_other": len(tall_other), "median_fill_flat": len(flat),
                    "height_diff_gt20pct": len(diffs), "height_diff_live_only_gt20pct": len(live_only), "bldgfacts_placeholder_superseded": len(sup), "implausible": len(implaus),
                    "typical_heights": sum(typ_conf.values()), "type_hint_not_yet_applied": len(pending), "bldgfacts_rows": len(bf), "live_bldgfacts_rows": len(lbf), "local_vs_live_drift": len(drift)},
         "height_sources": dict(hs_count.most_common()), "twin_id_map": twin_map, "live_bldgfacts": live_how,
-        "type_hints": bool(th), "typical_by_hint_conf": dict(typ_conf.most_common()), "flags": flags, "status": status,
+        "type_hints": bool(th), "typical_by_hint_conf": dict(typ_conf.most_common()), "median_fill_heights": dict(cm_h.most_common(4)), "flags": flags, "status": status,
     }
 
 
@@ -575,13 +616,30 @@ def qa_city(slug, log=print):
     typ_mis, pending = [], []
     for f in B:
         pr = f["properties"]; hs_ = str(pr.get("hs") or ""); t = th.get(str(pr.get("i"))) or {}
-        if hs_.startswith("typical_") and th and t.get("type") and t.get("type") != hs_[len("typical_"):]:
+        if hs_.startswith("typical_") and th and t.get("type") and differs(hs_[len("typical_"):], t.get("type")):
             typ_mis.append({"i": pr.get("i"), "hs": hs_, "type_hint": t.get("type")})
         elif hs_ in ("default12", "unknown") and t.get("type") in ("villa", "townhouse", "warehouse") and t.get("conf") in ("high", "medium"):
             pending.append(pr.get("i"))
     flag(flags, "typical_height_vs_type_hint", "low", [x["i"] for x in typ_mis], typ_mis)
     flag(flags, "type_hint_not_yet_applied", "info", pending,
          note="default 12 m block whose city type hint (medium/high) is villa / townhouse / warehouse")
+    needles, flat, tall_other = [], [], []
+    for f in B:
+        pr = f["properties"]; hs_ = str(pr.get("hs") or "")
+        if not hs_.startswith(("community_median", "district_median")): continue
+        h = num(pr.get("h")) or 0
+        _, area = geom_centroid(f.get("geometry"))
+        t = (th.get(str(pr.get("i"))) or {}).get("type")
+        if h >= 25 and area < 200:
+            needles.append({"i": pr.get("i"), "h": h, "area_m2": round(area), "type_hint": t})
+        elif h >= 25 and t == "other":
+            tall_other.append({"i": pr.get("i"), "h": h, "area_m2": round(area), "type_hint": t})
+        elif h < 9 and t in ("tower", "lowrise_apt", "mall", "school"):
+            flat.append({"i": pr.get("i"), "h": h, "area_m2": round(area), "type_hint": t})
+    flag(flags, "median_fill_needle", "high", [x["i"] for x in needles], sorted(needles, key=lambda x: x["area_m2"]),
+         note="community_median of 25 m+ on a footprint under 200 m2: a shed / kiosk drawn as a tower")
+    flag(flags, "median_fill_tall_on_other", "medium", [x["i"] for x in tall_other], sorted(tall_other, key=lambda x: x["area_m2"]))
+    flag(flags, "median_fill_flattens_block", "medium", [x["i"] for x in flat], flat)
     hs = Counter(str((f["properties"] or {}).get("hs") or "(none)") for f in B)
     hv = sorted(num(f["properties"].get("h")) or 0 for f in B)
     sev = Counter(f["severity"] for f in flags)
@@ -594,7 +652,7 @@ def qa_city(slug, log=print):
                    "dm_buildings": dm_b, "dm_parcels": dm_p, "dm_types": dme[0]["types"] if dme else None,
                    "dld_buildings": dld_n or None, "blocks_per_dm_building": round(nb / dm_b, 2) if dm_b else None,
                    "blocks_per_dm_parcel": round(nb / dm_p, 2) if dm_p else None, "blocks_per_dld_building": round(nb / dld_n, 2) if dld_n else None,
-                   "ml_footprint_share": ml_share, "type_hints": bool(th), "type_hint_not_yet_applied": len(pending),
+                   "ml_footprint_share": ml_share, "median_fill_needles": len(needles), "median_fill_tall_on_other": len(tall_other), "median_fill_flat": len(flat), "type_hints": bool(th), "type_hint_not_yet_applied": len(pending),
                    "typical_heights": sum(1 for f in B if str(f["properties"].get("hs") or "").startswith("typical_")), "median_h": hv[len(hv) // 2] if hv else None, "boundary_km2": round(bnd_area / 1e6, 3) if bnd_area else None},
         "height_sources": dict(hs.most_common()), "flags": flags,
         "status": "FAIL" if sev.get("high") else "WARN" if sev.get("medium") else "OK",
@@ -657,19 +715,22 @@ def write_summary(st):
         if kind == "ce":
             hs_ = r.get("height_sources") or {}
             unk = sum(v for k_, v in hs_.items() if k_ in ("unknown", "default12", "(none)"))
-            rows_ce.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s / %s / %s | %s | %s |" % (
+            rows_ce.append("| %s | %s | %s | %s | %s | %s | %s | %s | %s | %s / %s / %s | %s | %s |" % (
                 slug, c.get("blocks", "-"), c.get("footprints", "-"), c.get("missing", "-"), c.get("extra", "-"),
                 "%s%s (+%s soft)" % (c.get("tower_at_12m", "-"), (" [%d in register_lifts]" % c["tower_at_12m_explained_by_register_lifts"])
                                      if c.get("tower_at_12m_explained_by_register_lifts") else "", c.get("tower_at_12m_soft", 0)),
-                c.get("height_diff_gt20pct", "-"), c.get("id_geometry_mismatch", "-"), unk, c.get("typical_heights", "-"), c.get("type_hint_not_yet_applied", "-"),
+                c.get("height_diff_gt20pct", "-"), c.get("id_geometry_mismatch", "-"),
+                "%s / %s" % (c.get("median_fill_needles", "-"), c.get("median_fill_flat", "-")),
+                unk, c.get("typical_heights", "-"), c.get("type_hint_not_yet_applied", "-"),
                 (r.get("blocks_mtime") or "")[5:16].replace("T", " "), r.get("status")))
         else:
             hs_ = r.get("height_sources") or {}
             dflt = sum(v for k_, v in hs_.items() if k_ in ("default12", "unknown"))
-            rows_city.append("| %s | %s | %s | %s / %s | %s | %s / %s | %s | %s | %s%% | %s / %s | %s |" % (
+            rows_city.append("| %s | %s | %s | %s / %s | %s | %s / %s | %s | %s | %s | %s%% | %s / %s | %s |" % (
                 slug, c.get("blocks", "-"), ", ".join("%s %s" % (x["comm_num"], x["name"]) for x in r.get("communities") or []) or "?",
                 c.get("dm_parcels", "-"), c.get("dm_buildings", "-"), c.get("dld_buildings", "-"), c.get("outside_25_250m", "-"),
                 c.get("outside_gt250m", "-"), c.get("double_draw", "-"), c.get("implausible", "-"),
+                "%s / %s" % (c.get("median_fill_needles", "-"), c.get("median_fill_flat", "-")),
                 round(100.0 * dflt / c["blocks"]) if c.get("blocks") else "-",
                 ("yes" if c.get("type_hints") else "not yet"), c.get("type_hint_not_yet_applied", "-"), r.get("status")))
     tot = Counter()
@@ -682,14 +743,14 @@ def write_summary(st):
         "medium only (>20 %% height differences vs a real bldgfacts height, name-only 12 m towers, not-in-twin ids, register-count " \
         "outliers). The ids and details are in the per-district JSON.\n\n" % (
             datetime.datetime.fromtimestamp(st.get("_last_pass", time.time())).strftime("%Y-%m-%d %H:%M"), dict(tot))
-    txt += "### Twin districts (data/ce/<slug>/blocks.json)\n\n| district | blocks | footprints | missing | extra | 12 m-towers | >20% height diffs (vs bldgfacts) | id/geometry shifts | 12 m unknown / typical_* / hint not yet applied | blocks mtime | status |\n|---|---|---|---|---|---|---|---|---|---|---|\n"
+    txt += "### Twin districts (data/ce/<slug>/blocks.json)\n\n| district | blocks | footprints | missing | extra | 12 m-towers (any tall building drawn < 20 m) | >20% height diffs (vs bldgfacts) | id/geometry shifts | median-fill needles / flattened | 12 m unknown / typical_* / hint not yet applied | blocks mtime | status |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n"
     txt += "\n".join(rows_ce) + "\n"
     txt += "\n### Beyond-51 districts (data/blocks_city/<slug>/blocks.json)\n\n"
     if rows_city:
         txt += ("Register counts are sanity bands, not truth: DM rows are permits (a villa plot carries several), DM parcels undercount "
                 "multi-building plots, DLD areas are matched by name. A `_rest` slug is compared together with its twin district.\n\n"
-                "| district | blocks | DM community | DM parcels / building rows | DLD buildings | outside 25-250 m / >250 m | double-draw with twin | implausible h | 12 m default | type hints / hint not yet applied | status |\n"
-                "|---|---|---|---|---|---|---|---|---|---|---|\n" + "\n".join(rows_city) + "\n")
+                "| district | blocks | DM community | DM parcels / building rows | DLD buildings | outside 25-250 m / >250 m | double-draw with twin | implausible h | median-fill needles / flattened | 12 m default | type hints / hint not yet applied | status |\n"
+                "|---|---|---|---|---|---|---|---|---|---|---|---|\n" + "\n".join(rows_city) + "\n")
     else:
         txt += "None on disk yet (data/blocks_city/ %s).\n" % ("exists, empty" if os.path.isdir(CITY) else "does not exist")
     # one machine-readable list for the heights agent: every twin block at 12 m that a measured / registered source says is tall
@@ -704,9 +765,21 @@ def write_summary(st):
                                 "why": d.get("why"), "name": d.get("name"), "hs": d.get("hs"), "register_lift_m": d.get("register_lift_m"),
                                 "blocks_mtime": r.get("blocks_mtime")})
     jdump({"generated": datetime.datetime.now().isoformat(timespec="seconds"), "research_only": True,
-           "what": "twin blocks drawn at 12 m where bldgfacts / live twin / DLD register storeys / heights_register (or only a name / "
+           "what": "twin blocks drawn under 20 m (12 m placeholder, community median or typical_*) where bldgfacts / live twin / DLD register storeys / heights_register (or only a name / "
                    "type hint: strength 'name/type only') say 20 m+ or 6+ storeys. Detail capped at 60 per district per check; full ids "
                    "in qa_<slug>.json.", "n": len(t12), "rows": t12}, os.path.join(OUT, "QA_TOWERS_AT_12M.json"), indent=1)
+    # and one for the median-fill needles: every block a district-wide median raised to 25 m+ on a footprint under 200 m2
+    nd = {}
+    for kind, slug, p in targets():
+        r = jload(os.path.join(OUT, "qa_%s%s.json" % ("city_" if kind == "city" else "", slug))) or {}
+        for f in r.get("flags") or []:
+            if f.get("check") == "median_fill_needle":
+                nd["%s/%s" % (kind, slug)] = {"n": f.get("n"), "ids": f.get("ids"), "examples": (f.get("detail") or [])[:5],
+                                              "blocks_mtime": r.get("blocks_mtime")}
+    jdump({"generated": datetime.datetime.now().isoformat(timespec="seconds"), "research_only": True,
+           "what": "blocks whose hs is community_median and h >= 25 m on a footprint under 200 m2 (guardhouses, kiosks, sheds drawn as "
+                   "towers). Key = kind/slug; ids = block i.", "n": sum(v["n"] or 0 for v in nd.values()), "districts": nd},
+          os.path.join(OUT, "QA_MEDIAN_NEEDLES.json"), indent=1)
     tmp = SUMMARY + ".tmp"
     open(tmp, "w", encoding="utf-8").write(txt)
     os.replace(tmp, SUMMARY)
@@ -726,7 +799,7 @@ def main():
         quiet = time.time() - st.get("_last_change", t0) >= STABLE_S
         print("%s pass: %d re-QA'd, all QA'd=%s, quiet=%s" % (datetime.datetime.now().strftime("%H:%M"), len(ch), done, quiet), flush=True)
         city_seen = os.path.isdir(CITY) and any(k == "city" for k, _, _ in targets())
-        if done and quiet and os.path.exists(os.path.join(OUT, "_typehints_done")) and city_seen:
+        if done and quiet and os.path.exists(os.path.join(OUT, "_typehints_done")) and os.path.exists(os.path.join(OUT, "_city_hints_done")) and city_seen:
             print("stable for 30 min - stopping", flush=True); break
 
 

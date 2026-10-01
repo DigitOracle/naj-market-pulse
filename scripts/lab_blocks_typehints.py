@@ -52,7 +52,7 @@ LABBT = os.path.join(ROOT, "data", "lab", "buildingtype")
 OUT = os.path.join(ROOT, "data", "lab", "blocks"); os.makedirs(OUT, exist_ok=True)
 LOG_MD = os.path.join(OUT, "TYPE_HINTS_LOG.md")
 CITY = os.path.join(ROOT, "data", "blocks_city"); CITY_OUT = os.path.join(OUT, "city"); os.makedirs(CITY_OUT, exist_ok=True)
-CITY_REV = 2          # 2: only per-building measured heights count as heights (rev 1 read community medians as heights)
+CITY_REV = 5          # 2: measured heights only; 3: DM community prior; 4: prior only where DM covers; 5: not-villa veto -> warehouse in industrial communities (only those were re-run; others stay 4)
 TYPES = ["villa", "townhouse", "lowrise_apt", "tower", "warehouse", "mall", "retail", "school", "mosque", "other"]
 MALL_M2 = 8000.0
 CONF_OF = {"tag": "high", "tag+levels": "high", "amenity": "high", "tag+area": "medium"}
@@ -123,6 +123,34 @@ def heuristic2(P, area, storeys, hbest, ctx):
         45-60 % of the >= 6 footprints within 150 m are villa-sized and low, no footprint within 150 m has a real height of
         20 m+ or a tower tag, and no typed neighbour majority says blocks, warehouses or shops.
     Both are low confidence."""
+    t, basis, conf = _heuristic2_core(P, area, storeys, hbest, ctx)
+    # city rev 3 - the DM register as a COMMUNITY prior, for rows only geometry typed (never over a tag, grounds, height or
+    # neighbour vote). Old villa plots carry a villa plus majlis / annex / garage footprints, and those small pieces dilute the
+    # villa-fabric test: in Al Twar Third 63 % of footprints are < 100 m2 and 89 % came out 'other'. Where >= 80 % of the
+    # community's DM-permitted buildings are villas, a low 90-900 m2 footprint with no tall neighbour is a villa (medium);
+    # where >= 60 % are industrial, an unmeasured 300 m2+ footprint is a warehouse (medium). City only (twin hints unchanged).
+    pr = ctx.get("dm_prior")
+    if pr and basis.startswith("geometry") and basis != "geometry:tiny":
+        if pr["villa"] >= 0.8 and pr["coverage"] >= 0.25 and 90 <= area <= 900 and (storeys or 0) <= 3 and not ctx.get("tall_near") and not (hbest and hbest >= L.TALL_M):
+            return L.row_or_villa(P, area), "dm_prior:villa", "medium"
+        if pr["industrial"] >= 0.6 and pr["coverage"] >= 0.25 and area >= 300 and not hbest:
+            return "warehouse", "dm_prior:industrial", "medium"
+        # and the veto: where <= 15 % of permitted buildings are villas (Karama: 5 %, G+3/G+4 blocks on a 12 m placeholder look
+        # like villa fabric to the geometry test), a geometry-only villa / townhouse is an apartment block, not a villa
+        # (only where the register covers the community well: DM does not permit in free zones and master communities, where a
+        # low villa share means "not in the register", not "not villas" - Al Thanyah 5's Springs / Meadows show 3 %)
+        if pr["villa"] <= 0.15 and pr["coverage"] >= 0.8 and t in L.VILLAISH:
+            if pr["industrial"] >= 0.4 and area >= 150:
+                # rev 5: in an industrial community the low villa-sized box is a workshop / warehouse, not an apartment block
+                return "warehouse", "dm_prior:not-villa", ("medium" if pr["industrial"] >= 0.6 else "low")
+            return ("lowrise_apartment", "dm_prior:not-villa", "medium") if area >= 150 else ("other", "dm_prior:not-villa", "low")
+        # a geometry-only 'warehouse' (a plain box) where <= 5 % of permitted buildings are industrial is some other block
+        if pr["industrial"] <= 0.05 and pr["coverage"] >= 0.8 and t == "warehouse":
+            return ("other" if pr["villa"] >= 0.8 else "lowrise_apartment"), "dm_prior:not-industrial", "low"
+    return t, basis, conf
+
+
+def _heuristic2_core(P, area, storeys, hbest, ctx):
     t, basis, conf = L.heuristic(P, area, storeys, hbest, ctx)
     if basis in ("geometry:area", "geometry:bigbox", "geometry:bigbox-irregular", "geometry:small"):
         v = ctx.get("votes") or Counter(); tot = sum(v.values())
@@ -185,6 +213,15 @@ def run(slug, log=print, city=False):
         if a.get("i") is not None and a["i"] not in a_by_i:
             a_by_i[a["i"]] = a
     bf = (aux(os.path.join(BOARD, "bldgfacts_%s.json" % slug), {}) or {}).get("buildings_by_id") or {}
+    dm_prior = None
+    if city:
+        cn = str((jload(os.path.join(CITY, slug, "meta.json"), {}) or {}).get("comm_num") or "")
+        e = ((jload(os.path.join(OUT, "_registers_by_community.json"), {}) or {}).get("dm") or {}).get(cn)
+        if e and sum((e.get("types") or {}).values()) >= 30:
+            ty = e["types"]; tot = float(sum(ty.values()))
+            dm_prior = {"comm_num": cn, "dm_buildings": int(tot), "coverage": round(tot / max(1, len(feats)), 2),
+                        "villa": round((ty.get("Private Villa", 0) + ty.get("Investment Villa", 0)) / tot, 3),
+                        "industrial": round(ty.get("Industrial Building", 0) / tot, 3)}
 
     O = L.osm_polys(bel)
     tree = STRtree([p for p, _ in O]) if O else None
@@ -258,7 +295,7 @@ def run(slug, log=print, city=False):
     ctree = STRtree([cents[i] for i in cidx]) if cidx else None
 
     def context(i, P, exclude_self_type=False):
-        c = P.centroid; out = {}
+        c = P.centroid; out = {"dm_prior": dm_prior}
         for pg, t in grounds:
             if pg.contains(c):
                 a_ = t.get("amenity"); out["grounds"] = "mosque" if a_ == "place_of_worship" else "hospital" if a_ == "hospital" else "school"; break
@@ -365,6 +402,7 @@ def run(slug, log=print, city=False):
     if city:
         out.update(cinfo)
         out["city_rev"] = CITY_REV
+        out["dm_prior"] = dm_prior
         out["key"] = ("i = the building feature's own \"i\" in %s (0..n-1, file order) as of blocks_mtime; if that file is rebuilt "
                       "with a different blocks_buildings count, re-run these hints" % cinfo["blocks_file"])
     dst = os.path.join(CITY_OUT if city else OUT, "type_hints_%s.json" % slug); tmp = dst + ".tmp"
@@ -430,13 +468,34 @@ def main_city():
             todo.append(s)
         if not todo: break
         print("city round %d: %d communities" % (rnd + 1, len(todo)), flush=True)
-        for s in todo:
+        for k, s in enumerate(todo):
+            # batch the small ones: one query for up to 8 pending small communities (<= 1,000 footprints each, <= 4,000 in all)
+            def small(x):
+                return ((jload(os.path.join(CITY, x, "meta.json"), {}) or {}).get("buildings") or 0) <= 1000 \
+                    and not os.path.exists(os.path.join(F.CITY_OUT, "osm_%s.json" % x))
+            if small(s) and F.uncovered([f for f in load_city(s)[0] if f.get("geometry")]):   # (a previous batch may cover it)
+                grp, nfp = [], 0
+                for x in todo[k:]:
+                    if len(grp) >= 8: break
+                    if not small(x): continue
+                    fx = [f for f in load_city(x)[0] if f.get("geometry")]
+                    if grp and nfp + len(fx) > 4000: break
+                    grp.append((x, fx)); nfp += len(fx)
+                if len(grp) > 1:
+                    try:
+                        F.fetch_batch(s, [f for _, fx in grp for f in fx], log=lambda x: print(x, flush=True))
+                        print("  batch %s covers %s" % (s, ", ".join(x for x, _ in grp)), flush=True)
+                    except Exception as e:
+                        print("  batch %s failed (%s) - per-community queries instead" % (s, str(e)[:120]), flush=True)
             try:
                 o, secs = run(s, log=lambda x: print(x, flush=True), city=True)
                 line = log_line(o, secs); append_log(line); print(line, flush=True)
             except Exception as e:
                 traceback.print_exc()
                 append_log("- %s | **%s** | FAILED: %s (retried in the next round)" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M"), s, str(e)[:200]))
+    if not only:
+        open(os.path.join(OUT, "_city_hints_done"), "w").write(datetime.datetime.now().isoformat(timespec="seconds"))
+        append_log("- %s | city queue finished" % datetime.datetime.now().strftime("%Y-%m-%d %H:%M"))
 
 
 def main():
