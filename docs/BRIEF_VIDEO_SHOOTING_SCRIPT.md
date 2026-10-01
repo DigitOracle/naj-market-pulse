@@ -21,21 +21,19 @@ narrative's steps are then re-checked against the new flow before filming; any c
 [ THE GOLDEN STAR 10.05 s ] → [ SOPHIE'S QUESTION 10 s ] → [ THE BRIEF + Naj, 96.9 s ]   ≈ 1:57
 ```
 
-The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. She records
-a video message to Naj from a serviced apartment, the kind people stay in during their first weeks. This is what the
-narrative calls "a client asked me on WhatsApp".
+The client is fictional: Sophie, a British professional in her late twenties who is relocating for work. **She types
+her request to Naj in WhatsApp (Kendall, 1 Oct)**. She is silent and no words are spoken. This is the narrative's "a client asked me on
+WhatsApp". Seedance can't be trusted to render readable text on a phone screen, so the screen faces away from the camera, and the message
+is added in post as a plain chat bubble that types itself out over the shot. It carries no WhatsApp logo or branding.
 
-**The line:** 25 words, about 9.1 s.
+**The message (the bubble text):**
 
-> **"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"**
+> Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around 65k a year. Can you help?
 
 ### Reference image — Sophie (paste into ChatGPT, image generation)
 
 ```
-A photorealistic reference photograph of a British woman of about twenty-eight, chest-up, against a plain soft-grey
-studio wall, even soft daylight. Shoulder-length straight dark-blonde hair, light make-up, small gold stud earrings,
-a plain white linen shirt. Calm, friendly, natural expression, looking at the camera. Natural skin, natural
-proportions. Vertical 9:16, 50mm lens, sharp focus. No text, no logos, no other people, no props.
+A photorealistic reference photograph of a British woman of about twenty-eight, chest-up, against a plain soft-grey studio wall, even soft daylight. Shoulder-length straight dark-blonde hair, light make-up, small gold stud earrings, a plain white linen shirt. Calm, friendly, natural expression, looking at the camera. Natural skin, natural proportions. Vertical 9:16, 50mm lens, sharp focus. No text, no logos, no other people, no props.
 ```
 
 She is generated and fictional. No real person is depicted.
@@ -45,41 +43,33 @@ She is generated and fictional. No real person is depicted.
 Settings: 9:16, 10 s rather than Auto, Enhance prompt OFF, 1080p. Put Sophie's image in slot 1.
 
 ```
-DIALOGUE (the only words spoken in this shot, by the woman from reference 1, once):
-"Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC, around
-sixty-five thousand a year. Can you help?"
+NO DIALOGUE. Nobody speaks in this shot. Only quiet room sound and soft phone key taps.
 
-A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face,
-hair and clothing - sitting at a small desk by the window of a modern Dubai serviced apartment. An open suitcase and a
-folded jacket on the bed behind her, a laptop closed beside her, soft out-of-focus towers through the window, warm
-late-afternoon light from the side. Real, a little unsettled, mid-move. Not a showroom.
+A cinematic vertical 9:16 shot, ten seconds, of the woman from reference 1, exactly as in the reference - same face, hair and clothing - sitting on the edge of a bed in a modern Dubai serviced apartment, mid-move: an open suitcase beside her, a folded jacket, a large window behind with soft out-of-focus towers, warm late-afternoon light from the side. Real, a little unsettled. Not a showroom.
 
-She is recording a video message on her phone, held at arm's length just below the frame, so she looks almost straight
-into the lens, as if into her phone's front camera. The phone itself is never visible.
+She holds a plain dark smartphone in both hands at chest height and types a message with her thumbs. The phone screen faces her, away from the camera, so the screen is never visible to the viewer.
 
-0-0.5 s: silent. She is settled, looking at the lens.
-0.5-9.5 s: she speaks warmly, with a natural British accent, in two easy breaths, to Naj: "Hi Naj, I'm Sophie. I start
-a new job in Dubai next month. I need a one-bed in JVC, around sixty-five thousand a year. Can you help?"
-On "around sixty-five thousand" she gives a small, hopeful shrug.
-9.5-10 s: silent. A small hopeful smile, eyebrows slightly raised, waiting for the answer. Completely still.
+0-1 s: she looks down at the phone, thinking, thumb hovering.
+1-7 s: she types steadily with both thumbs, pauses once briefly to think, then carries on. A small, focused expression.
+7-8 s: she taps send with one thumb, a small decisive tap.
+8-10 s: she lowers the phone slightly, glances up toward the window, a small hopeful smile, then holds still.
 
-PRONUNCIATION: "JVC" is three separate letters, JAY - VEE - SEE.
-
-CAMERA: static camera for the whole shot, chest-up, 35mm, shallow depth of field. No pan, tilt, push or drift.
-No camera, tripod, phone, crew or equipment visible anywhere in the shot.
+CAMERA: static camera for the whole shot, medium shot from the waist up, slightly to her side, 50mm, shallow depth of field. No pan, tilt, push or drift. No camera, tripod, crew or equipment visible anywhere in the shot.
 GRADE: natural daylight, warm but not orange; skin looks like skin. Documentary, not advert.
 
-DO NOT: say any words except "Hi Naj, I'm Sophie. I start a new job in Dubai next month. I need a one-bed in JVC,
-around sixty-five thousand a year. Can you help?" - nothing before, nothing after, no greeting, no reaction line. Do
-not add other people or pets. Do not add text, captions, subtitles, logos or watermarks. Do not move the camera. No
-music cues, lens flares or particles.
+DO NOT: let anyone speak or mouth words. Do not show the phone screen or any text on it. Do not add other people or pets. Do not add text, captions, subtitles, chat bubbles, logos or watermarks - the message is added later. Do not move the camera. No music cues, lens flares or particles.
 ```
 
+**In post (I build it):**
+- The bubble types itself out from about 1 s to 7 s.
+- It shows "sent" with the double ticks at the 7.5 s send tap, and holds to 10 s.
+- It sits in the upper third, inside the 9:16 safe zone, with no WhatsApp logo.
+
 **Check the render before use:**
-- Transcribe it with faster_whisper, word timestamps.
-- Every word must be there, with "JVC" as letters and "sixty-five thousand".
-- "Naj" must be said the way the opener says it.
-- Her face must hold for the full ten seconds.
+- She never mouths words.
+- The phone screen is never visible.
+- The send tap lands near 7-8 s.
+- Her face holds for the full ten seconds.
 
 ## 1 · NAJ (HeyGen), ~80 s
 
