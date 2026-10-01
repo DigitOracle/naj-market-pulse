@@ -44,7 +44,19 @@ Usage:
   python scripts/pf_listings.py crawl --all-bound [--max-requests N]
   python scripts/pf_listings.py report [--building slug] [--date YYYY-MM-DD]
   python scripts/pf_listings.py report --district jumeirahvillagecircle      -> data/listings/pf_supply_<district>.json
+  python scripts/pf_listings.py bind-locations --community damac-hills --district damachills [--max-requests 120] [--dry]
 Every run appends its summary to data/listings/pf_run_<date>.json.
+
+Location bindings (1 Oct 2026, for villa / townhouse communities). Towers are bound by `discover` (TOWER locations seen in
+listings). A villa community has no towers: its clusters are Property Finder SUBCOMMUNITY locations ('Carson', 'The Park
+Villas > Topanga'). `bind-locations` reads that tree from the community's own villas / townhouses / apartments rent pages
+(pageMeta.aggregationLinks, the same robots-allowed slug pages; one level of children per subcommunity) and binds a location
+to a DLD project of the district register (beds_left_<district>.json, else a VERIFIED anchor) only when the names agree once
+the community name is taken off both ('DAMAC HILLS - CARSON' = 'Carson'; 'Veneto at Damac Hills' = 'DAMAC HILLS-VENETO'), or
+differ only by a doubled letter ('Picadilly' / 'PICCADILLY', method pf_location_spelling). Everything else goes to the review
+list in data/listings/pf_bindings_<district>.json; nothing is guessed. A listing is counted once, under the most specific
+bound location in its own location tree (a bound child, e.g. 'Silver Springs 3', owns its adverts; its bound parent 'Silver
+Springs' keeps the rest). A register key 'dld:<project>' belongs to the district whose beds_left file holds it.
 """
 import argparse, datetime as dt, hashlib, json, os, random, re, statistics, sys, time
 from urllib.parse import urlsplit
@@ -1018,18 +1030,71 @@ def resolve_buildings(con, wanted):
     return out
 
 
+def district_dld_keys(district):
+    """Register keys of the district's beds_left file that do not carry the district prefix ('dld:damachillscarson'-style:
+    a DLD project with no app building id). They belong to this district because its beds_left file holds them."""
+    bl = os.path.join(ROOT, "data", "dld", "beds_left", "beds_left_%s.json" % district)
+    try:
+        rows = json.load(open(bl, encoding="utf-8")).get("rows", [])
+    except Exception:
+        return []
+    return sorted({r.get("key") for r in rows if r.get("key") and not r["key"].startswith(district + ":")})
+
+
+def key_in_district(key, district, dld_keys=None):
+    if not key:
+        return False
+    if key.startswith(district + ":"):
+        return True
+    return key in (dld_keys if dld_keys is not None else district_dld_keys(district))
+
+
+def district_key_sql(district, col='"key"'):
+    """SQL fragment + params: the alias key belongs to `district` (prefix 'district:' or one of its beds_left dld: keys)."""
+    return "(%s like ? or %s in (select unnest(?::varchar[])))" % (col, col), [district + ":%", district_dld_keys(district)]
+
+
 def bound_buildings(con, district=None):
-    """Alias rows with a register key: for one district (key prefix 'district:') or all. Ordered by district, slug."""
+    """Alias rows with a register key: for one district (key prefix 'district:', or a dld: key of its beds_left file) or all.
+    Ordered by district, slug."""
     if con is None:                                            # lake off-limits: the lake-free copy written by every discover
-        rows = [r for r in alias_file_rows() if r.get("key") and (not district or r["key"].startswith(district + ":"))]
+        dk = district_dld_keys(district) if district else None
+        rows = [r for r in alias_file_rows() if r.get("key") and (not district or key_in_district(r["key"], district, dk))]
         return [r["building_slug"] for r in sorted(rows, key=lambda r: (r["key"].split(":")[0], r["building_slug"]))]
     sql = 'select building_slug from lst_building_alias where portal = ? and "key" is not null'
     params = [PORTAL]
     if district:
-        sql += ' and "key" like ?'
-        params.append(district + ":%")
+        frag, p = district_key_sql(district)
+        sql += " and " + frag
+        params += p
     sql += ' order by split_part("key", \':\', 1), building_slug'
     return [r[0] for r in con.execute(sql, params).fetchall()]
+
+
+def location_tails(p):
+    """The SEO tails of a listing's own location tree, root first (SUBCOMMUNITY / TOWER nodes, then its own location)."""
+    out = []
+    for t in (p.get("location_tree") or []):
+        if (t.get("type") or "").upper() in ("SUBCOMMUNITY", "TOWER") and t.get("slug"):
+            tl = tower_tail(t)
+            if tl and tl not in out:
+                out.append(tl)
+    own = tower_tail(p.get("location") or {})
+    if own and own not in out:
+        out.append(own)
+    return out
+
+
+def owned_elsewhere(p, tail, bound):
+    """The bound location deeper than `tail` in this listing's own tree, if any: the listing is counted there, not under
+    `tail`. None when `tail` is the most specific bound location (always so for a tower with no bound child)."""
+    tails = location_tails(p)
+    if tail not in tails:
+        return None
+    for deeper in tails[tails.index(tail) + 1:]:
+        if deeper in bound:
+            return deeper
+    return None
 
 
 def crawl(args):
@@ -1040,6 +1105,8 @@ def crawl(args):
     # first request; no lake handle exists while requests are in flight; one short write window at the end.
     rcon = _ro_con()
     try:
+        bound_all = set(bound_buildings(rcon))                 # for the one-owner rule: a listing counts under its deepest bound location
+        loc_names = {r["building_slug"]: r.get("building_name") for r in alias_file_rows() if (r.get("method") or "").startswith("pf_location")}
         if args.all_bound:
             buildings = bound_buildings(rcon)                  # rcon None -> pf_aliases.json
             scope = "all-bound"
@@ -1063,8 +1130,8 @@ def crawl(args):
     snap, per_building, path_seen = [], {}, None
     completed, partial = [], None                              # a building cut by the cap/stop is not written: counts stay whole
     for tail in buildings:
-        page, page_count, n_b = 1, 1, 0
-        bname = None
+        page, page_count, n_b, n_else = 1, 1, 0, 0
+        bname = loc_names.get(tail)                            # a bound SUBCOMMUNITY keeps its own name, not its first tower's
         tb0, treq0 = time.time(), f.requests_made
         if f.stopped:
             break
@@ -1078,7 +1145,10 @@ def crawl(args):
                 log("%s: total_count=%s page_count=%s per_page=%s new=%s" % (tail, meta.get("total_count"), page_count, meta.get("per_page"), meta.get("new_properties_count")))
             for p in rows:
                 loc = p.get("location") or {}
-                if tower_tail(loc) != tail and (loc.get("type") or "").upper() == "TOWER":
+                if owned_elsewhere(p, tail, bound_all):        # counted under the deeper bound location instead (no-op for towers)
+                    n_else += 1
+                    continue
+                if tower_tail(loc) != tail and (loc.get("type") or "").upper() == "TOWER" and tail not in loc_names:
                     log("  note: listing %s on %s page %d sits in tower %r" % (p.get("listing_id") or p.get("id"), tail, page, loc.get("slug")))
                 bname = bname or (loc.get("name") if (loc.get("type") or "").upper() == "TOWER" else None)
                 tree = p.get("location_tree") or []
@@ -1086,13 +1156,17 @@ def crawl(args):
                 snap.append(to_row(p, run_date, tail, bname, comm))
                 n_b += 1
             page += 1
-        whole = (page > page_count) and n_b > 0 and not f.stopped
-        per_building[tail] = {"listings": n_b, "pages": page - 1, "page_count": page_count if n_b else None,
-                              "total_count": meta.get("total_count") if n_b else None, "requests": f.requests_made - treq0,
+        seen_b = n_b + n_else                                  # n_else: adverts on this page owned by a deeper bound location
+        whole = (page > page_count) and seen_b > 0 and not f.stopped
+        per_building[tail] = {"listings": n_b, "pages": page - 1, "page_count": page_count if seen_b else None,
+                              "total_count": meta.get("total_count") if seen_b else None, "requests": f.requests_made - treq0,
                               "seconds": round(time.time() - tb0, 1), "complete": whole}
+        if n_else:
+            per_building[tail]["owned_by_deeper_location"] = n_else
+            log("%s: %d advert(s) left to the deeper bound location that holds them" % (tail, n_else))
         if whole:
             completed.append(tail)
-        elif n_b == 0:
+        elif seen_b == 0:
             log("%s: no rows (404 / empty) - nothing written for it today" % tail)
         else:
             snap = [r for r in snap if r["building_slug"] != tail]
@@ -1239,11 +1313,284 @@ DELIST_VIEW = """create or replace view v_lst_daily_delisting as
     from pairs p"""
 
 
+def register_projects(district):
+    """{key: DLD project name} of the district register (beds_left_<district>.json), and its as_of."""
+    bl = os.path.join(ROOT, "data", "dld", "beds_left", "beds_left_%s.json" % district)
+    try:
+        d = json.load(open(bl, encoding="utf-8"))
+    except Exception:
+        return {}, None
+    out = {}
+    for r in d.get("rows", []):
+        if r.get("key"):
+            out.setdefault(r["key"], r.get("dld_project") or r.get("name"))
+    return out, d.get("as_of")
+
+
+def home_type_totals(by_building):
+    tot = {}
+    for v in by_building.values():
+        for t, n in v.items():
+            tot[t] = tot.get(t, 0) + n
+    return dict(sorted(tot.items(), key=lambda kv: -kv[1]))
+
+
+def coverage_block(district, bound_rows, out_rows, listings_live):
+    """How much of the district the bound locations cover: DLD projects of the register bound to a Property Finder location
+    (N of M), how many of those had adverts today, bound locations outside the register (VERIFIED-anchor towers), and -
+    when bind-locations has read the community pages - the adverts captured against the community's own advert count."""
+    reg, reg_as_of = register_projects(district)
+    bound_keys = {r["key"] for r in bound_rows if r.get("key")}
+    in_reg = bound_keys & set(reg)
+    with_adverts = {r["key"] for r in out_rows if r.get("key") in reg}
+    cov = {"unit": "DLD projects in the district register", "register_source": "data/dld/beds_left/beds_left_%s.json" % district,
+           "register_as_of": reg_as_of, "register_total": len(reg), "register_bound": len(in_reg),
+           "register_with_adverts": len(with_adverts), "bound_locations": len(bound_rows),
+           "bound_locations_outside_register": sum(1 for r in bound_rows if r.get("key") and r["key"] not in reg),
+           "unbound_register": sorted(reg[k] for k in set(reg) - in_reg)[:80],
+           "say": "covers %d of %d DLD projects" % (len(in_reg), len(reg))}
+    try:
+        b = json.load(open(os.path.join(OUT, "pf_bindings_%s.json" % district), encoding="utf-8"))
+        ca = b.get("community_adverts") or {}
+        if ca.get("total"):
+            cov["community_adverts"] = dict(ca, captured=listings_live)
+            cov["say_adverts"] = "%d of %d adverts the site shows for %s" % (listings_live, ca["total"], ca.get("community_name") or district)
+    except Exception:
+        pass
+    return cov
+
+
+# --------------------------------------------------------------------------------------------- bind-locations
+AGG_RX = re.compile(r"/en/rent/dubai/([a-z-]+)-for-rent-([a-z0-9-]+)\.html$")
+LOC_KINDS = ("villas", "townhouses", "apartments")
+
+
+def spelling(name, comm_words=()):
+    """'Picadilly Green' and 'PICCADILLY GREEN' agree: doubled letters collapsed WITHIN each word (a spelling variant), the
+    community's own words and the generic words dropped. Word by word, so 'Golf Vita A' never collapses into 'Golf Vita'."""
+    words = [w for w in re.sub(r"[^a-z0-9 ]+", " ", (name or "").lower()).split() if w not in GENERIC_WORDS]
+    n = len(comm_words)
+    if n and words[:n] == list(comm_words) and len(words) > n:
+        words = words[n:]
+    elif n and words[-n:] == list(comm_words) and len(words) > n:
+        words = words[:-n]
+    return " ".join(re.sub(r"(.)\1+", r"\1", w) for w in words)
+
+
+def strip_community(nm, comm):
+    """Take the community's own name off a normalised name, front or back ('damachillscarson' -> 'carson')."""
+    if comm and nm != comm:
+        if nm.startswith(comm):
+            nm = nm[len(comm):]
+        elif nm.endswith(comm):
+            nm = nm[:-len(comm)]
+    return nm
+
+
+def location_register(district, comm):
+    """{stripped norm name: [candidate]} from the district's beds_left DLD projects and VERIFIED anchors."""
+    reg = {}
+    bl = os.path.join(ROOT, "data", "dld", "beds_left", "beds_left_%s.json" % district)
+    try:
+        for r in json.load(open(bl, encoding="utf-8")).get("rows", []):
+            nm = strip_community(norm_name(r.get("dld_project") or r.get("name")), comm)
+            if nm and r.get("key"):
+                c = {"name": r.get("dld_project") or r.get("name"), "key": r["key"], "num": r.get("dld_project_number"), "src": "beds_left"}
+                if c not in reg.setdefault(nm, []):
+                    reg[nm].append(c)
+    except Exception:
+        pass
+    an = os.path.join(ROOT, "data", "names", "anchors_%s.json" % district)
+    try:
+        for a in json.load(open(an, encoding="utf-8")).get("anchors", []):
+            if a.get("identity_grade") != "VERIFIED" or a.get("id") is None:
+                continue
+            nm = strip_community(norm_name(a.get("name")), comm)
+            if nm:
+                reg.setdefault(nm, []).append({"name": a.get("name"), "key": "%s:%s" % (district, a["id"]), "num": None, "src": "verified_anchor"})
+    except Exception:
+        pass
+    return reg
+
+
+def twin_clusters(district, comm):
+    """{stripped norm cluster name: cluster} from the twin's building list (anchors_<district>.json 'cluster')."""
+    an = os.path.join(ROOT, "data", "names", "anchors_%s.json" % district)
+    try:
+        return {strip_community(norm_name(a["cluster"]), comm): a["cluster"].strip()
+                for a in json.load(open(an, encoding="utf-8")).get("anchors", []) if a.get("cluster")}
+    except Exception:
+        return {}
+
+
+def match_location(name, reg, comm, comm_words=()):
+    """-> (binding dict or None, review reason or None). Exact after the community name is stripped; else spelling."""
+    nm = strip_community(norm_name(name), comm)
+    method, cands = "pf_location_name", reg.get(nm) or []
+    if not cands:
+        sp = spelling(name, comm_words)
+        cands = [c for v in reg.values() for c in v if sp and spelling(c["name"], comm_words) == sp]
+        method = "pf_location_spelling"
+    if not cands:
+        near = sorted({c["name"] for k, v in reg.items() if k and nm and (k.startswith(nm) or nm.startswith(k)) and k != nm for c in v})
+        return None, ("name differs from the register: %s" % "; ".join(near[:6])) if near else "no register name"
+    bl = {c["key"]: c for c in cands if c["src"] == "beds_left"}
+    an = {c["key"]: c for c in cands if c["src"] == "verified_anchor"}
+    pick = bl if bl else an
+    if len(pick) != 1:
+        return None, "several register entries: %s" % "; ".join(sorted(c["name"] for c in pick.values()))
+    c = next(iter(pick.values()))
+    return {"key": c["key"], "dld_project": c["name"], "dld_project_number": c["num"], "register_source": c["src"], "method": method,
+            "confidence": 0.9 if method == "pf_location_name" else 0.8}, None
+
+
+def bind_locations(args):
+    """Read a community's location tree from its own rent pages and bind clusters to the district register (see the header)."""
+    t0 = time.time()
+    comm_slug, district = args.community, args.district
+    f = Fetcher(args.max_requests, offline=args.offline)
+    nodes, ids, comm_total, comm_name = {}, {}, {}, None      # tail -> {name, parent, counts{kind: n}, depth}
+
+    def links(html):
+        meta, rows, _, props = parse_page(html, want_props=True)
+        for p in rows:
+            for t in (p.get("location_tree") or []) + [p.get("location") or {}]:
+                if t.get("slug") and t.get("id") is not None:
+                    ids.setdefault(tower_tail(t), str(t["id"]))
+        out = []
+        for a in ((props.get("pageMeta") or {}).get("aggregationLinks") or []):
+            m = AGG_RX.search(a.get("link") or "")
+            if m and a.get("name"):
+                out.append((m.group(2), a["name"], int(a.get("count") or 0)))
+        return meta, props, out
+
+    for kind in LOC_KINDS:                                     # level 1: the community's subcommunities, per home type
+        html = f.get(kind_url(comm_slug, kind))
+        if html is None:
+            continue
+        meta, props, ls = links(html)
+        comm_total[kind] = meta.get("total_count")
+        comm_name = comm_name or (props.get("seoData") or {}).get("locationName")
+        for tail, name, n in ls:
+            if not tail.startswith(comm_slug + "-"):
+                continue
+            nd = nodes.setdefault(tail, {"name": name, "parent": None, "depth": 1, "counts": {}})
+            nd["counts"][kind] = n
+    for tail in [t for t in nodes if nodes[t]["depth"] == 1]:  # level 2: each subcommunity's own children, per home type
+        for kind, n in list(nodes[tail]["counts"].items()):
+            if f.stopped or not n:
+                continue
+            html = f.get(kind_url(tail, kind))
+            if html is None:
+                continue
+            meta, props, ls = links(html)
+            ids.setdefault(tail, str((props.get("seoData") or {}).get("locationId") or "") or None)
+            for ctail, cname, cn in ls:
+                if not ctail.startswith(tail + "-"):
+                    continue
+                nd = nodes.setdefault(ctail, {"name": cname, "parent": tail, "depth": 2, "counts": {}})
+                nd["counts"][kind] = cn
+    if f.stopped:
+        log("bind-locations: STOPPED (%s) after %d requests - nothing bound; the pages fetched so far are cached" % (f.stopped, f.requests_made))
+        write_summary({"action": "bind_locations", "community": comm_slug, "district": district, "stopped": f.stopped,
+                       "requests_made": f.requests_made, "failures": f.failures}, None)
+        return 3
+    comm = norm_name(comm_name or comm_slug.replace("-", " "))
+    cw = tuple(w for w in re.sub(r"[^a-z0-9 ]+", " ", (comm_name or comm_slug.replace("-", " ")).lower()).split() if w not in GENERIC_WORDS)
+    reg, twin = location_register(district, comm), twin_clusters(district, comm)
+    bindings, review = [], []
+    for tail, nd in sorted(nodes.items()):
+        b, why = match_location(nd["name"], reg, comm, cw)
+        total = sum(nd["counts"].values())
+        rec = {"building_slug": tail, "pf_name": nd["name"], "parent": nd["parent"], "depth": nd["depth"], "counts": nd["counts"],
+               "adverts": total, "pf_location_id": ids.get(tail),
+               "twin_cluster": twin.get(strip_community(norm_name(nd["name"]), comm))}
+        if b:
+            bindings.append(dict(rec, **b))
+        else:
+            review.append(dict(rec, why=why))
+    # one register entry matched by two locations that are not parent and child is not clear: both go to review
+    seen = {}
+    for b in bindings:
+        seen.setdefault(b["key"], []).append(b)
+    for k, bs in seen.items():
+        if len(bs) > 1 and any(x["parent"] != y["building_slug"] and y["parent"] != x["building_slug"] for x in bs for y in bs if x is not y):
+            for b in bs:
+                bindings.remove(b)
+                review.append(dict({x: b[x] for x in ("building_slug", "pf_name", "parent", "depth", "counts", "adverts", "pf_location_id", "twin_cluster")},
+                                   why="register entry %s matched by %d locations" % (b["dld_project"], len(bs))))
+    # an unbound child of a bound location is not missing: its adverts are counted under the parent
+    bound_tails = {b["building_slug"] for b in bindings}
+    covered = [dict(r, covered_by=r["parent"]) for r in review if r["parent"] in bound_tails]
+    review = [r for r in review if r["parent"] not in bound_tails]
+    bound_keys = {b["key"] for b in bindings}
+    reg_unbound = sorted({c["name"] for v in reg.values() for c in v if c["src"] == "beds_left" and c["key"] not in bound_keys})
+    doc = {"as_of": dt.date.today().isoformat(), "community": comm_slug, "community_name": comm_name, "district": district,
+           "measure": "Property Finder location -> DLD register binding for ADVERTISED SUPPLY research; not vacancy",
+           "method": "names agree after the community name is stripped (or differ only by a doubled letter); one register entry per "
+                     "location; level-1 subcommunities from the community's villas/townhouses/apartments rent pages, level-2 from each "
+                     "subcommunity's own pages (pageMeta.aggregationLinks)",
+           "community_adverts": {"total": sum(v for v in comm_total.values() if v), "by_kind": comm_total, "as_of": dt.date.today().isoformat(),
+                                 "community_name": comm_name, "note": "villas + townhouses + apartments pages; hotel apartments etc. not included"},
+           "requests_made": f.requests_made, "cache_hits": f.cache_hits, "locations_seen": len(nodes),
+           "bound": len(bindings), "bound_adverts_on_index": sum(b["adverts"] for b in bindings if b["parent"] not in bound_tails),
+           "review": sorted(review, key=lambda r: -r["adverts"]), "register_unbound": reg_unbound,
+           "covered_by_bound_parent": sorted(covered, key=lambda r: -r["adverts"]),
+           "bindings": sorted(bindings, key=lambda b: -b["adverts"])}
+    for b in doc["bindings"]:
+        log("bind %-52s %-26s -> %-34s %s (%d adverts)" % (b["building_slug"], b["pf_name"], b["dld_project"], b["method"], b["adverts"]))
+    for r in doc["review"]:
+        log("review %-50s %-26s %s (%d adverts)" % (r["building_slug"], r["pf_name"], r["why"], r["adverts"]))
+    log("bind-locations %s -> %s: %d locations, %d bound, %d to review; register projects bound %d of %d; %d requests, %d cache hits"
+        % (comm_slug, district, len(nodes), len(bindings), len(review), len(bound_keys & {c["key"] for v in reg.values() for c in v if c["src"] == "beds_left"}),
+           len({c["key"] for v in reg.values() for c in v if c["src"] == "beds_left"}), f.requests_made, f.cache_hits))
+    if args.dry:
+        print(json.dumps({k: v for k, v in doc.items() if k not in ("bindings", "review", "covered_by_bound_parent")}, indent=1, default=str))
+        return 0
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "pf_bindings_%s.json" % district), "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=1, ensure_ascii=False)
+    rows = [(PORTAL, b["building_slug"], b["pf_location_id"], b["pf_name"], comm_slug, b["dld_project"], b["dld_project_number"],
+             b["key"], b["method"], b["confidence"]) for b in bindings]
+    write_location_aliases(rows, comm_slug)
+    write_summary({k: v for k, v in doc.items() if k not in ("bindings", "review", "register_unbound", "covered_by_bound_parent")} | {"action": "bind_locations"}, None)
+    return 0
+
+
+def write_location_aliases(rows, comm_slug):
+    """Replace this community's pf_location* alias rows (file copy, then one short lake window). Manual rows are never touched."""
+    keep = {r[1] for r in rows}
+    cur = [r for r in alias_file_rows() if not ((r.get("method") or "").startswith("pf_location") and r.get("community") == comm_slug
+                                                and r["building_slug"] not in keep)]
+    with open(ALIAS_FILE, "w", encoding="utf-8") as fh:
+        json.dump({"as_of": dt.date.today().isoformat(), "note": "lake-free copy of lst_building_alias (research only); the lake is the record",
+                   "rows": sorted(cur, key=lambda d: d["building_slug"])}, fh, indent=0, ensure_ascii=False, default=str)
+    save_alias_file(rows)
+    con = lake_connect(read_only=False)
+    try:
+        ensure_schema(con)
+
+        def body():
+            con.execute("""delete from lst_building_alias where portal = ? and method like 'pf_location%' and community = ?""", [PORTAL, comm_slug])
+            con.execute("delete from lst_building_alias where portal = ? and method <> 'manual' and building_slug in (select unnest(?::varchar[]))",
+                        [PORTAL, sorted(keep)])
+            have = {r[0] for r in con.execute("select building_slug from lst_building_alias where portal = ?", [PORTAL]).fetchall()}
+            new = [r for r in rows if r[1] not in have]
+            if new:
+                con.executemany("insert into lst_building_alias values (?,?,?,?,?,?,?,?,?,?)", new)
+        write_lake(con, body, "lst_building_alias (locations)")
+    finally:
+        con.close()
+    log("lst_building_alias: %d location binding(s) written for %s" % (len(rows), comm_slug))
+
+
 def report_district(args):
     """data/listings/pf_supply_<district>.json - the shape Rings will read later. Advertised supply only; research use."""
     con = lake_connect(read_only=True)
+    kfrag, kparams = district_key_sql(args.district, 'a."key"')
+    vfrag, vparams = district_key_sql(args.district, 'v."key"')
     as_of = args.date or con.execute('select max(run_date) from lst_listing_snapshot s join lst_building_alias a on a.portal = s.portal '
-                                     'and a.building_slug = s.building_slug where s.portal = ? and a."key" like ?', [PORTAL, args.district + ":%"]).fetchone()[0]
+                                     'and a.building_slug = s.building_slug where s.portal = ? and ' + kfrag, [PORTAL] + kparams).fetchone()[0]
     if as_of is None:
         log("report --district %s: no snapshot for a bound building yet" % args.district)
         return 2
@@ -1252,9 +1599,9 @@ def report_district(args):
                                      on s.portal = l.portal and s.listing_id = l.listing_id
                                    where s.run_date = v.run_date and s.building_slug = v.building_slug and s.beds_band = v.beds_band and s.portal = v.portal) first_seen_min
                           from v_lst_daily_building_counts v
-                          where v.portal = ? and v.run_date = ? and v."key" like ?
+                          where v.portal = ? and v.run_date = ? and """ + vfrag + """
                           order by v.building_slug, case v.beds_band when 'studio' then 0 when '1' then 1 when '2' then 2 when '3+' then 3 else 9 end""",
-                       [PORTAL, as_of, args.district + ":%"]).fetchall()
+                       [PORTAL, as_of] + vparams).fetchall()
     out_rows = [{"key": r[0], "dld_project": r[1], "building_slug": r[2], "beds_band": r[3], "listings_live": r[4],
                  "median_price": round(r[5]) if r[5] is not None else None, "median_days_listed": int(r[6]) if r[6] is not None else None,
                  "first_seen_min": str(r[7]) if r[7] else None} for r in rows]
@@ -1268,7 +1615,13 @@ def report_district(args):
         con = lake_connect(read_only=True)
     dl = con.execute("""select d.building_slug, d.prev_date, d.delisted, d.new_listings, d.prev_live
                         from v_lst_daily_delisting d join lst_building_alias a on a.portal = d.portal and a.building_slug = d.building_slug
-                        where d.portal = ? and d.run_date = ? and a."key" like ?""", [PORTAL, as_of, args.district + ":%"]).fetchall()
+                        where d.portal = ? and d.run_date = ? and """ + kfrag, [PORTAL, as_of] + kparams).fetchall()
+    # home type (Villa / Townhouse / Apartment ...) per bound location, and the bound locations themselves (for coverage)
+    ht = con.execute("""select s.building_slug, coalesce(s.property_type, 'unknown'), count(*)
+                        from lst_listing_snapshot s join lst_building_alias a on a.portal = s.portal and a.building_slug = s.building_slug
+                        where s.portal = ? and s.run_date = ? and """ + kfrag + " group by 1, 2", [PORTAL, as_of] + kparams).fetchall()
+    bound = con.execute('select building_slug, "key", dld_project, method from lst_building_alias a where a.portal = ? and ' + kfrag,
+                        [PORTAL] + kparams).fetchall()
     delisting = {"as_of": str(as_of), "buildings_with_previous_run": sum(1 for r in dl if r[1] is not None),
                  "prev_live": sum(r[4] for r in dl if r[1] is not None), "delisted": sum(r[2] for r in dl if r[1] is not None),
                  "new": sum(r[3] for r in dl), "daily_delisting_rate": None,
@@ -1281,12 +1634,21 @@ def report_district(args):
            "buildings": len({r["building_slug"] for r in out_rows}), "listings_live": sum(r["listings_live"] for r in out_rows),
            "rows": out_rows, "delisting": delisting}
     con.close()
+    # additive keys only: rows / buildings / listings_live / delisting above keep their shape for every district
+    by_b = {}
+    for slug, typ, n in ht:
+        by_b.setdefault(slug, {})[typ] = by_b.setdefault(slug, {}).get(typ, 0) + n
+    doc["home_types"] = home_type_totals(by_b)
+    doc["home_types_by_building"] = {s: dict(sorted(v.items(), key=lambda kv: -kv[1])) for s, v in sorted(by_b.items())}
+    doc["coverage"] = coverage_block(args.district, [{"building_slug": b[0], "key": b[1], "dld_project": b[2], "method": b[3]} for b in bound],
+                                     out_rows, doc["listings_live"])
     os.makedirs(OUT, exist_ok=True)
     path = os.path.join(OUT, "pf_supply_%s.json" % args.district)
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, indent=1, ensure_ascii=False)
     log("report --district %s: %d rows over %d buildings, %d live adverts as of %s; delisted %s of %s since previous run -> %s"
         % (args.district, len(out_rows), doc["buildings"], doc["listings_live"], as_of, delisting["delisted"], delisting["prev_live"], path))
+    log("report --district %s: %s; home types %s" % (args.district, doc["coverage"]["say"], doc["home_types"]))
     write_summary({"action": "report_district", "district": args.district, "as_of": str(as_of), "rows": len(out_rows), "buildings": doc["buildings"],
                    "listings_live": doc["listings_live"], "delisting": {k: v for k, v in delisting.items() if k != "per_building"}}, None)
     return 0
@@ -1353,9 +1715,16 @@ def main():
     r.add_argument("--building")
     r.add_argument("--district", help="write data/listings/pf_supply_<district>.json for one of our district slugs")
     r.add_argument("--date")
+    bl = sub.add_parser("bind-locations", help="bind a community's subcommunity locations (villa/townhouse clusters) to the district register")
+    bl.add_argument("--community", required=True, help="Property Finder community slug, e.g. damac-hills")
+    bl.add_argument("--district", required=True, help="our district slug, e.g. damachills")
+    bl.add_argument("--max-requests", type=int, default=120)
+    bl.add_argument("--dry", action="store_true", help="read and match, print, write nothing")
+    bl.add_argument("--offline", action="store_true")
     a = ap.parse_args()
     try:
-        return {"communities": communities, "discover": discover, "crawl": crawl, "report": report}[a.action](a)
+        return {"communities": communities, "discover": discover, "crawl": crawl, "report": report,
+                "bind-locations": bind_locations}[a.action](a)
     except LakeUnavailable as e:
         log("%s: %s - nothing written; re-run once daily_refresh.log shows '=== daily done'" % (a.action, e))
         return 4
