@@ -45,6 +45,38 @@ developer photos) read across → JVC in blocks, the chosen in gold (the page sh
 blocks layer) → Bloom Towers' own three-page PDF (Kendall: "the 3 page .pdf needs to go at the end"), last page held.
 96.9 s. `python scripts/brief_capture.py`.
 
+## 1c · NAJ — HeyGen narrative fitted to the cut (1 Oct, 96.9 s)
+
+Written to the finished cut, read off one frame per second. Timing is 0.364 s per word, and the breaks fill the rest.
+It has 230 words, about 84 s of speech plus 13 s of breaks. HeyGen should show about 96.9 s.
+
+| time (s) | on screen | Naj |
+|---|---|---|
+| 0.0–5.8 | START: "What's the client after today?", tap *rent* | A client asked me on WhatsApp: a one-bed in JVC, around sixty-five thousand dirhams a year. |
+| 5.8–7.3 | bedrooms: Apartment, 1 | Renting, apartment, one bedroom. |
+| 7.7–11.7 | budget 60k → 68k typed | Sixty to sixty-eight thousand — that's their real range, not a wish. |
+| 13.0–15.2 | Furnished? → Either | Furnished or not, they don't mind. |
+| 15.2–20.3 | Where? "jumeirah village" → JVC | And it has to be Jumeirah Village Circle. That's where they want to live. |
+| 20.5–24.5 | must-haves → skip, loading | Anything else they must have? Not this time. That's the brief. |
+| 24.5–31.4 | 93 match, list scrolls | Ninety-three buildings fit. And they're ranked by what one-beds there actually rent for — signed Ejari contracts, not asking prices. |
+| 31.7–37.2 | the register note at the foot, then back up | Every number comes from the register. If it isn't registered, it isn't on the screen. |
+| 37.2–43.0 | Show 20, Ghalia unticked, Binghatti Tulip ticked | One of the top ten has no photos yet, so I swap it for one that does. |
+| 43.2–48.7 | what to send, then Compare 10 | Now, what do I send? Something my client can actually read. One tap, and it's ready. |
+| 50.0–55.8 | the comparison PDF, page 1: ten cards with photos | One comparison sheet. All ten, side by side, each with its photo and its real rent. |
+| 56.8–61.2 | PDF page 2: the map | And a map, so they can see where each one sits in JVC. |
+| 62.9–72.4 | JVC in blocks, the chosen in gold, orbit | If they'd rather see it in three dimensions, here's JVC in blocks, with their shortlist in gold. They can see how it fits before a viewing. |
+| 72.9–78.4 | Bloom Towers PDF, page 1 | And when one catches their eye, say Bloom Towers, it has its own three-page file. |
+| 79.0–82.6 | page 2: where it is | Where it sits in the community, on its own map. |
+| 85.0–86.5 | page 3: one-bedroom layouts | And the one-bedroom layouts. |
+| 86.8–90.8 | layouts | From one WhatsApp message to a shortlist, in under a minute. |
+| 90.9–96.0 | last page held | Welcome to Azimuth. Dubai, decoded — one tap at a time. Complexity into clarity. |
+
+**Paste into HeyGen:**
+
+> A client asked me on WhatsApp: a one-bed in JVC, around sixty-five thousand dirhams a year. Renting, apartment, one bedroom. <break time="0.4s"/> Sixty to sixty-eight thousand — that's their real range, not a wish. <break time="1.3s"/> Furnished or not, they don't mind. And it has to be Jumeirah Village Circle. That's where they want to live. <break time="0.2s"/> Anything else they must have? Not this time. That's the brief. Ninety-three buildings fit. And they're ranked by what one-beds there actually rent for — signed Ejari contracts, not asking prices. <break time="0.3s"/> Every number comes from the register. If it isn't registered, it isn't on the screen. One of the top ten has no photos yet, so I swap it for one that does. <break time="0.2s"/> Now, what do I send? Something my client can actually read. One tap, and it's ready. <break time="1.3s"/> One comparison sheet. All ten, side by side, each with its photo and its real rent. <break time="1s"/> And a map, so they can see where each one sits in JVC. <break time="1.7s"/> If they'd rather see it in three dimensions, here's JVC in blocks, with their shortlist in gold. They can see how it fits before a viewing. <break time="0.5s"/> And when one catches their eye, say Bloom Towers, it has its own three-page file. <break time="0.6s"/> Where it sits in the community, on its own map. <break time="2.4s"/> And the one-bedroom layouts. <break time="0.3s"/> From one WhatsApp message to a shortlist, in under a minute. Welcome to Azimuth. <break time="0.3s"/> Dubai, decoded — one tap at a time. <break time="0.3s"/> Complexity into clarity.
+
+The blocks page shows nine buildings, not ten, because one has no plot in the blocks layer. That is why the line says "their shortlist" and gives no number.
+
 ## 2 · SHOTS (Business Bay version, superseded)
 
 | # | on screen | Naj |
